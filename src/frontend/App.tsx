@@ -13,7 +13,7 @@ import UgyldigSesjon from './Felles/Modal/SesjonUtløpt';
 import UlagretDataModal from './Komponenter/Behandling/Fanemeny/UlagretDataModal';
 import { AppEnv, hentEnv } from './App/api/env';
 import { Toast } from './Felles/Toast/Toast';
-import { VelkomstSide } from './Komponenter/startside/VelkomstSide';
+import { Formkrav } from './Komponenter/Behandling/Formkrav/Formkrav';
 
 Modal.setAppElement(document.getElementById('modal-a11y-wrapper'));
 
@@ -84,7 +84,7 @@ const AppInnhold: React.FC<{ innloggetSaksbehandler: ISaksbehandler }> = ({
             <HeaderMedSøk innloggetSaksbehandler={innloggetSaksbehandler} />
             <Routes>
                 <Route path="/behandling/:behandlingId/*" element={<BehandlingContainer />} />
-                <Route path="/velkomstside" element={<VelkomstSide />} />
+                <Route path="/velkomstside" element={<Formkrav />} />
                 <Route path="/" element={<Navigate to="/velkomstside" replace={true} />} />
             </Routes>
             <UlagretDataModal />
