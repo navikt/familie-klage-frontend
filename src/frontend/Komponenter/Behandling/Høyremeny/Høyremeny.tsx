@@ -1,12 +1,15 @@
 import * as React from 'react';
 import { useEffect, useState } from 'react';
 import Valgvisning from './Valgvisning';
+import Historikk from './Historikk';
+import Dokumenter from './Dokumenter';
 import styled from 'styled-components';
 import { Back, Next } from '@navikt/ds-icons';
 import navFarger from 'nav-frontend-core';
 import { useBehandling } from '../../../App/context/BehandlingContext';
 import { RessursStatus } from '../../../App/typer/ressurs';
 import { erBehandlingUnderArbeid } from '../../../App/typer/behandlingstatus';
+import { behandlingMock } from '../BehandlingContainer';
 
 interface IHøyremenyProps {
     behandlingId: string;
@@ -49,21 +52,20 @@ const StyledHøyremeny = styled.div`
 `;
 
 export enum Høyremenyvalg {
-    Mappe = 'Mappe',
-    Dialog = 'Dialog',
-    Logg = 'Logg',
+    Historikk = 'Historikk',
+    Dokumenter = 'Dokumenter',
 }
 
 const Høyremeny: React.FC<IHøyremenyProps> = ({ åpenHøyremeny }) => {
-    const [aktivtValg, settAktivtvalg] = useState<Høyremenyvalg>(Høyremenyvalg.Logg);
+    const [aktivtValg, settAktivtvalg] = useState<Høyremenyvalg>(Høyremenyvalg.Historikk);
     const { settÅpenHøyremeny, behandling } = useBehandling();
 
     useEffect(() => {
         if (
-            behandling.status === RessursStatus.SUKSESS &&
-            erBehandlingUnderArbeid(behandling.data)
+            //behandling.status === RessursStatus.SUKSESS &&
+            erBehandlingUnderArbeid(behandlingMock)
         ) {
-            settAktivtvalg(Høyremenyvalg.Mappe);
+            settAktivtvalg(Høyremenyvalg.Historikk);
         }
     }, [behandling]);
 
@@ -80,7 +82,11 @@ const Høyremeny: React.FC<IHøyremenyProps> = ({ åpenHøyremeny }) => {
                             <StyledNext />
                         </StyledButton>
                         <Valgvisning aktiv={aktivtValg} settAktiv={settAktivtvalg} />
-                        {aktivtValg === Høyremenyvalg.Dialog && <div>Her kommer dialog</div>}
+                        <Dokumenter hidden={aktivtValg !== Høyremenyvalg.Dokumenter} />
+                        <Historikk
+                            hidden={aktivtValg !== Høyremenyvalg.Historikk}
+                            //behandlingId={behandlingId}
+                        />
                     </StyledHøyremeny>
                 </>
             ) : (
