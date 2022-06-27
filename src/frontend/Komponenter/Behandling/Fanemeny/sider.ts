@@ -1,5 +1,5 @@
 import { FunctionComponent } from 'react';
-import { DummyKomponent } from './DummyKomponent';
+import { Formkrav } from '../Formkrav/Formkrav';
 
 export interface ISide {
     href: string;
@@ -7,10 +7,11 @@ export interface ISide {
     komponent: FunctionComponent<{ behandlingId: string }>;
 }
 
-export const tomSide: ISide = {
+export const formkrav: ISide = {
     href: '',
     navn: '',
-    komponent: DummyKomponent,
+    komponent: Formkrav,
 };
 
+// eslint-disable-next-line prettier/prettier
 export enum SideNavn {}

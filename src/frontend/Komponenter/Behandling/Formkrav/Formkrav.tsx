@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import React, { useState } from 'react';
 import styled from 'styled-components';
 import {
@@ -47,7 +48,7 @@ const FormKravStylingVenstre = styled.div`
 
 const FormKravStylingHøyre = styled.div`
     width: 50%;
-    padding: 2% 5% 5% 5%;
+    padding: 2% 5% 2% 5%;
 `;
 
 const RadioKnapperContainer = styled.div`
@@ -78,8 +79,6 @@ const RadioGroupStyled = styled(RadioGroup)`
     padding: 2% 5%% 0 0;
     width: 40%;
 `;
-
-const TextareaStyled = styled(Textarea)``;
 
 export const Formkrav: React.FC = () => {
     const [vurdering, settVurdering] = useState('');
@@ -125,6 +124,7 @@ export const Formkrav: React.FC = () => {
                                 legend="Er klager part i saken?"
                                 size="small"
                                 onChange={(val: any) => settKlagePart(val)}
+                                value={klagePart}
                             >
                                 <RadioGroupKnapperContainer>
                                     <RadioStyled value="Ja">Ja</RadioStyled>
@@ -135,6 +135,7 @@ export const Formkrav: React.FC = () => {
                                 legend="Klages det på konkrete elementer i vedtaket?"
                                 size="small"
                                 onChange={(val: any) => settKlageKonkret(val)}
+                                value={klageKonkret}
                             >
                                 <RadioGroupKnapperContainer>
                                     <RadioStyled value="Ja">Ja</RadioStyled>
@@ -147,6 +148,7 @@ export const Formkrav: React.FC = () => {
                                 legend="Er klagefristen overholdt?"
                                 size="small"
                                 onChange={(val: any) => settKlageFrist(val)}
+                                value={klageFrist}
                             >
                                 <RadioGroupKnapperContainer>
                                     <RadioStyled value="Ja">Ja</RadioStyled>
@@ -157,6 +159,7 @@ export const Formkrav: React.FC = () => {
                                 legend="Er klagen signert?"
                                 size="small"
                                 onChange={(val: any) => settKlageSignert(val)}
+                                value={klageSignert}
                             >
                                 <RadioGroupKnapperContainer>
                                     <RadioStyled value="Ja">Ja</RadioStyled>
