@@ -16,7 +16,7 @@ const StickyMedBoxShadow = styled(Sticky)`
 
 const mock = {
     data: behandlingMock,
-    status: RessursStatus['SUKSESS'],
+    status: RessursStatus.SUKSESS,
 };
 
 const StyledFanemeny = styled.div`
