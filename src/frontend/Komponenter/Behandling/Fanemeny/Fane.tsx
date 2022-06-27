@@ -72,6 +72,7 @@ interface Props {
 const Fane: React.FC<Props> = ({ side, behandlingId, index, deaktivert }) => {
     const { gåTilUrl } = useApp();
     const fanenavn = side.navn;
+    console.log(deaktivert);
     return (
         <>
             {deaktivert && (
