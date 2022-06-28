@@ -1,16 +1,10 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import React, { useState } from 'react';
 import styled from 'styled-components';
-import {
-    Heading,
-    Alert,
-    Detail,
-    Textarea,
-    Select,
-    Radio,
-    RadioGroup,
-    Button,
-} from '@navikt/ds-react';
+import { Heading, Detail, Select, Radio, RadioGroup, BodyLong } from '@navikt/ds-react';
+import { FileContent } from '@navikt/ds-icons';
+import navFarger from 'nav-frontend-core';
+import IkkeVurdert from '../../../Felles/Ikoner/IkkeVurdert';
 
 const FormKravStyling = styled.div`
     display: flex;
@@ -37,8 +31,8 @@ const FormKravStylingBody = styled.div`
 
 const FormKravStylingFooter = styled.div`
     width: 100%;
-    display: flex;
     padding-left: 5%;
+    display: flex;
 `;
 
 const FormKravStylingVenstre = styled.div`
@@ -72,12 +66,45 @@ const RadioStyled = styled(Radio)`
     padding: 2%;
 `;
 
-const AlertStyled = styled(Alert)`
+const IkkeVurdertContainer = styled.div`
     width: 100%;
+    display: flex;
+    flex-direction: row;
 `;
 const RadioGroupStyled = styled(RadioGroup)`
     padding: 2% 5%% 0 0;
     width: 40%;
+`;
+
+const IkonTekstContainer = styled.div`
+    display: flex;
+    flex-direction: row;
+    padding: 1%;
+`;
+
+const IkkeVurdertIkonStyled = styled(IkkeVurdert)`
+    margin-right: 0.5rem;
+`;
+
+const DetailTekstStyled = styled(Detail)`
+    padding-left: 2%;
+`;
+
+const DetailTekstStyledInfo = styled(Detail)`
+    margin-left: auto;
+    margin-right: 0;
+`;
+
+const BlåStrek = styled.div`
+    border-left: solid 2px ${navFarger.navBlaLighten60};
+    margin-left: 0.5rem;
+    margin-right: 0.5rem;
+`;
+
+const BegrunnelseContainer = styled.div`
+    display: flex;
+    flex-direction: row;
+    padding-top: 0.7rem;
 `;
 
 export const Formkrav: React.FC = () => {
@@ -90,26 +117,48 @@ export const Formkrav: React.FC = () => {
     return (
         <FormKravStyling>
             <FormKravStylingHeader>
-                <Heading spacing size="medium" level="4">
-                    Vurder formkrav
-                </Heading>
-                <>
-                    <Detail size="small">FVI 99 28, 31, 32, 33 og ftrl 9 21-12</Detail>
-                </>
-                <AlertStyled variant="warning" size="medium" fullWidth>
-                    Vurder om klagen oppfyller formkravene.
-                </AlertStyled>
+                <IkkeVurdertContainer>
+                    <IkkeVurdertIkonStyled heigth={23} width={23} />
+                    <Heading spacing size="small" level="5">
+                        Formkrav
+                    </Heading>
+                </IkkeVurdertContainer>
             </FormKravStylingHeader>
             <FormKravStylingBody>
                 <FormKravStylingVenstre>
-                    <Textarea
-                        label={undefined}
-                        value={vurdering}
-                        onChange={(e) => settVurdering(e.target.value)}
-                        size="small"
-                        description="Vurdering"
-                        maxLength={1500}
-                    />
+                    <>
+                        <IkonTekstContainer>
+                            <FileContent></FileContent>
+                            <DetailTekstStyled size="small">Oppgitt vedtaksdato</DetailTekstStyled>
+                            <DetailTekstStyledInfo size="small">17.06.2022</DetailTekstStyledInfo>
+                        </IkonTekstContainer>
+                        <IkonTekstContainer>
+                            <FileContent></FileContent>
+                            <DetailTekstStyled size="small">Klage mottatt</DetailTekstStyled>
+                            <DetailTekstStyledInfo size="small">27.06.2022</DetailTekstStyledInfo>
+                        </IkonTekstContainer>
+                        <IkonTekstContainer>
+                            <FileContent></FileContent>
+                            <DetailTekstStyled size="small">Hva er du uenig i?</DetailTekstStyled>
+                            <DetailTekstStyledInfo size="small">
+                                Jeg har fått for lite utbetalt
+                            </DetailTekstStyledInfo>
+                        </IkonTekstContainer>
+                        <IkonTekstContainer>
+                            <FileContent></FileContent>
+                            <DetailTekstStyled size="small">Hvorfor er du uenig?</DetailTekstStyled>
+                        </IkonTekstContainer>
+                        <BegrunnelseContainer>
+                            <BlåStrek />
+                            <BodyLong size="small">
+                                Ullamco ut laboris irure excepteur velit nisi occaecat proident.
+                                Amet aliquip dolor eu occaecat. Elit sunt occaecat excepteur ea.
+                                Quis commodo adipisicing laborum minim. Culpa duis occaecat
+                                adipisicing dolor sint cillum. Non in consequat ex esse exercitation
+                                cillum Lorem voluptate officia.
+                            </BodyLong>
+                        </BegrunnelseContainer>
+                    </>
                 </FormKravStylingVenstre>
                 <FormKravStylingHøyre>
                     <Select size="small" description="Vedtaket som er påklagd" label={undefined}>
@@ -170,11 +219,7 @@ export const Formkrav: React.FC = () => {
                     </RadioKnapperContainer>
                 </FormKravStylingHøyre>
             </FormKravStylingBody>
-            <FormKravStylingFooter>
-                <Button variant="primary" size="medium">
-                    Bekreft og fortsett
-                </Button>
-            </FormKravStylingFooter>
+            <FormKravStylingFooter></FormKravStylingFooter>
         </FormKravStyling>
     );
 };
