@@ -11,7 +11,6 @@ import { useApp } from '../../App/context/AppContext';
 import { ISøkPerson } from '../../App/typer/personsøk';
 import Lenke from 'nav-frontend-lenker';
 import { IPersonIdent } from '../../App/typer/felles';
-//import Alertstripe from 'nav-frontend-alertstriper';
 import { Hamburgermeny } from './Hamburgermeny';
 import { erBehandlingRedigerbar } from '../../App/typer/behandlingstatus';
 import { AlleStatuser, StatuserLitenSkjerm, StatusMeny } from './Status/StatusElementer';
@@ -82,7 +81,6 @@ const VisittkortComponent: FC<{ data: IPersonopplysninger; behandling?: Behandli
 
     return (
         <VisittkortWrapper>
-            {/* {feilFagsakHenting && <Alertstripe type="feil">Kunne ikke hente fagsak</Alertstripe>} */}
             <Visittkort
                 alder={20}
                 ident={personIdent}
