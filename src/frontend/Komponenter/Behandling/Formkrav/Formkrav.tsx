@@ -11,13 +11,13 @@ const FormKravStyling = styled.div`
     flex-direction: column;
     align-items: center;
     width: 90%;
-    margin: 0 5% 0 5%;
+    margin: 0 5rem 0 5rem;
 `;
 
 const FormKravStylingHeader = styled.div`
     width: 100%;
     display: flex;
-    padding: 5% 5% 0 5%;
+    padding: 5rem 5rem 0 5rem;
     flex-direction: column;
 `;
 
@@ -31,18 +31,18 @@ const FormKravStylingBody = styled.div`
 
 const FormKravStylingFooter = styled.div`
     width: 100%;
-    padding-left: 5%;
+    padding-left: 5rem;
     display: flex;
 `;
 
 const FormKravStylingVenstre = styled.div`
     width: 50%;
-    padding: 2% 5% 5% 5%;
+    padding: 0.5rem 5rem 5rem 5rem;
 `;
 
 const FormKravStylingHøyre = styled.div`
     width: 50%;
-    padding: 2% 5% 2% 5%;
+    padding: 2rem 5rem 2rem 5rem;
 `;
 
 const RadioKnapperContainer = styled.div`
@@ -71,28 +71,30 @@ const IkkeVurdertContainer = styled.div`
     display: flex;
     flex-direction: row;
 `;
+
 const RadioGroupStyled = styled(RadioGroup)`
-    padding: 2% 5%% 0 0;
+    padding: 2% 5% 0 0;
     width: 40%;
 `;
 
-const IkonTekstContainer = styled.div`
+const IkonTekstRadContainer = styled.div`
     display: flex;
     flex-direction: row;
-    padding: 1%;
+    margin: 0 0 0.5rem 0;
 `;
 
 const IkkeVurdertIkonStyled = styled(IkkeVurdert)`
     margin-right: 0.5rem;
+    overflow: visible;
 `;
 
-const DetailTekstStyled = styled(Detail)`
-    padding-left: 2%;
+const IkonKategoriGruppe = styled.div`
+    display: flex;
+    flex-flow: row;
 `;
 
-const DetailTekstStyledInfo = styled(Detail)`
-    margin-left: auto;
-    margin-right: 0;
+const InfoTekstContainer = styled(Detail)`
+    margin: 0 5rem 1 0;
 `;
 
 const BlåStrek = styled.div`
@@ -106,7 +108,18 @@ const BegrunnelseContainer = styled.div`
     flex-direction: row;
     padding-top: 0.7rem;
 `;
+const KolonneVenstre = styled.div`
+    width: 50%;
+    margin: 0 0 0 0;
+`;
+const KolonneHøyre = styled.div`
+    width: 50%;
+    margin: 0 0 0 4rem;
+`;
 
+const FileContentStyled = styled(FileContent)`
+    margin: 0 0.5rem 0 0.1rem;
+`;
 export const Formkrav: React.FC = () => {
     const [vurdering, settVurdering] = useState('');
     const [klagePart, settKlagePart] = useState();
@@ -126,39 +139,69 @@ export const Formkrav: React.FC = () => {
             </FormKravStylingHeader>
             <FormKravStylingBody>
                 <FormKravStylingVenstre>
-                    <>
-                        <IkonTekstContainer>
-                            <FileContent></FileContent>
-                            <DetailTekstStyled size="small">Oppgitt vedtaksdato</DetailTekstStyled>
-                            <DetailTekstStyledInfo size="small">17.06.2022</DetailTekstStyledInfo>
-                        </IkonTekstContainer>
-                        <IkonTekstContainer>
-                            <FileContent></FileContent>
-                            <DetailTekstStyled size="small">Klage mottatt</DetailTekstStyled>
-                            <DetailTekstStyledInfo size="small">27.06.2022</DetailTekstStyledInfo>
-                        </IkonTekstContainer>
-                        <IkonTekstContainer>
-                            <FileContent></FileContent>
-                            <DetailTekstStyled size="small">Hva er du uenig i?</DetailTekstStyled>
-                            <DetailTekstStyledInfo size="small">
+                    <IkonTekstRadContainer>
+                        <KolonneVenstre>
+                            <IkonKategoriGruppe>
+                                <FileContentStyled></FileContentStyled>
+                                <InfoTekstContainer size="small">
+                                    Oppgitt vedtaksdato
+                                </InfoTekstContainer>
+                            </IkonKategoriGruppe>
+                        </KolonneVenstre>
+                        <KolonneHøyre>
+                            <InfoTekstContainer size="small">17.06.2022</InfoTekstContainer>
+                        </KolonneHøyre>
+                    </IkonTekstRadContainer>
+
+                    <IkonTekstRadContainer>
+                        <KolonneVenstre>
+                            <IkonKategoriGruppe>
+                                <FileContentStyled></FileContentStyled>
+                                <InfoTekstContainer size="small">Klage mottatt</InfoTekstContainer>
+                            </IkonKategoriGruppe>
+                        </KolonneVenstre>
+                        <KolonneHøyre>
+                            <InfoTekstContainer size="small">27.06.2022</InfoTekstContainer>
+                        </KolonneHøyre>
+                    </IkonTekstRadContainer>
+
+                    <IkonTekstRadContainer>
+                        <KolonneVenstre>
+                            <IkonKategoriGruppe>
+                                <FileContentStyled></FileContentStyled>
+                                <InfoTekstContainer size="small">
+                                    Hva er du uenig i?
+                                </InfoTekstContainer>
+                            </IkonKategoriGruppe>
+                        </KolonneVenstre>
+                        <KolonneHøyre>
+                            <InfoTekstContainer size="small">
                                 Jeg har fått for lite utbetalt
-                            </DetailTekstStyledInfo>
-                        </IkonTekstContainer>
-                        <IkonTekstContainer>
-                            <FileContent></FileContent>
-                            <DetailTekstStyled size="small">Hvorfor er du uenig?</DetailTekstStyled>
-                        </IkonTekstContainer>
-                        <BegrunnelseContainer>
-                            <BlåStrek />
-                            <BodyLong size="small">
-                                Ullamco ut laboris irure excepteur velit nisi occaecat proident.
-                                Amet aliquip dolor eu occaecat. Elit sunt occaecat excepteur ea.
-                                Quis commodo adipisicing laborum minim. Culpa duis occaecat
-                                adipisicing dolor sint cillum. Non in consequat ex esse exercitation
-                                cillum Lorem voluptate officia.
-                            </BodyLong>
-                        </BegrunnelseContainer>
-                    </>
+                            </InfoTekstContainer>
+                        </KolonneHøyre>
+                    </IkonTekstRadContainer>
+
+                    <IkonTekstRadContainer>
+                        <KolonneVenstre>
+                            <IkonKategoriGruppe>
+                                <FileContentStyled></FileContentStyled>
+                                <InfoTekstContainer size="small">
+                                    Hvorfor er du uenig?
+                                </InfoTekstContainer>
+                            </IkonKategoriGruppe>
+                        </KolonneVenstre>
+                    </IkonTekstRadContainer>
+
+                    <BegrunnelseContainer>
+                        <BlåStrek />
+                        <BodyLong size="small">
+                            Ullamco ut laboris irure excepteur velit nisi occaecat proident. Amet
+                            aliquip dolor eu occaecat. Elit sunt occaecat excepteur ea. Quis commodo
+                            adipisicing laborum minim. Culpa duis occaecat adipisicing dolor sint
+                            cillum. Non in consequat ex esse exercitation cillum Lorem voluptate
+                            officia.
+                        </BodyLong>
+                    </BegrunnelseContainer>
                 </FormKravStylingVenstre>
                 <FormKravStylingHøyre>
                     <Select size="small" description="Vedtaket som er påklagd" label={undefined}>
