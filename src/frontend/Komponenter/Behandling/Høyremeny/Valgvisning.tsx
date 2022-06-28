@@ -53,16 +53,16 @@ const Valgvisning: React.FC<ValgvisningProps> = ({ aktiv, settAktiv }) => {
         <StyledIkonWrapper>
             <StyledIkon
                 role={'button'}
-                erAktiv={aktiv === Høyremenyvalg.Logg}
-                onClick={() => settAktiv(Høyremenyvalg.Logg)}
+                erAktiv={aktiv === Høyremenyvalg.Historikk}
+                onClick={() => settAktiv(Høyremenyvalg.Historikk)}
             >
                 <ClockFilled aria-label="Historikk" />
                 <Normaltekst>Historikk</Normaltekst>
             </StyledIkon>
             <StyledIkon
                 role={'button'}
-                erAktiv={aktiv === Høyremenyvalg.Mappe}
-                onClick={() => settAktiv(Høyremenyvalg.Mappe)}
+                erAktiv={aktiv === Høyremenyvalg.Dokumenter}
+                onClick={() => settAktiv(Høyremenyvalg.Dokumenter)}
             >
                 <Folder />
                 <Normaltekst>Dokumenter</Normaltekst>

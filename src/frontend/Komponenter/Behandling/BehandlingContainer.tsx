@@ -21,13 +21,13 @@ import personopplysningerMock from './personopplysningerMock.json';
 
 export const behandlingMock: Behandling = {
     id: 'ad983bff-d807-4ade-928e-1093e16ec2ac',
-    type: Behandlingstype['FØRSTEGANGSBEHANDLING'],
+    type: Behandlingstype.FØRSTEGANGSBEHANDLING,
     steg: 'FATTAR_VEDTAK',
-    status: BehandlingStatus['UTREDES'],
-    stønadstype: Stønadstype['BARNETILSYN'],
+    status: BehandlingStatus.UTREDES,
+    stønadstype: Stønadstype.BARNETILSYN,
     fagsakId: '8de5ab73-e135-4cb3-b2cc-222f4cb5e339',
-    resultat: BehandlingResultat['HENLAGT'],
-    behandlingsårsak: Behandlingsårsak['KLAGE'],
+    resultat: BehandlingResultat.HENLAGT,
+    behandlingsårsak: Behandlingsårsak.KLAGE,
     sistEndret: '2020-10-09T11:27:15Z',
     opprettet: '2020-11-24T16:51:06.174',
     endringerIRegistergrunnlag: {
@@ -92,7 +92,6 @@ const BehandlingContent: FC<{
 }> = ({ behandling, personopplysninger }) => {
     useSetValgtFagsakId(behandling.fagsakId);
     const { åpenHøyremeny } = useBehandling();
-
     return (
         <>
             <VisittkortComponent data={personopplysninger} behandling={behandlingMock} />

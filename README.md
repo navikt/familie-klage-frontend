@@ -1,7 +1,7 @@
 # familie-ef-sak-frontend
 
 
-Frontend app for enslig forsørger saksbehandling (overgangsstønad)
+Frontend app for behandling av klager (team familie)
 
 # Kom i gang med utvikling
 
@@ -14,12 +14,6 @@ For å kunne installere avhengigheter fra navikt registry må man være logget i
 `npm login --scope=@navikt --registry=https://npm.pkg.github.com`
 username er det samme på github og passordet er utvikler-tokenet som er generert i github.
 Dersom tokenet allerede er generert, finnes det typisk i m2-settings/gradle.properties fil.
-
-## Client id & client secret
-secret kan hentes fra cluster med 
-`kubectl -n teamfamilie get secret azuread-familie-ef-sak-frontend-lokal -o json | jq '.data | map_values(@base64d)'`
-`kubectl -n teamfamilie get secret azuread-familie-ef-sak-lokal -o json | jq '.data | map_values(@base64d)'`
-
 
 Appen krever en del environment variabler og legges til i .env fila i root på prosjektet.  
 ```
@@ -58,16 +52,14 @@ Ta gjerne en titt på Team Familie sin (readme)[https://github.com/navikt/famili
 
 
 # Bygg og deploy
-Appen bygges på github actions, og gir beskjed til nais deploy om å deployere appen i fss området. Alle pull requester går til dev miljøet og master går til produksjon og dev-miljøet.
+Appen bygges på github actions, og gir beskjed til nais deploy om å deployere appen i gcp området. Alle pull requester går til dev miljøet og master går til produksjon og dev-miljøet.
 
 
 # Henvendelser
 
 Spørsmål knyttet til koden eller prosjektet kan rettes til:
 
-* Mattis Janitz, `mattis.janitz@nav.no`
-
-Prosjektet er laget med utgangspunkt i familie-ba-sak-frontend 
+* Viktor Grøndalen Solberg, `viktor.grondalen.solberg@nav.no`
 
 ## For NAV-ansatte
 
