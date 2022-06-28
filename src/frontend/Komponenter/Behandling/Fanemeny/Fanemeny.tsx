@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { FC } from 'react';
 import styled from 'styled-components';
-import { formkrav } from './sider';
+import { alleSider } from './sider';
 import { useBehandling } from '../../../App/context/BehandlingContext';
 import DataViewer from '../../../Felles/DataViewer/DataViewer';
 import { Sticky } from '../../../Felles/Visningskomponenter/Sticky';
@@ -34,18 +34,21 @@ interface Props {
 
 const Fanemeny: FC<Props> = ({ behandlingId }) => {
     const { behandling } = useBehandling();
+    const forrigeSideLagret = false; //Sier hvilke sider som skal være mulige å redigere
 
     return (
         <DataViewer response={{ mock }}>
             <StickyMedBoxShadow>
                 <StyledFanemeny>
-                    <Fane
-                        side={formkrav}
-                        behandlingId={behandlingId}
-                        index={0}
-                        deaktivert={false}
-                        key={0}
-                    />
+                    {alleSider.map((side, index) => (
+                        <Fane
+                            side={side}
+                            behandlingId={'0'}
+                            index={index}
+                            deaktivert={forrigeSideLagret}
+                            key={index}
+                        />
+                    ))}
                 </StyledFanemeny>
             </StickyMedBoxShadow>
         </DataViewer>
