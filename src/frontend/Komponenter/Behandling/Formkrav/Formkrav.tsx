@@ -9,7 +9,7 @@ const FormKravStyling = styled.div`
     flex-direction: column;
     align-items: center;
     width: 90%;
-    margin: 0 5rem 0 5rem;
+    margin: 2rem 5rem 0 5rem;
 `;
 
 const FormKravStylingBody = styled.div`
