@@ -27,7 +27,7 @@ export const VelkomstSide: React.FC = () => {
                 settVisningstekst(res.data);
             }
         });
-    }, []);
+    }, [axiosRequest]);
 
     return (
         <Side className={'container'}>

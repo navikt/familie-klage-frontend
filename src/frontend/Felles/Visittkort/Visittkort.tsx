@@ -148,7 +148,7 @@ const VisittkortComponent: FC<{ data: IPersonopplysninger; behandling?: Behandli
 
     return (
         <VisittkortWrapper>
-            {feilFagsakHenting && <Alertstripe type="feil">Kunne ikke hente fagsak</Alertstripe>}
+            {/* {feilFagsakHenting && <Alertstripe type="feil">Kunne ikke hente fagsak</Alertstripe>} */}
             <Visittkort
                 alder={20}
                 ident={personIdent}
