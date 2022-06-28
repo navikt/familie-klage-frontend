@@ -1,29 +1,23 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import React, { useState } from 'react';
 import styled from 'styled-components';
-import {
-    Heading,
-    Alert,
-    Detail,
-    Textarea,
-    Select,
-    Radio,
-    RadioGroup,
-    Button,
-} from '@navikt/ds-react';
+import { Heading, Detail, Select, Radio, RadioGroup, BodyLong } from '@navikt/ds-react';
+import { FileContent } from '@navikt/ds-icons';
+import navFarger from 'nav-frontend-core';
+import IkkeVurdert from '../../../Felles/Ikoner/IkkeVurdert';
 
 const FormKravStyling = styled.div`
     display: flex;
     flex-direction: column;
     align-items: center;
     width: 90%;
-    margin: 0 5% 0 5%;
+    margin: 0 5rem 0 5rem;
 `;
 
 const FormKravStylingHeader = styled.div`
     width: 100%;
     display: flex;
-    padding: 5% 5% 0 5%;
+    padding: 5rem 5rem 0 5rem;
     flex-direction: column;
 `;
 
@@ -37,18 +31,18 @@ const FormKravStylingBody = styled.div`
 
 const FormKravStylingFooter = styled.div`
     width: 100%;
+    padding-left: 5rem;
     display: flex;
-    padding-left: 5%;
 `;
 
 const FormKravStylingVenstre = styled.div`
     width: 50%;
-    padding: 2% 5% 5% 5%;
+    padding: 0.5rem 5rem 5rem 5rem;
 `;
 
 const FormKravStylingHøyre = styled.div`
     width: 50%;
-    padding: 2% 5% 2% 5%;
+    padding: 2rem 5rem 2rem 5rem;
 `;
 
 const RadioKnapperContainer = styled.div`
@@ -72,14 +66,60 @@ const RadioStyled = styled(Radio)`
     padding: 2%;
 `;
 
-const AlertStyled = styled(Alert)`
+const IkkeVurdertContainer = styled.div`
     width: 100%;
+    display: flex;
+    flex-direction: row;
 `;
+
 const RadioGroupStyled = styled(RadioGroup)`
-    padding: 2% 5%% 0 0;
+    padding: 2% 5% 0 0;
     width: 40%;
 `;
 
+const IkonTekstRadContainer = styled.div`
+    display: flex;
+    flex-direction: row;
+    margin: 0 0 0.5rem 0;
+`;
+
+const IkkeVurdertIkonStyled = styled(IkkeVurdert)`
+    margin-right: 0.5rem;
+    overflow: visible;
+`;
+
+const IkonKategoriGruppe = styled.div`
+    display: flex;
+    flex-flow: row;
+`;
+
+const InfoTekstContainer = styled(Detail)`
+    margin: 0 5rem 1 0;
+`;
+
+const BlåStrek = styled.div`
+    border-left: solid 2px ${navFarger.navBlaLighten60};
+    margin-left: 0.5rem;
+    margin-right: 0.5rem;
+`;
+
+const BegrunnelseContainer = styled.div`
+    display: flex;
+    flex-direction: row;
+    padding-top: 0.7rem;
+`;
+const KolonneVenstre = styled.div`
+    width: 50%;
+    margin: 0 0 0 0;
+`;
+const KolonneHøyre = styled.div`
+    width: 50%;
+    margin: 0 0 0 4rem;
+`;
+
+const FileContentStyled = styled(FileContent)`
+    margin: 0 0.5rem 0 0.1rem;
+`;
 export const Formkrav: React.FC = () => {
     const [vurdering, settVurdering] = useState('');
     const [klagePart, settKlagePart] = useState();
@@ -90,26 +130,78 @@ export const Formkrav: React.FC = () => {
     return (
         <FormKravStyling>
             <FormKravStylingHeader>
-                <Heading spacing size="medium" level="4">
-                    Vurder formkrav
-                </Heading>
-                <>
-                    <Detail size="small">FVI 99 28, 31, 32, 33 og ftrl 9 21-12</Detail>
-                </>
-                <AlertStyled variant="warning" size="medium" fullWidth>
-                    Vurder om klagen oppfyller formkravene.
-                </AlertStyled>
+                <IkkeVurdertContainer>
+                    <IkkeVurdertIkonStyled heigth={23} width={23} />
+                    <Heading spacing size="small" level="5">
+                        Formkrav
+                    </Heading>
+                </IkkeVurdertContainer>
             </FormKravStylingHeader>
             <FormKravStylingBody>
                 <FormKravStylingVenstre>
-                    <Textarea
-                        label={undefined}
-                        value={vurdering}
-                        onChange={(e) => settVurdering(e.target.value)}
-                        size="small"
-                        description="Vurdering"
-                        maxLength={1500}
-                    />
+                    <IkonTekstRadContainer>
+                        <KolonneVenstre>
+                            <IkonKategoriGruppe>
+                                <FileContentStyled></FileContentStyled>
+                                <InfoTekstContainer size="small">
+                                    Oppgitt vedtaksdato
+                                </InfoTekstContainer>
+                            </IkonKategoriGruppe>
+                        </KolonneVenstre>
+                        <KolonneHøyre>
+                            <InfoTekstContainer size="small">17.06.2022</InfoTekstContainer>
+                        </KolonneHøyre>
+                    </IkonTekstRadContainer>
+
+                    <IkonTekstRadContainer>
+                        <KolonneVenstre>
+                            <IkonKategoriGruppe>
+                                <FileContentStyled></FileContentStyled>
+                                <InfoTekstContainer size="small">Klage mottatt</InfoTekstContainer>
+                            </IkonKategoriGruppe>
+                        </KolonneVenstre>
+                        <KolonneHøyre>
+                            <InfoTekstContainer size="small">27.06.2022</InfoTekstContainer>
+                        </KolonneHøyre>
+                    </IkonTekstRadContainer>
+
+                    <IkonTekstRadContainer>
+                        <KolonneVenstre>
+                            <IkonKategoriGruppe>
+                                <FileContentStyled></FileContentStyled>
+                                <InfoTekstContainer size="small">
+                                    Hva er du uenig i?
+                                </InfoTekstContainer>
+                            </IkonKategoriGruppe>
+                        </KolonneVenstre>
+                        <KolonneHøyre>
+                            <InfoTekstContainer size="small">
+                                Jeg har fått for lite utbetalt
+                            </InfoTekstContainer>
+                        </KolonneHøyre>
+                    </IkonTekstRadContainer>
+
+                    <IkonTekstRadContainer>
+                        <KolonneVenstre>
+                            <IkonKategoriGruppe>
+                                <FileContentStyled></FileContentStyled>
+                                <InfoTekstContainer size="small">
+                                    Hvorfor er du uenig?
+                                </InfoTekstContainer>
+                            </IkonKategoriGruppe>
+                        </KolonneVenstre>
+                    </IkonTekstRadContainer>
+
+                    <BegrunnelseContainer>
+                        <BlåStrek />
+                        <BodyLong size="small">
+                            Ullamco ut laboris irure excepteur velit nisi occaecat proident. Amet
+                            aliquip dolor eu occaecat. Elit sunt occaecat excepteur ea. Quis commodo
+                            adipisicing laborum minim. Culpa duis occaecat adipisicing dolor sint
+                            cillum. Non in consequat ex esse exercitation cillum Lorem voluptate
+                            officia.
+                        </BodyLong>
+                    </BegrunnelseContainer>
                 </FormKravStylingVenstre>
                 <FormKravStylingHøyre>
                     <Select size="small" description="Vedtaket som er påklagd" label={undefined}>
@@ -170,11 +262,7 @@ export const Formkrav: React.FC = () => {
                     </RadioKnapperContainer>
                 </FormKravStylingHøyre>
             </FormKravStylingBody>
-            <FormKravStylingFooter>
-                <Button variant="primary" size="medium">
-                    Bekreft og fortsett
-                </Button>
-            </FormKravStylingFooter>
+            <FormKravStylingFooter></FormKravStylingFooter>
         </FormKravStyling>
     );
 };
