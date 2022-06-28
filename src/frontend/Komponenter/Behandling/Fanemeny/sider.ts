@@ -7,11 +7,12 @@ export interface ISide {
     komponent: FunctionComponent<{ behandlingId: string }>;
 }
 
+export enum SideNavn {
+    FORMKRAV = 'Formkrav',
+}
+
 export const formkrav: ISide = {
-    href: '',
-    navn: '',
+    href: 'formkrav',
+    navn: SideNavn.FORMKRAV,
     komponent: Formkrav,
 };
-
-// eslint-disable-next-line prettier/prettier
-export enum SideNavn {}
