@@ -19,7 +19,6 @@ const FormKravStylingBody = styled.div`
         flex-direction: column;
     }
     width: 100%;
-    margin-top: 3rem;
 `;
 
 const FormKravStylingFooter = styled.div`
@@ -33,13 +32,16 @@ const RadioKnapperContainer = styled.div`
     flex-direction: column;
 `;
 
-const RadioStyled = styled(Radio)`
-    padding: 2%;
-`;
+const RadioStyled = styled(Radio)``;
 
 const RadioGroupStyled = styled(RadioGroup)`
-    padding: 2% 0;
-    width: 40%;
+    padding: 0.1rem 0;
+    margin: 0.8rem 0;
+    width: 100%;
+`;
+
+const ButtonStyled = styled(Button)`
+    margin-bottom: 0.5rem;
 `;
 
 interface IFormKravHøyre {
@@ -131,9 +133,9 @@ export const FormkravHøyre: React.FC<{ props: IFormKravHøyre }> = ({ props }) 
                         />
                     </FormKravStylingBody>
                     <FormKravStylingFooter>
-                        <Button variant="primary" size="medium" onClick={lagreVilkår}>
+                        <ButtonStyled variant="primary" size="medium" onClick={lagreVilkår}>
                             Lagre
-                        </Button>
+                        </ButtonStyled>
                     </FormKravStylingFooter>
                 </>
             )}

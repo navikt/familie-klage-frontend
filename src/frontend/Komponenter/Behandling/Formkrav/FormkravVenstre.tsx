@@ -88,11 +88,11 @@ export const FormkravVenstre: React.FC<{ props: IFormkravVenstre }> = ({ props }
                 <KolonneVenstre>
                     <IkonKategoriGruppe>
                         <FileContentStyled></FileContentStyled>
-                        <BodyLongStyled size="medium">Oppgitt vedtaksdato</BodyLongStyled>
+                        <BodyLongStyled size="small">Oppgitt vedtaksdato</BodyLongStyled>
                     </IkonKategoriGruppe>
                 </KolonneVenstre>
                 <KolonneHøyre>
-                    <BodyLongStyled size="medium">17.06.2022</BodyLongStyled>
+                    <BodyLongStyled size="small">17.06.2022</BodyLongStyled>
                 </KolonneHøyre>
             </IkonTekstRadContainer>
 
@@ -100,11 +100,11 @@ export const FormkravVenstre: React.FC<{ props: IFormkravVenstre }> = ({ props }
                 <KolonneVenstre>
                     <IkonKategoriGruppe>
                         <FileContentStyled></FileContentStyled>
-                        <BodyLongStyled size="medium">Klage mottatt</BodyLongStyled>
+                        <BodyLongStyled size="small">Klage mottatt</BodyLongStyled>
                     </IkonKategoriGruppe>
                 </KolonneVenstre>
                 <KolonneHøyre>
-                    <BodyLongStyled size="medium">27.06.2022</BodyLongStyled>
+                    <BodyLongStyled size="small">27.06.2022</BodyLongStyled>
                 </KolonneHøyre>
             </IkonTekstRadContainer>
 
@@ -112,11 +112,11 @@ export const FormkravVenstre: React.FC<{ props: IFormkravVenstre }> = ({ props }
                 <KolonneVenstre>
                     <IkonKategoriGruppe>
                         <FileContentStyled></FileContentStyled>
-                        <BodyLongStyled size="medium">Hva er du uenig i?</BodyLongStyled>
+                        <BodyLongStyled size="small">Hva er du uenig i?</BodyLongStyled>
                     </IkonKategoriGruppe>
                 </KolonneVenstre>
                 <KolonneHøyre>
-                    <BodyLongStyled size="medium">Jeg har fått for lite utbetalt</BodyLongStyled>
+                    <BodyLongStyled size="small">Jeg har fått for lite utbetalt</BodyLongStyled>
                 </KolonneHøyre>
             </IkonTekstRadContainer>
 
@@ -124,14 +124,14 @@ export const FormkravVenstre: React.FC<{ props: IFormkravVenstre }> = ({ props }
                 <KolonneVenstre>
                     <IkonKategoriGruppe>
                         <FileContentStyled></FileContentStyled>
-                        <BodyLongStyled size="medium">Hvorfor er du uenig?</BodyLongStyled>
+                        <BodyLongStyled size="small">Hvorfor er du uenig?</BodyLongStyled>
                     </IkonKategoriGruppe>
                 </KolonneVenstre>
             </IkonTekstRadContainer>
 
             <BegrunnelseContainer>
                 <BlåStrek />
-                <BodyLong size="medium">
+                <BodyLong size="small">
                     Ullamco ut laboris irure excepteur velit nisi occaecat proident. Amet aliquip
                     dolor eu occaecat. Elit sunt occaecat excepteur ea. Quis commodo adipisicing
                     laborum minim. Culpa duis occaecat adipisicing dolor sint cillum. Non in

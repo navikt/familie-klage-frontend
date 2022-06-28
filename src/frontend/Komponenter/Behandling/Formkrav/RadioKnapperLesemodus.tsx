@@ -19,7 +19,7 @@ const FormKravStyling = styled.div`
     flex-direction: column;
     align-items: center;
     width: 90%;
-    margin: 0 5% 0 5%;
+    margin: 0 3rem 0 0;
     margin-top: 2%;
 `;
 
@@ -41,13 +41,13 @@ const FormKravStylingBody = styled.div`
 `;
 
 const SvarElement = styled.ul`
-    padding: 0.5rem 0;
-    width: 40%;
+    padding: 0;
+    font-size: 1rem;
     list-style-type: none;
 `;
 
 const Spørsmål = styled.li`
-    padding: 0.5rem 0;
+    padding: 0rem 0;
     width: 40%;
     font-weight: bold;
 `;
@@ -86,7 +86,7 @@ export const RadioknapperLesemodus = (radioKnapper: IRadioKnapperLeseModus) => {
                         <BrukerMedBlyantStyled heigth={23} width={23} />
                     </VilkårIkon>
                     <Heading spacing size={'medium'}>
-                        Formkrav
+                        Vilkår oppfylt
                     </Heading>
                 </RadSentrertVertikalt>
                 <div>
