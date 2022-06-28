@@ -7,7 +7,7 @@ import styled from 'styled-components';
 import { Back, Next } from '@navikt/ds-icons';
 import navFarger from 'nav-frontend-core';
 import { useBehandling } from '../../../App/context/BehandlingContext';
-import { RessursStatus } from '../../../App/typer/ressurs';
+//import { RessursStatus } from '../../../App/typer/ressurs';
 import { erBehandlingUnderArbeid } from '../../../App/typer/behandlingstatus';
 import { behandlingMock } from '../BehandlingContainer';
 
