@@ -1,12 +1,12 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import React, { Dispatch, SetStateAction } from 'react';
 import styled from 'styled-components';
-import { BrukerMedBlyantIkon } from '../../../Felles/Ikoner/DataGrunnlagIkoner';
 import SlettSøppelkasse from '../../../Felles/Ikoner/SlettSøppelkasse';
 import RedigerBlyant from '../../../Felles/Ikoner/RedigerBlyant';
 import LenkeKnapp from '../../../Felles/Knapper/LenkeKnapp';
 import navFarger from 'nav-frontend-core';
 import { Heading } from '@navikt/ds-react';
+import BrukerMedBlyant from '../../../Felles/Ikoner/BrukerMedBlyant';
 
 export const RadSentrertVertikalt = styled.div`
     display: flex;
@@ -41,7 +41,7 @@ const FormKravStylingBody = styled.div`
 `;
 
 const SvarElement = styled.ul`
-    padding: 1rem 0;
+    padding: 0.5rem 0;
     width: 40%;
     list-style-type: none;
 `;
@@ -58,7 +58,11 @@ const Svar = styled.li`
 `;
 
 const VilkårIkon = styled.div`
-    margin: 0 1.5rem 0 -0.5rem;
+    margin: 0 1.5rem 0 -0.7rem;
+`;
+
+const BrukerMedBlyantStyled = styled(BrukerMedBlyant)`
+    overflow: visible;
 `;
 
 export interface IRadioKnapper {
@@ -79,10 +83,10 @@ export const RadioknapperLesemodus = (radioKnapper: IRadioKnapperLeseModus) => {
             <VilkårHeader>
                 <RadSentrertVertikalt>
                     <VilkårIkon>
-                        <BrukerMedBlyantIkon />
+                        <BrukerMedBlyantStyled heigth={23} width={23} />
                     </VilkårIkon>
                     <Heading spacing size={'medium'}>
-                        Vilkår oppfylt
+                        Formkrav
                     </Heading>
                 </RadSentrertVertikalt>
                 <div>

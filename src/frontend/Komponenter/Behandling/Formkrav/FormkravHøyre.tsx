@@ -8,8 +8,8 @@ const FormKravStyling = styled.div`
     display: flex;
     flex-direction: column;
     align-items: center;
-    width: 90%;
-    margin: 0 5% 0 5%;
+    width: 50%;
+    margin: 0 5rem 0 5rem;
 `;
 
 const FormKravStylingBody = styled.div`
@@ -19,6 +19,7 @@ const FormKravStylingBody = styled.div`
         flex-direction: column;
     }
     width: 100%;
+    margin-top: 3rem;
 `;
 
 const FormKravStylingFooter = styled.div`
@@ -30,7 +31,6 @@ const FormKravStylingFooter = styled.div`
 const RadioKnapperContainer = styled.div`
     display: flex;
     flex-direction: column;
-    margin-top: 2%;
 `;
 
 const RadioStyled = styled(Radio)`
@@ -42,13 +42,17 @@ const RadioGroupStyled = styled(RadioGroup)`
     width: 40%;
 `;
 
-export const FormkravHøyre: React.FC = () => {
+interface IFormKravHøyre {
+    låst: boolean;
+    settLåst: (value: boolean) => void;
+}
+
+export const FormkravHøyre: React.FC<{ props: IFormKravHøyre }> = ({ props }) => {
     const [vurdering, settVurdering] = useState('');
     const [klagePart, settKlagePart] = useState('');
     const [klageKonkret, settKlageKonkret] = useState('');
     const [klageFrist, settKlageFrist] = useState('');
     const [klageSignert, settKlageSignert] = useState('');
-    const [leseModus, settLeseModus] = useState(false);
     const radioKnapperLeseListe: IRadioKnapper[] = [
         {
             spørsmål: 'Er klager part i saken?',
@@ -92,13 +96,13 @@ export const FormkravHøyre: React.FC = () => {
                 klageSignert === ''
             )
         ) {
-            settLeseModus(true);
+            props.settLåst(true);
         }
     };
 
     return (
         <FormKravStyling>
-            {!leseModus && (
+            {!props.låst && (
                 <>
                     <FormKravStylingBody>
                         <RadioKnapperContainer>
@@ -133,10 +137,10 @@ export const FormkravHøyre: React.FC = () => {
                     </FormKravStylingFooter>
                 </>
             )}
-            {leseModus && (
+            {props.låst && (
                 <RadioknapperLesemodus
                     radioKnapper={radioKnapperLeseListe}
-                    redigerHandling={settLeseModus}
+                    redigerHandling={props.settLåst}
                 />
             )}
         </FormKravStyling>
