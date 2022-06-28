@@ -7,7 +7,6 @@ import styled from 'styled-components';
 import { Back, Next } from '@navikt/ds-icons';
 import navFarger from 'nav-frontend-core';
 import { useBehandling } from '../../../App/context/BehandlingContext';
-//import { RessursStatus } from '../../../App/typer/ressurs';
 import { erBehandlingUnderArbeid } from '../../../App/typer/behandlingstatus';
 import { behandlingMock } from '../BehandlingContainer';
 
@@ -61,10 +60,7 @@ const Høyremeny: React.FC<IHøyremenyProps> = ({ åpenHøyremeny }) => {
     const { settÅpenHøyremeny, behandling } = useBehandling();
 
     useEffect(() => {
-        if (
-            //behandling.status === RessursStatus.SUKSESS &&
-            erBehandlingUnderArbeid(behandlingMock)
-        ) {
+        if (erBehandlingUnderArbeid(behandlingMock)) {
             settAktivtvalg(Høyremenyvalg.Historikk);
         }
     }, [behandling]);
@@ -83,10 +79,7 @@ const Høyremeny: React.FC<IHøyremenyProps> = ({ åpenHøyremeny }) => {
                         </StyledButton>
                         <Valgvisning aktiv={aktivtValg} settAktiv={settAktivtvalg} />
                         <Dokumenter hidden={aktivtValg !== Høyremenyvalg.Dokumenter} />
-                        <Historikk
-                            hidden={aktivtValg !== Høyremenyvalg.Historikk}
-                            //behandlingId={behandlingId}
-                        />
+                        <Historikk hidden={aktivtValg !== Høyremenyvalg.Historikk} />
                     </StyledHøyremeny>
                 </>
             ) : (

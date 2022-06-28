@@ -22,7 +22,7 @@ const StyledIkon = styled.div`
 
 const StripletLinje = styled.div`
     border-left: 0.15rem dotted ${navFarger.navGra40};
-    margin: -10px 0 0 10px;
+    margin: -0.6rem 0 0 0.68rem;
     height: 1.35rem;
 `;
 

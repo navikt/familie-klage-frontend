@@ -1,6 +1,5 @@
 import * as React from 'react';
 import navFarger from 'nav-frontend-core';
-//import navFarger from 'nav-frontend-core';
 
 interface IBrukerMedBlyant {
     className?: string;
