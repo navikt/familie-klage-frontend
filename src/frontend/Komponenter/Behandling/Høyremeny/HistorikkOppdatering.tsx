@@ -4,13 +4,6 @@ import navFarger from 'nav-frontend-core';
 import { Detail, Label } from '@navikt/ds-react';
 import styled from 'styled-components';
 
-interface IHistorikkOppdatering {
-    tittel: string;
-    dato: string;
-    tidspunkt: string;
-    behandler: string;
-}
-
 const Oppdatering = styled.div`
     display: flex;
     margin: 1.6rem;
@@ -30,11 +23,32 @@ const TekstligInformasjon = styled.div`
     margin-left: 0.7rem;
 `;
 
-const HistorikkOppdatering: React.FunctionComponent<IHistorikkOppdatering> = ({
-    tittel,
-    dato,
-    tidspunkt,
-    behandler,
+interface IHistorikkOppdatering {
+    id: string;
+    behandlingId: string;
+    steg: string;
+    opprettetAvNavn: string;
+    opprettetAv: string;
+    endretTid: string;
+}
+
+const datoFormatering = (datoString: string) => {
+    const dato = new Date(datoString);
+    return (
+        dato.getDate() +
+        '.' +
+        dato.getMonth() +
+        '.' +
+        dato.getFullYear() +
+        '  ' +
+        dato.getHours() +
+        ':' +
+        dato.getMinutes()
+    );
+};
+
+const HistorikkOppdatering: React.FunctionComponent<{ props: IHistorikkOppdatering }> = ({
+    props,
 }) => {
     return (
         <Oppdatering>
@@ -46,9 +60,9 @@ const HistorikkOppdatering: React.FunctionComponent<IHistorikkOppdatering> = ({
                 <StripletLinje />
             </StyledIkon>
             <TekstligInformasjon>
-                <Label size="small">{tittel}</Label>
+                <Label size="small">{props.steg}</Label>
                 <Detail size="small">
-                    {dato} {tidspunkt} | {behandler}
+                    {datoFormatering(props.endretTid)} | {props.opprettetAvNavn}
                 </Detail>
             </TekstligInformasjon>
         </Oppdatering>

@@ -1,37 +1,44 @@
 import * as React from 'react';
 import hiddenIf from '../../../Felles/HiddenIf/hiddenIf';
 import HistorikkOppdatering from './HistorikkOppdatering';
+import { useEffect, useState } from 'react';
+import { Ressurs, RessursStatus } from '../../../App/typer/ressurs';
+import { useApp } from '../../../App/context/AppContext';
 
-// Mockobjekt. Skal fjernes så fort data er mulig å hente ut.
-const historikkMock = {
-    behandlingsId: 'ad983bff-d807-4ade-928e-1093e16ec2ac',
-    historikkOppdateringer: [
-        {
-            tittel: 'Behandling opprettet',
-            dato: '24.06.2022',
-            tidspunkt: '21:06:54',
-            behandler: 'Kari Olavsen',
-        },
-        {
-            tittel: 'Behandling henlagt',
-            dato: '24.06.2022',
-            tidspunkt: '21:06:54',
-            behandler: 'Kari Olavsen ',
-        },
-    ],
-};
+interface IBehandlingshistorikk {
+    id: string;
+    behandlingId: string;
+    steg: string;
+    opprettetAvNavn: string;
+    opprettetAv: string;
+    endretTid: string;
+}
 
 const Historikk: React.FC = () => {
+    const { axiosRequest } = useApp();
+    const [behandlingshistorikk, settBehandlingshistorikk] = useState<IBehandlingshistorikk>({
+        id: '',
+        behandlingId: '',
+        steg: '',
+        opprettetAvNavn: '',
+        opprettetAv: '',
+        endretTid: '',
+    });
+
+    useEffect(() => {
+        axiosRequest<IBehandlingshistorikk, null>({
+            method: 'GET',
+            url: `/familie-klage/api/behandlingshistorikk/1`,
+        }).then((res: Ressurs<IBehandlingshistorikk>) => {
+            if (res.status === RessursStatus.SUKSESS) {
+                settBehandlingshistorikk(res.data);
+            }
+        });
+    }, [axiosRequest]);
+
     return (
         <div>
-            {historikkMock.historikkOppdateringer.map((oppdatering) => (
-                <HistorikkOppdatering
-                    tittel={oppdatering.tittel}
-                    tidspunkt={oppdatering.tidspunkt}
-                    dato={oppdatering.dato}
-                    behandler={oppdatering.behandler}
-                />
-            ))}
+            <HistorikkOppdatering props={behandlingshistorikk} />
         </div>
     );
 };
