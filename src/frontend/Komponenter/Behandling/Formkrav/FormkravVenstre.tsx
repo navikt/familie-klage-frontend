@@ -78,16 +78,15 @@ interface IFormkravVenstre {
     låst: boolean;
     formkrav: IForm;
 }
-
-export const FormkravVenstre: React.FC<{ props: IFormkravVenstre }> = ({ props }) => {
-    const vedtaksdato = new Date(props.formkrav.vedtaksdato);
-    const klageMottat = new Date(props.formkrav.klageMottat);
+export const FormkravVenstre: React.FC<IFormkravVenstre> = ({ låst, formkrav }) => {
+    const vedtaksdato = new Date(formkrav.vedtaksdato);
+    const klageMottat = new Date(formkrav.klageMottat);
 
     return (
         <FormKravStylingVenstre>
             <IkkeVurdertContainer>
-                {!props.låst && <IkkeVurdertIkonStyled heigth={23} width={23} />}
-                {props.låst && <OppfyltIkonStyled heigth={23} width={23} />}
+                {!låst && <IkkeVurdertIkonStyled heigth={23} width={23} />}
+                {låst && <OppfyltIkonStyled heigth={23} width={23} />}
                 <Heading spacing size="medium" level="5">
                     Formkrav
                 </Heading>
@@ -124,7 +123,7 @@ export const FormkravVenstre: React.FC<{ props: IFormkravVenstre }> = ({ props }
                     </IkonKategoriGruppe>
                 </KolonneVenstre>
                 <KolonneHøyre>
-                    <BodyLongStyled size="small">{props.formkrav.klageÅrsak}</BodyLongStyled>
+                    <BodyLongStyled size="small">{formkrav.klageÅrsak}</BodyLongStyled>
                 </KolonneHøyre>
             </IkonTekstRadContainer>
 
@@ -138,7 +137,7 @@ export const FormkravVenstre: React.FC<{ props: IFormkravVenstre }> = ({ props }
             </IkonTekstRadContainer>
             <BegrunnelseContainer>
                 <BlåStrek />
-                <BodyLong size="small">{props.formkrav.klageBeskrivelse}</BodyLong>
+                <BodyLong size="small">{formkrav.klageBeskrivelse}</BodyLong>
             </BegrunnelseContainer>
         </FormKravStylingVenstre>
     );

@@ -67,8 +67,8 @@ export const Formkrav: React.FC = () => {
     return (
         <FormKravStyling>
             <FormKravStylingBody>
-                <FormkravVenstre props={{ låst, formkrav }}>{formkrav}</FormkravVenstre>
-                <FormkravHøyre props={{ låst, settLåst }} />
+                <FormkravVenstre låst={låst} formkrav={formkrav} />
+                <FormkravHøyre låst={låst} settLåst={settLåst} />
             </FormKravStylingBody>
             <FormKravStylingFooter></FormKravStylingFooter>
         </FormKravStyling>
