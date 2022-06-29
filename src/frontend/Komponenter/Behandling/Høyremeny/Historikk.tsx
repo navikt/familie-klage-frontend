@@ -38,7 +38,11 @@ const Historikk: React.FC = () => {
 
     return (
         <div>
-            <HistorikkOppdatering props={behandlingshistorikk} />
+            <HistorikkOppdatering
+                steg={behandlingshistorikk.steg}
+                endretTid={behandlingshistorikk.endretTid}
+                opprettetAvNavn={behandlingshistorikk.opprettetAv}
+            />
         </div>
     );
 };

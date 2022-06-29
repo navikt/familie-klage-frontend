@@ -24,11 +24,11 @@ const TekstligInformasjon = styled.div`
 `;
 
 interface IHistorikkOppdatering {
-    id: string;
-    behandlingId: string;
+    id?: string;
+    behandlingId?: string;
     steg: string;
     opprettetAvNavn: string;
-    opprettetAv: string;
+    opprettetAv?: string;
     endretTid: string;
 }
 
@@ -47,8 +47,10 @@ const datoFormatering = (datoString: string) => {
     );
 };
 
-const HistorikkOppdatering: React.FunctionComponent<{ props: IHistorikkOppdatering }> = ({
-    props,
+const HistorikkOppdatering: React.FunctionComponent<IHistorikkOppdatering> = ({
+    steg,
+    opprettetAvNavn,
+    endretTid,
 }) => {
     return (
         <Oppdatering>
@@ -60,9 +62,9 @@ const HistorikkOppdatering: React.FunctionComponent<{ props: IHistorikkOppdateri
                 <StripletLinje />
             </StyledIkon>
             <TekstligInformasjon>
-                <Label size="small">{props.steg}</Label>
+                <Label size="small">{steg}</Label>
                 <Detail size="small">
-                    {datoFormatering(props.endretTid)} | {props.opprettetAvNavn}
+                    {datoFormatering(endretTid)} | {opprettetAvNavn}
                 </Detail>
             </TekstligInformasjon>
         </Oppdatering>
