@@ -49,7 +49,7 @@ interface IFormKravHøyre {
     settLåst: (value: boolean) => void;
 }
 
-export const FormkravHøyre: React.FC<{ props: IFormKravHøyre }> = ({ props }) => {
+export const FormkravHøyre: React.FC<IFormKravHøyre> = ({ låst, settLåst }) => {
     const [vurdering, settVurdering] = useState('');
     const [klagePart, settKlagePart] = useState('');
     const [klageKonkret, settKlageKonkret] = useState('');
@@ -88,23 +88,25 @@ export const FormkravHøyre: React.FC<{ props: IFormKravHøyre }> = ({ props }) 
         },
     ];
 
+    const alleFeltErBesvart = (): boolean => {
+        return !(
+            vurdering === '' ||
+            klagePart === '' ||
+            klageKonkret === '' ||
+            klageFrist === '' ||
+            klageSignert === ''
+        );
+    };
+
     const lagreVilkår = () => {
-        if (
-            !(
-                vurdering === '' ||
-                klagePart === '' ||
-                klageKonkret === '' ||
-                klageFrist === '' ||
-                klageSignert === ''
-            )
-        ) {
-            props.settLåst(true);
+        if (alleFeltErBesvart()) {
+            settLåst(true);
         }
     };
 
     return (
         <FormKravStyling>
-            {!props.låst && (
+            {!låst && (
                 <>
                     <FormKravStylingBody>
                         <RadioKnapperContainer>
@@ -139,10 +141,10 @@ export const FormkravHøyre: React.FC<{ props: IFormKravHøyre }> = ({ props }) 
                     </FormKravStylingFooter>
                 </>
             )}
-            {props.låst && (
+            {låst && (
                 <RadioknapperLesemodus
                     radioKnapper={radioKnapperLeseListe}
-                    redigerHandling={props.settLåst}
+                    redigerHandling={settLåst}
                 />
             )}
         </FormKravStyling>

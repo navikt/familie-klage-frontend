@@ -73,12 +73,12 @@ interface IFormkravVenstre {
     låst: boolean;
 }
 
-export const FormkravVenstre: React.FC<{ props: IFormkravVenstre }> = ({ props }) => {
+export const FormkravVenstre: React.FC<IFormkravVenstre> = ({ låst }) => {
     return (
         <FormKravStylingVenstre>
             <IkkeVurdertContainer>
-                {!props.låst && <IkkeVurdertIkonStyled heigth={23} width={23} />}
-                {props.låst && <OppfyltIkonStyled heigth={23} width={23} />}
+                {!låst && <IkkeVurdertIkonStyled heigth={23} width={23} />}
+                {låst && <OppfyltIkonStyled heigth={23} width={23} />}
                 <Heading spacing size="medium" level="5">
                     Formkrav
                 </Heading>

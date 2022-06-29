@@ -32,8 +32,8 @@ export const Formkrav: React.FC = () => {
     return (
         <FormKravStyling>
             <FormKravStylingBody>
-                <FormkravVenstre props={{ låst }} />
-                <FormkravHøyre props={{ låst, settLåst }} />
+                <FormkravVenstre låst={låst} />
+                <FormkravHøyre låst={låst} settLåst={settLåst} />
             </FormKravStylingBody>
             <FormKravStylingFooter></FormKravStylingFooter>
         </FormKravStyling>
