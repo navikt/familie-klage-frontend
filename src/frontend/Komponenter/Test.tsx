@@ -12,12 +12,12 @@ export const Test: React.FC = () => {
         document.title = 'Test';
     }, []);
 
-    const opprettBehandling = () => {
+    const opprettForm = () => {
         axiosRequest<Behandling, string>({
             method: 'POST',
-            url: `/familie-klage/api/behandling/${uuid}`,
+            url: `/familie-klage/api/formkrav/${uuid}`,
             data: uuid,
         });
     };
-    return <Button onClick={() => opprettBehandling()}>Opprett behandling</Button>;
+    return <Button onClick={() => opprettForm()}>Opprett form</Button>;
 };
