@@ -5,6 +5,7 @@ import { FormkravHøyre } from './FormkravHøyre';
 import { FormkravVenstre } from './FormkravVenstre';
 import { useApp } from '../../../App/context/AppContext';
 import { Ressurs, RessursStatus } from '../../../App/typer/ressurs';
+import { Vilkårsresultat } from './vilkår';
 
 const FormKravStyling = styled.div`
     display: flex;
@@ -36,10 +37,10 @@ export interface IForm {
     klageÅrsak: string;
     klageBeskrivelse: string;
 
-    klagePart: boolean;
-    klageKonkret: boolean;
-    klagefristOverholdt: boolean;
-    klageSignert: boolean;
+    klagePart: Vilkårsresultat;
+    klageKonkret: Vilkårsresultat;
+    klagefristOverholdt: Vilkårsresultat;
+    klageSignert: Vilkårsresultat;
 
     saksbehandlerBegrunnelse: string;
     sakSistEndret: string;
@@ -49,7 +50,7 @@ export interface IForm {
 export const Formkrav: React.FC = () => {
     const [låst, settLåst] = useState(false);
     const { axiosRequest } = useApp();
-    const [formkrav, settFormkrav] = useState<IForm>('');
+    const [formkrav, settFormkrav] = useState<IForm>(``);
 
     useEffect(() => {
         document.title = 'Oppgavebenk';
