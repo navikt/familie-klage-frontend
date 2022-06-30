@@ -19,6 +19,5 @@ export const Test: React.FC = () => {
             data: uuid,
         });
     };
-
     return <Button onClick={() => opprettBehandling()}>Opprett behandling</Button>;
 };
