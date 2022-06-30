@@ -14,6 +14,7 @@ import UlagretDataModal from './Komponenter/Behandling/Fanemeny/UlagretDataModal
 import { AppEnv, hentEnv } from './App/api/env';
 import { Toast } from './Felles/Toast/Toast';
 import { VelkomstSide } from './Komponenter/startside/VelkomstSide';
+import { Test } from './Komponenter/Test';
 
 Modal.setAppElement(document.getElementById('modal-a11y-wrapper'));
 
@@ -86,6 +87,7 @@ const AppInnhold: React.FC<{ innloggetSaksbehandler: ISaksbehandler }> = ({
                 <Route path="/behandling/:behandlingId/*" element={<BehandlingContainer />} />
                 <Route path="/velkomstside" element={<VelkomstSide />} />
                 <Route path="/" element={<Navigate to="/velkomstside" replace={true} />} />
+                <Route path="/test" element={<Test />} />
             </Routes>
             <UlagretDataModal />
             <Toast />

@@ -1,8 +1,5 @@
 import { Stønadstype } from './behandlingstema';
-import { Behandlingstype } from './behandlingstype';
 import { BehandlingStatus } from './behandlingstatus';
-import { Steg } from '../../Komponenter/Behandling/Høyremeny/Steg';
-import { Behandlingsårsak } from '../typer/Behandlingsårsak';
 import { TilbakekrevingBehandlingsresultatstype } from './tilbakekreving';
 
 export interface IFagsakPerson {
@@ -30,19 +27,35 @@ export interface Fagsak {
     erMigrert: boolean;
 }
 
+export enum Fagsystem {
+    EF = 'EF',
+    BA = 'BA',
+    KS = 'KS',
+}
+
+export enum BehandlingSteg {
+    FORMALKRAV = 'FORMALKRAV',
+    VURDERING = 'VURDERING',
+    KABAL = 'KABAL',
+    BEHANDLING_FERDIGSTILT = 'BEHANDLING_FERDIGSTILT',
+}
+
+export const behandlingStegTilTekst: Record<BehandlingSteg, string> = {
+    FORMALKRAV: 'Formalkrav',
+    VURDERING: 'Vurdering',
+    KABAL: 'Kabal',
+    BEHANDLING_FERDIGSTILT: 'Behandling ferdigstilt',
+};
+
 export interface Behandling {
     id: string;
-    forrigeBehandlingId?: string;
     fagsakId: string;
-    type: Behandlingstype;
-    steg: Steg;
+    steg: BehandlingSteg;
     status: BehandlingStatus;
     sistEndret: string;
-    endringerIRegistergrunnlag?: IEndringerRegistergrunnlag;
     opprettet: string;
     resultat: BehandlingResultat;
-    behandlingsårsak: Behandlingsårsak;
-    stønadstype: Stønadstype;
+    fagsystem: Fagsystem;
     vedtaksdato?: string;
 }
 
