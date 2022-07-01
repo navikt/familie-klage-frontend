@@ -15,6 +15,7 @@ import { AppEnv, hentEnv } from './App/api/env';
 import { Toast } from './Felles/Toast/Toast';
 import { VelkomstSide } from './Komponenter/startside/VelkomstSide';
 import { Test } from './Komponenter/Test';
+import { FormkravHøyre } from './Komponenter/Behandling/Formkrav/FormkravHøyre';
 
 Modal.setAppElement(document.getElementById('modal-a11y-wrapper'));
 
