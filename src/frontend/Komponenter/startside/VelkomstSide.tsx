@@ -13,18 +13,39 @@ const Visningstekst = styled(Normaltekst)`
     margin: 4rem;
 `;
 
+interface IForm {
+    behandlingsId: string;
+    fagsakId: string;
+    vedtaksdato: string;
+
+    klageMottat: string;
+    klageÅrsak: string;
+    klageBeskrivelse: string;
+
+    klagePart: boolean;
+    klageKonkret: boolean;
+    klagefristOverholdt: boolean;
+    klageSignert: boolean;
+
+    saksbehandlerBegrunnelse: string;
+    sakSistEndret: string;
+
+    fullført: boolean;
+}
+
 export const VelkomstSide: React.FC = () => {
     const { axiosRequest } = useApp();
-    const [visningstekst, settVisningstekst] = useState<string>('Fikk ikke kontakt med backend');
+    const [visningstekst, settVisningstekst] = useState<string>();
 
     useEffect(() => {
         document.title = 'Oppgavebenk';
-        axiosRequest<string, null>({
+        axiosRequest<IForm, null>({
             method: 'GET',
-            url: `/familie-klage/api/test`,
-        }).then((res: Ressurs<string>) => {
+            url: `/familie-klage/api/formkrav/1`,
+        }).then((res: Ressurs<IForm>) => {
             if (res.status === RessursStatus.SUKSESS) {
-                settVisningstekst(res.data);
+                console.log(res.data);
+                settVisningstekst('hei' + res.data.behandlingsId);
             }
         });
     }, [axiosRequest]);
