@@ -1,3 +1,14 @@
+export interface IVurdering {
+    oppfyltFormkrav: number;
+    muligFormkrav: number;
+    begrunnelse: string;
+    vedtakValg: VedtakValg;
+    årsak?: ÅrsakValg;
+    hjemmel?: HjemmelValg;
+    beskrivelse: string;
+    fullførtDato?: string;
+}
+
 // VEDTAK
 export enum VedtakValg {
     OMGJØR_VEDTAK = 'OMGJØR_VEDTAK',
