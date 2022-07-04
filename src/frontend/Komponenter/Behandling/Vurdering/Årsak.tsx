@@ -2,6 +2,7 @@ import * as React from 'react';
 import { Heading, Select } from '@navikt/ds-react';
 import styled from 'styled-components';
 import { Dispatch, SetStateAction } from 'react';
+import { IVurdering } from './vurderingValg';
 
 const ÅrsakStyled = styled.div`
     margin: 2rem 4rem 2rem 4rem;
@@ -14,7 +15,7 @@ const ÅrsakInnholdStyled = styled.div`
 
 interface IÅrsak {
     settÅrsak: Dispatch<SetStateAction<any>>;
-    årsakValg: Record<any, string>;
+    årsakValg: Record<string, string>;
     endring: (komponentId: string) => void;
 }
 
@@ -30,7 +31,7 @@ export const Årsak: React.FC<IÅrsak> = ({ settÅrsak, årsakValg, endring }) =
                     size="medium"
                     onChange={(e) => {
                         endring(e.target.value);
-                        settÅrsak((tidligereTilstand) => ({
+                        settÅrsak((tidligereTilstand: IVurdering) => ({
                             ...tidligereTilstand,
                             arsak: e.target.value,
                         }));

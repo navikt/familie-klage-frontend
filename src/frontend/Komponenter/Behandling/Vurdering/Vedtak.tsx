@@ -2,7 +2,7 @@ import * as React from 'react';
 import { Heading, Select } from '@navikt/ds-react';
 import styled from 'styled-components';
 import { Dispatch, SetStateAction } from 'react';
-import { HjemmelValg, VedtakValg, ÅrsakValg } from './vurderingValg';
+import { HjemmelValg, IVurdering, ÅrsakValg } from './vurderingValg';
 
 const VedtakStyled = styled.div`
     margin: 2rem 4rem 2rem 4rem;
@@ -15,13 +15,13 @@ const VedtakInnholdStyled = styled.div`
 
 interface IVedtak {
     settVedtak: Dispatch<SetStateAction<any>>;
-    vedtakValg: Record<any, string>; // TODO bestem typer (Record<VedtakValg, string>)
+    vedtakValg: Record<string, string>;
     endring: (komponentId: string) => void;
 }
 
 export const Vedtak: React.FC<IVedtak> = ({ settVedtak, vedtakValg, endring }) => {
-    const oppdaterVedtak = (nyttValg: VedtakValg) => {
-        settVedtak((tidligereTilstand) => ({
+    const oppdaterVedtak = (nyttValg: string) => {
+        settVedtak((tidligereTilstand: IVurdering) => ({
             ...tidligereTilstand,
             vedtak: nyttValg,
             arsak: ÅrsakValg.VELG,

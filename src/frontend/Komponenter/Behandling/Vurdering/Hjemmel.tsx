@@ -2,6 +2,7 @@ import * as React from 'react';
 import { Heading, Select } from '@navikt/ds-react';
 import styled from 'styled-components';
 import { Dispatch, SetStateAction } from 'react';
+import { IVurdering } from './vurderingValg';
 
 const HjemmelStyled = styled.div`
     margin: 2rem 4rem 2rem 4rem;
@@ -14,7 +15,7 @@ const HjemmelInnholdStyled = styled.div`
 
 interface IHjemmel {
     settHjemmel: Dispatch<SetStateAction<any>>;
-    hjemmelValg: Record<any, string>;
+    hjemmelValg: Record<string, string>;
     endring: (komponentId: string) => void;
 }
 
@@ -30,7 +31,7 @@ export const Hjemmel: React.FC<IHjemmel> = ({ settHjemmel, hjemmelValg, endring 
                     size="medium"
                     onChange={(e) => {
                         endring(e.target.value);
-                        settHjemmel((tidligereTilstand) => ({
+                        settHjemmel((tidligereTilstand: IVurdering) => ({
                             ...tidligereTilstand,
                             hjemmel: e.target.value,
                         }));
