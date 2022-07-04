@@ -8,16 +8,15 @@ import BehandlingRoutes from './BehandlingRoutes';
 import { BehandlingProvider, useBehandling } from '../../App/context/BehandlingContext';
 import { ModalProvider } from '../../App/context/ModalContext';
 import ModalController from '../../Felles/Modal/ModalController';
-// import DataViewer from '../../Felles/DataViewer/DataViewer';
 import VisittkortComponent from '../../Felles/Visittkort/Visittkort';
 import { Behandling, BehandlingResultat } from '../../App/typer/fagsak';
-// import { IPersonopplysninger } from '../../App/typer/personopplysninger';
 import { useSetValgtFagsakId } from '../../App/hooks/useSetValgtFagsakId';
 import { Behandlingstype } from '../../App/typer/behandlingstype';
 import { BehandlingStatus } from '../../App/typer/behandlingstatus';
 import { Stønadstype } from '../../App/typer/behandlingstema';
 import { Behandlingsårsak } from '../../App/typer/Behandlingsårsak';
 import personopplysningerMock from './personopplysningerMock.json';
+import { useHentBehandling } from '../../App/hooks/useHentBehandling';
 
 export const behandlingMock: Behandling = {
     id: 'ad983bff-d807-4ade-928e-1093e16ec2ac',
@@ -74,6 +73,13 @@ const InnholdWrapper = styled.div<InnholdWrapperProps>`
     max-width: ${(p) => (p.åpenHøyremeny ? 'calc(100% - 20rem)' : '100%')};
 `;
 
+const hentBehandlingIdFraUrl = (): string => {
+    return location.href.substring(
+        location.href.indexOf('behandling/') + 11,
+        location.href.length - 1
+    );
+};
+
 const BehandlingContainer: FC = () => {
     return (
         <ModalProvider>
@@ -110,6 +116,7 @@ const BehandlingContent: FC<{
 
 const BehandlingOverbygg: FC = () => {
     //    const { behandling, personopplysningerResponse } = useBehandling();
+    const behandling = useHentBehandling(hentBehandlingIdFraUrl()).behandling;
 
     useEffect(() => {
         document.title = 'Behandling';
@@ -117,7 +124,7 @@ const BehandlingOverbygg: FC = () => {
 
     return (
         <BehandlingContent
-            behandling={behandlingMock}
+            behandling={behandling.status === 'SUKSESS' ? behandling.data : behandlingMock}
             personopplysninger={personopplysningerMock.data}
         />
     );
