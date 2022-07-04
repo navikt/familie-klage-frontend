@@ -27,7 +27,7 @@ export const AdminSide: React.FC = () => {
             url: `/familie-klage/api/behandling`,
         }).then((res) => {
             if (res.status === 'SUKSESS') {
-                navigate(`/behandling/${res.data.id}`);
+                navigate(`/behandling/${res?.data.id}`);
             }
         });
     };
