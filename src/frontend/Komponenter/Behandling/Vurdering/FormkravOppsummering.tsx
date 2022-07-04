@@ -1,6 +1,7 @@
 import * as React from 'react';
 import { Heading, BodyLong } from '@navikt/ds-react';
 import styled from 'styled-components';
+import { Ikon } from './Ikon';
 
 const FormkravOppsummeringStyled = styled.div`
     display: flex;
@@ -8,15 +9,11 @@ const FormkravOppsummeringStyled = styled.div`
 `;
 
 const BegrunnelseStyled = styled.div`
-    margin: 0 0 0 6rem;
+    margin-left: 6rem;
 `;
 
 const OppfyltStyled = styled.div`
     display: flex;
-`;
-
-const Ikon = styled.svg`
-    margin: 0 0.4rem 0 0.6rem;
 `;
 
 const FeilVedtaksresultatStyled = styled.div`
@@ -49,15 +46,7 @@ export const FormkravOppsummering: React.FC<IFormkravOppsummering> = ({
                             {oppfylt} av {muligOppfylt} oppfylt
                         </BodyLong>
                         <FeilVedtaksresultatStyled>
-                            <Ikon
-                                width="1em"
-                                height="1em"
-                                viewBox="0 0 24 24"
-                                fill="none"
-                                xmlns="http://www.w3.org/2000/svg"
-                                focusable="false"
-                                role="img"
-                            >
+                            <Ikon>
                                 <path
                                     d="M11.999 0C5.395 0 .013 5.372 0 11.976a11.923 11.923 0 0 0 3.498 8.493A11.925 11.925 0 0 0 11.977 24H12c6.603 0 11.986-5.373 12-11.978C24.012 5.406 18.64.012 11.999 0Z"
                                     fill="#BA3A26"
@@ -77,15 +66,7 @@ export const FormkravOppsummering: React.FC<IFormkravOppsummering> = ({
                         <BodyLong size="small">
                             {oppfylt} av {muligOppfylt} oppfylt
                         </BodyLong>
-                        <Ikon
-                            width="1em"
-                            height="1em"
-                            viewBox="0 0 24 24"
-                            fill="none"
-                            xmlns="http://www.w3.org/2000/svg"
-                            focusable="false"
-                            role="img"
-                        >
+                        <Ikon>
                             <path
                                 fill-rule="evenodd"
                                 clip-rule="evenodd"
