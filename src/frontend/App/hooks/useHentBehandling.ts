@@ -16,7 +16,7 @@ export const useHentBehandling = (
     const hentBehandlingCallback = useCallback(() => {
         const behandlingConfig: AxiosRequestConfig = {
             method: 'GET',
-            url: `/familie-ef-sak/api/behandling/${behandlingId}`,
+            url: `/familie-klage/api/behandling/${behandlingId}`,
         };
         axiosRequest<Behandling, null>(behandlingConfig).then((res: Ressurs<Behandling>) =>
             settBehandling(res)
