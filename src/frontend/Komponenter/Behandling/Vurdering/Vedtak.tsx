@@ -2,6 +2,7 @@ import * as React from 'react';
 import { Heading, Select } from '@navikt/ds-react';
 import styled from 'styled-components';
 import { Dispatch, SetStateAction } from 'react';
+import { HjemmelValg, VedtakValg, ÅrsakValg } from './vurderingValg';
 
 const VedtakStyled = styled.div`
     margin: 2rem 4rem 2rem 4rem;
@@ -18,6 +19,15 @@ interface IVedtak {
 }
 
 export const Vedtak: React.FC<IVedtak> = ({ settVedtak, vedtakValg }) => {
+    const oppdaterVedtak = (nyttValg: VedtakValg) => {
+        settVedtak((tidligereTilstand) => ({
+            ...tidligereTilstand,
+            vedtak: nyttValg,
+            arsak: ÅrsakValg.VELG,
+            hjemmel: HjemmelValg.VELG,
+        }));
+    };
+
     return (
         <VedtakStyled>
             <Heading spacing size="medium" level="5">
@@ -27,16 +37,13 @@ export const Vedtak: React.FC<IVedtak> = ({ settVedtak, vedtakValg }) => {
                 <Select
                     label=""
                     size="medium"
-                    onChange={(e) =>
-                        settVedtak((tidligereTilstand) => ({
-                            ...tidligereTilstand,
-                            vedtak: e.target.value,
-                        }))
-                    }
+                    onChange={(e) => oppdaterVedtak(e.target.value)}
                     hideLabel
                 >
-                    {Object.keys(vedtakValg).map((valg) => (
-                        <option value={valg}>{vedtakValg[valg]}</option>
+                    {Object.keys(vedtakValg).map((valg, index) => (
+                        <option value={valg} key={index}>
+                            {vedtakValg[valg]}
+                        </option>
                     ))}
                 </Select>
             </VedtakInnholdStyled>

@@ -30,13 +30,15 @@ export const Årsak: React.FC<IÅrsak> = ({ settÅrsak, årsakValg }) => {
                     onChange={(e) =>
                         settÅrsak((tidligereTilstand) => ({
                             ...tidligereTilstand,
-                            årsak: e.target.value,
+                            arsak: e.target.value,
                         }))
                     }
                     hideLabel
                 >
-                    {Object.keys(årsakValg).map((valg) => (
-                        <option value={valg}>{årsakValg[valg]}</option>
+                    {Object.keys(årsakValg).map((valg, index) => (
+                        <option value={valg} key={index}>
+                            {årsakValg[valg]}
+                        </option>
                     ))}
                 </Select>
             </ÅrsakInnholdStyled>

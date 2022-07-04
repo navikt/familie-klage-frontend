@@ -1,9 +1,8 @@
 export interface IVurdering {
     vedtak: VedtakValg;
-    årsak?: ÅrsakValg;
+    arsak?: ÅrsakValg;
     hjemmel?: HjemmelValg;
     beskrivelse: string;
-    fullførtDato?: string;
 }
 
 // VEDTAK

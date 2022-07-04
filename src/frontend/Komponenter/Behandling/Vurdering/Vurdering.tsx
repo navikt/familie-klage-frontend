@@ -57,7 +57,7 @@ export const Vurdering: React.FC = () => {
 
     const vurderingObject: IVurdering = {
         vedtak: VedtakValg.VELG,
-        årsak: ÅrsakValg.VELG,
+        arsak: ÅrsakValg.VELG,
         hjemmel: HjemmelValg.VELG,
         beskrivelse: '',
     };
@@ -69,9 +69,15 @@ export const Vurdering: React.FC = () => {
 
     const opprettVurdering = () => {
         const v: IVurdering = {
-            vedtak: VedtakValg.OMGJØR_VEDTAK,
+            vedtak: vurderingData.vedtak,
             beskrivelse: vurderingData.beskrivelse,
         };
+
+        if (vurderingData.vedtak == VedtakValg.OMGJØR_VEDTAK) {
+            v.arsak = vurderingData.arsak;
+        } else {
+            v.hjemmel = vurderingData.hjemmel;
+        }
 
         axiosRequest<IVurdering, IVurdering>({
             method: 'POST',
