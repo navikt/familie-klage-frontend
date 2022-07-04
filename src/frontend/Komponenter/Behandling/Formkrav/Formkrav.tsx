@@ -1,8 +1,11 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
 import { FormkravHøyre } from './FormkravHøyre';
 import { FormkravVenstre } from './FormkravVenstre';
+import { useApp } from '../../../App/context/AppContext';
+import { Ressurs, RessursStatus } from '../../../App/typer/ressurs';
+import { Vilkårsresultat } from './vilkår';
 
 const FormKravStyling = styled.div`
     display: flex;
@@ -25,14 +28,47 @@ const FormKravStylingFooter = styled.div`
     padding-left: 5rem;
     display: flex;
 `;
+export interface IForm {
+    behandlingsId: string;
+    fagsakId: string;
+    vedtaksdato: string;
 
+    klageMottat: string;
+    klageÅrsak: string;
+    klageBeskrivelse: string;
+
+    klagePart: Vilkårsresultat;
+    klageKonkret: Vilkårsresultat;
+    klagefristOverholdt: Vilkårsresultat;
+    klageSignert: Vilkårsresultat;
+
+    saksbehandlerBegrunnelse: string;
+    sakSistEndret: string;
+
+    fullført: boolean;
+}
 export const Formkrav: React.FC = () => {
     const [låst, settLåst] = useState(false);
+    const { axiosRequest } = useApp();
+    const [formkrav, settFormkrav] = useState<IForm>(``);
+
+    useEffect(() => {
+        document.title = 'Oppgavebenk';
+        axiosRequest<IForm, null>({
+            method: 'GET',
+            url: `/familie-klage/api/formkrav/1`,
+        }).then((res: Ressurs<IForm>) => {
+            if (res.status === RessursStatus.SUKSESS) {
+                console.log(res.data);
+                settFormkrav(res.data);
+            }
+        });
+    }, [axiosRequest]);
 
     return (
         <FormKravStyling>
             <FormKravStylingBody>
-                <FormkravVenstre låst={låst} />
+                <FormkravVenstre låst={låst} formkrav={formkrav} />
                 <FormkravHøyre låst={låst} settLåst={settLåst} />
             </FormKravStylingBody>
             <FormKravStylingFooter></FormKravStylingFooter>

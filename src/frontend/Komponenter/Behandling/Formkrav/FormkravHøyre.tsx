@@ -1,8 +1,8 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
 import React, { useState } from 'react';
 import styled from 'styled-components';
 import { Textarea, Radio, RadioGroup, Button } from '@navikt/ds-react';
 import { IRadioKnapper, RadioknapperLesemodus } from './RadioKnapperLesemodus';
+import { useApp } from '../../../App/context/AppContext';
 
 const FormKravStyling = styled.div`
     display: flex;
@@ -49,11 +49,31 @@ interface IFormKravHøyre {
     settLåst: (value: boolean) => void;
 }
 
+export interface IForm {
+    klagePart: string;
+    klageKonkret: string;
+    klagefristOverholdt: string;
+    klageSignert: string;
+    saksbehandlerBegrunnelse: string;
+}
+
+export enum FormVilkår {
+    OPPFYLT = 'OPPFYLT',
+    IKKE_OPPFYLT = 'IKKE_OPPFYLT',
+}
+
+export const formVilkårTilTekst: Record<FormVilkår, string> = {
+    OPPFYLT: 'Oppfylt',
+    IKKE_OPPFYLT: 'Ikke oppfylt',
+};
+
 export const FormkravHøyre: React.FC<IFormKravHøyre> = ({ låst, settLåst }) => {
-    const [vurdering, settVurdering] = useState('');
+    const { axiosRequest } = useApp();
+
+    const [saksbehandlerBegrunnelse, settsaksbehandlerBegrunnelse] = useState('');
     const [klagePart, settKlagePart] = useState('');
     const [klageKonkret, settKlageKonkret] = useState('');
-    const [klageFrist, settKlageFrist] = useState('');
+    const [klagefristOverholdt, settKlagefrist] = useState('');
     const [klageSignert, settKlageSignert] = useState('');
     const radioKnapperLeseListe: IRadioKnapper[] = [
         {
@@ -70,8 +90,8 @@ export const FormkravHøyre: React.FC<IFormKravHøyre> = ({ låst, settLåst }) 
         },
         {
             spørsmål: 'Er klagefristen overholdt?',
-            svar: klageFrist,
-            setter: settKlageFrist,
+            svar: klagefristOverholdt,
+            setter: settKlagefrist,
             key: 2,
         },
         {
@@ -82,26 +102,40 @@ export const FormkravHøyre: React.FC<IFormKravHøyre> = ({ låst, settLåst }) 
         },
         {
             spørsmål: 'Begrunnelse',
-            svar: vurdering,
-            setter: settVurdering,
+            svar: saksbehandlerBegrunnelse,
+            setter: settsaksbehandlerBegrunnelse,
             key: 4,
         },
     ];
 
     const alleFeltErBesvart = (): boolean => {
         return !(
-            vurdering === '' ||
+            saksbehandlerBegrunnelse === '' ||
             klagePart === '' ||
             klageKonkret === '' ||
-            klageFrist === '' ||
+            klagefristOverholdt === '' ||
             klageSignert === ''
         );
     };
 
-    const lagreVilkår = () => {
+    const opprettForm = () => {
         if (alleFeltErBesvart()) {
             settLåst(true);
         }
+
+        const f: IForm = {
+            klagePart: klagePart,
+            klageKonkret: klageKonkret,
+            klagefristOverholdt: klagefristOverholdt,
+            klageSignert: klageSignert,
+            saksbehandlerBegrunnelse: saksbehandlerBegrunnelse,
+        };
+
+        axiosRequest<IForm, IForm>({
+            method: 'POST',
+            url: `/familie-klage/api/formkrav`,
+            data: f,
+        });
     };
 
     return (
@@ -120,22 +154,24 @@ export const FormkravHøyre: React.FC<IFormKravHøyre> = ({ låst, settLåst }) 
                                         value={item.svar}
                                         key={item.key}
                                     >
-                                        <RadioStyled value="Ja">Ja</RadioStyled>
-                                        <RadioStyled value="Nei">Nei</RadioStyled>
+                                        <RadioStyled value={FormVilkår.OPPFYLT}>Ja</RadioStyled>
+                                        <RadioStyled value={FormVilkår.IKKE_OPPFYLT}>
+                                            Nei
+                                        </RadioStyled>
                                     </RadioGroupStyled>
                                 ))}
                         </RadioKnapperContainer>
                         <Textarea
                             label={undefined}
-                            value={vurdering}
-                            onChange={(e) => settVurdering(e.target.value)}
+                            value={saksbehandlerBegrunnelse}
+                            onChange={(e) => settsaksbehandlerBegrunnelse(e.target.value)}
                             size="small"
                             description="Vurdering"
                             maxLength={1500}
                         />
                     </FormKravStylingBody>
                     <FormKravStylingFooter>
-                        <ButtonStyled variant="primary" size="medium" onClick={lagreVilkår}>
+                        <ButtonStyled variant="primary" size="medium" onClick={opprettForm}>
                             Lagre
                         </ButtonStyled>
                     </FormKravStylingFooter>

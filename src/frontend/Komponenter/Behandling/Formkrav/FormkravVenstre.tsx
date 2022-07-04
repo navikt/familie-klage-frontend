@@ -6,6 +6,7 @@ import { FileContent } from '@navikt/ds-icons';
 import navFarger from 'nav-frontend-core';
 import IkkeVurdert from '../../../Felles/Ikoner/IkkeVurdert';
 import Oppfylt from '../../../Felles/Ikoner/Oppfylt';
+import { IForm } from './Formkrav';
 
 const FormKravStylingVenstre = styled.div`
     width: 50%;
@@ -69,11 +70,18 @@ const FileContentStyled = styled(FileContent)`
     margin: 0 1.5rem 0 0.1rem;
 `;
 
+export const datoFormatering = (dato: Date) => {
+    return dato.getDay() + '.' + dato.getMonth() + '.' + dato.getFullYear();
+};
+
 interface IFormkravVenstre {
     låst: boolean;
+    formkrav: IForm;
 }
+export const FormkravVenstre: React.FC<IFormkravVenstre> = ({ låst, formkrav }) => {
+    const vedtaksdato = new Date(formkrav.vedtaksdato);
+    const klageMottat = new Date(formkrav.klageMottat);
 
-export const FormkravVenstre: React.FC<IFormkravVenstre> = ({ låst }) => {
     return (
         <FormKravStylingVenstre>
             <IkkeVurdertContainer>
@@ -83,7 +91,6 @@ export const FormkravVenstre: React.FC<IFormkravVenstre> = ({ låst }) => {
                     Formkrav
                 </Heading>
             </IkkeVurdertContainer>
-
             <IkonTekstRadContainer>
                 <KolonneVenstre>
                     <IkonKategoriGruppe>
@@ -92,7 +99,7 @@ export const FormkravVenstre: React.FC<IFormkravVenstre> = ({ låst }) => {
                     </IkonKategoriGruppe>
                 </KolonneVenstre>
                 <KolonneHøyre>
-                    <BodyLongStyled size="small">17.06.2022</BodyLongStyled>
+                    <BodyLongStyled size="small">{datoFormatering(vedtaksdato)} </BodyLongStyled>
                 </KolonneHøyre>
             </IkonTekstRadContainer>
 
@@ -104,7 +111,7 @@ export const FormkravVenstre: React.FC<IFormkravVenstre> = ({ låst }) => {
                     </IkonKategoriGruppe>
                 </KolonneVenstre>
                 <KolonneHøyre>
-                    <BodyLongStyled size="small">27.06.2022</BodyLongStyled>
+                    <BodyLongStyled size="small">{datoFormatering(klageMottat)}</BodyLongStyled>
                 </KolonneHøyre>
             </IkonTekstRadContainer>
 
@@ -116,7 +123,7 @@ export const FormkravVenstre: React.FC<IFormkravVenstre> = ({ låst }) => {
                     </IkonKategoriGruppe>
                 </KolonneVenstre>
                 <KolonneHøyre>
-                    <BodyLongStyled size="small">Jeg har fått for lite utbetalt</BodyLongStyled>
+                    <BodyLongStyled size="small">{formkrav.klageÅrsak}</BodyLongStyled>
                 </KolonneHøyre>
             </IkonTekstRadContainer>
 
@@ -128,15 +135,9 @@ export const FormkravVenstre: React.FC<IFormkravVenstre> = ({ låst }) => {
                     </IkonKategoriGruppe>
                 </KolonneVenstre>
             </IkonTekstRadContainer>
-
             <BegrunnelseContainer>
                 <BlåStrek />
-                <BodyLong size="small">
-                    Ullamco ut laboris irure excepteur velit nisi occaecat proident. Amet aliquip
-                    dolor eu occaecat. Elit sunt occaecat excepteur ea. Quis commodo adipisicing
-                    laborum minim. Culpa duis occaecat adipisicing dolor sint cillum. Non in
-                    consequat ex esse exercitation cillum Lorem voluptate officia.
-                </BodyLong>
+                <BodyLong size="small">{formkrav.klageBeskrivelse}</BodyLong>
             </BegrunnelseContainer>
         </FormKravStylingVenstre>
     );
