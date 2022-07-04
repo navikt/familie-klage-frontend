@@ -7,6 +7,7 @@ import LenkeKnapp from '../../../Felles/Knapper/LenkeKnapp';
 import navFarger from 'nav-frontend-core';
 import { Heading } from '@navikt/ds-react';
 import BrukerMedBlyant from '../../../Felles/Ikoner/BrukerMedBlyant';
+import { formVilkårTilTekst } from './FormkravHøyre';
 
 export const RadSentrertVertikalt = styled.div`
     display: flex;
@@ -107,7 +108,7 @@ export const RadioknapperLesemodus = (radioKnapper: IRadioKnapperLeseModus) => {
                 {radioKnapper.radioKnapper.map((item: IRadioKnapper) => (
                     <SvarElement key={item.key}>
                         <Spørsmål>{item.spørsmål}</Spørsmål>
-                        <Svar>{item.svar}</Svar>
+                        <Svar>{formVilkårTilTekst[item.svar]}</Svar>
                     </SvarElement>
                 ))}
             </FormKravStylingBody>

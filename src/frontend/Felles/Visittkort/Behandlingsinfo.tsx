@@ -1,10 +1,12 @@
 import React, { FC, useState } from 'react';
 import styled from 'styled-components';
-import { Behandling, behandlingResultatTilTekst } from '../../App/typer/fagsak';
+import {
+    Behandling,
+    behandlingResultatTilTekst,
+    behandlingStegTilTekst,
+} from '../../App/typer/fagsak';
 import { Menyknapp } from 'nav-frontend-ikonknapper';
 import Popover, { PopoverOrientering } from 'nav-frontend-popover';
-import { behandlingstypeTilTekst } from '../../App/typer/behandlingstype';
-import { stegTypeTilStegtekst } from '../../Komponenter/Behandling/Høyremeny/Steg';
 import { formaterIsoDatoTid } from '../../App/utils/formatter';
 import { behandlingStatusTilTekst } from '../../App/typer/behandlingstatus';
 import { Normaltekst } from 'nav-frontend-typografi';
@@ -54,9 +56,7 @@ const Behandlingsinfo: FC<{ behandling: Behandling }> = ({ behandling }) => {
                 aria-expanded={anker !== undefined}
                 aria-controls={popoverId}
                 aria-haspopup="menu"
-            >
-                {behandlingstypeTilTekst[behandling.type]}
-            </StyledMenyKnapp>
+            ></StyledMenyKnapp>
             <Popover
                 id={popoverId}
                 ankerEl={anker}
@@ -81,7 +81,7 @@ const Behandlingsinfo: FC<{ behandling: Behandling }> = ({ behandling }) => {
                         <Normaltekst>{formaterIsoDatoTid(behandling.sistEndret)}</Normaltekst>
 
                         <GråTekst>Steg</GråTekst>
-                        <Normaltekst>{stegTypeTilStegtekst[behandling.steg]}</Normaltekst>
+                        <Normaltekst>{behandlingStegTilTekst[behandling.steg]}</Normaltekst>
                     </PopoverTabell>
                     <GråTekst>Id: {behandling.id}</GråTekst>
                 </PopoverInnehold>
