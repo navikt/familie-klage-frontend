@@ -2,40 +2,49 @@ import * as React from 'react';
 import { Heading, Select } from '@navikt/ds-react';
 import styled from 'styled-components';
 import { Dispatch, SetStateAction } from 'react';
+import { IVurdering } from './vurderingValg';
 
-const ÅrsakStyled = styled.div`
+const HjemmelStyled = styled.div`
     margin: 2rem 4rem 2rem 4rem;
 `;
 
-const ÅrsakInnholdStyled = styled.div`
+const HjemmelInnholdStyled = styled.div`
     display: block;
     width: 18rem;
 `;
 
 interface IHjemmel {
-    settHjemmel: Dispatch<SetStateAction<string>>;
-    hjemmelValg: Record<any, string>; // TODO bestem typer (Record<HjemmelValg, string>)
+    settHjemmel: Dispatch<SetStateAction<any>>;
+    hjemmelValg: Record<string, string>;
+    endring: (komponentId: string) => void;
 }
 
-export const Hjemmel: React.FC<IHjemmel> = ({ settHjemmel, hjemmelValg }) => {
+export const Hjemmel: React.FC<IHjemmel> = ({ settHjemmel, hjemmelValg, endring }) => {
     return (
-        <ÅrsakStyled>
+        <HjemmelStyled>
             <Heading spacing size="medium" level="5">
                 Hjemmel
             </Heading>
-            <ÅrsakInnholdStyled>
+            <HjemmelInnholdStyled>
                 <Select
                     label=""
                     size="medium"
-                    onChange={(e) => settHjemmel(e.target.value)}
+                    onChange={(e) => {
+                        endring(e.target.value);
+                        settHjemmel((tidligereTilstand: IVurdering) => ({
+                            ...tidligereTilstand,
+                            hjemmel: e.target.value,
+                        }));
+                    }}
                     hideLabel
                 >
-                    <option value="">Velg</option>
-                    {Object.keys(hjemmelValg).map((valg) => (
-                        <option value={valg}>{hjemmelValg[valg]}</option>
+                    {Object.keys(hjemmelValg).map((valg, index) => (
+                        <option value={valg} key={index}>
+                            {hjemmelValg[valg]}
+                        </option>
                     ))}
                 </Select>
-            </ÅrsakInnholdStyled>
-        </ÅrsakStyled>
+            </HjemmelInnholdStyled>
+        </HjemmelStyled>
     );
 };

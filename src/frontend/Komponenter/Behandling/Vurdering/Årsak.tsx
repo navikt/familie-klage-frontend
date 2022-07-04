@@ -2,6 +2,7 @@ import * as React from 'react';
 import { Heading, Select } from '@navikt/ds-react';
 import styled from 'styled-components';
 import { Dispatch, SetStateAction } from 'react';
+import { IVurdering } from './vurderingValg';
 
 const ÅrsakStyled = styled.div`
     margin: 2rem 4rem 2rem 4rem;
@@ -13,11 +14,12 @@ const ÅrsakInnholdStyled = styled.div`
 `;
 
 interface IÅrsak {
-    settÅrsak: Dispatch<SetStateAction<string>>;
-    årsakValg: Record<any, string>; // TODO bestem typer (Record<ÅrsakValg, string>)
+    settÅrsak: Dispatch<SetStateAction<any>>;
+    årsakValg: Record<string, string>;
+    endring: (komponentId: string) => void;
 }
 
-export const Årsak: React.FC<IÅrsak> = ({ settÅrsak, årsakValg }) => {
+export const Årsak: React.FC<IÅrsak> = ({ settÅrsak, årsakValg, endring }) => {
     return (
         <ÅrsakStyled>
             <Heading spacing size="medium" level="5">
@@ -27,12 +29,19 @@ export const Årsak: React.FC<IÅrsak> = ({ settÅrsak, årsakValg }) => {
                 <Select
                     label=""
                     size="medium"
-                    onChange={(e) => settÅrsak(e.target.value)}
+                    onChange={(e) => {
+                        endring(e.target.value);
+                        settÅrsak((tidligereTilstand: IVurdering) => ({
+                            ...tidligereTilstand,
+                            arsak: e.target.value,
+                        }));
+                    }}
                     hideLabel
                 >
-                    <option value="">Velg</option>
-                    {Object.keys(årsakValg).map((valg) => (
-                        <option value={valg}>{årsakValg[valg]}</option>
+                    {Object.keys(årsakValg).map((valg, index) => (
+                        <option value={valg} key={index}>
+                            {årsakValg[valg]}
+                        </option>
                     ))}
                 </Select>
             </ÅrsakInnholdStyled>
