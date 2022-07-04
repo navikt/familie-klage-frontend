@@ -16,9 +16,10 @@ const VedtakInnholdStyled = styled.div`
 interface IVedtak {
     settVedtak: Dispatch<SetStateAction<any>>;
     vedtakValg: Record<any, string>; // TODO bestem typer (Record<VedtakValg, string>)
+    endring: (komponentId: string) => void;
 }
 
-export const Vedtak: React.FC<IVedtak> = ({ settVedtak, vedtakValg }) => {
+export const Vedtak: React.FC<IVedtak> = ({ settVedtak, vedtakValg, endring }) => {
     const oppdaterVedtak = (nyttValg: VedtakValg) => {
         settVedtak((tidligereTilstand) => ({
             ...tidligereTilstand,
@@ -37,7 +38,10 @@ export const Vedtak: React.FC<IVedtak> = ({ settVedtak, vedtakValg }) => {
                 <Select
                     label=""
                     size="medium"
-                    onChange={(e) => oppdaterVedtak(e.target.value)}
+                    onChange={(e) => {
+                        endring(e.target.value);
+                        oppdaterVedtak(e.target.value);
+                    }}
                     hideLabel
                 >
                     {Object.keys(vedtakValg).map((valg, index) => (

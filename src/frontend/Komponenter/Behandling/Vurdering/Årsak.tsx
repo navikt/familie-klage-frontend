@@ -14,10 +14,11 @@ const ÅrsakInnholdStyled = styled.div`
 
 interface IÅrsak {
     settÅrsak: Dispatch<SetStateAction<any>>;
-    årsakValg: Record<any, string>; // TODO bestem typer (Record<ÅrsakValg, string>)
+    årsakValg: Record<any, string>;
+    endring: (komponentId: string) => void;
 }
 
-export const Årsak: React.FC<IÅrsak> = ({ settÅrsak, årsakValg }) => {
+export const Årsak: React.FC<IÅrsak> = ({ settÅrsak, årsakValg, endring }) => {
     return (
         <ÅrsakStyled>
             <Heading spacing size="medium" level="5">
@@ -27,12 +28,13 @@ export const Årsak: React.FC<IÅrsak> = ({ settÅrsak, årsakValg }) => {
                 <Select
                     label=""
                     size="medium"
-                    onChange={(e) =>
+                    onChange={(e) => {
+                        endring(e.target.value);
                         settÅrsak((tidligereTilstand) => ({
                             ...tidligereTilstand,
                             arsak: e.target.value,
-                        }))
-                    }
+                        }));
+                    }}
                     hideLabel
                 >
                     {Object.keys(årsakValg).map((valg, index) => (

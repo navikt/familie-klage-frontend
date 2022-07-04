@@ -14,10 +14,11 @@ const HjemmelInnholdStyled = styled.div`
 
 interface IHjemmel {
     settHjemmel: Dispatch<SetStateAction<any>>;
-    hjemmelValg: Record<any, string>; // TODO bestem typer (Record<HjemmelValg, string>)
+    hjemmelValg: Record<any, string>;
+    endring: (komponentId: string) => void;
 }
 
-export const Hjemmel: React.FC<IHjemmel> = ({ settHjemmel, hjemmelValg }) => {
+export const Hjemmel: React.FC<IHjemmel> = ({ settHjemmel, hjemmelValg, endring }) => {
     return (
         <HjemmelStyled>
             <Heading spacing size="medium" level="5">
@@ -27,12 +28,13 @@ export const Hjemmel: React.FC<IHjemmel> = ({ settHjemmel, hjemmelValg }) => {
                 <Select
                     label=""
                     size="medium"
-                    onChange={(e) =>
+                    onChange={(e) => {
+                        endring(e.target.value);
                         settHjemmel((tidligereTilstand) => ({
                             ...tidligereTilstand,
                             hjemmel: e.target.value,
-                        }))
-                    }
+                        }));
+                    }}
                     hideLabel
                 >
                     {Object.keys(hjemmelValg).map((valg, index) => (

@@ -1,5 +1,12 @@
+// React
 import * as React from 'react';
 import { useState } from 'react';
+import { useApp } from '../../../App/context/AppContext';
+
+// CSS
+import styled from 'styled-components';
+
+// Komponenter
 import { Alert, Button, Textarea } from '@navikt/ds-react';
 import { FormkravOppsummering } from './FormkravOppsummering';
 import { Vedtak } from './Vedtak';
@@ -14,8 +21,6 @@ import {
     ÅrsakValg,
     årsakValgTilTekst,
 } from './vurderingValg';
-import styled from 'styled-components';
-import { useApp } from '../../../App/context/AppContext';
 import { Ressurs, RessursStatus } from '../../../App/typer/ressurs';
 
 const VurderingBeskrivelseStyled = styled.div`
@@ -32,7 +37,8 @@ const VurderingKnappStyled = styled(Button)`
 
 export const Vurdering: React.FC = () => {
     //Backend
-    const { axiosRequest } = useApp();
+    const { axiosRequest, nullstillIkkePersisterteKomponenter, settIkkePersistertKomponent } =
+        useApp();
 
     // TODO koble til backend og hente ut data fra formkrav
     /*useEffect(() => {
@@ -86,6 +92,7 @@ export const Vurdering: React.FC = () => {
         }).then((res: Ressurs<IVurdering>) => {
             if (res.status === RessursStatus.SUKSESS) {
                 settResultat(true);
+                nullstillIkkePersisterteKomponenter();
             }
         });
     };
@@ -102,9 +109,17 @@ export const Vurdering: React.FC = () => {
                 ''
             ) : (
                 <>
-                    <Vedtak settVedtak={settVurderingData} vedtakValg={vedtakValgTilTekst} />
+                    <Vedtak
+                        settVedtak={settVurderingData}
+                        vedtakValg={vedtakValgTilTekst}
+                        endring={settIkkePersistertKomponent}
+                    />
                     {vurderingData.vedtak == VedtakValg.OMGJØR_VEDTAK ? (
-                        <Årsak settÅrsak={settVurderingData} årsakValg={årsakValgTilTekst} />
+                        <Årsak
+                            settÅrsak={settVurderingData}
+                            årsakValg={årsakValgTilTekst}
+                            endring={settIkkePersistertKomponent}
+                        />
                     ) : (
                         ''
                     )}
@@ -112,6 +127,7 @@ export const Vurdering: React.FC = () => {
                         <Hjemmel
                             settHjemmel={settVurderingData}
                             hjemmelValg={hjemmelValgTilTekst}
+                            endring={settIkkePersistertKomponent}
                         />
                     ) : (
                         ''
@@ -122,12 +138,13 @@ export const Vurdering: React.FC = () => {
                             <Textarea
                                 label="Vurdering"
                                 value={vurderingData.beskrivelse}
-                                onChange={(e) =>
+                                onChange={(e) => {
+                                    settIkkePersistertKomponent(e.target.value);
                                     settVurderingData((tidligereTilstand) => ({
                                         ...tidligereTilstand,
                                         beskrivelse: e.target.value,
-                                    }))
-                                }
+                                    }));
+                                }}
                                 size="medium"
                             />
                         </VurderingBeskrivelseStyled>
@@ -154,7 +171,7 @@ export const Vurdering: React.FC = () => {
                                 vurderingData.vedtak == VedtakValg.OMGJØR_VEDTAK
                             ) ||
                             vurderingData.beskrivelse.length == 0 ||
-                            (vurderingData.årsak == ÅrsakValg.VELG &&
+                            (vurderingData.arsak == ÅrsakValg.VELG &&
                                 vurderingData.hjemmel == HjemmelValg.VELG)
                         }
                     >
