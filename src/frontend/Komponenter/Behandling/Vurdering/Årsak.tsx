@@ -13,7 +13,7 @@ const ÅrsakInnholdStyled = styled.div`
 `;
 
 interface IÅrsak {
-    settÅrsak: Dispatch<SetStateAction<string>>;
+    settÅrsak: Dispatch<SetStateAction<any>>;
     årsakValg: Record<any, string>; // TODO bestem typer (Record<ÅrsakValg, string>)
 }
 
@@ -27,10 +27,14 @@ export const Årsak: React.FC<IÅrsak> = ({ settÅrsak, årsakValg }) => {
                 <Select
                     label=""
                     size="medium"
-                    onChange={(e) => settÅrsak(e.target.value)}
+                    onChange={(e) =>
+                        settÅrsak((tidligereTilstand) => ({
+                            ...tidligereTilstand,
+                            årsak: e.target.value,
+                        }))
+                    }
                     hideLabel
                 >
-                    <option value="">Velg</option>
                     {Object.keys(årsakValg).map((valg) => (
                         <option value={valg}>{årsakValg[valg]}</option>
                     ))}

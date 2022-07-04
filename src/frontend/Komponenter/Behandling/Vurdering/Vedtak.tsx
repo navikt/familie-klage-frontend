@@ -13,7 +13,7 @@ const VedtakInnholdStyled = styled.div`
 `;
 
 interface IVedtak {
-    settVedtak: Dispatch<SetStateAction<string>>;
+    settVedtak: Dispatch<SetStateAction<any>>;
     vedtakValg: Record<any, string>; // TODO bestem typer (Record<VedtakValg, string>)
 }
 
@@ -27,10 +27,14 @@ export const Vedtak: React.FC<IVedtak> = ({ settVedtak, vedtakValg }) => {
                 <Select
                     label=""
                     size="medium"
-                    onChange={(e) => settVedtak(e.target.value)}
+                    onChange={(e) =>
+                        settVedtak((tidligereTilstand) => ({
+                            ...tidligereTilstand,
+                            vedtak: e.target.value,
+                        }))
+                    }
                     hideLabel
                 >
-                    <option value="">Velg</option>
                     {Object.keys(vedtakValg).map((valg) => (
                         <option value={valg}>{vedtakValg[valg]}</option>
                     ))}

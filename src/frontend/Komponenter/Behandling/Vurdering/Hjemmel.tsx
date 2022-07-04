@@ -13,7 +13,7 @@ const ÅrsakInnholdStyled = styled.div`
 `;
 
 interface IHjemmel {
-    settHjemmel: Dispatch<SetStateAction<string>>;
+    settHjemmel: Dispatch<SetStateAction<any>>;
     hjemmelValg: Record<any, string>; // TODO bestem typer (Record<HjemmelValg, string>)
 }
 
@@ -27,10 +27,14 @@ export const Hjemmel: React.FC<IHjemmel> = ({ settHjemmel, hjemmelValg }) => {
                 <Select
                     label=""
                     size="medium"
-                    onChange={(e) => settHjemmel(e.target.value)}
+                    onChange={(e) =>
+                        settHjemmel((tidligereTilstand) => ({
+                            ...tidligereTilstand,
+                            hjemmel: e.target.value,
+                        }))
+                    }
                     hideLabel
                 >
-                    <option value="">Velg</option>
                     {Object.keys(hjemmelValg).map((valg) => (
                         <option value={valg}>{hjemmelValg[valg]}</option>
                     ))}
