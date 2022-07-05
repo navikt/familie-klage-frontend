@@ -75,18 +75,19 @@ export const datoFormatering = (dato: Date) => {
 };
 
 interface IFormkravVenstre {
+    vilkårOppfylt: boolean;
     låst: boolean;
     formkrav: IForm;
 }
-export const FormkravVenstre: React.FC<IFormkravVenstre> = ({ låst, formkrav }) => {
+export const FormkravVenstre: React.FC<IFormkravVenstre> = ({ vilkårOppfylt, formkrav, låst }) => {
     const vedtaksdato = new Date(formkrav.vedtaksdato);
     const klageMottat = new Date(formkrav.klageMottat);
 
     return (
         <FormKravStylingVenstre>
             <IkkeVurdertContainer>
-                {!låst && <IkkeVurdertIkonStyled heigth={23} width={23} />}
-                {låst && <OppfyltIkonStyled heigth={23} width={23} />}
+                {!vilkårOppfylt && <IkkeVurdertIkonStyled heigth={23} width={23} />}
+                {vilkårOppfylt && <OppfyltIkonStyled heigth={23} width={23} />}
                 <Heading spacing size="medium" level="5">
                     Formkrav
                 </Heading>

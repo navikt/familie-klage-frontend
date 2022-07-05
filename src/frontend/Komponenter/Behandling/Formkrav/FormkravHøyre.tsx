@@ -45,6 +45,8 @@ const ButtonStyled = styled(Button)`
 `;
 
 interface IFormKravHøyre {
+    vilkårOppfylt: boolean;
+    settVilkårOppfylt: (value: boolean) => void;
     låst: boolean;
     settLåst: (value: boolean) => void;
 }
@@ -67,7 +69,12 @@ export const formVilkårTilTekst: Record<FormVilkår, string> = {
     IKKE_OPPFYLT: 'Ikke oppfylt',
 };
 
-export const FormkravHøyre: React.FC<IFormKravHøyre> = ({ låst, settLåst }) => {
+export const FormkravHøyre: React.FC<IFormKravHøyre> = ({
+    vilkårOppfylt,
+    settVilkårOppfylt,
+    låst,
+    settLåst,
+}) => {
     const { axiosRequest } = useApp();
 
     const [saksbehandlerBegrunnelse, settsaksbehandlerBegrunnelse] = useState('');
@@ -120,6 +127,8 @@ export const FormkravHøyre: React.FC<IFormKravHøyre> = ({ låst, settLåst }) 
 
     const opprettForm = () => {
         if (alleFeltErBesvart()) {
+            settVilkårOppfylt(true);
+        } else {
             settLåst(true);
         }
 
@@ -140,7 +149,7 @@ export const FormkravHøyre: React.FC<IFormKravHøyre> = ({ låst, settLåst }) 
 
     return (
         <FormKravStyling>
-            {!låst && (
+            {!vilkårOppfylt && !låst && (
                 <>
                     <FormKravStylingBody>
                         <RadioKnapperContainer>
@@ -176,6 +185,13 @@ export const FormkravHøyre: React.FC<IFormKravHøyre> = ({ låst, settLåst }) 
                         </ButtonStyled>
                     </FormKravStylingFooter>
                 </>
+            )}
+            {vilkårOppfylt && (
+                <RadioknapperLesemodus
+                    radioKnapper={radioKnapperLeseListe}
+                    redigerHandling={settVilkårOppfylt}
+                    saksbehandlerBegrunnelse={saksbehandlerBegrunnelse}
+                />
             )}
             {låst && (
                 <RadioknapperLesemodus

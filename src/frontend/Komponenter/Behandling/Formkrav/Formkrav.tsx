@@ -48,6 +48,7 @@ export interface IForm {
     fullført: boolean;
 }
 export const Formkrav: React.FC = () => {
+    const [vilkårOppfylt, settVilkårOppfylt] = useState(false);
     const [låst, settLåst] = useState(false);
     const { axiosRequest } = useApp();
     const [formkrav, settFormkrav] = useState<IForm>(``);
@@ -68,8 +69,13 @@ export const Formkrav: React.FC = () => {
     return (
         <FormKravStyling>
             <FormKravStylingBody>
-                <FormkravVenstre låst={låst} formkrav={formkrav} />
-                <FormkravHøyre låst={låst} settLåst={settLåst} />
+                <FormkravVenstre vilkårOppfylt={vilkårOppfylt} formkrav={formkrav} låst={låst} />
+                <FormkravHøyre
+                    vilkårOppfylt={vilkårOppfylt}
+                    settVilkårOppfylt={settVilkårOppfylt}
+                    låst={låst}
+                    settLåst={settLåst}
+                />
             </FormKravStylingBody>
             <FormKravStylingFooter></FormKravStylingFooter>
         </FormKravStyling>
