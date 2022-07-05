@@ -3,6 +3,7 @@ import { BrukerMedBlyantIkon } from '../../../Felles/Ikoner/DataGrunnlagIkoner';
 import navFarger from 'nav-frontend-core';
 import { Detail, Label } from '@navikt/ds-react';
 import styled from 'styled-components';
+import { Steg, StegTilTekst } from './behandlingshistorikk';
 
 const Oppdatering = styled.div`
     display: flex;
@@ -23,15 +24,6 @@ const TekstligInformasjon = styled.div`
     margin-left: 0.7rem;
 `;
 
-interface IHistorikkOppdatering {
-    id?: string;
-    behandlingId?: string;
-    steg: string;
-    opprettetAvNavn: string;
-    opprettetAv?: string;
-    endretTid: string;
-}
-
 const datoFormatering = (datoString: string) => {
     const dato = new Date(datoString);
     return (
@@ -47,9 +39,15 @@ const datoFormatering = (datoString: string) => {
     );
 };
 
+interface IHistorikkOppdatering {
+    steg: Steg;
+    opprettetAv: string;
+    endretTid: string;
+}
+
 const HistorikkOppdatering: React.FunctionComponent<IHistorikkOppdatering> = ({
     steg,
-    opprettetAvNavn,
+    opprettetAv,
     endretTid,
 }) => {
     return (
@@ -62,9 +60,9 @@ const HistorikkOppdatering: React.FunctionComponent<IHistorikkOppdatering> = ({
                 <StripletLinje />
             </StyledIkon>
             <TekstligInformasjon>
-                <Label size="small">{steg}</Label>
+                <Label size="small">{StegTilTekst[steg]}</Label>
                 <Detail size="small">
-                    {datoFormatering(endretTid)} | {opprettetAvNavn}
+                    {datoFormatering(endretTid)} | {opprettetAv}
                 </Detail>
             </TekstligInformasjon>
         </Oppdatering>
