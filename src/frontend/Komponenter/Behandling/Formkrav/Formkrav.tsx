@@ -23,11 +23,6 @@ const FormKravStylingBody = styled.div`
     width: 100%;
 `;
 
-const FormKravStylingFooter = styled.div`
-    width: 100%;
-    padding-left: 5rem;
-    display: flex;
-`;
 export interface IForm {
     behandlingsId: string;
     fagsakId: string;
@@ -78,7 +73,6 @@ export const Formkrav: React.FC<{ behandlingId: string }> = ({ behandlingId }) =
                     settLåst={settLåst}
                 />
             </FormKravStylingBody>
-            <FormKravStylingFooter></FormKravStylingFooter>
         </FormKravStyling>
     );
 };
