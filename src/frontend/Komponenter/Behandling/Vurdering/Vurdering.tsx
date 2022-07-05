@@ -1,7 +1,8 @@
 // React
 import * as React from 'react';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useApp } from '../../../App/context/AppContext';
+import { useHentBehandling } from '../../../App/context/BehandlingContext';
 
 // CSS
 import styled from 'styled-components';
@@ -22,6 +23,7 @@ import {
     årsakValgTilTekst,
 } from './vurderingValg';
 import { Ressurs, RessursStatus } from '../../../App/typer/ressurs';
+import { useHentBehandling } from '../../../App/hooks/useHentBehandling';
 
 const VurderingBeskrivelseStyled = styled.div`
     margin: 2rem 4rem 2rem 4rem;
@@ -35,25 +37,10 @@ const VurderingKnappStyled = styled(Button)`
     margin: 0 4rem 2rem 4rem;
 `;
 
-export const Vurdering: React.FC = () => {
-    //Backend
-    const { axiosRequest, nullstillIkkePersisterteKomponenter, settIkkePersistertKomponent } =
-        useApp();
-
-    // TODO koble til backend og hente ut data fra formkrav
-    /*useEffect(() => {
-        axiosRequest<Formkrav, string>({
-            method: 'GET',
-            url: `/familie-klage/api/formkrav/${behandlingId}`,
-        }).then((res: Ressurs<Formkrav>) => {
-            if (res.status === RessursStatus.SUKSESS) {
-                settOppfylt(res.data.oppfylt);
-                settMuligOppfylt(res.data.muligOppfylt);
-                settBegrunnelse(res.data.begrunnelse);
-                settFeilmelding(res.data.feilmelding)
-            }
-        });
-    }, [axiosRequest]);*/
+export const Vurdering: React.FC = ({ behandlingId }) => {
+    // Henter behandling
+    const { behandling, hentBehandlingCallback } = useHentBehandling();
+    hentBehandlingCallback();
 
     // Formkravoppsummering
     const [oppfylt, settOppfylt] = useState(1);
@@ -72,6 +59,26 @@ export const Vurdering: React.FC = () => {
 
     // Resultat
     const [resultat, settResultat] = useState(false);
+
+    // Endringer
+    const { axiosRequest, nullstillIkkePersisterteKomponenter, settIkkePersistertKomponent } =
+        useApp();
+
+    useEffect(() => {
+        axiosRequest<IVurdering, string>({
+            method: 'GET',
+            url: `/familie-klage/api/vurdering/${behandling.id}`,
+        }).then((res: Ressurs<IVurdering>) => {
+            if (res.status === RessursStatus.SUKSESS) {
+                settVurderingData({
+                    vedtak: res.data.vedtak,
+                    arsak: res.data.arsak,
+                    hjemmel: res.data.hjemmel,
+                    beskrivelse: res.data.beskrivelse,
+                });
+            }
+        });
+    }, [axiosRequest]);
 
     const opprettVurdering = () => {
         const v: IVurdering = {
@@ -111,13 +118,15 @@ export const Vurdering: React.FC = () => {
                 <>
                     <Vedtak
                         settVedtak={settVurderingData}
-                        vedtakValg={vedtakValgTilTekst}
+                        vedtakValgmuligheter={vedtakValgTilTekst}
+                        vedtakValgt={vurderingData.vedtak}
                         endring={settIkkePersistertKomponent}
                     />
                     {vurderingData.vedtak == VedtakValg.OMGJØR_VEDTAK ? (
                         <Årsak
                             settÅrsak={settVurderingData}
-                            årsakValg={årsakValgTilTekst}
+                            årsakValgt={vurderingData.arsak}
+                            årsakValgmuligheter={årsakValgTilTekst}
                             endring={settIkkePersistertKomponent}
                         />
                     ) : (

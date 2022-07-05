@@ -2,7 +2,7 @@ import * as React from 'react';
 import { Heading, Select } from '@navikt/ds-react';
 import styled from 'styled-components';
 import { Dispatch, SetStateAction } from 'react';
-import { IVurdering } from './vurderingValg';
+import { IVurdering, ÅrsakValg } from './vurderingValg';
 
 const ÅrsakStyled = styled.div`
     margin: 2rem 4rem 2rem 4rem;
@@ -15,11 +15,17 @@ const ÅrsakInnholdStyled = styled.div`
 
 interface IÅrsak {
     settÅrsak: Dispatch<SetStateAction<any>>;
-    årsakValg: Record<string, string>;
+    årsakValgt: ÅrsakValg;
+    årsakValgmuligheter: Record<string, string>;
     endring: (komponentId: string) => void;
 }
 
-export const Årsak: React.FC<IÅrsak> = ({ settÅrsak, årsakValg, endring }) => {
+export const Årsak: React.FC<IÅrsak> = ({
+    settÅrsak,
+    årsakValgt,
+    årsakValgmuligheter,
+    endring,
+}) => {
     return (
         <ÅrsakStyled>
             <Heading spacing size="medium" level="5">
@@ -38,9 +44,9 @@ export const Årsak: React.FC<IÅrsak> = ({ settÅrsak, årsakValg, endring }) =
                     }}
                     hideLabel
                 >
-                    {Object.keys(årsakValg).map((valg, index) => (
-                        <option value={valg} key={index}>
-                            {årsakValg[valg]}
+                    {Object.keys(årsakValgmuligheter).map((valg, index) => (
+                        <option selected={årsakValgt == valg} value={valg} key={index}>
+                            {årsakValgmuligheter[valg]}
                         </option>
                     ))}
                 </Select>
