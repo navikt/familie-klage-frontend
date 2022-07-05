@@ -3,6 +3,8 @@ import styled from 'styled-components';
 import { Textarea, Radio, RadioGroup, Button } from '@navikt/ds-react';
 import { IRadioKnapper, RadioknapperLesemodus } from './RadioKnapperLesemodus';
 import { useApp } from '../../../App/context/AppContext';
+import { Ressurs, RessursStatus } from '../../../App/typer/ressurs';
+import { IVurdering } from '../Vurdering/vurderingValg';
 
 const FormKravStyling = styled.div`
     display: flex;
@@ -69,7 +71,8 @@ export const formVilkårTilTekst: Record<FormVilkår, string> = {
 };
 
 export const FormkravHøyre: React.FC<IFormKravHøyre> = ({ låst, settLåst }) => {
-    const { axiosRequest } = useApp();
+    const { axiosRequest, nullstillIkkePersisterteKomponenter, settIkkePersistertKomponent } =
+        useApp();
 
     const [saksbehandlerBegrunnelse, settsaksbehandlerBegrunnelse] = useState('');
     const [klagePart, settKlagePart] = useState('');
@@ -137,6 +140,10 @@ export const FormkravHøyre: React.FC<IFormKravHøyre> = ({ låst, settLåst }) 
             method: 'POST',
             url: `/familie-klage/api/formkrav`,
             data: f,
+        }).then((res: Ressurs<IForm>) => {
+            if (res.status === RessursStatus.SUKSESS) {
+                nullstillIkkePersisterteKomponenter();
+            }
         });
     };
 
@@ -152,7 +159,10 @@ export const FormkravHøyre: React.FC<IFormKravHøyre> = ({ låst, settLåst }) 
                                     <RadioGroupStyled
                                         legend={item.spørsmål}
                                         size="small"
-                                        onChange={(val: any) => item.setter(val)}
+                                        onChange={(val: any) => {
+                                            item.setter(val);
+                                            settIkkePersistertKomponent(val);
+                                        }}
                                         value={item.svar}
                                         key={item.key}
                                     >
@@ -166,7 +176,10 @@ export const FormkravHøyre: React.FC<IFormKravHøyre> = ({ låst, settLåst }) 
                         <Textarea
                             label={undefined}
                             value={saksbehandlerBegrunnelse}
-                            onChange={(e) => settsaksbehandlerBegrunnelse(e.target.value)}
+                            onChange={(e) => {
+                                settsaksbehandlerBegrunnelse(e.target.value);
+                                settIkkePersistertKomponent(e.target.value);
+                            }}
                             size="small"
                             description="Vurdering"
                             maxLength={1500}
