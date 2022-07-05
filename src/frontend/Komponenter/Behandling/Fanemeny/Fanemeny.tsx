@@ -2,7 +2,6 @@ import * as React from 'react';
 import { FC } from 'react';
 import styled from 'styled-components';
 import { alleSider } from './sider';
-import { useBehandling } from '../../../App/context/BehandlingContext';
 import DataViewer from '../../../Felles/DataViewer/DataViewer';
 import { Sticky } from '../../../Felles/Visningskomponenter/Sticky';
 import navFarger from 'nav-frontend-core';
@@ -33,7 +32,7 @@ interface Props {
 }
 
 const Fanemeny: FC<Props> = ({ behandlingId }) => {
-    const { behandling } = useBehandling();
+    // const { behandling } = useBehandling();
     const forrigeSideLagret = false; //Sier hvilke sider som skal være mulige å redigere
 
     return (
@@ -43,7 +42,7 @@ const Fanemeny: FC<Props> = ({ behandlingId }) => {
                     {alleSider.map((side, index) => (
                         <Fane
                             side={side}
-                            behandlingId={'0'}
+                            behandlingId={behandlingId}
                             index={index}
                             deaktivert={forrigeSideLagret}
                             key={index}
