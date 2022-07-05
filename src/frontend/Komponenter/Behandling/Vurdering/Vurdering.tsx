@@ -2,7 +2,6 @@
 import * as React from 'react';
 import { useEffect, useState } from 'react';
 import { useApp } from '../../../App/context/AppContext';
-import { useHentBehandling } from '../../../App/context/BehandlingContext';
 
 // CSS
 import styled from 'styled-components';
@@ -23,7 +22,6 @@ import {
     årsakValgTilTekst,
 } from './vurderingValg';
 import { Ressurs, RessursStatus } from '../../../App/typer/ressurs';
-import { useHentBehandling } from '../../../App/hooks/useHentBehandling';
 import { IForm } from '../Formkrav/Formkrav';
 
 const VurderingBeskrivelseStyled = styled.div`
@@ -38,7 +36,7 @@ const VurderingKnappStyled = styled(Button)`
     margin: 0 4rem 2rem 4rem;
 `;
 
-export const Vurdering: React.FC = ({ behandlingId }) => {
+export const Vurdering: React.FC<{ behandlingId: string }> = ({ behandlingId }) => {
     // Formkravoppsummering
     const [oppfylt, settOppfylt] = useState(1);
     const [muligOppfylt, settMuligOppfylt] = useState(1);
@@ -46,6 +44,7 @@ export const Vurdering: React.FC = ({ behandlingId }) => {
     const [feilmelding, settFeilmelding] = useState('Dette er en feilmelding'); // TODO legge til enum-objekter som sier om det er begrunnelse eller vurdering som mangler
 
     const vurderingObject: IVurdering = {
+        behandlingId: behandlingId,
         vedtak: VedtakValg.VELG,
         arsak: ÅrsakValg.VELG,
         hjemmel: HjemmelValg.VELG,
@@ -69,6 +68,7 @@ export const Vurdering: React.FC = ({ behandlingId }) => {
         }).then((res: Ressurs<IVurdering>) => {
             if (res.status === RessursStatus.SUKSESS) {
                 settVurderingData({
+                    behandlingId: behandlingId,
                     vedtak: res.data.vedtak,
                     arsak: res.data.arsak,
                     hjemmel: res.data.hjemmel,
@@ -92,6 +92,7 @@ export const Vurdering: React.FC = ({ behandlingId }) => {
 
     const opprettVurdering = () => {
         const v: IVurdering = {
+            behandlingId: behandlingId,
             vedtak: vurderingData.vedtak,
             beskrivelse: vurderingData.beskrivelse,
         };
