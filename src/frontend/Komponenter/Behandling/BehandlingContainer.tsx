@@ -68,7 +68,7 @@ const InnholdWrapper = styled.div<InnholdWrapperProps>`
 const hentBehandlingIdFraUrl = (): string => {
     return location.href.substring(
         location.href.indexOf('behandling/') + 11,
-        location.href.length - 1
+        location.href.indexOf('behandling/') + 47
     );
 };
 
