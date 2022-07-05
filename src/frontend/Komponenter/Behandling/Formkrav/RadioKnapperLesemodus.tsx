@@ -7,7 +7,7 @@ import LenkeKnapp from '../../../Felles/Knapper/LenkeKnapp';
 import navFarger from 'nav-frontend-core';
 import { BodyLong, Heading } from '@navikt/ds-react';
 import BrukerMedBlyant from '../../../Felles/Ikoner/BrukerMedBlyant';
-import { formVilkårTilTekst } from './FormkravHøyre';
+import { FormVilkår, formVilkårTilTekst } from './FormkravHøyre';
 
 export const RadSentrertVertikalt = styled.div`
     display: flex;
@@ -75,7 +75,7 @@ const BodyLongStyled = styled(BodyLong)`
 export interface IRadioKnapper {
     spørsmål: string;
     svar: string;
-    setter: Dispatch<SetStateAction<string>>;
+    setter: Dispatch<SetStateAction<FormVilkår>> | Dispatch<SetStateAction<string>>;
     key: number;
 }
 

@@ -45,6 +45,7 @@ const ButtonStyled = styled(Button)`
 `;
 
 interface IFormKravHøyre {
+    behandlingId: string;
     vilkårOppfylt: boolean;
     settVilkårOppfylt: (value: boolean) => void;
     låst: boolean;
@@ -52,6 +53,7 @@ interface IFormKravHøyre {
 }
 
 export interface IForm {
+    behandlingId: string;
     klagePart: string;
     klageKonkret: string;
     klagefristOverholdt: string;
@@ -62,14 +64,17 @@ export interface IForm {
 export enum FormVilkår {
     OPPFYLT = 'OPPFYLT',
     IKKE_OPPFYLT = 'IKKE_OPPFYLT',
+    IKKE_SATT = 'IKKE_SATT',
 }
 
 export const formVilkårTilTekst: Record<FormVilkår, string> = {
     OPPFYLT: 'Oppfylt',
     IKKE_OPPFYLT: 'Ikke oppfylt',
+    IKKE_SATT: 'Ikke satt',
 };
 
 export const FormkravHøyre: React.FC<IFormKravHøyre> = ({
+    behandlingId,
     vilkårOppfylt,
     settVilkårOppfylt,
     låst,
@@ -78,10 +83,10 @@ export const FormkravHøyre: React.FC<IFormKravHøyre> = ({
     const { axiosRequest } = useApp();
 
     const [saksbehandlerBegrunnelse, settsaksbehandlerBegrunnelse] = useState('');
-    const [klagePart, settKlagePart] = useState('');
-    const [klageKonkret, settKlageKonkret] = useState('');
-    const [klagefristOverholdt, settKlagefrist] = useState('');
-    const [klageSignert, settKlageSignert] = useState('');
+    const [klagePart, settKlagePart] = useState(FormVilkår.IKKE_SATT);
+    const [klageKonkret, settKlageKonkret] = useState(FormVilkår.IKKE_SATT);
+    const [klagefristOverholdt, settKlagefrist] = useState(FormVilkår.IKKE_SATT);
+    const [klageSignert, settKlageSignert] = useState(FormVilkår.IKKE_SATT);
     const radioKnapperLeseListe: IRadioKnapper[] = [
         {
             spørsmål: 'Er klager part i saken?',
@@ -118,10 +123,10 @@ export const FormkravHøyre: React.FC<IFormKravHøyre> = ({
     const alleFeltErBesvart = (): boolean => {
         return !(
             saksbehandlerBegrunnelse === '' ||
-            klagePart === '' ||
-            klageKonkret === '' ||
-            klagefristOverholdt === '' ||
-            klageSignert === ''
+            klagePart === FormVilkår.IKKE_SATT ||
+            klageKonkret === FormVilkår.IKKE_SATT ||
+            klagefristOverholdt === FormVilkår.IKKE_SATT ||
+            klageSignert === FormVilkår.IKKE_SATT
         );
     };
 
@@ -133,6 +138,7 @@ export const FormkravHøyre: React.FC<IFormKravHøyre> = ({
         }
 
         const f: IForm = {
+            behandlingId: behandlingId,
             klagePart: klagePart,
             klageKonkret: klageKonkret,
             klagefristOverholdt: klagefristOverholdt,

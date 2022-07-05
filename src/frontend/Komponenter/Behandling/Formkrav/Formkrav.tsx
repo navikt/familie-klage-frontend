@@ -47,7 +47,7 @@ export interface IForm {
 
     fullført: boolean;
 }
-export const Formkrav: React.FC = () => {
+export const Formkrav: React.FC<{ behandlingId: string }> = ({ behandlingId }) => {
     const [vilkårOppfylt, settVilkårOppfylt] = useState(false);
     const [låst, settLåst] = useState(false);
     const { axiosRequest } = useApp();
@@ -71,6 +71,7 @@ export const Formkrav: React.FC = () => {
             <FormKravStylingBody>
                 <FormkravVenstre vilkårOppfylt={vilkårOppfylt} formkrav={formkrav} låst={låst} />
                 <FormkravHøyre
+                    behandlingId={behandlingId}
                     vilkårOppfylt={vilkårOppfylt}
                     settVilkårOppfylt={settVilkårOppfylt}
                     låst={låst}
