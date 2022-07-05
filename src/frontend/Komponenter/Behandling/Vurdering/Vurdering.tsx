@@ -1,19 +1,26 @@
+// React
 import * as React from 'react';
 import { useState } from 'react';
+import { useApp } from '../../../App/context/AppContext';
+
+// CSS
+import styled from 'styled-components';
+
+// Komponenter
 import { Alert, Button, Textarea } from '@navikt/ds-react';
 import { FormkravOppsummering } from './FormkravOppsummering';
 import { Vedtak } from './Vedtak';
 import { Årsak } from './Årsak';
 import { Hjemmel } from './Hjemmel';
 import {
+    HjemmelValg,
     hjemmelValgTilTekst,
+    IVurdering,
     VedtakValg,
     vedtakValgTilTekst,
-    IVurdering,
+    ÅrsakValg,
     årsakValgTilTekst,
 } from './vurderingValg';
-import styled from 'styled-components';
-import { useApp } from '../../../App/context/AppContext';
 import { Ressurs, RessursStatus } from '../../../App/typer/ressurs';
 
 const VurderingBeskrivelseStyled = styled.div`
@@ -30,7 +37,8 @@ const VurderingKnappStyled = styled(Button)`
 
 export const Vurdering: React.FC = () => {
     //Backend
-    const { axiosRequest } = useApp();
+    const { axiosRequest, nullstillIkkePersisterteKomponenter, settIkkePersistertKomponent } =
+        useApp();
 
     // TODO koble til backend og hente ut data fra formkrav
     /*useEffect(() => {
@@ -53,23 +61,29 @@ export const Vurdering: React.FC = () => {
     const [begrunnelse, settBegrunnelse] = useState('Dette er en begrunnelse');
     const [feilmelding, settFeilmelding] = useState('Dette er en feilmelding'); // TODO legge til enum-objekter som sier om det er begrunnelse eller vurdering som mangler
 
-    //Vedtak, Årsak, Hjemmel
-    const [vedtak, settVedtak] = useState('');
-    const [årsak, settÅrsak] = useState('');
-    const [hjemmel, settHjemmel] = useState('');
-    const [vurderingsBeskrivelse, settVurderingsbeskrivelse] = useState('');
+    const vurderingObject: IVurdering = {
+        vedtak: VedtakValg.VELG,
+        arsak: ÅrsakValg.VELG,
+        hjemmel: HjemmelValg.VELG,
+        beskrivelse: '',
+    };
+
+    const [vurderingData, settVurderingData] = useState<IVurdering>(vurderingObject);
 
     // Resultat
     const [resultat, settResultat] = useState(false);
 
     const opprettVurdering = () => {
         const v: IVurdering = {
-            oppfyltFormkrav: oppfylt, // TODO Kan være denne kun kan ligge i formkrav
-            muligFormkrav: muligOppfylt, // TODO Kan være denne kun kan ligge i formkrav
-            begrunnelse: begrunnelse, // TODO Kan være denne kun kan ligge i formkrav
-            vedtakValg: VedtakValg.OMGJØR_VEDTAK,
-            beskrivelse: vurderingsBeskrivelse,
+            vedtak: vurderingData.vedtak,
+            beskrivelse: vurderingData.beskrivelse,
         };
+
+        if (vurderingData.vedtak == VedtakValg.OMGJØR_VEDTAK) {
+            v.arsak = vurderingData.arsak;
+        } else {
+            v.hjemmel = vurderingData.hjemmel;
+        }
 
         axiosRequest<IVurdering, IVurdering>({
             method: 'POST',
@@ -78,6 +92,7 @@ export const Vurdering: React.FC = () => {
         }).then((res: Ressurs<IVurdering>) => {
             if (res.status === RessursStatus.SUKSESS) {
                 settResultat(true);
+                nullstillIkkePersisterteKomponenter();
             }
         });
     };
@@ -94,24 +109,42 @@ export const Vurdering: React.FC = () => {
                 ''
             ) : (
                 <>
-                    <Vedtak settVedtak={settVedtak} vedtakValg={vedtakValgTilTekst} />
-                    {vedtak == VedtakValg.OMGJØR_VEDTAK ? (
-                        <Årsak settÅrsak={settÅrsak} årsakValg={årsakValgTilTekst} />
+                    <Vedtak
+                        settVedtak={settVurderingData}
+                        vedtakValg={vedtakValgTilTekst}
+                        endring={settIkkePersistertKomponent}
+                    />
+                    {vurderingData.vedtak == VedtakValg.OMGJØR_VEDTAK ? (
+                        <Årsak
+                            settÅrsak={settVurderingData}
+                            årsakValg={årsakValgTilTekst}
+                            endring={settIkkePersistertKomponent}
+                        />
                     ) : (
                         ''
                     )}
-                    {vedtak == VedtakValg.OPPRETTHOLD_VEDTAK ? (
-                        <Hjemmel settHjemmel={settHjemmel} hjemmelValg={hjemmelValgTilTekst} />
+                    {vurderingData.vedtak == VedtakValg.OPPRETTHOLD_VEDTAK ? (
+                        <Hjemmel
+                            settHjemmel={settVurderingData}
+                            hjemmelValg={hjemmelValgTilTekst}
+                            endring={settIkkePersistertKomponent}
+                        />
                     ) : (
                         ''
                     )}
-                    {vedtak == VedtakValg.OPPRETTHOLD_VEDTAK ||
-                    vedtak == VedtakValg.OMGJØR_VEDTAK ? (
+                    {vurderingData.vedtak == VedtakValg.OPPRETTHOLD_VEDTAK ||
+                    vurderingData.vedtak == VedtakValg.OMGJØR_VEDTAK ? (
                         <VurderingBeskrivelseStyled>
                             <Textarea
                                 label="Vurdering"
-                                value={vurderingsBeskrivelse}
-                                onChange={(e) => settVurderingsbeskrivelse(e.target.value)}
+                                value={vurderingData.beskrivelse}
+                                onChange={(e) => {
+                                    settIkkePersistertKomponent(e.target.value);
+                                    settVurderingData((tidligereTilstand) => ({
+                                        ...tidligereTilstand,
+                                        beskrivelse: e.target.value,
+                                    }));
+                                }}
                                 size="medium"
                             />
                         </VurderingBeskrivelseStyled>
@@ -134,11 +167,12 @@ export const Vurdering: React.FC = () => {
                         }}
                         disabled={
                             !(
-                                vedtak == VedtakValg.OPPRETTHOLD_VEDTAK ||
-                                vedtak == VedtakValg.OMGJØR_VEDTAK
+                                vurderingData.vedtak == VedtakValg.OPPRETTHOLD_VEDTAK ||
+                                vurderingData.vedtak == VedtakValg.OMGJØR_VEDTAK
                             ) ||
-                            vurderingsBeskrivelse.length == 0 ||
-                            (årsak.length == 0 && hjemmel.length == 0)
+                            vurderingData.beskrivelse.length == 0 ||
+                            (vurderingData.arsak == ÅrsakValg.VELG &&
+                                vurderingData.hjemmel == HjemmelValg.VELG)
                         }
                     >
                         Large vurdering
