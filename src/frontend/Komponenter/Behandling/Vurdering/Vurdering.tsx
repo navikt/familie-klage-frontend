@@ -24,6 +24,7 @@ import {
 } from './vurderingValg';
 import { Ressurs, RessursStatus } from '../../../App/typer/ressurs';
 import { useHentBehandling } from '../../../App/hooks/useHentBehandling';
+import { IForm } from '../Formkrav/Formkrav';
 
 const VurderingBeskrivelseStyled = styled.div`
     margin: 2rem 4rem 2rem 4rem;
@@ -38,14 +39,10 @@ const VurderingKnappStyled = styled(Button)`
 `;
 
 export const Vurdering: React.FC = ({ behandlingId }) => {
-    // Henter behandling
-    const { behandling, hentBehandlingCallback } = useHentBehandling();
-    hentBehandlingCallback();
-
     // Formkravoppsummering
     const [oppfylt, settOppfylt] = useState(1);
     const [muligOppfylt, settMuligOppfylt] = useState(1);
-    const [begrunnelse, settBegrunnelse] = useState('Dette er en begrunnelse');
+    const [begrunnelse, settBegrunnelse] = useState('');
     const [feilmelding, settFeilmelding] = useState('Dette er en feilmelding'); // TODO legge til enum-objekter som sier om det er begrunnelse eller vurdering som mangler
 
     const vurderingObject: IVurdering = {
@@ -64,10 +61,11 @@ export const Vurdering: React.FC = ({ behandlingId }) => {
     const { axiosRequest, nullstillIkkePersisterteKomponenter, settIkkePersistertKomponent } =
         useApp();
 
+    // Hent eksisterende vurderingsdata
     useEffect(() => {
         axiosRequest<IVurdering, string>({
             method: 'GET',
-            url: `/familie-klage/api/vurdering/${behandling.id}`,
+            url: `/familie-klage/api/vurdering/${behandlingId}`,
         }).then((res: Ressurs<IVurdering>) => {
             if (res.status === RessursStatus.SUKSESS) {
                 settVurderingData({
@@ -76,6 +74,18 @@ export const Vurdering: React.FC = ({ behandlingId }) => {
                     hjemmel: res.data.hjemmel,
                     beskrivelse: res.data.beskrivelse,
                 });
+            }
+        });
+    }, [axiosRequest]);
+
+    // Hent data fra formkrav
+    useEffect(() => {
+        axiosRequest<IForm, string>({
+            method: 'GET',
+            url: `/familie-klage/api/form/${behandlingId}`,
+        }).then((res: Ressurs<IForm>) => {
+            if (res.status === RessursStatus.SUKSESS) {
+                settBegrunnelse(res.data.saksbehandlerBegrunnelse);
             }
         });
     }, [axiosRequest]);
