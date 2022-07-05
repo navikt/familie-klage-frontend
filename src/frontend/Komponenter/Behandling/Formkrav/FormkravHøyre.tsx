@@ -50,7 +50,6 @@ interface IFormKravHøyre {
 }
 
 export interface IForm {
-    id: string;
     klagePart: string;
     klageKonkret: string;
     klagefristOverholdt: string;
@@ -125,7 +124,6 @@ export const FormkravHøyre: React.FC<IFormKravHøyre> = ({ låst, settLåst }) 
         }
 
         const f: IForm = {
-            id: 'b3ca2f3e-323b-46f7-b5f3-853728fa73cd', //TODO: legg inn behandlignsid her
             klagePart: klagePart,
             klageKonkret: klageKonkret,
             klagefristOverholdt: klagefristOverholdt,
@@ -183,6 +181,7 @@ export const FormkravHøyre: React.FC<IFormKravHøyre> = ({ låst, settLåst }) 
                 <RadioknapperLesemodus
                     radioKnapper={radioKnapperLeseListe}
                     redigerHandling={settLåst}
+                    saksbehandlerBegrunnelse={saksbehandlerBegrunnelse}
                 />
             )}
         </FormKravStyling>

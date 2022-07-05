@@ -5,7 +5,7 @@ import SlettSøppelkasse from '../../../Felles/Ikoner/SlettSøppelkasse';
 import RedigerBlyant from '../../../Felles/Ikoner/RedigerBlyant';
 import LenkeKnapp from '../../../Felles/Knapper/LenkeKnapp';
 import navFarger from 'nav-frontend-core';
-import { Heading } from '@navikt/ds-react';
+import { BodyLong, Heading } from '@navikt/ds-react';
 import BrukerMedBlyant from '../../../Felles/Ikoner/BrukerMedBlyant';
 import { formVilkårTilTekst } from './FormkravHøyre';
 
@@ -66,6 +66,12 @@ const BrukerMedBlyantStyled = styled(BrukerMedBlyant)`
     overflow: visible;
 `;
 
+const BodyLongStyled = styled(BodyLong)`
+    position: relative;
+    top: -1.5rem;
+    font-size: 1rem;
+`;
+
 export interface IRadioKnapper {
     spørsmål: string;
     svar: string;
@@ -76,9 +82,14 @@ export interface IRadioKnapper {
 interface IRadioKnapperLeseModus {
     radioKnapper: IRadioKnapper[];
     redigerHandling: (value: boolean) => void;
+    saksbehandlerBegrunnelse: string;
 }
 
-export const RadioknapperLesemodus = (radioKnapper: IRadioKnapperLeseModus) => {
+export const RadioknapperLesemodus: React.FC<IRadioKnapperLeseModus> = ({
+    radioKnapper,
+    redigerHandling,
+    saksbehandlerBegrunnelse,
+}) => {
     return (
         <FormKravStyling>
             <VilkårHeader>
@@ -92,7 +103,7 @@ export const RadioknapperLesemodus = (radioKnapper: IRadioKnapperLeseModus) => {
                 </RadSentrertVertikalt>
                 <div>
                     {/* eslint-disable-next-line @typescript-eslint/no-empty-function */}
-                    <LenkeKnapp onClick={() => radioKnapper.redigerHandling(false)}>
+                    <LenkeKnapp onClick={() => redigerHandling(false)}>
                         <RedigerBlyant withDefaultStroke={false} width={19} heigth={19} />
                         <span>Rediger</span>
                     </LenkeKnapp>
@@ -105,12 +116,13 @@ export const RadioknapperLesemodus = (radioKnapper: IRadioKnapperLeseModus) => {
             </VilkårHeader>
             <FormKravStylingBody>
                 Endret dato - 16.12.2021
-                {radioKnapper.radioKnapper.map((item: IRadioKnapper) => (
+                {radioKnapper.map((item: IRadioKnapper) => (
                     <SvarElement key={item.key}>
                         <Spørsmål>{item.spørsmål}</Spørsmål>
                         <Svar>{formVilkårTilTekst[item.svar]}</Svar>
                     </SvarElement>
                 ))}
+                <BodyLongStyled>{saksbehandlerBegrunnelse}</BodyLongStyled>
             </FormKravStylingBody>
         </FormKravStyling>
     );
