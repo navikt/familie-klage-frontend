@@ -12,14 +12,9 @@ const StyledAdmin = styled.div`
     margin: 2rem;
 `;
 
-// const TextFieldMargin = styled(TextField)`
-//     margin: 1rem 0;
-// `;
-
 export const AdminSide: React.FC = () => {
     const { axiosRequest } = useApp();
     const navigate = useNavigate();
-    // const [behandlingId, settBehandlingId] = useState<string>('');
 
     const lagBehandling = () => {
         axiosRequest<null, null>({
@@ -36,7 +31,6 @@ export const AdminSide: React.FC = () => {
         <Side className={'container'}>
             <StyledAdmin>
                 [Test]
-                {/*<TextFieldMargin label="Opprett behandling" />*/}
                 <Button onClick={lagBehandling}>Lag behandling</Button>
             </StyledAdmin>
         </Side>

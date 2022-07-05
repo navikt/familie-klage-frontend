@@ -107,7 +107,6 @@ const BehandlingContent: FC<{
 };
 
 const BehandlingOverbygg: FC = () => {
-    //    const { behandling, personopplysningerResponse } = useBehandling();
     const behandling = useHentBehandling(hentBehandlingIdFraUrl()).behandling;
 
     useEffect(() => {
