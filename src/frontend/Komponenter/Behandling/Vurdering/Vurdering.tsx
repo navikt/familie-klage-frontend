@@ -1,6 +1,6 @@
 // React
 import * as React from 'react';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useApp } from '../../../App/context/AppContext';
 
 // CSS
@@ -22,6 +22,7 @@ import {
     årsakValgTilTekst,
 } from './vurderingValg';
 import { Ressurs, RessursStatus } from '../../../App/typer/ressurs';
+import { IForm } from '../Formkrav/Formkrav';
 
 const VurderingBeskrivelseStyled = styled.div`
     margin: 2rem 4rem 2rem 4rem;
@@ -35,33 +36,15 @@ const VurderingKnappStyled = styled(Button)`
     margin: 0 4rem 2rem 4rem;
 `;
 
-export const Vurdering: React.FC = () => {
-    //Backend
-    const { axiosRequest, nullstillIkkePersisterteKomponenter, settIkkePersistertKomponent } =
-        useApp();
-
-    // TODO koble til backend og hente ut data fra formkrav
-    /*useEffect(() => {
-        axiosRequest<Formkrav, string>({
-            method: 'GET',
-            url: `/familie-klage/api/formkrav/${behandlingId}`,
-        }).then((res: Ressurs<Formkrav>) => {
-            if (res.status === RessursStatus.SUKSESS) {
-                settOppfylt(res.data.oppfylt);
-                settMuligOppfylt(res.data.muligOppfylt);
-                settBegrunnelse(res.data.begrunnelse);
-                settFeilmelding(res.data.feilmelding)
-            }
-        });
-    }, [axiosRequest]);*/
-
+export const Vurdering: React.FC<{ behandlingId: string }> = ({ behandlingId }) => {
     // Formkravoppsummering
     const [oppfylt, settOppfylt] = useState(1);
     const [muligOppfylt, settMuligOppfylt] = useState(1);
-    const [begrunnelse, settBegrunnelse] = useState('Dette er en begrunnelse');
+    const [begrunnelse, settBegrunnelse] = useState('');
     const [feilmelding, settFeilmelding] = useState('Dette er en feilmelding'); // TODO legge til enum-objekter som sier om det er begrunnelse eller vurdering som mangler
 
     const vurderingObject: IVurdering = {
+        behandlingId: behandlingId,
         vedtak: VedtakValg.VELG,
         arsak: ÅrsakValg.VELG,
         hjemmel: HjemmelValg.VELG,
@@ -73,8 +56,43 @@ export const Vurdering: React.FC = () => {
     // Resultat
     const [resultat, settResultat] = useState(false);
 
+    // Endringer
+    const { axiosRequest, nullstillIkkePersisterteKomponenter, settIkkePersistertKomponent } =
+        useApp();
+
+    // Hent eksisterende vurderingsdata
+    useEffect(() => {
+        axiosRequest<IVurdering, string>({
+            method: 'GET',
+            url: `/familie-klage/api/vurdering/${behandlingId}`,
+        }).then((res: Ressurs<IVurdering>) => {
+            if (res.status === RessursStatus.SUKSESS) {
+                settVurderingData({
+                    behandlingId: behandlingId,
+                    vedtak: res.data.vedtak,
+                    arsak: res.data.arsak,
+                    hjemmel: res.data.hjemmel,
+                    beskrivelse: res.data.beskrivelse,
+                });
+            }
+        });
+    }, [axiosRequest]);
+
+    // Hent data fra formkrav
+    useEffect(() => {
+        axiosRequest<IForm, string>({
+            method: 'GET',
+            url: `/familie-klage/api/form/${behandlingId}`,
+        }).then((res: Ressurs<IForm>) => {
+            if (res.status === RessursStatus.SUKSESS) {
+                settBegrunnelse(res.data.saksbehandlerBegrunnelse);
+            }
+        });
+    }, [axiosRequest]);
+
     const opprettVurdering = () => {
         const v: IVurdering = {
+            behandlingId: behandlingId,
             vedtak: vurderingData.vedtak,
             beskrivelse: vurderingData.beskrivelse,
         };
@@ -111,13 +129,15 @@ export const Vurdering: React.FC = () => {
                 <>
                     <Vedtak
                         settVedtak={settVurderingData}
-                        vedtakValg={vedtakValgTilTekst}
+                        vedtakValgmuligheter={vedtakValgTilTekst}
+                        vedtakValgt={vurderingData.vedtak}
                         endring={settIkkePersistertKomponent}
                     />
                     {vurderingData.vedtak == VedtakValg.OMGJØR_VEDTAK ? (
                         <Årsak
                             settÅrsak={settVurderingData}
-                            årsakValg={årsakValgTilTekst}
+                            årsakValgt={vurderingData.arsak}
+                            årsakValgmuligheter={årsakValgTilTekst}
                             endring={settIkkePersistertKomponent}
                         />
                     ) : (
@@ -126,7 +146,8 @@ export const Vurdering: React.FC = () => {
                     {vurderingData.vedtak == VedtakValg.OPPRETTHOLD_VEDTAK ? (
                         <Hjemmel
                             settHjemmel={settVurderingData}
-                            hjemmelValg={hjemmelValgTilTekst}
+                            hjemmelValgt={vurderingData.hjemmel}
+                            hjemmelValgmuligheter={hjemmelValgTilTekst}
                             endring={settIkkePersistertKomponent}
                         />
                     ) : (

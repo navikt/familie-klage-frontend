@@ -96,7 +96,7 @@ const BehandlingContent: FC<{
             <Container>
                 <InnholdWrapper åpenHøyremeny={åpenHøyremeny}>
                     <Fanemeny behandlingId={behandling.id} />
-                    <BehandlingRoutes />
+                    <BehandlingRoutes behandlingId={behandling.id} />
                 </InnholdWrapper>
                 <HøyreMenyWrapper åpenHøyremeny={åpenHøyremeny}>
                     <Høyremeny åpenHøyremeny={åpenHøyremeny} behandlingId={behandling.id} />
