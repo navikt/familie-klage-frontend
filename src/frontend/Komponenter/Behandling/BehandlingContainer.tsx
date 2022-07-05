@@ -13,6 +13,7 @@ import { Behandling, BehandlingResultat, Fagsystem } from '../../App/typer/fagsa
 import { useSetValgtFagsakId } from '../../App/hooks/useSetValgtFagsakId';
 import { BehandlingStatus } from '../../App/typer/behandlingstatus';
 import personopplysningerMock from './personopplysningerMock.json';
+import { useHentBehandling } from '../../App/hooks/useHentBehandling';
 
 export const behandlingMock: Behandling = {
     id: 'ad983bff-d807-4ade-928e-1093e16ec2ac',
@@ -64,6 +65,13 @@ const InnholdWrapper = styled.div<InnholdWrapperProps>`
     max-width: ${(p) => (p.åpenHøyremeny ? 'calc(100% - 20rem)' : '100%')};
 `;
 
+const hentBehandlingIdFraUrl = (): string => {
+    return location.href.substring(
+        location.href.indexOf('behandling/') + 11,
+        location.href.indexOf('behandling/') + 47
+    );
+};
+
 const BehandlingContainer: FC = () => {
     return (
         <ModalProvider>
@@ -84,14 +92,14 @@ const BehandlingContent: FC<{
     const { åpenHøyremeny } = useBehandling();
     return (
         <>
-            <VisittkortComponent data={personopplysninger} behandling={behandlingMock} />
+            <VisittkortComponent data={personopplysninger} behandling={behandling} />
             <Container>
                 <InnholdWrapper åpenHøyremeny={åpenHøyremeny}>
-                    <Fanemeny behandlingId={behandlingMock.id} />
+                    <Fanemeny behandlingId={behandling.id} />
                     <BehandlingRoutes />
                 </InnholdWrapper>
                 <HøyreMenyWrapper åpenHøyremeny={åpenHøyremeny}>
-                    <Høyremeny åpenHøyremeny={åpenHøyremeny} behandlingId={behandlingMock.id} />
+                    <Høyremeny åpenHøyremeny={åpenHøyremeny} behandlingId={behandling.id} />
                 </HøyreMenyWrapper>
             </Container>
         </>
@@ -99,18 +107,22 @@ const BehandlingContent: FC<{
 };
 
 const BehandlingOverbygg: FC = () => {
-    //    const { behandling, personopplysningerResponse } = useBehandling();
+    const { hentBehandlingCallback, behandling } = useHentBehandling(hentBehandlingIdFraUrl());
 
     useEffect(() => {
+        hentBehandlingCallback();
         document.title = 'Behandling';
-    }, []);
-
-    return (
-        <BehandlingContent
-            behandling={behandlingMock}
-            personopplysninger={personopplysningerMock.data}
-        />
-    );
+    }, [hentBehandlingCallback]);
+    if (behandling.status === 'SUKSESS') {
+        return (
+            <BehandlingContent
+                behandling={behandling.data}
+                personopplysninger={personopplysningerMock.data}
+            />
+        );
+    } else {
+        return <div>Kunne ikke hente data om behandlingen fra backend.</div>;
+    }
 };
 
 export default BehandlingContainer;
