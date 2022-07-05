@@ -4,7 +4,6 @@ import { Textarea, Radio, RadioGroup, Button } from '@navikt/ds-react';
 import { IRadioKnapper, RadioknapperLesemodus } from './RadioKnapperLesemodus';
 import { useApp } from '../../../App/context/AppContext';
 import { Ressurs, RessursStatus } from '../../../App/typer/ressurs';
-import { IVurdering } from '../Vurdering/vurderingValg';
 
 const FormKravStyling = styled.div`
     display: flex;
