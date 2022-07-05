@@ -146,7 +146,8 @@ export const Vurdering: React.FC<{ behandlingId: string }> = ({ behandlingId }) 
                     {vurderingData.vedtak == VedtakValg.OPPRETTHOLD_VEDTAK ? (
                         <Hjemmel
                             settHjemmel={settVurderingData}
-                            hjemmelValg={hjemmelValgTilTekst}
+                            hjemmelValgt={vurderingData.hjemmel}
+                            hjemmelValgmuligheter={hjemmelValgTilTekst}
                             endring={settIkkePersistertKomponent}
                         />
                     ) : (
