@@ -165,7 +165,7 @@ export const FormkravHøyre: React.FC<IFormKravHøyre> = ({
                                     <RadioGroupStyled
                                         legend={item.spørsmål}
                                         size="small"
-                                        onChange={(val: any) => item.setter(val)}
+                                        onChange={(val) => item.setter(val)}
                                         value={item.svar}
                                         key={item.key}
                                     >

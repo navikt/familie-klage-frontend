@@ -79,7 +79,7 @@ interface IFormkravVenstre {
     låst: boolean;
     formkrav: IForm;
 }
-export const FormkravVenstre: React.FC<IFormkravVenstre> = ({ vilkårOppfylt, formkrav, låst }) => {
+export const FormkravVenstre: React.FC<IFormkravVenstre> = ({ vilkårOppfylt, formkrav }) => {
     const vedtaksdato = new Date(formkrav.vedtaksdato);
     const klageMottat = new Date(formkrav.klageMottat);
 
