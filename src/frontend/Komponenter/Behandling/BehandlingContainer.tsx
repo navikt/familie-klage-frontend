@@ -107,11 +107,12 @@ const BehandlingContent: FC<{
 };
 
 const BehandlingOverbygg: FC = () => {
-    const behandling = useHentBehandling(hentBehandlingIdFraUrl()).behandling;
+    const { hentBehandlingCallback, behandling } = useHentBehandling(hentBehandlingIdFraUrl());
 
     useEffect(() => {
+        hentBehandlingCallback();
         document.title = 'Behandling';
-    }, []);
+    }, [hentBehandlingCallback]);
     if (behandling.status === 'SUKSESS') {
         return (
             <BehandlingContent
