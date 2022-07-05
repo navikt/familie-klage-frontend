@@ -5,14 +5,14 @@ import { Button } from '@navikt/ds-react';
 import { useApp } from '../../App/context/AppContext';
 import { useNavigate } from 'react-router-dom';
 
-const StyledAdmin = styled.div`
+const StyledTest = styled.div`
     display: flex;
     flex-direction: column;
     width: 10rem;
     margin: 2rem;
 `;
 
-export const AdminSide: React.FC = () => {
+export const TestSide: React.FC = () => {
     const { axiosRequest } = useApp();
     const navigate = useNavigate();
 
@@ -29,10 +29,10 @@ export const AdminSide: React.FC = () => {
 
     return (
         <Side className={'container'}>
-            <StyledAdmin>
+            <StyledTest>
                 [Test]
                 <Button onClick={lagBehandling}>Lag behandling</Button>
-            </StyledAdmin>
+            </StyledTest>
         </Side>
     );
 };

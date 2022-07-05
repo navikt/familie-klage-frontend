@@ -92,14 +92,14 @@ const BehandlingContent: FC<{
     const { åpenHøyremeny } = useBehandling();
     return (
         <>
-            <VisittkortComponent data={personopplysninger} behandling={behandlingMock} />
+            <VisittkortComponent data={personopplysninger} behandling={behandling} />
             <Container>
                 <InnholdWrapper åpenHøyremeny={åpenHøyremeny}>
-                    <Fanemeny behandlingId={behandlingMock.id} />
+                    <Fanemeny behandlingId={behandling.id} />
                     <BehandlingRoutes />
                 </InnholdWrapper>
                 <HøyreMenyWrapper åpenHøyremeny={åpenHøyremeny}>
-                    <Høyremeny åpenHøyremeny={åpenHøyremeny} behandlingId={behandlingMock.id} />
+                    <Høyremeny åpenHøyremeny={åpenHøyremeny} behandlingId={behandling.id} />
                 </HøyreMenyWrapper>
             </Container>
         </>
@@ -112,13 +112,16 @@ const BehandlingOverbygg: FC = () => {
     useEffect(() => {
         document.title = 'Behandling';
     }, []);
-
-    return (
-        <BehandlingContent
-            behandling={behandling.status === 'SUKSESS' ? behandling.data : behandlingMock}
-            personopplysninger={personopplysningerMock.data}
-        />
-    );
+    if (behandling.status === 'SUKSESS') {
+        return (
+            <BehandlingContent
+                behandling={behandling.data}
+                personopplysninger={personopplysningerMock.data}
+            />
+        );
+    } else {
+        return <div>Kunne ikke hente data om behandlingen fra backend.</div>;
+    }
 };
 
 export default BehandlingContainer;
