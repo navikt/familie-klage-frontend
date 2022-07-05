@@ -1,4 +1,5 @@
 export interface IVurdering {
+    behandlingId: string;
     vedtak: VedtakValg;
     arsak?: ÅrsakValg;
     hjemmel?: HjemmelValg;

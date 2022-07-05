@@ -5,11 +5,15 @@ import { Brev } from './Brev/Brev';
 import { Kabal } from './Kabal/Kabal';
 import { Vurdering } from './Vurdering/Vurdering';
 
-const BehandlingRoutes: React.FC = () => {
+interface Props {
+    behandlingId: string;
+}
+
+const BehandlingRoutes: React.FC<Props> = ({ behandlingId }) => {
     return (
         <Routes>
             <Route path="/formkrav" element={<Formkrav />} />
-            <Route path="/vurdering" element={<Vurdering />} />
+            <Route path="/vurdering" element={<Vurdering behandlingId={behandlingId} />} />
             <Route path="/brev" element={<Brev />} />
             <Route path="/kabal" element={<Kabal />} />
         </Routes>
