@@ -46,30 +46,31 @@ export interface IForm {
 export const Formkrav: React.FC<{ behandlingId: string }> = ({ behandlingId }) => {
     const [vilkårOppfylt, settVilkårOppfylt] = useState(false);
     const { axiosRequest } = useApp();
-    const [formkrav, settFormkrav] = useState<IForm>(``);
+    const [formkrav, settFormkrav] = useState<IForm>();
     const { formkravLåst, settFormkravLåst } = useBehandling();
 
     useEffect(() => {
         document.title = 'Oppgavebenk';
         axiosRequest<IForm, null>({
             method: 'GET',
-            url: `/familie-klage/api/formkrav/1`,
+            url: `/familie-klage/api/formkrav/${behandlingId}`,
         }).then((res: Ressurs<IForm>) => {
             if (res.status === RessursStatus.SUKSESS) {
-                console.log(res.data);
                 settFormkrav(res.data);
             }
         });
-    }, [axiosRequest]);
+    }, [axiosRequest, behandlingId]);
 
     return (
         <FormKravStyling>
             <FormKravStylingBody>
-                <FormkravVenstre
-                    vilkårOppfylt={vilkårOppfylt}
-                    formkrav={formkrav}
-                    låst={formkravLåst}
-                />
+                {formkrav !== undefined && (
+                    <FormkravVenstre
+                        vilkårOppfylt={vilkårOppfylt}
+                        formkrav={formkrav}
+                        låst={formkravLåst}
+                    />
+                )}
                 <FormkravHøyre
                     behandlingId={behandlingId}
                     vilkårOppfylt={vilkårOppfylt}
