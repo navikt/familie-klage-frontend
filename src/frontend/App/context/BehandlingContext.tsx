@@ -50,6 +50,8 @@ const [BehandlingProvider, useBehandling] = constate(() => {
 
     const [formkravLåst, settFormkravLåst] = useState<boolean>(false);
 
+    const [vilkårTom, settVilkårTom] = useState<boolean>(false);
+
     return {
         behandling,
         behandlingErRedigerbar,
@@ -68,6 +70,8 @@ const [BehandlingProvider, useBehandling] = constate(() => {
         settÅpenHøyremeny,
         formkravLåst,
         settFormkravLåst,
+        vilkårTom,
+        settVilkårTom,
     };
 });
 
