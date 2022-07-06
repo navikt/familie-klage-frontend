@@ -7,7 +7,10 @@ import LenkeKnapp from '../../../Felles/Knapper/LenkeKnapp';
 import navFarger from 'nav-frontend-core';
 import { BodyLong, Heading } from '@navikt/ds-react';
 import BrukerMedBlyant from '../../../Felles/Ikoner/BrukerMedBlyant';
-import { FormVilkår, formVilkårTilTekst } from './FormkravHøyre';
+import { FormVilkår, formVilkårTilTekst, IForm } from './FormkravHøyre';
+import { useBehandling } from '../../../App/context/BehandlingContext';
+import { hentBehandlingIdFraUrl } from '../BehandlingContainer';
+import { useApp } from '../../../App/context/AppContext';
 
 export const RadSentrertVertikalt = styled.div`
     display: flex;
@@ -90,6 +93,26 @@ export const RadioknapperLesemodus: React.FC<IRadioKnapperLeseModus> = ({
     redigerHandling,
     saksbehandlerBegrunnelse,
 }) => {
+    const { settFormkravLåst, settVilkårTom } = useBehandling();
+    const { axiosRequest } = useApp();
+    const slettHandling = () => {
+        const f: IForm = {
+            behandlingId: hentBehandlingIdFraUrl(),
+            klagePart: FormVilkår.IKKE_OPPFYLT,
+            klageKonkret: FormVilkår.IKKE_OPPFYLT,
+            klagefristOverholdt: FormVilkår.IKKE_OPPFYLT,
+            klageSignert: FormVilkår.IKKE_OPPFYLT,
+            saksbehandlerBegrunnelse: '',
+        };
+
+        axiosRequest<IForm, IForm>({
+            method: 'POST',
+            url: `/familie-klage/api/formkrav`,
+            data: f,
+        });
+        settVilkårTom(true);
+        settFormkravLåst(false);
+    };
     return (
         <FormKravStyling>
             <VilkårHeader>
@@ -108,7 +131,7 @@ export const RadioknapperLesemodus: React.FC<IRadioKnapperLeseModus> = ({
                         <span>Rediger</span>
                     </LenkeKnapp>
                     {/* eslint-disable-next-line @typescript-eslint/no-empty-function */}
-                    <LenkeKnapp onClick={() => {}}>
+                    <LenkeKnapp onClick={() => slettHandling()}>
                         <SlettSøppelkasse withDefaultStroke={false} width={19} heigth={19} />
                         <span>Slett</span>
                     </LenkeKnapp>

@@ -18,7 +18,7 @@ interface IForm {
     fagsakId: string;
     vedtaksdato: string;
 
-    klageMottat: string;
+    klageMottatt: string;
     klageÅrsak: string;
     klageBeskrivelse: string;
 
