@@ -19,7 +19,7 @@ const Historikk: React.FC<{ behandlingId: string }> = ({ behandlingId }) => {
                 settBehandlingshistorikk(res.data);
             }
         });
-    }, [axiosRequest]);
+    }, [axiosRequest, behandlingId]);
 
     return (
         <div>

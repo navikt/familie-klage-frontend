@@ -12,7 +12,7 @@ export enum Steg {
     GODKJENT = 'GODKJENT',
 }
 
-export const StegTilTekst: Record<Steg, string> = {
+export const stegTilTekst: Record<Steg, string> = {
     OPPRETTET: 'Behandling opprettet',
     AVVIST: 'Behandling avvist',
     GODKJENT: 'Behandling godkjent',

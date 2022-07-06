@@ -3,7 +3,7 @@ import { BrukerMedBlyantIkon } from '../../../Felles/Ikoner/DataGrunnlagIkoner';
 import navFarger from 'nav-frontend-core';
 import { Detail, Label } from '@navikt/ds-react';
 import styled from 'styled-components';
-import { Steg, StegTilTekst } from './behandlingshistorikk';
+import { Steg, stegTilTekst } from './behandlingshistorikk';
 
 const Oppdatering = styled.div`
     display: flex;
@@ -60,7 +60,7 @@ const HistorikkOppdatering: React.FunctionComponent<IHistorikkOppdatering> = ({
                 <StripletLinje />
             </StyledIkon>
             <TekstligInformasjon>
-                <Label size="small">{StegTilTekst[steg]}</Label>
+                <Label size="small">{stegTilTekst[steg]}</Label>
                 <Detail size="small">
                     {datoFormatering(endretTid)} | {opprettetAv}
                 </Detail>
