@@ -6,6 +6,7 @@ import { FormkravVenstre } from './FormkravVenstre';
 import { useApp } from '../../../App/context/AppContext';
 import { Ressurs, RessursStatus } from '../../../App/typer/ressurs';
 import { Vilkårsresultat } from './vilkår';
+import { useBehandling } from '../../../App/context/BehandlingContext';
 
 const FormKravStyling = styled.div`
     display: flex;
@@ -23,11 +24,6 @@ const FormKravStylingBody = styled.div`
     width: 100%;
 `;
 
-const FormKravStylingFooter = styled.div`
-    width: 100%;
-    padding-left: 5rem;
-    display: flex;
-`;
 export interface IForm {
     behandlingsId: string;
     fagsakId: string;
@@ -47,31 +43,42 @@ export interface IForm {
 
     fullført: boolean;
 }
-export const Formkrav: React.FC = () => {
-    const [låst, settLåst] = useState(false);
+export const Formkrav: React.FC<{ behandlingId: string }> = ({ behandlingId }) => {
+    const [vilkårOppfylt, settVilkårOppfylt] = useState(false);
     const { axiosRequest } = useApp();
-    const [formkrav, settFormkrav] = useState<IForm>(``);
+    const [formkrav, settFormkrav] = useState<IForm>();
+    const { formkravLåst, settFormkravLåst } = useBehandling();
 
     useEffect(() => {
         document.title = 'Oppgavebenk';
         axiosRequest<IForm, null>({
             method: 'GET',
-            url: `/familie-klage/api/formkrav/1`,
+            url: `/familie-klage/api/formkrav/${behandlingId}`,
         }).then((res: Ressurs<IForm>) => {
             if (res.status === RessursStatus.SUKSESS) {
-                console.log(res.data);
                 settFormkrav(res.data);
             }
         });
-    }, [axiosRequest]);
+    }, [axiosRequest, behandlingId]);
 
     return (
         <FormKravStyling>
             <FormKravStylingBody>
-                <FormkravVenstre låst={låst} formkrav={formkrav} />
-                <FormkravHøyre låst={låst} settLåst={settLåst} />
+                {formkrav !== undefined && (
+                    <FormkravVenstre
+                        vilkårOppfylt={vilkårOppfylt}
+                        formkrav={formkrav}
+                        låst={formkravLåst}
+                    />
+                )}
+                <FormkravHøyre
+                    behandlingId={behandlingId}
+                    vilkårOppfylt={vilkårOppfylt}
+                    settVilkårOppfylt={settVilkårOppfylt}
+                    låst={formkravLåst}
+                    settLåst={settFormkravLåst}
+                />
             </FormKravStylingBody>
-            <FormKravStylingFooter></FormKravStylingFooter>
         </FormKravStyling>
     );
 };

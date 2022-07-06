@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
 import { Textarea, Radio, RadioGroup, Button } from '@navikt/ds-react';
 import { IRadioKnapper, RadioknapperLesemodus } from './RadioKnapperLesemodus';
@@ -46,38 +46,48 @@ const ButtonStyled = styled(Button)`
 `;
 
 interface IFormKravHøyre {
+    behandlingId: string;
+    vilkårOppfylt: boolean;
+    settVilkårOppfylt: (value: boolean) => void;
     låst: boolean;
     settLåst: (value: boolean) => void;
 }
 
 export interface IForm {
-    id: string;
-    klagePart: string;
-    klageKonkret: string;
-    klagefristOverholdt: string;
-    klageSignert: string;
+    behandlingId: string;
+    klagePart: FormVilkår;
+    klageKonkret: FormVilkår;
+    klagefristOverholdt: FormVilkår;
+    klageSignert: FormVilkår;
     saksbehandlerBegrunnelse: string;
 }
 
 export enum FormVilkår {
     OPPFYLT = 'OPPFYLT',
     IKKE_OPPFYLT = 'IKKE_OPPFYLT',
+    IKKE_SATT = 'IKKE_SATT',
 }
 
 export const formVilkårTilTekst: Record<FormVilkår, string> = {
     OPPFYLT: 'Oppfylt',
     IKKE_OPPFYLT: 'Ikke oppfylt',
+    IKKE_SATT: 'Ikke satt',
 };
 
-export const FormkravHøyre: React.FC<IFormKravHøyre> = ({ låst, settLåst }) => {
-    const { axiosRequest, nullstillIkkePersisterteKomponenter, settIkkePersistertKomponent } =
-        useApp();
+export const FormkravHøyre: React.FC<IFormKravHøyre> = ({
+    behandlingId,
+    vilkårOppfylt,
+    settVilkårOppfylt,
+    låst,
+    settLåst,
+}) => {
+    const { axiosRequest } = useApp();
 
     const [saksbehandlerBegrunnelse, settsaksbehandlerBegrunnelse] = useState('');
-    const [klagePart, settKlagePart] = useState('');
-    const [klageKonkret, settKlageKonkret] = useState('');
-    const [klagefristOverholdt, settKlagefrist] = useState('');
-    const [klageSignert, settKlageSignert] = useState('');
+    const [klagePart, settKlagePart] = useState(FormVilkår.IKKE_SATT);
+    const [klageKonkret, settKlageKonkret] = useState(FormVilkår.IKKE_SATT);
+    const [klagefristOverholdt, settKlagefrist] = useState(FormVilkår.IKKE_SATT);
+    const [klageSignert, settKlageSignert] = useState(FormVilkår.IKKE_SATT);
     const radioKnapperLeseListe: IRadioKnapper[] = [
         {
             spørsmål: 'Er klager part i saken?',
@@ -111,23 +121,42 @@ export const FormkravHøyre: React.FC<IFormKravHøyre> = ({ låst, settLåst }) 
         },
     ];
 
+    useEffect(() => {
+        if (låst) {
+            axiosRequest<IForm, null>({
+                method: 'GET',
+                url: `/familie-klage/api/formkrav/vilkar/${behandlingId}`,
+            }).then((res: Ressurs<IForm>) => {
+                if (res.status === RessursStatus.SUKSESS) {
+                    settKlagePart(res.data.klagePart);
+                    settKlageKonkret(res.data.klageKonkret);
+                    settKlagefrist(res.data.klagefristOverholdt);
+                    settKlageSignert(res.data.klageSignert);
+                    settsaksbehandlerBegrunnelse(res.data.saksbehandlerBegrunnelse);
+                }
+            });
+        }
+    });
+
     const alleFeltErBesvart = (): boolean => {
         return !(
             saksbehandlerBegrunnelse === '' ||
-            klagePart === '' ||
-            klageKonkret === '' ||
-            klagefristOverholdt === '' ||
-            klageSignert === ''
+            klagePart === FormVilkår.IKKE_SATT ||
+            klageKonkret === FormVilkår.IKKE_SATT ||
+            klagefristOverholdt === FormVilkår.IKKE_SATT ||
+            klageSignert === FormVilkår.IKKE_SATT
         );
     };
 
     const opprettForm = () => {
         if (alleFeltErBesvart()) {
+            settVilkårOppfylt(true);
+        } else {
             settLåst(true);
         }
 
         const f: IForm = {
-            id: 'b3ca2f3e-323b-46f7-b5f3-853728fa73cd', //TODO: legg inn behandlignsid her
+            behandlingId: behandlingId,
             klagePart: klagePart,
             klageKonkret: klageKonkret,
             klagefristOverholdt: klagefristOverholdt,
@@ -148,7 +177,7 @@ export const FormkravHøyre: React.FC<IFormKravHøyre> = ({ låst, settLåst }) 
 
     return (
         <FormKravStyling>
-            {!låst && (
+            {!vilkårOppfylt && !låst && (
                 <>
                     <FormKravStylingBody>
                         <RadioKnapperContainer>
@@ -158,6 +187,7 @@ export const FormkravHøyre: React.FC<IFormKravHøyre> = ({ låst, settLåst }) 
                                     <RadioGroupStyled
                                         legend={item.spørsmål}
                                         size="small"
+
                                         onChange={(val: any) => {
                                             item.setter(val);
                                             settIkkePersistertKomponent(val);
@@ -191,10 +221,18 @@ export const FormkravHøyre: React.FC<IFormKravHøyre> = ({ låst, settLåst }) 
                     </FormKravStylingFooter>
                 </>
             )}
+            {vilkårOppfylt && (
+                <RadioknapperLesemodus
+                    radioKnapper={radioKnapperLeseListe}
+                    redigerHandling={settVilkårOppfylt}
+                    saksbehandlerBegrunnelse={saksbehandlerBegrunnelse}
+                />
+            )}
             {låst && (
                 <RadioknapperLesemodus
                     radioKnapper={radioKnapperLeseListe}
                     redigerHandling={settLåst}
+                    saksbehandlerBegrunnelse={saksbehandlerBegrunnelse}
                 />
             )}
         </FormKravStyling>
