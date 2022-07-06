@@ -81,7 +81,8 @@ export const FormkravHøyre: React.FC<IFormKravHøyre> = ({
     låst,
     settLåst,
 }) => {
-    const { axiosRequest } = useApp();
+    const { axiosRequest, nullstillIkkePersisterteKomponenter, settIkkePersistertKomponent } =
+        useApp();
 
     const [saksbehandlerBegrunnelse, settsaksbehandlerBegrunnelse] = useState('');
     const [klagePart, settKlagePart] = useState(FormVilkår.IKKE_SATT);
@@ -187,7 +188,6 @@ export const FormkravHøyre: React.FC<IFormKravHøyre> = ({
                                     <RadioGroupStyled
                                         legend={item.spørsmål}
                                         size="small"
-
                                         onChange={(val: any) => {
                                             item.setter(val);
                                             settIkkePersistertKomponent(val);
