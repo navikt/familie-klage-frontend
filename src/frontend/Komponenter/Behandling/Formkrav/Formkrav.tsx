@@ -6,6 +6,7 @@ import { FormkravVenstre } from './FormkravVenstre';
 import { useApp } from '../../../App/context/AppContext';
 import { Ressurs, RessursStatus } from '../../../App/typer/ressurs';
 import { Vilkårsresultat } from './vilkår';
+import { useBehandling } from '../../../App/context/BehandlingContext';
 
 const FormKravStyling = styled.div`
     display: flex;
@@ -44,9 +45,9 @@ export interface IForm {
 }
 export const Formkrav: React.FC<{ behandlingId: string }> = ({ behandlingId }) => {
     const [vilkårOppfylt, settVilkårOppfylt] = useState(false);
-    const [låst, settLåst] = useState(false);
     const { axiosRequest } = useApp();
     const [formkrav, settFormkrav] = useState<IForm>(``);
+    const { formkravLåst, settFormkravLåst } = useBehandling();
 
     useEffect(() => {
         document.title = 'Oppgavebenk';
@@ -64,13 +65,17 @@ export const Formkrav: React.FC<{ behandlingId: string }> = ({ behandlingId }) =
     return (
         <FormKravStyling>
             <FormKravStylingBody>
-                <FormkravVenstre vilkårOppfylt={vilkårOppfylt} formkrav={formkrav} låst={låst} />
+                <FormkravVenstre
+                    vilkårOppfylt={vilkårOppfylt}
+                    formkrav={formkrav}
+                    låst={formkravLåst}
+                />
                 <FormkravHøyre
                     behandlingId={behandlingId}
                     vilkårOppfylt={vilkårOppfylt}
                     settVilkårOppfylt={settVilkårOppfylt}
-                    låst={låst}
-                    settLåst={settLåst}
+                    låst={formkravLåst}
+                    settLåst={settFormkravLåst}
                 />
             </FormKravStylingBody>
         </FormKravStyling>

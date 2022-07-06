@@ -90,6 +90,7 @@ const BehandlingContent: FC<{
 }> = ({ behandling, personopplysninger }) => {
     useSetValgtFagsakId(behandling.fagsakId);
     const { åpenHøyremeny } = useBehandling();
+
     return (
         <>
             <VisittkortComponent data={personopplysninger} behandling={behandling} />
