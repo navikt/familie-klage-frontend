@@ -48,6 +48,8 @@ const [BehandlingProvider, useBehandling] = constate(() => {
     const [visHenleggModal, settVisHenleggModal] = useState(false);
     const [åpenHøyremeny, settÅpenHøyremeny] = useState(true);
 
+    const [formkravLåst, settFormkravLåst] = useState<boolean>(false);
+
     return {
         behandling,
         behandlingErRedigerbar,
@@ -64,6 +66,8 @@ const [BehandlingProvider, useBehandling] = constate(() => {
         settVisHenleggModal,
         åpenHøyremeny,
         settÅpenHøyremeny,
+        formkravLåst,
+        settFormkravLåst,
     };
 });
 

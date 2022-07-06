@@ -1,8 +1,9 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
 import { Textarea, Radio, RadioGroup, Button } from '@navikt/ds-react';
 import { IRadioKnapper, RadioknapperLesemodus } from './RadioKnapperLesemodus';
 import { useApp } from '../../../App/context/AppContext';
+import { Ressurs, RessursStatus } from '../../../App/typer/ressurs';
 
 const FormKravStyling = styled.div`
     display: flex;
@@ -54,10 +55,10 @@ interface IFormKravHøyre {
 
 export interface IForm {
     behandlingId: string;
-    klagePart: string;
-    klageKonkret: string;
-    klagefristOverholdt: string;
-    klageSignert: string;
+    klagePart: FormVilkår;
+    klageKonkret: FormVilkår;
+    klagefristOverholdt: FormVilkår;
+    klageSignert: FormVilkår;
     saksbehandlerBegrunnelse: string;
 }
 
@@ -119,6 +120,23 @@ export const FormkravHøyre: React.FC<IFormKravHøyre> = ({
             key: 4,
         },
     ];
+
+    useEffect(() => {
+        if (låst) {
+            axiosRequest<IForm, null>({
+                method: 'GET',
+                url: `/familie-klage/api/formkrav/vilkar/${behandlingId}`,
+            }).then((res: Ressurs<IForm>) => {
+                if (res.status === RessursStatus.SUKSESS) {
+                    settKlagePart(res.data.klagePart);
+                    settKlageKonkret(res.data.klageKonkret);
+                    settKlagefrist(res.data.klagefristOverholdt);
+                    settKlageSignert(res.data.klageSignert);
+                    settsaksbehandlerBegrunnelse(res.data.saksbehandlerBegrunnelse);
+                }
+            });
+        }
+    });
 
     const alleFeltErBesvart = (): boolean => {
         return !(
