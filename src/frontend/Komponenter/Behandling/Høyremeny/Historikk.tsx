@@ -4,45 +4,32 @@ import HistorikkOppdatering from './HistorikkOppdatering';
 import { useEffect, useState } from 'react';
 import { Ressurs, RessursStatus } from '../../../App/typer/ressurs';
 import { useApp } from '../../../App/context/AppContext';
+import { IBehandlingshistorikk } from './behandlingshistorikk';
 
-interface IBehandlingshistorikk {
-    id: string;
-    behandlingId: string;
-    steg: string;
-    opprettetAvNavn: string;
-    opprettetAv: string;
-    endretTid: string;
-}
-
-const Historikk: React.FC = () => {
+const Historikk: React.FC<{ behandlingId: string }> = ({ behandlingId }) => {
     const { axiosRequest } = useApp();
-    const [behandlingshistorikk, settBehandlingshistorikk] = useState<IBehandlingshistorikk>({
-        id: '',
-        behandlingId: '',
-        steg: '',
-        opprettetAvNavn: '',
-        opprettetAv: '',
-        endretTid: '',
-    });
+    const [behandlingshistorikk, settBehandlingshistorikk] = useState<IBehandlingshistorikk[]>([]);
 
     useEffect(() => {
-        axiosRequest<IBehandlingshistorikk, null>({
+        axiosRequest<IBehandlingshistorikk[], null>({
             method: 'GET',
-            url: `/familie-klage/api/behandlingshistorikk/1`,
-        }).then((res: Ressurs<IBehandlingshistorikk>) => {
+            url: `/familie-klage/api/behandlingshistorikk/${behandlingId}`,
+        }).then((res: Ressurs<IBehandlingshistorikk[]>) => {
             if (res.status === RessursStatus.SUKSESS) {
                 settBehandlingshistorikk(res.data);
             }
         });
-    }, [axiosRequest]);
+    }, [axiosRequest, behandlingId]);
 
     return (
         <div>
-            <HistorikkOppdatering
-                steg={behandlingshistorikk.steg}
-                endretTid={behandlingshistorikk.endretTid}
-                opprettetAvNavn={behandlingshistorikk.opprettetAv}
-            />
+            {behandlingshistorikk.map((behandlingshistorikk) => (
+                <HistorikkOppdatering
+                    steg={behandlingshistorikk.steg}
+                    endretTid={behandlingshistorikk.endretTid}
+                    opprettetAv={behandlingshistorikk.opprettetAv}
+                />
+            ))}
         </div>
     );
 };

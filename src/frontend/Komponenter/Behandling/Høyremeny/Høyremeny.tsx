@@ -55,7 +55,7 @@ export enum Høyremenyvalg {
     Dokumenter = 'Dokumenter',
 }
 
-const Høyremeny: React.FC<IHøyremenyProps> = ({ åpenHøyremeny }) => {
+const Høyremeny: React.FC<IHøyremenyProps> = ({ åpenHøyremeny, behandlingId }) => {
     const [aktivtValg, settAktivtvalg] = useState<Høyremenyvalg>(Høyremenyvalg.Historikk);
     const { settÅpenHøyremeny, behandling } = useBehandling();
 
@@ -79,7 +79,10 @@ const Høyremeny: React.FC<IHøyremenyProps> = ({ åpenHøyremeny }) => {
                         </StyledButton>
                         <Valgvisning aktiv={aktivtValg} settAktiv={settAktivtvalg} />
                         <Dokumenter hidden={aktivtValg !== Høyremenyvalg.Dokumenter} />
-                        <Historikk hidden={aktivtValg !== Høyremenyvalg.Historikk} />
+                        <Historikk
+                            hidden={aktivtValg !== Høyremenyvalg.Historikk}
+                            behandlingId={behandlingId}
+                        />
                     </StyledHøyremeny>
                 </>
             ) : (
