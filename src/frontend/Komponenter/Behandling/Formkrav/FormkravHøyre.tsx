@@ -168,6 +168,10 @@ export const FormkravHøyre: React.FC<IFormKravHøyre> = ({
             method: 'POST',
             url: `/familie-klage/api/formkrav`,
             data: f,
+        }).then((res: Ressurs<IForm>) => {
+            if (res.status === RessursStatus.SUKSESS) {
+                nullstillIkkePersisterteKomponenter();
+            }
         });
     };
 
@@ -183,7 +187,11 @@ export const FormkravHøyre: React.FC<IFormKravHøyre> = ({
                                     <RadioGroupStyled
                                         legend={item.spørsmål}
                                         size="small"
-                                        onChange={(val) => item.setter(val)}
+
+                                        onChange={(val: any) => {
+                                            item.setter(val);
+                                            settIkkePersistertKomponent(val);
+                                        }}
                                         value={item.svar}
                                         key={item.key}
                                     >
@@ -197,7 +205,10 @@ export const FormkravHøyre: React.FC<IFormKravHøyre> = ({
                         <Textarea
                             label={undefined}
                             value={saksbehandlerBegrunnelse}
-                            onChange={(e) => settsaksbehandlerBegrunnelse(e.target.value)}
+                            onChange={(e) => {
+                                settsaksbehandlerBegrunnelse(e.target.value);
+                                settIkkePersistertKomponent(e.target.value);
+                            }}
                             size="small"
                             description="Vurdering"
                             maxLength={1500}
