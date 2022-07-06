@@ -8,10 +8,10 @@ import { Back, Next } from '@navikt/ds-icons';
 import navFarger from 'nav-frontend-core';
 import { useBehandling } from '../../../App/context/BehandlingContext';
 import { erBehandlingUnderArbeid } from '../../../App/typer/behandlingstatus';
-import { behandlingMock } from '../BehandlingContainer';
+import { Behandling } from '../../../App/typer/fagsak';
 
 interface IHøyremenyProps {
-    behandlingId: string;
+    behandling: Behandling;
     åpenHøyremeny: boolean;
 }
 
@@ -55,12 +55,12 @@ export enum Høyremenyvalg {
     Dokumenter = 'Dokumenter',
 }
 
-const Høyremeny: React.FC<IHøyremenyProps> = ({ åpenHøyremeny, behandlingId }) => {
+const Høyremeny: React.FC<IHøyremenyProps> = ({ åpenHøyremeny, behandling }) => {
     const [aktivtValg, settAktivtvalg] = useState<Høyremenyvalg>(Høyremenyvalg.Historikk);
-    const { settÅpenHøyremeny, behandling } = useBehandling();
+    const { settÅpenHøyremeny } = useBehandling();
 
     useEffect(() => {
-        if (erBehandlingUnderArbeid(behandlingMock)) {
+        if (erBehandlingUnderArbeid(behandling)) {
             settAktivtvalg(Høyremenyvalg.Historikk);
         }
     }, [behandling]);
@@ -81,7 +81,7 @@ const Høyremeny: React.FC<IHøyremenyProps> = ({ åpenHøyremeny, behandlingId 
                         <Dokumenter hidden={aktivtValg !== Høyremenyvalg.Dokumenter} />
                         <Historikk
                             hidden={aktivtValg !== Høyremenyvalg.Historikk}
-                            behandlingId={behandlingId}
+                            behandlingId={behandling.id}
                         />
                     </StyledHøyremeny>
                 </>

@@ -1,14 +1,12 @@
 import * as React from 'react';
-import { FC, useEffect } from 'react';
+import { FC } from 'react';
 import styled from 'styled-components';
 import { alleSider } from './sider';
 import DataViewer from '../../../Felles/DataViewer/DataViewer';
 import { Sticky } from '../../../Felles/Visningskomponenter/Sticky';
 import navFarger from 'nav-frontend-core';
 import Fane from './Fane';
-import { hentBehandlingIdFraUrl } from '../BehandlingContainer';
 import { Ressurs, RessursStatus } from '../../../App/typer/ressurs';
-import { useHentBehandling } from '../../../App/hooks/useHentBehandling';
 import { Behandling } from '../../../App/typer/fagsak';
 
 const StickyMedBoxShadow = styled(Sticky)`
@@ -25,19 +23,14 @@ const StyledFanemeny = styled.div`
 `;
 
 interface Props {
-    behandlingId: string;
+    behandling: Behandling;
 }
 
-const Fanemeny: FC<Props> = ({ behandlingId }) => {
+const Fanemeny: FC<Props> = ({ behandling }) => {
     // const { behandling } = useBehandling();
     const forrigeSideLagret = false; //Sier hvilke sider som skal være mulige å redigere
-    const { behandling, hentBehandlingCallback } = useHentBehandling(hentBehandlingIdFraUrl());
 
-    useEffect(() => {
-        hentBehandlingCallback();
-    });
-
-    const mock: Ressurs<Ressurs<Behandling>> = {
+    const mock: Ressurs<Behandling> = {
         data: behandling,
         status: RessursStatus.SUKSESS,
     };
@@ -49,7 +42,7 @@ const Fanemeny: FC<Props> = ({ behandlingId }) => {
                     {alleSider.map((side, index) => (
                         <Fane
                             side={side}
-                            behandlingId={behandlingId}
+                            behandlingId={behandling.id}
                             index={index}
                             deaktivert={forrigeSideLagret}
                             key={index}

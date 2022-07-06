@@ -85,11 +85,11 @@ const BehandlingContent: FC<{
             <VisittkortComponent data={personopplysninger} behandling={behandling} />
             <Container>
                 <InnholdWrapper åpenHøyremeny={åpenHøyremeny}>
-                    <Fanemeny behandlingId={behandling.id} />
+                    <Fanemeny behandling={behandling} />
                     <BehandlingRoutes behandlingId={behandling.id} />
                 </InnholdWrapper>
                 <HøyreMenyWrapper åpenHøyremeny={åpenHøyremeny}>
-                    <Høyremeny åpenHøyremeny={åpenHøyremeny} behandlingId={behandling.id} />
+                    <Høyremeny åpenHøyremeny={åpenHøyremeny} behandling={behandling} />
                 </HøyreMenyWrapper>
             </Container>
         </>
