@@ -4,6 +4,7 @@ import { Textarea, Radio, RadioGroup, Button } from '@navikt/ds-react';
 import { IRadioKnapper, RadioknapperLesemodus } from './RadioKnapperLesemodus';
 import { useApp } from '../../../App/context/AppContext';
 import { Ressurs, RessursStatus } from '../../../App/typer/ressurs';
+import { useBehandling } from '../../../App/context/BehandlingContext';
 
 const FormKravStyling = styled.div`
     display: flex;
@@ -81,6 +82,7 @@ export const FormkravHøyre: React.FC<IFormKravHøyre> = ({
     låst,
     settLåst,
 }) => {
+    const { vilkårTom, settVilkårTom } = useBehandling();
     const { axiosRequest } = useApp();
 
     const [saksbehandlerBegrunnelse, settsaksbehandlerBegrunnelse] = useState('');
@@ -135,6 +137,16 @@ export const FormkravHøyre: React.FC<IFormKravHøyre> = ({
                     settsaksbehandlerBegrunnelse(res.data.saksbehandlerBegrunnelse);
                 }
             });
+            console.log(vilkårTom);
+        }
+        if (vilkårTom) {
+            settKlagePart(FormVilkår.IKKE_SATT);
+            settKlageKonkret(FormVilkår.IKKE_SATT);
+            settKlagefrist(FormVilkår.IKKE_SATT);
+            settKlageSignert(FormVilkår.IKKE_SATT);
+            settsaksbehandlerBegrunnelse('');
+            settVilkårTom(false);
+            settVilkårOppfylt(false);
         }
     });
 

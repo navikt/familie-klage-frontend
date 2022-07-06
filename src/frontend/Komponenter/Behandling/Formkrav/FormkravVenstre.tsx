@@ -81,7 +81,7 @@ interface IFormkravVenstre {
 }
 export const FormkravVenstre: React.FC<IFormkravVenstre> = ({ vilkårOppfylt, formkrav }) => {
     const vedtaksdato = new Date(formkrav.vedtaksdato);
-    const klageMottat = new Date(formkrav.klageMottat);
+    const klageMottatt = new Date(formkrav.klageMottatt);
 
     return (
         <FormKravStylingVenstre>
@@ -112,7 +112,7 @@ export const FormkravVenstre: React.FC<IFormkravVenstre> = ({ vilkårOppfylt, fo
                     </IkonKategoriGruppe>
                 </KolonneVenstre>
                 <KolonneHøyre>
-                    <BodyLongStyled size="small">{datoFormatering(klageMottat)}</BodyLongStyled>
+                    <BodyLongStyled size="small">{datoFormatering(klageMottatt)}</BodyLongStyled>
                 </KolonneHøyre>
             </IkonTekstRadContainer>
 
