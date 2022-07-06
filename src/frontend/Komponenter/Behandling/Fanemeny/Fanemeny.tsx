@@ -7,8 +7,9 @@ import { Sticky } from '../../../Felles/Visningskomponenter/Sticky';
 import navFarger from 'nav-frontend-core';
 import Fane from './Fane';
 import { hentBehandlingIdFraUrl } from '../BehandlingContainer';
-import { RessursStatus } from '../../../App/typer/ressurs';
+import { Ressurs, RessursStatus } from '../../../App/typer/ressurs';
 import { useHentBehandling } from '../../../App/hooks/useHentBehandling';
+import { Behandling } from '../../../App/typer/fagsak';
 
 const StickyMedBoxShadow = styled(Sticky)`
     box-shadow: 0 2px 5px rgba(0, 0, 0, 0.4);
@@ -36,9 +37,9 @@ const Fanemeny: FC<Props> = ({ behandlingId }) => {
         hentBehandlingCallback();
     });
 
-    const mock = {
+    const mock: Ressurs<Ressurs<Behandling>> = {
         data: behandling,
-        status: RessursStatus,
+        status: RessursStatus.SUKSESS,
     };
 
     return (
