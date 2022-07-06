@@ -6,17 +6,12 @@ import DataViewer from '../../../Felles/DataViewer/DataViewer';
 import { Sticky } from '../../../Felles/Visningskomponenter/Sticky';
 import navFarger from 'nav-frontend-core';
 import Fane from './Fane';
-import { behandlingMock } from '../BehandlingContainer';
-import { RessursStatus } from '../../../App/typer/ressurs';
+import { Ressurs, RessursStatus } from '../../../App/typer/ressurs';
+import { Behandling } from '../../../App/typer/fagsak';
 
 const StickyMedBoxShadow = styled(Sticky)`
     box-shadow: 0 2px 5px rgba(0, 0, 0, 0.4);
 `;
-
-const mock = {
-    data: behandlingMock,
-    status: RessursStatus.SUKSESS,
-};
 
 const StyledFanemeny = styled.div`
     width: 100%;
@@ -28,12 +23,17 @@ const StyledFanemeny = styled.div`
 `;
 
 interface Props {
-    behandlingId: string;
+    behandling: Behandling;
 }
 
-const Fanemeny: FC<Props> = ({ behandlingId }) => {
+const Fanemeny: FC<Props> = ({ behandling }) => {
     // const { behandling } = useBehandling();
     const forrigeSideLagret = false; //Sier hvilke sider som skal være mulige å redigere
+
+    const mock: Ressurs<Behandling> = {
+        data: behandling,
+        status: RessursStatus.SUKSESS,
+    };
 
     return (
         <DataViewer response={{ mock }}>
@@ -42,7 +42,7 @@ const Fanemeny: FC<Props> = ({ behandlingId }) => {
                     {alleSider.map((side, index) => (
                         <Fane
                             side={side}
-                            behandlingId={behandlingId}
+                            behandlingId={behandling.id}
                             index={index}
                             deaktivert={forrigeSideLagret}
                             key={index}

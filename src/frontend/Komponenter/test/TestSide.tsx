@@ -4,6 +4,7 @@ import { Side } from '../../Felles/Visningskomponenter/Side';
 import { Button } from '@navikt/ds-react';
 import { useApp } from '../../App/context/AppContext';
 import { useNavigate } from 'react-router-dom';
+import { Behandling } from '../../App/typer/fagsak';
 
 const StyledTest = styled.div`
     display: flex;
@@ -17,12 +18,12 @@ export const TestSide: React.FC = () => {
     const navigate = useNavigate();
 
     const lagBehandling = () => {
-        axiosRequest<null, null>({
+        axiosRequest<Behandling, null>({
             method: 'POST',
             url: `/familie-klage/api/behandling`,
         }).then((res) => {
             if (res.status === 'SUKSESS') {
-                navigate(`/behandling/${res?.data.id}`);
+                navigate(`/behandling/${res.data.id}`);
             }
         });
     };
@@ -30,7 +31,7 @@ export const TestSide: React.FC = () => {
     return (
         <Side className={'container'}>
             <StyledTest>
-                [Test]
+                <b>[Test] Opprett dummy-behandling</b>
                 <Button onClick={lagBehandling}>Lag behandling</Button>
             </StyledTest>
         </Side>
