@@ -2,7 +2,7 @@
 
 import { kjønnType } from '@navikt/familie-typer';
 
-export interface IPersonopplysninger {
+/*export interface IPersonopplysninger {
     personIdent: string;
     navn: INavn;
     kjønn: kjønnType;
@@ -22,6 +22,14 @@ export interface IPersonopplysninger {
     utflyttingFraNorge: IUtflyttingFraNorge[];
     oppholdstillatelse: IOppholdstillatelse[];
     vergemål: IVergemål[];
+}*/
+
+export interface IPersonopplysninger {
+    personIdent: string;
+    navn: INavn;
+    kjønn: kjønnType;
+    telefonnummer?: ITelefonnummer;
+    adresse: string;
 }
 
 export interface IBarn {

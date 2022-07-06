@@ -9,22 +9,11 @@ import { BehandlingProvider, useBehandling } from '../../App/context/BehandlingC
 import { ModalProvider } from '../../App/context/ModalContext';
 import ModalController from '../../Felles/Modal/ModalController';
 import VisittkortComponent from '../../Felles/Visittkort/Visittkort';
-import { Behandling, BehandlingResultat, Fagsystem } from '../../App/typer/fagsak';
+import { Behandling } from '../../App/typer/fagsak';
 import { useSetValgtFagsakId } from '../../App/hooks/useSetValgtFagsakId';
-import { BehandlingStatus } from '../../App/typer/behandlingstatus';
-import personopplysningerMock from './personopplysningerMock.json';
 import { useHentBehandling } from '../../App/hooks/useHentBehandling';
-
-export const behandlingMock: Behandling = {
-    id: 'ad983bff-d807-4ade-928e-1093e16ec2ac',
-    steg: 'FATTAR_VEDTAK',
-    status: BehandlingStatus.UTREDES,
-    fagsakId: '8de5ab73-e135-4cb3-b2cc-222f4cb5e339',
-    resultat: BehandlingResultat.HENLAGT,
-    sistEndret: '2020-10-09T11:27:15Z',
-    opprettet: '2020-11-24T16:51:06.174',
-    fagsystem: Fagsystem.EF,
-};
+import { IPersonopplysninger } from '../../App/typer/personopplysninger';
+import { kjønnType } from '@navikt/familie-typer';
 
 const Container = styled.div`
     display: flex;
@@ -86,7 +75,7 @@ const BehandlingContainer: FC = () => {
 const BehandlingContent: FC<{
     behandling: Behandling;
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    personopplysninger: any;
+    personopplysninger: IPersonopplysninger;
 }> = ({ behandling, personopplysninger }) => {
     useSetValgtFagsakId(behandling.fagsakId);
     const { åpenHøyremeny } = useBehandling();
@@ -107,6 +96,18 @@ const BehandlingContent: FC<{
     );
 };
 
+const person: IPersonopplysninger = {
+    personIdent: '1',
+    navn: {
+        fornavn: 'Juni',
+        mellomnavn: 'Leirvik',
+        etternavn: 'Larsen',
+        visningsnavn: 'Juni Leirvik',
+    },
+    kjønn: kjønnType.KVINNE,
+    adresse: 'Uelands gate 32',
+};
+
 const BehandlingOverbygg: FC = () => {
     const { hentBehandlingCallback, behandling } = useHentBehandling(hentBehandlingIdFraUrl());
 
@@ -115,12 +116,7 @@ const BehandlingOverbygg: FC = () => {
         document.title = 'Behandling';
     }, [hentBehandlingCallback]);
     if (behandling.status === 'SUKSESS') {
-        return (
-            <BehandlingContent
-                behandling={behandling.data}
-                personopplysninger={personopplysningerMock.data}
-            />
-        );
+        return <BehandlingContent behandling={behandling.data} personopplysninger={person} />;
     } else {
         return <div>Kunne ikke hente data om behandlingen fra backend.</div>;
     }
