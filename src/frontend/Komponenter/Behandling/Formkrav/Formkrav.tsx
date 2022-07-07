@@ -6,7 +6,7 @@ import { Klageinfo } from './Klageinfo';
 import { useApp } from '../../../App/context/AppContext';
 import { Ressurs, RessursStatus } from '../../../App/typer/ressurs';
 import { useBehandling } from '../../../App/context/BehandlingContext';
-import { IForm } from './utils';
+import { IForm, VilkårStatus } from './utils';
 
 const FormKravStyling = styled.div`
     display: flex;
@@ -27,7 +27,23 @@ const FormKravStylingBody = styled.div`
 export const Formkrav: React.FC<{ behandlingId: string }> = ({ behandlingId }) => {
     const [vilkårOppfylt, settVilkårOppfylt] = useState(false);
     const { axiosRequest } = useApp();
-    const [formkrav, settFormkrav] = useState<IForm>();
+
+    const formObjekt: IForm = {
+        behandlingId: behandlingId,
+        fagsakId: 'b0fa4cae-a676-44b3-8725-232dac935c4a',
+        vedtaksdato: '',
+        klageMottatt: '',
+        klageÅrsak: '',
+        klageBeskrivelse: '',
+        klagePart: VilkårStatus.IKKE_SATT,
+        klageKonkret: VilkårStatus.IKKE_SATT,
+        klagefristOverholdt: VilkårStatus.IKKE_SATT,
+        klageSignert: VilkårStatus.IKKE_SATT,
+        saksbehandlerBegrunnelse: '',
+        sakSistEndret: '',
+    };
+
+    const [formkrav, settFormkrav] = useState<IForm>(formObjekt);
     const { formkravLåst, settFormkravLåst } = useBehandling();
 
     useEffect(() => {
@@ -37,7 +53,15 @@ export const Formkrav: React.FC<{ behandlingId: string }> = ({ behandlingId }) =
             url: `/familie-klage/api/formkrav/${behandlingId}`,
         }).then((res: Ressurs<IForm>) => {
             if (res.status === RessursStatus.SUKSESS) {
-                settFormkrav(res.data);
+                settFormkrav((prevState) => ({
+                    ...prevState,
+                    fagsakId: res.data.fagsakId,
+                    klageMottatt: res.data.klageMottatt,
+                    klageÅrsak: res.data.klageÅrsak,
+                    klageBeskrivelse: res.data.klageBeskrivelse,
+                    saksbehandlerBegrunnelse: res.data.saksbehandlerBegrunnelse,
+                    vedtaksdato: res.data.vedtaksdato,
+                }));
             }
         });
     }, [axiosRequest, behandlingId]);

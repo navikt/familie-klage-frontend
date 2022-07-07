@@ -5,7 +5,7 @@ import { RadioknapperLesemodus } from './RadioKnapperLesemodus';
 import { useApp } from '../../../App/context/AppContext';
 import { Ressurs, RessursStatus } from '../../../App/typer/ressurs';
 import { useBehandling } from '../../../App/context/BehandlingContext';
-import { IForm, IFormvilkår, IRadioKnapper, VilkårStatus, vilkårStatusTilTekst } from './utils';
+import { IForm, IFormvilkår, IRadioKnapper, VilkårStatus } from './utils';
 
 const FormKravStyling = styled.div`
     display: flex;
@@ -58,12 +58,13 @@ export const Formvilkår: React.FC<IFormvilkår> = ({
     const { axiosRequest, nullstillIkkePersisterteKomponenter, settIkkePersistertKomponent } =
         useApp();
 
-    const [saksbehandlerBegrunnelse, settsaksbehandlerBegrunnelse] = useState('');
+    //const [saksbehandlerBegrunnelse, settsaksbehandlerBegrunnelse] = useState('');
 
+    const dateString = new Date().toISOString().split('T')[0];
     const formObjekt: IForm = {
         behandlingId: behandlingId,
         fagsakId: 'b0fa4cae-a676-44b3-8725-232dac935c4a',
-        vedtaksdato: '',
+        vedtaksdato: dateString,
         klageMottatt: '',
         klageÅrsak: '',
         klageBeskrivelse: '',
@@ -72,7 +73,7 @@ export const Formvilkår: React.FC<IFormvilkår> = ({
         klagefristOverholdt: VilkårStatus.IKKE_SATT,
         klageSignert: VilkårStatus.IKKE_SATT,
         saksbehandlerBegrunnelse: '',
-        sakSistEndret: '',
+        sakSistEndret: dateString,
     };
 
     const [formData, settFormData] = useState<IForm>(formObjekt);
@@ -133,8 +134,8 @@ export const Formvilkår: React.FC<IFormvilkår> = ({
                 klageKonkret: VilkårStatus.IKKE_SATT,
                 klagefristOverholdt: VilkårStatus.IKKE_SATT,
                 klageSignert: VilkårStatus.IKKE_SATT,
+                saksbehandlerBegrunnelse: '',
             }));
-            settsaksbehandlerBegrunnelse('');
             settVilkårTom(false);
             settVilkårOppfylt(false);
         }
@@ -142,7 +143,7 @@ export const Formvilkår: React.FC<IFormvilkår> = ({
 
     const alleFeltErBesvart = (): boolean => {
         return !(
-            saksbehandlerBegrunnelse === '' ||
+            formData.saksbehandlerBegrunnelse === '' ||
             formData.klagePart === VilkårStatus.IKKE_SATT ||
             formData.klageKonkret === VilkårStatus.IKKE_SATT ||
             formData.klagefristOverholdt === VilkårStatus.IKKE_SATT ||
@@ -150,12 +151,29 @@ export const Formvilkår: React.FC<IFormvilkår> = ({
         );
     };
 
+    /*const f: IForm = {
+        behandlingId: behandlingId,
+        fagsakId: formData.fagsakId,
+        vedtaksdato: formData.vedtaksdato,
+        klageMottatt: formData.klageMottatt,
+        klageÅrsak: formData.klageÅrsak,
+        klageBeskrivelse: formData.klageBeskrivelse,
+        klagePart: formData.klagePart,
+        klageKonkret: formData.klageKonkret,
+        klagefristOverholdt: formData.klagefristOverholdt,
+        klageSignert: formData.klageSignert,
+        saksbehandlerBegrunnelse: saksbehandlerBegrunnelse,
+        sakSistEndret: formData.sakSistEndret
+    }*/
+
     const opprettForm = () => {
         if (alleFeltErBesvart()) {
             settVilkårOppfylt(true);
         } else {
             settLåst(true);
         }
+
+        console.log(formData);
 
         axiosRequest<IForm, IForm>({
             method: 'POST',
@@ -181,8 +199,6 @@ export const Formvilkår: React.FC<IFormvilkår> = ({
                                         legend={item.spørsmål}
                                         size="small"
                                         onChange={(val: VilkårStatus) => {
-                                            console.log(item.svar);
-                                            console.log(val);
                                             settFormData((prevState) => ({
                                                 ...prevState,
                                                 [item.navn]: val,
@@ -201,10 +217,13 @@ export const Formvilkår: React.FC<IFormvilkår> = ({
                         </RadioKnapperContainer>
                         <Textarea
                             label={undefined}
-                            value={saksbehandlerBegrunnelse}
+                            value={formData.saksbehandlerBegrunnelse}
                             onChange={(e) => {
-                                settsaksbehandlerBegrunnelse(e.target.value);
                                 settIkkePersistertKomponent(e.target.value);
+                                settFormData((prevState) => ({
+                                    ...prevState,
+                                    saksbehandlerBegrunnelse: e.target.value,
+                                }));
                             }}
                             size="small"
                             description="Vurdering"
@@ -222,14 +241,14 @@ export const Formvilkår: React.FC<IFormvilkår> = ({
                 <RadioknapperLesemodus
                     radioKnapper={radioKnapperLeseListe}
                     redigerHandling={settVilkårOppfylt}
-                    saksbehandlerBegrunnelse={saksbehandlerBegrunnelse}
+                    saksbehandlerBegrunnelse={formData.saksbehandlerBegrunnelse}
                 />
             )}
             {låst && (
                 <RadioknapperLesemodus
                     radioKnapper={radioKnapperLeseListe}
                     redigerHandling={settLåst}
-                    saksbehandlerBegrunnelse={saksbehandlerBegrunnelse}
+                    saksbehandlerBegrunnelse={formData.saksbehandlerBegrunnelse}
                 />
             )}
         </FormKravStyling>

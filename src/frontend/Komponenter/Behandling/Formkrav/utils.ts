@@ -1,5 +1,3 @@
-import { Dispatch, SetStateAction } from 'react';
-
 export interface IFormvilkår {
     behandlingId: string;
     vilkårOppfylt: boolean;
