@@ -49,7 +49,7 @@ export interface IForm {
     fagsakId: string;
     vedtaksdato: string;
     klageMottatt: string;
-    klageÅrsak: string;
+    klageaarsak: string;
     klageBeskrivelse: string;
     klagePart: VilkårStatus;
     klageKonkret: VilkårStatus;

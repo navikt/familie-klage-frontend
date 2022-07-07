@@ -58,15 +58,13 @@ export const Formvilkår: React.FC<IFormvilkår> = ({
     const { axiosRequest, nullstillIkkePersisterteKomponenter, settIkkePersistertKomponent } =
         useApp();
 
-    //const [saksbehandlerBegrunnelse, settsaksbehandlerBegrunnelse] = useState('');
-
     const dateString = new Date().toISOString().split('T')[0];
     const formObjekt: IForm = {
         behandlingId: behandlingId,
         fagsakId: 'b0fa4cae-a676-44b3-8725-232dac935c4a',
         vedtaksdato: dateString,
         klageMottatt: '',
-        klageÅrsak: '',
+        klageaarsak: '',
         klageBeskrivelse: '',
         klagePart: VilkårStatus.IKKE_SATT,
         klageKonkret: VilkårStatus.IKKE_SATT,
@@ -115,7 +113,7 @@ export const Formvilkår: React.FC<IFormvilkår> = ({
                         ...prevState,
                         fagsakId: res.data.fagsakId,
                         klageMottatt: res.data.klageMottatt,
-                        klageÅrsak: res.data.klageÅrsak,
+                        klageaarsak: res.data.klageaarsak,
                         klageBeskrivelse: res.data.klageBeskrivelse,
                         klagePart: res.data.klagePart,
                         klageKonkret: res.data.klageKonkret,

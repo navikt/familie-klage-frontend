@@ -76,6 +76,7 @@ interface IFormkravVenstre {
     formkrav: IForm;
 }
 export const Klageinfo: React.FC<IFormkravVenstre> = ({ vilkårOppfylt, formkrav }) => {
+    console.log(formkrav.klageMottatt);
     const vedtaksdato = new Date(formkrav.vedtaksdato);
     const klageMottatt = new Date(formkrav.klageMottatt);
 
@@ -96,7 +97,7 @@ export const Klageinfo: React.FC<IFormkravVenstre> = ({ vilkårOppfylt, formkrav
                     </IkonKategoriGruppe>
                 </KolonneVenstre>
                 <KolonneHøyre>
-                    <BodyLongStyled size="small">{datoFormatering(vedtaksdato)} </BodyLongStyled>
+                    <BodyLongStyled size="small">{formkrav.vedtaksdato} </BodyLongStyled>
                 </KolonneHøyre>
             </IkonTekstRadContainer>
 
@@ -108,7 +109,7 @@ export const Klageinfo: React.FC<IFormkravVenstre> = ({ vilkårOppfylt, formkrav
                     </IkonKategoriGruppe>
                 </KolonneVenstre>
                 <KolonneHøyre>
-                    <BodyLongStyled size="small">{datoFormatering(klageMottatt)}</BodyLongStyled>
+                    <BodyLongStyled size="small">{formkrav.klageMottatt}</BodyLongStyled>
                 </KolonneHøyre>
             </IkonTekstRadContainer>
 
@@ -120,7 +121,7 @@ export const Klageinfo: React.FC<IFormkravVenstre> = ({ vilkårOppfylt, formkrav
                     </IkonKategoriGruppe>
                 </KolonneVenstre>
                 <KolonneHøyre>
-                    <BodyLongStyled size="small">{formkrav.klageÅrsak}</BodyLongStyled>
+                    <BodyLongStyled size="small">{formkrav.klageaarsak}</BodyLongStyled>
                 </KolonneHøyre>
             </IkonTekstRadContainer>
 
