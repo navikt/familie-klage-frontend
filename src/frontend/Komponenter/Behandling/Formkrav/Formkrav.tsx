@@ -1,12 +1,12 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
-import { FormkravHøyre } from './FormkravHøyre';
-import { FormkravVenstre } from './FormkravVenstre';
+import { Formvilkår } from './Formvilkår';
+import { Klageinfo } from './Klageinfo';
 import { useApp } from '../../../App/context/AppContext';
 import { Ressurs, RessursStatus } from '../../../App/typer/ressurs';
-import { Vilkårsresultat } from './vilkår';
 import { useBehandling } from '../../../App/context/BehandlingContext';
+import { IForm } from './utils';
 
 const FormKravStyling = styled.div`
     display: flex;
@@ -24,25 +24,6 @@ const FormKravStylingBody = styled.div`
     width: 100%;
 `;
 
-export interface IForm {
-    behandlingsId: string;
-    fagsakId: string;
-    vedtaksdato: string;
-
-    klageMottatt: string;
-    klageÅrsak: string;
-    klageBeskrivelse: string;
-
-    klagePart: Vilkårsresultat;
-    klageKonkret: Vilkårsresultat;
-    klagefristOverholdt: Vilkårsresultat;
-    klageSignert: Vilkårsresultat;
-
-    saksbehandlerBegrunnelse: string;
-    sakSistEndret: string;
-
-    fullført: boolean;
-}
 export const Formkrav: React.FC<{ behandlingId: string }> = ({ behandlingId }) => {
     const [vilkårOppfylt, settVilkårOppfylt] = useState(false);
     const { axiosRequest } = useApp();
@@ -65,13 +46,13 @@ export const Formkrav: React.FC<{ behandlingId: string }> = ({ behandlingId }) =
         <FormKravStyling>
             <FormKravStylingBody>
                 {formkrav !== undefined && (
-                    <FormkravVenstre
+                    <Klageinfo
                         vilkårOppfylt={vilkårOppfylt}
                         formkrav={formkrav}
                         låst={formkravLåst}
                     />
                 )}
-                <FormkravHøyre
+                <Formvilkår
                     behandlingId={behandlingId}
                     vilkårOppfylt={vilkårOppfylt}
                     settVilkårOppfylt={settVilkårOppfylt}

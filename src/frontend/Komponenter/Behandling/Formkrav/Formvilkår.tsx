@@ -1,10 +1,11 @@
 import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
-import { Textarea, Radio, RadioGroup, Button } from '@navikt/ds-react';
-import { IRadioKnapper, RadioknapperLesemodus } from './RadioKnapperLesemodus';
+import { Button, Radio, RadioGroup, Textarea } from '@navikt/ds-react';
+import { RadioknapperLesemodus } from './RadioKnapperLesemodus';
 import { useApp } from '../../../App/context/AppContext';
 import { Ressurs, RessursStatus } from '../../../App/typer/ressurs';
 import { useBehandling } from '../../../App/context/BehandlingContext';
+import { IForm, IFormvilkår, IRadioKnapper, VilkårStatus } from './utils';
 
 const FormKravStyling = styled.div`
     display: flex;
@@ -46,36 +47,7 @@ const ButtonStyled = styled(Button)`
     margin-bottom: 0.5rem;
 `;
 
-interface IFormKravHøyre {
-    behandlingId: string;
-    vilkårOppfylt: boolean;
-    settVilkårOppfylt: (value: boolean) => void;
-    låst: boolean;
-    settLåst: (value: boolean) => void;
-}
-
-export interface IForm {
-    behandlingId: string;
-    klagePart: FormVilkår;
-    klageKonkret: FormVilkår;
-    klagefristOverholdt: FormVilkår;
-    klageSignert: FormVilkår;
-    saksbehandlerBegrunnelse: string;
-}
-
-export enum FormVilkår {
-    OPPFYLT = 'OPPFYLT',
-    IKKE_OPPFYLT = 'IKKE_OPPFYLT',
-    IKKE_SATT = 'IKKE_SATT',
-}
-
-export const formVilkårTilTekst: Record<FormVilkår, string> = {
-    OPPFYLT: 'Oppfylt',
-    IKKE_OPPFYLT: 'Ikke oppfylt',
-    IKKE_SATT: 'Ikke satt',
-};
-
-export const FormkravHøyre: React.FC<IFormKravHøyre> = ({
+export const Formvilkår: React.FC<IFormvilkår> = ({
     behandlingId,
     vilkårOppfylt,
     settVilkårOppfylt,
@@ -87,33 +59,46 @@ export const FormkravHøyre: React.FC<IFormKravHøyre> = ({
         useApp();
 
     const [saksbehandlerBegrunnelse, settsaksbehandlerBegrunnelse] = useState('');
-    const [klagePart, settKlagePart] = useState(FormVilkår.IKKE_SATT);
-    const [klageKonkret, settKlageKonkret] = useState(FormVilkår.IKKE_SATT);
-    const [klagefristOverholdt, settKlagefrist] = useState(FormVilkår.IKKE_SATT);
-    const [klageSignert, settKlageSignert] = useState(FormVilkår.IKKE_SATT);
+
+    const formObjekt: IForm = {
+        behandlingId: behandlingId,
+        fagsakId: '',
+        vedtaksdato: '',
+        klageMottatt: '',
+        klageÅrsak: '',
+        klageBeskrivelse: '',
+        klagePart: VilkårStatus.IKKE_SATT,
+        klageKonkret: VilkårStatus.IKKE_SATT,
+        klagefristOverholdt: VilkårStatus.IKKE_SATT,
+        klageSignert: VilkårStatus.IKKE_SATT,
+        saksbehandlerBegrunnelse: '',
+        sakSistEndret: '',
+    };
+
+    const [formData, settFormData] = useState<IForm>(formObjekt);
     const radioKnapperLeseListe: IRadioKnapper[] = [
         {
             spørsmål: 'Er klager part i saken?',
-            svar: klagePart,
-            setter: settKlagePart,
+            svar: formData.klagePart,
+            setter: settFormData,
             key: 0,
         },
         {
             spørsmål: 'Klages det på konkrete elementer i vedtaket',
-            svar: klageKonkret,
-            setter: settKlageKonkret,
+            svar: formData.klageKonkret,
+            setter: settFormData,
             key: 1,
         },
         {
             spørsmål: 'Er klagefristen overholdt?',
-            svar: klagefristOverholdt,
-            setter: settKlagefrist,
+            svar: formData.klagefristOverholdt,
+            setter: settFormData,
             key: 2,
         },
         {
             spørsmål: 'Er klagen signert?',
-            svar: klageSignert,
-            setter: settKlageSignert,
+            svar: formData.klageSignert,
+            setter: settFormData,
             key: 3,
         },
         {
@@ -131,19 +116,30 @@ export const FormkravHøyre: React.FC<IFormKravHøyre> = ({
                 url: `/familie-klage/api/formkrav/vilkar/${behandlingId}`,
             }).then((res: Ressurs<IForm>) => {
                 if (res.status === RessursStatus.SUKSESS) {
-                    settKlagePart(res.data.klagePart);
-                    settKlageKonkret(res.data.klageKonkret);
-                    settKlagefrist(res.data.klagefristOverholdt);
-                    settKlageSignert(res.data.klageSignert);
-                    settsaksbehandlerBegrunnelse(res.data.saksbehandlerBegrunnelse);
+                    settFormData((prevState) => ({
+                        ...prevState,
+                        fagsakId: res.data.fagsakId,
+                        klageMottatt: res.data.klageMottatt,
+                        klageÅrsak: res.data.klageÅrsak,
+                        klageBeskrivelse: res.data.klageBeskrivelse,
+                        klagePart: res.data.klagePart,
+                        klageKonkret: res.data.klageKonkret,
+                        klagefristOverholdt: res.data.klagefristOverholdt,
+                        klageSignert: res.data.klageSignert,
+                        saksbehandlerBegrunnelse: res.data.saksbehandlerBegrunnelse,
+                        vedtaksdato: res.data.vedtaksdato,
+                    }));
                 }
             });
         }
         if (vilkårTom) {
-            settKlagePart(FormVilkår.IKKE_SATT);
-            settKlageKonkret(FormVilkår.IKKE_SATT);
-            settKlagefrist(FormVilkår.IKKE_SATT);
-            settKlageSignert(FormVilkår.IKKE_SATT);
+            settFormData((prevState) => ({
+                ...prevState,
+                klagePart: VilkårStatus.IKKE_SATT,
+                klageKonkret: VilkårStatus.IKKE_SATT,
+                klagefristOverholdt: VilkårStatus.IKKE_SATT,
+                klageSignert: VilkårStatus.IKKE_SATT,
+            }));
             settsaksbehandlerBegrunnelse('');
             settVilkårTom(false);
             settVilkårOppfylt(false);
@@ -153,10 +149,10 @@ export const FormkravHøyre: React.FC<IFormKravHøyre> = ({
     const alleFeltErBesvart = (): boolean => {
         return !(
             saksbehandlerBegrunnelse === '' ||
-            klagePart === FormVilkår.IKKE_SATT ||
-            klageKonkret === FormVilkår.IKKE_SATT ||
-            klagefristOverholdt === FormVilkår.IKKE_SATT ||
-            klageSignert === FormVilkår.IKKE_SATT
+            formData.klagePart === VilkårStatus.IKKE_SATT ||
+            formData.klageKonkret === VilkårStatus.IKKE_SATT ||
+            formData.klagefristOverholdt === VilkårStatus.IKKE_SATT ||
+            formData.klageSignert === VilkårStatus.IKKE_SATT
         );
     };
 
@@ -169,17 +165,23 @@ export const FormkravHøyre: React.FC<IFormKravHøyre> = ({
 
         const f: IForm = {
             behandlingId: behandlingId,
-            klagePart: klagePart,
-            klageKonkret: klageKonkret,
-            klagefristOverholdt: klagefristOverholdt,
-            klageSignert: klageSignert,
+            fagsakId: formData.fagsakId,
+            vedtaksdato: formData.vedtaksdato,
+            klageMottatt: formData.klageMottatt,
+            klageÅrsak: formData.klageÅrsak,
+            klageBeskrivelse: formData.klageBeskrivelse,
+            klagePart: formData.klagePart,
+            klageKonkret: formData.klageKonkret,
+            klagefristOverholdt: formData.klagefristOverholdt,
+            klageSignert: formData.klageSignert,
+            sakSistEndret: '',
             saksbehandlerBegrunnelse: saksbehandlerBegrunnelse,
         };
 
         axiosRequest<IForm, IForm>({
             method: 'POST',
             url: `/familie-klage/api/formkrav`,
-            data: f,
+            data: formData,
         }).then((res: Ressurs<IForm>) => {
             if (res.status === RessursStatus.SUKSESS) {
                 nullstillIkkePersisterteKomponenter();
@@ -206,8 +208,8 @@ export const FormkravHøyre: React.FC<IFormKravHøyre> = ({
                                         value={item.svar}
                                         key={item.key}
                                     >
-                                        <RadioStyled value={FormVilkår.OPPFYLT}>Ja</RadioStyled>
-                                        <RadioStyled value={FormVilkår.IKKE_OPPFYLT}>
+                                        <RadioStyled value={VilkårStatus.OPPFYLT}>Ja</RadioStyled>
+                                        <RadioStyled value={VilkårStatus.IKKE_OPPFYLT}>
                                             Nei
                                         </RadioStyled>
                                     </RadioGroupStyled>

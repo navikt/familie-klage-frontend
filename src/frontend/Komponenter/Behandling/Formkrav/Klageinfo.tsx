@@ -6,7 +6,7 @@ import { FileContent } from '@navikt/ds-icons';
 import navFarger from 'nav-frontend-core';
 import IkkeVurdert from '../../../Felles/Ikoner/IkkeVurdert';
 import Oppfylt from '../../../Felles/Ikoner/Oppfylt';
-import { IForm } from './Formkrav';
+import { IForm, datoFormatering } from './utils';
 
 const FormKravStylingVenstre = styled.div`
     width: 50%;
@@ -70,16 +70,12 @@ const FileContentStyled = styled(FileContent)`
     margin: 0 1.5rem 0 0.1rem;
 `;
 
-export const datoFormatering = (dato: Date) => {
-    return dato.getDay() + '.' + dato.getMonth() + '.' + dato.getFullYear();
-};
-
 interface IFormkravVenstre {
     vilkårOppfylt: boolean;
     låst: boolean;
     formkrav: IForm;
 }
-export const FormkravVenstre: React.FC<IFormkravVenstre> = ({ vilkårOppfylt, formkrav }) => {
+export const Klageinfo: React.FC<IFormkravVenstre> = ({ vilkårOppfylt, formkrav }) => {
     const vedtaksdato = new Date(formkrav.vedtaksdato);
     const klageMottatt = new Date(formkrav.klageMottatt);
 
