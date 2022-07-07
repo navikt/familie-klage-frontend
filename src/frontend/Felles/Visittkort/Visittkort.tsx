@@ -52,19 +52,19 @@ const VisittkortComponent: FC<{ data: IPersonopplysninger; behandling?: Behandli
     data,
     behandling,
 }) => {
-    const { personIdent, kjønn, navn } = data;
+    const { behandlingId, kjønn, navn } = data;
 
     const { axiosRequest, gåTilUrl } = useApp();
     const [fagsakPersonId, settFagsakPersonId] = useState<string>('');
 
     useEffect(() => {
-        const hentFagsak = (personIdent: string): void => {
-            if (!personIdent) return;
+        const hentFagsak = (behandlingId: string): void => {
+            if (!behandlingId) return;
 
             axiosRequest<ISøkPerson, IPersonIdent>({
                 method: 'POST',
                 url: `/familie-ef-sak/api/sok/`,
-                data: { personIdent: personIdent },
+                data: { personIdent: behandlingId },
             }).then((respons: RessursSuksess<ISøkPerson> | RessursFeilet) => {
                 if (respons.status === RessursStatus.SUKSESS) {
                     if (respons.data?.fagsakPersonId) {
@@ -74,7 +74,7 @@ const VisittkortComponent: FC<{ data: IPersonopplysninger; behandling?: Behandli
             });
         };
 
-        hentFagsak(personIdent);
+        hentFagsak(behandlingId);
 
         // eslint-disable-next-line
     }, []);
@@ -83,7 +83,7 @@ const VisittkortComponent: FC<{ data: IPersonopplysninger; behandling?: Behandli
         <VisittkortWrapper>
             <Visittkort
                 alder={20}
-                ident={personIdent}
+                ident={behandlingId}
                 kjønn={kjønn}
                 navn={
                     <ResponsivLenke
@@ -94,7 +94,7 @@ const VisittkortComponent: FC<{ data: IPersonopplysninger; behandling?: Behandli
                             gåTilUrl(`/person/${fagsakPersonId}`);
                         }}
                     >
-                        <Visningsnavn>{navn.visningsnavn}</Visningsnavn>
+                        <Visningsnavn>{navn}</Visningsnavn>
                     </ResponsivLenke>
                 }
             ></Visittkort>

@@ -2,33 +2,12 @@
 
 import { kjønnType } from '@navikt/familie-typer';
 
-/*export interface IPersonopplysninger {
-    personIdent: string;
-    navn: INavn;
-    kjønn: kjønnType;
-    adressebeskyttelse?: Adressebeskyttelse;
-    folkeregisterpersonstatus?: Folkeregisterpersonstatus;
-    dødsdato?: string;
-    fødselsdato?: string;
-    egenAnsatt: boolean;
-    telefonnummer?: ITelefonnummer;
-    statsborgerskap: IStatsborgerskap[];
-    sivilstand: ISivilstand[];
-    adresse: IAdresse[];
-    fullmakt: IFullmakt[];
-    navEnhet: string;
-    barn: IBarn[];
-    innflyttingTilNorge: IInnflyttingTilNorge[];
-    utflyttingFraNorge: IUtflyttingFraNorge[];
-    oppholdstillatelse: IOppholdstillatelse[];
-    vergemål: IVergemål[];
-}*/
-
 export interface IPersonopplysninger {
-    personIdent: string;
-    navn: INavn;
+    behandlingId: string;
+    personId: string;
+    navn: string;
     kjønn: kjønnType;
-    telefonnummer?: ITelefonnummer;
+    telefonnummer?: string;
     adresse: string;
 }
 

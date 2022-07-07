@@ -96,20 +96,16 @@ const BehandlingContent: FC<{
     );
 };
 
-const person: IPersonopplysninger = {
-    personIdent: '1',
-    navn: {
-        fornavn: 'Juni',
-        mellomnavn: 'Leirvik',
-        etternavn: 'Larsen',
-        visningsnavn: 'Juni Leirvik',
-    },
-    kjønn: kjønnType.KVINNE,
-    adresse: 'Uelands gate 32',
-};
-
 const BehandlingOverbygg: FC = () => {
     const { hentBehandlingCallback, behandling } = useHentBehandling(hentBehandlingIdFraUrl());
+
+    const person: IPersonopplysninger = {
+        behandlingId: '123',
+        personId: '1',
+        navn: 'Juni Leirvik',
+        kjønn: kjønnType.KVINNE,
+        adresse: 'Uelands gate 32',
+    };
 
     useEffect(() => {
         hentBehandlingCallback();
