@@ -5,7 +5,7 @@ import { RadioknapperLesemodus } from './RadioKnapperLesemodus';
 import { useApp } from '../../../App/context/AppContext';
 import { Ressurs, RessursStatus } from '../../../App/typer/ressurs';
 import { useBehandling } from '../../../App/context/BehandlingContext';
-import { IForm, IFormvilkår, IRadioKnapper, VilkårStatus } from './utils';
+import { IForm, IFormvilkår, IRadioKnapper, VilkårStatus, vilkårStatusTilTekst } from './utils';
 
 const FormKravStyling = styled.div`
     display: flex;
@@ -62,7 +62,7 @@ export const Formvilkår: React.FC<IFormvilkår> = ({
 
     const formObjekt: IForm = {
         behandlingId: behandlingId,
-        fagsakId: '',
+        fagsakId: 'b0fa4cae-a676-44b3-8725-232dac935c4a',
         vedtaksdato: '',
         klageMottatt: '',
         klageÅrsak: '',
@@ -80,32 +80,26 @@ export const Formvilkår: React.FC<IFormvilkår> = ({
         {
             spørsmål: 'Er klager part i saken?',
             svar: formData.klagePart,
-            setter: settFormData,
+            navn: 'klagePart',
             key: 0,
         },
         {
             spørsmål: 'Klages det på konkrete elementer i vedtaket',
             svar: formData.klageKonkret,
-            setter: settFormData,
+            navn: 'klageKonkret',
             key: 1,
         },
         {
             spørsmål: 'Er klagefristen overholdt?',
             svar: formData.klagefristOverholdt,
-            setter: settFormData,
+            navn: 'klagefristOverholdt',
             key: 2,
         },
         {
             spørsmål: 'Er klagen signert?',
             svar: formData.klageSignert,
-            setter: settFormData,
+            navn: 'klageSignert',
             key: 3,
-        },
-        {
-            spørsmål: 'Begrunnelse',
-            svar: saksbehandlerBegrunnelse,
-            setter: settsaksbehandlerBegrunnelse,
-            key: 4,
         },
     ];
 
@@ -163,21 +157,6 @@ export const Formvilkår: React.FC<IFormvilkår> = ({
             settLåst(true);
         }
 
-        const f: IForm = {
-            behandlingId: behandlingId,
-            fagsakId: formData.fagsakId,
-            vedtaksdato: formData.vedtaksdato,
-            klageMottatt: formData.klageMottatt,
-            klageÅrsak: formData.klageÅrsak,
-            klageBeskrivelse: formData.klageBeskrivelse,
-            klagePart: formData.klagePart,
-            klageKonkret: formData.klageKonkret,
-            klagefristOverholdt: formData.klagefristOverholdt,
-            klageSignert: formData.klageSignert,
-            sakSistEndret: '',
-            saksbehandlerBegrunnelse: saksbehandlerBegrunnelse,
-        };
-
         axiosRequest<IForm, IForm>({
             method: 'POST',
             url: `/familie-klage/api/formkrav`,
@@ -201,8 +180,13 @@ export const Formvilkår: React.FC<IFormvilkår> = ({
                                     <RadioGroupStyled
                                         legend={item.spørsmål}
                                         size="small"
-                                        onChange={(val: any) => {
-                                            item.setter(val);
+                                        onChange={(val: VilkårStatus) => {
+                                            console.log(item.svar);
+                                            console.log(val);
+                                            settFormData((prevState) => ({
+                                                ...prevState,
+                                                [item.navn]: val,
+                                            }));
                                             settIkkePersistertKomponent(val);
                                         }}
                                         value={item.svar}

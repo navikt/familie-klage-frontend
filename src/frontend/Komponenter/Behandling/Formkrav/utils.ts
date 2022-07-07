@@ -32,8 +32,8 @@ export const vilkårStatusTilTekst: Record<VilkårStatus, string> = {
 export interface IRadioKnapper {
     spørsmål: string;
     svar: string;
-    setter: Dispatch<SetStateAction<IForm>> | Dispatch<SetStateAction<string>>;
     key: number;
+    navn: string;
 }
 
 export interface IRadioKnapperLeseModus {
