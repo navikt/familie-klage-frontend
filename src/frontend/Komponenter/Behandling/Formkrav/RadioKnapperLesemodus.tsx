@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import React, { Dispatch, SetStateAction } from 'react';
+import React from 'react';
 import styled from 'styled-components';
 import SlettSøppelkasse from '../../../Felles/Ikoner/SlettSøppelkasse';
 import RedigerBlyant from '../../../Felles/Ikoner/RedigerBlyant';
@@ -7,7 +7,14 @@ import LenkeKnapp from '../../../Felles/Knapper/LenkeKnapp';
 import navFarger from 'nav-frontend-core';
 import { BodyLong, Heading } from '@navikt/ds-react';
 import BrukerMedBlyant from '../../../Felles/Ikoner/BrukerMedBlyant';
-import { FormVilkår, formVilkårTilTekst, IForm } from './FormkravHøyre';
+import {
+    VilkårStatus,
+    vilkårStatusTilTekst,
+    IForm,
+    IRadioKnapperLeseModus,
+    IRadioKnapper,
+    IVilkårNullstill,
+} from './utils';
 import { useBehandling } from '../../../App/context/BehandlingContext';
 import { hentBehandlingIdFraUrl } from '../BehandlingContainer';
 import { useApp } from '../../../App/context/AppContext';
@@ -75,19 +82,6 @@ const BodyLongStyled = styled(BodyLong)`
     font-size: 1rem;
 `;
 
-export interface IRadioKnapper {
-    spørsmål: string;
-    svar: string;
-    setter: Dispatch<SetStateAction<FormVilkår>> | Dispatch<SetStateAction<string>>;
-    key: number;
-}
-
-interface IRadioKnapperLeseModus {
-    radioKnapper: IRadioKnapper[];
-    redigerHandling: (value: boolean) => void;
-    saksbehandlerBegrunnelse: string;
-}
-
 export const RadioknapperLesemodus: React.FC<IRadioKnapperLeseModus> = ({
     radioKnapper,
     redigerHandling,
@@ -96,16 +90,16 @@ export const RadioknapperLesemodus: React.FC<IRadioKnapperLeseModus> = ({
     const { settFormkravLåst, settVilkårTom } = useBehandling();
     const { axiosRequest } = useApp();
     const slettHandling = () => {
-        const f: IForm = {
+        const f: IVilkårNullstill = {
             behandlingId: hentBehandlingIdFraUrl(),
-            klagePart: FormVilkår.IKKE_OPPFYLT,
-            klageKonkret: FormVilkår.IKKE_OPPFYLT,
-            klagefristOverholdt: FormVilkår.IKKE_OPPFYLT,
-            klageSignert: FormVilkår.IKKE_OPPFYLT,
+            klagePart: VilkårStatus.IKKE_SATT,
+            klageKonkret: VilkårStatus.IKKE_SATT,
+            klagefristOverholdt: VilkårStatus.IKKE_SATT,
+            klageSignert: VilkårStatus.IKKE_SATT,
             saksbehandlerBegrunnelse: '',
         };
 
-        axiosRequest<IForm, IForm>({
+        axiosRequest<IForm, IVilkårNullstill>({
             method: 'POST',
             url: `/familie-klage/api/formkrav`,
             data: f,
@@ -142,7 +136,7 @@ export const RadioknapperLesemodus: React.FC<IRadioKnapperLeseModus> = ({
                 {radioKnapper.map((item: IRadioKnapper) => (
                     <SvarElement key={item.key}>
                         <Spørsmål>{item.spørsmål}</Spørsmål>
-                        <Svar>{formVilkårTilTekst[item.svar]}</Svar>
+                        <Svar>{vilkårStatusTilTekst[item.svar]}</Svar>
                     </SvarElement>
                 ))}
                 <BodyLongStyled>{saksbehandlerBegrunnelse}</BodyLongStyled>

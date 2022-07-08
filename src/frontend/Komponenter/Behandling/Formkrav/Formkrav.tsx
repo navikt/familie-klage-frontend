@@ -1,12 +1,11 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
 import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
-import { FormkravHøyre } from './FormkravHøyre';
-import { FormkravVenstre } from './FormkravVenstre';
+import { Formvilkår } from './Formvilkår';
+import { Klageinfo } from './Klageinfo';
 import { useApp } from '../../../App/context/AppContext';
 import { Ressurs, RessursStatus } from '../../../App/typer/ressurs';
-import { Vilkårsresultat } from './vilkår';
 import { useBehandling } from '../../../App/context/BehandlingContext';
+import { IForm, VilkårStatus } from './utils';
 
 const FormKravStyling = styled.div`
     display: flex;
@@ -24,29 +23,26 @@ const FormKravStylingBody = styled.div`
     width: 100%;
 `;
 
-export interface IForm {
-    behandlingsId: string;
-    fagsakId: string;
-    vedtaksdato: string;
-
-    klageMottatt: string;
-    klageÅrsak: string;
-    klageBeskrivelse: string;
-
-    klagePart: Vilkårsresultat;
-    klageKonkret: Vilkårsresultat;
-    klagefristOverholdt: Vilkårsresultat;
-    klageSignert: Vilkårsresultat;
-
-    saksbehandlerBegrunnelse: string;
-    sakSistEndret: string;
-
-    fullført: boolean;
-}
 export const Formkrav: React.FC<{ behandlingId: string }> = ({ behandlingId }) => {
     const [vilkårOppfylt, settVilkårOppfylt] = useState(false);
     const { axiosRequest } = useApp();
-    const [formkrav, settFormkrav] = useState<IForm>();
+
+    const formObjekt: IForm = {
+        behandlingId: behandlingId,
+        fagsakId: 'b0fa4cae-a676-44b3-8725-232dac935c4a',
+        vedtaksdato: '',
+        klageMottatt: '',
+        klageaarsak: '',
+        klageBeskrivelse: '',
+        klagePart: VilkårStatus.IKKE_SATT,
+        klageKonkret: VilkårStatus.IKKE_SATT,
+        klagefristOverholdt: VilkårStatus.IKKE_SATT,
+        klageSignert: VilkårStatus.IKKE_SATT,
+        saksbehandlerBegrunnelse: '',
+        sakSistEndret: '',
+    };
+
+    const [formkrav, settFormkrav] = useState<IForm>(formObjekt);
     const { formkravLåst, settFormkravLåst } = useBehandling();
 
     useEffect(() => {
@@ -56,7 +52,15 @@ export const Formkrav: React.FC<{ behandlingId: string }> = ({ behandlingId }) =
             url: `/familie-klage/api/formkrav/${behandlingId}`,
         }).then((res: Ressurs<IForm>) => {
             if (res.status === RessursStatus.SUKSESS) {
-                settFormkrav(res.data);
+                settFormkrav((prevState) => ({
+                    ...prevState,
+                    fagsakId: res.data.fagsakId,
+                    klageMottatt: res.data.klageMottatt,
+                    klageaarsak: res.data.klageaarsak,
+                    klageBeskrivelse: res.data.klageBeskrivelse,
+                    saksbehandlerBegrunnelse: res.data.saksbehandlerBegrunnelse,
+                    vedtaksdato: res.data.vedtaksdato,
+                }));
             }
         });
     }, [axiosRequest, behandlingId]);
@@ -65,13 +69,13 @@ export const Formkrav: React.FC<{ behandlingId: string }> = ({ behandlingId }) =
         <FormKravStyling>
             <FormKravStylingBody>
                 {formkrav !== undefined && (
-                    <FormkravVenstre
+                    <Klageinfo
                         vilkårOppfylt={vilkårOppfylt}
                         formkrav={formkrav}
                         låst={formkravLåst}
                     />
                 )}
-                <FormkravHøyre
+                <Formvilkår
                     behandlingId={behandlingId}
                     vilkårOppfylt={vilkårOppfylt}
                     settVilkårOppfylt={settVilkårOppfylt}

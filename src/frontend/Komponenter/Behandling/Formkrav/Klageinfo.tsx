@@ -6,7 +6,7 @@ import { FileContent } from '@navikt/ds-icons';
 import navFarger from 'nav-frontend-core';
 import IkkeVurdert from '../../../Felles/Ikoner/IkkeVurdert';
 import Oppfylt from '../../../Felles/Ikoner/Oppfylt';
-import { IForm } from './Formkrav';
+import { IForm } from './utils';
 
 const FormKravStylingVenstre = styled.div`
     width: 50%;
@@ -70,19 +70,12 @@ const FileContentStyled = styled(FileContent)`
     margin: 0 1.5rem 0 0.1rem;
 `;
 
-export const datoFormatering = (dato: Date) => {
-    return dato.getDay() + '.' + dato.getMonth() + '.' + dato.getFullYear();
-};
-
 interface IFormkravVenstre {
     vilkårOppfylt: boolean;
     låst: boolean;
     formkrav: IForm;
 }
-export const FormkravVenstre: React.FC<IFormkravVenstre> = ({ vilkårOppfylt, formkrav }) => {
-    const vedtaksdato = new Date(formkrav.vedtaksdato);
-    const klageMottatt = new Date(formkrav.klageMottatt);
-
+export const Klageinfo: React.FC<IFormkravVenstre> = ({ vilkårOppfylt, formkrav }) => {
     return (
         <FormKravStylingVenstre>
             <IkkeVurdertContainer>
@@ -100,7 +93,7 @@ export const FormkravVenstre: React.FC<IFormkravVenstre> = ({ vilkårOppfylt, fo
                     </IkonKategoriGruppe>
                 </KolonneVenstre>
                 <KolonneHøyre>
-                    <BodyLongStyled size="small">{datoFormatering(vedtaksdato)} </BodyLongStyled>
+                    <BodyLongStyled size="small">{formkrav.vedtaksdato} </BodyLongStyled>
                 </KolonneHøyre>
             </IkonTekstRadContainer>
 
@@ -112,7 +105,7 @@ export const FormkravVenstre: React.FC<IFormkravVenstre> = ({ vilkårOppfylt, fo
                     </IkonKategoriGruppe>
                 </KolonneVenstre>
                 <KolonneHøyre>
-                    <BodyLongStyled size="small">{datoFormatering(klageMottatt)}</BodyLongStyled>
+                    <BodyLongStyled size="small">{formkrav.klageMottatt}</BodyLongStyled>
                 </KolonneHøyre>
             </IkonTekstRadContainer>
 
@@ -124,7 +117,7 @@ export const FormkravVenstre: React.FC<IFormkravVenstre> = ({ vilkårOppfylt, fo
                     </IkonKategoriGruppe>
                 </KolonneVenstre>
                 <KolonneHøyre>
-                    <BodyLongStyled size="small">{formkrav.klageÅrsak}</BodyLongStyled>
+                    <BodyLongStyled size="small">{formkrav.klageaarsak}</BodyLongStyled>
                 </KolonneHøyre>
             </IkonTekstRadContainer>
 
