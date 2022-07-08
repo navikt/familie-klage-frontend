@@ -13,7 +13,6 @@ import { Behandling } from '../../App/typer/fagsak';
 import { useSetValgtFagsakId } from '../../App/hooks/useSetValgtFagsakId';
 import { useHentBehandling } from '../../App/hooks/useHentBehandling';
 import { IPersonopplysninger } from '../../App/typer/personopplysninger';
-import { kjønnType } from '@navikt/familie-typer';
 
 const Container = styled.div`
     display: flex;
@@ -96,27 +95,21 @@ const BehandlingContent: FC<{
     );
 };
 
-const person: IPersonopplysninger = {
-    personIdent: '1',
-    navn: {
-        fornavn: 'Juni',
-        mellomnavn: 'Leirvik',
-        etternavn: 'Larsen',
-        visningsnavn: 'Juni Leirvik',
-    },
-    kjønn: kjønnType.KVINNE,
-    adresse: 'Uelands gate 32',
-};
-
 const BehandlingOverbygg: FC = () => {
     const { hentBehandlingCallback, behandling } = useHentBehandling(hentBehandlingIdFraUrl());
+    const { personopplysningerResponse } = useBehandling();
 
     useEffect(() => {
         hentBehandlingCallback();
         document.title = 'Behandling';
     }, [hentBehandlingCallback]);
-    if (behandling.status === 'SUKSESS') {
-        return <BehandlingContent behandling={behandling.data} personopplysninger={person} />;
+    if (behandling.status === 'SUKSESS' && personopplysningerResponse.status === 'SUKSESS') {
+        return (
+            <BehandlingContent
+                behandling={behandling.data}
+                personopplysninger={personopplysningerResponse.data}
+            />
+        );
     } else {
         return <div>Kunne ikke hente data om behandlingen fra backend.</div>;
     }

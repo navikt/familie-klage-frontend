@@ -18,9 +18,10 @@ export const useHentPersonopplysninger = (
         settPersonopplysningerResponse(byggHenterRessurs());
         axiosRequest<IPersonopplysninger, { behandlingId: string }>({
             method: 'GET',
-            url: `/familie-ef-sak/api/personopplysninger/behandling/${behandlingId}`,
-        }).then((res: Ressurs<IPersonopplysninger>) => settPersonopplysningerResponse(res));
-        // eslint-disable-next-line
+            url: `/familie-klage/api/personopplysninger/${behandlingId}`,
+        }).then((res) => {
+            settPersonopplysningerResponse(res);
+        });
     }, [behandlingId]);
 
     return {
