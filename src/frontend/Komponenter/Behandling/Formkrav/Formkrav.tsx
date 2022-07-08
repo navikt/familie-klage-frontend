@@ -49,7 +49,7 @@ export const Formkrav: React.FC<{ behandlingId: string }> = ({ behandlingId }) =
         document.title = 'Oppgavebenk';
         axiosRequest<IForm, null>({
             method: 'GET',
-            url: `/familie-klage/api/formkrav/${behandlingId}`,
+            url: `/familie-klage/api/klageinfo/${behandlingId}`,
         }).then((res: Ressurs<IForm>) => {
             if (res.status === RessursStatus.SUKSESS) {
                 settFormkrav((prevState) => ({
