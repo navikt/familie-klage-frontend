@@ -76,12 +76,6 @@ const BrukerMedBlyantStyled = styled(BrukerMedBlyant)`
     overflow: visible;
 `;
 
-const BodyLongStyled = styled(BodyLong)`
-    position: relative;
-    top: -1.5rem;
-    font-size: 1rem;
-`;
-
 export const RadioknapperLesemodus: React.FC<IRadioKnapperLeseModus> = ({
     radioKnapper,
     redigerHandling,
@@ -139,7 +133,10 @@ export const RadioknapperLesemodus: React.FC<IRadioKnapperLeseModus> = ({
                         <Svar>{vilkårStatusTilTekst[item.svar]}</Svar>
                     </SvarElement>
                 ))}
-                <BodyLongStyled>{saksbehandlerBegrunnelse}</BodyLongStyled>
+                <SvarElement>
+                    <Spørsmål>Begrunnelse</Spørsmål>
+                    <Svar>{saksbehandlerBegrunnelse}</Svar>
+                </SvarElement>
             </FormKravStylingBody>
         </FormKravStyling>
     );
