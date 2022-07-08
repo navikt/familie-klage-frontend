@@ -133,8 +133,8 @@ export const RadioknapperLesemodus: React.FC<IRadioKnapperLeseModus> = ({
             </VilkårHeader>
             <FormKravStylingBody>
                 Endret dato - 16.12.2021
-                {radioKnapper.map((item: IRadioKnapper) => (
-                    <SvarElement key={item.key}>
+                {radioKnapper.map((item: IRadioKnapper, index) => (
+                    <SvarElement key={index}>
                         <Spørsmål>{item.spørsmål}</Spørsmål>
                         <Svar>{vilkårStatusTilTekst[item.svar]}</Svar>
                     </SvarElement>
