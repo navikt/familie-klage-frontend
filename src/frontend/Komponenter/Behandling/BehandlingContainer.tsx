@@ -16,7 +16,6 @@ import { IPersonopplysninger } from '../../App/typer/personopplysninger';
 
 const Container = styled.div`
     display: flex;
-
     flex-shrink: 2;
 `;
 
@@ -30,13 +29,10 @@ interface HøyreMenyWrapperProps {
 
 const HøyreMenyWrapper = styled.div<HøyreMenyWrapperProps>`
     border-left: 2px solid ${navFarger.navGra40};
-
     flex-shrink: 1;
     flex-grow: 0;
-
     width: ${(p) => (p.åpenHøyremeny ? '20rem' : '1.5rem')};
     min-width: ${(p) => (p.åpenHøyremeny ? '20rem' : '1.5rem')};
-
     transition: all 0.25s;
 `;
 
@@ -45,11 +41,8 @@ const InnholdWrapper = styled.div<InnholdWrapperProps>`
     flex-grow: 1;
     flex-basis: 0px;
     min-width: 0px;
-
     overflow-x: scroll;
-
     height: 90vh;
-
     max-width: ${(p) => (p.åpenHøyremeny ? 'calc(100% - 20rem)' : '100%')};
 `;
 

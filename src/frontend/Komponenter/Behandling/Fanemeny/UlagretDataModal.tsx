@@ -8,7 +8,6 @@ import { useApp } from '../../../App/context/AppContext';
 const SentrerKnapper = styled.div`
     display: flex;
     justify-content: center;
-
     > button {
         margin-left: 1rem;
         margin-right: 1rem;

@@ -14,22 +14,17 @@ const StyledNavLink = styled(NavLink)`
     width: 100%;
     padding-top: 1rem;
     padding-bottom: 1rem;
-
     text-overflow: ellipsis;
     overflow: hidden;
     white-space: nowrap;
-
     padding-left: 5px;
     padding-right: 5px;
-
     :hover {
         border-bottom: 5px solid ${navFarger.navBlaLighten20};
-
         .typo-normal {
             color: ${navFarger.navBla};
         }
     }
-
     &.active {
         background-color: ${navFarger.navLysGra};
         border-bottom: 5px solid ${navFarger.navBla};
@@ -57,7 +52,6 @@ const StyledTekst = styled(Normaltekst)`
     text-overflow: ellipsis;
     overflow: hidden;
     white-space: nowrap;
-
     padding-left: 5px;
     padding-right: 5px;
 `;
