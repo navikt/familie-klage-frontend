@@ -66,7 +66,6 @@ const BehandlingContainer: FC = () => {
 
 const BehandlingContent: FC<{
     behandling: Behandling;
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     personopplysninger: IPersonopplysninger;
 }> = ({ behandling, personopplysninger }) => {
     useSetValgtFagsakId(behandling.fagsakId);
