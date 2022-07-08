@@ -30,7 +30,6 @@ export const vilkårStatusTilTekst: Record<VilkårStatus, string> = {
 export interface IRadioKnapper {
     spørsmål: string;
     svar: string;
-    key: number;
     navn: string;
 }
 

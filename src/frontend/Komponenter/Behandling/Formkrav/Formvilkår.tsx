@@ -80,25 +80,21 @@ export const Formvilkår: React.FC<IFormvilkår> = ({
             spørsmål: 'Er klager part i saken?',
             svar: formData.klagePart,
             navn: 'klagePart',
-            key: 0,
         },
         {
             spørsmål: 'Klages det på konkrete elementer i vedtaket',
             svar: formData.klageKonkret,
             navn: 'klageKonkret',
-            key: 1,
         },
         {
             spørsmål: 'Er klagefristen overholdt?',
             svar: formData.klagefristOverholdt,
             navn: 'klagefristOverholdt',
-            key: 2,
         },
         {
             spørsmål: 'Er klagen signert?',
             svar: formData.klageSignert,
             navn: 'klageSignert',
-            key: 3,
         },
     ];
 
@@ -149,29 +145,12 @@ export const Formvilkår: React.FC<IFormvilkår> = ({
         );
     };
 
-    /*const f: IForm = {
-        behandlingId: behandlingId,
-        fagsakId: formData.fagsakId,
-        vedtaksdato: formData.vedtaksdato,
-        klageMottatt: formData.klageMottatt,
-        klageÅrsak: formData.klageÅrsak,
-        klageBeskrivelse: formData.klageBeskrivelse,
-        klagePart: formData.klagePart,
-        klageKonkret: formData.klageKonkret,
-        klagefristOverholdt: formData.klagefristOverholdt,
-        klageSignert: formData.klageSignert,
-        saksbehandlerBegrunnelse: saksbehandlerBegrunnelse,
-        sakSistEndret: formData.sakSistEndret
-    }*/
-
     const opprettForm = () => {
         if (alleFeltErBesvart()) {
             settVilkårOppfylt(true);
         } else {
             settLåst(true);
         }
-
-        console.log(formData);
 
         axiosRequest<IForm, IForm>({
             method: 'POST',
@@ -192,7 +171,7 @@ export const Formvilkår: React.FC<IFormvilkår> = ({
                         <RadioKnapperContainer>
                             {radioKnapperLeseListe
                                 .filter((item: IRadioKnapper) => item.spørsmål !== 'Begrunnelse')
-                                .map((item: IRadioKnapper) => (
+                                .map((item: IRadioKnapper, index) => (
                                     <RadioGroupStyled
                                         legend={item.spørsmål}
                                         size="small"
@@ -204,7 +183,7 @@ export const Formvilkår: React.FC<IFormvilkår> = ({
                                             settIkkePersistertKomponent(val);
                                         }}
                                         value={item.svar}
-                                        key={item.key}
+                                        key={index}
                                     >
                                         <RadioStyled value={VilkårStatus.OPPFYLT}>Ja</RadioStyled>
                                         <RadioStyled value={VilkårStatus.IKKE_OPPFYLT}>

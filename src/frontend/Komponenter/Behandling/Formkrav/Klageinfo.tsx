@@ -6,7 +6,7 @@ import { FileContent } from '@navikt/ds-icons';
 import navFarger from 'nav-frontend-core';
 import IkkeVurdert from '../../../Felles/Ikoner/IkkeVurdert';
 import Oppfylt from '../../../Felles/Ikoner/Oppfylt';
-import { IForm, datoFormatering } from './utils';
+import { IForm } from './utils';
 
 const FormKravStylingVenstre = styled.div`
     width: 50%;
@@ -76,10 +76,6 @@ interface IFormkravVenstre {
     formkrav: IForm;
 }
 export const Klageinfo: React.FC<IFormkravVenstre> = ({ vilkårOppfylt, formkrav }) => {
-    console.log(formkrav.klageMottatt);
-    const vedtaksdato = new Date(formkrav.vedtaksdato);
-    const klageMottatt = new Date(formkrav.klageMottatt);
-
     return (
         <FormKravStylingVenstre>
             <IkkeVurdertContainer>
