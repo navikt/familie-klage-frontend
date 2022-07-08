@@ -25,24 +25,17 @@ const StyledBack = styled(Back)`
 const StyledNext = styled(Next)`
     border-radius: 0;
     margin-top: 3px;
-
     color: white;
 `;
 
 const StyledButton = styled.button`
     position: absolute;
-
     background-color: ${navFarger.navBlaLighten20};
-
     margin-left: -12px;
-
     top: 200px;
-
     width: 24px;
     height: 24px;
-
     border-radius: 50%;
-
     filter: drop-shadow(0px 4px 4px rgba(0, 0, 0, 0.25));
 `;
 

@@ -12,7 +12,6 @@ const StyledIkonWrapper = styled.div`
     align-items: center;
     border-bottom: ${navFarger.navGra40} solid 2px;
     text-align: center;
-
     .typo-normal {
         font-size: 12px;
         margin-top: -5px;
@@ -27,10 +26,8 @@ const StyledIkon = styled.div<IkonProps>`
     flex: 1;
     padding-top: 1rem;
     padding-bottom: 0.62rem;
-
     background-color: ${navFarger.navBla};
     color: ${navFarger.navBla};
-
     :hover {
         cursor: pointer;
         svg {
@@ -38,7 +35,6 @@ const StyledIkon = styled.div<IkonProps>`
         }
         border-bottom: 5px solid ${navFarger.navBlaLighten20};
     }
-
     background-color: ${(props) => (props.erAktiv ? navFarger.navLysGra : 'white')};
     border-bottom: 5px solid ${(props) => (props.erAktiv ? navFarger.navBla : 'white')};
 `;
