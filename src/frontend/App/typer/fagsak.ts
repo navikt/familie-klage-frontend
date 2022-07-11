@@ -1,6 +1,7 @@
 import { Stønadstype } from './behandlingstema';
 import { BehandlingStatus } from './behandlingstatus';
 import { TilbakekrevingBehandlingsresultatstype } from './tilbakekreving';
+import { Behandlingsårsak } from './Behandlingsårsak';
 
 export interface IFagsakPerson {
     id: string;
@@ -57,6 +58,8 @@ export interface Behandling {
     resultat: BehandlingResultat;
     fagsystem: Fagsystem;
     vedtaksdato?: string;
+    stønadstype: Stønadstype;
+    behandlingsårsak: Behandlingsårsak;
 }
 
 export interface IEndringerRegistergrunnlag {

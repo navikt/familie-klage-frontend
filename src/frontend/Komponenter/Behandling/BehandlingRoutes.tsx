@@ -14,7 +14,7 @@ const BehandlingRoutes: React.FC<Props> = ({ behandlingId }) => {
         <Routes>
             <Route path="/formkrav" element={<Formkrav behandlingId={behandlingId} />} />
             <Route path="/vurdering" element={<Vurdering behandlingId={behandlingId} />} />
-            <Route path="/brev" element={<Brev />} />
+            <Route path="/brev" element={<Brev behandlingId={behandlingId} />} />
             <Route path="/kabal" element={<Kabal />} />
         </Routes>
     );
