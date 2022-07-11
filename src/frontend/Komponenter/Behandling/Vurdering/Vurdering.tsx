@@ -81,7 +81,8 @@ export const Vurdering: React.FC<{ behandlingId: string }> = ({ behandlingId }) 
         });
         settOppfylt(vilkårListe.filter((item: VilkårStatus) => item === 'OPPFYLT').length);
         settMuligOppfylt(vilkårListe.length);
-    }, [axiosRequest, vilkårListe]);
+    }, [axiosRequest, vilkårListe, behandlingId]);
+
     // Hent data fra formkrav
     useEffect(() => {
         axiosRequest<IForm, string>({
@@ -98,7 +99,7 @@ export const Vurdering: React.FC<{ behandlingId: string }> = ({ behandlingId }) 
                 settBegrunnelse(res.data.saksbehandlerBegrunnelse);
             }
         });
-    }, [axiosRequest]);
+    }, [axiosRequest, behandlingId]);
 
     const opprettVurdering = () => {
         const v: IVurdering = {
