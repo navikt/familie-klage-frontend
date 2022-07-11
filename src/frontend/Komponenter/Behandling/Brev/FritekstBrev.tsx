@@ -11,10 +11,12 @@ import {
     FritekstBrevContext,
     FritekstBrevtype,
     FrittståendeBrevtype,
+    IMellomlagretBrevFritekst,
 } from './BrevTyper';
 import {
     flyttAvsnittNedover,
     flyttAvsnittOppover,
+    initielleAvsnittMellomlager,
     leggAvsnittBakSisteSynligeAvsnitt,
     leggTilAvsnittFørst,
 } from './BrevUtils';
@@ -25,23 +27,23 @@ const StyledBrev = styled.div`
 `;
 
 export interface IFritekstBrev {
-    oppdaterBrevressurs: (brevRessurs: Ressurs<string>) => void;
+    //oppdaterBrevressurs: (brevRessurs: Ressurs<string>) => void;
     behandlingId: string;
+    mellomlagretFritekstbrev?: IMellomlagretBrevFritekst;
 }
 
-const FritekstBrev: React.FC<IFritekstBrev> = ({ oppdaterBrevressurs, behandlingId }) => {
+const FritekstBrev: React.FC<IFritekstBrev> = ({ behandlingId, mellomlagretFritekstbrev }) => {
     const { behandling } = useBehandling();
 
-    const [brevType, settBrevType] = useState<FritekstBrevtype>(FritekstBrevtype.SANKSJON);
-    const [overskrift, settOverskrift] = useState('');
-    const [avsnitt, settAvsnitt] = useState<AvsnittMedId[]>([
-        {
-            deloverskrift: '',
-            innhold: '',
-            skalSkjulesIBrevbygger: false,
-            id: '',
-        },
-    ]);
+    const [brevType, settBrevType] = useState<FritekstBrevtype | undefined>(
+        mellomlagretFritekstbrev?.brevType
+    );
+    const [overskrift, settOverskrift] = useState(
+        (mellomlagretFritekstbrev && mellomlagretFritekstbrev?.brev?.overskrift) || ''
+    );
+    const [avsnitt, settAvsnitt] = useState<AvsnittMedId[]>(
+        initielleAvsnittMellomlager(mellomlagretFritekstbrev?.brev)
+    );
 
     const endreBrevType = (nyBrevType: FrittståendeBrevtype | FritekstBrevtype) => {
         settBrevType(nyBrevType as FritekstBrevtype);
@@ -99,7 +101,7 @@ const FritekstBrev: React.FC<IFritekstBrev> = ({ oppdaterBrevressurs, behandling
         <DataViewer response={{ behandling }}>
             {({ behandling }) => (
                 <StyledBrev>
-                    <h1>Fritekstbrev for {stønadstypeTilTekst[behandling.stønadstype]}</h1>
+                    <h1>Fritekstbrev for {stønadstypeTilTekst[behandling.stonadsType]}</h1>
                     <BrevInnhold
                         brevType={brevType}
                         endreBrevType={endreBrevType}
@@ -117,7 +119,7 @@ const FritekstBrev: React.FC<IFritekstBrev> = ({ oppdaterBrevressurs, behandling
                         flyttAvsnittOpp={oppdaterFlyttAvsnittOppover}
                         flyttAvsnittNed={oppdaterFlyttAvsnittNedover}
                         context={FritekstBrevContext.BEHANDLING}
-                        behandlingsårsak={behandling.behandlingsårsak}
+                        behandlingsårsak={behandling.behandlingsArsak}
                         stønadstype={Stønadstype.BARNETILSYN}
                     />
                 </StyledBrev>

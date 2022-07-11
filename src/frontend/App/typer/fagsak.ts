@@ -58,8 +58,8 @@ export interface Behandling {
     resultat: BehandlingResultat;
     fagsystem: Fagsystem;
     vedtaksdato?: string;
-    stønadstype: Stønadstype;
-    behandlingsårsak: Behandlingsårsak;
+    stonadsType: Stønadstype;
+    behandlingsArsak: Behandlingsårsak;
 }
 
 export interface IEndringerRegistergrunnlag {
