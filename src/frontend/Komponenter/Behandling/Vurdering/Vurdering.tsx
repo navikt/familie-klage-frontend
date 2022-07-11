@@ -62,25 +62,8 @@ export const Vurdering: React.FC<{ behandlingId: string }> = ({ behandlingId }) 
     const { axiosRequest, nullstillIkkePersisterteKomponenter, settIkkePersistertKomponent } =
         useApp();
 
-    useEffect(() => {
-        axiosRequest<IVilkår, string>({
-            method: 'GET',
-            url: `/familie-klage/api/formkrav/vilkar/${behandlingId}`,
-        }).then((res: Ressurs<IVilkår>) => {
-            if (res.status === RessursStatus.SUKSESS) {
-                settVilkårListe([
-                    res.data.klagePart,
-                    res.data.klageKonkret,
-                    res.data.klagefristOverholdt,
-                    res.data.klageSignert,
-                ]);
-                settOppfylt(vilkårListe.filter((item: VilkårStatus) => item === 'OPPFYLT').length);
-                settMuligOppfylt(vilkårListe.length);
-            }
-        });
-    }, [axiosRequest, behandlingId]);
-
     // Hent eksisterende vurderingsdata
+
     useEffect(() => {
         axiosRequest<IVurdering, string>({
             method: 'GET',
@@ -97,7 +80,6 @@ export const Vurdering: React.FC<{ behandlingId: string }> = ({ behandlingId }) 
             }
         });
     }, [axiosRequest]);
-
     // Hent data fra formkrav
     useEffect(() => {
         axiosRequest<IForm, string>({
@@ -105,7 +87,15 @@ export const Vurdering: React.FC<{ behandlingId: string }> = ({ behandlingId }) 
             url: `/familie-klage/api/formkrav/vilkar/${behandlingId}`,
         }).then((res: Ressurs<IForm>) => {
             if (res.status === RessursStatus.SUKSESS) {
+                settVilkårListe([
+                    res.data.klagePart,
+                    res.data.klageKonkret,
+                    res.data.klagefristOverholdt,
+                    res.data.klageSignert,
+                ]);
                 settBegrunnelse(res.data.saksbehandlerBegrunnelse);
+                settOppfylt(vilkårListe.filter((item: VilkårStatus) => item === 'OPPFYLT').length);
+                settMuligOppfylt(vilkårListe.length);
             }
         });
     }, [axiosRequest]);
