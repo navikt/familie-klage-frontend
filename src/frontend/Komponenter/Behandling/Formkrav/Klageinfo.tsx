@@ -28,7 +28,7 @@ const IkonTekstRadContainer = styled.div`
 const IkkeVurdertIkonStyled = styled(IkkeVurdert)`
     margin-right: 1rem;
     margin-left: -0.2rem;
-    overflow: visible;s
+    overflow: visible;
 `;
 
 const OppfyltIkonStyled = styled(Oppfylt)`
