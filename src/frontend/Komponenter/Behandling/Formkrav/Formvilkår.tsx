@@ -7,12 +7,12 @@ import { Ressurs, RessursStatus } from '../../../App/typer/ressurs';
 import { useBehandling } from '../../../App/context/BehandlingContext';
 import { IForm, IFormvilkår, IRadioKnapper, VilkårStatus } from './utils';
 
-const FormKravStyling = styled.div`
+const VilkårStyling = styled.div`
     display: flex;
     flex-direction: column;
     align-items: center;
     width: 50%;
-    margin: 0 5rem 0 5rem;
+    margin: 0.5rem 1rem 1 rem 1rem;
 `;
 
 const FormKravStylingBody = styled.div`
@@ -22,6 +22,7 @@ const FormKravStylingBody = styled.div`
         flex-direction: column;
     }
     width: 100%;
+    margin: 0.5rem 1rem 1 rem 1rem;
 `;
 
 const FormKravStylingFooter = styled.div`
@@ -164,7 +165,7 @@ export const Formvilkår: React.FC<IFormvilkår> = ({
     };
 
     return (
-        <FormKravStyling>
+        <VilkårStyling>
             {!vilkårOppfylt && !låst && (
                 <>
                     <FormKravStylingBody>
@@ -228,6 +229,6 @@ export const Formvilkår: React.FC<IFormvilkår> = ({
                     saksbehandlerBegrunnelse={formData.saksbehandlerBegrunnelse}
                 />
             )}
-        </FormKravStyling>
+        </VilkårStyling>
     );
 };

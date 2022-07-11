@@ -5,7 +5,6 @@ import SlettSøppelkasse from '../../../Felles/Ikoner/SlettSøppelkasse';
 import RedigerBlyant from '../../../Felles/Ikoner/RedigerBlyant';
 import LenkeKnapp from '../../../Felles/Knapper/LenkeKnapp';
 import navFarger from 'nav-frontend-core';
-import { BodyLong, Heading } from '@navikt/ds-react';
 import BrukerMedBlyant from '../../../Felles/Ikoner/BrukerMedBlyant';
 import {
     VilkårStatus,
@@ -18,6 +17,7 @@ import {
 import { useBehandling } from '../../../App/context/BehandlingContext';
 import { hentBehandlingIdFraUrl } from '../BehandlingContainer';
 import { useApp } from '../../../App/context/AppContext';
+import { Heading } from '@navikt/ds-react';
 
 export const RadSentrertVertikalt = styled.div`
     display: flex;
