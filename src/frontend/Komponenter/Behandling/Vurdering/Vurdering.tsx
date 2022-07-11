@@ -79,7 +79,9 @@ export const Vurdering: React.FC<{ behandlingId: string }> = ({ behandlingId }) 
                 });
             }
         });
-    }, [axiosRequest]);
+        settOppfylt(vilkårListe.filter((item: VilkårStatus) => item === 'OPPFYLT').length);
+        settMuligOppfylt(vilkårListe.length);
+    }, [axiosRequest, vilkårListe]);
     // Hent data fra formkrav
     useEffect(() => {
         axiosRequest<IForm, string>({
@@ -94,8 +96,6 @@ export const Vurdering: React.FC<{ behandlingId: string }> = ({ behandlingId }) 
                     res.data.klageSignert,
                 ]);
                 settBegrunnelse(res.data.saksbehandlerBegrunnelse);
-                settOppfylt(vilkårListe.filter((item: VilkårStatus) => item === 'OPPFYLT').length);
-                settMuligOppfylt(vilkårListe.length);
             }
         });
     }, [axiosRequest]);
