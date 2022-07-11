@@ -11,7 +11,6 @@ import ModalController from '../../Felles/Modal/ModalController';
 import VisittkortComponent from '../../Felles/Visittkort/Visittkort';
 import { Behandling } from '../../App/typer/fagsak';
 import { useSetValgtFagsakId } from '../../App/hooks/useSetValgtFagsakId';
-import { useHentBehandling } from '../../App/hooks/useHentBehandling';
 import { IPersonopplysninger } from '../../App/typer/personopplysninger';
 
 const Container = styled.div`
@@ -88,13 +87,12 @@ const BehandlingContent: FC<{
 };
 
 const BehandlingOverbygg: FC = () => {
-    const { hentBehandlingCallback, behandling } = useHentBehandling(hentBehandlingIdFraUrl());
-    const { personopplysningerResponse } = useBehandling();
+    const { personopplysningerResponse, behandling } = useBehandling();
 
     useEffect(() => {
-        hentBehandlingCallback();
         document.title = 'Behandling';
-    }, [hentBehandlingCallback]);
+        console.log(behandling);
+    }, [behandling]);
     if (behandling.status === 'SUKSESS' && personopplysningerResponse.status === 'SUKSESS') {
         return (
             <BehandlingContent
