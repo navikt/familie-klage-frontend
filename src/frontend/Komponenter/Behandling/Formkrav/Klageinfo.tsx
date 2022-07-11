@@ -8,9 +8,9 @@ import IkkeVurdert from '../../../Felles/Ikoner/IkkeVurdert';
 import Oppfylt from '../../../Felles/Ikoner/Oppfylt';
 import { IForm } from './utils';
 
-const FormKravStylingVenstre = styled.div`
+const FormkravStyling = styled.div`
     width: 50%;
-    padding: 0.5rem 5rem 5rem 5rem;
+    margin: 0.5rem 1rem 1rem 1rem;
 `;
 
 const IkkeVurdertContainer = styled.div`
@@ -28,7 +28,7 @@ const IkonTekstRadContainer = styled.div`
 const IkkeVurdertIkonStyled = styled(IkkeVurdert)`
     margin-right: 1rem;
     margin-left: -0.2rem;
-    overflow: visible;
+    overflow: visible;s
 `;
 
 const OppfyltIkonStyled = styled(Oppfylt)`
@@ -38,8 +38,8 @@ const OppfyltIkonStyled = styled(Oppfylt)`
 `;
 
 const IkonKategoriGruppe = styled.div`
-    display: flex;
-    flex-flow: row;
+    display: inline-grid;
+    grid-template-columns: [symbol] 2.2rem [tekst] auto;
 `;
 
 const BodyLongStyled = styled(BodyLong)`
@@ -77,7 +77,7 @@ interface IFormkravVenstre {
 }
 export const Klageinfo: React.FC<IFormkravVenstre> = ({ vilkårOppfylt, formkrav }) => {
     return (
-        <FormKravStylingVenstre>
+        <FormkravStyling>
             <IkkeVurdertContainer>
                 {!vilkårOppfylt && <IkkeVurdertIkonStyled heigth={23} width={23} />}
                 {vilkårOppfylt && <OppfyltIkonStyled heigth={23} width={23} />}
@@ -133,6 +133,6 @@ export const Klageinfo: React.FC<IFormkravVenstre> = ({ vilkårOppfylt, formkrav
                 <BlåStrek />
                 <BodyLong size="small">{formkrav.klageBeskrivelse}</BodyLong>
             </BegrunnelseContainer>
-        </FormKravStylingVenstre>
+        </FormkravStyling>
     );
 };
