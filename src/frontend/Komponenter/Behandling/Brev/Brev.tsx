@@ -1,6 +1,6 @@
 import * as React from 'react';
-import { useState } from 'react';
-import { byggTomRessurs, Ressurs } from '../../../App/typer/ressurs';
+import { useEffect, useState } from 'react';
+import { byggTomRessurs, Ressurs, RessursStatus } from '../../../App/typer/ressurs';
 import FritekstBrev from './FritekstBrev';
 import PdfVisning from './PdfVisning';
 import { IMellomlagretBrevFritekst } from './BrevTyper';
@@ -30,10 +30,18 @@ interface IBrev {
 
 export const Brev: React.FC<IBrev> = ({ behandlingId }) => {
     const [brevRessurs, settBrevRessurs] = useState<Ressurs<string>>(byggTomRessurs());
+    const [kanSendesTilBeslutter, settKanSendesTilBeslutter] = useState<boolean>(false);
 
     const { personopplysningerResponse, behandling } = useBehandling();
 
     const { mellomlagretBrev } = useMellomlagringBrev(behandlingId);
+
+    const oppdaterBrevRessurs = (respons: Ressurs<string>) => {
+        settBrevRessurs(respons);
+        if (respons.status === RessursStatus.SUKSESS) {
+            settKanSendesTilBeslutter(true);
+        }
+    };
 
     return (
         <div>
@@ -42,6 +50,7 @@ export const Brev: React.FC<IBrev> = ({ behandlingId }) => {
                     <FritekstBrev
                         behandlingId={behandlingId}
                         mellomlagretFritekstbrev={mellomlagretBrev as IMellomlagretBrevFritekst}
+                        oppdaterBrevressurs={oppdaterBrevRessurs}
                     />
                 </DataViewer>
                 <PdfVisning pdfFilInnhold={brevRessurs} />

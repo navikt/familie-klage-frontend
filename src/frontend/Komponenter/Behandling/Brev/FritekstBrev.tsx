@@ -1,6 +1,6 @@
-import React, { ChangeEvent, useState } from 'react';
+import React, { ChangeEvent, useEffect, useMemo, useState } from 'react';
 import { useBehandling } from '../../../App/context/BehandlingContext';
-import { Ressurs } from '../../../App/typer/ressurs';
+import { Ressurs, RessursStatus } from '../../../App/typer/ressurs';
 
 import DataViewer from '../../../Felles/DataViewer/DataViewer';
 import BrevInnhold from './BrevInnhold';
@@ -11,6 +11,7 @@ import {
     FritekstBrevContext,
     FritekstBrevtype,
     FrittståendeBrevtype,
+    IFritekstBrev,
     IMellomlagretBrevFritekst,
 } from './BrevTyper';
 import {
@@ -20,20 +21,40 @@ import {
     leggAvsnittBakSisteSynligeAvsnitt,
     leggTilAvsnittFørst,
 } from './BrevUtils';
+import { useApp } from '../../../App/context/AppContext';
+import { useDataHenter } from '../../../App/hooks/felles/useDataHenter';
+import { IPersonopplysninger } from '../../../App/typer/personopplysninger';
+import { AxiosRequestConfig } from 'axios';
+import { useDebouncedCallback } from 'use-debounce';
 
 const StyledBrev = styled.div`
     margin-bottom: 10rem;
     width: inherit;
 `;
 
-export interface IFritekstBrev {
-    //oppdaterBrevressurs: (brevRessurs: Ressurs<string>) => void;
+export interface Props {
+    oppdaterBrevressurs: (brevRessurs: Ressurs<string>) => void;
     behandlingId: string;
     mellomlagretFritekstbrev?: IMellomlagretBrevFritekst;
 }
 
-const FritekstBrev: React.FC<IFritekstBrev> = ({ behandlingId, mellomlagretFritekstbrev }) => {
+const FritekstBrev: React.FC<Props> = ({
+    behandlingId,
+    mellomlagretFritekstbrev,
+    oppdaterBrevressurs,
+}) => {
     const { behandling } = useBehandling();
+    const { axiosRequest } = useApp();
+
+    const personopplysningerConfig: AxiosRequestConfig = useMemo(
+        () => ({
+            method: 'GET',
+            url: `/familie-klage/api/personopplysninger/${behandlingId}`,
+        }),
+        [behandlingId]
+    );
+
+    const personopplysninger = useDataHenter<IPersonopplysninger, null>(personopplysningerConfig);
 
     const [brevType, settBrevType] = useState<FritekstBrevtype | undefined>(
         mellomlagretFritekstbrev?.brevType
@@ -96,6 +117,37 @@ const FritekstBrev: React.FC<IFritekstBrev> = ({ behandlingId, mellomlagretFrite
             return eksisterendeAvsnitt.filter((rad) => radId !== rad.id);
         });
     };
+
+    const mellomlagreFritekstbrev = (brev: IFritekstBrev): void => {
+        axiosRequest<string, IFritekstBrev>({
+            method: 'POST',
+            url: `/familie-klage/api/brev/mellomlager`,
+            data: brev,
+        });
+    };
+
+    const genererBrev = () => {
+        if (personopplysninger.status !== RessursStatus.SUKSESS) return;
+        if (!brevType) return;
+
+        const brev: IFritekstBrev = {
+            overskrift: overskrift,
+            avsnitt: avsnitt,
+            behandlingId: behandlingId,
+            brevType: brevType,
+        };
+        mellomlagreFritekstbrev(brev);
+        axiosRequest<string, IFritekstBrev>({
+            method: 'POST',
+            url: `/familie-klage/api/brev`,
+            data: brev,
+        }).then((respons: Ressurs<string>) => {
+            if (oppdaterBrevressurs) oppdaterBrevressurs(respons);
+        });
+    };
+
+    const utsattGenererBrev = useDebouncedCallback(genererBrev, 1000);
+    useEffect(utsattGenererBrev, [utsattGenererBrev, avsnitt, overskrift]);
 
     return (
         <DataViewer response={{ behandling }}>
