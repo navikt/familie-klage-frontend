@@ -91,7 +91,6 @@ const BehandlingOverbygg: FC = () => {
 
     useEffect(() => {
         document.title = 'Behandling';
-        console.log(behandling);
     }, [behandling]);
     if (behandling.status === 'SUKSESS' && personopplysningerResponse.status === 'SUKSESS') {
         return (
