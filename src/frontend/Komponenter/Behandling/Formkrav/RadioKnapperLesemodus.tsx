@@ -5,7 +5,7 @@ import SlettSøppelkasse from '../../../Felles/Ikoner/SlettSøppelkasse';
 import RedigerBlyant from '../../../Felles/Ikoner/RedigerBlyant';
 import LenkeKnapp from '../../../Felles/Knapper/LenkeKnapp';
 import navFarger from 'nav-frontend-core';
-import { BodyLong, Heading } from '@navikt/ds-react';
+import { Heading } from '@navikt/ds-react';
 import BrukerMedBlyant from '../../../Felles/Ikoner/BrukerMedBlyant';
 import {
     VilkårStatus,

@@ -22,7 +22,8 @@ import {
     årsakValgTilTekst,
 } from './vurderingValg';
 import { Ressurs, RessursStatus } from '../../../App/typer/ressurs';
-import { IForm } from '../Formkrav/Formkrav';
+import { IForm } from '../Formkrav/utils';
+import { VilkårStatus } from '../Formkrav/utils';
 
 const VurderingBeskrivelseStyled = styled.div`
     margin: 2rem 4rem 2rem 4rem;
@@ -50,6 +51,7 @@ export const Vurdering: React.FC<{ behandlingId: string }> = ({ behandlingId }) 
         hjemmel: HjemmelValg.VELG,
         beskrivelse: '',
     };
+    const [vilkårListe, settVilkårListe] = useState<VilkårStatus[]>([]);
 
     const [vurderingData, settVurderingData] = useState<IVurdering>(vurderingObject);
 
@@ -59,6 +61,24 @@ export const Vurdering: React.FC<{ behandlingId: string }> = ({ behandlingId }) 
     // Endringer
     const { axiosRequest, nullstillIkkePersisterteKomponenter, settIkkePersistertKomponent } =
         useApp();
+
+    useEffect(() => {
+        axiosRequest<IVilkår, string>({
+            method: 'GET',
+            url: `/familie-klage/api/formkrav/vilkar/${behandlingId}`,
+        }).then((res: Ressurs<IVilkår>) => {
+            if (res.status === RessursStatus.SUKSESS) {
+                settVilkårListe([
+                    res.data.klagePart,
+                    res.data.klageKonkret,
+                    res.data.klagefristOverholdt,
+                    res.data.klageSignert,
+                ]);
+                settOppfylt(vilkårListe.filter((item: VilkårStatus) => item === 'OPPFYLT').length);
+                settMuligOppfylt(vilkårListe.length);
+            }
+        });
+    }, [axiosRequest, behandlingId]);
 
     // Hent eksisterende vurderingsdata
     useEffect(() => {
@@ -82,7 +102,7 @@ export const Vurdering: React.FC<{ behandlingId: string }> = ({ behandlingId }) 
     useEffect(() => {
         axiosRequest<IForm, string>({
             method: 'GET',
-            url: `/familie-klage/api/form/${behandlingId}`,
+            url: `/familie-klage/api/formkrav/vilkar/${behandlingId}`,
         }).then((res: Ressurs<IForm>) => {
             if (res.status === RessursStatus.SUKSESS) {
                 settBegrunnelse(res.data.saksbehandlerBegrunnelse);
