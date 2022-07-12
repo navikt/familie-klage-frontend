@@ -18,12 +18,14 @@ export interface IVilkårNullstill {
 export enum VilkårStatus {
     OPPFYLT = 'OPPFYLT',
     IKKE_OPPFYLT = 'IKKE_OPPFYLT',
+    SKAL_IKKE_VURDERES = 'SKAL_IKKE_VURDERES',
     IKKE_SATT = 'IKKE_SATT',
 }
 
 export const vilkårStatusTilTekst: Record<VilkårStatus, string> = {
     OPPFYLT: 'Oppfylt',
     IKKE_OPPFYLT: 'Ikke oppfylt',
+    SKAL_IKKE_VURDERES: 'Skal ikke vurderes',
     IKKE_SATT: 'Ikke satt',
 };
 
@@ -46,10 +48,6 @@ export const datoFormatering = (dato: Date) => {
 export interface IForm {
     behandlingId: string;
     fagsakId: string;
-    vedtaksdato: string;
-    klageMottatt: string;
-    klageaarsak: string;
-    klageBeskrivelse: string;
     klagePart: VilkårStatus;
     klageKonkret: VilkårStatus;
     klagefristOverholdt: VilkårStatus;

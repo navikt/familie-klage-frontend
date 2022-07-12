@@ -63,10 +63,6 @@ export const Formvilkår: React.FC<IFormvilkår> = ({
     const formObjekt: IForm = {
         behandlingId: behandlingId,
         fagsakId: 'b0fa4cae-a676-44b3-8725-232dac935c4a',
-        vedtaksdato: dateString,
-        klageMottatt: '',
-        klageaarsak: '',
-        klageBeskrivelse: '',
         klagePart: VilkårStatus.IKKE_SATT,
         klageKonkret: VilkårStatus.IKKE_SATT,
         klagefristOverholdt: VilkårStatus.IKKE_SATT,
@@ -109,15 +105,11 @@ export const Formvilkår: React.FC<IFormvilkår> = ({
                     settFormData((prevState) => ({
                         ...prevState,
                         fagsakId: res.data.fagsakId,
-                        klageMottatt: res.data.klageMottatt,
-                        klageaarsak: res.data.klageaarsak,
-                        klageBeskrivelse: res.data.klageBeskrivelse,
                         klagePart: res.data.klagePart,
                         klageKonkret: res.data.klageKonkret,
                         klagefristOverholdt: res.data.klagefristOverholdt,
                         klageSignert: res.data.klageSignert,
                         saksbehandlerBegrunnelse: res.data.saksbehandlerBegrunnelse,
-                        vedtaksdato: res.data.vedtaksdato,
                     }));
                 }
             });
@@ -170,28 +162,27 @@ export const Formvilkår: React.FC<IFormvilkår> = ({
                 <>
                     <FormKravStylingBody>
                         <RadioKnapperContainer>
-                            {radioKnapperLeseListe
-                                .filter((item: IRadioKnapper) => item.spørsmål !== 'Begrunnelse')
-                                .map((item: IRadioKnapper, index) => (
-                                    <RadioGroupStyled
-                                        legend={item.spørsmål}
-                                        size="small"
-                                        onChange={(val: VilkårStatus) => {
-                                            settFormData((prevState) => ({
-                                                ...prevState,
-                                                [item.navn]: val,
-                                            }));
-                                            settIkkePersistertKomponent(val);
-                                        }}
-                                        value={item.svar}
-                                        key={index}
-                                    >
-                                        <RadioStyled value={VilkårStatus.OPPFYLT}>Ja</RadioStyled>
-                                        <RadioStyled value={VilkårStatus.IKKE_OPPFYLT}>
-                                            Nei
-                                        </RadioStyled>
-                                    </RadioGroupStyled>
-                                ))}
+                            {radioKnapperLeseListe.map((item: IRadioKnapper, index) => (
+                                <RadioGroupStyled
+                                    legend={item.spørsmål}
+                                    size="small"
+                                    onChange={(val: VilkårStatus) => {
+                                        settFormData((prevState) => ({
+                                            ...prevState,
+                                            [item.navn]: val,
+                                        }));
+                                        settIkkePersistertKomponent(val);
+                                    }}
+                                    value={item.svar}
+                                    key={index}
+                                >
+                                    <RadioStyled value={VilkårStatus.OPPFYLT}>Ja</RadioStyled>
+                                    <RadioStyled value={VilkårStatus.IKKE_OPPFYLT}>Nei</RadioStyled>
+                                    <RadioStyled value={VilkårStatus.SKAL_IKKE_VURDERES}>
+                                        Skal ikke vurderes
+                                    </RadioStyled>
+                                </RadioGroupStyled>
+                            ))}
                         </RadioKnapperContainer>
                         <Textarea
                             label={undefined}
