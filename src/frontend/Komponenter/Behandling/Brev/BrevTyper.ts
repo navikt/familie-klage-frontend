@@ -12,11 +12,6 @@ import {
     initielleAvsnittVedtakAvslagSkolepenger,
 } from './BrevTyperTekst';
 
-export interface DokumentNavn {
-    apiNavn: string;
-    visningsnavn: string;
-}
-
 export interface IAvsnitt {
     deloverskrift: string;
     innhold: string;
