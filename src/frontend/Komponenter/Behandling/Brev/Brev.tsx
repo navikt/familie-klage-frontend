@@ -3,7 +3,7 @@ import { useEffect, useState } from 'react';
 import { byggTomRessurs, Ressurs, RessursStatus } from '../../../App/typer/ressurs';
 import FritekstBrev from './FritekstBrev';
 import PdfVisning from './PdfVisning';
-import { FritekstBrevtype, IAvsnitt, IFritekstBrev, IMellomlagretBrevFritekst } from './BrevTyper';
+import { IFritekstBrev, IMellomlagretBrevFritekst } from './BrevTyper';
 import { useMellomlagringBrev } from '../../../App/hooks/useMellomlagringBrev';
 import DataViewer from '../../../Felles/DataViewer/DataViewer';
 import { useBehandling } from '../../../App/context/BehandlingContext';
