@@ -5,7 +5,7 @@ import { Klageinfo } from './Klageinfo';
 import { useApp } from '../../../App/context/AppContext';
 import { Ressurs, RessursStatus } from '../../../App/typer/ressurs';
 import { useBehandling } from '../../../App/context/BehandlingContext';
-import { IForm, VilkårStatus } from './utils';
+import { IFormKlage } from './utils';
 
 const FormKravStyling = styled.div`
     display: flex;
@@ -24,42 +24,34 @@ const FormKravStylingBody = styled.div`
 `;
 
 export const Formkrav: React.FC<{ behandlingId: string }> = ({ behandlingId }) => {
-    const [vilkårOppfylt, settVilkårOppfylt] = useState(false);
     const { axiosRequest } = useApp();
 
-    const formObjekt: IForm = {
+    const formObjekt: IFormKlage = {
         behandlingId: behandlingId,
         fagsakId: 'b0fa4cae-a676-44b3-8725-232dac935c4a',
-        vedtaksdato: '',
+        vedtaksDato: '',
         klageMottatt: '',
-        klageaarsak: '',
+        klageAarsak: '',
         klageBeskrivelse: '',
-        klagePart: VilkårStatus.IKKE_SATT,
-        klageKonkret: VilkårStatus.IKKE_SATT,
-        klagefristOverholdt: VilkårStatus.IKKE_SATT,
-        klageSignert: VilkårStatus.IKKE_SATT,
-        saksbehandlerBegrunnelse: '',
-        sakSistEndret: '',
     };
 
-    const [formkrav, settFormkrav] = useState<IForm>(formObjekt);
-    const { formkravLåst, settFormkravLåst } = useBehandling();
+    const [formkrav, settFormkrav] = useState<IFormKlage>(formObjekt);
+    const { formkravLåst, settFormkravLåst, formkravGyldig, settFormkravGyldig } = useBehandling();
 
     useEffect(() => {
         document.title = 'Oppgavebenk';
-        axiosRequest<IForm, null>({
+        axiosRequest<IFormKlage, null>({
             method: 'GET',
             url: `/familie-klage/api/klageinfo/${behandlingId}`,
-        }).then((res: Ressurs<IForm>) => {
+        }).then((res: Ressurs<IFormKlage>) => {
             if (res.status === RessursStatus.SUKSESS) {
                 settFormkrav((prevState) => ({
                     ...prevState,
                     fagsakId: res.data.fagsakId,
                     klageMottatt: res.data.klageMottatt,
-                    klageaarsak: res.data.klageaarsak,
+                    klageAarsak: res.data.klageAarsak,
                     klageBeskrivelse: res.data.klageBeskrivelse,
-                    saksbehandlerBegrunnelse: res.data.saksbehandlerBegrunnelse,
-                    vedtaksdato: res.data.vedtaksdato,
+                    vedtaksDato: res.data.vedtaksDato,
                 }));
             }
         });
@@ -70,15 +62,15 @@ export const Formkrav: React.FC<{ behandlingId: string }> = ({ behandlingId }) =
             <FormKravStylingBody>
                 {formkrav !== undefined && (
                     <Klageinfo
-                        vilkårOppfylt={vilkårOppfylt}
+                        formkravGyldig={formkravGyldig}
                         formkrav={formkrav}
                         låst={formkravLåst}
                     />
                 )}
                 <Formvilkår
                     behandlingId={behandlingId}
-                    vilkårOppfylt={vilkårOppfylt}
-                    settVilkårOppfylt={settVilkårOppfylt}
+                    vilkårOppfylt={formkravGyldig}
+                    settFormkravGyldig={settFormkravGyldig}
                     låst={formkravLåst}
                     settLåst={settFormkravLåst}
                 />

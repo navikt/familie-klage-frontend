@@ -9,15 +9,15 @@ import BrukerMedBlyant from '../../../Felles/Ikoner/BrukerMedBlyant';
 import {
     VilkårStatus,
     vilkårStatusTilTekst,
-    IForm,
     IRadioKnapperLeseModus,
     IRadioKnapper,
     IVilkårNullstill,
+    IFormVilkår,
 } from './utils';
 import { useBehandling } from '../../../App/context/BehandlingContext';
 import { hentBehandlingIdFraUrl } from '../BehandlingContainer';
 import { useApp } from '../../../App/context/AppContext';
-import { Heading } from '@navikt/ds-react';
+import { Button, Heading } from '@navikt/ds-react';
 
 export const RadSentrertVertikalt = styled.div`
     display: flex;
@@ -76,6 +76,10 @@ const BrukerMedBlyantStyled = styled(BrukerMedBlyant)`
     overflow: visible;
 `;
 
+const ButtonStyled = styled(Button)`
+    margin-left: auto;
+`;
+
 export const RadioknapperLesemodus: React.FC<IRadioKnapperLeseModus> = ({
     radioKnapper,
     redigerHandling,
@@ -84,7 +88,7 @@ export const RadioknapperLesemodus: React.FC<IRadioKnapperLeseModus> = ({
     const { settFormkravLåst, settVilkårTom } = useBehandling();
     const { axiosRequest } = useApp();
     const slettHandling = () => {
-        const f: IVilkårNullstill = {
+        const nullstilteVilkår: IVilkårNullstill = {
             behandlingId: hentBehandlingIdFraUrl(),
             klagePart: VilkårStatus.IKKE_SATT,
             klageKonkret: VilkårStatus.IKKE_SATT,
@@ -93,10 +97,10 @@ export const RadioknapperLesemodus: React.FC<IRadioKnapperLeseModus> = ({
             saksbehandlerBegrunnelse: '',
         };
 
-        axiosRequest<IForm, IVilkårNullstill>({
+        axiosRequest<IFormVilkår, IVilkårNullstill>({
             method: 'POST',
             url: `/familie-klage/api/formkrav`,
-            data: f,
+            data: nullstilteVilkår,
         });
         settVilkårTom(true);
         settFormkravLåst(false);
@@ -113,12 +117,10 @@ export const RadioknapperLesemodus: React.FC<IRadioKnapperLeseModus> = ({
                     </Heading>
                 </RadSentrertVertikalt>
                 <div>
-                    {/* eslint-disable-next-line @typescript-eslint/no-empty-function */}
                     <LenkeKnapp onClick={() => redigerHandling(false)}>
                         <RedigerBlyant withDefaultStroke={false} width={19} heigth={19} />
                         <span>Rediger</span>
                     </LenkeKnapp>
-                    {/* eslint-disable-next-line @typescript-eslint/no-empty-function */}
                     <LenkeKnapp onClick={() => slettHandling()}>
                         <SlettSøppelkasse withDefaultStroke={false} width={19} heigth={19} />
                         <span>Slett</span>
@@ -138,6 +140,9 @@ export const RadioknapperLesemodus: React.FC<IRadioKnapperLeseModus> = ({
                     <Svar>{saksbehandlerBegrunnelse}</Svar>
                 </SvarElement>
             </FormKravStylingBody>
+            <ButtonStyled variant="primary" size="medium">
+                Fortsett
+            </ButtonStyled>
         </FormKravStyling>
     );
 };

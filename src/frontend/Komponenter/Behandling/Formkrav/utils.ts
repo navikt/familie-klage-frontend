@@ -1,7 +1,7 @@
-export interface IFormvilkår {
+export interface IFormvilkårKomponent {
     behandlingId: string;
     vilkårOppfylt: boolean;
-    settVilkårOppfylt: (value: boolean) => void;
+    settFormkravGyldig: (value: boolean) => void;
     låst: boolean;
     settLåst: (value: boolean) => void;
 }
@@ -45,7 +45,7 @@ export const datoFormatering = (dato: Date) => {
     return dato.getDay() + '.' + dato.getMonth() + '.' + dato.getFullYear();
 };
 
-export interface IForm {
+export interface IFormVilkår {
     behandlingId: string;
     fagsakId: string;
     klagePart: VilkårStatus;
@@ -54,4 +54,13 @@ export interface IForm {
     klageSignert: VilkårStatus;
     saksbehandlerBegrunnelse: string;
     sakSistEndret: string;
+}
+
+export interface IFormKlage {
+    behandlingId: string;
+    fagsakId: string;
+    vedtaksDato: string;
+    klageMottatt: string;
+    klageAarsak: string;
+    klageBeskrivelse: string;
 }
