@@ -136,10 +136,10 @@ const FritekstBrev: React.FC<Props> = ({
             behandlingId: behandlingId,
             brevType: brevType,
         };
-        mellomlagreFritekstbrev(brev);
+        //mellomlagreFritekstbrev(brev);
         axiosRequest<string, IFritekstBrev>({
             method: 'POST',
-            url: `/familie-klage/api/brev`,
+            url: `/familie-klage/api/brev/`,
             data: brev,
         }).then((respons: Ressurs<string>) => {
             if (oppdaterBrevressurs) oppdaterBrevressurs(respons);

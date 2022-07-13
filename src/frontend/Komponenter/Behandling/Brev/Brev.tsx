@@ -3,11 +3,12 @@ import { useEffect, useState } from 'react';
 import { byggTomRessurs, Ressurs, RessursStatus } from '../../../App/typer/ressurs';
 import FritekstBrev from './FritekstBrev';
 import PdfVisning from './PdfVisning';
-import { IMellomlagretBrevFritekst } from './BrevTyper';
+import { FritekstBrevtype, IAvsnitt, IFritekstBrev, IMellomlagretBrevFritekst } from './BrevTyper';
 import { useMellomlagringBrev } from '../../../App/hooks/useMellomlagringBrev';
 import DataViewer from '../../../Felles/DataViewer/DataViewer';
 import { useBehandling } from '../../../App/context/BehandlingContext';
 import styled from 'styled-components';
+import { useApp } from '../../../App/context/AppContext';
 
 const StyledBrev = styled.div`
     background-color: #f2f2f2;
@@ -29,6 +30,7 @@ interface IBrev {
 }
 
 export const Brev: React.FC<IBrev> = ({ behandlingId }) => {
+    const { axiosRequest } = useApp();
     const [brevRessurs, settBrevRessurs] = useState<Ressurs<string>>(byggTomRessurs());
     const [kanSendesTilBeslutter, settKanSendesTilBeslutter] = useState<boolean>(false);
 
@@ -42,6 +44,30 @@ export const Brev: React.FC<IBrev> = ({ behandlingId }) => {
             settKanSendesTilBeslutter(true);
         }
     };
+
+    const lagBeslutterBrev = () => {
+        axiosRequest<string, IFritekstBrev>({
+            method: 'POST',
+            url: `/familie-klage/api/brev`,
+        }).then((respons: Ressurs<string>) => {
+            settBrevRessurs(respons);
+            console.log(respons);
+        });
+    };
+
+    const hentBrev = () => {
+        axiosRequest<string, null>({
+            method: 'GET',
+            url: `/familie-klage/api/brev/${behandlingId}`,
+        }).then((respons: Ressurs<string>) => {
+            settBrevRessurs(respons);
+        });
+    };
+
+    useEffect(() => {
+        lagBeslutterBrev();
+        // eslint-disable-next-line
+    }, [behandlingId]);
 
     return (
         <div>
