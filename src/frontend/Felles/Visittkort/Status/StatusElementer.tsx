@@ -149,13 +149,13 @@ export const StatusMeny: FC<{ behandling: Behandling }> = ({ behandling }) => {
                     <li>
                         <Status>
                             <GråTekst>Opprettet</GråTekst>
-                            <Normaltekst>{formaterIsoDatoTid(behandling.opprettet)}</Normaltekst>
+                            <Normaltekst>{formaterIsoDatoTid(behandling.opprettetTid)}</Normaltekst>
                         </Status>
                     </li>
                     <li>
                         <Status>
                             <GråTekst>Sist endret</GråTekst>
-                            <Normaltekst>{formaterIsoDatoTid(behandling.sistEndret)}</Normaltekst>
+                            <Normaltekst>{formaterIsoDatoTid(behandling.endretTid)}</Normaltekst>
                         </Status>
                     </li>
                 </ul>
@@ -177,11 +177,11 @@ export const AlleStatuser: FC<{ behandling: Behandling }> = ({ behandling }) => 
             </Status>
             <Status>
                 <GråTekst>Opprettet</GråTekst>
-                <Normaltekst>{formaterIsoDatoTid(behandling.opprettet)}</Normaltekst>
+                <Normaltekst>{formaterIsoDatoTid(behandling.opprettetTid)}</Normaltekst>
             </Status>
             <Status>
                 <GråTekst>Sist endret</GråTekst>
-                <Normaltekst>{formaterIsoDatoTid(behandling.sistEndret)}</Normaltekst>
+                <Normaltekst>{formaterIsoDatoTid(behandling.endretTid)}</Normaltekst>
             </Status>
         </Statuser>
     );
