@@ -9,7 +9,7 @@ import {
     FrittståendeBrevtype,
     stønadstypeTilBrevtyper,
 } from './BrevTyper';
-import { BehandlingsÅrsak } from '../../../App/typer/Behandlingsårsak';
+import { BehandlingsÅrsak } from '../../../App/typer/behandlingsårsak';
 import { Stønadstype } from '../../../App/typer/behandlingstema';
 import styled from 'styled-components';
 import { Input, Select, Textarea } from 'nav-frontend-skjema';
