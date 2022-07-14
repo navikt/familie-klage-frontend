@@ -64,7 +64,7 @@ export const Brev: React.FC<IBrev> = ({ behandlingId }) => {
     };
 
     useEffect(() => {
-        lagBeslutterBrev();
+        //lagBeslutterBrev();
         // eslint-disable-next-line
     }, [behandlingId]);
 
