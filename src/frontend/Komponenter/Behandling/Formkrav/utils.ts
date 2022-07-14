@@ -1,6 +1,5 @@
 export interface IFormvilkårKomponent {
     behandlingId: string;
-    vilkårOppfylt: boolean;
     settFormkravGyldig: (value: boolean) => void;
     låst: boolean;
     settLåst: (value: boolean) => void;

@@ -22,8 +22,7 @@ import {
     årsakValgTilTekst,
 } from './vurderingValg';
 import { Ressurs, RessursStatus } from '../../../App/typer/ressurs';
-import { IForm } from '../Formkrav/utils';
-import { VilkårStatus } from '../Formkrav/utils';
+import { IFormVilkår, VilkårStatus } from '../Formkrav/utils';
 
 const VurderingBeskrivelseStyled = styled.div`
     margin: 2rem 4rem 2rem 4rem;
@@ -85,10 +84,10 @@ export const Vurdering: React.FC<{ behandlingId: string }> = ({ behandlingId }) 
 
     // Hent data fra formkrav
     useEffect(() => {
-        axiosRequest<IForm, string>({
+        axiosRequest<IFormVilkår, string>({
             method: 'GET',
             url: `/familie-klage/api/formkrav/vilkar/${behandlingId}`,
-        }).then((res: Ressurs<IForm>) => {
+        }).then((res: Ressurs<IFormVilkår>) => {
             if (res.status === RessursStatus.SUKSESS) {
                 settVilkårListe([
                     res.data.klagePart,
@@ -144,7 +143,8 @@ export const Vurdering: React.FC<{ behandlingId: string }> = ({ behandlingId }) 
                         vedtakValgt={vurderingData.vedtak}
                         endring={settIkkePersistertKomponent}
                     />
-                    {vurderingData.vedtak == VedtakValg.OMGJØR_VEDTAK ? (
+                    {vurderingData.vedtak == VedtakValg.OMGJØR_VEDTAK &&
+                    vurderingData.arsak !== undefined ? (
                         <Årsak
                             settÅrsak={settVurderingData}
                             årsakValgt={vurderingData.arsak}
@@ -154,7 +154,8 @@ export const Vurdering: React.FC<{ behandlingId: string }> = ({ behandlingId }) 
                     ) : (
                         ''
                     )}
-                    {vurderingData.vedtak == VedtakValg.OPPRETTHOLD_VEDTAK ? (
+                    {vurderingData.vedtak == VedtakValg.OPPRETTHOLD_VEDTAK &&
+                    vurderingData.hjemmel !== undefined ? (
                         <Hjemmel
                             settHjemmel={settVurderingData}
                             hjemmelValgt={vurderingData.hjemmel}

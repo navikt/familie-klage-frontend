@@ -69,7 +69,6 @@ export const Formkrav: React.FC<{ behandlingId: string }> = ({ behandlingId }) =
                 )}
                 <Formvilkår
                     behandlingId={behandlingId}
-                    vilkårOppfylt={formkravGyldig}
                     settFormkravGyldig={settFormkravGyldig}
                     låst={formkravLåst}
                     settLåst={settFormkravLåst}

@@ -18,6 +18,7 @@ import { useBehandling } from '../../../App/context/BehandlingContext';
 import { hentBehandlingIdFraUrl } from '../BehandlingContainer';
 import { useApp } from '../../../App/context/AppContext';
 import { Button, Heading } from '@navikt/ds-react';
+import { useNavigate } from 'react-router-dom';
 
 export const RadSentrertVertikalt = styled.div`
     display: flex;
@@ -85,8 +86,9 @@ export const RadioknapperLesemodus: React.FC<IRadioKnapperLeseModus> = ({
     redigerHandling,
     saksbehandlerBegrunnelse,
 }) => {
-    const { settFormkravLåst, settVilkårTom } = useBehandling();
+    const { settFormkravLåst, settVilkårTom, formkravGyldig } = useBehandling();
     const { axiosRequest } = useApp();
+    const navigate = useNavigate();
     const slettHandling = () => {
         const nullstilteVilkår: IVilkårNullstill = {
             behandlingId: hentBehandlingIdFraUrl(),
@@ -113,7 +115,7 @@ export const RadioknapperLesemodus: React.FC<IRadioKnapperLeseModus> = ({
                         <BrukerMedBlyantStyled heigth={23} width={23} />
                     </VilkårIkon>
                     <Heading spacing size={'medium'}>
-                        Vilkår oppfylt
+                        {formkravGyldig ? 'Vilkår oppfylt' : 'Vilkår ikke oppfylt'}
                     </Heading>
                 </RadSentrertVertikalt>
                 <div>
@@ -140,9 +142,24 @@ export const RadioknapperLesemodus: React.FC<IRadioKnapperLeseModus> = ({
                     <Svar>{saksbehandlerBegrunnelse}</Svar>
                 </SvarElement>
             </FormKravStylingBody>
-            <ButtonStyled variant="primary" size="medium">
-                Fortsett
-            </ButtonStyled>
+            {formkravGyldig && (
+                <ButtonStyled
+                    variant="primary"
+                    size="medium"
+                    onClick={() => navigate(`/behandling/${hentBehandlingIdFraUrl()}/vurdering`)}
+                >
+                    Fortsett
+                </ButtonStyled>
+            )}
+            {!formkravGyldig && (
+                <ButtonStyled
+                    variant="primary"
+                    size="medium"
+                    onClick={() => navigate(`/behandling/${hentBehandlingIdFraUrl()}/brev`)}
+                >
+                    Fortsett
+                </ButtonStyled>
+            )}
         </FormKravStyling>
     );
 };
