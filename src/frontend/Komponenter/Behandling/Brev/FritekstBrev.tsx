@@ -97,7 +97,7 @@ const FritekstBrev: React.FC<Props> = ({
     const endreDeloverskriftAvsnitt = (radId: string) => {
         return (e: ChangeEvent<HTMLInputElement>) => {
             const oppdaterteAvsnitt = avsnitt.map((rad) => {
-                return rad.id === radId ? { ...rad, deloverskrift: e.target.value } : rad;
+                return rad.avsnittId === radId ? { ...rad, deloverskrift: e.target.value } : rad;
             });
             settAvsnitt(oppdaterteAvsnitt);
         };
@@ -106,7 +106,7 @@ const FritekstBrev: React.FC<Props> = ({
     const endreInnholdAvsnitt = (radId: string) => {
         return (e: ChangeEvent<HTMLTextAreaElement>) => {
             const oppdaterteAvsnitt = avsnitt.map((rad) => {
-                return rad.id === radId ? { ...rad, innhold: e.target.value } : rad;
+                return rad.avsnittId === radId ? { ...rad, innhold: e.target.value } : rad;
             });
             settAvsnitt(oppdaterteAvsnitt);
         };
@@ -114,10 +114,10 @@ const FritekstBrev: React.FC<Props> = ({
 
     const fjernRad = (radId: string) => {
         settAvsnitt((eksisterendeAvsnitt: AvsnittMedId[]) => {
-            return eksisterendeAvsnitt.filter((rad) => radId !== rad.id);
+            return eksisterendeAvsnitt.filter((rad) => radId !== rad.avsnittId);
         });
     };
-
+    /*
     const mellomlagreFritekstbrev = (brev: IFritekstBrev): void => {
         axiosRequest<string, IFritekstBrev>({
             method: 'POST',
@@ -125,6 +125,7 @@ const FritekstBrev: React.FC<Props> = ({
             data: brev,
         });
     };
+    */
 
     const genererBrev = () => {
         if (personopplysninger.status !== RessursStatus.SUKSESS) return;

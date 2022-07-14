@@ -6,7 +6,7 @@ export const flyttAvsnittOppover = (
     eksisterendeAvsnitt: AvsnittMedId[]
 ): AvsnittMedId[] => {
     const avsnittSomSkalFlyttesIndeks = eksisterendeAvsnitt.findIndex(
-        (avsnitt) => avsnitt.id === avsnittId
+        (avsnitt) => avsnitt.avsnittId === avsnittId
     );
     const avsnittFørIndeks = avsnittSomSkalFlyttesIndeks - 1;
     const avsnittEtterIndeks = avsnittSomSkalFlyttesIndeks + 1;
@@ -24,7 +24,7 @@ export const flyttAvsnittNedover = (
     eksisterendeAvsnitt: AvsnittMedId[]
 ): AvsnittMedId[] => {
     const avsnittSomSkalFlyttesIndeks = eksisterendeAvsnitt.findIndex(
-        (avsnitt) => avsnitt.id === avsnittId
+        (avsnitt) => avsnitt.avsnittId === avsnittId
     );
     const avsnittEtterIndeks = avsnittSomSkalFlyttesIndeks + 1;
 
@@ -46,7 +46,7 @@ export const initielleAvsnittMellomlager = (
 const lagTomtAvsnitt = (): AvsnittMedId => ({
     deloverskrift: '',
     innhold: '',
-    id: uuidv4(),
+    avsnittId: uuidv4(),
 });
 
 export const leggTilAvsnittFørst = (eksisterendeAvsnitt: AvsnittMedId[]): AvsnittMedId[] => {
