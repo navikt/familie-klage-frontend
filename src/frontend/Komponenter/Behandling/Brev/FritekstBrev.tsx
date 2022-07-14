@@ -146,8 +146,8 @@ const FritekstBrev: React.FC<Props> = ({
     }, [axiosRequest, behandlingId]);
 
     const settOverskiftOgAvsnitt = (brevType?: FritekstBrevtype) => {
-        endreOverskrift(brevType ? BrevtyperTilOverskrift[nyBrevType] : '');
-        endreAvsnitt(brevType ? skjulAvsnittIBrevbygger(BrevtyperTilAvsnitt[nyBrevType]) : []);
+        endreOverskrift(brevType ? BrevtyperTilOverskrift[brevType] : '');
+        endreAvsnitt(brevType ? skjulAvsnittIBrevbygger(BrevtyperTilAvsnitt[brevType]) : []);
     };
 
     const genererBrev = () => {
