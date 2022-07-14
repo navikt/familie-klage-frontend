@@ -3,7 +3,6 @@
 import { kjønnType } from '@navikt/familie-typer';
 
 export interface IPersonopplysninger {
-    behandlingId: string;
     personId: string;
     navn: string;
     kjønn: kjønnType;

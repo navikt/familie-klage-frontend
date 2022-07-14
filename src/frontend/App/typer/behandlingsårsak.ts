@@ -1,6 +1,6 @@
 import { TilbakekrevingsbehandlingÅrsak } from './tilbakekreving';
 
-export enum Behandlingsårsak {
+export enum BehandlingsÅrsak {
     KLAGE = 'KLAGE',
     NYE_OPPLYSNINGER = 'NYE_OPPLYSNINGER',
     SANKSJON_1_MND = 'SANKSJON_1_MND',
@@ -11,7 +11,7 @@ export enum Behandlingsårsak {
     PAPIRSØKNAD = 'PAPIRSØKNAD',
 }
 
-export const behandlingsårsakTilTekst: Record<Behandlingsårsak, string> = {
+export const behandlingsårsakTilTekst: Record<BehandlingsÅrsak, string> = {
     KLAGE: 'Klage',
     NYE_OPPLYSNINGER: 'Nye opplysninger',
     SANKSJON_1_MND: 'Sanksjon 1 måned',
@@ -22,17 +22,17 @@ export const behandlingsårsakTilTekst: Record<Behandlingsårsak, string> = {
     PAPIRSØKNAD: 'Papirsøknad',
 };
 
-export const behandlingsårsaker: Behandlingsårsak[] = [
-    Behandlingsårsak.KLAGE,
-    Behandlingsårsak.NYE_OPPLYSNINGER,
-    Behandlingsårsak.SANKSJON_1_MND,
-    Behandlingsårsak.SØKNAD,
-    Behandlingsårsak.G_OMREGNING,
-    Behandlingsårsak.KORRIGERING_UTEN_BREV,
+export const behandlingsårsaker: BehandlingsÅrsak[] = [
+    BehandlingsÅrsak.KLAGE,
+    BehandlingsÅrsak.NYE_OPPLYSNINGER,
+    BehandlingsÅrsak.SANKSJON_1_MND,
+    BehandlingsÅrsak.SØKNAD,
+    BehandlingsÅrsak.G_OMREGNING,
+    BehandlingsÅrsak.KORRIGERING_UTEN_BREV,
 ];
 
 export const behandlingOgTilbakekrevingsårsakTilTekst: Record<
-    Behandlingsårsak | TilbakekrevingsbehandlingÅrsak,
+    BehandlingsÅrsak | TilbakekrevingsbehandlingÅrsak,
     string
 > = {
     KLAGE: 'Klage',
