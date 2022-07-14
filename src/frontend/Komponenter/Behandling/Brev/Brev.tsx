@@ -51,7 +51,6 @@ export const Brev: React.FC<IBrev> = ({ behandlingId }) => {
             url: `/familie-klage/api/brev`,
         }).then((respons: Ressurs<string>) => {
             settBrevRessurs(respons);
-            console.log(respons);
         });
     };
 

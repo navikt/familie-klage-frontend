@@ -138,13 +138,11 @@ const FritekstBrev: React.FC<Props> = ({
             brevType: brevType,
         };
         //mellomlagreFritekstbrev(brev);
-        console.log(brev);
         axiosRequest<string, IFritekstBrev>({
             method: 'POST',
             url: `/familie-klage/api/brev/`,
             data: brev,
         }).then((respons: Ressurs<string>) => {
-            console.log(respons);
             if (oppdaterBrevressurs) oppdaterBrevressurs(respons);
         });
     };
