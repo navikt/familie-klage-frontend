@@ -18,11 +18,11 @@ export interface IAvsnitt {
     skalSkjulesIBrevbygger?: boolean;
 }
 
-export type AvsnittMedId = IAvsnitt & { id: string };
+export type AvsnittMedId = IAvsnitt & { avsnittId: string };
 
 export interface IFritekstBrev {
     overskrift: string;
-    avsnitt: IAvsnitt[];
+    avsnitt: AvsnittMedId[];
     behandlingId?: string;
     brevType: FritekstBrevtype;
 }
@@ -66,7 +66,7 @@ export enum Brevtype {
 
 export interface IFrittståendeBrev {
     overskrift: string;
-    avsnitt: IAvsnitt[];
+    avsnitt: AvsnittMedId[];
     fagsakId: string;
     brevType: FrittståendeBrevtype;
 }

@@ -5,7 +5,7 @@ export const initielleAvsnittTom: AvsnittMedId[] = [
     {
         deloverskrift: '',
         innhold: '',
-        id: uuidv4(),
+        avsnittId: uuidv4(),
     },
 ];
 
@@ -14,30 +14,30 @@ export const initielleAvsnittVedtakInvilgelse: AvsnittMedId[] = [
         deloverskrift: 'Du må si ifra om endringer',
         innhold:
             'Hvis det skjer endringer som kan ha betydning for stønaden din, må du si ifra til oss. Du finner oversikten over endringer du må si ifra om på nav.no/familie/alene-med-barn/overgangsstonad#melde. Du sier ifra om endringer ved å skrive en beskjed til oss på nav.no/person/kontakt-oss/nb/skriv-til-oss.',
-        id: uuidv4(),
+        avsnittId: uuidv4(),
     },
     {
         deloverskrift: 'Slik beregner vi inntekten din',
         innhold:
             'Du kan lese mer om hvordan vi beregner inntekten din på nav.no/overgangsstonad-enslig#hvor-mye.',
-        id: uuidv4(),
+        avsnittId: uuidv4(),
     },
     {
         deloverskrift: 'Du har rett til å klage',
         innhold:
             'Hvis du vil klage, må du gjøre dette innen 6 uker fra den datoen du fikk dette brevet. Du finner skjema og informasjon på nav.no/klage.',
-        id: uuidv4(),
+        avsnittId: uuidv4(),
     },
     {
         deloverskrift: 'Du har rett til innsyn',
         innhold: 'På nav.no/dittnav kan du se dokumentene i saken din.',
-        id: uuidv4(),
+        avsnittId: uuidv4(),
     },
     {
         deloverskrift: 'Har du spørsmål?',
         innhold:
             'Du finner informasjon som kan være nyttig for deg på nav.no/familie. Du kan også kontakte oss på nav.no/kontakt.',
-        id: uuidv4(),
+        avsnittId: uuidv4(),
     },
 ];
 
@@ -46,18 +46,18 @@ export const initielleAvsnittVedtakAvslag: AvsnittMedId[] = [
         deloverskrift: 'Du har rett til å klage',
         innhold:
             'Hvis du vil klage, må du gjøre dette innen 6 uker fra den datoen du fikk dette brevet. Du finner skjema og informasjon på nav.no/klage.',
-        id: uuidv4(),
+        avsnittId: uuidv4(),
     },
     {
         deloverskrift: 'Du har rett til innsyn',
         innhold: 'På nav.no/dittnav kan du se dokumentene i saken din.',
-        id: uuidv4(),
+        avsnittId: uuidv4(),
     },
     {
         deloverskrift: 'Har du spørsmål?',
         innhold:
             'Du finner nyttig informasjon på nav.no/overgangsstonad-enslig. Du kan også kontakte oss på nav.no/kontakt.',
-        id: uuidv4(),
+        avsnittId: uuidv4(),
     },
 ];
 
@@ -66,24 +66,24 @@ export const initielleAvsnittVedtakInvilgelseBarnetilsyn: AvsnittMedId[] = [
         deloverskrift: 'Du må si ifra om endringer',
         innhold:
             'Hvis det skjer endringer som kan ha betydning for stønaden din, må du si ifra til oss. Du finner oversikten over endringer du må si ifra om på nav.no/barnetilsyn-enslig#melde. Du sier ifra om endringer ved å skrive en beskjed til oss på nav.no/person/kontakt-oss/nb/skriv-til-oss.',
-        id: uuidv4(),
+        avsnittId: uuidv4(),
     },
     {
         deloverskrift: 'Du har rett til å klage',
         innhold:
             'Hvis du vil klage, må du gjøre dette innen 6 uker fra den datoen du fikk dette brevet. Du finner skjema og informasjon på nav.no/klage.',
-        id: uuidv4(),
+        avsnittId: uuidv4(),
     },
     {
         deloverskrift: 'Du har rett til innsyn',
         innhold: 'På nav.no/dittnav kan du se dokumentene i saken din.',
-        id: uuidv4(),
+        avsnittId: uuidv4(),
     },
     {
         deloverskrift: 'Har du spørsmål?',
         innhold:
             'Du finner informasjon som kan være nyttig for deg på nav.no/familie/alene-med-barn. Du kan også kontakte oss på nav.no/kontakt.',
-        id: uuidv4(),
+        avsnittId: uuidv4(),
     },
 ];
 
@@ -92,18 +92,18 @@ export const initielleAvsnittVedtakAvslagBarnetilsyn: AvsnittMedId[] = [
         deloverskrift: 'Du har rett til å klage',
         innhold:
             'Hvis du vil klage, må du gjøre dette innen 6 uker fra den datoen du fikk dette brevet. Du finner skjema og informasjon på nav.no/klage.',
-        id: uuidv4(),
+        avsnittId: uuidv4(),
     },
     {
         deloverskrift: 'Du har rett til innsyn',
         innhold: 'På nav.no/dittnav kan du se dokumentene i saken din.',
-        id: uuidv4(),
+        avsnittId: uuidv4(),
     },
     {
         deloverskrift: 'Har du spørsmål?',
         innhold:
             'Du finner informasjon som kan være nyttig for deg på nav.no/familie/alene-med-barn. Du kan også kontakte oss på nav.no/kontakt.',
-        id: uuidv4(),
+        avsnittId: uuidv4(),
     },
 ];
 
@@ -141,7 +141,7 @@ export const initielleAvsnittVarselOmAktivitetsplikt: AvsnittMedId[] = [
             '\n\nVi minner om at du har plikt til å gi de opplysningene og levere de dokumentene som er nødvendige' +
             '\nfor at vi skal kunne vurdere om du fortsatt har rett til stønaden. Dersom vi ikke har fått' +
             '\nopplysningene innen fristens utløp, kan vi stanse stønaden din. Dette står i folketrygdloven § 21-3.',
-        id: uuidv4(),
+        avsnittId: uuidv4(),
     },
 ];
 
@@ -156,7 +156,7 @@ export const initielleAvsnittInnhentingAvKarakterutskriftHovedperiode: AvsnittMe
             '\n\t•\tdokumentasjon som viser at du starter i ny utdanning, eller\n' +
             '\t•\tdokumentasjon som viser ny aktivitet fra 01.07.2022\n' +
             '\nDu må sende oss dokumentasjonen innen 21.07.2022.',
-        id: uuidv4(),
+        avsnittId: uuidv4(),
     },
     {
         deloverskrift: 'Dokumentere at du har gjennomført skoleåret',
@@ -164,7 +164,7 @@ export const initielleAvsnittInnhentingAvKarakterutskriftHovedperiode: AvsnittMe
             'Du må sende inn karakterutskrift for skoleåret 2021/2022, både høst- og vårsemesteret. Det må gå frem av dokumentasjonen at du har gjennomført skoleåret, og at du har studert minst 50 prosent.\n' +
             '\t\n' +
             'Hvis du ikke kan sende inn karakterutskrift, må du sende inn annen dokumentasjon som viser at du har gjennomført skoleåret, og at du har studert minst 50 prosent. Dette kan for eksempel være en bekreftelse fra skolen. På dokumentasjonen må det stå tydelig at det gjelder deg.',
-        id: uuidv4(),
+        avsnittId: uuidv4(),
     },
     {
         deloverskrift: 'Hvis du har avsluttet utdanningen underveis',
@@ -174,7 +174,7 @@ export const initielleAvsnittInnhentingAvKarakterutskriftHovedperiode: AvsnittMe
             'Du må sende oss sykemelding eller uttalelse fra lege hvis du avbrøt utdanningen av helsemessige årsaker. Hvis du ikke fikk godkjent eksamen eller fullført skoleåret av andre grunner, kan du forklare dette i en melding til oss på nav.no/beskjedtilnav. Dette gjelder også hvis koronapandemien har vært grunnen til at du avsluttet eller ikke fikk fullført utdanningen.\n' +
             '\n' +
             'Hvis du ikke sender oss karakterutskrift eller annen dokumentasjon innen fristen, kan vi kreve tilbake penger du har fått utbetalt dette skoleåret.',
-        id: uuidv4(),
+        avsnittId: uuidv4(),
     },
     {
         deloverskrift: 'Videre aktivitet',
@@ -190,13 +190,13 @@ export const initielleAvsnittInnhentingAvKarakterutskriftHovedperiode: AvsnittMe
             '\n\t\t  barnehageplass/SFO-plass, eventuelt dokumentasjon som viser at du står på venteliste.' +
             '\n\nDu kan lese mer om aktivitetsplikten på nav.no/overgangsstonad-enslig#aktivitet.' +
             '\n\nVi minner om at du har plikt til å gi de opplysningene og levere de dokumentene som er nødvendige for at vi skal kunne vurdere om du har rett til stønaden. Hvis vi ikke får opplysningene innen fristen, vil vi behandle saken din ut fra de opplysningene vi har. Dette går frem av folketrygdloven § 21-3.',
-        id: uuidv4(),
+        avsnittId: uuidv4(),
     },
     {
         deloverskrift: 'Har du spørsmål?',
         innhold:
             'Du finner informasjon som kan være nyttig for deg på nav.no/familie/alene-med-barn. Du kan også kontakte oss på nav.no/kontakt.',
-        id: uuidv4(),
+        avsnittId: uuidv4(),
     },
 ];
 
@@ -208,14 +208,14 @@ export const initielleAvsnittInnhentingAvKarakterutskriftUtvidetPeriode: Avsnitt
             '\n\nVi følger opp saken din, og ber deg om å sende oss:' +
             '\n\n•\tKarakterutskrift for skoleåret 2021/2022' +
             '\n\nDu må sende oss dokumentasjonen innen 21.07.22.',
-        id: uuidv4(),
+        avsnittId: uuidv4(),
     },
     {
         deloverskrift: 'Dokumentere at du har gjennomført skoleåret',
         innhold:
             'Du må sende inn karakterutskrift for skoleåret 2021/2022, både høst- og vårsemesteret. Det må gå frem av dokumentasjonen at du har gjennomført skoleåret, og at du har studert minst 50 prosent.' +
             '\n\nHvis du ikke kan sende inn karakterutskrift, må du sende inn annen dokumentasjon som viser at du har gjennomført skoleåret, og at du har studert minst 50 prosent. Dette kan for eksempel være en bekreftelse fra skolen. På dokumentasjonen må det stå tydelig at det gjelder deg.',
-        id: uuidv4(),
+        avsnittId: uuidv4(),
     },
     {
         deloverskrift: 'Hvis du har avsluttet utdanningen underveis',
@@ -224,13 +224,13 @@ export const initielleAvsnittInnhentingAvKarakterutskriftUtvidetPeriode: Avsnitt
             '\n\nDu må sende oss sykemelding eller uttalelse fra lege hvis du avbrøt utdanningen av helsemessige årsaker. Hvis du ikke fikk godkjent eksamen eller fullført skoleåret av andre grunner, kan du forklare dette i en melding til oss på nav.no/beskjedtilnav. Dette gjelder også hvis koronapandemien har vært grunnen til at du avsluttet eller ikke fikk fullført utdanningen.' +
             '\n\nHvis du ikke sender oss karakterutskrift eller annen dokumentasjon innen fristen, kan vi kreve tilbake penger du har fått utbetalt dette skoleåret.' +
             '\n\nVi minner om at du har plikt til å gi de opplysningene og levere de dokumentene som er nødvendige for at vi skal kunne vurdere om du har rett til stønaden. Hvis vi ikke får opplysningene innen fristen, vil vi behandle saken din ut fra de opplysningene vi har. Dette går fram av folketrygdloven § 21-3.',
-        id: uuidv4(),
+        avsnittId: uuidv4(),
     },
     {
         deloverskrift: 'Har du spørsmål?',
         innhold:
             'Du finner informasjon som kan være nyttig for deg på nav.no/familie/alene-med-barn. Du kan også kontakte oss på nav.no/kontakt.',
-        id: uuidv4(),
+        avsnittId: uuidv4(),
     },
 ];
 
@@ -239,24 +239,24 @@ export const initielleAvsnittVedtakInvilgelseSkolepenger: AvsnittMedId[] = [
         deloverskrift: 'Du må si ifra om endringer',
         innhold:
             'Hvis det skjer endringer som kan ha betydning for stønaden din, må du si ifra til oss. Du finner oversikten over endringer du må si ifra om på nav.no/skolepenger-enslig#melde. Du sier ifra om endringer ved å skrive en beskjed til oss på nav.no/person/kontakt-oss/nb/skriv-til-oss.',
-        id: uuidv4(),
+        avsnittId: uuidv4(),
     },
     {
         deloverskrift: 'Du har rett til å klage',
         innhold:
             'Hvis du vil klage, må du gjøre dette innen 6 uker fra den datoen du fikk dette brevet. Du finner skjema og informasjon på nav.no/klage.',
-        id: uuidv4(),
+        avsnittId: uuidv4(),
     },
     {
         deloverskrift: 'Du har rett til innsyn',
         innhold: 'På nav.no/dittnav kan du se dokumentene i saken din.',
-        id: uuidv4(),
+        avsnittId: uuidv4(),
     },
     {
         deloverskrift: 'Har du spørsmål?',
         innhold:
             'Du finner informasjon som kan være nyttig for deg på nav.no/familie/alene-med-barn. Du kan også kontakte oss på nav.no/kontakt.',
-        id: uuidv4(),
+        avsnittId: uuidv4(),
     },
 ];
 
@@ -265,17 +265,17 @@ export const initielleAvsnittVedtakAvslagSkolepenger: AvsnittMedId[] = [
         deloverskrift: 'Du har rett til å klage',
         innhold:
             'Hvis du vil klage, må du gjøre dette innen 6 uker fra den datoen du fikk dette brevet. Du finner skjema og informasjon på nav.no/klage.',
-        id: uuidv4(),
+        avsnittId: uuidv4(),
     },
     {
         deloverskrift: 'Du har rett til innsyn',
         innhold: 'På nav.no/dittnav kan du se dokumentene i saken din.',
-        id: uuidv4(),
+        avsnittId: uuidv4(),
     },
     {
         deloverskrift: 'Har du spørsmål?',
         innhold:
             'Du finner informasjon som kan være nyttig for deg på nav.no/familie/alene-med-barn. Du kan også kontakte oss på nav.no/kontakt.',
-        id: uuidv4(),
+        avsnittId: uuidv4(),
     },
 ];
