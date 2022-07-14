@@ -48,23 +48,28 @@ const StyledHamburgermeny = styled(Hamburgermeny)`
     z-index: 9999;
 `;
 
-const VisittkortComponent: FC<{ data: IPersonopplysninger; behandling?: Behandling }> = ({
-    data,
-    behandling,
-}) => {
-    const { behandlingId, kjønn, navn } = data;
+const VisittkortComponent: FC<{
+    personopplysninger: IPersonopplysninger;
+    behandling: Behandling;
+}> = ({ personopplysninger, behandling }) => {
+    console.log(behandling);
+    console.log(personopplysninger);
+
+    const { personId, kjønn, navn } = personopplysninger;
+
+    const { id } = behandling;
 
     const { axiosRequest, gåTilUrl } = useApp();
     const [fagsakPersonId, settFagsakPersonId] = useState<string>('');
 
     useEffect(() => {
-        const hentFagsak = (behandlingId: string): void => {
-            if (!behandlingId) return;
+        const hentFagsak = (id: string): void => {
+            if (!id) return;
 
             axiosRequest<ISøkPerson, IPersonIdent>({
                 method: 'POST',
-                url: `/familie-ef-sak/api/sok/`,
-                data: { personIdent: behandlingId },
+                url: `/familie-klage/api/sok/`,
+                data: { personIdent: personId },
             }).then((respons: RessursSuksess<ISøkPerson> | RessursFeilet) => {
                 if (respons.status === RessursStatus.SUKSESS) {
                     if (respons.data?.fagsakPersonId) {
@@ -74,7 +79,7 @@ const VisittkortComponent: FC<{ data: IPersonopplysninger; behandling?: Behandli
             });
         };
 
-        hentFagsak(behandlingId);
+        hentFagsak(id);
 
         // eslint-disable-next-line
     }, []);
@@ -83,7 +88,7 @@ const VisittkortComponent: FC<{ data: IPersonopplysninger; behandling?: Behandli
         <VisittkortWrapper>
             <Visittkort
                 alder={20}
-                ident={behandlingId}
+                ident={personId}
                 kjønn={kjønn}
                 navn={
                     <ResponsivLenke

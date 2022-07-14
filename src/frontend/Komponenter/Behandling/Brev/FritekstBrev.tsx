@@ -137,6 +137,7 @@ const FritekstBrev: React.FC<Props> = ({
             behandlingId: behandlingId,
             brevType: brevType,
         };
+
         //mellomlagreFritekstbrev(brev);
         axiosRequest<string, IFritekstBrev>({
             method: 'POST',

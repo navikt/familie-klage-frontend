@@ -72,7 +72,7 @@ const BehandlingContent: FC<{
 
     return (
         <>
-            <VisittkortComponent data={personopplysninger} behandling={behandling} />
+            <VisittkortComponent personopplysninger={personopplysninger} behandling={behandling} />
             <Container>
                 <InnholdWrapper åpenHøyremeny={åpenHøyremeny}>
                     <Fanemeny behandling={behandling} />

@@ -1,7 +1,7 @@
 import { Stønadstype } from './behandlingstema';
 import { BehandlingStatus } from './behandlingstatus';
 import { TilbakekrevingBehandlingsresultatstype } from './tilbakekreving';
-import { Behandlingsårsak } from './Behandlingsårsak';
+import { BehandlingsÅrsak } from './behandlingsårsak';
 
 export interface IFagsakPerson {
     id: string;
@@ -51,15 +51,16 @@ export const behandlingStegTilTekst: Record<BehandlingSteg, string> = {
 export interface Behandling {
     id: string;
     fagsakId: string;
+    personId: string;
     steg: BehandlingSteg;
     status: BehandlingStatus;
-    sistEndret: string;
-    opprettet: string;
+    endretTid: string;
+    opprettetTid: string;
     resultat: BehandlingResultat;
     fagsystem: Fagsystem;
-    vedtaksdato?: string;
+    vedtakDato?: string;
     stonadsType: Stønadstype;
-    behandlingsArsak: Behandlingsårsak;
+    behandlingsArsak: BehandlingsÅrsak;
 }
 
 export interface IEndringerRegistergrunnlag {

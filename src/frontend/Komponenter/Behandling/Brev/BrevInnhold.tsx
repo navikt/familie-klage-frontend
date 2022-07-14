@@ -9,7 +9,7 @@ import {
     FrittståendeBrevtype,
     stønadstypeTilBrevtyper,
 } from './BrevTyper';
-import { Behandlingsårsak } from '../../../App/typer/Behandlingsårsak';
+import { BehandlingsÅrsak } from '../../../App/typer/Behandlingsårsak';
 import { Stønadstype } from '../../../App/typer/behandlingstema';
 import styled from 'styled-components';
 import { Input, Select, Textarea } from 'nav-frontend-skjema';
@@ -75,7 +75,7 @@ export interface IBrevInnhold {
     flyttAvsnittOpp: (avsnittId: string) => void;
     flyttAvsnittNed: (avsnittId: string) => void;
     context: FritekstBrevContext;
-    behandlingsårsak: Behandlingsårsak;
+    behandlingsårsak: BehandlingsÅrsak;
     stønadstype: Stønadstype;
 }
 
@@ -126,7 +126,7 @@ const BrevInnhold: React.FC<IBrevInnhold> = ({
                     .filter(
                         (type: FrittståendeBrevtype | FritekstBrevtype) =>
                             type !== FritekstBrevtype.SANKSJON ||
-                            behandlingsårsak === Behandlingsårsak.SANKSJON_1_MND
+                            behandlingsårsak === BehandlingsÅrsak.SANKSJON_1_MND
                     )
                     .map((type: FrittståendeBrevtype | FritekstBrevtype) => (
                         <option value={type} key={type}>
