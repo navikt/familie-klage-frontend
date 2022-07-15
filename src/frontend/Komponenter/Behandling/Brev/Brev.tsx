@@ -45,29 +45,6 @@ export const Brev: React.FC<IBrev> = ({ behandlingId }) => {
         }
     };
 
-    const lagBeslutterBrev = () => {
-        axiosRequest<string, IFritekstBrev>({
-            method: 'POST',
-            url: `/familie-klage/api/brev`,
-        }).then((respons: Ressurs<string>) => {
-            settBrevRessurs(respons);
-        });
-    };
-
-    const hentBrev = () => {
-        axiosRequest<string, null>({
-            method: 'GET',
-            url: `/familie-klage/api/brev/${behandlingId}`,
-        }).then((respons: Ressurs<string>) => {
-            settBrevRessurs(respons);
-        });
-    };
-
-    useEffect(() => {
-        lagBeslutterBrev();
-        // eslint-disable-next-line
-    }, [behandlingId]);
-
     return (
         <div>
             <StyledBrev>

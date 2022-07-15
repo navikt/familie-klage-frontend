@@ -141,6 +141,7 @@ const FritekstBrev: React.FC<Props> = ({
                     type = FritekstBrevtype.VEDTAK_INVILGELSE;
                 }
             }
+            settBrevType(type);
             settOverskiftOgAvsnitt(type);
         });
     }, [axiosRequest, behandlingId]);
@@ -160,7 +161,6 @@ const FritekstBrev: React.FC<Props> = ({
             behandlingId: behandlingId,
             brevType: brevType,
         };
-
         axiosRequest<string, IFritekstBrev>({
             method: 'POST',
             url: `/familie-klage/api/brev/`,
