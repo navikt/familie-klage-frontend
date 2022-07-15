@@ -23,6 +23,8 @@ import {
 } from './vurderingValg';
 import { Ressurs, RessursStatus } from '../../../App/typer/ressurs';
 import { IFormVilkår, VilkårStatus } from '../Formkrav/utils';
+import { hentBehandlingIdFraUrl } from '../BehandlingContainer';
+import { useNavigate } from 'react-router-dom';
 
 const VurderingBeskrivelseStyled = styled.div`
     margin: 2rem 4rem 2rem 4rem;
@@ -32,9 +34,14 @@ const AlertStyled = styled(Alert)`
     margin: 2rem 4rem 2rem 4rem;
 `;
 
-const VurderingKnappStyled = styled(Button)`
-    margin: 0 4rem 2rem 4rem;
+const VurderingKnapper = styled.div`
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    margin: 0 4rem;
 `;
+
+const VurderingKnappStyled = styled(Button)``;
 
 export const Vurdering: React.FC<{ behandlingId: string }> = ({ behandlingId }) => {
     // Formkravoppsummering
@@ -42,6 +49,7 @@ export const Vurdering: React.FC<{ behandlingId: string }> = ({ behandlingId }) 
     const [muligOppfylt, settMuligOppfylt] = useState(1);
     const [begrunnelse, settBegrunnelse] = useState('');
     const [feilmelding, settFeilmelding] = useState('Dette er en feilmelding'); // TODO legge til enum-objekter som sier om det er begrunnelse eller vurdering som mangler
+    const navigate = useNavigate();
 
     const vurderingObject: IVurdering = {
         behandlingId: behandlingId,
@@ -191,25 +199,40 @@ export const Vurdering: React.FC<{ behandlingId: string }> = ({ behandlingId }) 
                     ) : (
                         ''
                     )}
-
-                    <VurderingKnappStyled
-                        variant="primary"
-                        size="medium"
-                        onClick={() => {
-                            opprettVurdering();
-                        }}
-                        disabled={
-                            !(
-                                vurderingData.vedtak == VedtakValg.OPPRETTHOLD_VEDTAK ||
-                                vurderingData.vedtak == VedtakValg.OMGJØR_VEDTAK
-                            ) ||
-                            vurderingData.beskrivelse.length == 0 ||
-                            (vurderingData.arsak == ÅrsakValg.VELG &&
-                                vurderingData.hjemmel == HjemmelValg.VELG)
-                        }
-                    >
-                        Large vurdering
-                    </VurderingKnappStyled>
+                    <VurderingKnapper>
+                        <VurderingKnappStyled
+                            variant="primary"
+                            size="medium"
+                            onClick={() => {
+                                opprettVurdering();
+                            }}
+                            disabled={
+                                !(
+                                    vurderingData.vedtak == VedtakValg.OPPRETTHOLD_VEDTAK ||
+                                    vurderingData.vedtak == VedtakValg.OMGJØR_VEDTAK
+                                ) ||
+                                vurderingData.beskrivelse.length == 0 ||
+                                (vurderingData.arsak == ÅrsakValg.VELG &&
+                                    vurderingData.hjemmel == HjemmelValg.VELG)
+                            }
+                        >
+                            Lagre vurdering
+                        </VurderingKnappStyled>
+                        <Button
+                            onClick={() => navigate(`/behandling/${hentBehandlingIdFraUrl()}/brev`)}
+                            disabled={
+                                !(
+                                    vurderingData.vedtak == VedtakValg.OPPRETTHOLD_VEDTAK ||
+                                    vurderingData.vedtak == VedtakValg.OMGJØR_VEDTAK
+                                ) ||
+                                vurderingData.beskrivelse.length == 0 ||
+                                (vurderingData.arsak == ÅrsakValg.VELG &&
+                                    vurderingData.hjemmel == HjemmelValg.VELG)
+                            }
+                        >
+                            Fortsett
+                        </Button>
+                    </VurderingKnapper>
                 </>
             )}
         </div>

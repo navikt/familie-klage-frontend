@@ -228,7 +228,7 @@ export const Formvilkår: React.FC<IFormvilkårKomponent> = ({
                             Lagre
                         </ButtonStyled>
                         {visFeilmelding && (
-                            <Alert variant="error" size="medium">
+                            <Alert variant="error" size="medium" inline>
                                 Alle vilkår må fylles ut. Dersom minst ett krav ikke skal vurderes
                                 må det være ett krav som har "Nei".
                             </Alert>
