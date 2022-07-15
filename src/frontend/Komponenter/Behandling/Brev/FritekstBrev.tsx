@@ -4,11 +4,12 @@ import { Ressurs, RessursStatus } from '../../../App/typer/ressurs';
 
 import DataViewer from '../../../Felles/DataViewer/DataViewer';
 import BrevInnhold from './BrevInnhold';
-import { Stønadstype, stønadstypeTilTekst } from '../../../App/typer/behandlingstema';
+import { stønadstypeTilTekst } from '../../../App/typer/behandlingstema';
 import styled from 'styled-components';
 import {
     AvsnittMedId,
-    FritekstBrevContext,
+    BrevtyperTilAvsnitt,
+    BrevtyperTilOverskrift,
     FritekstBrevtype,
     FrittståendeBrevtype,
     IFritekstBrev,
@@ -20,12 +21,14 @@ import {
     initielleAvsnittMellomlager,
     leggAvsnittBakSisteSynligeAvsnitt,
     leggTilAvsnittFørst,
+    skjulAvsnittIBrevbygger,
 } from './BrevUtils';
 import { useApp } from '../../../App/context/AppContext';
 import { useDataHenter } from '../../../App/hooks/felles/useDataHenter';
 import { IPersonopplysninger } from '../../../App/typer/personopplysninger';
 import { AxiosRequestConfig } from 'axios';
 import { useDebouncedCallback } from 'use-debounce';
+import { VedtakValg } from '../Vurdering/vurderingValg';
 
 const StyledBrev = styled.div`
     margin-bottom: 10rem;
@@ -124,8 +127,29 @@ const FritekstBrev: React.FC<Props> = ({
             url: `/familie-klage/api/brev/mellomlager`,
             data: brev,
         });
+    };*/
+
+    useEffect(() => {
+        axiosRequest<VedtakValg, null>({
+            method: 'GET',
+            url: `/familie-klage/api/vurdering/${behandlingId}/vedtak`,
+        }).then((res: Ressurs<VedtakValg>) => {
+            let type: FritekstBrevtype = FritekstBrevtype.VEDTAK_AVSLAG;
+            if (res.status === RessursStatus.SUKSESS) {
+                const vedtak: VedtakValg = res.data;
+                if (vedtak === VedtakValg.OMGJØR_VEDTAK) {
+                    type = FritekstBrevtype.VEDTAK_INVILGELSE;
+                }
+            }
+            endreBrevType(type);
+            settOverskiftOgAvsnitt(type);
+        });
+    }, [axiosRequest, behandlingId]);
+
+    const settOverskiftOgAvsnitt = (brevType?: FritekstBrevtype) => {
+        endreOverskrift(brevType ? BrevtyperTilOverskrift[brevType] : '');
+        endreAvsnitt(brevType ? skjulAvsnittIBrevbygger(BrevtyperTilAvsnitt[brevType]) : []);
     };
-    */
 
     const genererBrev = () => {
         if (personopplysninger.status !== RessursStatus.SUKSESS) return;
@@ -158,7 +182,6 @@ const FritekstBrev: React.FC<Props> = ({
                     <h1>Fritekstbrev for {stønadstypeTilTekst[behandling.stonadsType]}</h1>
                     <BrevInnhold
                         brevType={brevType}
-                        endreBrevType={endreBrevType}
                         overskrift={overskrift}
                         endreOverskrift={endreOverskrift}
                         avsnitt={avsnitt}
@@ -172,9 +195,6 @@ const FritekstBrev: React.FC<Props> = ({
                         }
                         flyttAvsnittOpp={oppdaterFlyttAvsnittOppover}
                         flyttAvsnittNed={oppdaterFlyttAvsnittNedover}
-                        context={FritekstBrevContext.BEHANDLING}
-                        behandlingsårsak={behandling.behandlingsArsak}
-                        stønadstype={Stønadstype.BARNETILSYN}
                     />
                 </StyledBrev>
             )}

@@ -52,9 +52,6 @@ const VisittkortComponent: FC<{
     personopplysninger: IPersonopplysninger;
     behandling: Behandling;
 }> = ({ personopplysninger, behandling }) => {
-    console.log(behandling);
-    console.log(personopplysninger);
-
     const { personId, kjønn, navn } = personopplysninger;
 
     const { id } = behandling;
