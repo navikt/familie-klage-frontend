@@ -152,5 +152,4 @@ const BrevInnhold: React.FC<IBrevInnhold> = ({
         </BrevKolonner>
     );
 };
-
 export default BrevInnhold;
