@@ -1,14 +1,13 @@
 import * as React from 'react';
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import { byggTomRessurs, Ressurs, RessursStatus } from '../../../App/typer/ressurs';
 import FritekstBrev from './FritekstBrev';
 import PdfVisning from './PdfVisning';
-import { IFritekstBrev, IMellomlagretBrevFritekst } from './BrevTyper';
+import { IMellomlagretBrevFritekst } from './BrevTyper';
 import { useMellomlagringBrev } from '../../../App/hooks/useMellomlagringBrev';
 import DataViewer from '../../../Felles/DataViewer/DataViewer';
 import { useBehandling } from '../../../App/context/BehandlingContext';
 import styled from 'styled-components';
-import { useApp } from '../../../App/context/AppContext';
 
 const StyledBrev = styled.div`
     background-color: #f2f2f2;
@@ -30,7 +29,6 @@ interface IBrev {
 }
 
 export const Brev: React.FC<IBrev> = ({ behandlingId }) => {
-    const { axiosRequest } = useApp();
     const [brevRessurs, settBrevRessurs] = useState<Ressurs<string>>(byggTomRessurs());
     const [kanSendesTilBeslutter, settKanSendesTilBeslutter] = useState<boolean>(false);
 

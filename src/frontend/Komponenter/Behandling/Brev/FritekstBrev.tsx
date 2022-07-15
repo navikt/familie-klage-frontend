@@ -141,7 +141,7 @@ const FritekstBrev: React.FC<Props> = ({
                     type = FritekstBrevtype.VEDTAK_INVILGELSE;
                 }
             }
-            settBrevType(type);
+            endreBrevType(type);
             settOverskiftOgAvsnitt(type);
         });
     }, [axiosRequest, behandlingId]);
