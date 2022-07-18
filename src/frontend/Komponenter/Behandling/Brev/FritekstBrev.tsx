@@ -119,16 +119,6 @@ const FritekstBrev: React.FC<Props> = ({
             return eksisterendeAvsnitt.filter((rad) => radId !== rad.avsnittId);
         });
     };
-    /*
-    const mellomlagreFritekstbrev = (brev: IFritekstBrev): void => {
-        axiosRequest<string, IFritekstBrev>({
-            method: 'POST',
-            url: `/familie-klage/api/brev/mellomlager`,
-            data: brev,
-        });
-    };*/
-
-    // Problem: endrer ikke avsnitt, må fikse slik at den setter settOverskriftOgAvsnitt kun en gang, når det først genereres
 
     const genererBrev = () => {
         if (personopplysninger.status !== RessursStatus.SUKSESS) return;
