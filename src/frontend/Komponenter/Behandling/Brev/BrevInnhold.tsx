@@ -96,28 +96,28 @@ const BrevInnhold: React.FC<IBrevInnhold> = ({
                 </LeggTilKnappWrapper>
             )}
             {avsnittSomSkalVises.map((rad, index) => {
-                const deloverskriftId = `deloverskrift-${rad.id}`;
-                const innholdId = `innhold-${rad.id}`;
-                const toKolonneId = `toKolonne-${rad.id}`;
-                const knappWrapperId = `knappWrapper-${rad.id}`;
+                const deloverskriftId = `deloverskrift-${rad.avsnittId}`;
+                const innholdId = `innhold-${rad.avsnittId}`;
+                const toKolonneId = `toKolonne-${rad.avsnittId}`;
+                const knappWrapperId = `knappWrapper-${rad.avsnittId}`;
 
                 return (
                     <ToKolonneLayout id={toKolonneId}>
-                        <Innholdsrad key={rad.id} border>
+                        <Innholdsrad key={rad.avsnittId} border>
                             <Input
-                                onChange={endreDeloverskriftAvsnitt(rad.id)}
+                                onChange={endreDeloverskriftAvsnitt(rad.avsnittId)}
                                 label="Deloverskrift (valgfri)"
                                 id={deloverskriftId}
                                 value={rad.deloverskrift}
                             />
                             <Textarea
-                                onChange={endreInnholdAvsnitt(rad.id)}
+                                onChange={endreInnholdAvsnitt(rad.avsnittId)}
                                 label="Innhold"
                                 id={innholdId}
                                 value={rad.innhold}
                                 maxLength={0}
                             />
-                            <LenkeKnapp onClick={() => fjernRad(rad.id)}>
+                            <LenkeKnapp onClick={() => fjernRad(rad.avsnittId)}>
                                 <SlettSøppelkasse withDefaultStroke={false} />
                                 Slett avsnitt
                             </LenkeKnapp>
@@ -126,14 +126,14 @@ const BrevInnhold: React.FC<IBrevInnhold> = ({
                             {index > 0 && (
                                 <OppKnapp
                                     onClick={() => {
-                                        flyttAvsnittOpp(rad.id);
+                                        flyttAvsnittOpp(rad.avsnittId);
                                     }}
                                 />
                             )}
                             {index + 1 < avsnittSomSkalVises.length && (
                                 <NedKnapp
                                     onClick={() => {
-                                        flyttAvsnittNed(rad.id);
+                                        flyttAvsnittNed(rad.avsnittId);
                                     }}
                                 />
                             )}
