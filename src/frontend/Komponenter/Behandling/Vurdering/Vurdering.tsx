@@ -69,8 +69,11 @@ export const Vurdering: React.FC<{ behandlingId: string }> = ({ behandlingId }) 
     const { axiosRequest, nullstillIkkePersisterteKomponenter, settIkkePersistertKomponent } =
         useApp();
 
-    // Hent eksisterende vurderingsdata
+    useEffect(() => {
+        settResultat(false);
+    }, [vurderingData, settResultat]);
 
+    // Hent eksisterende vurderingsdata
     useEffect(() => {
         axiosRequest<IVurdering, string>({
             method: 'GET',
@@ -219,20 +222,24 @@ export const Vurdering: React.FC<{ behandlingId: string }> = ({ behandlingId }) 
                         >
                             Lagre vurdering
                         </VurderingKnappStyled>
-                        <Button
-                            onClick={() => navigate(`/behandling/${hentBehandlingIdFraUrl()}/brev`)}
-                            disabled={
-                                !(
-                                    vurderingData.vedtak == VedtakValg.OPPRETTHOLD_VEDTAK ||
-                                    vurderingData.vedtak == VedtakValg.OMGJØR_VEDTAK
-                                ) ||
-                                vurderingData.beskrivelse.length == 0 ||
-                                (vurderingData.arsak == ÅrsakValg.VELG &&
-                                    vurderingData.hjemmel == HjemmelValg.VELG)
-                            }
-                        >
-                            Fortsett
-                        </Button>
+                        {resultat && (
+                            <Button
+                                onClick={() =>
+                                    navigate(`/behandling/${hentBehandlingIdFraUrl()}/brev`)
+                                }
+                                disabled={
+                                    !(
+                                        vurderingData.vedtak == VedtakValg.OPPRETTHOLD_VEDTAK ||
+                                        vurderingData.vedtak == VedtakValg.OMGJØR_VEDTAK
+                                    ) ||
+                                    vurderingData.beskrivelse.length == 0 ||
+                                    (vurderingData.arsak == ÅrsakValg.VELG &&
+                                        vurderingData.hjemmel == HjemmelValg.VELG)
+                                }
+                            >
+                                Fortsett
+                            </Button>
+                        )}
                     </VurderingKnapper>
                 </>
             )}
