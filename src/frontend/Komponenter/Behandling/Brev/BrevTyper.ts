@@ -56,7 +56,6 @@ export enum FrittståendeBrevtype {
 export interface IMellomlagretBrevFritekst {
     brev?: IFritekstBrev;
     brevType: FritekstBrevtype;
-    brevtype: Brevtype.FRITEKSTBREV;
 }
 
 export enum Brevtype {

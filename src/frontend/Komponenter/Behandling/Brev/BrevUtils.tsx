@@ -1,4 +1,4 @@
-import { AvsnittMedId, IFritekstBrev, IFrittståendeBrev } from './BrevTyper';
+import { AvsnittMedId, IFritekstBrev } from './BrevTyper';
 import { v4 as uuidv4 } from 'uuid';
 
 export const flyttAvsnittOppover = (
@@ -37,7 +37,7 @@ export const flyttAvsnittNedover = (
 };
 
 export const initielleAvsnittMellomlager = (
-    mellomlagretFritekstbrev: IFritekstBrev | IFrittståendeBrev | undefined
+    mellomlagretFritekstbrev: IFritekstBrev | undefined
 ): AvsnittMedId[] =>
     mellomlagretFritekstbrev
         ? mellomlagretFritekstbrev.avsnitt.map((avsnitt) => ({ ...avsnitt, id: uuidv4() }))

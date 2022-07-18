@@ -13,7 +13,6 @@ import {
     FritekstBrevtype,
     FrittståendeBrevtype,
     IFritekstBrev,
-    IMellomlagretBrevFritekst,
 } from './BrevTyper';
 import {
     flyttAvsnittNedover,
@@ -38,7 +37,7 @@ const StyledBrev = styled.div`
 export interface Props {
     oppdaterBrevressurs: (brevRessurs: Ressurs<string>) => void;
     behandlingId: string;
-    mellomlagretFritekstbrev?: IMellomlagretBrevFritekst;
+    mellomlagretFritekstbrev?: IFritekstBrev;
 }
 
 const FritekstBrev: React.FC<Props> = ({
@@ -63,10 +62,10 @@ const FritekstBrev: React.FC<Props> = ({
         mellomlagretFritekstbrev?.brevType
     );
     const [overskrift, settOverskrift] = useState(
-        (mellomlagretFritekstbrev && mellomlagretFritekstbrev?.brev?.overskrift) || ''
+        (mellomlagretFritekstbrev && mellomlagretFritekstbrev?.overskrift) || ''
     );
     const [avsnitt, settAvsnitt] = useState<AvsnittMedId[]>(
-        initielleAvsnittMellomlager(mellomlagretFritekstbrev?.brev)
+        initielleAvsnittMellomlager(mellomlagretFritekstbrev)
     );
 
     const endreBrevType = (nyBrevType: FrittståendeBrevtype | FritekstBrevtype) => {
@@ -120,36 +119,6 @@ const FritekstBrev: React.FC<Props> = ({
             return eksisterendeAvsnitt.filter((rad) => radId !== rad.avsnittId);
         });
     };
-    /*
-    const mellomlagreFritekstbrev = (brev: IFritekstBrev): void => {
-        axiosRequest<string, IFritekstBrev>({
-            method: 'POST',
-            url: `/familie-klage/api/brev/mellomlager`,
-            data: brev,
-        });
-    };*/
-
-    useEffect(() => {
-        axiosRequest<VedtakValg, null>({
-            method: 'GET',
-            url: `/familie-klage/api/vurdering/${behandlingId}/vedtak`,
-        }).then((res: Ressurs<VedtakValg>) => {
-            let type: FritekstBrevtype = FritekstBrevtype.VEDTAK_AVSLAG;
-            if (res.status === RessursStatus.SUKSESS) {
-                const vedtak: VedtakValg = res.data;
-                if (vedtak === VedtakValg.OMGJØR_VEDTAK) {
-                    type = FritekstBrevtype.VEDTAK_INVILGELSE;
-                }
-            }
-            endreBrevType(type);
-            settOverskiftOgAvsnitt(type);
-        });
-    }, [axiosRequest, behandlingId]);
-
-    const settOverskiftOgAvsnitt = (brevType?: FritekstBrevtype) => {
-        endreOverskrift(brevType ? BrevtyperTilOverskrift[brevType] : '');
-        endreAvsnitt(brevType ? skjulAvsnittIBrevbygger(BrevtyperTilAvsnitt[brevType]) : []);
-    };
 
     const genererBrev = () => {
         if (personopplysninger.status !== RessursStatus.SUKSESS) return;
@@ -172,8 +141,35 @@ const FritekstBrev: React.FC<Props> = ({
         });
     };
 
+    useEffect(() => {
+        axiosRequest<VedtakValg, null>({
+            method: 'GET',
+            url: `/familie-klage/api/vurdering/${behandlingId}/vedtak`,
+        }).then((res: Ressurs<VedtakValg>) => {
+            let type: FritekstBrevtype = FritekstBrevtype.VEDTAK_AVSLAG;
+            if (res.status === RessursStatus.SUKSESS) {
+                const vedtak: VedtakValg = res.data;
+                if (vedtak === VedtakValg.OMGJØR_VEDTAK) {
+                    type = FritekstBrevtype.VEDTAK_INVILGELSE;
+                }
+            }
+            endreBrevType(type);
+            settOverskiftOgAvsnitt(type);
+        });
+    }, [axiosRequest, behandlingId]);
+
+    useEffect(() => {
+        if (mellomlagretFritekstbrev) endreAvsnitt(mellomlagretFritekstbrev.avsnitt);
+    }),
+        [mellomlagretFritekstbrev];
+
     const utsattGenererBrev = useDebouncedCallback(genererBrev, 1000);
     useEffect(utsattGenererBrev, [utsattGenererBrev, avsnitt, overskrift]);
+
+    const settOverskiftOgAvsnitt = (brevType?: FritekstBrevtype) => {
+        endreOverskrift(brevType ? BrevtyperTilOverskrift[brevType] : '');
+        endreAvsnitt(brevType ? skjulAvsnittIBrevbygger(BrevtyperTilAvsnitt[brevType]) : []);
+    };
 
     return (
         <DataViewer response={{ behandling }}>
