@@ -2,7 +2,7 @@ import { Route, Routes } from 'react-router-dom';
 import * as React from 'react';
 import { Formkrav } from './Formkrav/Formkrav';
 import { Brev } from './Brev/Brev';
-import { Kabal } from './Kabal/Kabal';
+import { Resultat } from './Resultat/Resultat';
 import { Vurdering } from './Vurdering/Vurdering';
 
 interface Props {
@@ -15,7 +15,7 @@ const BehandlingRoutes: React.FC<Props> = ({ behandlingId }) => {
             <Route path="/formkrav" element={<Formkrav behandlingId={behandlingId} />} />
             <Route path="/vurdering" element={<Vurdering behandlingId={behandlingId} />} />
             <Route path="/brev" element={<Brev behandlingId={behandlingId} />} />
-            <Route path="/kabal" element={<Kabal />} />
+            <Route path="/resultat" element={<Resultat />} />
         </Routes>
     );
 };
