@@ -3,11 +3,11 @@ import { useState } from 'react';
 import { byggTomRessurs, Ressurs, RessursStatus } from '../../../App/typer/ressurs';
 import FritekstBrev from './FritekstBrev';
 import PdfVisning from './PdfVisning';
-import { IMellomlagretBrevFritekst } from './BrevTyper';
-import { useMellomlagringBrev } from '../../../App/hooks/useMellomlagringBrev';
+import { IFritekstBrev } from './BrevTyper';
 import DataViewer from '../../../Felles/DataViewer/DataViewer';
 import { useBehandling } from '../../../App/context/BehandlingContext';
 import styled from 'styled-components';
+import { useHentBrev } from '../../../App/hooks/useHentBrev';
 
 const StyledBrev = styled.div`
     background-color: #f2f2f2;
@@ -34,7 +34,7 @@ export const Brev: React.FC<IBrev> = ({ behandlingId }) => {
 
     const { personopplysningerResponse, behandling } = useBehandling();
 
-    const { mellomlagretBrev } = useMellomlagringBrev(behandlingId);
+    const { mellomlagretBrev } = useHentBrev(behandlingId);
 
     const oppdaterBrevRessurs = (respons: Ressurs<string>) => {
         settBrevRessurs(respons);
@@ -49,7 +49,7 @@ export const Brev: React.FC<IBrev> = ({ behandlingId }) => {
                 <DataViewer response={{ personopplysningerResponse, behandling }}>
                     <FritekstBrev
                         behandlingId={behandlingId}
-                        mellomlagretFritekstbrev={mellomlagretBrev as IMellomlagretBrevFritekst}
+                        mellomlagretFritekstbrev={mellomlagretBrev as IFritekstBrev}
                         oppdaterBrevressurs={oppdaterBrevRessurs}
                     />
                 </DataViewer>

@@ -13,7 +13,6 @@ import {
     FritekstBrevtype,
     FrittståendeBrevtype,
     IFritekstBrev,
-    IMellomlagretBrevFritekst,
 } from './BrevTyper';
 import {
     flyttAvsnittNedover,
@@ -38,7 +37,7 @@ const StyledBrev = styled.div`
 export interface Props {
     oppdaterBrevressurs: (brevRessurs: Ressurs<string>) => void;
     behandlingId: string;
-    mellomlagretFritekstbrev?: IMellomlagretBrevFritekst;
+    mellomlagretFritekstbrev?: IFritekstBrev;
 }
 
 const FritekstBrev: React.FC<Props> = ({
@@ -63,10 +62,10 @@ const FritekstBrev: React.FC<Props> = ({
         mellomlagretFritekstbrev?.brevType
     );
     const [overskrift, settOverskrift] = useState(
-        (mellomlagretFritekstbrev && mellomlagretFritekstbrev?.brev?.overskrift) || ''
+        (mellomlagretFritekstbrev && mellomlagretFritekstbrev?.overskrift) || ''
     );
     const [avsnitt, settAvsnitt] = useState<AvsnittMedId[]>(
-        initielleAvsnittMellomlager(mellomlagretFritekstbrev?.brev)
+        initielleAvsnittMellomlager(mellomlagretFritekstbrev)
     );
 
     const endreBrevType = (nyBrevType: FrittståendeBrevtype | FritekstBrevtype) => {
