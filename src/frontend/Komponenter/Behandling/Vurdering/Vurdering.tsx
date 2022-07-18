@@ -47,7 +47,7 @@ export const Vurdering: React.FC<{ behandlingId: string }> = ({ behandlingId }) 
     // Formkravoppsummering
     const [oppfylt, settOppfylt] = useState(1);
     const [muligOppfylt, settMuligOppfylt] = useState(1);
-    const [begrunnelse, settBegrunnelse] = useState('');
+    const [begrunnelse, settBegrunnelse] = useState('Ingen begrunnelse');
     const [feilmelding, settFeilmelding] = useState('Dette er en feilmelding'); // TODO legge til enum-objekter som sier om det er begrunnelse eller vurdering som mangler
     const navigate = useNavigate();
 
@@ -103,7 +103,8 @@ export const Vurdering: React.FC<{ behandlingId: string }> = ({ behandlingId }) 
                     res.data.klagefristOverholdt,
                     res.data.klageSignert,
                 ]);
-                settBegrunnelse(res.data.saksbehandlerBegrunnelse);
+                if (res.data.saksbehandlerBegrunnelse !== '')
+                    settBegrunnelse(res.data.saksbehandlerBegrunnelse);
             }
         });
     }, [axiosRequest, behandlingId]);
