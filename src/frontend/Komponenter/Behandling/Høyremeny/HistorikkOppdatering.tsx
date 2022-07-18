@@ -4,6 +4,7 @@ import navFarger from 'nav-frontend-core';
 import { Detail, Label } from '@navikt/ds-react';
 import styled from 'styled-components';
 import { Steg, stegTilTekst } from './behandlingshistorikk';
+import { formaterIsoDatoTid } from '../../../App/utils/formatter';
 
 const Oppdatering = styled.div`
     display: flex;
@@ -23,21 +24,6 @@ const StripletLinje = styled.div`
 const TekstligInformasjon = styled.div`
     margin-left: 0.7rem;
 `;
-
-const datoFormatering = (datoString: string) => {
-    const dato = new Date(datoString);
-    return (
-        dato.getDate() +
-        '.' +
-        dato.getMonth() +
-        '.' +
-        dato.getFullYear() +
-        '  ' +
-        dato.getHours() +
-        ':' +
-        dato.getMinutes()
-    );
-};
 
 interface IHistorikkOppdatering {
     steg: Steg;
@@ -62,7 +48,7 @@ const HistorikkOppdatering: React.FunctionComponent<IHistorikkOppdatering> = ({
             <TekstligInformasjon>
                 <Label size="small">{stegTilTekst[steg]}</Label>
                 <Detail size="small">
-                    {datoFormatering(endretTid)} | {opprettetAv}
+                    {formaterIsoDatoTid(endretTid)} | {opprettetAv}
                 </Detail>
             </TekstligInformasjon>
         </Oppdatering>
