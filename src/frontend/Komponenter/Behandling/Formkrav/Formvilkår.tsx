@@ -230,7 +230,7 @@ export const Formvilkår: React.FC<IFormvilkårKomponent> = ({
                         {visFeilmelding && (
                             <Alert variant="error" size="medium" inline>
                                 Alle vilkår må fylles ut. Dersom minst ett krav ikke skal vurderes
-                                må det være ett krav som har "Nei".
+                                må det være ett krav som er satt til "Nei".
                             </Alert>
                         )}
                     </FormKravStylingFooter>
