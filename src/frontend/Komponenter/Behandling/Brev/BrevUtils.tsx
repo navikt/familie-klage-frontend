@@ -37,11 +37,12 @@ export const flyttAvsnittNedover = (
 };
 
 export const initielleAvsnittMellomlager = (
-    mellomlagretFritekstbrev: IFritekstBrev | IFrittståendeBrev | undefined
-): AvsnittMedId[] =>
-    mellomlagretFritekstbrev
+    mellomlagretFritekstbrev: IFritekstBrev | undefined
+): AvsnittMedId[] => {
+    return mellomlagretFritekstbrev
         ? mellomlagretFritekstbrev.avsnitt.map((avsnitt) => ({ ...avsnitt, id: uuidv4() }))
         : [];
+};
 
 const lagTomtAvsnitt = (): AvsnittMedId => ({
     deloverskrift: '',

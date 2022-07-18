@@ -128,27 +128,7 @@ const FritekstBrev: React.FC<Props> = ({
         });
     };*/
 
-    useEffect(() => {
-        axiosRequest<VedtakValg, null>({
-            method: 'GET',
-            url: `/familie-klage/api/vurdering/${behandlingId}/vedtak`,
-        }).then((res: Ressurs<VedtakValg>) => {
-            let type: FritekstBrevtype = FritekstBrevtype.VEDTAK_AVSLAG;
-            if (res.status === RessursStatus.SUKSESS) {
-                const vedtak: VedtakValg = res.data;
-                if (vedtak === VedtakValg.OMGJØR_VEDTAK) {
-                    type = FritekstBrevtype.VEDTAK_INVILGELSE;
-                }
-            }
-            endreBrevType(type);
-            settOverskiftOgAvsnitt(type);
-        });
-    }, [axiosRequest, behandlingId]);
-
-    const settOverskiftOgAvsnitt = (brevType?: FritekstBrevtype) => {
-        endreOverskrift(brevType ? BrevtyperTilOverskrift[brevType] : '');
-        endreAvsnitt(brevType ? skjulAvsnittIBrevbygger(BrevtyperTilAvsnitt[brevType]) : []);
-    };
+    // Problem: endrer ikke avsnitt, må fikse slik at den setter settOverskriftOgAvsnitt kun en gang, når det først genereres
 
     const genererBrev = () => {
         if (personopplysninger.status !== RessursStatus.SUKSESS) return;
@@ -171,9 +151,35 @@ const FritekstBrev: React.FC<Props> = ({
         });
     };
 
+    useEffect(() => {
+        axiosRequest<VedtakValg, null>({
+            method: 'GET',
+            url: `/familie-klage/api/vurdering/${behandlingId}/vedtak`,
+        }).then((res: Ressurs<VedtakValg>) => {
+            let type: FritekstBrevtype = FritekstBrevtype.VEDTAK_AVSLAG;
+            if (res.status === RessursStatus.SUKSESS) {
+                const vedtak: VedtakValg = res.data;
+                if (vedtak === VedtakValg.OMGJØR_VEDTAK) {
+                    type = FritekstBrevtype.VEDTAK_INVILGELSE;
+                }
+            }
+            endreBrevType(type);
+            settOverskiftOgAvsnitt(type);
+        });
+    }, [axiosRequest, behandlingId]);
+
+    console.log(mellomlagretFritekstbrev);
     const utsattGenererBrev = useDebouncedCallback(genererBrev, 1000);
     useEffect(utsattGenererBrev, [utsattGenererBrev, avsnitt, overskrift]);
 
+    const settOverskiftOgAvsnitt = (brevType?: FritekstBrevtype) => {
+        endreOverskrift(brevType ? BrevtyperTilOverskrift[brevType] : '');
+        if (mellomlagretFritekstbrev?.avsnitt === undefined) {
+            endreAvsnitt(brevType ? skjulAvsnittIBrevbygger(BrevtyperTilAvsnitt[brevType]) : []);
+        }
+        console.log(mellomlagretFritekstbrev);
+        console.log(brevType);
+    };
     return (
         <DataViewer response={{ behandling }}>
             {({ behandling }) => (
