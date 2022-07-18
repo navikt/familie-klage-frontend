@@ -168,18 +168,19 @@ const FritekstBrev: React.FC<Props> = ({
         });
     }, [axiosRequest, behandlingId]);
 
-    console.log(mellomlagretFritekstbrev);
+    useEffect(() => {
+        if (mellomlagretFritekstbrev) endreAvsnitt(mellomlagretFritekstbrev.avsnitt);
+    }),
+        [mellomlagretFritekstbrev];
+
     const utsattGenererBrev = useDebouncedCallback(genererBrev, 1000);
     useEffect(utsattGenererBrev, [utsattGenererBrev, avsnitt, overskrift]);
 
     const settOverskiftOgAvsnitt = (brevType?: FritekstBrevtype) => {
         endreOverskrift(brevType ? BrevtyperTilOverskrift[brevType] : '');
-        if (mellomlagretFritekstbrev?.avsnitt === undefined) {
-            endreAvsnitt(brevType ? skjulAvsnittIBrevbygger(BrevtyperTilAvsnitt[brevType]) : []);
-        }
-        console.log(mellomlagretFritekstbrev);
-        console.log(brevType);
+        endreAvsnitt(brevType ? skjulAvsnittIBrevbygger(BrevtyperTilAvsnitt[brevType]) : []);
     };
+
     return (
         <DataViewer response={{ behandling }}>
             {({ behandling }) => (

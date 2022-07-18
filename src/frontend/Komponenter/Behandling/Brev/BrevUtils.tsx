@@ -1,4 +1,4 @@
-import { AvsnittMedId, IFritekstBrev, IFrittståendeBrev } from './BrevTyper';
+import { AvsnittMedId, IFritekstBrev } from './BrevTyper';
 import { v4 as uuidv4 } from 'uuid';
 
 export const flyttAvsnittOppover = (
