@@ -145,7 +145,7 @@ export const Vurdering: React.FC<{ behandlingId: string }> = ({ behandlingId }) 
                 begrunnelse={begrunnelse}
                 feilmelding={feilmelding}
             />
-            {oppfylt < muligOppfylt ? (
+            {oppfylt < muligOppfylt || oppfylt < 1 ? (
                 ''
             ) : (
                 <>
