@@ -49,6 +49,10 @@ const [BehandlingProvider, useBehandling] = constate(() => {
     const [åpenHøyremeny, settÅpenHøyremeny] = useState(true);
 
     const [formkravLåst, settFormkravLåst] = useState<boolean>(false);
+    const [formkravGyldig, settFormkravGyldig] = useState<boolean>(false);
+    const [vurderingSideGyldig, settVurderingSideGyldig] = useState<boolean>(false);
+    const [brevSideGyldig, settBrevSideGyldig] = useState<boolean>(false);
+    const [kabalSideGyldig, settKabalSideGyldig] = useState<boolean>(false);
 
     const [vilkårTom, settVilkårTom] = useState<boolean>(false);
 
@@ -72,6 +76,14 @@ const [BehandlingProvider, useBehandling] = constate(() => {
         settFormkravLåst,
         vilkårTom,
         settVilkårTom,
+        formkravGyldig,
+        settFormkravGyldig,
+        vurderingSideGyldig,
+        settVurderingSideGyldig,
+        brevSideGyldig,
+        settBrevSideGyldig,
+        kabalSideGyldig,
+        settKabalSideGyldig,
     };
 });
 

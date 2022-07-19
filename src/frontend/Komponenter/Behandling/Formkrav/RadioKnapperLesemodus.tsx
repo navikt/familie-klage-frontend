@@ -9,15 +9,16 @@ import BrukerMedBlyant from '../../../Felles/Ikoner/BrukerMedBlyant';
 import {
     VilkårStatus,
     vilkårStatusTilTekst,
-    IForm,
     IRadioKnapperLeseModus,
     IRadioKnapper,
     IVilkårNullstill,
+    IFormVilkår,
 } from './utils';
 import { useBehandling } from '../../../App/context/BehandlingContext';
 import { hentBehandlingIdFraUrl } from '../BehandlingContainer';
 import { useApp } from '../../../App/context/AppContext';
-import { Heading } from '@navikt/ds-react';
+import { Button, Heading } from '@navikt/ds-react';
+import { useNavigate } from 'react-router-dom';
 import { formaterIsoDatoTid } from '../../../App/utils/formatter';
 
 export const RadSentrertVertikalt = styled.div`
@@ -77,16 +78,21 @@ const BrukerMedBlyantStyled = styled(BrukerMedBlyant)`
     overflow: visible;
 `;
 
+const ButtonStyled = styled(Button)`
+    margin-left: auto;
+`;
+
 export const RadioknapperLesemodus: React.FC<IRadioKnapperLeseModus> = ({
     radioKnapper,
     redigerHandling,
     saksbehandlerBegrunnelse,
     endretTid,
 }) => {
-    const { settFormkravLåst, settVilkårTom } = useBehandling();
+    const { settFormkravLåst, settVilkårTom, formkravGyldig } = useBehandling();
     const { axiosRequest } = useApp();
+    const navigate = useNavigate();
     const slettHandling = () => {
-        const f: IVilkårNullstill = {
+        const nullstilteVilkår: IVilkårNullstill = {
             behandlingId: hentBehandlingIdFraUrl(),
             klagePart: VilkårStatus.IKKE_SATT,
             klageKonkret: VilkårStatus.IKKE_SATT,
@@ -95,10 +101,10 @@ export const RadioknapperLesemodus: React.FC<IRadioKnapperLeseModus> = ({
             saksbehandlerBegrunnelse: '',
         };
 
-        axiosRequest<IForm, IVilkårNullstill>({
+        axiosRequest<IFormVilkår, IVilkårNullstill>({
             method: 'POST',
             url: `/familie-klage/api/formkrav`,
-            data: f,
+            data: nullstilteVilkår,
         });
         settVilkårTom(true);
         settFormkravLåst(false);
@@ -111,16 +117,14 @@ export const RadioknapperLesemodus: React.FC<IRadioKnapperLeseModus> = ({
                         <BrukerMedBlyantStyled heigth={23} width={23} />
                     </VilkårIkon>
                     <Heading spacing size={'medium'}>
-                        Vilkår oppfylt
+                        {formkravGyldig ? 'Vilkår oppfylt' : 'Vilkår ikke oppfylt'}
                     </Heading>
                 </RadSentrertVertikalt>
                 <div>
-                    {/* eslint-disable-next-line @typescript-eslint/no-empty-function */}
                     <LenkeKnapp onClick={() => redigerHandling(false)}>
                         <RedigerBlyant withDefaultStroke={false} width={19} heigth={19} />
                         <span>Rediger</span>
                     </LenkeKnapp>
-                    {/* eslint-disable-next-line @typescript-eslint/no-empty-function */}
                     <LenkeKnapp onClick={() => slettHandling()}>
                         <SlettSøppelkasse withDefaultStroke={false} width={19} heigth={19} />
                         <span>Slett</span>
@@ -140,6 +144,24 @@ export const RadioknapperLesemodus: React.FC<IRadioKnapperLeseModus> = ({
                     <Svar>{saksbehandlerBegrunnelse}</Svar>
                 </SvarElement>
             </FormKravStylingBody>
+            {formkravGyldig && (
+                <ButtonStyled
+                    variant="primary"
+                    size="medium"
+                    onClick={() => navigate(`/behandling/${hentBehandlingIdFraUrl()}/vurdering`)}
+                >
+                    Fortsett
+                </ButtonStyled>
+            )}
+            {!formkravGyldig && (
+                <ButtonStyled
+                    variant="primary"
+                    size="medium"
+                    onClick={() => navigate(`/behandling/${hentBehandlingIdFraUrl()}/brev`)}
+                >
+                    Fortsett
+                </ButtonStyled>
+            )}
         </FormKravStyling>
     );
 };
