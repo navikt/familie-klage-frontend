@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
-import { Alert, Button, Radio, RadioGroup, Textarea } from '@navikt/ds-react';
+import { Button, Radio, RadioGroup, Textarea } from '@navikt/ds-react';
 import { RadioknapperLesemodus } from './RadioKnapperLesemodus';
 import { useApp } from '../../../App/context/AppContext';
 import { Ressurs, RessursStatus } from '../../../App/typer/ressurs';
@@ -71,7 +71,6 @@ export const Formvilkår: React.FC<IFormvilkårKomponent> = ({
     };
 
     const [formData, settFormData] = useState<IFormVilkår>(formObjekt);
-    const [visFeilmelding, settVisFeilmelding] = useState<boolean>(false);
     const radioKnapperLeseListe: IRadioKnapper[] = [
         {
             spørsmål: 'Er klager part i saken?',
@@ -157,13 +156,7 @@ export const Formvilkår: React.FC<IFormvilkårKomponent> = ({
 
     const opprettForm = () => {
         if (vilkårErGyldig() && vilkårErBesvart()) settFormkravGyldig(true);
-        if (vilkårErBesvart()) {
-            settLåst(true);
-            settVisFeilmelding(false);
-        } else {
-            settLåst(false);
-            settVisFeilmelding(true);
-        }
+        settLåst(true);
 
         axiosRequest<IFormVilkår, IFormVilkår>({
             method: 'POST',
@@ -228,12 +221,6 @@ export const Formvilkår: React.FC<IFormvilkårKomponent> = ({
                         <ButtonStyled variant="primary" size="medium" onClick={opprettForm}>
                             Lagre
                         </ButtonStyled>
-                        {visFeilmelding && (
-                            <Alert variant="error" size="medium" inline>
-                                Alle vilkår må fylles ut. Dersom minst ett krav ikke skal vurderes
-                                må det være ett krav som er satt til "Nei".
-                            </Alert>
-                        )}
                     </FormKravStylingFooter>
                 </>
             )}
