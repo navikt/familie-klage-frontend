@@ -39,8 +39,8 @@ const VurderingKnappStyled = styled(Button)`
 
 export const Vurdering: React.FC<{ behandlingId: string }> = ({ behandlingId }) => {
     // Formkravoppsummering
-    const [oppfylt, settOppfylt] = useState(1);
-    const [muligOppfylt, settMuligOppfylt] = useState(1);
+    const [oppfylt, settOppfylt] = useState(0);
+    const [muligOppfylt, settMuligOppfylt] = useState(0);
     const [begrunnelse, settBegrunnelse] = useState('');
     const [feilmelding, settFeilmelding] = useState('Dette er en feilmelding'); // TODO legge til enum-objekter som sier om det er begrunnelse eller vurdering som mangler
 
@@ -79,8 +79,6 @@ export const Vurdering: React.FC<{ behandlingId: string }> = ({ behandlingId }) 
                 });
             }
         });
-        settOppfylt(vilkårListe.filter((item: VilkårStatus) => item === 'OPPFYLT').length);
-        settMuligOppfylt(vilkårListe.length);
     }, [axiosRequest, vilkårListe, behandlingId]);
 
     // Hent data fra formkrav
@@ -90,13 +88,16 @@ export const Vurdering: React.FC<{ behandlingId: string }> = ({ behandlingId }) 
             url: `/familie-klage/api/formkrav/vilkar/${behandlingId}`,
         }).then((res: Ressurs<IForm>) => {
             if (res.status === RessursStatus.SUKSESS) {
-                settVilkårListe([
+                settBegrunnelse(res.data.saksbehandlerBegrunnelse);
+
+                const vilkårListe = [
                     res.data.klagePart,
                     res.data.klageKonkret,
                     res.data.klagefristOverholdt,
                     res.data.klageSignert,
-                ]);
-                settBegrunnelse(res.data.saksbehandlerBegrunnelse);
+                ];
+                settOppfylt(vilkårListe.filter((item: VilkårStatus) => item === 'OPPFYLT').length);
+                settMuligOppfylt(vilkårListe.length);
             }
         });
     }, [axiosRequest, behandlingId]);
