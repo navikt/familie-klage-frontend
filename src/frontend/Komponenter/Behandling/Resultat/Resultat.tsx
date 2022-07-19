@@ -15,7 +15,7 @@ export enum Resultater {
 }
 
 export const resultatTilTekst: Record<Resultater, string> = {
-    IKKE_VURDERT: 'Klagen er ikke vurdert.',
+    IKKE_VURDERT: 'Klagen er ikke vurdert enda.',
     FORMKRAV_IKKE_OPPFYLT: 'Formkravene er ikke oppfylt og vedtak består.',
     TATT_TIL_FØLGE: 'Klagen er tatt til følge og vedtak blit omgjort.',
     KLAGEINSTANSEN_AVVENTER_SVAR:
