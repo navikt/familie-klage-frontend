@@ -6,7 +6,7 @@ import { FileContent } from '@navikt/ds-icons';
 import navFarger from 'nav-frontend-core';
 import IkkeVurdert from '../../../Felles/Ikoner/IkkeVurdert';
 import Oppfylt from '../../../Felles/Ikoner/Oppfylt';
-import { IForm } from './utils';
+import { IFormKlage } from './utils';
 
 const FormkravStyling = styled.div`
     width: 50%;
@@ -71,16 +71,16 @@ const FileContentStyled = styled(FileContent)`
 `;
 
 interface IFormkravVenstre {
-    vilkårOppfylt: boolean;
+    formkravGyldig: boolean;
     låst: boolean;
-    formkrav: IForm;
+    formkrav: IFormKlage;
 }
-export const Klageinfo: React.FC<IFormkravVenstre> = ({ vilkårOppfylt, formkrav }) => {
+export const Klageinfo: React.FC<IFormkravVenstre> = ({ formkravGyldig, formkrav }) => {
     return (
         <FormkravStyling>
             <IkkeVurdertContainer>
-                {!vilkårOppfylt && <IkkeVurdertIkonStyled heigth={23} width={23} />}
-                {vilkårOppfylt && <OppfyltIkonStyled heigth={23} width={23} />}
+                {!formkravGyldig && <IkkeVurdertIkonStyled heigth={23} width={23} />}
+                {formkravGyldig && <OppfyltIkonStyled heigth={23} width={23} />}
                 <Heading spacing size="medium" level="5">
                     Formkrav
                 </Heading>
@@ -93,7 +93,7 @@ export const Klageinfo: React.FC<IFormkravVenstre> = ({ vilkårOppfylt, formkrav
                     </IkonKategoriGruppe>
                 </KolonneVenstre>
                 <KolonneHøyre>
-                    <BodyLongStyled size="small">{formkrav.vedtaksdato} </BodyLongStyled>
+                    <BodyLongStyled size="small">{formkrav.vedtaksDato} </BodyLongStyled>
                 </KolonneHøyre>
             </IkonTekstRadContainer>
 
@@ -117,7 +117,7 @@ export const Klageinfo: React.FC<IFormkravVenstre> = ({ vilkårOppfylt, formkrav
                     </IkonKategoriGruppe>
                 </KolonneVenstre>
                 <KolonneHøyre>
-                    <BodyLongStyled size="small">{formkrav.klageaarsak}</BodyLongStyled>
+                    <BodyLongStyled size="small">{formkrav.klageAarsak}</BodyLongStyled>
                 </KolonneHøyre>
             </IkonTekstRadContainer>
 
