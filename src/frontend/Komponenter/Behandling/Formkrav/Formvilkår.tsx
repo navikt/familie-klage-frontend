@@ -67,7 +67,7 @@ export const Formvilkår: React.FC<IFormvilkårKomponent> = ({
         klagefristOverholdt: VilkårStatus.IKKE_SATT,
         klageSignert: VilkårStatus.IKKE_SATT,
         saksbehandlerBegrunnelse: '',
-        sakSistEndret: dateString,
+        endretTid: dateString,
     };
 
     const [formData, settFormData] = useState<IFormVilkår>(formObjekt);
@@ -110,6 +110,7 @@ export const Formvilkår: React.FC<IFormvilkårKomponent> = ({
                         klagefristOverholdt: res.data.klagefristOverholdt,
                         klageSignert: res.data.klageSignert,
                         saksbehandlerBegrunnelse: res.data.saksbehandlerBegrunnelse,
+                        endretTid: res.data.endretTid,
                     }));
                 }
             });
@@ -241,6 +242,7 @@ export const Formvilkår: React.FC<IFormvilkårKomponent> = ({
                     radioKnapper={radioKnapperLeseListe}
                     redigerHandling={låsOppFormVilkår}
                     saksbehandlerBegrunnelse={formData.saksbehandlerBegrunnelse}
+                    endretTid={formData.endretTid}
                 />
             )}
         </VilkårStyling>

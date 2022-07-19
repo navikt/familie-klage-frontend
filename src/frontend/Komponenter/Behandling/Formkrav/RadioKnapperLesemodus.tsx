@@ -19,6 +19,7 @@ import { hentBehandlingIdFraUrl } from '../BehandlingContainer';
 import { useApp } from '../../../App/context/AppContext';
 import { Button, Heading } from '@navikt/ds-react';
 import { useNavigate } from 'react-router-dom';
+import { formaterIsoDatoTid } from '../../../App/utils/formatter';
 
 export const RadSentrertVertikalt = styled.div`
     display: flex;
@@ -85,6 +86,7 @@ export const RadioknapperLesemodus: React.FC<IRadioKnapperLeseModus> = ({
     radioKnapper,
     redigerHandling,
     saksbehandlerBegrunnelse,
+    endretTid,
 }) => {
     const { settFormkravLåst, settVilkårTom, formkravGyldig } = useBehandling();
     const { axiosRequest } = useApp();
@@ -130,7 +132,7 @@ export const RadioknapperLesemodus: React.FC<IRadioKnapperLeseModus> = ({
                 </div>
             </VilkårHeader>
             <FormKravStylingBody>
-                Endret dato - 16.12.2021
+                Sist endret - {formaterIsoDatoTid(endretTid)}
                 {radioKnapper.map((item: IRadioKnapper, index) => (
                     <SvarElement key={index}>
                         <Spørsmål>{item.spørsmål}</Spørsmål>

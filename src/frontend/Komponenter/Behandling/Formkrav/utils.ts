@@ -38,6 +38,7 @@ export interface IRadioKnapperLeseModus {
     radioKnapper: IRadioKnapper[];
     redigerHandling: (value: boolean) => void;
     saksbehandlerBegrunnelse: string;
+    endretTid: string;
 }
 
 export const datoFormatering = (dato: Date) => {
@@ -52,7 +53,7 @@ export interface IFormVilkår {
     klagefristOverholdt: VilkårStatus;
     klageSignert: VilkårStatus;
     saksbehandlerBegrunnelse: string;
-    sakSistEndret: string;
+    endretTid: string;
 }
 
 export interface IFormKlage {
