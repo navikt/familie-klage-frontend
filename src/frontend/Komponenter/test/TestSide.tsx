@@ -5,7 +5,6 @@ import { Button } from '@navikt/ds-react';
 import { useApp } from '../../App/context/AppContext';
 import { useNavigate } from 'react-router-dom';
 import { Behandling } from '../../App/typer/fagsak';
-import { useBehandling } from '../../App/context/BehandlingContext';
 
 const StyledTest = styled.div`
     display: flex;
@@ -17,41 +16,35 @@ const StyledTest = styled.div`
 export const TestSide: React.FC = () => {
     const { axiosRequest } = useApp();
     const navigate = useNavigate();
-    const { settFormkravGyldig, settFormkravLåst } = useBehandling();
 
-    const lagStandardBehandling = () => {
+    const lagBehandling = (url: string) => {
         axiosRequest<Behandling, null>({
             method: 'POST',
             url: `/familie-klage/api/behandling`,
         }).then((res) => {
             if (res.status === 'SUKSESS') {
-                navigate(`/behandling/${res.data.id}`);
+                navigate(`/behandling/${res.data.id}/${url}`);
             }
         });
-    };
-
-    const lagFormkravBehandling = () => {
-        axiosRequest<Behandling, null>({
-            method: 'POST',
-            url: `/familie-klage/api/behandling`,
-        }).then((res) => {
-            if (res.status === 'SUKSESS') {
-                navigate(`/behandling/${res.data.id}`);
-            }
-        });
-        settFormkravGyldig(true);
-        settFormkravLåst(true);
     };
 
     return (
         <Side className={'container'}>
             <StyledTest>
-                <b>[Test] Opprett standard dummy-behandling</b>
-                <Button onClick={lagStandardBehandling}>Lag behandling</Button>
+                <b>[Test] Opprett dummy-behandling og gå til formkrav</b>
+                <Button onClick={() => lagBehandling('')}>Lag behandling</Button>
             </StyledTest>
             <StyledTest>
-                <b>[Test] Opprett dummy-behandling med ferdig utfylt formkrav</b>
-                <Button onClick={lagFormkravBehandling}>Lag behandling</Button>
+                <b>[Test] Opprett dummy-behandling og gå til vurdering</b>
+                <Button onClick={() => lagBehandling('vurdering')}>Lag behandling</Button>
+            </StyledTest>
+            <StyledTest>
+                <b>[Test] Opprett dummy-behandling og gå til brev</b>
+                <Button onClick={() => lagBehandling('brev')}>Lag behandling</Button>
+            </StyledTest>
+            <StyledTest>
+                <b>[Test] Opprett dummy-behandling og gå til resultat</b>
+                <Button onClick={() => lagBehandling('resultat')}>Lag behandling</Button>
             </StyledTest>
         </Side>
     );
