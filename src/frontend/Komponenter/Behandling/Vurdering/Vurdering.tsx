@@ -74,7 +74,6 @@ export const Vurdering: React.FC<{ behandlingId: string }> = ({ behandlingId }) 
     }, [vurderingData, settResultat]);
 
     // Hent eksisterende vurderingsdata
-
     useEffect(() => {
         axiosRequest<IVurdering, string>({
             method: 'GET',
