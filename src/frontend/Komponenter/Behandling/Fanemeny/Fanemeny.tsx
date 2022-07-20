@@ -27,8 +27,10 @@ interface Props {
 }
 
 const Fanemeny: FC<Props> = ({ behandling }) => {
-    // const { behandling } = useBehandling();
-    const forrigeSideLagret = false; //Sier hvilke sider som skal være mulige å redigere
+    //TODO: Når app er klar for prod, kommenter inn de to linjene under og fjern mock av gyldigeSider
+    // const { formkravGyldig, vurderingSideGyldig, brevSideGyldig } = useBehandling();
+    // const gyldigeSider: boolean[] = [formkravGyldig, vurderingSideGyldig, brevSideGyldig];
+    const gyldigeSiderMock: boolean[] = [true, true, true];
 
     const mock: Ressurs<Behandling> = {
         data: behandling,
@@ -44,7 +46,7 @@ const Fanemeny: FC<Props> = ({ behandling }) => {
                             side={side}
                             behandlingId={behandling.id}
                             index={index}
-                            deaktivert={forrigeSideLagret}
+                            deaktivert={index > 0 ? !gyldigeSiderMock[index - 1] : false}
                             key={index}
                         />
                     ))}

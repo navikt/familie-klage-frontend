@@ -22,8 +22,9 @@ import {
     årsakValgTilTekst,
 } from './vurderingValg';
 import { Ressurs, RessursStatus } from '../../../App/typer/ressurs';
-import { IForm } from '../Formkrav/utils';
-import { VilkårStatus } from '../Formkrav/utils';
+import { IFormVilkår, VilkårStatus } from '../Formkrav/utils';
+import { hentBehandlingIdFraUrl } from '../BehandlingContainer';
+import { useNavigate } from 'react-router-dom';
 
 const VurderingBeskrivelseStyled = styled.div`
     margin: 2rem 4rem 2rem 4rem;
@@ -33,16 +34,22 @@ const AlertStyled = styled(Alert)`
     margin: 2rem 4rem 2rem 4rem;
 `;
 
-const VurderingKnappStyled = styled(Button)`
-    margin: 0 4rem 2rem 4rem;
+const VurderingKnapper = styled.div`
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    margin: 0 4rem;
 `;
+
+const VurderingKnappStyled = styled(Button)``;
 
 export const Vurdering: React.FC<{ behandlingId: string }> = ({ behandlingId }) => {
     // Formkravoppsummering
     const [oppfylt, settOppfylt] = useState(0);
     const [muligOppfylt, settMuligOppfylt] = useState(0);
-    const [begrunnelse, settBegrunnelse] = useState('');
+    const [begrunnelse, settBegrunnelse] = useState('Ingen begrunnelse');
     const [feilmelding, settFeilmelding] = useState('Dette er en feilmelding'); // TODO legge til enum-objekter som sier om det er begrunnelse eller vurdering som mangler
+    const navigate = useNavigate();
 
     const vurderingObject: IVurdering = {
         behandlingId: behandlingId,
@@ -62,8 +69,11 @@ export const Vurdering: React.FC<{ behandlingId: string }> = ({ behandlingId }) 
     const { axiosRequest, nullstillIkkePersisterteKomponenter, settIkkePersistertKomponent } =
         useApp();
 
-    // Hent eksisterende vurderingsdata
+    useEffect(() => {
+        settResultat(false);
+    }, [vurderingData, settResultat]);
 
+    // Hent eksisterende vurderingsdata
     useEffect(() => {
         axiosRequest<IVurdering, string>({
             method: 'GET',
@@ -83,12 +93,13 @@ export const Vurdering: React.FC<{ behandlingId: string }> = ({ behandlingId }) 
 
     // Hent data fra formkrav
     useEffect(() => {
-        axiosRequest<IForm, string>({
+        axiosRequest<IFormVilkår, string>({
             method: 'GET',
             url: `/familie-klage/api/formkrav/vilkar/${behandlingId}`,
-        }).then((res: Ressurs<IForm>) => {
+        }).then((res: Ressurs<IFormVilkår>) => {
             if (res.status === RessursStatus.SUKSESS) {
-                settBegrunnelse(res.data.saksbehandlerBegrunnelse);
+                if (res.data.saksbehandlerBegrunnelse !== '')
+                  settBegrunnelse(res.data.saksbehandlerBegrunnelse);
 
                 const vilkårListe = [
                     res.data.klagePart,
@@ -135,7 +146,7 @@ export const Vurdering: React.FC<{ behandlingId: string }> = ({ behandlingId }) 
                 begrunnelse={begrunnelse}
                 feilmelding={feilmelding}
             />
-            {oppfylt < muligOppfylt ? (
+            {oppfylt < muligOppfylt || oppfylt < 1 ? (
                 ''
             ) : (
                 <>
@@ -145,7 +156,8 @@ export const Vurdering: React.FC<{ behandlingId: string }> = ({ behandlingId }) 
                         vedtakValgt={vurderingData.vedtak}
                         endring={settIkkePersistertKomponent}
                     />
-                    {vurderingData.vedtak == VedtakValg.OMGJØR_VEDTAK ? (
+                    {vurderingData.vedtak == VedtakValg.OMGJØR_VEDTAK &&
+                    vurderingData.arsak !== undefined ? (
                         <Årsak
                             settÅrsak={settVurderingData}
                             årsakValgt={vurderingData.arsak}
@@ -155,7 +167,8 @@ export const Vurdering: React.FC<{ behandlingId: string }> = ({ behandlingId }) 
                     ) : (
                         ''
                     )}
-                    {vurderingData.vedtak == VedtakValg.OPPRETTHOLD_VEDTAK ? (
+                    {vurderingData.vedtak == VedtakValg.OPPRETTHOLD_VEDTAK &&
+                    vurderingData.hjemmel !== undefined ? (
                         <Hjemmel
                             settHjemmel={settVurderingData}
                             hjemmelValgt={vurderingData.hjemmel}
@@ -191,25 +204,44 @@ export const Vurdering: React.FC<{ behandlingId: string }> = ({ behandlingId }) 
                     ) : (
                         ''
                     )}
-
-                    <VurderingKnappStyled
-                        variant="primary"
-                        size="medium"
-                        onClick={() => {
-                            opprettVurdering();
-                        }}
-                        disabled={
-                            !(
-                                vurderingData.vedtak == VedtakValg.OPPRETTHOLD_VEDTAK ||
-                                vurderingData.vedtak == VedtakValg.OMGJØR_VEDTAK
-                            ) ||
-                            vurderingData.beskrivelse.length == 0 ||
-                            (vurderingData.arsak == ÅrsakValg.VELG &&
-                                vurderingData.hjemmel == HjemmelValg.VELG)
-                        }
-                    >
-                        Large vurdering
-                    </VurderingKnappStyled>
+                    <VurderingKnapper>
+                        <VurderingKnappStyled
+                            variant="primary"
+                            size="medium"
+                            onClick={() => {
+                                opprettVurdering();
+                            }}
+                            disabled={
+                                !(
+                                    vurderingData.vedtak == VedtakValg.OPPRETTHOLD_VEDTAK ||
+                                    vurderingData.vedtak == VedtakValg.OMGJØR_VEDTAK
+                                ) ||
+                                vurderingData.beskrivelse.length == 0 ||
+                                (vurderingData.arsak == ÅrsakValg.VELG &&
+                                    vurderingData.hjemmel == HjemmelValg.VELG)
+                            }
+                        >
+                            Lagre vurdering
+                        </VurderingKnappStyled>
+                        {resultat && (
+                            <Button
+                                onClick={() =>
+                                    navigate(`/behandling/${hentBehandlingIdFraUrl()}/brev`)
+                                }
+                                disabled={
+                                    !(
+                                        vurderingData.vedtak == VedtakValg.OPPRETTHOLD_VEDTAK ||
+                                        vurderingData.vedtak == VedtakValg.OMGJØR_VEDTAK
+                                    ) ||
+                                    vurderingData.beskrivelse.length == 0 ||
+                                    (vurderingData.arsak == ÅrsakValg.VELG &&
+                                        vurderingData.hjemmel == HjemmelValg.VELG)
+                                }
+                            >
+                                Fortsett
+                            </Button>
+                        )}
+                    </VurderingKnapper>
                 </>
             )}
         </div>
