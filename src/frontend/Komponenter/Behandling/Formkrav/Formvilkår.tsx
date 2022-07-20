@@ -54,7 +54,7 @@ export const Formvilkår: React.FC<IFormvilkårKomponent> = ({
     låst,
     settLåst,
 }) => {
-    const { vilkårTom, settVilkårTom } = useBehandling();
+    const { vilkårTom, settVilkårTom, settFormkravBesvart } = useBehandling();
     const { axiosRequest, nullstillIkkePersisterteKomponenter, settIkkePersistertKomponent } =
         useApp();
 
@@ -147,7 +147,7 @@ export const Formvilkår: React.FC<IFormvilkårKomponent> = ({
         ];
         return (
             (svarListe.includes(VilkårStatus.SKAL_IKKE_VURDERES) &&
-                svarListe.filter((item) => item === VilkårStatus.IKKE_OPPFYLT).length === 1 &&
+                svarListe.includes(VilkårStatus.IKKE_OPPFYLT) &&
                 !svarListe.includes(VilkårStatus.IKKE_SATT)) ||
             (!svarListe.includes(VilkårStatus.SKAL_IKKE_VURDERES) &&
                 !svarListe.includes(VilkårStatus.IKKE_SATT))
@@ -155,7 +155,8 @@ export const Formvilkår: React.FC<IFormvilkårKomponent> = ({
     };
 
     const opprettForm = () => {
-        if (vilkårErGyldig() && vilkårErBesvart()) settFormkravGyldig(true);
+        if (vilkårErGyldig()) settFormkravGyldig(true);
+        if (vilkårErBesvart()) settFormkravBesvart(true);
         settLåst(true);
 
         axiosRequest<IFormVilkår, IFormVilkår>({

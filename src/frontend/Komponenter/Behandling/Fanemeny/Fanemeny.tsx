@@ -28,8 +28,8 @@ interface Props {
 }
 
 const Fanemeny: FC<Props> = ({ behandling }) => {
-    const { formkravGyldig, vurderingSideGyldig, brevSideGyldig } = useBehandling();
-    const gyldigeSider: boolean[] = [formkravGyldig, vurderingSideGyldig, brevSideGyldig];
+    const { formkravBesvart, vurderingSideGyldig, brevSideGyldig } = useBehandling();
+    const gyldigeSider: boolean[] = [formkravBesvart, vurderingSideGyldig, brevSideGyldig];
     // const gyldigeSiderMock: boolean[] = [true, true, true];
 
     const mock: Ressurs<Behandling> = {

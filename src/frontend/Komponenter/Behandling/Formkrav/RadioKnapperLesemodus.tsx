@@ -88,7 +88,7 @@ export const RadioknapperLesemodus: React.FC<IRadioKnapperLeseModus> = ({
     saksbehandlerBegrunnelse,
     endretTid,
 }) => {
-    const { settFormkravLåst, settVilkårTom, formkravGyldig } = useBehandling();
+    const { settFormkravLåst, settVilkårTom, formkravGyldig, formkravBesvart } = useBehandling();
     const { axiosRequest } = useApp();
     const navigate = useNavigate();
     const slettHandling = () => {
@@ -144,20 +144,11 @@ export const RadioknapperLesemodus: React.FC<IRadioKnapperLeseModus> = ({
                     <Svar>{saksbehandlerBegrunnelse}</Svar>
                 </SvarElement>
             </FormKravStylingBody>
-            {formkravGyldig && (
+            {(formkravGyldig || formkravBesvart) && (
                 <ButtonStyled
                     variant="primary"
                     size="medium"
                     onClick={() => navigate(`/behandling/${hentBehandlingIdFraUrl()}/vurdering`)}
-                >
-                    Fortsett
-                </ButtonStyled>
-            )}
-            {!formkravGyldig && (
-                <ButtonStyled
-                    variant="primary"
-                    size="medium"
-                    onClick={() => navigate(`/behandling/${hentBehandlingIdFraUrl()}/brev`)}
                 >
                     Fortsett
                 </ButtonStyled>
