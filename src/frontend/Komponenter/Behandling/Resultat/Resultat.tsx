@@ -1,9 +1,10 @@
 import * as React from 'react';
-import { useEffect, useState } from 'react';
-import { useApp } from '../../../App/context/AppContext';
+import { useState } from 'react';
 import { Heading } from '@navikt/ds-react';
 import styled from 'styled-components';
 import { Ikon } from '../Vurdering/Ikon';
+import { Tidslinje } from './Tidslinje';
+import { Behandling } from '../../../App/typer/fagsak';
 
 export enum Resultater {
     IKKE_VURDERT = 'IKKE_VURDERT',
@@ -30,22 +31,12 @@ const ResultatStyling = styled.div`
     margin: 2rem 5rem 0 5rem;
 `;
 
-export const Resultat: React.FC<{ behandlingId: string }> = ({ behandlingId }) => {
-    const { axiosRequest } = useApp();
+interface IResultat {
+    behandling: Behandling;
+}
 
+export const Resultat: React.FC<IResultat> = ({ behandling }) => {
     const [resultat, settResultat] = useState<Resultater>(Resultater.IKKE_VURDERT);
-
-    /*useEffect(() => {
-        axiosRequest<Resultater, string>({
-            method: 'GET',
-            url: `/familie-klage/api/behandling/${behandlingId}/resultat`,
-        }).then((res: Ressurs<Resultater>) => {
-            if (res.status === RessursStatus.SUKSESS) {
-                settResultat(res.data);
-            }
-        });
-
-    }, [axiosRequest, behandlingId]);*/
 
     return (
         <ResultatStyling>
@@ -93,8 +84,8 @@ export const Resultat: React.FC<{ behandlingId: string }> = ({ behandlingId }) =
                     <circle cx="12" cy="18.496" r="1.5" fill="#fff"></circle>
                 </Ikon>
             )}
-
             {resultatTilTekst[resultat]}
+            <Tidslinje behandling={behandling}></Tidslinje>
         </ResultatStyling>
     );
 };

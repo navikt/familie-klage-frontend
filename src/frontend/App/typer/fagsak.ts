@@ -34,17 +34,21 @@ export enum Fagsystem {
     KS = 'KS',
 }
 
-export enum BehandlingSteg {
-    FORMALKRAV = 'FORMALKRAV',
+export enum StegType {
+    FORMKRAV = 'FORMKRAV',
     VURDERING = 'VURDERING',
-    KABAL = 'KABAL',
+    BREV = 'BREV',
+    SEND_TIL_BESLUTTER = 'SEND_TIL_BESLUTTER',
+    VENTE_PÅ_SVAR_FRA_BESLUTTER = 'VENTE_PÅ_SVAR_FRA_BESLUTTER',
     BEHANDLING_FERDIGSTILT = 'BEHANDLING_FERDIGSTILT',
 }
 
-export const behandlingStegTilTekst: Record<BehandlingSteg, string> = {
-    FORMALKRAV: 'Formalkrav',
+export const behandlingStegTilTekst: Record<StegType, string> = {
+    FORMKRAV: 'Formkrav',
     VURDERING: 'Vurdering',
-    KABAL: 'Kabal',
+    BREV: 'Brev',
+    SEND_TIL_BESLUTTER: 'Send behandling til beslutter',
+    VENTE_PÅ_SVAR_FRA_BESLUTTER: 'Venter på svar fra beslutter',
     BEHANDLING_FERDIGSTILT: 'Behandling ferdigstilt',
 };
 
@@ -52,7 +56,7 @@ export interface Behandling {
     id: string;
     fagsakId: string;
     personId: string;
-    steg: BehandlingSteg;
+    steg: StegType;
     status: BehandlingStatus;
     sistEndret: string;
     opprettet: string;
