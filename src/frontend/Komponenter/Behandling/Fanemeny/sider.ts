@@ -2,7 +2,7 @@ import { FunctionComponent } from 'react';
 import { Formkrav } from '../Formkrav/Formkrav';
 import { Vurdering } from '../Vurdering/Vurdering';
 import { Brev } from '../Brev/Brev';
-import { Kabal } from '../Kabal/Kabal';
+import { Resultat } from '../Resultat/Resultat';
 
 export interface ISide {
     href: string;
@@ -15,7 +15,7 @@ export enum SideNavn {
     FORMKRAV = 'Formkrav',
     VURDERING = 'Vurdering',
     BREV = 'Brev',
-    KABAL = 'Kabal',
+    RESULTAT = 'Resultat',
 }
 
 export const alleSider: ISide[] = [
@@ -35,8 +35,8 @@ export const alleSider: ISide[] = [
         komponent: Brev,
     },
     {
-        href: 'kabal',
-        navn: SideNavn.KABAL,
-        komponent: Kabal,
+        href: 'resultat',
+        navn: SideNavn.RESULTAT,
+        komponent: Resultat,
     },
 ];

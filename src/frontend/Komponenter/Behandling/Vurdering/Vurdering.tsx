@@ -45,8 +45,8 @@ const VurderingKnappStyled = styled(Button)``;
 
 export const Vurdering: React.FC<{ behandlingId: string }> = ({ behandlingId }) => {
     // Formkravoppsummering
-    const [oppfylt, settOppfylt] = useState(1);
-    const [muligOppfylt, settMuligOppfylt] = useState(1);
+    const [oppfylt, settOppfylt] = useState(0);
+    const [muligOppfylt, settMuligOppfylt] = useState(0);
     const [begrunnelse, settBegrunnelse] = useState('Ingen begrunnelse');
     const [feilmelding, settFeilmelding] = useState('Dette er en feilmelding'); // TODO legge til enum-objekter som sier om det er begrunnelse eller vurdering som mangler
     const navigate = useNavigate();
@@ -89,8 +89,6 @@ export const Vurdering: React.FC<{ behandlingId: string }> = ({ behandlingId }) 
                 });
             }
         });
-        settOppfylt(vilkårListe.filter((item: VilkårStatus) => item === 'OPPFYLT').length);
-        settMuligOppfylt(vilkårListe.length);
     }, [axiosRequest, vilkårListe, behandlingId]);
 
     // Hent data fra formkrav
@@ -100,14 +98,17 @@ export const Vurdering: React.FC<{ behandlingId: string }> = ({ behandlingId }) 
             url: `/familie-klage/api/formkrav/vilkar/${behandlingId}`,
         }).then((res: Ressurs<IFormVilkår>) => {
             if (res.status === RessursStatus.SUKSESS) {
-                settVilkårListe([
+                if (res.data.saksbehandlerBegrunnelse !== '')
+                    settBegrunnelse(res.data.saksbehandlerBegrunnelse);
+
+                const vilkårListe = [
                     res.data.klagePart,
                     res.data.klageKonkret,
                     res.data.klagefristOverholdt,
                     res.data.klageSignert,
-                ]);
-                if (res.data.saksbehandlerBegrunnelse !== '')
-                    settBegrunnelse(res.data.saksbehandlerBegrunnelse);
+                ];
+                settOppfylt(vilkårListe.filter((item: VilkårStatus) => item === 'OPPFYLT').length);
+                settMuligOppfylt(vilkårListe.length);
             }
         });
     }, [axiosRequest, behandlingId]);
@@ -145,7 +146,7 @@ export const Vurdering: React.FC<{ behandlingId: string }> = ({ behandlingId }) 
                 begrunnelse={begrunnelse}
                 feilmelding={feilmelding}
             />
-            {oppfylt < muligOppfylt || oppfylt < 1 ? (
+            {oppfylt < muligOppfylt || muligOppfylt == 0 ? (
                 ''
             ) : (
                 <>
