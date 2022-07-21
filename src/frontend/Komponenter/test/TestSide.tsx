@@ -17,13 +17,13 @@ export const TestSide: React.FC = () => {
     const { axiosRequest } = useApp();
     const navigate = useNavigate();
 
-    const lagBehandling = () => {
+    const lagBehandling = (url: string) => {
         axiosRequest<Behandling, null>({
             method: 'POST',
             url: `/familie-klage/api/behandling`,
         }).then((res) => {
             if (res.status === 'SUKSESS') {
-                navigate(`/behandling/${res.data.id}`);
+                navigate(`/behandling/${res.data.id}/${url}`);
             }
         });
     };
@@ -31,8 +31,20 @@ export const TestSide: React.FC = () => {
     return (
         <Side className={'container'}>
             <StyledTest>
-                <b>[Test] Opprett dummy-behandling</b>
-                <Button onClick={lagBehandling}>Lag behandling</Button>
+                <b>[Test] Opprett dummy-behandling og gå til formkrav</b>
+                <Button onClick={() => lagBehandling('')}>Lag behandling</Button>
+            </StyledTest>
+            <StyledTest>
+                <b>[Test] Opprett dummy-behandling og gå til vurdering</b>
+                <Button onClick={() => lagBehandling('vurdering')}>Lag behandling</Button>
+            </StyledTest>
+            <StyledTest>
+                <b>[Test] Opprett dummy-behandling og gå til brev</b>
+                <Button onClick={() => lagBehandling('brev')}>Lag behandling</Button>
+            </StyledTest>
+            <StyledTest>
+                <b>[Test] Opprett dummy-behandling og gå til resultat</b>
+                <Button onClick={() => lagBehandling('resultat')}>Lag behandling</Button>
             </StyledTest>
         </Side>
     );

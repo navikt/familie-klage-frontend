@@ -25,6 +25,7 @@ import { Ressurs, RessursStatus } from '../../../App/typer/ressurs';
 import { IFormVilkår, VilkårStatus } from '../Formkrav/utils';
 import { hentBehandlingIdFraUrl } from '../BehandlingContainer';
 import { useNavigate } from 'react-router-dom';
+import { useBehandling } from '../../../App/context/BehandlingContext';
 
 const VurderingBeskrivelseStyled = styled.div`
     margin: 2rem 4rem 2rem 4rem;
@@ -50,6 +51,7 @@ export const Vurdering: React.FC<{ behandlingId: string }> = ({ behandlingId }) 
     const [begrunnelse, settBegrunnelse] = useState('Ingen begrunnelse');
     const [feilmelding, settFeilmelding] = useState('Dette er en feilmelding'); // TODO legge til enum-objekter som sier om det er begrunnelse eller vurdering som mangler
     const navigate = useNavigate();
+    const { settVurderingSideGyldig } = useBehandling();
 
     const vurderingObject: IVurdering = {
         behandlingId: behandlingId,
@@ -134,6 +136,7 @@ export const Vurdering: React.FC<{ behandlingId: string }> = ({ behandlingId }) 
             if (res.status === RessursStatus.SUKSESS) {
                 settResultat(true);
                 nullstillIkkePersisterteKomponenter();
+                settVurderingSideGyldig(true);
             }
         });
     };

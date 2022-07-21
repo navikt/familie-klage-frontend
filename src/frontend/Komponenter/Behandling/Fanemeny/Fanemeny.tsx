@@ -8,6 +8,7 @@ import navFarger from 'nav-frontend-core';
 import Fane from './Fane';
 import { Ressurs, RessursStatus } from '../../../App/typer/ressurs';
 import { Behandling } from '../../../App/typer/fagsak';
+import { useBehandling } from '../../../App/context/BehandlingContext';
 
 const StickyMedBoxShadow = styled(Sticky)`
     box-shadow: 0 2px 5px rgba(0, 0, 0, 0.4);
@@ -27,10 +28,9 @@ interface Props {
 }
 
 const Fanemeny: FC<Props> = ({ behandling }) => {
-    //TODO: Når app er klar for prod, kommenter inn de to linjene under og fjern mock av gyldigeSider
-    // const { formkravGyldig, vurderingSideGyldig, brevSideGyldig } = useBehandling();
-    // const gyldigeSider: boolean[] = [formkravGyldig, vurderingSideGyldig, brevSideGyldig];
-    const gyldigeSiderMock: boolean[] = [true, true, true];
+    const { formkravBesvart, vurderingSideGyldig, brevSideGyldig } = useBehandling();
+    const gyldigeSider: boolean[] = [formkravBesvart, vurderingSideGyldig, brevSideGyldig];
+    // const gyldigeSiderMock: boolean[] = [true, true, true];
 
     const mock: Ressurs<Behandling> = {
         data: behandling,
@@ -46,7 +46,7 @@ const Fanemeny: FC<Props> = ({ behandling }) => {
                             side={side}
                             behandlingId={behandling.id}
                             index={index}
-                            deaktivert={index > 0 ? !gyldigeSiderMock[index - 1] : false}
+                            deaktivert={index > 0 ? !gyldigeSider[index - 1] : false}
                             key={index}
                         />
                     ))}
