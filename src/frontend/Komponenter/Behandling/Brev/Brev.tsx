@@ -58,17 +58,19 @@ export const Brev: React.FC<IBrev> = ({ behandlingId }) => {
     return (
         <div>
             <StyledBrev>
-                <DataViewer response={{ personopplysningerResponse, behandling }}>
-                    <FritekstBrev
-                        behandlingId={behandlingId}
-                        mellomlagretFritekstbrev={mellomlagretBrev as IFritekstBrev}
-                        oppdaterBrevressurs={oppdaterBrevRessurs}
-                    />
-                </DataViewer>
+                <div>
+                    <DataViewer response={{ personopplysningerResponse, behandling }}>
+                        <FritekstBrev
+                            behandlingId={behandlingId}
+                            mellomlagretFritekstbrev={mellomlagretBrev as IFritekstBrev}
+                            oppdaterBrevressurs={oppdaterBrevRessurs}
+                        />
+                    </DataViewer>
+                    <Button variant="primary" size="medium" onClick={() => ferdigstillBrev()}>
+                        Ferdigstill brev
+                    </Button>
+                </div>
                 <PdfVisning pdfFilInnhold={brevRessurs} />
-                <Button onClick={() => ferdigstillBrev()} variant="primary" size="medium">
-                    Ferdigstill brev
-                </Button>
             </StyledBrev>
         </div>
     );
