@@ -20,6 +20,7 @@ import { useApp } from '../../../App/context/AppContext';
 import { Button, Heading } from '@navikt/ds-react';
 import { useNavigate } from 'react-router-dom';
 import { formaterIsoDatoTid } from '../../../App/utils/formatter';
+import { StegType } from '../../../App/typer/fagsak';
 
 export const RadSentrertVertikalt = styled.div`
     display: flex;
@@ -87,10 +88,11 @@ export const RadioknapperLesemodus: React.FC<IRadioKnapperLeseModus> = ({
     redigerHandling,
     saksbehandlerBegrunnelse,
     endretTid,
+    behandlingId,
 }) => {
     const { settFormkravLåst, settVilkårTom, formkravGyldig, formkravBesvart } = useBehandling();
     const { axiosRequest } = useApp();
-    const navigate = useNavigate();
+    //const navigate = useNavigate();
     const slettHandling = () => {
         const nullstilteVilkår: IVilkårNullstill = {
             behandlingId: hentBehandlingIdFraUrl(),
@@ -109,6 +111,16 @@ export const RadioknapperLesemodus: React.FC<IRadioKnapperLeseModus> = ({
         settVilkårTom(true);
         settFormkravLåst(false);
     };
+
+    const forsett = () => {
+        axiosRequest<string, { stegType: StegType }>({
+            method: 'POST',
+            url: `/familie-klage/api/behandling/${behandlingId}`,
+            data: { stegType: StegType.VURDERING },
+        });
+        //navigate(`/behandling/${hentBehandlingIdFraUrl()}/vurdering`);
+    };
+
     return (
         <FormKravStyling>
             <VilkårHeader>
@@ -145,11 +157,7 @@ export const RadioknapperLesemodus: React.FC<IRadioKnapperLeseModus> = ({
                 </SvarElement>
             </FormKravStylingBody>
             {(formkravGyldig || formkravBesvart) && (
-                <ButtonStyled
-                    variant="primary"
-                    size="medium"
-                    onClick={() => navigate(`/behandling/${hentBehandlingIdFraUrl()}/vurdering`)}
-                >
+                <ButtonStyled variant="primary" size="medium" onClick={() => forsett()}>
                     Fortsett
                 </ButtonStyled>
             )}
