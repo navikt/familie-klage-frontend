@@ -67,7 +67,7 @@ export const Brev: React.FC<IBrev> = ({ behandlingId }) => {
                         />
                     </DataViewer>
                     <Button variant="primary" size="medium" onClick={() => ferdigstillBrev()}>
-                        Ferdigstill brev
+                        Ferdigstill
                     </Button>
                 </div>
                 <PdfVisning pdfFilInnhold={brevRessurs} />
