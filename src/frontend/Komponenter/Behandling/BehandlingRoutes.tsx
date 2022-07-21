@@ -11,8 +11,6 @@ interface Props {
 }
 
 const BehandlingRoutes: React.FC<Props> = ({ behandling }) => {
-    console.log(behandling);
-
     return (
         <Routes>
             <Route path="/formkrav" element={<Formkrav behandlingId={behandling.id} />} />
