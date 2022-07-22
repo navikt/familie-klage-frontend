@@ -48,7 +48,7 @@ export const useHentSteg = (behandlingId: string) => {
 
     useEffect(() => {
         if (behandling.status === 'IKKE_HENTET') hentBehandlingCallback();
-        if (behandling.status === 'SUKSESS') {
+        else if (behandling.status === 'SUKSESS') {
             const behandlingSteg = {
                 stegType: finnSteg(),
             };
@@ -56,11 +56,12 @@ export const useHentSteg = (behandlingId: string) => {
                 method: 'POST',
                 url: `/familie-klage/api/behandling/${behandlingId}`,
                 data: behandlingSteg,
-            }).then((res: Ressurs<string>) => {
-                if (res.status === 'SUKSESS') {
-                    console.log(res);
-                }
             });
+            //     .then((res: Ressurs<string>) => {
+            //     if (res.status === 'SUKSESS') {
+            //         console.log('respons etter oppdatering av steg', res.data)
+            //     }
+            // });
         }
     }, [
         settBrevSteg,
