@@ -45,8 +45,6 @@ export const Tidslinje: React.FC<{
     førsteObjekt: boolean;
     ferdig: boolean;
 }> = ({ steg, behandlingHistorikk, førsteObjekt, ferdig }) => {
-    console.log(steg);
-
     return (
         <StyledTidslinje>
             <StyledIkon>
