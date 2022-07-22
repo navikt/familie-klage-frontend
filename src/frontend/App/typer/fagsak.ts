@@ -43,13 +43,15 @@ export enum StegType {
     BEHANDLING_FERDIGSTILT = 'BEHANDLING_FERDIGSTILT',
 }
 
+export const StegTypeListe = Object.values(StegType);
+
 export const behandlingStegTilTekst: Record<StegType, string> = {
-    FORMKRAV: 'Formkrav',
-    VURDERING: 'Vurdering',
-    BREV: 'Brev',
-    SEND_TIL_BESLUTTER: 'Send behandling til beslutter',
+    FORMKRAV: 'Formkrav er oppdatert',
+    VURDERING: 'Vurdering er oppdatert',
+    BREV: 'Brev er oppdatert',
+    SEND_TIL_BESLUTTER: 'Klage er sendt til beslutter',
     VENTE_PÅ_SVAR_FRA_BESLUTTER: 'Venter på svar fra beslutter',
-    BEHANDLING_FERDIGSTILT: 'Behandling ferdigstilt',
+    BEHANDLING_FERDIGSTILT: 'Klagen er ferdigstilt',
 };
 
 export interface Behandling {

@@ -8,6 +8,8 @@ import DataViewer from '../../../Felles/DataViewer/DataViewer';
 import { useBehandling } from '../../../App/context/BehandlingContext';
 import styled from 'styled-components';
 import { useHentBrev } from '../../../App/hooks/useHentBrev';
+import { useApp } from '../../../App/context/AppContext';
+import { Button } from '@navikt/ds-react';
 
 const StyledBrev = styled.div`
     background-color: #f2f2f2;
@@ -36,6 +38,8 @@ export const Brev: React.FC<IBrev> = ({ behandlingId }) => {
 
     const { mellomlagretBrev } = useHentBrev(behandlingId);
 
+    const { axiosRequest } = useApp();
+
     const oppdaterBrevRessurs = (respons: Ressurs<string>) => {
         settBrevRessurs(respons);
         if (respons.status === RessursStatus.SUKSESS) {
@@ -43,16 +47,29 @@ export const Brev: React.FC<IBrev> = ({ behandlingId }) => {
         }
     };
 
+    const ferdigstillBrev = () => {
+        axiosRequest<null, null>({
+            method: 'POST',
+            url: `/familie-klage/api/behandling/ferdigstill/${behandlingId}`,
+            //data: noe
+        });
+    };
+
     return (
         <div>
             <StyledBrev>
-                <DataViewer response={{ personopplysningerResponse, behandling }}>
-                    <FritekstBrev
-                        behandlingId={behandlingId}
-                        mellomlagretFritekstbrev={mellomlagretBrev as IFritekstBrev}
-                        oppdaterBrevressurs={oppdaterBrevRessurs}
-                    />
-                </DataViewer>
+                <div>
+                    <DataViewer response={{ personopplysningerResponse, behandling }}>
+                        <FritekstBrev
+                            behandlingId={behandlingId}
+                            mellomlagretFritekstbrev={mellomlagretBrev as IFritekstBrev}
+                            oppdaterBrevressurs={oppdaterBrevRessurs}
+                        />
+                    </DataViewer>
+                    <Button variant="primary" size="medium" onClick={() => ferdigstillBrev()}>
+                        Ferdigstill
+                    </Button>
+                </div>
                 <PdfVisning pdfFilInnhold={brevRessurs} />
             </StyledBrev>
         </div>

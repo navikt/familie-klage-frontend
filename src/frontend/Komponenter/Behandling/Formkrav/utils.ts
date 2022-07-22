@@ -39,6 +39,7 @@ export interface IRadioKnapperLeseModus {
     redigerHandling: (value: boolean) => void;
     saksbehandlerBegrunnelse: string;
     endretTid: string;
+    behandlingId: string;
 }
 
 export const datoFormatering = (dato: Date) => {
