@@ -30,7 +30,7 @@ import { useDebouncedCallback } from 'use-debounce';
 import { VedtakValg } from '../Vurdering/vurderingValg';
 
 const StyledBrev = styled.div`
-    margin-bottom: 10rem;
+    margin-bottom: 1rem;
     width: inherit;
 `;
 
