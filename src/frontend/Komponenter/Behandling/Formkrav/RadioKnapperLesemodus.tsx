@@ -92,7 +92,7 @@ export const RadioknapperLesemodus: React.FC<IRadioKnapperLeseModus> = ({
 }) => {
     const { settFormkravLåst, settVilkårTom, formkravGyldig, formkravBesvart } = useBehandling();
     const { axiosRequest } = useApp();
-    //const navigate = useNavigate();
+    const navigate = useNavigate();
     const slettHandling = () => {
         const nullstilteVilkår: IVilkårNullstill = {
             behandlingId: hentBehandlingIdFraUrl(),
@@ -118,7 +118,7 @@ export const RadioknapperLesemodus: React.FC<IRadioKnapperLeseModus> = ({
             url: `/familie-klage/api/behandling/${behandlingId}`,
             data: { stegType: StegType.VURDERING },
         });
-        //navigate(`/behandling/${hentBehandlingIdFraUrl()}/vurdering`);
+        navigate(`/behandling/${hentBehandlingIdFraUrl()}/vurdering`);
     };
 
     return (

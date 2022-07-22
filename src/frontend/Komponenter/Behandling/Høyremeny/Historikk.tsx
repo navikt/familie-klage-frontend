@@ -19,12 +19,13 @@ const Historikk: React.FC<{ behandlingId: string }> = ({ behandlingId }) => {
                 settBehandlingshistorikk(res.data);
             }
         });
-    }, [axiosRequest, behandlingId]);
+    }, [axiosRequest]);
 
     return (
         <div>
             {behandlingshistorikk.map((behandlingshistorikk) => (
                 <HistorikkOppdatering
+                    key={behandlingshistorikk.id}
                     steg={behandlingshistorikk.steg}
                     endretTid={behandlingshistorikk.endretTid}
                     opprettetAv={behandlingshistorikk.opprettetAv}
