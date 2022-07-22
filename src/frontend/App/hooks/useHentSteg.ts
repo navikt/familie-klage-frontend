@@ -1,23 +1,25 @@
 import { useApp } from '../context/AppContext';
-import { useEffect, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import { Ressurs } from '../typer/ressurs';
-import { Behandling } from '../typer/fagsak';
+import { Behandling, StegType } from '../typer/fagsak';
 import { useHentBehandling } from './useHentBehandling';
 
 export const useHentSteg = (behandlingId: string) => {
     const { axiosRequest } = useApp();
-    const [formkravGyldig, settFormkravGyldig] = useState<boolean>(false);
-    const [vurderingSideGyldig, settVurderingSideGyldig] = useState<boolean>(false);
-    const [brevSideGyldig, settBrevSideGyldig] = useState<boolean>(false);
-    const [resultatSideGyldig, settResultatSideGyldig] = useState<boolean>(false);
+
+    const [formkravSteg, settFormkravSteg] = useState(true);
+    const [vurderingSteg, settVurderingSteg] = useState(false);
+    const [brevSteg, settBrevSteg] = useState(false);
+    const [resultatSteg, settResultatSteg] = useState(false);
+
     const { behandling, hentBehandlingCallback } = useHentBehandling(behandlingId);
 
-    const finnSteg = () => {
-        if (resultatSideGyldig) return 'RESULTAT';
-        else if (brevSideGyldig) return 'BREV';
-        else if (vurderingSideGyldig) return 'VURDERING';
-        else if (formkravGyldig) return 'FORMKRAV';
-    };
+    const finnSteg = useCallback(() => {
+        if (resultatSteg) return StegType.BEHANDLING_FERDIGSTILT;
+        else if (brevSteg) return StegType.BREV;
+        else if (vurderingSteg) return StegType.VURDERING;
+        else return StegType.FORMKRAV;
+    }, [brevSteg, resultatSteg, vurderingSteg]);
 
     useEffect(() => {
         axiosRequest<Behandling, null>({
@@ -25,39 +27,61 @@ export const useHentSteg = (behandlingId: string) => {
             url: `/familie-klage/api/behandling/${behandlingId}`,
         }).then((res: Ressurs<Behandling>) => {
             if (res.status === 'SUKSESS') {
-                if (res.data.steg === 'FORMKRAV') settFormkravGyldig(true);
+                if (res.data.steg === 'BEHANDLING_FERDIGSTILT') settResultatSteg(true);
+                else if (res.data.steg === 'BREV') settBrevSteg(true);
+                else if (res.data.steg === 'VURDERING') settVurderingSteg(true);
+                else settFormkravSteg(true);
             }
         });
-    }, [axiosRequest, behandlingId]);
+    }, [
+        axiosRequest,
+        behandlingId,
+        brevSteg,
+        settBrevSteg,
+        resultatSteg,
+        settResultatSteg,
+        vurderingSteg,
+        settVurderingSteg,
+        formkravSteg,
+        settFormkravSteg,
+    ]);
 
     useEffect(() => {
         if (behandling.status === 'IKKE_HENTET') hentBehandlingCallback();
         if (behandling.status === 'SUKSESS') {
-            const behandlingMedNyttSteg = {
-                ...behandling.data,
-                steg: finnSteg(),
+            const behandlingSteg = {
+                stegType: finnSteg(),
             };
-            console.log('behandling med nytt steg', behandlingMedNyttSteg);
+            axiosRequest<string, { stegType: StegType }>({
+                method: 'POST',
+                url: `/familie-klage/api/behandling/${behandlingId}`,
+                data: behandlingSteg,
+            }).then((res: Ressurs<string>) => {
+                if (res.status === 'SUKSESS') {
+                    console.log(res);
+                }
+            });
         }
-        console.log('behandling', behandling);
-        // axiosRequest<Behandling, null>({
-        //     method: 'POST',
-        //     url: `/familie-klage/api/behandling/${behandlingId}`,
-        // }).then((res: Ressurs<Behandling>) => {
-        //     if (res.status === 'SUKSESS') {
-        //         if (res.data.steg === 'FORMKRAV') settFormkravGyldig(true);
-        //     }
-        // });
-    }, [behandling, hentBehandlingCallback]);
+    }, [
+        settBrevSteg,
+        settResultatSteg,
+        settVurderingSteg,
+        settFormkravSteg,
+        axiosRequest,
+        behandling,
+        behandlingId,
+        finnSteg,
+        hentBehandlingCallback,
+    ]);
 
     return {
-        formkravGyldig,
-        settFormkravGyldig,
-        vurderingSideGyldig,
-        settVurderingSideGyldig,
-        brevSideGyldig,
-        settBrevSideGyldig,
-        resultatSideGyldig,
-        settResultatSideGyldig,
+        brevSteg,
+        settBrevSteg,
+        resultatSteg,
+        settResultatSteg,
+        vurderingSteg,
+        settVurderingSteg,
+        formkravSteg,
+        settFormkravSteg,
     };
 };

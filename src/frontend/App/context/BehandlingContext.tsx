@@ -51,20 +51,22 @@ const [BehandlingProvider, useBehandling] = constate(() => {
 
     const [formkravLåst, settFormkravLåst] = useState<boolean>(false);
     const [formkravBesvart, settFormkravBesvart] = useState<boolean>(false);
+
+    const [formkravGyldig, settFormkravGyldig] = useState<boolean>(false);
+    const [vurderingSideGyldig, settVurderingSideGyldig] = useState<boolean>(false);
+    const [brevSideGyldig, settBrevSideGyldig] = useState<boolean>(false);
+    const [resultatSideGyldig, settResultatSideGyldig] = useState<boolean>(false);
+
     const {
-        formkravGyldig,
-        settFormkravGyldig,
-        vurderingSideGyldig,
-        settVurderingSideGyldig,
-        brevSideGyldig,
-        settBrevSideGyldig,
-        resultatSideGyldig,
-        settResultatSideGyldig,
+        brevSteg,
+        settBrevSteg,
+        resultatSteg,
+        settResultatSteg,
+        vurderingSteg,
+        settVurderingSteg,
+        formkravSteg,
+        settFormkravSteg,
     } = useHentSteg(behandlingId);
-    // const [formkravGyldig, settFormkravGyldig] = useState<boolean>(false);
-    // const [vurderingSideGyldig, settVurderingSideGyldig] = useState<boolean>(false);
-    // const [brevSideGyldig, settBrevSideGyldig] = useState<boolean>(false);
-    // const [kabalSideGyldig, settKabalSideGyldig] = useState<boolean>(false);
 
     const [vilkårTom, settVilkårTom] = useState<boolean>(false);
 
@@ -98,6 +100,14 @@ const [BehandlingProvider, useBehandling] = constate(() => {
         settBrevSideGyldig,
         resultatSideGyldig,
         settResultatSideGyldig,
+        brevSteg,
+        settBrevSteg,
+        resultatSteg,
+        settResultatSteg,
+        vurderingSteg,
+        settVurderingSteg,
+        formkravSteg,
+        settFormkravSteg,
     };
 });
 
