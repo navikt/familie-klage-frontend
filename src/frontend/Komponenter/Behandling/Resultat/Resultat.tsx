@@ -7,7 +7,7 @@ import DataViewer from '../../../Felles/DataViewer/DataViewer';
 import { useApp } from '../../../App/context/AppContext';
 import { byggTomRessurs, Ressurs, RessursStatus } from '../../../App/typer/ressurs';
 import { IBehandlingshistorikk } from '../Høyremeny/behandlingshistorikk';
-import { ResultatOppsummering } from './ResultatOppsummering';
+import { Heading } from '@navikt/ds-react';
 
 const ResultatStyling = styled.div`
     width: 90%;
@@ -31,13 +31,20 @@ export const Resultat: React.FC<IResultat> = ({ behandling }) => {
                 settHistorikk(res);
             }
         });
-    }, [axiosRequest, behandling]);
+    }, [axiosRequest]);
 
     return (
         <ResultatStyling>
-            <ResultatOppsummering behandling={behandling} />
+            <Heading spacing size="large" level="5">
+                Resultat
+            </Heading>
             <DataViewer response={{ historikk }}>
-                {({ historikk }) => <TidslinjeContainer historikkForVisning={historikk} />}
+                {({ historikk }) => (
+                    <TidslinjeContainer
+                        aktivtSteg={behandling.steg}
+                        historikkForVisning={historikk}
+                    />
+                )}
             </DataViewer>
         </ResultatStyling>
     );

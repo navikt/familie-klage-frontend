@@ -33,9 +33,6 @@ export const ResultatOppsummering: React.FC<IResultat> = ({ behandling }) => {
 
     return (
         <div>
-            <Heading spacing size="large" level="5">
-                Resultat
-            </Heading>
             {(resultat == Resultater.KLAGEINSTANSEN_TATT_TIL_FØLGE ||
                 resultat == Resultater.TATT_TIL_FØLGE) && (
                 <Ikon>

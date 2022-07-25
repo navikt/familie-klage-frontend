@@ -5,30 +5,37 @@ import { useEffect, useState } from 'react';
 import { Ressurs, RessursStatus } from '../../../App/typer/ressurs';
 import { useApp } from '../../../App/context/AppContext';
 import { IBehandlingshistorikk } from './behandlingshistorikk';
+import { Behandling } from '../../../App/typer/fagsak';
 
-const Historikk: React.FC<{ behandlingId: string }> = ({ behandlingId }) => {
+const Historikk: React.FC<{ behandling: Behandling }> = ({ behandling }) => {
     const { axiosRequest } = useApp();
     const [behandlingshistorikk, settBehandlingshistorikk] = useState<IBehandlingshistorikk[]>([]);
 
     useEffect(() => {
         axiosRequest<IBehandlingshistorikk[], null>({
             method: 'GET',
-            url: `/familie-klage/api/behandlingshistorikk/${behandlingId}`,
+            url: `/familie-klage/api/behandlingshistorikk/${behandling.id}`,
         }).then((res: Ressurs<IBehandlingshistorikk[]>) => {
             if (res.status === RessursStatus.SUKSESS) {
                 settBehandlingshistorikk(res.data);
             }
         });
-    }, [axiosRequest]);
+    }, [axiosRequest, window.location.pathname]);
 
     return (
         <div>
+            <HistorikkOppdatering
+                opprettet={true}
+                endretTid={behandling.opprettet}
+                opprettetAv={behandling.personId}
+            />
             {behandlingshistorikk.map((behandlingshistorikk) => (
                 <HistorikkOppdatering
                     key={behandlingshistorikk.id}
                     steg={behandlingshistorikk.steg}
                     endretTid={behandlingshistorikk.endretTid}
                     opprettetAv={behandlingshistorikk.opprettetAv}
+                    opprettet={false}
                 />
             ))}
         </div>

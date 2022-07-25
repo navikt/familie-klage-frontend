@@ -116,7 +116,6 @@ export const RadioknapperLesemodus: React.FC<IRadioKnapperLeseModus> = ({
         axiosRequest<string, { stegType: StegType }>({
             method: 'POST',
             url: `/familie-klage/api/behandling/${behandlingId}`,
-            data: { stegType: StegType.VURDERING },
         });
         navigate(`/behandling/${hentBehandlingIdFraUrl()}/vurdering`);
     };
@@ -157,7 +156,11 @@ export const RadioknapperLesemodus: React.FC<IRadioKnapperLeseModus> = ({
                 </SvarElement>
             </FormKravStylingBody>
             {(formkravGyldig || formkravBesvart) && (
-                <ButtonStyled variant="primary" size="medium" onClick={() => forsett()}>
+                <ButtonStyled
+                    variant="primary"
+                    size="medium"
+                    onClick={() => navigate(`/behandling/${hentBehandlingIdFraUrl()}/vurdering`)}
+                >
                     Fortsett
                 </ButtonStyled>
             )}

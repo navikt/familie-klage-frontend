@@ -26,6 +26,7 @@ import { IFormVilkår, VilkårStatus } from '../Formkrav/utils';
 import { hentBehandlingIdFraUrl } from '../BehandlingContainer';
 import { useNavigate } from 'react-router-dom';
 import { useBehandling } from '../../../App/context/BehandlingContext';
+import { StegType } from '../../../App/typer/fagsak';
 
 const VurderingBeskrivelseStyled = styled.div`
     margin: 2rem 4rem 2rem 4rem;
@@ -139,6 +140,14 @@ export const Vurdering: React.FC<{ behandlingId: string }> = ({ behandlingId }) 
                 settVurderingSideGyldig(true);
             }
         });
+    };
+
+    const forsett = () => {
+        axiosRequest<string, { stegType: StegType }>({
+            method: 'POST',
+            url: `/familie-klage/api/behandling/${behandlingId}`,
+        });
+        navigate(`/behandling/${hentBehandlingIdFraUrl()}/vurdering`);
     };
 
     return (
