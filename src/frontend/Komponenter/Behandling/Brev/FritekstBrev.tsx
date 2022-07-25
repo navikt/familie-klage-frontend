@@ -45,7 +45,7 @@ const FritekstBrev: React.FC<Props> = ({
     mellomlagretFritekstbrev,
     oppdaterBrevressurs,
 }) => {
-    const { behandling } = useBehandling();
+    const { behandling, settResultatSteg } = useBehandling();
     const { axiosRequest } = useApp();
 
     const personopplysningerConfig: AxiosRequestConfig = useMemo(
@@ -73,30 +73,37 @@ const FritekstBrev: React.FC<Props> = ({
     };
 
     const endreOverskrift = (nyOverskrift: string) => {
+        settResultatSteg(false);
         settOverskrift(nyOverskrift);
     };
 
     const endreAvsnitt = (nyttAvsnitt: AvsnittMedId[]) => {
+        settResultatSteg(false);
         settAvsnitt(nyttAvsnitt);
     };
 
     const oppdaterFlyttAvsnittOppover = (avsnittId: string) => {
+        settResultatSteg(false);
         settAvsnitt(flyttAvsnittOppover(avsnittId, avsnitt));
     };
 
     const oppdaterFlyttAvsnittNedover = (avsnittId: string) => {
+        settResultatSteg(false);
         settAvsnitt(flyttAvsnittNedover(avsnittId, avsnitt));
     };
 
     const oppdaterLeggTilAvsnittFørst = () => {
+        settResultatSteg(false);
         settAvsnitt(leggTilAvsnittFørst(avsnitt));
     };
 
     const oppdaterLeggAvsnittBakSisteSynligeAvsnitt = () => {
+        settResultatSteg(false);
         settAvsnitt(leggAvsnittBakSisteSynligeAvsnitt(avsnitt));
     };
 
     const endreDeloverskriftAvsnitt = (radId: string) => {
+        console.log('endredeloverskriftavsnitt');
         return (e: ChangeEvent<HTMLInputElement>) => {
             const oppdaterteAvsnitt = avsnitt.map((rad) => {
                 return rad.avsnittId === radId ? { ...rad, deloverskrift: e.target.value } : rad;
@@ -115,6 +122,7 @@ const FritekstBrev: React.FC<Props> = ({
     };
 
     const fjernRad = (radId: string) => {
+        settResultatSteg(false);
         settAvsnitt((eksisterendeAvsnitt: AvsnittMedId[]) => {
             return eksisterendeAvsnitt.filter((rad) => radId !== rad.avsnittId);
         });
@@ -159,8 +167,8 @@ const FritekstBrev: React.FC<Props> = ({
 
     useEffect(() => {
         if (mellomlagretFritekstbrev) {
-            endreOverskrift(mellomlagretFritekstbrev.overskrift);
-            endreAvsnitt(mellomlagretFritekstbrev.avsnitt);
+            settOverskrift(mellomlagretFritekstbrev.overskrift);
+            settAvsnitt(mellomlagretFritekstbrev.avsnitt);
         }
     }, [mellomlagretFritekstbrev]);
 
@@ -168,8 +176,8 @@ const FritekstBrev: React.FC<Props> = ({
     useEffect(utsattGenererBrev, [utsattGenererBrev, avsnitt, overskrift]);
 
     const settOverskiftOgAvsnitt = (brevType?: FritekstBrevtype) => {
-        endreOverskrift(brevType ? BrevtyperTilOverskrift[brevType] : '');
-        endreAvsnitt(brevType ? skjulAvsnittIBrevbygger(BrevtyperTilAvsnitt[brevType]) : []);
+        settOverskrift(brevType ? BrevtyperTilOverskrift[brevType] : '');
+        settAvsnitt(brevType ? skjulAvsnittIBrevbygger(BrevtyperTilAvsnitt[brevType]) : []);
     };
 
     return (
