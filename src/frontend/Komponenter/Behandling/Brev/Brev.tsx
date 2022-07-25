@@ -10,6 +10,8 @@ import styled from 'styled-components';
 import { useHentBrev } from '../../../App/hooks/useHentBrev';
 import { useApp } from '../../../App/context/AppContext';
 import { Button } from '@navikt/ds-react';
+import { useNavigate } from 'react-router-dom';
+import { hentBehandlingIdFraUrl } from '../BehandlingContainer';
 
 const StyledBrev = styled.div`
     background-color: #f2f2f2;
@@ -26,6 +28,13 @@ const StyledBrev = styled.div`
     }
 `;
 
+const BrevKnapper = styled.div`
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    margin: 0 0rem;
+`;
+
 interface IBrev {
     behandlingId: string;
 }
@@ -33,12 +42,14 @@ interface IBrev {
 export const Brev: React.FC<IBrev> = ({ behandlingId }) => {
     const [brevRessurs, settBrevRessurs] = useState<Ressurs<string>>(byggTomRessurs());
     const [kanSendesTilBeslutter, settKanSendesTilBeslutter] = useState<boolean>(false);
+    const [ferdigstilt, settFerdigstilt] = useState<boolean>(false);
 
     const { personopplysningerResponse, behandling } = useBehandling();
 
     const { mellomlagretBrev } = useHentBrev(behandlingId);
 
     const { axiosRequest } = useApp();
+    const navigate = useNavigate();
 
     const oppdaterBrevRessurs = (respons: Ressurs<string>) => {
         settBrevRessurs(respons);
@@ -53,6 +64,7 @@ export const Brev: React.FC<IBrev> = ({ behandlingId }) => {
             url: `/familie-klage/api/behandling/ferdigstill/${behandlingId}`,
             //data: noe
         });
+        settFerdigstilt(true);
     };
 
     return (
@@ -66,9 +78,22 @@ export const Brev: React.FC<IBrev> = ({ behandlingId }) => {
                             oppdaterBrevressurs={oppdaterBrevRessurs}
                         />
                     </DataViewer>
-                    <Button variant="primary" size="medium" onClick={() => ferdigstillBrev()}>
-                        Ferdigstill
-                    </Button>
+                    <BrevKnapper>
+                        <Button variant="primary" size="medium" onClick={() => ferdigstillBrev()}>
+                            Ferdigstill
+                        </Button>
+                        {ferdigstilt && (
+                            <Button
+                                variant="primary"
+                                size="medium"
+                                onClick={() =>
+                                    navigate(`/behandling/${hentBehandlingIdFraUrl()}/resultat`)
+                                }
+                            >
+                                Fortsett
+                            </Button>
+                        )}
+                    </BrevKnapper>
                 </div>
                 <PdfVisning pdfFilInnhold={brevRessurs} />
             </StyledBrev>
