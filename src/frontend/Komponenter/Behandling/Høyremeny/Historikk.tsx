@@ -25,6 +25,7 @@ const Historikk: React.FC<{ behandlingId: string }> = ({ behandlingId }) => {
         <div>
             {behandlingshistorikk.map((behandlingshistorikk) => (
                 <HistorikkOppdatering
+                    key={'historikk'}
                     steg={behandlingshistorikk.steg}
                     endretTid={behandlingshistorikk.endretTid}
                     opprettetAv={behandlingshistorikk.opprettetAv}
