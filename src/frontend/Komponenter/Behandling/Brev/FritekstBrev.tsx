@@ -102,23 +102,22 @@ const FritekstBrev: React.FC<Props> = ({
         settAvsnitt(leggAvsnittBakSisteSynligeAvsnitt(avsnitt));
     };
 
-    const endreDeloverskriftAvsnitt = (radId: string) => {
-        console.log('endredeloverskriftavsnitt');
-        return (e: ChangeEvent<HTMLInputElement>) => {
-            const oppdaterteAvsnitt = avsnitt.map((rad) => {
-                return rad.avsnittId === radId ? { ...rad, deloverskrift: e.target.value } : rad;
-            });
-            settAvsnitt(oppdaterteAvsnitt);
-        };
+    const endreDeloverskriftAvsnitt = (radId: string, e: ChangeEvent<HTMLInputElement>) => {
+        settResultatSteg(false);
+        const oppdaterteAvsnitt = avsnitt.map((rad) => {
+            return rad.avsnittId === radId ? { ...rad, deloverskrift: e.target.value } : rad;
+        });
+        settAvsnitt(oppdaterteAvsnitt);
+        return oppdaterteAvsnitt;
     };
 
-    const endreInnholdAvsnitt = (radId: string) => {
-        return (e: ChangeEvent<HTMLTextAreaElement>) => {
-            const oppdaterteAvsnitt = avsnitt.map((rad) => {
-                return rad.avsnittId === radId ? { ...rad, innhold: e.target.value } : rad;
-            });
-            settAvsnitt(oppdaterteAvsnitt);
-        };
+    const endreInnholdAvsnitt = (radId: string, e: ChangeEvent<HTMLTextAreaElement>) => {
+        settResultatSteg(false);
+        const oppdaterteAvsnitt = avsnitt.map((rad) => {
+            return rad.avsnittId === radId ? { ...rad, innhold: e.target.value } : rad;
+        });
+        settAvsnitt(oppdaterteAvsnitt);
+        return oppdaterteAvsnitt;
     };
 
     const fjernRad = (radId: string) => {
