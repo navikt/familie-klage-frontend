@@ -5,7 +5,6 @@ import { Expand } from '@navikt/ds-icons';
 import { Button } from '@navikt/ds-react';
 import navFarger from 'nav-frontend-core';
 import { behandlingStatusTilTekst } from '../../../App/typer/behandlingstatus';
-import { behandlingstypeTilTekst } from '../../../App/typer/behandlingstype';
 import { formaterIsoDatoTid } from '../../../App/utils/formatter';
 import { Normaltekst } from 'nav-frontend-typografi';
 import styled from 'styled-components';
@@ -119,15 +118,7 @@ export const StatusMeny: FC<{ behandling: Behandling }> = ({ behandling }) => {
                             <Status>
                                 <GråTekst>Stønadstype</GråTekst>
                                 <Normaltekst>
-                                    {stønadstypeTilTekst[behandling.stønadstype]}
-                                </Normaltekst>
-                            </Status>
-                        </li>
-                        <li>
-                            <Status>
-                                <GråTekst>Behandlingstype</GråTekst>
-                                <Normaltekst>
-                                    {behandlingstypeTilTekst[behandling.type]}
+                                    {stønadstypeTilTekst[behandling.stonadsType]}
                                 </Normaltekst>
                             </Status>
                         </li>
