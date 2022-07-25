@@ -54,7 +54,14 @@ export const Formvilkår: React.FC<IFormvilkårKomponent> = ({
     låst,
     settLåst,
 }) => {
-    const { vilkårTom, settVilkårTom, settFormkravBesvart, settVurderingSteg } = useBehandling();
+    const {
+        vilkårTom,
+        settVilkårTom,
+        settFormkravBesvart,
+        settVurderingSteg,
+        settBrevSteg,
+        settResultatSteg,
+    } = useBehandling();
     const { axiosRequest, nullstillIkkePersisterteKomponenter, settIkkePersistertKomponent } =
         useApp();
 
@@ -194,6 +201,9 @@ export const Formvilkår: React.FC<IFormvilkårKomponent> = ({
                                             [item.navn]: val,
                                         }));
                                         settIkkePersistertKomponent(val);
+                                        settVurderingSteg(false);
+                                        settBrevSteg(false);
+                                        settResultatSteg(false);
                                     }}
                                     value={item.svar}
                                     key={index}
@@ -211,6 +221,9 @@ export const Formvilkår: React.FC<IFormvilkårKomponent> = ({
                             value={formData.saksbehandlerBegrunnelse}
                             onChange={(e) => {
                                 settIkkePersistertKomponent(e.target.value);
+                                settVurderingSteg(false);
+                                settBrevSteg(false);
+                                settResultatSteg(false);
                                 settFormData((prevState) => ({
                                     ...prevState,
                                     saksbehandlerBegrunnelse: e.target.value,

@@ -33,18 +33,7 @@ export const useHentSteg = (behandlingId: string) => {
                 else settFormkravSteg(true);
             }
         });
-    }, [
-        axiosRequest,
-        behandlingId,
-        brevSteg,
-        settBrevSteg,
-        resultatSteg,
-        settResultatSteg,
-        vurderingSteg,
-        settVurderingSteg,
-        formkravSteg,
-        settFormkravSteg,
-    ]);
+    }, [axiosRequest, behandlingId]);
 
     useEffect(() => {
         if (behandling.status === 'IKKE_HENTET') hentBehandlingCallback();

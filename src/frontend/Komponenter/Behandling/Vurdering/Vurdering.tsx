@@ -51,7 +51,7 @@ export const Vurdering: React.FC<{ behandlingId: string }> = ({ behandlingId }) 
     const [begrunnelse, settBegrunnelse] = useState('Ingen begrunnelse');
     const [feilmelding, settFeilmelding] = useState('Dette er en feilmelding'); // TODO legge til enum-objekter som sier om det er begrunnelse eller vurdering som mangler
     const navigate = useNavigate();
-    const { settVurderingSideGyldig, settBrevSteg } = useBehandling();
+    const { settVurderingSideGyldig, settBrevSteg, settResultatSteg } = useBehandling();
 
     const vurderingObject: IVurdering = {
         behandlingId: behandlingId,
@@ -193,6 +193,8 @@ export const Vurdering: React.FC<{ behandlingId: string }> = ({ behandlingId }) 
                                 label="Vurdering"
                                 value={vurderingData.beskrivelse}
                                 onChange={(e) => {
+                                    settBrevSteg(false);
+                                    settResultatSteg(false);
                                     settIkkePersistertKomponent(e.target.value);
                                     settVurderingData((tidligereTilstand) => ({
                                         ...tidligereTilstand,

@@ -3,6 +3,7 @@ import { Heading, Select } from '@navikt/ds-react';
 import styled from 'styled-components';
 import { Dispatch, SetStateAction } from 'react';
 import { HjemmelValg, IVurdering, VedtakValg, ÅrsakValg } from './vurderingValg';
+import { useBehandling } from '../../../App/context/BehandlingContext';
 
 const VedtakStyled = styled.div`
     margin: 2rem 4rem 2rem 4rem;
@@ -26,7 +27,10 @@ export const Vedtak: React.FC<IVedtak> = ({
     vedtakValgmuligheter,
     endring,
 }) => {
+    const { settBrevSteg, settResultatSteg } = useBehandling();
     const oppdaterVedtak = (nyttValg: string) => {
+        settBrevSteg(false);
+        settResultatSteg(false);
         settVedtak((tidligereTilstand: IVurdering) => ({
             ...tidligereTilstand,
             vedtak: nyttValg,
