@@ -112,14 +112,6 @@ export const RadioknapperLesemodus: React.FC<IRadioKnapperLeseModus> = ({
         settFormkravLåst(false);
     };
 
-    const forsett = () => {
-        axiosRequest<string, { stegType: StegType }>({
-            method: 'POST',
-            url: `/familie-klage/api/behandling/${behandlingId}`,
-        });
-        navigate(`/behandling/${hentBehandlingIdFraUrl()}/vurdering`);
-    };
-
     return (
         <FormKravStyling>
             <VilkårHeader>
