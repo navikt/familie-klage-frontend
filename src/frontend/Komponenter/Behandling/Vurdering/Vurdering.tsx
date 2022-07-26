@@ -60,7 +60,6 @@ export const Vurdering: React.FC<{ behandlingId: string }> = ({ behandlingId }) 
         hjemmel: HjemmelValg.VELG,
         beskrivelse: '',
     };
-    const [vilkårListe, settVilkårListe] = useState<VilkårStatus[]>([]);
 
     const [vurderingData, settVurderingData] = useState<IVurdering>(vurderingObject);
 
@@ -113,7 +112,7 @@ export const Vurdering: React.FC<{ behandlingId: string }> = ({ behandlingId }) 
                 });
             }
         });
-    }, [axiosRequest, vilkårListe, behandlingId]);
+    }, [axiosRequest, settVurderingData, behandlingId]);
 
     const opprettVurdering = () => {
         const v: IVurdering = {
