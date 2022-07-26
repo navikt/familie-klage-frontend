@@ -42,6 +42,7 @@ export const Vedtak: React.FC<IVedtak> = ({
             </Heading>
             <VedtakInnholdStyled>
                 <Select
+                    defaultValue={ÅrsakValg.VELG}
                     label=""
                     size="medium"
                     onChange={(e) => {
@@ -51,7 +52,7 @@ export const Vedtak: React.FC<IVedtak> = ({
                     hideLabel
                 >
                     {Object.keys(vedtakValgmuligheter).map((valg, index) => (
-                        <option selected={vedtakValgt == valg} value={valg} key={index}>
+                        <option value={valg} key={index}>
                             {vedtakValgmuligheter[valg]}
                         </option>
                     ))}
