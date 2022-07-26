@@ -33,6 +33,7 @@ export const Hjemmel: React.FC<IHjemmel> = ({
             </Heading>
             <HjemmelInnholdStyled>
                 <Select
+                    defaultValue={HjemmelValg.VELG}
                     label=""
                     size="medium"
                     onChange={(e) => {
@@ -45,7 +46,7 @@ export const Hjemmel: React.FC<IHjemmel> = ({
                     hideLabel
                 >
                     {Object.keys(hjemmelValgmuligheter).map((valg, index) => (
-                        <option selected={hjemmelValgt == valg} value={valg} key={index}>
+                        <option value={valg} key={index}>
                             {hjemmelValgmuligheter[valg]}
                         </option>
                     ))}

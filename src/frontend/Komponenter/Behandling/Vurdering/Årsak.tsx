@@ -33,6 +33,7 @@ export const Årsak: React.FC<IÅrsak> = ({
             </Heading>
             <ÅrsakInnholdStyled>
                 <Select
+                    defaultValue={ÅrsakValg.VELG}
                     label=""
                     size="medium"
                     onChange={(e) => {
@@ -45,7 +46,7 @@ export const Årsak: React.FC<IÅrsak> = ({
                     hideLabel
                 >
                     {Object.keys(årsakValgmuligheter).map((valg, index) => (
-                        <option selected={årsakValgt == valg} value={valg} key={index}>
+                        <option value={valg} key={index}>
                             {årsakValgmuligheter[valg]}
                         </option>
                     ))}
