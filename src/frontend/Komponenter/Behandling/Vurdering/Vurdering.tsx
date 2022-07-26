@@ -115,10 +115,6 @@ export const Vurdering: React.FC<{ behandlingId: string }> = ({ behandlingId }) 
         });
     }, [axiosRequest, behandlingId]);
 
-    useEffect(() => {
-        settBrevSteg(false);
-    }, [settBrevSteg, vurderingData, settVurderingData]);
-
     const opprettVurdering = () => {
         const v: IVurdering = {
             behandlingId: behandlingId,

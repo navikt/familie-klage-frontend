@@ -27,10 +27,16 @@ export const useHentSteg = (behandlingId: string) => {
             url: `/familie-klage/api/behandling/${behandlingId}`,
         }).then((res: Ressurs<Behandling>) => {
             if (res.status === 'SUKSESS') {
-                if (res.data.steg === 'BEHANDLING_FERDIGSTILT') settResultatSteg(true);
-                else if (res.data.steg === 'BREV') settBrevSteg(true);
-                else if (res.data.steg === 'VURDERING') settVurderingSteg(true);
-                else settFormkravSteg(true);
+                settFormkravSteg(true);
+                if (res.data.steg !== 'FORMKRAV') {
+                    settVurderingSteg(true);
+                    if (res.data.steg !== 'VURDERING') {
+                        settBrevSteg(true);
+                        if (res.data.steg !== 'BREV') {
+                            settResultatSteg(true);
+                        }
+                    }
+                }
             }
         });
     }, [axiosRequest, behandlingId]);
@@ -46,11 +52,6 @@ export const useHentSteg = (behandlingId: string) => {
                 url: `/familie-klage/api/behandling/${behandlingId}`,
                 data: behandlingSteg,
             });
-            //     .then((res: Ressurs<string>) => {
-            //     if (res.status === 'SUKSESS') {
-            //         console.log('respons etter oppdatering av steg', res.data)
-            //     }
-            // });
         }
     }, [
         settBrevSteg,
