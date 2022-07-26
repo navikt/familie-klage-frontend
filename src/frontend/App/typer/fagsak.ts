@@ -43,9 +43,25 @@ export enum StegType {
     BEHANDLING_FERDIGSTILT = 'BEHANDLING_FERDIGSTILT',
 }
 
-export const StegTypeListe = Object.values(StegType);
+export const StegTypeListe: StegType[] = [
+    StegType.FORMKRAV,
+    StegType.VURDERING,
+    StegType.BREV,
+    StegType.SEND_TIL_BESLUTTER,
+    StegType.VENTE_PÅ_SVAR_FRA_BESLUTTER,
+    StegType.BEHANDLING_FERDIGSTILT,
+];
 
 export const behandlingStegTilTekst: Record<StegType, string> = {
+    FORMKRAV: 'Formkrav',
+    VURDERING: 'Vurdering',
+    BREV: 'Brev',
+    SEND_TIL_BESLUTTER: 'Sende til beslutter',
+    VENTE_PÅ_SVAR_FRA_BESLUTTER: 'Vente på svar',
+    BEHANDLING_FERDIGSTILT: 'Fullført',
+};
+
+export const behandlingStegFullførtTilTekst: Record<StegType, string> = {
     FORMKRAV: 'Formkrav er oppdatert',
     VURDERING: 'Vurdering er oppdatert',
     BREV: 'Brev er oppdatert',

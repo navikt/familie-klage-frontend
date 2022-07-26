@@ -2,12 +2,13 @@ import * as React from 'react';
 
 import { IBehandlingshistorikk } from '../Høyremeny/behandlingshistorikk';
 import { Tidslinje } from './Tidslinje';
-import { StegTypeListe } from '../../../App/typer/fagsak';
-import { fullførteSteg, StegHistorikkResultat } from './utils';
+import { StegType, StegTypeListe } from '../../../App/typer/fagsak';
+import { fullførteSteg, StegHistorikkResultat, finnBehandlinghistorikkFraListe } from './utils';
 
-export const TidslinjeContainer: React.FC<{ historikkForVisning: IBehandlingshistorikk[] }> = ({
-    historikkForVisning,
-}) => {
+export const TidslinjeContainer: React.FC<{
+    historikkForVisning: IBehandlingshistorikk[];
+    aktivtSteg: StegType;
+}> = ({ historikkForVisning, aktivtSteg }) => {
     const historikk = StegHistorikkResultat(historikkForVisning);
     const fullført = fullførteSteg(historikk);
 
@@ -16,15 +17,20 @@ export const TidslinjeContainer: React.FC<{ historikkForVisning: IBehandlingshis
             {StegTypeListe.map((item, index) => (
                 <>
                     {fullført.includes(item) ? (
-                        <Tidslinje steg={item} førsteObjekt={index == 0} ferdig={true} />
+                        <Tidslinje
+                            steg={item}
+                            behandlingHistorikk={finnBehandlinghistorikkFraListe(
+                                historikkForVisning,
+                                item
+                            )}
+                            førsteObjekt={index == 0}
+                            aktivtSteg={aktivtSteg == item}
+                        />
                     ) : (
                         <Tidslinje
                             steg={item}
-                            behandlingHistorikk={historikkForVisning.find((obj) => {
-                                return obj.steg == item;
-                            })}
                             førsteObjekt={index == 0}
-                            ferdig={false}
+                            aktivtSteg={aktivtSteg == item}
                         />
                     )}
                 </>

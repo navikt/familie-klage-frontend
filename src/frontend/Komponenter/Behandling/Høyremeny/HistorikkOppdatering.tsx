@@ -4,7 +4,7 @@ import navFarger from 'nav-frontend-core';
 import { Detail, Label } from '@navikt/ds-react';
 import styled from 'styled-components';
 import { formaterIsoDatoTid } from '../../../App/utils/formatter';
-import { behandlingStegTilTekst, StegType } from '../../../App/typer/fagsak';
+import { behandlingStegFullførtTilTekst, StegType } from '../../../App/typer/fagsak';
 
 const Oppdatering = styled.div`
     display: flex;
@@ -26,15 +26,17 @@ const TekstligInformasjon = styled.div`
 `;
 
 interface IHistorikkOppdatering {
-    steg: StegType;
+    steg?: StegType;
     opprettetAv: string;
     endretTid: string;
+    opprettet: boolean;
 }
 
 const HistorikkOppdatering: React.FunctionComponent<IHistorikkOppdatering> = ({
     steg,
     opprettetAv,
     endretTid,
+    opprettet,
 }) => {
     return (
         <Oppdatering>
@@ -46,7 +48,11 @@ const HistorikkOppdatering: React.FunctionComponent<IHistorikkOppdatering> = ({
                 <StripletLinje />
             </StyledIkon>
             <TekstligInformasjon>
-                <Label size="small">{behandlingStegTilTekst[steg]}</Label>
+                {opprettet || !steg ? (
+                    <Label size="small">Behandling er opprettet</Label>
+                ) : (
+                    <Label size="small">{behandlingStegFullførtTilTekst[steg]}</Label>
+                )}
                 <Detail size="small">
                     {formaterIsoDatoTid(endretTid)} | {opprettetAv}
                 </Detail>
