@@ -113,7 +113,7 @@ export const Vurdering: React.FC<{ behandlingId: string }> = ({ behandlingId }) 
                 });
             }
         });
-    }, [axiosRequest, vilkårListe, behandlingId]);
+    }, []);
 
     const opprettVurdering = () => {
         const v: IVurdering = {
