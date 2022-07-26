@@ -114,7 +114,6 @@ export const Vurdering: React.FC<{ behandlingId: string }> = ({ behandlingId }) 
         });
     }, [axiosRequest, settVurderingData, behandlingId]);
 
-
     const opprettVurdering = () => {
         const v: IVurdering = {
             behandlingId: behandlingId,
@@ -200,32 +199,27 @@ export const Vurdering: React.FC<{ behandlingId: string }> = ({ behandlingId }) 
                     ) : (
                         ''
                     )}
-                    {resultat ? (
-                        <AlertStyled variant="success" size="medium" inline>
-                            Du har lagret vurderingen.
-                        </AlertStyled>
-                    ) : (
-                        ''
-                    )}
                     <VurderingKnapper>
-                        <VurderingKnappStyled
-                            variant="primary"
-                            size="medium"
-                            onClick={() => {
-                                opprettVurdering();
-                            }}
-                            disabled={
-                                !(
-                                    vurderingData.vedtak == VedtakValg.OPPRETTHOLD_VEDTAK ||
-                                    vurderingData.vedtak == VedtakValg.OMGJØR_VEDTAK
-                                ) ||
-                                vurderingData.beskrivelse.length == 0 ||
-                                (vurderingData.arsak == ÅrsakValg.VELG &&
-                                    vurderingData.hjemmel == HjemmelValg.VELG)
-                            }
-                        >
-                            Lagre vurdering
-                        </VurderingKnappStyled>
+                        {!resultat && (
+                            <VurderingKnappStyled
+                                variant="primary"
+                                size="medium"
+                                onClick={() => {
+                                    opprettVurdering();
+                                }}
+                                disabled={
+                                    !(
+                                        vurderingData.vedtak == VedtakValg.OPPRETTHOLD_VEDTAK ||
+                                        vurderingData.vedtak == VedtakValg.OMGJØR_VEDTAK
+                                    ) ||
+                                    vurderingData.beskrivelse.length == 0 ||
+                                    (vurderingData.arsak == ÅrsakValg.VELG &&
+                                        vurderingData.hjemmel == HjemmelValg.VELG)
+                                }
+                            >
+                                Lagre vurdering
+                            </VurderingKnappStyled>
+                        )}
                         {resultat && (
                             <Button
                                 onClick={() =>
@@ -245,6 +239,13 @@ export const Vurdering: React.FC<{ behandlingId: string }> = ({ behandlingId }) 
                             </Button>
                         )}
                     </VurderingKnapper>
+                    {resultat ? (
+                        <AlertStyled variant="success" size="medium" inline>
+                            Du har lagret vurderingen.
+                        </AlertStyled>
+                    ) : (
+                        ''
+                    )}
                 </>
             )}
         </div>
