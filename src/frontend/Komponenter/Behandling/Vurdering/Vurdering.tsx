@@ -26,7 +26,6 @@ import { IFormVilkår, VilkårStatus } from '../Formkrav/utils';
 import { hentBehandlingIdFraUrl } from '../BehandlingContainer';
 import { useNavigate } from 'react-router-dom';
 import { useBehandling } from '../../../App/context/BehandlingContext';
-import { StegType } from '../../../App/typer/fagsak';
 
 const VurderingBeskrivelseStyled = styled.div`
     margin: 2rem 4rem 2rem 4rem;
@@ -76,27 +75,9 @@ export const Vurdering: React.FC<{ behandlingId: string }> = ({ behandlingId }) 
         settResultat(false);
     }, [vurderingData, settResultat]);
 
-    // Hent eksisterende vurderingsdata
-    useEffect(() => {
-        axiosRequest<IVurdering, string>({
-            method: 'GET',
-            url: `/familie-klage/api/vurdering/${behandlingId}`,
-        }).then((res: Ressurs<IVurdering>) => {
-            if (res.status === RessursStatus.SUKSESS) {
-                settVurderingData({
-                    behandlingId: behandlingId,
-                    vedtak: res.data.vedtak,
-                    arsak: res.data.arsak,
-                    hjemmel: res.data.hjemmel,
-                    beskrivelse: res.data.beskrivelse,
-                });
-            }
-        });
-    }, [axiosRequest, vilkårListe, behandlingId]);
-
     // Hent data fra formkrav
     useEffect(() => {
-        axiosRequest<IFormVilkår, string>({
+        axiosRequest<IFormVilkår, null>({
             method: 'GET',
             url: `/familie-klage/api/formkrav/vilkar/${behandlingId}`,
         }).then((res: Ressurs<IFormVilkår>) => {
@@ -115,6 +96,24 @@ export const Vurdering: React.FC<{ behandlingId: string }> = ({ behandlingId }) 
             }
         });
     }, [axiosRequest, behandlingId]);
+
+    // Hent eksisterende vurderingsdata
+    useEffect(() => {
+        axiosRequest<IVurdering, null>({
+            method: 'GET',
+            url: `/familie-klage/api/vurdering/${behandlingId}`,
+        }).then((res: Ressurs<IVurdering>) => {
+            if (res.status === RessursStatus.SUKSESS) {
+                settVurderingData({
+                    behandlingId: behandlingId,
+                    vedtak: res.data.vedtak,
+                    arsak: res.data.arsak,
+                    hjemmel: res.data.hjemmel,
+                    beskrivelse: res.data.beskrivelse,
+                });
+            }
+        });
+    }, [axiosRequest, vilkårListe, behandlingId]);
 
     const opprettVurdering = () => {
         const v: IVurdering = {

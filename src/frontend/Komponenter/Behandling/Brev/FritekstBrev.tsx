@@ -155,7 +155,7 @@ const FritekstBrev: React.FC<Props> = ({
             endreBrevType(type);
             settOverskiftOgAvsnitt(type);
         });
-    }, [axiosRequest, behandlingId]);
+    }, [axiosRequest, behandlingId, settOverskiftOgAvsnitt]);
 
     useEffect(() => {
         if (mellomlagretFritekstbrev) {
@@ -173,7 +173,7 @@ const FritekstBrev: React.FC<Props> = ({
     };
 
     return (
-        <DataViewer response={{ behandling }}>
+        <DataViewer response={{ behandling }} key={behandlingId}>
             {({ behandling }) => (
                 <StyledBrev>
                     <h1>Fritekstbrev for {stønadstypeTilTekst[behandling.stonadsType]}</h1>
