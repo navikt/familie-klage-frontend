@@ -126,7 +126,7 @@ export const Formvilkår: React.FC<IFormvilkårKomponent> = ({
             settVilkårTom(false);
             settFormkravGyldig(false);
         }
-    }, []);
+    }, [axiosRequest, behandlingId, låst, settFormkravGyldig, settVilkårTom, vilkårTom]);
 
     const vilkårErGyldig = (): boolean => {
         const svarListe = [
