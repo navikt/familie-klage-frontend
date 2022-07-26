@@ -33,7 +33,7 @@ export const Hjemmel: React.FC<IHjemmel> = ({
             </Heading>
             <HjemmelInnholdStyled>
                 <Select
-                    defaultValue={HjemmelValg.VELG}
+                    defaultValue={hjemmelValgt}
                     label=""
                     size="medium"
                     onChange={(e) => {

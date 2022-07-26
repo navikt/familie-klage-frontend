@@ -3,8 +3,8 @@ import { BrukerMedBlyantIkon } from '../../../Felles/Ikoner/DataGrunnlagIkoner';
 import navFarger from 'nav-frontend-core';
 import { Detail, Label } from '@navikt/ds-react';
 import styled from 'styled-components';
-import { Steg, stegTilTekst } from './behandlingshistorikk';
 import { formaterIsoDatoTid } from '../../../App/utils/formatter';
+import { behandlingStegFullførtTilTekst, StegType } from '../../../App/typer/fagsak';
 
 const Oppdatering = styled.div`
     display: flex;
@@ -26,15 +26,17 @@ const TekstligInformasjon = styled.div`
 `;
 
 interface IHistorikkOppdatering {
-    steg: Steg;
+    steg?: StegType;
     opprettetAv: string;
     endretTid: string;
+    opprettet: boolean;
 }
 
 const HistorikkOppdatering: React.FunctionComponent<IHistorikkOppdatering> = ({
     steg,
     opprettetAv,
     endretTid,
+    opprettet,
 }) => {
     return (
         <Oppdatering>
@@ -46,7 +48,11 @@ const HistorikkOppdatering: React.FunctionComponent<IHistorikkOppdatering> = ({
                 <StripletLinje />
             </StyledIkon>
             <TekstligInformasjon>
-                <Label size="small">{stegTilTekst[steg]}</Label>
+                {opprettet || !steg ? (
+                    <Label size="small">Behandling er opprettet</Label>
+                ) : (
+                    <Label size="small">{behandlingStegFullførtTilTekst[steg]}</Label>
+                )}
                 <Detail size="small">
                     {formaterIsoDatoTid(endretTid)} | {opprettetAv}
                 </Detail>

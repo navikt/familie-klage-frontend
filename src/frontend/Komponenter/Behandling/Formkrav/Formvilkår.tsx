@@ -231,6 +231,7 @@ export const Formvilkår: React.FC<IFormvilkårKomponent> = ({
                     redigerHandling={låsOppFormVilkår}
                     saksbehandlerBegrunnelse={formData.saksbehandlerBegrunnelse}
                     endretTid={formData.endretTid}
+                    behandlingId={behandlingId}
                 />
             )}
         </VilkårStyling>

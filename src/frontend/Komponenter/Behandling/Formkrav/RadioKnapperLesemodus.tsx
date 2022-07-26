@@ -20,6 +20,7 @@ import { useApp } from '../../../App/context/AppContext';
 import { Button, Heading } from '@navikt/ds-react';
 import { useNavigate } from 'react-router-dom';
 import { formaterIsoDatoTid } from '../../../App/utils/formatter';
+import { StegType } from '../../../App/typer/fagsak';
 
 export const RadSentrertVertikalt = styled.div`
     display: flex;
@@ -87,6 +88,7 @@ export const RadioknapperLesemodus: React.FC<IRadioKnapperLeseModus> = ({
     redigerHandling,
     saksbehandlerBegrunnelse,
     endretTid,
+    behandlingId,
 }) => {
     const { settFormkravLåst, settVilkårTom, formkravGyldig, formkravBesvart } = useBehandling();
     const { axiosRequest } = useApp();
@@ -109,6 +111,7 @@ export const RadioknapperLesemodus: React.FC<IRadioKnapperLeseModus> = ({
         settVilkårTom(true);
         settFormkravLåst(false);
     };
+
     return (
         <FormKravStyling>
             <VilkårHeader>

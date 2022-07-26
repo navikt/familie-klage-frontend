@@ -155,7 +155,7 @@ const FritekstBrev: React.FC<Props> = ({
             endreBrevType(type);
             settOverskiftOgAvsnitt(type);
         });
-    }, [axiosRequest, behandlingId]);
+    }, [axiosRequest, behandlingId, settOverskiftOgAvsnitt]);
 
     useEffect(() => {
         if (mellomlagretFritekstbrev) {

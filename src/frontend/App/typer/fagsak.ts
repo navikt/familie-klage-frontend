@@ -34,25 +34,47 @@ export enum Fagsystem {
     KS = 'KS',
 }
 
-export enum BehandlingSteg {
-    FORMALKRAV = 'FORMALKRAV',
+export enum StegType {
+    FORMKRAV = 'FORMKRAV',
     VURDERING = 'VURDERING',
-    KABAL = 'KABAL',
+    BREV = 'BREV',
+    SEND_TIL_BESLUTTER = 'SEND_TIL_BESLUTTER',
+    VENTE_PÅ_SVAR_FRA_BESLUTTER = 'VENTE_PÅ_SVAR_FRA_BESLUTTER',
     BEHANDLING_FERDIGSTILT = 'BEHANDLING_FERDIGSTILT',
 }
 
-export const behandlingStegTilTekst: Record<BehandlingSteg, string> = {
-    FORMALKRAV: 'Formalkrav',
+export const StegTypeListe: StegType[] = [
+    StegType.FORMKRAV,
+    StegType.VURDERING,
+    StegType.BREV,
+    StegType.SEND_TIL_BESLUTTER,
+    StegType.VENTE_PÅ_SVAR_FRA_BESLUTTER,
+    StegType.BEHANDLING_FERDIGSTILT,
+];
+
+export const behandlingStegTilTekst: Record<StegType, string> = {
+    FORMKRAV: 'Formkrav',
     VURDERING: 'Vurdering',
-    KABAL: 'Kabal',
-    BEHANDLING_FERDIGSTILT: 'Behandling ferdigstilt',
+    BREV: 'Brev',
+    SEND_TIL_BESLUTTER: 'Sende til beslutter',
+    VENTE_PÅ_SVAR_FRA_BESLUTTER: 'Vente på svar',
+    BEHANDLING_FERDIGSTILT: 'Fullført',
+};
+
+export const behandlingStegFullførtTilTekst: Record<StegType, string> = {
+    FORMKRAV: 'Formkrav er oppdatert',
+    VURDERING: 'Vurdering er oppdatert',
+    BREV: 'Brev er oppdatert',
+    SEND_TIL_BESLUTTER: 'Klage er sendt til beslutter',
+    VENTE_PÅ_SVAR_FRA_BESLUTTER: 'Venter på svar fra beslutter',
+    BEHANDLING_FERDIGSTILT: 'Klagen er ferdigstilt',
 };
 
 export interface Behandling {
     id: string;
     fagsakId: string;
     personId: string;
-    steg: BehandlingSteg;
+    steg: StegType;
     status: BehandlingStatus;
     sistEndret: string;
     opprettet: string;

@@ -42,7 +42,7 @@ export const Vedtak: React.FC<IVedtak> = ({
             </Heading>
             <VedtakInnholdStyled>
                 <Select
-                    defaultValue={ÅrsakValg.VELG}
+                    defaultValue={vedtakValgt}
                     label=""
                     size="medium"
                     onChange={(e) => {

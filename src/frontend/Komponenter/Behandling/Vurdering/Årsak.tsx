@@ -33,7 +33,7 @@ export const Årsak: React.FC<IÅrsak> = ({
             </Heading>
             <ÅrsakInnholdStyled>
                 <Select
-                    defaultValue={ÅrsakValg.VELG}
+                    defaultValue={årsakValgt}
                     label=""
                     size="medium"
                     onChange={(e) => {
