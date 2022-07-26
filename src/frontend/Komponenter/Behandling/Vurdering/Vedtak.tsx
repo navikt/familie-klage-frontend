@@ -26,15 +26,6 @@ export const Vedtak: React.FC<IVedtak> = ({
     vedtakValgmuligheter,
     endring,
 }) => {
-    const oppdaterVedtak = (nyttValg: string) => {
-        settVedtak((tidligereTilstand: IVurdering) => ({
-            ...tidligereTilstand,
-            vedtak: nyttValg,
-            arsak: ÅrsakValg.VELG,
-            hjemmel: HjemmelValg.VELG,
-        }));
-    };
-
     return (
         <VedtakStyled>
             <Heading spacing size="medium" level="5">
@@ -42,12 +33,16 @@ export const Vedtak: React.FC<IVedtak> = ({
             </Heading>
             <VedtakInnholdStyled>
                 <Select
-                    defaultValue={vedtakValgt}
+                    value={vedtakValgt}
                     label=""
                     size="medium"
                     onChange={(e) => {
+                        console.log(e.target.value);
                         endring(e.target.value);
-                        oppdaterVedtak(e.target.value);
+                        settVedtak((tidligereTilstand: IVurdering) => ({
+                            ...tidligereTilstand,
+                            vedtak: e.target.value,
+                        }));
                     }}
                     hideLabel
                 >
