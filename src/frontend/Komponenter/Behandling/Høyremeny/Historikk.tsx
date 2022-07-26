@@ -24,11 +24,6 @@ const Historikk: React.FC<{ behandling: Behandling }> = ({ behandling }) => {
 
     return (
         <div>
-            <HistorikkOppdatering
-                opprettet={true}
-                endretTid={behandling.opprettet}
-                opprettetAv={behandling.personId}
-            />
             {behandlingshistorikk.map((behandlingshistorikk) => (
                 <HistorikkOppdatering
                     key={behandlingshistorikk.id}
@@ -38,6 +33,11 @@ const Historikk: React.FC<{ behandling: Behandling }> = ({ behandling }) => {
                     opprettet={false}
                 />
             ))}
+            <HistorikkOppdatering
+                opprettet={true}
+                endretTid={behandling.opprettet}
+                opprettetAv={behandling.personId}
+            />
         </div>
     );
 };
