@@ -114,6 +114,7 @@ export const Vurdering: React.FC<{ behandlingId: string }> = ({ behandlingId }) 
         });
     }, [axiosRequest, settVurderingData, behandlingId]);
 
+
     const opprettVurdering = () => {
         const v: IVurdering = {
             behandlingId: behandlingId,
