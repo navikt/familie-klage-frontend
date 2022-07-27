@@ -98,7 +98,6 @@ export const Formvilkår: React.FC<IFormvilkårKomponent> = ({
             data: formData,
         }).then((res: Ressurs<IFormVilkår>) => {
             if (res.status === RessursStatus.SUKSESS) {
-                console.log(res.data);
                 settFormVilkårData((prevState: IFormVilkår) => ({
                     ...prevState,
                     endretTid: res.data.endretTid,

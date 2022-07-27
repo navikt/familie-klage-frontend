@@ -77,7 +77,6 @@ export const Formkrav: React.FC<{ behandlingId: string }> = ({ behandlingId }) =
             method: 'GET',
             url: `/familie-klage/api/formkrav/vilkar/${behandlingId}`,
         }).then((res: Ressurs<IFormVilkår>) => {
-            console.log(res);
             if (res.status === RessursStatus.SUKSESS && res.data != null) {
                 settFormkravLåst(true);
                 settFormVilkårData((prevState) => ({
