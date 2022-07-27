@@ -51,25 +51,12 @@ export const Vurdering: React.FC<{ behandlingId: string }> = ({ behandlingId }) 
     const navigate = useNavigate();
     const { settVurderingSideGyldig } = useBehandling();
 
-    const vurderingObject: IVurdering = {
-        behandlingId: behandlingId,
-        vedtak: VedtakValg.VELG,
-        arsak: ÅrsakValg.VELG,
-        hjemmel: HjemmelValg.VELG,
-        beskrivelse: '',
-    };
-
-    const [vurderingData, settVurderingData] = useState<IVurdering>(vurderingObject);
-
-    const [vurderingEndret, settVurderingEndret] = useState(false);
+    const { vurderingData, settVurderingData, vurderingEndret, settVurderingEndret } =
+        useBehandling();
 
     // Endringer
     const { axiosRequest, nullstillIkkePersisterteKomponenter, settIkkePersistertKomponent } =
         useApp();
-
-    useEffect(() => {
-        settVurderingEndret(false);
-    }, [vurderingData, settVurderingEndret]);
 
     // Hent data fra formkrav
     useEffect(() => {
@@ -109,7 +96,7 @@ export const Vurdering: React.FC<{ behandlingId: string }> = ({ behandlingId }) 
                 });
             }
         });
-    }, [axiosRequest, behandlingId]);
+    }, [axiosRequest, behandlingId, settVurderingData]);
 
     const opprettVurdering = () => {
         axiosRequest<IVurdering, IVurdering>({
@@ -118,7 +105,7 @@ export const Vurdering: React.FC<{ behandlingId: string }> = ({ behandlingId }) 
             data: vurderingData,
         }).then((res: Ressurs<IVurdering>) => {
             if (res.status === RessursStatus.SUKSESS) {
-                settVurderingEndret(true);
+                settVurderingEndret(false);
                 nullstillIkkePersisterteKomponenter();
                 settVurderingSideGyldig(true);
             }
@@ -177,6 +164,7 @@ export const Vurdering: React.FC<{ behandlingId: string }> = ({ behandlingId }) 
                                         ...tidligereTilstand,
                                         beskrivelse: e.target.value,
                                     }));
+                                    settVurderingEndret(true);
                                 }}
                                 size="medium"
                             />
@@ -185,7 +173,7 @@ export const Vurdering: React.FC<{ behandlingId: string }> = ({ behandlingId }) 
                         ''
                     )}
                     <VurderingKnapper>
-                        {!vurderingEndret && (
+                        {vurderingEndret && (
                             <Button
                                 variant="primary"
                                 size="medium"
@@ -205,7 +193,7 @@ export const Vurdering: React.FC<{ behandlingId: string }> = ({ behandlingId }) 
                                 Lagre vurdering
                             </Button>
                         )}
-                        {vurderingEndret && (
+                        {!vurderingEndret && (
                             <Button
                                 variant="primary"
                                 size="medium"
@@ -217,7 +205,7 @@ export const Vurdering: React.FC<{ behandlingId: string }> = ({ behandlingId }) 
                             </Button>
                         )}
                     </VurderingKnapper>
-                    {vurderingEndret ? (
+                    {!vurderingEndret ? (
                         <AlertStyled variant="success" size="medium" inline>
                             Du har lagret vurderingen.
                         </AlertStyled>

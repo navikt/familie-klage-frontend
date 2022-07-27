@@ -3,6 +3,7 @@ import { Heading, Select } from '@navikt/ds-react';
 import styled from 'styled-components';
 import { Dispatch, SetStateAction } from 'react';
 import { HjemmelValg, IVurdering, VedtakValg, ÅrsakValg } from './vurderingValg';
+import { useBehandling } from '../../../App/context/BehandlingContext';
 
 const VedtakStyled = styled.div`
     margin: 2rem 4rem 2rem 4rem;
@@ -26,6 +27,16 @@ export const Vedtak: React.FC<IVedtak> = ({
     vedtakValgmuligheter,
     endring,
 }) => {
+    const oppdaterVedtak = (nyttValg: string) => {
+        settVedtak((tidligereTilstand: IVurdering) => ({
+            ...tidligereTilstand,
+            vedtak: nyttValg,
+            arsak: ÅrsakValg.VELG,
+            hjemmel: HjemmelValg.VELG,
+        }));
+    };
+
+    const { settVurderingEndret } = useBehandling();
     return (
         <VedtakStyled>
             <Heading spacing size="medium" level="5">
@@ -37,12 +48,9 @@ export const Vedtak: React.FC<IVedtak> = ({
                     label=""
                     size="medium"
                     onChange={(e) => {
-                        console.log(e.target.value);
                         endring(e.target.value);
-                        settVedtak((tidligereTilstand: IVurdering) => ({
-                            ...tidligereTilstand,
-                            vedtak: e.target.value,
-                        }));
+                        oppdaterVedtak(e.target.value);
+                        settVurderingEndret(true);
                     }}
                     hideLabel
                 >
