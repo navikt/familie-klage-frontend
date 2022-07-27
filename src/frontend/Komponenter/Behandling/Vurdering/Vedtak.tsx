@@ -39,6 +39,7 @@ export const Vedtak: React.FC<IVedtak> = ({
         }));
     };
 
+    const { settVurderingEndret } = useBehandling();
     return (
         <VedtakStyled>
             <Heading spacing size="medium" level="5">
@@ -46,12 +47,13 @@ export const Vedtak: React.FC<IVedtak> = ({
             </Heading>
             <VedtakInnholdStyled>
                 <Select
-                    defaultValue={vedtakValgt}
+                    value={vedtakValgt}
                     label=""
                     size="medium"
                     onChange={(e) => {
                         endring(e.target.value);
                         oppdaterVedtak(e.target.value);
+                        settVurderingEndret(true);
                     }}
                     hideLabel
                 >
