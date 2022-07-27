@@ -105,7 +105,6 @@ export const Vurdering: React.FC<{ behandlingId: string }> = ({ behandlingId }) 
             data: vurderingData,
         }).then((res: Ressurs<IVurdering>) => {
             if (res.status === RessursStatus.SUKSESS) {
-                settVurderingEndret(false);
                 nullstillIkkePersisterteKomponenter();
                 settVurderingSideGyldig(true);
                 settBrevSteg(true);
@@ -182,6 +181,7 @@ export const Vurdering: React.FC<{ behandlingId: string }> = ({ behandlingId }) 
                                 size="medium"
                                 onClick={() => {
                                     opprettVurdering();
+                                    settVurderingEndret(false);
                                 }}
                                 disabled={
                                     !(

@@ -76,7 +76,7 @@ const [BehandlingProvider, useBehandling] = constate(() => {
 
     const [vilkårTom, settVilkårTom] = useState<boolean>(false);
 
-    const [vurderingEndret, settVurderingEndret] = useState(false);
+    const [vurderingEndret, settVurderingEndret] = useState(true);
 
     const vurderingObject: IVurdering = {
         behandlingId: behandlingId,
