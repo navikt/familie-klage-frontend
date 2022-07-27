@@ -27,7 +27,10 @@ export const Vedtak: React.FC<IVedtak> = ({
     vedtakValgmuligheter,
     endring,
 }) => {
+    const { settBrevSteg, settResultatSteg } = useBehandling();
     const oppdaterVedtak = (nyttValg: string) => {
+        settBrevSteg(false);
+        settResultatSteg(false);
         settVedtak((tidligereTilstand: IVurdering) => ({
             ...tidligereTilstand,
             vedtak: nyttValg,

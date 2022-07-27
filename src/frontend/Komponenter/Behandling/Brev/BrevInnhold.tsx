@@ -1,4 +1,4 @@
-import React, { ChangeEventHandler } from 'react';
+import React, { ChangeEvent } from 'react';
 import { AvsnittMedId, FritekstBrevtype, FrittståendeBrevtype } from './BrevTyper';
 import styled from 'styled-components';
 import { Input, Textarea } from 'nav-frontend-skjema';
@@ -50,8 +50,8 @@ export interface IBrevInnhold {
     endreOverskrift: (nyOverskrift: string) => void;
     avsnitt: AvsnittMedId[];
     endreAvsnitt: (avsnitt: AvsnittMedId[]) => void;
-    endreDeloverskriftAvsnitt: (radId: string) => ChangeEventHandler<HTMLInputElement>;
-    endreInnholdAvsnitt: (radId: string) => ChangeEventHandler<HTMLTextAreaElement>;
+    endreDeloverskriftAvsnitt: (radId: string, e: ChangeEvent<HTMLInputElement>) => AvsnittMedId[];
+    endreInnholdAvsnitt: (radId: string, e: ChangeEvent<HTMLTextAreaElement>) => AvsnittMedId[];
     fjernRad: (radId: string) => void;
     leggTilAvsnittFørst: () => void;
     leggAvsnittBakSisteSynligeAvsnitt: () => void;
@@ -105,13 +105,13 @@ const BrevInnhold: React.FC<IBrevInnhold> = ({
                     <ToKolonneLayout id={toKolonneId}>
                         <Innholdsrad key={rad.avsnittId} border>
                             <Input
-                                onChange={endreDeloverskriftAvsnitt(rad.avsnittId)}
+                                onChange={(e) => endreDeloverskriftAvsnitt(rad.avsnittId, e)}
                                 label="Deloverskrift (valgfri)"
                                 id={deloverskriftId}
                                 value={rad.deloverskrift}
                             />
                             <Textarea
-                                onChange={endreInnholdAvsnitt(rad.avsnittId)}
+                                onChange={(e) => endreInnholdAvsnitt(rad.avsnittId, e)}
                                 label="Innhold"
                                 id={innholdId}
                                 value={rad.innhold}

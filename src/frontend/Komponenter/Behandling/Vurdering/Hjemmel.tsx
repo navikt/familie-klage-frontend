@@ -27,7 +27,7 @@ export const Hjemmel: React.FC<IHjemmel> = ({
     hjemmelValgt,
     endring,
 }) => {
-    const { settVurderingEndret } = useBehandling();
+    const { settVurderingEndret, settBrevSteg, settResultatSteg } = useBehandling();
     return (
         <HjemmelStyled>
             <Heading spacing size="medium" level="5">
@@ -40,6 +40,8 @@ export const Hjemmel: React.FC<IHjemmel> = ({
                     label=""
                     size="medium"
                     onChange={(e) => {
+                        settBrevSteg(false);
+                        settResultatSteg(false);
                         endring(e.target.value);
                         settHjemmel((tidligereTilstand: IVurdering) => ({
                             ...tidligereTilstand,
