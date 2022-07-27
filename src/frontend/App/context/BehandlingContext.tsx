@@ -10,6 +10,12 @@ import { useHentTotrinnskontroll } from '../hooks/useHentTotrinnStatus';
 import { useHentRegler } from '../hooks/useHentRegler';
 import { RessursStatus } from '../typer/ressurs';
 import { erBehandlingRedigerbar } from '../typer/behandlingstatus';
+import {
+    HjemmelValg,
+    IVurdering,
+    VedtakValg,
+    ÅrsakValg,
+} from '../../Komponenter/Behandling/Vurdering/vurderingValg';
 import { useHentSteg } from '../hooks/useHentSteg';
 
 const [BehandlingProvider, useBehandling] = constate(() => {
@@ -70,6 +76,17 @@ const [BehandlingProvider, useBehandling] = constate(() => {
 
     const [vilkårTom, settVilkårTom] = useState<boolean>(false);
 
+    const [vurderingEndret, settVurderingEndret] = useState(true);
+
+    const vurderingObject: IVurdering = {
+        behandlingId: behandlingId,
+        vedtak: VedtakValg.VELG,
+        arsak: ÅrsakValg.VELG,
+        hjemmel: HjemmelValg.VELG,
+        beskrivelse: '',
+    };
+    const [vurderingData, settVurderingData] = useState<IVurdering>(vurderingObject);
+
     return {
         behandling,
         behandlingErRedigerbar,
@@ -108,6 +125,10 @@ const [BehandlingProvider, useBehandling] = constate(() => {
         settVurderingSteg,
         formkravSteg,
         settFormkravSteg,
+        vurderingEndret,
+        settVurderingEndret,
+        vurderingData,
+        settVurderingData,
     };
 });
 

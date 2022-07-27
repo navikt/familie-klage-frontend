@@ -42,8 +42,6 @@ const VurderingKnapper = styled.div`
     margin: 0 4rem;
 `;
 
-const VurderingKnappStyled = styled(Button)``;
-
 export const Vurdering: React.FC<{ behandlingId: string }> = ({ behandlingId }) => {
     // Formkravoppsummering
     const [oppfylt, settOppfylt] = useState(0);
@@ -53,26 +51,12 @@ export const Vurdering: React.FC<{ behandlingId: string }> = ({ behandlingId }) 
     const navigate = useNavigate();
     const { settVurderingSideGyldig, settBrevSteg, settResultatSteg } = useBehandling();
 
-    const vurderingObject: IVurdering = {
-        behandlingId: behandlingId,
-        vedtak: VedtakValg.VELG,
-        arsak: ÅrsakValg.VELG,
-        hjemmel: HjemmelValg.VELG,
-        beskrivelse: '',
-    };
-
-    const [vurderingData, settVurderingData] = useState<IVurdering>(vurderingObject);
-
-    // Resultat
-    const [resultat, settResultat] = useState(false);
+    const { vurderingData, settVurderingData, vurderingEndret, settVurderingEndret } =
+        useBehandling();
 
     // Endringer
     const { axiosRequest, nullstillIkkePersisterteKomponenter, settIkkePersistertKomponent } =
         useApp();
-
-    useEffect(() => {
-        settResultat(false);
-    }, [vurderingData, settResultat]);
 
     // Hent data fra formkrav
     useEffect(() => {
@@ -104,7 +88,7 @@ export const Vurdering: React.FC<{ behandlingId: string }> = ({ behandlingId }) 
         }).then((res: Ressurs<IVurdering>) => {
             if (res.status === RessursStatus.SUKSESS) {
                 settVurderingData({
-                    behandlingId: behandlingId,
+                    behandlingId: res.data.behandlingId,
                     vedtak: res.data.vedtak,
                     arsak: res.data.arsak,
                     hjemmel: res.data.hjemmel,
@@ -112,28 +96,15 @@ export const Vurdering: React.FC<{ behandlingId: string }> = ({ behandlingId }) 
                 });
             }
         });
-    }, [axiosRequest, settVurderingData, behandlingId]);
+    }, [axiosRequest, behandlingId, settVurderingData]);
 
     const opprettVurdering = () => {
-        const v: IVurdering = {
-            behandlingId: behandlingId,
-            vedtak: vurderingData.vedtak,
-            beskrivelse: vurderingData.beskrivelse,
-        };
-
-        if (vurderingData.vedtak == VedtakValg.OMGJØR_VEDTAK) {
-            v.arsak = vurderingData.arsak;
-        } else {
-            v.hjemmel = vurderingData.hjemmel;
-        }
-
         axiosRequest<IVurdering, IVurdering>({
             method: 'POST',
             url: `/familie-klage/api/vurdering`,
-            data: v,
+            data: vurderingData,
         }).then((res: Ressurs<IVurdering>) => {
             if (res.status === RessursStatus.SUKSESS) {
-                settResultat(true);
                 nullstillIkkePersisterteKomponenter();
                 settVurderingSideGyldig(true);
                 settBrevSteg(true);
@@ -155,8 +126,8 @@ export const Vurdering: React.FC<{ behandlingId: string }> = ({ behandlingId }) 
                 <>
                     <Vedtak
                         settVedtak={settVurderingData}
-                        vedtakValgmuligheter={vedtakValgTilTekst}
                         vedtakValgt={vurderingData.vedtak}
+                        vedtakValgmuligheter={vedtakValgTilTekst}
                         endring={settIkkePersistertKomponent}
                     />
                     {vurderingData.vedtak == VedtakValg.OMGJØR_VEDTAK &&
@@ -195,6 +166,7 @@ export const Vurdering: React.FC<{ behandlingId: string }> = ({ behandlingId }) 
                                         ...tidligereTilstand,
                                         beskrivelse: e.target.value,
                                     }));
+                                    settVurderingEndret(true);
                                 }}
                                 size="medium"
                             />
@@ -202,37 +174,15 @@ export const Vurdering: React.FC<{ behandlingId: string }> = ({ behandlingId }) 
                     ) : (
                         ''
                     )}
-                    {resultat ? (
-                        <AlertStyled variant="success" size="medium" inline>
-                            Du har lagret vurderingen.
-                        </AlertStyled>
-                    ) : (
-                        ''
-                    )}
                     <VurderingKnapper>
-                        <VurderingKnappStyled
-                            variant="primary"
-                            size="medium"
-                            onClick={() => {
-                                opprettVurdering();
-                            }}
-                            disabled={
-                                !(
-                                    vurderingData.vedtak == VedtakValg.OPPRETTHOLD_VEDTAK ||
-                                    vurderingData.vedtak == VedtakValg.OMGJØR_VEDTAK
-                                ) ||
-                                vurderingData.beskrivelse.length == 0 ||
-                                (vurderingData.arsak == ÅrsakValg.VELG &&
-                                    vurderingData.hjemmel == HjemmelValg.VELG)
-                            }
-                        >
-                            Lagre vurdering
-                        </VurderingKnappStyled>
-                        {resultat && (
+                        {vurderingEndret && (
                             <Button
-                                onClick={() =>
-                                    navigate(`/behandling/${hentBehandlingIdFraUrl()}/brev`)
-                                }
+                                variant="primary"
+                                size="medium"
+                                onClick={() => {
+                                    opprettVurdering();
+                                    settVurderingEndret(false);
+                                }}
                                 disabled={
                                     !(
                                         vurderingData.vedtak == VedtakValg.OPPRETTHOLD_VEDTAK ||
@@ -243,10 +193,28 @@ export const Vurdering: React.FC<{ behandlingId: string }> = ({ behandlingId }) 
                                         vurderingData.hjemmel == HjemmelValg.VELG)
                                 }
                             >
+                                Lagre vurdering
+                            </Button>
+                        )}
+                        {!vurderingEndret && (
+                            <Button
+                                variant="primary"
+                                size="medium"
+                                onClick={() =>
+                                    navigate(`/behandling/${hentBehandlingIdFraUrl()}/brev`)
+                                }
+                            >
                                 Fortsett
                             </Button>
                         )}
                     </VurderingKnapper>
+                    {!vurderingEndret ? (
+                        <AlertStyled variant="success" size="medium" inline>
+                            Du har lagret vurderingen.
+                        </AlertStyled>
+                    ) : (
+                        ''
+                    )}
                 </>
             )}
         </div>
