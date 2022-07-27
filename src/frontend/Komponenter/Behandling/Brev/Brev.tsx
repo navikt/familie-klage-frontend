@@ -44,7 +44,8 @@ export const Brev: React.FC<IBrev> = ({ behandlingId }) => {
     const [kanSendesTilBeslutter, settKanSendesTilBeslutter] = useState<boolean>(false);
     const [ferdigstilt, settFerdigstilt] = useState<boolean>(false);
 
-    const { personopplysningerResponse, behandling, settResultatSteg } = useBehandling();
+    const { personopplysningerResponse, behandling, settResultatSteg, brevEndret, settBrevEndret } =
+        useBehandling();
 
     const { mellomlagretBrev } = useHentBrev(behandlingId);
 
@@ -84,16 +85,19 @@ export const Brev: React.FC<IBrev> = ({ behandlingId }) => {
                         />
                     </DataViewer>
                     <BrevKnapper>
-                        {!ferdigstilt && (
+                        {brevEndret && (
                             <Button
                                 variant="primary"
                                 size="medium"
-                                onClick={() => ferdigstillBrev()}
+                                onClick={() => {
+                                    ferdigstillBrev();
+                                    settBrevEndret(false);
+                                }}
                             >
                                 Ferdigstill
                             </Button>
                         )}
-                        {ferdigstilt && (
+                        {!brevEndret && (
                             <Button
                                 variant="primary"
                                 size="medium"
