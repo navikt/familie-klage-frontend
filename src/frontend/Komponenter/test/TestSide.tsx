@@ -4,9 +4,11 @@ import { Side } from '../../Felles/Visningskomponenter/Side';
 import { Button } from '@navikt/ds-react';
 import { useApp } from '../../App/context/AppContext';
 import { useNavigate } from 'react-router-dom';
-import { Behandling, StegType } from '../../App/typer/fagsak';
+import { Behandling } from '../../App/typer/fagsak';
 import { HjemmelValg, IVurdering, VedtakValg } from '../Behandling/Vurdering/vurderingValg';
 import { IFormVilkår, VilkårStatus } from '../Behandling/Formkrav/utils';
+import { FritekstBrevtype, IFritekstBrev } from '../Behandling/Brev/BrevTyper';
+import { Ressurs } from '../../App/typer/ressurs';
 
 const StyledTest = styled.div`
     display: flex;
@@ -20,26 +22,12 @@ export const TestSide: React.FC = () => {
     const navigate = useNavigate();
 
     const lagBehandling = (url: string) => {
-        const finnSteg = () => {
-            if (url === 'resultat') return StegType.BEHANDLING_FERDIGSTILT;
-            else if (url === 'brev') return StegType.BREV;
-            else if (url === 'vurdering') return StegType.VURDERING;
-            else return StegType.FORMKRAV;
-        };
         axiosRequest<Behandling, null>({
             method: 'POST',
             url: `/familie-klage/api/behandling`,
         }).then((res) => {
             if (res.status === 'SUKSESS') {
                 navigate(`/behandling/${res.data.id}/${url}`);
-                const behandlingSteg = {
-                    stegType: finnSteg(),
-                };
-                axiosRequest<string, { stegType: StegType }>({
-                    method: 'POST',
-                    url: `/familie-klage/api/behandling/${res.data.id}`,
-                    data: behandlingSteg,
-                });
                 if (url !== '') {
                     // formkravrequest
                     const formObjekt: IFormVilkår = {
@@ -75,9 +63,24 @@ export const TestSide: React.FC = () => {
 
                         if (url !== 'brev') {
                             // brevrequest
-                            axiosRequest<null, null>({
+                            const brev: IFritekstBrev = {
+                                overskrift: 'Overskrift',
+                                avsnitt: [],
+                                behandlingId: res.data.id,
+                                brevType: FritekstBrevtype.VEDTAK_AVSLAG_BARNETILSYN,
+                            };
+
+                            axiosRequest<string, IFritekstBrev>({
                                 method: 'POST',
-                                url: `/familie-klage/api/behandling/ferdigstill/${res.data.id}`,
+                                url: `/familie-klage/api/brev/`,
+                                data: brev,
+                            }).then((brevRes: Ressurs<string>) => {
+                                if (brevRes.status === 'SUKSESS') {
+                                    axiosRequest<null, null>({
+                                        method: 'POST',
+                                        url: `/familie-klage/api/behandling/ferdigstill/${res.data.id}`,
+                                    });
+                                }
                             });
                         }
                     }

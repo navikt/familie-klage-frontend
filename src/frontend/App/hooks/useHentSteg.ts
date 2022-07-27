@@ -1,8 +1,7 @@
 import { useApp } from '../context/AppContext';
 import { useCallback, useEffect, useState } from 'react';
 import { Ressurs } from '../typer/ressurs';
-import { Behandling, StegType } from '../typer/fagsak';
-import { useHentBehandling } from './useHentBehandling';
+import { Behandling } from '../typer/fagsak';
 
 export const useHentSteg = (behandlingId: string) => {
     const { axiosRequest } = useApp();
@@ -12,16 +11,7 @@ export const useHentSteg = (behandlingId: string) => {
     const [brevSteg, settBrevSteg] = useState(false);
     const [resultatSteg, settResultatSteg] = useState(false);
 
-    const { behandling, hentBehandlingCallback } = useHentBehandling(behandlingId);
-
-    const finnSteg = useCallback(() => {
-        if (resultatSteg) return StegType.BEHANDLING_FERDIGSTILT;
-        else if (brevSteg) return StegType.BREV;
-        else if (vurderingSteg) return StegType.VURDERING;
-        else return StegType.FORMKRAV;
-    }, [brevSteg, resultatSteg, vurderingSteg]);
-
-    useEffect(() => {
+    const hentSteg = useCallback(() => {
         axiosRequest<Behandling, null>({
             method: 'GET',
             url: `/familie-klage/api/behandling/${behandlingId}`,
@@ -39,31 +29,11 @@ export const useHentSteg = (behandlingId: string) => {
                 }
             }
         });
-    }, [axiosRequest, behandlingId]);
+    }, [axiosRequest, behandlingId, formkravSteg, vurderingSteg, brevSteg, resultatSteg]);
 
     useEffect(() => {
-        if (behandling.status === 'IKKE_HENTET') hentBehandlingCallback();
-        else if (behandling.status === 'SUKSESS') {
-            const behandlingSteg = {
-                stegType: finnSteg(),
-            };
-            axiosRequest<string, { stegType: StegType }>({
-                method: 'POST',
-                url: `/familie-klage/api/behandling/${behandlingId}`,
-                data: behandlingSteg,
-            });
-        }
-    }, [
-        settBrevSteg,
-        settResultatSteg,
-        settVurderingSteg,
-        settFormkravSteg,
-        axiosRequest,
-        behandling,
-        behandlingId,
-        finnSteg,
-        hentBehandlingCallback,
-    ]);
+        hentSteg();
+    }, [axiosRequest, behandlingId, formkravSteg, vurderingSteg, brevSteg, resultatSteg, hentSteg]);
 
     return {
         brevSteg,
