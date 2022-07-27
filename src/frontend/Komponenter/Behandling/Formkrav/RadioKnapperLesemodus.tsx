@@ -20,7 +20,6 @@ import { useApp } from '../../../App/context/AppContext';
 import { Button, Heading } from '@navikt/ds-react';
 import { useNavigate } from 'react-router-dom';
 import { formaterIsoDatoTid } from '../../../App/utils/formatter';
-import { StegType } from '../../../App/typer/fagsak';
 
 export const RadSentrertVertikalt = styled.div`
     display: flex;
@@ -88,9 +87,10 @@ export const RadioknapperLesemodus: React.FC<IRadioKnapperLeseModus> = ({
     redigerHandling,
     saksbehandlerBegrunnelse,
     endretTid,
-    behandlingId,
+    settFormVilkårData,
+    settFormkravGyldig,
 }) => {
-    const { settFormkravLåst, settVilkårTom, formkravGyldig, formkravBesvart } = useBehandling();
+    const { settFormkravLåst, formkravGyldig, formkravBesvart } = useBehandling();
     const { axiosRequest } = useApp();
     const navigate = useNavigate();
     const slettHandling = () => {
@@ -103,12 +103,21 @@ export const RadioknapperLesemodus: React.FC<IRadioKnapperLeseModus> = ({
             saksbehandlerBegrunnelse: '',
         };
 
+        settFormVilkårData((prevState: IFormVilkår) => ({
+            ...prevState,
+            klagePart: VilkårStatus.IKKE_SATT,
+            klageKonkret: VilkårStatus.IKKE_SATT,
+            klagefristOverholdt: VilkårStatus.IKKE_SATT,
+            klageSignert: VilkårStatus.IKKE_SATT,
+            saksbehandlerBegrunnelse: '',
+        }));
+        settFormkravGyldig(false);
+
         axiosRequest<IFormVilkår, IVilkårNullstill>({
             method: 'POST',
             url: `/familie-klage/api/formkrav`,
             data: nullstilteVilkår,
         });
-        settVilkårTom(true);
         settFormkravLåst(false);
     };
 

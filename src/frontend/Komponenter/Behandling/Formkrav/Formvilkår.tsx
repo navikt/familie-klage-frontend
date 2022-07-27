@@ -1,10 +1,9 @@
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 import styled from 'styled-components';
 import { Button, Radio, RadioGroup, Textarea } from '@navikt/ds-react';
 import { RadioknapperLesemodus } from './RadioKnapperLesemodus';
 import { useApp } from '../../../App/context/AppContext';
 import { Ressurs, RessursStatus } from '../../../App/typer/ressurs';
-import { useBehandling } from '../../../App/context/BehandlingContext';
 import { IFormVilkår, IFormvilkårKomponent, IRadioKnapper, VilkårStatus } from './utils';
 
 const VilkårStyling = styled.div`
@@ -49,84 +48,15 @@ const ButtonStyled = styled(Button)`
 `;
 
 export const Formvilkår: React.FC<IFormvilkårKomponent> = ({
-    behandlingId,
     settFormkravGyldig,
     låst,
     settLåst,
+    formData,
+    settFormkravBesvart,
+    settFormVilkårData,
 }) => {
-    const { vilkårTom, settVilkårTom, settFormkravBesvart } = useBehandling();
     const { axiosRequest, nullstillIkkePersisterteKomponenter, settIkkePersistertKomponent } =
         useApp();
-
-    const dateString = new Date().toISOString().split('T')[0];
-    const formObjekt: IFormVilkår = {
-        behandlingId: behandlingId,
-        fagsakId: 'b0fa4cae-a676-44b3-8725-232dac935c4a',
-        klagePart: VilkårStatus.IKKE_SATT,
-        klageKonkret: VilkårStatus.IKKE_SATT,
-        klagefristOverholdt: VilkårStatus.IKKE_SATT,
-        klageSignert: VilkårStatus.IKKE_SATT,
-        saksbehandlerBegrunnelse: '',
-        endretTid: dateString,
-    };
-
-    const [formData, settFormData] = useState<IFormVilkår>(formObjekt);
-    const radioKnapperLeseListe: IRadioKnapper[] = [
-        {
-            spørsmål: 'Er klager part i saken?',
-            svar: formData.klagePart,
-            navn: 'klagePart',
-        },
-        {
-            spørsmål: 'Klages det på konkrete elementer i vedtaket',
-            svar: formData.klageKonkret,
-            navn: 'klageKonkret',
-        },
-        {
-            spørsmål: 'Er klagefristen overholdt?',
-            svar: formData.klagefristOverholdt,
-            navn: 'klagefristOverholdt',
-        },
-        {
-            spørsmål: 'Er klagen signert?',
-            svar: formData.klageSignert,
-            navn: 'klageSignert',
-        },
-    ];
-
-    useEffect(() => {
-        if (låst) {
-            axiosRequest<IFormVilkår, null>({
-                method: 'GET',
-                url: `/familie-klage/api/formkrav/vilkar/${behandlingId}`,
-            }).then((res: Ressurs<IFormVilkår>) => {
-                if (res.status === RessursStatus.SUKSESS) {
-                    settFormData((prevState) => ({
-                        ...prevState,
-                        fagsakId: res.data.fagsakId,
-                        klagePart: res.data.klagePart,
-                        klageKonkret: res.data.klageKonkret,
-                        klagefristOverholdt: res.data.klagefristOverholdt,
-                        klageSignert: res.data.klageSignert,
-                        saksbehandlerBegrunnelse: res.data.saksbehandlerBegrunnelse,
-                        endretTid: res.data.endretTid,
-                    }));
-                }
-            });
-        }
-        if (vilkårTom) {
-            settFormData((prevState) => ({
-                ...prevState,
-                klagePart: VilkårStatus.IKKE_SATT,
-                klageKonkret: VilkårStatus.IKKE_SATT,
-                klagefristOverholdt: VilkårStatus.IKKE_SATT,
-                klageSignert: VilkårStatus.IKKE_SATT,
-                saksbehandlerBegrunnelse: '',
-            }));
-            settVilkårTom(false);
-            settFormkravGyldig(false);
-        }
-    }, [axiosRequest, behandlingId, låst, settFormkravGyldig, settVilkårTom, vilkårTom]);
 
     const vilkårErGyldig = (): boolean => {
         const svarListe = [
@@ -135,7 +65,10 @@ export const Formvilkår: React.FC<IFormvilkårKomponent> = ({
             formData.klageKonkret,
             formData.klagefristOverholdt,
         ];
-        return svarListe.filter((svar) => svar !== 'OPPFYLT').length === 0;
+        return (
+            svarListe.filter((svar) => svar !== 'OPPFYLT').length === 0 &&
+            formData.saksbehandlerBegrunnelse.length !== 0
+        );
     };
 
     const vilkårErBesvart = (): boolean => {
@@ -165,6 +98,11 @@ export const Formvilkår: React.FC<IFormvilkårKomponent> = ({
             data: formData,
         }).then((res: Ressurs<IFormVilkår>) => {
             if (res.status === RessursStatus.SUKSESS) {
+                console.log(res.data);
+                settFormVilkårData((prevState: IFormVilkår) => ({
+                    ...prevState,
+                    endretTid: res.data.endretTid,
+                }));
                 nullstillIkkePersisterteKomponenter();
             }
         });
@@ -174,6 +112,29 @@ export const Formvilkår: React.FC<IFormvilkårKomponent> = ({
         settFormkravGyldig(val);
         settLåst(val);
     };
+
+    const radioKnapperLeseListe: IRadioKnapper[] = [
+        {
+            spørsmål: 'Er klager part i saken?',
+            svar: formData.klagePart,
+            navn: 'klagePart',
+        },
+        {
+            spørsmål: 'Klages det på konkrete elementer i vedtaket',
+            svar: formData.klageKonkret,
+            navn: 'klageKonkret',
+        },
+        {
+            spørsmål: 'Er klagefristen overholdt?',
+            svar: formData.klagefristOverholdt,
+            navn: 'klagefristOverholdt',
+        },
+        {
+            spørsmål: 'Er klagen signert?',
+            svar: formData.klageSignert,
+            navn: 'klageSignert',
+        },
+    ];
 
     return (
         <VilkårStyling>
@@ -186,7 +147,7 @@ export const Formvilkår: React.FC<IFormvilkårKomponent> = ({
                                     legend={item.spørsmål}
                                     size="small"
                                     onChange={(val: VilkårStatus) => {
-                                        settFormData((prevState) => ({
+                                        settFormVilkårData((prevState: IFormVilkår) => ({
                                             ...prevState,
                                             [item.navn]: val,
                                         }));
@@ -208,7 +169,7 @@ export const Formvilkår: React.FC<IFormvilkårKomponent> = ({
                             value={formData.saksbehandlerBegrunnelse}
                             onChange={(e) => {
                                 settIkkePersistertKomponent(e.target.value);
-                                settFormData((prevState) => ({
+                                settFormVilkårData((prevState: IFormVilkår) => ({
                                     ...prevState,
                                     saksbehandlerBegrunnelse: e.target.value,
                                 }));
@@ -231,7 +192,8 @@ export const Formvilkår: React.FC<IFormvilkårKomponent> = ({
                     redigerHandling={låsOppFormVilkår}
                     saksbehandlerBegrunnelse={formData.saksbehandlerBegrunnelse}
                     endretTid={formData.endretTid}
-                    behandlingId={behandlingId}
+                    settFormkravGyldig={settFormkravGyldig}
+                    settFormVilkårData={settFormVilkårData}
                 />
             )}
         </VilkårStyling>
