@@ -92,6 +92,13 @@ export const Vurdering: React.FC<{ behandlingId: string }> = ({ behandlingId }) 
                 ];
                 settOppfylt(vilkårListe.filter((item: VilkårStatus) => item === 'OPPFYLT').length);
                 settMuligOppfylt(vilkårListe.length);
+                if (
+                    vilkårListe.filter((item: VilkårStatus) => item === 'OPPFYLT').length <
+                    vilkårListe.length
+                )
+                    settFeilmelding('Alle formkrav er ikke oppfylt');
+                else if (res.data.saksbehandlerBegrunnelse === '')
+                    settFeilmelding('Begrunnelse er ikke oppgitt');
             }
         });
     }, [axiosRequest, behandlingId]);
