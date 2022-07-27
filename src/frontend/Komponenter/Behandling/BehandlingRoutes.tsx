@@ -5,9 +5,6 @@ import { Brev } from './Brev/Brev';
 import { Resultat } from './Resultat/Resultat';
 import { Vurdering } from './Vurdering/Vurdering';
 import { Behandling } from '../../App/typer/fagsak';
-import { useBehandling } from '../../App/context/BehandlingContext';
-import { useHentBehandling } from '../../App/hooks/useHentBehandling';
-import { useEffect } from 'react';
 
 interface Props {
     behandling: Behandling;

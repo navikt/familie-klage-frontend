@@ -5,7 +5,7 @@ import { Klageinfo } from './Klageinfo';
 import { useApp } from '../../../App/context/AppContext';
 import { Ressurs, RessursStatus } from '../../../App/typer/ressurs';
 import { useBehandling } from '../../../App/context/BehandlingContext';
-import { IFormKlage } from './utils';
+import { IFormKlage, IFormVilkår, VilkårStatus } from './utils';
 
 const FormKravStyling = styled.div`
     display: flex;
@@ -26,7 +26,7 @@ const FormKravStylingBody = styled.div`
 export const Formkrav: React.FC<{ behandlingId: string }> = ({ behandlingId }) => {
     const { axiosRequest } = useApp();
 
-    const formObjekt: IFormKlage = {
+    const formKlageObjekt: IFormKlage = {
         behandlingId: behandlingId,
         fagsakId: 'b0fa4cae-a676-44b3-8725-232dac935c4a',
         vedtaksDato: '',
@@ -35,8 +35,22 @@ export const Formkrav: React.FC<{ behandlingId: string }> = ({ behandlingId }) =
         klageBeskrivelse: '',
     };
 
-    const [formkrav, settFormkrav] = useState<IFormKlage>(formObjekt);
+    const dateString = new Date().toISOString().split('T')[0];
+    const formVilkårObjekt: IFormVilkår = {
+        behandlingId: behandlingId,
+        fagsakId: 'b0fa4cae-a676-44b3-8725-232dac935c4a',
+        klagePart: VilkårStatus.IKKE_SATT,
+        klageKonkret: VilkårStatus.IKKE_SATT,
+        klagefristOverholdt: VilkårStatus.IKKE_SATT,
+        klageSignert: VilkårStatus.IKKE_SATT,
+        saksbehandlerBegrunnelse: '',
+        endretTid: dateString,
+    };
+
+    const [formKlageData, settFormKlageData] = useState<IFormKlage>(formKlageObjekt);
+    const [formVilkårData, settFormVilkårData] = useState<IFormVilkår>(formVilkårObjekt);
     const { formkravLåst, settFormkravLåst, formkravGyldig, settFormkravGyldig } = useBehandling();
+    const { settFormkravBesvart } = useBehandling();
 
     useEffect(() => {
         document.title = 'Oppgavebenk';
@@ -45,7 +59,7 @@ export const Formkrav: React.FC<{ behandlingId: string }> = ({ behandlingId }) =
             url: `/familie-klage/api/klageinfo/${behandlingId}`,
         }).then((res: Ressurs<IFormKlage>) => {
             if (res.status === RessursStatus.SUKSESS) {
-                settFormkrav((prevState) => ({
+                settFormKlageData((prevState) => ({
                     ...prevState,
                     fagsakId: res.data.fagsakId,
                     klageMottatt: res.data.klageMottatt,
@@ -57,21 +71,44 @@ export const Formkrav: React.FC<{ behandlingId: string }> = ({ behandlingId }) =
         });
     }, [axiosRequest, behandlingId]);
 
+    useEffect(() => {
+        axiosRequest<IFormVilkår, null>({
+            method: 'GET',
+            url: `/familie-klage/api/formkrav/vilkar/${behandlingId}`,
+        }).then((res: Ressurs<IFormVilkår>) => {
+            if (res.status === RessursStatus.SUKSESS && res.data != null) {
+                settFormkravLåst(true);
+                settFormVilkårData((prevState) => ({
+                    ...prevState,
+                    fagsakId: res.data.fagsakId,
+                    klagePart: res.data.klagePart,
+                    klageKonkret: res.data.klageKonkret,
+                    klagefristOverholdt: res.data.klagefristOverholdt,
+                    klageSignert: res.data.klageSignert,
+                    saksbehandlerBegrunnelse: res.data.saksbehandlerBegrunnelse,
+                    endretTid: res.data.endretTid,
+                }));
+            } else settFormkravLåst(false);
+        });
+    }, []);
+
     return (
         <FormKravStyling>
             <FormKravStylingBody>
-                {formkrav !== undefined && (
+                {formKlageData !== undefined && (
                     <Klageinfo
                         formkravGyldig={formkravGyldig}
-                        formkrav={formkrav}
+                        formkrav={formKlageData}
                         låst={formkravLåst}
                     />
                 )}
                 <Formvilkår
-                    behandlingId={behandlingId}
                     settFormkravGyldig={settFormkravGyldig}
                     låst={formkravLåst}
                     settLåst={settFormkravLåst}
+                    formData={formVilkårData}
+                    settFormkravBesvart={settFormkravBesvart}
+                    settFormVilkårData={settFormVilkårData}
                 />
             </FormKravStylingBody>
         </FormKravStyling>
