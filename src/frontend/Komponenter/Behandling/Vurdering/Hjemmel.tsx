@@ -3,6 +3,7 @@ import { Heading, Select } from '@navikt/ds-react';
 import styled from 'styled-components';
 import { Dispatch, SetStateAction } from 'react';
 import { HjemmelValg, IVurdering } from './vurderingValg';
+import { useBehandling } from '../../../App/context/BehandlingContext';
 
 const HjemmelStyled = styled.div`
     margin: 2rem 4rem 2rem 4rem;
@@ -26,6 +27,7 @@ export const Hjemmel: React.FC<IHjemmel> = ({
     hjemmelValgt,
     endring,
 }) => {
+    const { settVurderingEndret, settBrevSteg, settResultatSteg } = useBehandling();
     return (
         <HjemmelStyled>
             <Heading spacing size="medium" level="5">
@@ -33,15 +35,19 @@ export const Hjemmel: React.FC<IHjemmel> = ({
             </Heading>
             <HjemmelInnholdStyled>
                 <Select
-                    defaultValue={hjemmelValgt}
+                    defaultValue={HjemmelValg.VELG}
+                    value={hjemmelValgt}
                     label=""
                     size="medium"
                     onChange={(e) => {
+                        settBrevSteg(false);
+                        settResultatSteg(false);
                         endring(e.target.value);
                         settHjemmel((tidligereTilstand: IVurdering) => ({
                             ...tidligereTilstand,
                             hjemmel: e.target.value,
                         }));
+                        settVurderingEndret(true);
                     }}
                     hideLabel
                 >

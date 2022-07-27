@@ -1,8 +1,10 @@
 export interface IFormvilkårKomponent {
-    behandlingId: string;
     settFormkravGyldig: (value: boolean) => void;
     låst: boolean;
     settLåst: (value: boolean) => void;
+    formData: IFormVilkår;
+    settFormkravBesvart: (value: boolean) => void;
+    settFormVilkårData: (value: any) => void;
 }
 
 export interface IVilkårNullstill {
@@ -39,7 +41,8 @@ export interface IRadioKnapperLeseModus {
     redigerHandling: (value: boolean) => void;
     saksbehandlerBegrunnelse: string;
     endretTid: string;
-    behandlingId: string;
+    settFormVilkårData: (value: any) => void;
+    settFormkravGyldig: (value: boolean) => void;
 }
 
 export const datoFormatering = (dato: Date) => {

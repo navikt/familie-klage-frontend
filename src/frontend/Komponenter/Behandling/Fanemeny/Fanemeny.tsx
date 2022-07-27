@@ -28,9 +28,8 @@ interface Props {
 }
 
 const Fanemeny: FC<Props> = ({ behandling }) => {
-    const { formkravBesvart, vurderingSideGyldig, brevSideGyldig } = useBehandling();
-    const gyldigeSider: boolean[] = [formkravBesvart, vurderingSideGyldig, brevSideGyldig];
-    // const gyldigeSiderMock: boolean[] = [true, true, true];
+    const { formkravSteg, vurderingSteg, brevSteg, resultatSteg } = useBehandling();
+    const gyldigeSider: boolean[] = [formkravSteg, vurderingSteg, brevSteg, resultatSteg];
 
     const mock: Ressurs<Behandling> = {
         data: behandling,
@@ -46,7 +45,9 @@ const Fanemeny: FC<Props> = ({ behandling }) => {
                             side={side}
                             behandlingId={behandling.id}
                             index={index}
-                            deaktivert={index > 0 ? !gyldigeSider[index - 1] : false}
+                            deaktivert={
+                                !gyldigeSider.slice(index, gyldigeSider.length).includes(true)
+                            }
                             key={index}
                         />
                     ))}

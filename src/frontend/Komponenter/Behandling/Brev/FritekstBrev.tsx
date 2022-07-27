@@ -47,7 +47,7 @@ const FritekstBrev: React.FC<Props> = ({
     oppdaterBrevressurs,
     settFerdigstilt,
 }) => {
-    const { behandling } = useBehandling();
+    const { behandling, settResultatSteg } = useBehandling();
     const { axiosRequest } = useApp();
 
     const personopplysningerConfig: AxiosRequestConfig = useMemo(
@@ -75,48 +75,55 @@ const FritekstBrev: React.FC<Props> = ({
     };
 
     const endreOverskrift = (nyOverskrift: string) => {
+        settResultatSteg(false);
         settOverskrift(nyOverskrift);
     };
 
     const endreAvsnitt = (nyttAvsnitt: AvsnittMedId[]) => {
+        settResultatSteg(false);
         settAvsnitt(nyttAvsnitt);
     };
 
     const oppdaterFlyttAvsnittOppover = (avsnittId: string) => {
+        settResultatSteg(false);
         settAvsnitt(flyttAvsnittOppover(avsnittId, avsnitt));
     };
 
     const oppdaterFlyttAvsnittNedover = (avsnittId: string) => {
+        settResultatSteg(false);
         settAvsnitt(flyttAvsnittNedover(avsnittId, avsnitt));
     };
 
     const oppdaterLeggTilAvsnittFørst = () => {
+        settResultatSteg(false);
         settAvsnitt(leggTilAvsnittFørst(avsnitt));
     };
 
     const oppdaterLeggAvsnittBakSisteSynligeAvsnitt = () => {
+        settResultatSteg(false);
         settAvsnitt(leggAvsnittBakSisteSynligeAvsnitt(avsnitt));
     };
 
-    const endreDeloverskriftAvsnitt = (radId: string) => {
-        return (e: ChangeEvent<HTMLInputElement>) => {
-            const oppdaterteAvsnitt = avsnitt.map((rad) => {
-                return rad.avsnittId === radId ? { ...rad, deloverskrift: e.target.value } : rad;
-            });
-            settAvsnitt(oppdaterteAvsnitt);
-        };
+    const endreDeloverskriftAvsnitt = (radId: string, e: ChangeEvent<HTMLInputElement>) => {
+        settResultatSteg(false);
+        const oppdaterteAvsnitt = avsnitt.map((rad) => {
+            return rad.avsnittId === radId ? { ...rad, deloverskrift: e.target.value } : rad;
+        });
+        settAvsnitt(oppdaterteAvsnitt);
+        return oppdaterteAvsnitt;
     };
 
-    const endreInnholdAvsnitt = (radId: string) => {
-        return (e: ChangeEvent<HTMLTextAreaElement>) => {
-            const oppdaterteAvsnitt = avsnitt.map((rad) => {
-                return rad.avsnittId === radId ? { ...rad, innhold: e.target.value } : rad;
-            });
-            settAvsnitt(oppdaterteAvsnitt);
-        };
+    const endreInnholdAvsnitt = (radId: string, e: ChangeEvent<HTMLTextAreaElement>) => {
+        settResultatSteg(false);
+        const oppdaterteAvsnitt = avsnitt.map((rad) => {
+            return rad.avsnittId === radId ? { ...rad, innhold: e.target.value } : rad;
+        });
+        settAvsnitt(oppdaterteAvsnitt);
+        return oppdaterteAvsnitt;
     };
 
     const fjernRad = (radId: string) => {
+        settResultatSteg(false);
         settAvsnitt((eksisterendeAvsnitt: AvsnittMedId[]) => {
             return eksisterendeAvsnitt.filter((rad) => radId !== rad.avsnittId);
         });
@@ -157,12 +164,12 @@ const FritekstBrev: React.FC<Props> = ({
             endreBrevType(type);
             settOverskiftOgAvsnitt(type);
         });
-    }, [axiosRequest, behandlingId, settOverskiftOgAvsnitt]);
+    }, [axiosRequest, behandlingId]);
 
     useEffect(() => {
         if (mellomlagretFritekstbrev) {
-            endreOverskrift(mellomlagretFritekstbrev.overskrift);
-            endreAvsnitt(mellomlagretFritekstbrev.avsnitt);
+            settOverskrift(mellomlagretFritekstbrev.overskrift);
+            settAvsnitt(mellomlagretFritekstbrev.avsnitt);
         }
     }, [mellomlagretFritekstbrev]);
 
@@ -170,8 +177,8 @@ const FritekstBrev: React.FC<Props> = ({
     useEffect(utsattGenererBrev, [utsattGenererBrev, avsnitt, overskrift]);
 
     const settOverskiftOgAvsnitt = (brevType?: FritekstBrevtype) => {
-        endreOverskrift(brevType ? BrevtyperTilOverskrift[brevType] : '');
-        endreAvsnitt(brevType ? skjulAvsnittIBrevbygger(BrevtyperTilAvsnitt[brevType]) : []);
+        settOverskrift(brevType ? BrevtyperTilOverskrift[brevType] : '');
+        settAvsnitt(brevType ? skjulAvsnittIBrevbygger(BrevtyperTilAvsnitt[brevType]) : []);
     };
 
     useEffect(() => {

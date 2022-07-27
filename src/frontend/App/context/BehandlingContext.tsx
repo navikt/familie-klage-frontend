@@ -10,6 +10,13 @@ import { useHentTotrinnskontroll } from '../hooks/useHentTotrinnStatus';
 import { useHentRegler } from '../hooks/useHentRegler';
 import { RessursStatus } from '../typer/ressurs';
 import { erBehandlingRedigerbar } from '../typer/behandlingstatus';
+import {
+    HjemmelValg,
+    IVurdering,
+    VedtakValg,
+    ÅrsakValg,
+} from '../../Komponenter/Behandling/Vurdering/vurderingValg';
+import { useHentSteg } from '../hooks/useHentSteg';
 
 const [BehandlingProvider, useBehandling] = constate(() => {
     const behandlingId = useParams<IBehandlingParams>().behandlingId as string;
@@ -50,12 +57,35 @@ const [BehandlingProvider, useBehandling] = constate(() => {
 
     const [formkravLåst, settFormkravLåst] = useState<boolean>(false);
     const [formkravBesvart, settFormkravBesvart] = useState<boolean>(false);
+
     const [formkravGyldig, settFormkravGyldig] = useState<boolean>(false);
     const [vurderingSideGyldig, settVurderingSideGyldig] = useState<boolean>(false);
     const [brevSideGyldig, settBrevSideGyldig] = useState<boolean>(false);
-    const [kabalSideGyldig, settKabalSideGyldig] = useState<boolean>(false);
+    const [resultatSideGyldig, settResultatSideGyldig] = useState<boolean>(false);
+
+    const {
+        brevSteg,
+        settBrevSteg,
+        resultatSteg,
+        settResultatSteg,
+        vurderingSteg,
+        settVurderingSteg,
+        formkravSteg,
+        settFormkravSteg,
+    } = useHentSteg(behandlingId);
 
     const [vilkårTom, settVilkårTom] = useState<boolean>(false);
+
+    const [vurderingEndret, settVurderingEndret] = useState(true);
+
+    const vurderingObject: IVurdering = {
+        behandlingId: behandlingId,
+        vedtak: VedtakValg.VELG,
+        arsak: ÅrsakValg.VELG,
+        hjemmel: HjemmelValg.VELG,
+        beskrivelse: '',
+    };
+    const [vurderingData, settVurderingData] = useState<IVurdering>(vurderingObject);
 
     return {
         behandling,
@@ -85,8 +115,20 @@ const [BehandlingProvider, useBehandling] = constate(() => {
         settVurderingSideGyldig,
         brevSideGyldig,
         settBrevSideGyldig,
-        kabalSideGyldig,
-        settKabalSideGyldig,
+        resultatSideGyldig,
+        settResultatSideGyldig,
+        brevSteg,
+        settBrevSteg,
+        resultatSteg,
+        settResultatSteg,
+        vurderingSteg,
+        settVurderingSteg,
+        formkravSteg,
+        settFormkravSteg,
+        vurderingEndret,
+        settVurderingEndret,
+        vurderingData,
+        settVurderingData,
     };
 });
 
