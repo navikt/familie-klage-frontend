@@ -16,7 +16,7 @@ export const useHentBrev = (behandlingId: string) => {
                 settMellomlagretBrev(res.data);
             }
         });
-    }, [settMellomlagretBrev]);
+    }, [axiosRequest, behandlingId, settMellomlagretBrev]);
     return {
         mellomlagretBrev,
     };

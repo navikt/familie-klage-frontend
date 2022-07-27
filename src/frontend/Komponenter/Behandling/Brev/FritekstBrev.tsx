@@ -1,4 +1,4 @@
-import React, { ChangeEvent, Dispatch, SetStateAction, useEffect, useMemo, useState } from 'react';
+import React, { ChangeEvent, useEffect, useMemo, useState } from 'react';
 import { useBehandling } from '../../../App/context/BehandlingContext';
 import { Ressurs, RessursStatus } from '../../../App/typer/ressurs';
 
@@ -183,7 +183,7 @@ const FritekstBrev: React.FC<Props> = ({
 
     useEffect(() => {
         settFerdigstilt(false);
-    }, [avsnitt, overskrift]);
+    }, [avsnitt, overskrift, settFerdigstilt]);
 
     return (
         <DataViewer response={{ behandling }} key={behandlingId}>

@@ -22,7 +22,7 @@ export const useHentPersonopplysninger = (
         }).then((res) => {
             settPersonopplysningerResponse(res);
         });
-    }, [behandlingId]);
+    }, [axiosRequest, behandlingId]);
 
     return {
         hentPersonopplysninger,
