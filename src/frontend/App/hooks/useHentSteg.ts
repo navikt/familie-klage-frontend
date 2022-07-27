@@ -29,7 +29,7 @@ export const useHentSteg = (behandlingId: string) => {
                 }
             }
         });
-    }, [axiosRequest, behandlingId, formkravSteg, vurderingSteg, brevSteg, resultatSteg]);
+    }, [axiosRequest, behandlingId]);
 
     useEffect(() => {
         hentSteg();
