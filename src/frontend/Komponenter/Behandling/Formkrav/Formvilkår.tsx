@@ -91,6 +91,8 @@ export const Formvilkår: React.FC<IFormvilkårKomponent> = ({
 
     const opprettForm = () => {
         if (vilkårErGyldig()) settFormkravGyldig(true);
+        else settBrevSteg(true);
+
         if (vilkårErBesvart()) {
             settVurderingSteg(true);
             settFormkravBesvart(true);
