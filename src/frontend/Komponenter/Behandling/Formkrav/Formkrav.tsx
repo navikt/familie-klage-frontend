@@ -49,7 +49,6 @@ export const Formkrav: React.FC<{ behandlingId: string }> = ({ behandlingId }) =
 
     const [formKlageData, settFormKlageData] = useState<IFormKlage>(formKlageObjekt);
     const [formVilkårData, settFormVilkårData] = useState<IFormVilkår>(formVilkårObjekt);
-
     const { formkravLåst, settFormkravLåst, formkravGyldig, settFormkravGyldig } = useBehandling();
     const { settFormkravBesvart } = useBehandling();
 
