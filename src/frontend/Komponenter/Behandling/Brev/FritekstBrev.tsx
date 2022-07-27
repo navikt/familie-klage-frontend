@@ -1,4 +1,4 @@
-import React, { ChangeEvent, useEffect, useMemo, useState } from 'react';
+import React, { ChangeEvent, Dispatch, SetStateAction, useEffect, useMemo, useState } from 'react';
 import { useBehandling } from '../../../App/context/BehandlingContext';
 import { Ressurs, RessursStatus } from '../../../App/typer/ressurs';
 
@@ -38,12 +38,14 @@ export interface Props {
     oppdaterBrevressurs: (brevRessurs: Ressurs<string>) => void;
     behandlingId: string;
     mellomlagretFritekstbrev?: IFritekstBrev;
+    settFerdigstilt: (ferdigstilt: boolean) => void;
 }
 
 const FritekstBrev: React.FC<Props> = ({
     behandlingId,
     mellomlagretFritekstbrev,
     oppdaterBrevressurs,
+    settFerdigstilt,
 }) => {
     const { behandling } = useBehandling();
     const { axiosRequest } = useApp();
@@ -171,6 +173,10 @@ const FritekstBrev: React.FC<Props> = ({
         endreOverskrift(brevType ? BrevtyperTilOverskrift[brevType] : '');
         endreAvsnitt(brevType ? skjulAvsnittIBrevbygger(BrevtyperTilAvsnitt[brevType]) : []);
     };
+
+    useEffect(() => {
+        settFerdigstilt(false);
+    }, [avsnitt, overskrift]);
 
     return (
         <DataViewer response={{ behandling }} key={behandlingId}>

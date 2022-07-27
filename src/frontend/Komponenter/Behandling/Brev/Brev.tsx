@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { byggTomRessurs, Ressurs, RessursStatus } from '../../../App/typer/ressurs';
 import FritekstBrev from './FritekstBrev';
 import PdfVisning from './PdfVisning';
@@ -62,10 +62,13 @@ export const Brev: React.FC<IBrev> = ({ behandlingId }) => {
         axiosRequest<null, null>({
             method: 'POST',
             url: `/familie-klage/api/behandling/ferdigstill/${behandlingId}`,
-            //data: noe
         });
         settFerdigstilt(true);
     };
+
+    useEffect(() => {
+        settFerdigstilt(false);
+    }, [settFerdigstilt, kanSendesTilBeslutter]);
 
     return (
         <div>
@@ -76,12 +79,19 @@ export const Brev: React.FC<IBrev> = ({ behandlingId }) => {
                             behandlingId={behandlingId}
                             mellomlagretFritekstbrev={mellomlagretBrev as IFritekstBrev}
                             oppdaterBrevressurs={oppdaterBrevRessurs}
+                            settFerdigstilt={settFerdigstilt}
                         />
                     </DataViewer>
                     <BrevKnapper>
-                        <Button variant="primary" size="medium" onClick={() => ferdigstillBrev()}>
-                            Ferdigstill
-                        </Button>
+                        {!ferdigstilt && (
+                            <Button
+                                variant="primary"
+                                size="medium"
+                                onClick={() => ferdigstillBrev()}
+                            >
+                                Ferdigstill
+                            </Button>
+                        )}
                         {ferdigstilt && (
                             <Button
                                 variant="primary"
