@@ -10,6 +10,7 @@ import { useHentTotrinnskontroll } from '../hooks/useHentTotrinnStatus';
 import { useHentRegler } from '../hooks/useHentRegler';
 import { RessursStatus } from '../typer/ressurs';
 import { erBehandlingRedigerbar } from '../typer/behandlingstatus';
+import { useHentSteg } from '../hooks/useHentSteg';
 
 const [BehandlingProvider, useBehandling] = constate(() => {
     const behandlingId = useParams<IBehandlingParams>().behandlingId as string;
@@ -50,10 +51,22 @@ const [BehandlingProvider, useBehandling] = constate(() => {
 
     const [formkravLåst, settFormkravLåst] = useState<boolean>(false);
     const [formkravBesvart, settFormkravBesvart] = useState<boolean>(false);
+
     const [formkravGyldig, settFormkravGyldig] = useState<boolean>(false);
     const [vurderingSideGyldig, settVurderingSideGyldig] = useState<boolean>(false);
     const [brevSideGyldig, settBrevSideGyldig] = useState<boolean>(false);
-    const [kabalSideGyldig, settKabalSideGyldig] = useState<boolean>(false);
+    const [resultatSideGyldig, settResultatSideGyldig] = useState<boolean>(false);
+
+    const {
+        brevSteg,
+        settBrevSteg,
+        resultatSteg,
+        settResultatSteg,
+        vurderingSteg,
+        settVurderingSteg,
+        formkravSteg,
+        settFormkravSteg,
+    } = useHentSteg(behandlingId);
 
     const [vilkårTom, settVilkårTom] = useState<boolean>(false);
 
@@ -85,8 +98,16 @@ const [BehandlingProvider, useBehandling] = constate(() => {
         settVurderingSideGyldig,
         brevSideGyldig,
         settBrevSideGyldig,
-        kabalSideGyldig,
-        settKabalSideGyldig,
+        resultatSideGyldig,
+        settResultatSideGyldig,
+        brevSteg,
+        settBrevSteg,
+        resultatSteg,
+        settResultatSteg,
+        vurderingSteg,
+        settVurderingSteg,
+        formkravSteg,
+        settFormkravSteg,
     };
 });
 

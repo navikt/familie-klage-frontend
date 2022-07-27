@@ -44,7 +44,7 @@ export const Brev: React.FC<IBrev> = ({ behandlingId }) => {
     const [kanSendesTilBeslutter, settKanSendesTilBeslutter] = useState<boolean>(false);
     const [ferdigstilt, settFerdigstilt] = useState<boolean>(false);
 
-    const { personopplysningerResponse, behandling } = useBehandling();
+    const { personopplysningerResponse, behandling, settResultatSteg } = useBehandling();
 
     const { mellomlagretBrev } = useHentBrev(behandlingId);
 
@@ -64,6 +64,7 @@ export const Brev: React.FC<IBrev> = ({ behandlingId }) => {
             url: `/familie-klage/api/behandling/ferdigstill/${behandlingId}`,
             //data: noe
         });
+        settResultatSteg(true);
         settFerdigstilt(true);
     };
 
