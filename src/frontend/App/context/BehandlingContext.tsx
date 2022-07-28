@@ -87,7 +87,7 @@ const [BehandlingProvider, useBehandling] = constate(() => {
     };
     const [vurderingData, settVurderingData] = useState<IVurdering>(vurderingObject);
 
-    const [brevEndret, settBrevEndret] = useState(true);
+    const [visAdvarselSendBrev, settVisAdvarselSendBrev] = useState(false);
 
     return {
         behandling,
@@ -131,8 +131,8 @@ const [BehandlingProvider, useBehandling] = constate(() => {
         settVurderingEndret,
         vurderingData,
         settVurderingData,
-        brevEndret,
-        settBrevEndret,
+        visAdvarselSendBrev,
+        settVisAdvarselSendBrev,
     };
 });
 

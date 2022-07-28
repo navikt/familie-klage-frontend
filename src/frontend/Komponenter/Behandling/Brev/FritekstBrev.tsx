@@ -38,14 +38,12 @@ export interface Props {
     oppdaterBrevressurs: (brevRessurs: Ressurs<string>) => void;
     behandlingId: string;
     mellomlagretFritekstbrev?: IFritekstBrev;
-    settFerdigstilt: (ferdigstilt: boolean) => void;
 }
 
 const FritekstBrev: React.FC<Props> = ({
     behandlingId,
     mellomlagretFritekstbrev,
     oppdaterBrevressurs,
-    settFerdigstilt,
 }) => {
     const { behandling, settResultatSteg } = useBehandling();
     const { axiosRequest } = useApp();
@@ -180,10 +178,6 @@ const FritekstBrev: React.FC<Props> = ({
         settOverskrift(brevType ? BrevtyperTilOverskrift[brevType] : '');
         settAvsnitt(brevType ? skjulAvsnittIBrevbygger(BrevtyperTilAvsnitt[brevType]) : []);
     };
-
-    useEffect(() => {
-        settFerdigstilt(false);
-    }, [avsnitt, overskrift, settFerdigstilt]);
 
     return (
         <DataViewer response={{ behandling }} key={behandlingId}>
