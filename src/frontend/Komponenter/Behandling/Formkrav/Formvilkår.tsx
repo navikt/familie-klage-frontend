@@ -92,7 +92,12 @@ export const Formvilkår: React.FC<IFormvilkårKomponent> = ({
     const [senderInn, settSenderInn] = useState<boolean>(false);
 
     const opprettForm = () => {
+        if (senderInn) {
+            return;
+        }
+
         settSenderInn(true);
+
         if (vilkårErGyldig()) settFormkravGyldig(true);
         else settBrevSteg(true);
 
@@ -101,7 +106,6 @@ export const Formvilkår: React.FC<IFormvilkårKomponent> = ({
             settFormkravBesvart(true);
         }
         settLåst(true);
-
         axiosRequest<IFormVilkår, IFormVilkår>({
             method: 'POST',
             url: `/familie-klage/api/formkrav`,
@@ -196,15 +200,17 @@ export const Formvilkår: React.FC<IFormvilkårKomponent> = ({
                         />
                     </FormKravStylingBody>
                     <FormKravStylingFooter>
-                        <ButtonStyled
-                            variant="primary"
-                            size="medium"
-                            onClick={() => {
-                                opprettForm();
-                            }}
-                        >
-                            Lagre
-                        </ButtonStyled>
+                        {!senderInn && (
+                            <ButtonStyled
+                                variant="primary"
+                                size="medium"
+                                onClick={() => {
+                                    opprettForm();
+                                }}
+                            >
+                                Lagre
+                            </ButtonStyled>
+                        )}
                     </FormKravStylingFooter>
                 </>
             )}
@@ -217,6 +223,7 @@ export const Formvilkår: React.FC<IFormvilkårKomponent> = ({
                     settFormkravGyldig={settFormkravGyldig}
                     settFormVilkårData={settFormVilkårData}
                     senderInn={senderInn}
+                    settSenderInn={settSenderInn}
                 />
             )}
         </VilkårStyling>

@@ -37,14 +37,13 @@ const BrevModal: React.FC<BrevModal> = ({ ferdigstillBrev, senderInn }) => {
             <SentrerKnapper>
                 <Button
                     variant="tertiary"
-                    onClick={
-                        () => {
-                            ferdigstillBrev();
-                            navigate(`/behandling/${hentBehandlingIdFraUrl()}/resultat`);
+                    onClick={() => {
+                        ferdigstillBrev();
+                        {
+                            !senderInn &&
+                                navigate(`/behandling/${hentBehandlingIdFraUrl()}/resultat`);
                         }
-                        //settVisUlagretDataModal(false);
-                    }
-                    disabled={senderInn}
+                    }}
                 >
                     Send brev
                 </Button>
@@ -53,7 +52,6 @@ const BrevModal: React.FC<BrevModal> = ({ ferdigstillBrev, senderInn }) => {
                     onClick={() => {
                         settVisAdvarselSendBrev(false);
                     }}
-                    disabled={senderInn}
                 >
                     Gå tilbake for å redigere
                 </Button>

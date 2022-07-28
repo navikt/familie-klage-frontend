@@ -44,6 +44,7 @@ export interface IRadioKnapperLeseModus {
     settFormVilkårData: (value: any) => void;
     settFormkravGyldig: (value: boolean) => void;
     senderInn: boolean;
+    settSenderInn: (value: boolean) => void;
 }
 
 export const datoFormatering = (dato: Date) => {

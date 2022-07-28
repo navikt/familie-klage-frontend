@@ -52,15 +52,24 @@ export const Brev: React.FC<IBrev> = ({ behandlingId }) => {
     };
 
     const [senderInn, settSenderInn] = useState<boolean>(false);
-
+    const vent = () => {
+        return new Promise((resolve) => setTimeout(resolve, 3000));
+    };
     const ferdigstillBrev = () => {
+        if (senderInn) {
+            return;
+        }
+
         settSenderInn(true);
-        axiosRequest<null, null>({
-            method: 'POST',
-            url: `/familie-klage/api/behandling/ferdigstill/${behandlingId}`,
-        });
-        settResultatSteg(true);
-        settSenderInn(false);
+        vent().then(() =>
+            axiosRequest<null, null>({
+                method: 'POST',
+                url: `/familie-klage/api/behandling/ferdigstill/${behandlingId}`,
+            }).then(() => {
+                settResultatSteg(true);
+                settSenderInn(false);
+            })
+        );
     };
 
     const { visAdvarselSendBrev, settVisAdvarselSendBrev } = useBehandling();
