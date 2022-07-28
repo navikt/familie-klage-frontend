@@ -51,7 +51,7 @@ const FormKravStylingBody = styled.div`
     width: 100%;
     border-left: 0.4rem solid ${navFarger.navLillaLighten20};
     padding-left: 2rem;
-    margin-bottom: 0.5rem;
+    margin-bottom: 1rem;
 `;
 
 const SvarElement = styled.ul`
