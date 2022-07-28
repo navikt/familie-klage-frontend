@@ -22,14 +22,7 @@ const FormKravStylingBody = styled.div`
         flex-direction: column;
     }
     width: 100%;
-    margin: 0.5rem 1rem 1 rem 1rem;
-`;
-
-const FormKravStylingFooter = styled.div`
-    width: 100%;
-    display: flex;
-    flex-direction: column;
-    padding: 2% 0%;
+    margin: 0.5rem 1rem 1rem 1rem;
 `;
 
 const RadioKnapperContainer = styled.div`
@@ -44,8 +37,7 @@ const RadioGroupStyled = styled(RadioGroup)`
 `;
 
 const ButtonStyled = styled(Button)`
-    margin-bottom: 0.5rem;
-    width: 25%;
+    margin-right: auto;
 `;
 
 export const Formvilkår: React.FC<IFormvilkårKomponent> = ({
@@ -199,19 +191,17 @@ export const Formvilkår: React.FC<IFormvilkårKomponent> = ({
                             maxLength={1500}
                         />
                     </FormKravStylingBody>
-                    <FormKravStylingFooter>
-                        {!senderInn && (
-                            <ButtonStyled
-                                variant="primary"
-                                size="medium"
-                                onClick={() => {
-                                    opprettForm();
-                                }}
-                            >
-                                Lagre
-                            </ButtonStyled>
-                        )}
-                    </FormKravStylingFooter>
+                    {!senderInn && (
+                        <ButtonStyled
+                            variant="primary"
+                            size="medium"
+                            onClick={() => {
+                                opprettForm();
+                            }}
+                        >
+                            Lagre
+                        </ButtonStyled>
+                    )}
                 </>
             )}
             {låst && (

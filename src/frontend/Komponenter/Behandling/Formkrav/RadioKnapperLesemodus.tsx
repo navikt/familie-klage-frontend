@@ -17,7 +17,7 @@ import {
 import { useBehandling } from '../../../App/context/BehandlingContext';
 import { hentBehandlingIdFraUrl } from '../BehandlingContainer';
 import { useApp } from '../../../App/context/AppContext';
-import { Button, Heading } from '@navikt/ds-react';
+import { Alert, Button, Heading } from '@navikt/ds-react';
 import { useNavigate } from 'react-router-dom';
 import { formaterIsoDatoTid } from '../../../App/utils/formatter';
 import { Ressurs, RessursStatus } from '../../../App/typer/ressurs';
@@ -52,6 +52,7 @@ const FormKravStylingBody = styled.div`
     width: 100%;
     border-left: 0.4rem solid ${navFarger.navLillaLighten20};
     padding-left: 2rem;
+    margin-bottom: 1rem;
 `;
 
 const SvarElement = styled.ul`
@@ -80,7 +81,12 @@ const BrukerMedBlyantStyled = styled(BrukerMedBlyant)`
 `;
 
 const ButtonStyled = styled(Button)`
-    margin-left: auto;
+    margin-right: auto;
+`;
+
+const AlertStyled = styled(Alert)`
+    margin: 1rem;
+    width: 100%;
 `;
 
 export const RadioknapperLesemodus: React.FC<IRadioKnapperLeseModus> = ({
@@ -192,6 +198,21 @@ export const RadioknapperLesemodus: React.FC<IRadioKnapperLeseModus> = ({
                         </ButtonStyled>
                     )}
                 </>
+            )}
+            {formkravGyldig && formkravBesvart && (
+                <AlertStyled variant={'success'} size={'medium'}>
+                    Du har lagret vilkår.
+                </AlertStyled>
+            )}
+            {!formkravGyldig && formkravBesvart && (
+                <AlertStyled variant={'info'} size={'medium'}>
+                    Du har lagret vilkår som ikke oppfylt.
+                </AlertStyled>
+            )}
+            {!formkravGyldig && !formkravBesvart && (
+                <AlertStyled variant={'warning'} size={'medium'}>
+                    Noen vilkår er ikke besvart.
+                </AlertStyled>
             )}
         </FormKravStyling>
     );
