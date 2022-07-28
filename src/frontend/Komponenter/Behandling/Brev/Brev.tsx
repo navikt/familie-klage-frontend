@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { useState } from 'react';
-import { byggTomRessurs, Ressurs, RessursStatus } from '../../../App/typer/ressurs';
+import { byggTomRessurs, Ressurs } from '../../../App/typer/ressurs';
 import FritekstBrev from './FritekstBrev';
 import PdfVisning from './PdfVisning';
 import { IFritekstBrev } from './BrevTyper';
@@ -10,8 +10,7 @@ import styled from 'styled-components';
 import { useHentBrev } from '../../../App/hooks/useHentBrev';
 import { useApp } from '../../../App/context/AppContext';
 import { Button } from '@navikt/ds-react';
-import { useNavigate } from 'react-router-dom';
-import { hentBehandlingIdFraUrl } from '../BehandlingContainer';
+import BrevModal from './BrevModal';
 
 const StyledBrev = styled.div`
     background-color: #f2f2f2;
@@ -41,32 +40,26 @@ interface IBrev {
 
 export const Brev: React.FC<IBrev> = ({ behandlingId }) => {
     const [brevRessurs, settBrevRessurs] = useState<Ressurs<string>>(byggTomRessurs());
-    const [kanSendesTilBeslutter, settKanSendesTilBeslutter] = useState<boolean>(false);
-    const [ferdigstilt, settFerdigstilt] = useState<boolean>(false);
 
     const { personopplysningerResponse, behandling, settResultatSteg } = useBehandling();
 
     const { mellomlagretBrev } = useHentBrev(behandlingId);
 
     const { axiosRequest } = useApp();
-    const navigate = useNavigate();
 
     const oppdaterBrevRessurs = (respons: Ressurs<string>) => {
         settBrevRessurs(respons);
-        if (respons.status === RessursStatus.SUKSESS) {
-            settKanSendesTilBeslutter(true);
-        }
     };
 
     const ferdigstillBrev = () => {
         axiosRequest<null, null>({
             method: 'POST',
             url: `/familie-klage/api/behandling/ferdigstill/${behandlingId}`,
-            //data: noe
         });
         settResultatSteg(true);
-        settFerdigstilt(true);
     };
+
+    const { visAdvarselSendBrev, settVisAdvarselSendBrev } = useBehandling();
 
     return (
         <div>
@@ -80,20 +73,17 @@ export const Brev: React.FC<IBrev> = ({ behandlingId }) => {
                         />
                     </DataViewer>
                     <BrevKnapper>
-                        <Button variant="primary" size="medium" onClick={() => ferdigstillBrev()}>
+                        <Button
+                            variant="primary"
+                            size="medium"
+                            onClick={() => {
+                                settVisAdvarselSendBrev(true);
+                            }}
+                        >
                             Ferdigstill
                         </Button>
-                        {ferdigstilt && (
-                            <Button
-                                variant="primary"
-                                size="medium"
-                                onClick={() =>
-                                    navigate(`/behandling/${hentBehandlingIdFraUrl()}/resultat`)
-                                }
-                            >
-                                Fortsett
-                            </Button>
-                        )}
+
+                        {visAdvarselSendBrev && <BrevModal ferdigstillBrev={ferdigstillBrev} />}
                     </BrevKnapper>
                 </div>
                 <PdfVisning pdfFilInnhold={brevRessurs} />

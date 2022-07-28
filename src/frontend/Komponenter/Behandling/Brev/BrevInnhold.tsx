@@ -78,7 +78,6 @@ const BrevInnhold: React.FC<IBrevInnhold> = ({
     const finnesSynligeAvsnitt = avsnitt.some((avsnitt) => !avsnitt.skalSkjulesIBrevbygger);
     const brevSkalKunneRedigeres = !ikkeRedigerBareBrev.includes(brevType);
     const avsnittSomSkalVises = avsnitt.filter((avsnitt) => !avsnitt.skalSkjulesIBrevbygger);
-
     return (
         <BrevKolonner>
             {brevSkalKunneRedigeres && (
@@ -105,19 +104,27 @@ const BrevInnhold: React.FC<IBrevInnhold> = ({
                     <ToKolonneLayout id={toKolonneId}>
                         <Innholdsrad key={rad.avsnittId} border>
                             <Input
-                                onChange={(e) => endreDeloverskriftAvsnitt(rad.avsnittId, e)}
+                                onChange={(e) => {
+                                    endreDeloverskriftAvsnitt(rad.avsnittId, e);
+                                }}
                                 label="Deloverskrift (valgfri)"
                                 id={deloverskriftId}
                                 value={rad.deloverskrift}
                             />
                             <Textarea
-                                onChange={(e) => endreInnholdAvsnitt(rad.avsnittId, e)}
+                                onChange={(e) => {
+                                    endreInnholdAvsnitt(rad.avsnittId, e);
+                                }}
                                 label="Innhold"
                                 id={innholdId}
                                 value={rad.innhold}
                                 maxLength={0}
                             />
-                            <LenkeKnapp onClick={() => fjernRad(rad.avsnittId)}>
+                            <LenkeKnapp
+                                onClick={() => {
+                                    fjernRad(rad.avsnittId);
+                                }}
+                            >
                                 <SlettSøppelkasse withDefaultStroke={false} />
                                 Slett avsnitt
                             </LenkeKnapp>

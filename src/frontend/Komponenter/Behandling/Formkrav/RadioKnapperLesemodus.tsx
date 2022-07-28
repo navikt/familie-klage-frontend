@@ -156,11 +156,19 @@ export const RadioknapperLesemodus: React.FC<IRadioKnapperLeseModus> = ({
                     <Svar>{saksbehandlerBegrunnelse}</Svar>
                 </SvarElement>
             </FormKravStylingBody>
-            {(formkravGyldig || formkravBesvart) && (
+            {formkravGyldig && formkravBesvart ? (
                 <ButtonStyled
                     variant="primary"
                     size="medium"
                     onClick={() => navigate(`/behandling/${hentBehandlingIdFraUrl()}/vurdering`)}
+                >
+                    Fortsett
+                </ButtonStyled>
+            ) : (
+                <ButtonStyled
+                    variant="primary"
+                    size="medium"
+                    onClick={() => navigate(`/behandling/${hentBehandlingIdFraUrl()}/brev`)}
                 >
                     Fortsett
                 </ButtonStyled>

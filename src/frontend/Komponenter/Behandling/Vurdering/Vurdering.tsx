@@ -46,7 +46,8 @@ export const Vurdering: React.FC<{ behandlingId: string }> = ({ behandlingId }) 
     // Formkravoppsummering
     const [oppfylt, settOppfylt] = useState(0);
     const [muligOppfylt, settMuligOppfylt] = useState(0);
-    const [begrunnelse, settBegrunnelse] = useState('Ingen begrunnelse');
+    const [begrunnelse, settBegrunnelse] = useState('');
+    const [formkravGodkjent, settForkravGodkjent] = useState(false);
     const [feilmelding, settFeilmelding] = useState('Dette er en feilmelding'); // TODO legge til enum-objekter som sier om det er begrunnelse eller vurdering som mangler
     const navigate = useNavigate();
     const { settVurderingSideGyldig, settBrevSteg, settResultatSteg } = useBehandling();
@@ -65,7 +66,7 @@ export const Vurdering: React.FC<{ behandlingId: string }> = ({ behandlingId }) 
             url: `/familie-klage/api/formkrav/vilkar/${behandlingId}`,
         }).then((res: Ressurs<IFormVilkår>) => {
             if (res.status === RessursStatus.SUKSESS) {
-                if (res.data.saksbehandlerBegrunnelse !== '')
+                if (res.data.saksbehandlerBegrunnelse.length !== 0)
                     settBegrunnelse(res.data.saksbehandlerBegrunnelse);
 
                 const vilkårListe = [
@@ -98,6 +99,19 @@ export const Vurdering: React.FC<{ behandlingId: string }> = ({ behandlingId }) 
         });
     }, [axiosRequest, behandlingId, settVurderingData]);
 
+    useEffect(() => {
+        if (oppfylt < muligOppfylt || muligOppfylt == 0) {
+            settForkravGodkjent(false);
+            settFeilmelding('Formkrav er ikke oppfylt.');
+        } else if (begrunnelse.length === 0) {
+            settForkravGodkjent(false);
+            settFeilmelding('Formkrav mangler en begrunnelse.');
+        } else {
+            settForkravGodkjent(true);
+            settFeilmelding('Det har skjedd en feil');
+        }
+    }, [oppfylt, muligOppfylt]);
+
     const opprettVurdering = () => {
         axiosRequest<IVurdering, IVurdering>({
             method: 'POST',
@@ -119,10 +133,9 @@ export const Vurdering: React.FC<{ behandlingId: string }> = ({ behandlingId }) 
                 muligOppfylt={muligOppfylt}
                 begrunnelse={begrunnelse}
                 feilmelding={feilmelding}
+                formkravGodkjent={formkravGodkjent}
             />
-            {oppfylt < muligOppfylt || muligOppfylt == 0 ? (
-                ''
-            ) : (
+            {formkravGodkjent ? (
                 <>
                     <Vedtak
                         settVedtak={settVurderingData}
@@ -174,6 +187,13 @@ export const Vurdering: React.FC<{ behandlingId: string }> = ({ behandlingId }) 
                     ) : (
                         ''
                     )}
+                    {resultat ? (
+                        <AlertStyled variant="success" size="medium">
+                            Du har lagret vurderingen.
+                        </AlertStyled>
+                    ) : (
+                        ''
+                    )}
                     <VurderingKnapper>
                         {vurderingEndret && (
                             <Button
@@ -216,6 +236,8 @@ export const Vurdering: React.FC<{ behandlingId: string }> = ({ behandlingId }) 
                         ''
                     )}
                 </>
+            ) : (
+                ''
             )}
         </div>
     );

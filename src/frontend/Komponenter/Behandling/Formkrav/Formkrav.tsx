@@ -90,7 +90,7 @@ export const Formkrav: React.FC<{ behandlingId: string }> = ({ behandlingId }) =
                 }));
             } else settFormkravLåst(false);
         });
-    }, []);
+    }, [axiosRequest, behandlingId, settFormkravLåst]);
 
     return (
         <FormKravStyling>
