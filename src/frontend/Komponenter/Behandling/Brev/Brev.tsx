@@ -1,6 +1,6 @@
 import * as React from 'react';
-import { useEffect, useState } from 'react';
-import { byggTomRessurs, Ressurs, RessursStatus } from '../../../App/typer/ressurs';
+import { useState } from 'react';
+import { byggTomRessurs, Ressurs } from '../../../App/typer/ressurs';
 import FritekstBrev from './FritekstBrev';
 import PdfVisning from './PdfVisning';
 import { IFritekstBrev } from './BrevTyper';
@@ -40,8 +40,6 @@ interface IBrev {
 
 export const Brev: React.FC<IBrev> = ({ behandlingId }) => {
     const [brevRessurs, settBrevRessurs] = useState<Ressurs<string>>(byggTomRessurs());
-    const [kanSendesTilBeslutter, settKanSendesTilBeslutter] = useState<boolean>(false);
-    const [ferdigstilt, settFerdigstilt] = useState<boolean>(false);
 
     const { personopplysningerResponse, behandling, settResultatSteg } = useBehandling();
 
@@ -51,9 +49,6 @@ export const Brev: React.FC<IBrev> = ({ behandlingId }) => {
 
     const oppdaterBrevRessurs = (respons: Ressurs<string>) => {
         settBrevRessurs(respons);
-        if (respons.status === RessursStatus.SUKSESS) {
-            settKanSendesTilBeslutter(true);
-        }
     };
 
     const ferdigstillBrev = () => {
@@ -62,14 +57,9 @@ export const Brev: React.FC<IBrev> = ({ behandlingId }) => {
             url: `/familie-klage/api/behandling/ferdigstill/${behandlingId}`,
         });
         settResultatSteg(true);
-        settFerdigstilt(true);
     };
 
     const { visAdvarselSendBrev, settVisAdvarselSendBrev } = useBehandling();
-
-    useEffect(() => {
-        settFerdigstilt(false);
-    }, [settFerdigstilt, kanSendesTilBeslutter]);
 
     return (
         <div>
@@ -80,7 +70,6 @@ export const Brev: React.FC<IBrev> = ({ behandlingId }) => {
                             behandlingId={behandlingId}
                             mellomlagretFritekstbrev={mellomlagretBrev as IFritekstBrev}
                             oppdaterBrevressurs={oppdaterBrevRessurs}
-                            settFerdigstilt={settFerdigstilt}
                         />
                     </DataViewer>
                     <BrevKnapper>
