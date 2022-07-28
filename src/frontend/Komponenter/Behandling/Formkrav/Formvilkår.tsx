@@ -73,11 +73,11 @@ export const Formvilkår: React.FC<IFormvilkårKomponent> = ({
             formData.klagefristOverholdt,
         ];
         return (
-            (svarListe.includes(VilkårStatus.SKAL_IKKE_VURDERES) &&
-                svarListe.includes(VilkårStatus.IKKE_OPPFYLT) &&
-                !svarListe.includes(VilkårStatus.IKKE_SATT)) ||
-            (!svarListe.includes(VilkårStatus.SKAL_IKKE_VURDERES) &&
-                !svarListe.includes(VilkårStatus.IKKE_SATT))
+            ((svarListe.includes(VilkårStatus.SKAL_IKKE_VURDERES) &&
+                svarListe.includes(VilkårStatus.IKKE_OPPFYLT)) ||
+                !svarListe.includes(VilkårStatus.SKAL_IKKE_VURDERES)) &&
+            !svarListe.includes(VilkårStatus.IKKE_SATT) &&
+            formData.saksbehandlerBegrunnelse !== ''
         );
     };
 
@@ -88,6 +88,10 @@ export const Formvilkår: React.FC<IFormvilkårKomponent> = ({
         if (vilkårErBesvart()) {
             settVurderingSteg(true);
             settFormkravBesvart(true);
+        } else {
+            settVurderingSteg(false);
+            settBrevSteg(false);
+            settFormkravBesvart(false);
         }
         settLåst(true);
 
