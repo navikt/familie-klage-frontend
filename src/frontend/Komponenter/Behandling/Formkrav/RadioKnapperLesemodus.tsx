@@ -89,10 +89,12 @@ export const RadioknapperLesemodus: React.FC<IRadioKnapperLeseModus> = ({
     endretTid,
     settFormVilkårData,
     settFormkravGyldig,
+    senderInn,
 }) => {
     const { settFormkravLåst, formkravGyldig, formkravBesvart } = useBehandling();
     const { axiosRequest } = useApp();
     const navigate = useNavigate();
+
     const slettHandling = () => {
         const nullstilteVilkår: IVilkårNullstill = {
             behandlingId: hentBehandlingIdFraUrl(),
@@ -161,6 +163,7 @@ export const RadioknapperLesemodus: React.FC<IRadioKnapperLeseModus> = ({
                     variant="primary"
                     size="medium"
                     onClick={() => navigate(`/behandling/${hentBehandlingIdFraUrl()}/vurdering`)}
+                    disabled={senderInn}
                 >
                     Fortsett
                 </ButtonStyled>
@@ -169,6 +172,7 @@ export const RadioknapperLesemodus: React.FC<IRadioKnapperLeseModus> = ({
                     variant="primary"
                     size="medium"
                     onClick={() => navigate(`/behandling/${hentBehandlingIdFraUrl()}/brev`)}
+                    disabled={senderInn}
                 >
                     Fortsett
                 </ButtonStyled>

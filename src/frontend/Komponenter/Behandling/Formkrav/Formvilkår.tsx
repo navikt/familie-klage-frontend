@@ -92,31 +92,30 @@ export const Formvilkår: React.FC<IFormvilkårKomponent> = ({
     const [senderInn, settSenderInn] = useState<boolean>(false);
 
     const opprettForm = () => {
-        if (!senderInn) {
-            if (vilkårErGyldig()) settFormkravGyldig(true);
-            else settBrevSteg(true);
+        settSenderInn(true);
+        if (vilkårErGyldig()) settFormkravGyldig(true);
+        else settBrevSteg(true);
 
-            if (vilkårErBesvart()) {
-                settVurderingSteg(true);
-                settFormkravBesvart(true);
-            }
-            settLåst(true);
-
-            axiosRequest<IFormVilkår, IFormVilkår>({
-                method: 'POST',
-                url: `/familie-klage/api/formkrav`,
-                data: formData,
-            }).then((res: Ressurs<IFormVilkår>) => {
-                if (res.status === RessursStatus.SUKSESS) {
-                    settFormVilkårData((prevState: IFormVilkår) => ({
-                        ...prevState,
-                        endretTid: res.data.endretTid,
-                    }));
-                    nullstillIkkePersisterteKomponenter();
-                    settSenderInn(false);
-                }
-            });
+        if (vilkårErBesvart()) {
+            settVurderingSteg(true);
+            settFormkravBesvart(true);
         }
+        settLåst(true);
+
+        axiosRequest<IFormVilkår, IFormVilkår>({
+            method: 'POST',
+            url: `/familie-klage/api/formkrav`,
+            data: formData,
+        }).then((res: Ressurs<IFormVilkår>) => {
+            if (res.status === RessursStatus.SUKSESS) {
+                settFormVilkårData((prevState: IFormVilkår) => ({
+                    ...prevState,
+                    endretTid: res.data.endretTid,
+                }));
+                nullstillIkkePersisterteKomponenter();
+                settSenderInn(false);
+            }
+        });
     };
 
     const låsOppFormVilkår = (val: boolean) => {
@@ -201,7 +200,6 @@ export const Formvilkår: React.FC<IFormvilkårKomponent> = ({
                             variant="primary"
                             size="medium"
                             onClick={() => {
-                                settSenderInn(true);
                                 opprettForm();
                             }}
                         >
@@ -218,6 +216,7 @@ export const Formvilkår: React.FC<IFormvilkårKomponent> = ({
                     endretTid={formData.endretTid}
                     settFormkravGyldig={settFormkravGyldig}
                     settFormVilkårData={settFormVilkårData}
+                    senderInn={senderInn}
                 />
             )}
         </VilkårStyling>
