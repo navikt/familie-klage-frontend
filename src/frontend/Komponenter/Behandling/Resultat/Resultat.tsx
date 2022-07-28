@@ -10,7 +10,6 @@ import { Heading } from '@navikt/ds-react';
 import { useBehandling } from '../../../App/context/BehandlingContext';
 
 const ResultatStyling = styled.div`
-    width: 90%;
     margin: 2rem 5rem 0 5rem;
 `;
 
