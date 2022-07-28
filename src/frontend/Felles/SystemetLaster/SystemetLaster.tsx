@@ -21,11 +21,11 @@ const StyledSpinner = styled.div`
     width: 4rem;
 `;
 
-const SystemetLaster: FC = () => {
+const SystemetLaster: FC<{ tittel?: string }> = ({ tittel = '' }) => {
     return (
         <StyledSystemetLaster>
             <StyledWrapper>
-                <Systemtittel children={'Systemet laster'} />
+                <Systemtittel children={tittel} />
                 <StyledSpinner>
                     <NavFrontendSpinner
                         className={'systemet-laster__content--spinner'}

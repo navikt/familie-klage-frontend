@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { byggTomRessurs, Ressurs, RessursStatus } from '../../../App/typer/ressurs';
 import FritekstBrev from './FritekstBrev';
 import PdfVisning from './PdfVisning';
@@ -44,7 +44,8 @@ export const Brev: React.FC<IBrev> = ({ behandlingId }) => {
     const [kanSendesTilBeslutter, settKanSendesTilBeslutter] = useState<boolean>(false);
     const [ferdigstilt, settFerdigstilt] = useState<boolean>(false);
 
-    const { personopplysningerResponse, behandling, settResultatSteg } = useBehandling();
+    const { personopplysningerResponse, behandling, settResultatSteg, brevEndret, settBrevEndret } =
+        useBehandling();
 
     const { mellomlagretBrev } = useHentBrev(behandlingId);
 
@@ -62,11 +63,14 @@ export const Brev: React.FC<IBrev> = ({ behandlingId }) => {
         axiosRequest<null, null>({
             method: 'POST',
             url: `/familie-klage/api/behandling/ferdigstill/${behandlingId}`,
-            //data: noe
         });
         settResultatSteg(true);
         settFerdigstilt(true);
     };
+
+    useEffect(() => {
+        settFerdigstilt(false);
+    }, [settFerdigstilt, kanSendesTilBeslutter]);
 
     return (
         <div>
@@ -77,13 +81,23 @@ export const Brev: React.FC<IBrev> = ({ behandlingId }) => {
                             behandlingId={behandlingId}
                             mellomlagretFritekstbrev={mellomlagretBrev as IFritekstBrev}
                             oppdaterBrevressurs={oppdaterBrevRessurs}
+                            settFerdigstilt={settFerdigstilt}
                         />
                     </DataViewer>
                     <BrevKnapper>
-                        <Button variant="primary" size="medium" onClick={() => ferdigstillBrev()}>
-                            Ferdigstill
-                        </Button>
-                        {ferdigstilt && (
+                        {brevEndret && (
+                            <Button
+                                variant="primary"
+                                size="medium"
+                                onClick={() => {
+                                    ferdigstillBrev();
+                                    settBrevEndret(false);
+                                }}
+                            >
+                                Ferdigstill
+                            </Button>
+                        )}
+                        {!brevEndret && (
                             <Button
                                 variant="primary"
                                 size="medium"

@@ -12,6 +12,7 @@ import VisittkortComponent from '../../Felles/Visittkort/Visittkort';
 import { Behandling } from '../../App/typer/fagsak';
 import { useSetValgtFagsakId } from '../../App/hooks/useSetValgtFagsakId';
 import { IPersonopplysninger } from '../../App/typer/personopplysninger';
+import SystemetLaster from '../../Felles/SystemetLaster/SystemetLaster';
 
 const Container = styled.div`
     display: flex;
@@ -100,7 +101,7 @@ const BehandlingOverbygg: FC = () => {
             />
         );
     } else {
-        return <div>Kunne ikke hente data om behandlingen fra backend.</div>;
+        return <SystemetLaster tittel={'Prøver å hente behandling...'} />;
     }
 };
 

@@ -8,6 +8,7 @@ import SlettSøppelkasse from '../../../Felles/Ikoner/SlettSøppelkasse';
 import OppKnapp from '../../../Felles/Knapper/OppKnapp';
 import NedKnapp from '../../../Felles/Knapper/NedKnapp';
 import LeggTilKnapp from '../../../Felles/Knapper/LeggTilKnapp';
+import { useBehandling } from '../../../App/context/BehandlingContext';
 
 const Innholdsrad = styled(Panel)`
     width: 95%;
@@ -78,7 +79,7 @@ const BrevInnhold: React.FC<IBrevInnhold> = ({
     const finnesSynligeAvsnitt = avsnitt.some((avsnitt) => !avsnitt.skalSkjulesIBrevbygger);
     const brevSkalKunneRedigeres = !ikkeRedigerBareBrev.includes(brevType);
     const avsnittSomSkalVises = avsnitt.filter((avsnitt) => !avsnitt.skalSkjulesIBrevbygger);
-
+    const { settBrevEndret } = useBehandling();
     return (
         <BrevKolonner>
             {brevSkalKunneRedigeres && (
@@ -87,6 +88,7 @@ const BrevInnhold: React.FC<IBrevInnhold> = ({
                     value={overskrift}
                     onChange={(e) => {
                         endreOverskrift(e.target.value);
+                        settBrevEndret(true);
                     }}
                 />
             )}
@@ -105,19 +107,30 @@ const BrevInnhold: React.FC<IBrevInnhold> = ({
                     <ToKolonneLayout id={toKolonneId}>
                         <Innholdsrad key={rad.avsnittId} border>
                             <Input
-                                onChange={(e) => endreDeloverskriftAvsnitt(rad.avsnittId, e)}
+                                onChange={(e) => {
+                                    endreDeloverskriftAvsnitt(rad.avsnittId, e);
+                                    settBrevEndret(true);
+                                }}
                                 label="Deloverskrift (valgfri)"
                                 id={deloverskriftId}
                                 value={rad.deloverskrift}
                             />
                             <Textarea
-                                onChange={(e) => endreInnholdAvsnitt(rad.avsnittId, e)}
+                                onChange={(e) => {
+                                    endreInnholdAvsnitt(rad.avsnittId, e);
+                                    settBrevEndret(true);
+                                }}
                                 label="Innhold"
                                 id={innholdId}
                                 value={rad.innhold}
                                 maxLength={0}
                             />
-                            <LenkeKnapp onClick={() => fjernRad(rad.avsnittId)}>
+                            <LenkeKnapp
+                                onClick={() => {
+                                    fjernRad(rad.avsnittId);
+                                    settBrevEndret(true);
+                                }}
+                            >
                                 <SlettSøppelkasse withDefaultStroke={false} />
                                 Slett avsnitt
                             </LenkeKnapp>
@@ -127,6 +140,7 @@ const BrevInnhold: React.FC<IBrevInnhold> = ({
                                 <OppKnapp
                                     onClick={() => {
                                         flyttAvsnittOpp(rad.avsnittId);
+                                        settBrevEndret(true);
                                     }}
                                 />
                             )}
@@ -134,6 +148,7 @@ const BrevInnhold: React.FC<IBrevInnhold> = ({
                                 <NedKnapp
                                     onClick={() => {
                                         flyttAvsnittNed(rad.avsnittId);
+                                        settBrevEndret(true);
                                     }}
                                 />
                             )}

@@ -3,6 +3,7 @@ import { Heading, Select } from '@navikt/ds-react';
 import styled from 'styled-components';
 import { Dispatch, SetStateAction } from 'react';
 import { IVurdering, ÅrsakValg } from './vurderingValg';
+import { useBehandling } from '../../../App/context/BehandlingContext';
 
 const ÅrsakStyled = styled.div`
     margin: 2rem 4rem 2rem 4rem;
@@ -26,6 +27,7 @@ export const Årsak: React.FC<IÅrsak> = ({
     årsakValgmuligheter,
     endring,
 }) => {
+    const { settVurderingEndret } = useBehandling();
     return (
         <ÅrsakStyled>
             <Heading spacing size="medium" level="5">
@@ -33,7 +35,7 @@ export const Årsak: React.FC<IÅrsak> = ({
             </Heading>
             <ÅrsakInnholdStyled>
                 <Select
-                    defaultValue={årsakValgt}
+                    value={årsakValgt}
                     label=""
                     size="medium"
                     onChange={(e) => {
@@ -42,6 +44,7 @@ export const Årsak: React.FC<IÅrsak> = ({
                             ...tidligereTilstand,
                             arsak: e.target.value,
                         }));
+                        settVurderingEndret(true);
                     }}
                     hideLabel
                 >
