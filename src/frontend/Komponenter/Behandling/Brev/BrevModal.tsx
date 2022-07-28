@@ -17,9 +17,10 @@ const SentrerKnapper = styled.div`
 
 interface BrevModal {
     ferdigstillBrev: () => void;
+    senderInn: boolean;
 }
 
-const BrevModal: React.FC<BrevModal> = ({ ferdigstillBrev }) => {
+const BrevModal: React.FC<BrevModal> = ({ ferdigstillBrev, senderInn }) => {
     const navigate = useNavigate();
     const { visAdvarselSendBrev, settVisAdvarselSendBrev } = useBehandling();
 
@@ -43,6 +44,7 @@ const BrevModal: React.FC<BrevModal> = ({ ferdigstillBrev }) => {
                         }
                         //settVisUlagretDataModal(false);
                     }
+                    disabled={senderInn}
                 >
                     Send brev
                 </Button>
@@ -51,6 +53,7 @@ const BrevModal: React.FC<BrevModal> = ({ ferdigstillBrev }) => {
                     onClick={() => {
                         settVisAdvarselSendBrev(false);
                     }}
+                    disabled={senderInn}
                 >
                     Gå tilbake for å redigere
                 </Button>
