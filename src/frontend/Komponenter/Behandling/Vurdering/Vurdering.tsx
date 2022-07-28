@@ -110,7 +110,7 @@ export const Vurdering: React.FC<{ behandlingId: string }> = ({ behandlingId }) 
             settForkravGodkjent(true);
             settFeilmelding('Det har skjedd en feil');
         }
-    }, [oppfylt, muligOppfylt]);
+    }, [oppfylt, muligOppfylt, begrunnelse.length]);
 
     const opprettVurdering = () => {
         axiosRequest<IVurdering, IVurdering>({
@@ -187,13 +187,6 @@ export const Vurdering: React.FC<{ behandlingId: string }> = ({ behandlingId }) 
                     ) : (
                         ''
                     )}
-                    {resultat ? (
-                        <AlertStyled variant="success" size="medium">
-                            Du har lagret vurderingen.
-                        </AlertStyled>
-                    ) : (
-                        ''
-                    )}
                     <VurderingKnapper>
                         {vurderingEndret && (
                             <Button
@@ -229,7 +222,7 @@ export const Vurdering: React.FC<{ behandlingId: string }> = ({ behandlingId }) 
                         )}
                     </VurderingKnapper>
                     {!vurderingEndret ? (
-                        <AlertStyled variant="success" size="medium" inline>
+                        <AlertStyled variant="success" size="medium">
                             Du har lagret vurderingen.
                         </AlertStyled>
                     ) : (
