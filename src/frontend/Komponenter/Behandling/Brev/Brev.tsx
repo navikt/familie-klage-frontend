@@ -10,8 +10,7 @@ import styled from 'styled-components';
 import { useHentBrev } from '../../../App/hooks/useHentBrev';
 import { useApp } from '../../../App/context/AppContext';
 import { Button } from '@navikt/ds-react';
-import { useNavigate } from 'react-router-dom';
-import { hentBehandlingIdFraUrl } from '../BehandlingContainer';
+import BrevModal from './BrevModal';
 
 const StyledBrev = styled.div`
     background-color: #f2f2f2;
@@ -44,13 +43,11 @@ export const Brev: React.FC<IBrev> = ({ behandlingId }) => {
     const [kanSendesTilBeslutter, settKanSendesTilBeslutter] = useState<boolean>(false);
     const [ferdigstilt, settFerdigstilt] = useState<boolean>(false);
 
-    const { personopplysningerResponse, behandling, settResultatSteg, brevEndret, settBrevEndret } =
-        useBehandling();
+    const { personopplysningerResponse, behandling, settResultatSteg } = useBehandling();
 
     const { mellomlagretBrev } = useHentBrev(behandlingId);
 
     const { axiosRequest } = useApp();
-    const navigate = useNavigate();
 
     const oppdaterBrevRessurs = (respons: Ressurs<string>) => {
         settBrevRessurs(respons);
@@ -67,6 +64,8 @@ export const Brev: React.FC<IBrev> = ({ behandlingId }) => {
         settResultatSteg(true);
         settFerdigstilt(true);
     };
+
+    const { visAdvarselSendBrev, settVisAdvarselSendBrev } = useBehandling();
 
     useEffect(() => {
         settFerdigstilt(false);
@@ -85,29 +84,17 @@ export const Brev: React.FC<IBrev> = ({ behandlingId }) => {
                         />
                     </DataViewer>
                     <BrevKnapper>
-                        {brevEndret && (
-                            <Button
-                                variant="primary"
-                                size="medium"
-                                onClick={() => {
-                                    ferdigstillBrev();
-                                    settBrevEndret(false);
-                                }}
-                            >
-                                Ferdigstill
-                            </Button>
-                        )}
-                        {!brevEndret && (
-                            <Button
-                                variant="primary"
-                                size="medium"
-                                onClick={() =>
-                                    navigate(`/behandling/${hentBehandlingIdFraUrl()}/resultat`)
-                                }
-                            >
-                                Fortsett
-                            </Button>
-                        )}
+                        <Button
+                            variant="primary"
+                            size="medium"
+                            onClick={() => {
+                                settVisAdvarselSendBrev(true);
+                            }}
+                        >
+                            Ferdigstill
+                        </Button>
+
+                        {visAdvarselSendBrev && <BrevModal ferdigstillBrev={ferdigstillBrev} />}
                     </BrevKnapper>
                 </div>
                 <PdfVisning pdfFilInnhold={brevRessurs} />
