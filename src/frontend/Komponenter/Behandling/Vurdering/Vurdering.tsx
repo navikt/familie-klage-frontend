@@ -110,7 +110,7 @@ export const Vurdering: React.FC<{ behandlingId: string }> = ({ behandlingId }) 
             settForkravGodkjent(true);
             settFeilmelding('Det har skjedd en feil');
         }
-    }, [oppfylt, muligOppfylt]);
+    }, [oppfylt, muligOppfylt, begrunnelse.length]);
 
     const opprettVurdering = () => {
         axiosRequest<IVurdering, IVurdering>({

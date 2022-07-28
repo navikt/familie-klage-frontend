@@ -180,17 +180,17 @@ export const RadioknapperLesemodus: React.FC<IRadioKnapperLeseModus> = ({
                 </ButtonStyled>
             )}
             {formkravGyldig && formkravBesvart && (
-                <AlertStyled variant={'success'} size={'medium'} inline>
+                <AlertStyled variant={'success'} size={'medium'}>
                     Du har lagret vilkår.
                 </AlertStyled>
             )}
             {!formkravGyldig && formkravBesvart && (
-                <AlertStyled variant={'info'} size={'medium'} inline>
+                <AlertStyled variant={'info'} size={'medium'}>
                     Du har lagret vilkår som ikke oppfylt.
                 </AlertStyled>
             )}
             {!formkravGyldig && !formkravBesvart && (
-                <AlertStyled variant={'warning'} size={'medium'} inline>
+                <AlertStyled variant={'warning'} size={'medium'}>
                     Noen vilkår er ikke besvart.
                 </AlertStyled>
             )}
