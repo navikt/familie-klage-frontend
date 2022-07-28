@@ -126,8 +126,8 @@ export const Vurdering: React.FC<{ behandlingId: string }> = ({ behandlingId }) 
                 nullstillIkkePersisterteKomponenter();
                 settVurderingSideGyldig(true);
                 settBrevSteg(true);
-                settSenderInn(false);
             }
+            settSenderInn(false);
         });
     };
 

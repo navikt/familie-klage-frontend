@@ -113,8 +113,8 @@ export const Formvilkår: React.FC<IFormvilkårKomponent> = ({
                     endretTid: res.data.endretTid,
                 }));
                 nullstillIkkePersisterteKomponenter();
-                settSenderInn(false);
             }
+            settSenderInn(false);
         });
     };
 
