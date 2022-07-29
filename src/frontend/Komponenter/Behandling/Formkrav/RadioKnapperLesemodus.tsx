@@ -20,7 +20,6 @@ import { useApp } from '../../../App/context/AppContext';
 import { Alert, Button, Heading } from '@navikt/ds-react';
 import { useNavigate } from 'react-router-dom';
 import { formaterIsoDatoTid } from '../../../App/utils/formatter';
-import { Ressurs, RessursStatus } from '../../../App/typer/ressurs';
 
 export const RadSentrertVertikalt = styled.div`
     display: flex;
@@ -132,10 +131,7 @@ export const RadioknapperLesemodus: React.FC<IRadioKnapperLeseModus> = ({
             method: 'POST',
             url: `/familie-klage/api/formkrav`,
             data: nullstilteVilkår,
-        }).then((res: Ressurs<IFormVilkår>) => {
-            if (res.status === RessursStatus.SUKSESS) {
-                console.log('nullstilt suksess');
-            }
+        }).then(() => {
             settFormkravLåst(false);
             settSenderInn(false);
         });
