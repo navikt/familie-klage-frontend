@@ -33,6 +33,7 @@ const VurderingBeskrivelseStyled = styled.div`
 
 const AlertStyled = styled(Alert)`
     margin: 2rem 4rem 2rem 4rem;
+    width: 18rem;
 `;
 
 const VurderingKnapper = styled.div`
@@ -222,7 +223,7 @@ export const Vurdering: React.FC<{ behandlingId: string }> = ({ behandlingId }) 
                         )}
                     </VurderingKnapper>
                     {!vurderingEndret ? (
-                        <AlertStyled variant="success" size="medium" inline>
+                        <AlertStyled variant="success" size="medium">
                             Du har lagret vurderingen.
                         </AlertStyled>
                     ) : (
