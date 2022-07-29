@@ -126,8 +126,14 @@ const FritekstBrev: React.FC<Props> = ({
             return eksisterendeAvsnitt.filter((rad) => radId !== rad.avsnittId);
         });
     };
+    const [senderInn, settSenderInn] = useState<boolean>(false);
 
     const genererBrev = () => {
+        if (senderInn) {
+            return;
+        }
+
+        settSenderInn(true);
         if (personopplysninger.status !== RessursStatus.SUKSESS) return;
         if (!brevType) return;
 
@@ -143,6 +149,7 @@ const FritekstBrev: React.FC<Props> = ({
             url: `/familie-klage/api/brev/`,
             data: brev,
         }).then((respons: Ressurs<string>) => {
+            settSenderInn(false);
             if (oppdaterBrevressurs) oppdaterBrevressurs(respons);
         });
     };

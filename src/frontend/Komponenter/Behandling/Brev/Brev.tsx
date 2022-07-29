@@ -51,12 +51,21 @@ export const Brev: React.FC<IBrev> = ({ behandlingId }) => {
         settBrevRessurs(respons);
     };
 
+    const [senderInn, settSenderInn] = useState<boolean>(false);
+
     const ferdigstillBrev = () => {
+        if (senderInn) {
+            return;
+        }
+
+        settSenderInn(true);
         axiosRequest<null, null>({
             method: 'POST',
             url: `/familie-klage/api/behandling/ferdigstill/${behandlingId}`,
+        }).then(() => {
+            settResultatSteg(true);
+            settSenderInn(false);
         });
-        settResultatSteg(true);
     };
 
     const { visAdvarselSendBrev, settVisAdvarselSendBrev } = useBehandling();
@@ -83,7 +92,9 @@ export const Brev: React.FC<IBrev> = ({ behandlingId }) => {
                             Ferdigstill
                         </Button>
 
-                        {visAdvarselSendBrev && <BrevModal ferdigstillBrev={ferdigstillBrev} />}
+                        {visAdvarselSendBrev && (
+                            <BrevModal ferdigstillBrev={ferdigstillBrev} senderInn={senderInn} />
+                        )}
                     </BrevKnapper>
                 </div>
                 <PdfVisning pdfFilInnhold={brevRessurs} />

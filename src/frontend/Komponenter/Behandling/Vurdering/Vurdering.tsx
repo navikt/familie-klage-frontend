@@ -113,7 +113,14 @@ export const Vurdering: React.FC<{ behandlingId: string }> = ({ behandlingId }) 
         }
     }, [oppfylt, muligOppfylt, begrunnelse.length]);
 
+    const [senderInn, settSenderInn] = useState<boolean>(false);
+
     const opprettVurdering = () => {
+        if (senderInn) {
+            return;
+        }
+
+        settSenderInn(true);
         axiosRequest<IVurdering, IVurdering>({
             method: 'POST',
             url: `/familie-klage/api/vurdering`,
@@ -124,6 +131,8 @@ export const Vurdering: React.FC<{ behandlingId: string }> = ({ behandlingId }) 
                 settVurderingSideGyldig(true);
                 settBrevSteg(true);
             }
+            settSenderInn(false);
+            settVurderingEndret(false);
         });
     };
 
@@ -195,7 +204,6 @@ export const Vurdering: React.FC<{ behandlingId: string }> = ({ behandlingId }) 
                                 size="medium"
                                 onClick={() => {
                                     opprettVurdering();
-                                    settVurderingEndret(false);
                                 }}
                                 disabled={
                                     !(

@@ -7,12 +7,12 @@ import LenkeKnapp from '../../../Felles/Knapper/LenkeKnapp';
 import navFarger from 'nav-frontend-core';
 import BrukerMedBlyant from '../../../Felles/Ikoner/BrukerMedBlyant';
 import {
+    IFormVilkår,
+    IRadioKnapper,
+    IRadioKnapperLeseModus,
+    IVilkårNullstill,
     VilkårStatus,
     vilkårStatusTilTekst,
-    IRadioKnapperLeseModus,
-    IRadioKnapper,
-    IVilkårNullstill,
-    IFormVilkår,
 } from './utils';
 import { useBehandling } from '../../../App/context/BehandlingContext';
 import { hentBehandlingIdFraUrl } from '../BehandlingContainer';
@@ -95,11 +95,19 @@ export const RadioknapperLesemodus: React.FC<IRadioKnapperLeseModus> = ({
     endretTid,
     settFormVilkårData,
     settFormkravGyldig,
+    senderInn,
+    settSenderInn,
 }) => {
     const { settFormkravLåst, formkravGyldig, formkravBesvart } = useBehandling();
     const { axiosRequest } = useApp();
     const navigate = useNavigate();
+
     const slettHandling = () => {
+        if (senderInn) {
+            return;
+        }
+        settSenderInn(true);
+
         const nullstilteVilkår: IVilkårNullstill = {
             behandlingId: hentBehandlingIdFraUrl(),
             klagePart: VilkårStatus.IKKE_SATT,
@@ -117,14 +125,16 @@ export const RadioknapperLesemodus: React.FC<IRadioKnapperLeseModus> = ({
             klageSignert: VilkårStatus.IKKE_SATT,
             saksbehandlerBegrunnelse: '',
         }));
-        settFormkravGyldig(false);
 
+        settFormkravGyldig(false);
         axiosRequest<IFormVilkår, IVilkårNullstill>({
             method: 'POST',
             url: `/familie-klage/api/formkrav`,
             data: nullstilteVilkår,
+        }).then(() => {
+            settFormkravLåst(false);
+            settSenderInn(false);
         });
-        settFormkravLåst(false);
     };
 
     return (
@@ -162,23 +172,29 @@ export const RadioknapperLesemodus: React.FC<IRadioKnapperLeseModus> = ({
                     <Svar>{saksbehandlerBegrunnelse}</Svar>
                 </SvarElement>
             </FormKravStylingBody>
-            {formkravGyldig && formkravBesvart && (
-                <ButtonStyled
-                    variant="primary"
-                    size="medium"
-                    onClick={() => navigate(`/behandling/${hentBehandlingIdFraUrl()}/vurdering`)}
-                >
-                    Fortsett
-                </ButtonStyled>
-            )}
-            {!formkravGyldig && formkravBesvart && (
-                <ButtonStyled
-                    variant="primary"
-                    size="medium"
-                    onClick={() => navigate(`/behandling/${hentBehandlingIdFraUrl()}/brev`)}
-                >
-                    Fortsett
-                </ButtonStyled>
+            {!senderInn && (
+                <>
+                    {formkravGyldig && formkravBesvart && (
+                        <ButtonStyled
+                            variant="primary"
+                            size="medium"
+                            onClick={() =>
+                                navigate(`/behandling/${hentBehandlingIdFraUrl()}/vurdering`)
+                            }
+                        >
+                            Fortsett
+                        </ButtonStyled>
+                    )}
+                    {!formkravGyldig && formkravBesvart && (
+                        <ButtonStyled
+                            variant="primary"
+                            size="medium"
+                            onClick={() => navigate(`/behandling/${hentBehandlingIdFraUrl()}/brev`)}
+                        >
+                            Fortsett
+                        </ButtonStyled>
+                    )}
+                </>
             )}
             {formkravGyldig && formkravBesvart && (
                 <AlertStyled variant={'success'} size={'medium'}>

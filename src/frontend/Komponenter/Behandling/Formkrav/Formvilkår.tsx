@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import styled from 'styled-components';
 import { Button, Radio, RadioGroup, Textarea } from '@navikt/ds-react';
 import { RadioknapperLesemodus } from './RadioKnapperLesemodus';
@@ -81,7 +81,15 @@ export const Formvilkår: React.FC<IFormvilkårKomponent> = ({
         );
     };
 
+    const [senderInn, settSenderInn] = useState<boolean>(false);
+
     const opprettForm = () => {
+        if (senderInn) {
+            return;
+        }
+
+        settSenderInn(true);
+
         if (vilkårErGyldig()) settFormkravGyldig(true);
         else settBrevSteg(true);
 
@@ -94,7 +102,6 @@ export const Formvilkår: React.FC<IFormvilkårKomponent> = ({
             settFormkravBesvart(false);
         }
         settLåst(true);
-
         axiosRequest<IFormVilkår, IFormVilkår>({
             method: 'POST',
             url: `/familie-klage/api/formkrav`,
@@ -107,6 +114,7 @@ export const Formvilkår: React.FC<IFormvilkårKomponent> = ({
                 }));
                 nullstillIkkePersisterteKomponenter();
             }
+            settSenderInn(false);
         });
     };
 
@@ -187,9 +195,17 @@ export const Formvilkår: React.FC<IFormvilkårKomponent> = ({
                             maxLength={1500}
                         />
                     </FormKravStylingBody>
-                    <ButtonStyled variant="primary" size="medium" onClick={opprettForm}>
-                        Lagre
-                    </ButtonStyled>
+                    {!senderInn && (
+                        <ButtonStyled
+                            variant="primary"
+                            size="medium"
+                            onClick={() => {
+                                opprettForm();
+                            }}
+                        >
+                            Lagre
+                        </ButtonStyled>
+                    )}
                 </>
             )}
             {låst && (
@@ -200,6 +216,8 @@ export const Formvilkår: React.FC<IFormvilkårKomponent> = ({
                     endretTid={formData.endretTid}
                     settFormkravGyldig={settFormkravGyldig}
                     settFormVilkårData={settFormVilkårData}
+                    senderInn={senderInn}
+                    settSenderInn={settSenderInn}
                 />
             )}
         </VilkårStyling>
