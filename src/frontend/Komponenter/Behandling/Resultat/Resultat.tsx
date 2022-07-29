@@ -10,7 +10,6 @@ import { Heading } from '@navikt/ds-react';
 import { useBehandling } from '../../../App/context/BehandlingContext';
 
 const ResultatStyling = styled.div`
-    width: 90%;
     margin: 2rem 5rem 0 5rem;
 `;
 
@@ -36,7 +35,7 @@ export const Resultat: React.FC<IResultat> = ({ behandlingId }) => {
                 settHistorikk(res);
             }
         });
-    }, [axiosRequest]);
+    }, [axiosRequest, behandlingId]);
 
     return (
         <DataViewer response={{ behandling, historikk }}>

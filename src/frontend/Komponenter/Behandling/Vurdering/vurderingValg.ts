@@ -23,15 +23,17 @@ export const vedtakValgTilTekst: Record<VedtakValg, string> = {
 export enum ÅrsakValg {
     VELG = 'VELG',
     SAKSBEHANDLINGSFEIL = 'SAKSBEHANDLINGSFEIL',
-    TODO1 = 'TODO1',
-    TODO2 = 'TODO2',
+    TRYKKET_FEIL = 'TRYKKET_FEIL',
+    LESTE_IKKE_GJENNOM = 'LESTE_IKKE_GJENNOM',
+    ENDRET_REGELVERK = 'ENDRET_REGELVERK',
 }
 
 export const årsakValgTilTekst: Record<ÅrsakValg, string> = {
     VELG: 'Velg',
     SAKSBEHANDLINGSFEIL: 'Saksbehandlingsfeil',
-    TODO1: 'ToDo1',
-    TODO2: 'ToDo2',
+    TRYKKET_FEIL: 'Trykket på feil knapp',
+    LESTE_IKKE_GJENNOM: 'Leste ikke gjennom hele klagen',
+    ENDRET_REGELVERK: 'Endret regelverk siden behandlingen ble gjort',
 };
 
 // HJEMMEL

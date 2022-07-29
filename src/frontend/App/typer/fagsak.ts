@@ -70,6 +70,15 @@ export const behandlingStegFullførtTilTekst: Record<StegType, string> = {
     BEHANDLING_FERDIGSTILT: 'Klagen er ferdigstilt',
 };
 
+export const behandlingStegInformasjonTilTekst: Record<StegType, string> = {
+    FORMKRAV: 'Formkrav avgjør om klagen er gyldig eller ikke',
+    VURDERING: 'Vurdering er saksbehandlers vurdering av klagen',
+    BREV: 'Brev blir skrevet og gjort klart til sending',
+    SEND_TIL_BESLUTTER: 'Klage er sendt til Kabal og lagret i JoArk',
+    VENTE_PÅ_SVAR_FRA_BESLUTTER: 'Venter på vurdering fra Kabal',
+    BEHANDLING_FERDIGSTILT: 'Behandling er ferdig og klageresultat er oppdatert',
+};
+
 export interface Behandling {
     id: string;
     fagsakId: string;
