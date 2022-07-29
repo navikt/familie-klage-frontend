@@ -187,13 +187,6 @@ export const Vurdering: React.FC<{ behandlingId: string }> = ({ behandlingId }) 
                     ) : (
                         ''
                     )}
-                    {resultat ? (
-                        <AlertStyled variant="success" size="medium">
-                            Du har lagret vurderingen.
-                        </AlertStyled>
-                    ) : (
-                        ''
-                    )}
                     <VurderingKnapper>
                         {vurderingEndret && (
                             <Button

@@ -15,14 +15,14 @@ const StyledIkon = styled.div`
     margin: 0 0.5rem 0 0.5rem;
 `;
 
-const StripletLinjeSort = styled.div`
+const StyledLinjeSort = styled.div`
     border-top: 0.1rem solid black;
     margin-top: 1rem;
     min-width: 3rem;
     max-width: 12rem;
 `;
 
-const StripletLinjeGrå = styled.div`
+const StyledLinjeGrå = styled.div`
     border-top: 0.1rem solid ${navFarger.navGra40};
     margin-top: 1rem;
     min-width: 3rem;
@@ -76,9 +76,9 @@ export const TidslinjeHorisontal: React.FC<{
                 {!førsteObjekt ? (
                     <>
                         {behandlingHistorikk || aktivtSteg ? (
-                            <StripletLinjeSort />
+                            <StyledLinjeSort />
                         ) : (
-                            <StripletLinjeGrå />
+                            <StyledLinjeGrå />
                         )}
                     </>
                 ) : (
@@ -112,7 +112,7 @@ export const TidslinjeHorisontal: React.FC<{
                     )}
                 </StyledIkon>
                 {!sisteObjekt ? (
-                    <>{behandlingHistorikk ? <StripletLinjeSort /> : <StripletLinjeGrå />}</>
+                    <>{behandlingHistorikk ? <StyledLinjeSort /> : <StyledLinjeGrå />}</>
                 ) : (
                     <TomDiv />
                 )}

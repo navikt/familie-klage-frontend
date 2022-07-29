@@ -16,13 +16,13 @@ const StyledIkon = styled.div`
     margin-right: 1rem;
 `;
 
-const StripletLinjeGrå = styled.div`
+const StyledLinjeGrå = styled.div`
     border-left: 0.1rem solid ${navFarger.navGra40};
     margin: 0 0 0.7rem 1.1rem;
     height: 4rem;
 `;
 
-const StripletLinjeSort = styled.div`
+const StyledLinjeSort = styled.div`
     border-left: 0.1rem solid black;
     margin: 0 0 0.7rem 1.1rem;
     height: 4rem;
@@ -63,9 +63,9 @@ export const TidslinjeVertikal: React.FC<{
                 {!førsteObjekt && (
                     <>
                         {behandlingHistorikk || aktivtSteg ? (
-                            <StripletLinjeSort />
+                            <StyledLinjeSort />
                         ) : (
-                            <StripletLinjeGrå />
+                            <StyledLinjeGrå />
                         )}
                     </>
                 )}

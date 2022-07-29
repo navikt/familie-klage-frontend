@@ -35,7 +35,7 @@ export const Resultat: React.FC<IResultat> = ({ behandlingId }) => {
                 settHistorikk(res);
             }
         });
-    }, [axiosRequest]);
+    }, [axiosRequest, behandlingId]);
 
     return (
         <DataViewer response={{ behandling, historikk }}>
