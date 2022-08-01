@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import styled from 'styled-components';
-import { Button, Radio, RadioGroup, Textarea } from '@navikt/ds-react';
+import { Alert, Button, Radio, RadioGroup, Textarea } from '@navikt/ds-react';
 import { RadioknapperLesemodus } from './RadioKnapperLesemodus';
 import { useApp } from '../../../App/context/AppContext';
 import { Ressurs, RessursStatus } from '../../../App/typer/ressurs';
@@ -40,6 +40,11 @@ const ButtonStyled = styled(Button)`
     margin-right: auto;
 `;
 
+const AlertStyled = styled(Alert)`
+    margin: 1rem;
+    width: 100%;
+`;
+
 export const Formvilkår: React.FC<IFormvilkårKomponent> = ({
     settFormkravGyldig,
     låst,
@@ -48,8 +53,16 @@ export const Formvilkår: React.FC<IFormvilkårKomponent> = ({
     settFormkravBesvart,
     settFormVilkårData,
 }) => {
-    const { settVurderingSteg, settBrevSteg, settResultatSteg, hentBehandling } = useBehandling();
-    const { axiosRequest, nullstillIkkePersisterteKomponenter, settIkkePersistertKomponent } =
+    const {
+        settVurderingSteg,
+        settBrevSteg,
+        settResultatSteg,
+        visAdvarselFormkrav,
+        settVisAdvarselFormkrav,
+        hentBehandling
+    } = useBehandling();
+
+const { axiosRequest, nullstillIkkePersisterteKomponenter, settIkkePersistertKomponent } =
         useApp();
 
     const vilkårErGyldig = (): boolean => {
@@ -87,7 +100,6 @@ export const Formvilkår: React.FC<IFormvilkårKomponent> = ({
         if (senderInn) {
             return;
         }
-
         settSenderInn(true);
 
         if (vilkårErGyldig()) settFormkravGyldig(true);
@@ -112,7 +124,11 @@ export const Formvilkår: React.FC<IFormvilkårKomponent> = ({
                     ...prevState,
                     endretTid: res.data.endretTid,
                 }));
+                settVisAdvarselFormkrav(false);
                 nullstillIkkePersisterteKomponenter();
+            } else {
+                settLåst(false);
+                settVisAdvarselFormkrav(true);
             }
             settSenderInn(false);
             hentBehandling.rerun();
@@ -207,9 +223,14 @@ export const Formvilkår: React.FC<IFormvilkårKomponent> = ({
                             Lagre
                         </ButtonStyled>
                     )}
+                    {visAdvarselFormkrav && (
+                        <AlertStyled variant={'error'} size={'medium'}>
+                            Noe gikk galt. Prøv å lagre igjen
+                        </AlertStyled>
+                    )}
                 </>
             )}
-            {låst && (
+            {låst && !visAdvarselFormkrav && (
                 <RadioknapperLesemodus
                     radioKnapper={radioKnapperLeseListe}
                     redigerHandling={låsOppFormVilkår}
