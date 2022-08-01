@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import styled from 'styled-components';
-import { Button, Radio, RadioGroup, Textarea } from '@navikt/ds-react';
+import { Alert, Button, Radio, RadioGroup, Textarea } from '@navikt/ds-react';
 import { RadioknapperLesemodus } from './RadioKnapperLesemodus';
 import { useApp } from '../../../App/context/AppContext';
 import { Ressurs, RessursStatus } from '../../../App/typer/ressurs';
@@ -40,6 +40,11 @@ const ButtonStyled = styled(Button)`
     margin-right: auto;
 `;
 
+const AlertStyled = styled(Alert)`
+    margin: 1rem;
+    width: 100%;
+`;
+
 export const Formvilkår: React.FC<IFormvilkårKomponent> = ({
     settFormkravGyldig,
     låst,
@@ -48,7 +53,13 @@ export const Formvilkår: React.FC<IFormvilkårKomponent> = ({
     settFormkravBesvart,
     settFormVilkårData,
 }) => {
-    const { settVurderingSteg, settBrevSteg, settResultatSteg } = useBehandling();
+    const {
+        settVurderingSteg,
+        settBrevSteg,
+        settResultatSteg,
+        visAdvarselFormkrav,
+        settVisAdvarselFormkrav,
+    } = useBehandling();
     const { axiosRequest, nullstillIkkePersisterteKomponenter, settIkkePersistertKomponent } =
         useApp();
 
@@ -90,10 +101,10 @@ export const Formvilkår: React.FC<IFormvilkårKomponent> = ({
 
         settSenderInn(true);
 
-        if (vilkårErGyldig()) settFormkravGyldig(true);
+        if (vilkårErGyldig() && !visAdvarselFormkrav) settFormkravGyldig(true);
         else settBrevSteg(true);
 
-        if (vilkårErBesvart()) {
+        if (vilkårErBesvart() && !visAdvarselFormkrav) {
             settVurderingSteg(true);
             settFormkravBesvart(true);
         } else {
@@ -104,7 +115,7 @@ export const Formvilkår: React.FC<IFormvilkårKomponent> = ({
         settLåst(true);
         axiosRequest<IFormVilkår, IFormVilkår>({
             method: 'POST',
-            url: `/familie-klage/api/formkrav`,
+            url: `/familie-klage/api/formkrsav`,
             data: formData,
         }).then((res: Ressurs<IFormVilkår>) => {
             if (res.status === RessursStatus.SUKSESS) {
@@ -112,7 +123,11 @@ export const Formvilkår: React.FC<IFormvilkårKomponent> = ({
                     ...prevState,
                     endretTid: res.data.endretTid,
                 }));
+                settVisAdvarselFormkrav(false);
                 nullstillIkkePersisterteKomponenter();
+            } else {
+                settLåst(false);
+                settVisAdvarselFormkrav(true);
             }
             settSenderInn(false);
         });
@@ -206,9 +221,14 @@ export const Formvilkår: React.FC<IFormvilkårKomponent> = ({
                             Lagre
                         </ButtonStyled>
                     )}
+                    {visAdvarselFormkrav && (
+                        <AlertStyled variant={'error'} size={'medium'}>
+                            Noe gikk galt. Prøv å lagre igjen
+                        </AlertStyled>
+                    )}
                 </>
             )}
-            {låst && (
+            {låst && !visAdvarselFormkrav && (
                 <RadioknapperLesemodus
                     radioKnapper={radioKnapperLeseListe}
                     redigerHandling={låsOppFormVilkår}
