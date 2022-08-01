@@ -28,7 +28,7 @@ export const TestSide: React.FC = () => {
         }).then((res) => {
             if (res.status === 'SUKSESS') {
                 navigate(`/behandling/${res.data.id}/${url}`);
-                if (url !== '') {
+                if (url !== 'formkrav') {
                     // formkravrequest
                     const formObjekt: IFormVilkår = {
                         behandlingId: res.data.id,
@@ -93,7 +93,7 @@ export const TestSide: React.FC = () => {
         <Side className={'container'}>
             <StyledTest>
                 <b>[Test] Opprett dummy-behandling og gå til formkrav</b>
-                <Button onClick={() => lagBehandling('')}>Lag behandling</Button>
+                <Button onClick={() => lagBehandling('formkrav')}>Lag behandling</Button>
             </StyledTest>
             <StyledTest>
                 <b>[Test] Opprett dummy-behandling og gå til vurdering</b>
