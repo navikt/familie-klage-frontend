@@ -98,13 +98,12 @@ export const Formvilkår: React.FC<IFormvilkårKomponent> = ({
         if (senderInn) {
             return;
         }
-
         settSenderInn(true);
 
-        if (vilkårErGyldig() && !visAdvarselFormkrav) settFormkravGyldig(true);
+        if (vilkårErGyldig()) settFormkravGyldig(true);
         else settBrevSteg(true);
 
-        if (vilkårErBesvart() && !visAdvarselFormkrav) {
+        if (vilkårErBesvart()) {
             settVurderingSteg(true);
             settFormkravBesvart(true);
         } else {
@@ -115,7 +114,7 @@ export const Formvilkår: React.FC<IFormvilkårKomponent> = ({
         settLåst(true);
         axiosRequest<IFormVilkår, IFormVilkår>({
             method: 'POST',
-            url: `/familie-klage/api/formkrsav`,
+            url: `/familie-klage/api/formkrav`,
             data: formData,
         }).then((res: Ressurs<IFormVilkår>) => {
             if (res.status === RessursStatus.SUKSESS) {
