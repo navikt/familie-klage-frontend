@@ -53,8 +53,14 @@ export const Vurdering: React.FC<{ behandlingId: string }> = ({ behandlingId }) 
     const navigate = useNavigate();
     const { settVurderingSideGyldig, settBrevSteg, settResultatSteg } = useBehandling();
 
-    const { vurderingData, settVurderingData, vurderingEndret, settVurderingEndret } =
-        useBehandling();
+    const {
+        vurderingData,
+        settVurderingData,
+        vurderingEndret,
+        settVurderingEndret,
+        visAdvarselSendBrev,
+        settVisAdvarselSendBrev,
+    } = useBehandling();
 
     // Endringer
     const { axiosRequest, nullstillIkkePersisterteKomponenter, settIkkePersistertKomponent } =
@@ -130,6 +136,9 @@ export const Vurdering: React.FC<{ behandlingId: string }> = ({ behandlingId }) 
                 nullstillIkkePersisterteKomponenter();
                 settVurderingSideGyldig(true);
                 settBrevSteg(true);
+                settVisAdvarselSendBrev(false);
+            } else {
+                settVisAdvarselSendBrev(true);
             }
             settSenderInn(false);
             settVurderingEndret(false);
@@ -198,7 +207,7 @@ export const Vurdering: React.FC<{ behandlingId: string }> = ({ behandlingId }) 
                         ''
                     )}
                     <VurderingKnapper>
-                        {vurderingEndret && (
+                        {(vurderingEndret || visAdvarselSendBrev) && (
                             <Button
                                 variant="primary"
                                 size="medium"
@@ -218,7 +227,7 @@ export const Vurdering: React.FC<{ behandlingId: string }> = ({ behandlingId }) 
                                 Lagre vurdering
                             </Button>
                         )}
-                        {!vurderingEndret && (
+                        {!vurderingEndret && !visAdvarselSendBrev && (
                             <Button
                                 variant="primary"
                                 size="medium"
@@ -231,9 +240,17 @@ export const Vurdering: React.FC<{ behandlingId: string }> = ({ behandlingId }) 
                         )}
                     </VurderingKnapper>
                     {!vurderingEndret ? (
-                        <AlertStyled variant="success" size="medium">
-                            Du har lagret vurderingen.
-                        </AlertStyled>
+                        <>
+                            {!visAdvarselSendBrev ? (
+                                <AlertStyled variant="success" size="medium">
+                                    Du har lagret vurderingen.
+                                </AlertStyled>
+                            ) : (
+                                <AlertStyled variant="error" size="medium">
+                                    Noe gikk galt. Prøv å lagre igjen.
+                                </AlertStyled>
+                            )}
+                        </>
                     ) : (
                         ''
                     )}

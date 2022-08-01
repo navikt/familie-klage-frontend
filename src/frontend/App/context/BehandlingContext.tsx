@@ -89,6 +89,8 @@ const [BehandlingProvider, useBehandling] = constate(() => {
 
     const [visAdvarselSendBrev, settVisAdvarselSendBrev] = useState(false);
 
+    const [visAdvarselFormkrav, settVisAdvarselFormkrav] = useState(false);
+
     return {
         behandling,
         behandlingErRedigerbar,
@@ -136,6 +138,8 @@ const [BehandlingProvider, useBehandling] = constate(() => {
         settVisAdvarselSendBrev,
         erRedigerbar,
         settErRedigerbar,
+        visAdvarselFormkrav,
+        settVisAdvarselFormkrav,
     };
 });
 

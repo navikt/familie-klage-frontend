@@ -7,6 +7,7 @@ import navFarger from 'nav-frontend-core';
 import IkkeVurdert from '../../../Felles/Ikoner/IkkeVurdert';
 import Oppfylt from '../../../Felles/Ikoner/Oppfylt';
 import { IFormKlage } from './utils';
+import { useBehandling } from '../../../App/context/BehandlingContext';
 
 const FormkravStyling = styled.div`
     width: 50%;
@@ -76,11 +77,15 @@ interface IFormkravVenstre {
     formkrav: IFormKlage;
 }
 export const Klageinfo: React.FC<IFormkravVenstre> = ({ formkravGyldig, formkrav }) => {
+    const { visAdvarselFormkrav } = useBehandling();
     return (
         <FormkravStyling>
             <IkkeVurdertContainer>
-                {!formkravGyldig && <IkkeVurdertIkonStyled heigth={23} width={23} />}
-                {formkravGyldig && <OppfyltIkonStyled heigth={23} width={23} />}
+                {formkravGyldig && !visAdvarselFormkrav ? (
+                    <OppfyltIkonStyled heigth={23} width={23} />
+                ) : (
+                    <IkkeVurdertIkonStyled heigth={23} width={23} />
+                )}
                 <Heading spacing size="medium" level="5">
                     Formkrav
                 </Heading>
