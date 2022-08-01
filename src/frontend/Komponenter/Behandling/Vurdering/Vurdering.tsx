@@ -88,7 +88,7 @@ export const Vurdering: React.FC<{ behandlingId: string }> = ({ behandlingId }) 
             method: 'GET',
             url: `/familie-klage/api/vurdering/${behandlingId}`,
         }).then((res: Ressurs<IVurdering>) => {
-            if (res.status === RessursStatus.SUKSESS) {
+            if (res.status === RessursStatus.SUKSESS && res.data != null) {
                 settVurderingData({
                     behandlingId: res.data.behandlingId,
                     vedtak: res.data.vedtak,
