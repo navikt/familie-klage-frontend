@@ -61,17 +61,19 @@ export const Vurdering: React.FC<{ behandlingId: string }> = ({ behandlingId }) 
     const [formkravGodkjent, settForkravGodkjent] = useState(false);
     const [feilmelding, settFeilmelding] = useState('Dette er en feilmelding'); // TODO legge til enum-objekter som sier om det er begrunnelse eller vurdering som mangler
     const navigate = useNavigate();
-    const { settVurderingSideGyldig, settBrevSteg, settResultatSteg, behandlingErRedigerbar } =
-        useBehandling();
 
     const {
         vurderingData,
         settVurderingData,
         vurderingEndret,
         settVurderingEndret,
+        settBrevSteg,
+        settResultatSteg,
+        visAdvarselSendBrev,
+        settVisAdvarselSendBrev,
+        behandlingErRedigerbar,
         hentBehandling,
     } = useBehandling();
-
     // Endringer
     const { axiosRequest, nullstillIkkePersisterteKomponenter, settIkkePersistertKomponent } =
         useApp();
@@ -146,6 +148,9 @@ export const Vurdering: React.FC<{ behandlingId: string }> = ({ behandlingId }) 
                 nullstillIkkePersisterteKomponenter();
                 settVurderingSideGyldig(true);
                 settBrevSteg(true);
+                settVisAdvarselSendBrev(false);
+            } else {
+                settVisAdvarselSendBrev(true);
             }
             settSenderInn(false);
             settVurderingEndret(false);
@@ -260,7 +265,7 @@ export const Vurdering: React.FC<{ behandlingId: string }> = ({ behandlingId }) 
                         ''
                     )}
                     <VurderingKnapper>
-                        {vurderingEndret && (
+                        {(vurderingEndret || visAdvarselSendBrev) && (
                             <Button
                                 variant="primary"
                                 size="medium"
@@ -280,7 +285,7 @@ export const Vurdering: React.FC<{ behandlingId: string }> = ({ behandlingId }) 
                                 Lagre vurdering
                             </Button>
                         )}
-                        {!vurderingEndret && (
+                        {!vurderingEndret && !visAdvarselSendBrev && (
                             <Button
                                 variant="primary"
                                 size="medium"
@@ -293,9 +298,17 @@ export const Vurdering: React.FC<{ behandlingId: string }> = ({ behandlingId }) 
                         )}
                     </VurderingKnapper>
                     {!vurderingEndret ? (
-                        <AlertStyled variant="success" size="medium">
-                            Du har lagret vurderingen.
-                        </AlertStyled>
+                        <>
+                            {!visAdvarselSendBrev ? (
+                                <AlertStyled variant="success" size="medium">
+                                    Du har lagret vurderingen.
+                                </AlertStyled>
+                            ) : (
+                                <AlertStyled variant="error" size="medium">
+                                    Noe gikk galt. Prøv å lagre igjen.
+                                </AlertStyled>
+                            )}
+                        </>
                     ) : (
                         ''
                     )}
