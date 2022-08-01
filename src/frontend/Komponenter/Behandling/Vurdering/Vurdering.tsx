@@ -122,7 +122,7 @@ export const Vurdering: React.FC<{ behandlingId: string }> = ({ behandlingId }) 
     const opprettVurdering = () => {
         axiosRequest<IVurdering, IVurdering>({
             method: 'POST',
-            url: `/familie-klage/api/vurdering`,
+            url: `/familie-klage/api/vurdering!`,
             data: vurderingData,
         }).then((res: Ressurs<IVurdering>) => {
             if (res.status === RessursStatus.SUKSESS) {
@@ -239,7 +239,7 @@ export const Vurdering: React.FC<{ behandlingId: string }> = ({ behandlingId }) 
                                 </AlertStyled>
                             ) : (
                                 <AlertStyled variant="error" size="medium">
-                                    Noe gikk galt.
+                                    Noe gikk galt. Prøv å lagre igjen.
                                 </AlertStyled>
                             )}
                         </>
