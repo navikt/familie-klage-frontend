@@ -78,8 +78,6 @@ interface IFormkravVenstre {
 }
 export const Klageinfo: React.FC<IFormkravVenstre> = ({ formkravGyldig, formkrav }) => {
     const { visAdvarselFormkrav } = useBehandling();
-    console.log('visAdvarselFormkrav: ', visAdvarselFormkrav);
-    console.log('formkravGyldig: ', formkravGyldig);
     return (
         <FormkravStyling>
             <IkkeVurdertContainer>
