@@ -12,7 +12,7 @@ const VilkårStyling = styled.div`
     flex-direction: column;
     align-items: center;
     width: 50%;
-    margin: 0.5rem 1rem 1 rem 1rem;
+    margin: 0.5rem 1rem 1 rem 0rem;
 `;
 
 const FormKravStylingBody = styled.div`
@@ -32,7 +32,7 @@ const RadioKnapperContainer = styled.div`
 
 const RadioGroupStyled = styled(RadioGroup)`
     padding: 0.1rem 0;
-    margin: 0.8rem 0;
+    margin: 0.5rem 0;
     width: 100%;
 `;
 
