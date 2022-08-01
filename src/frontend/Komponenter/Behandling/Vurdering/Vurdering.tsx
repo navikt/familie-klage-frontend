@@ -67,12 +67,13 @@ export const Vurdering: React.FC<{ behandlingId: string }> = ({ behandlingId }) 
         settVurderingData,
         vurderingEndret,
         settVurderingEndret,
+        settVurderingSideGyldig,
         settBrevSteg,
         settResultatSteg,
+        hentBehandling,
         visAdvarselSendBrev,
         settVisAdvarselSendBrev,
         behandlingErRedigerbar,
-        hentBehandling,
     } = useBehandling();
     // Endringer
     const { axiosRequest, nullstillIkkePersisterteKomponenter, settIkkePersistertKomponent } =
