@@ -48,7 +48,7 @@ export const Formvilkår: React.FC<IFormvilkårKomponent> = ({
     settFormkravBesvart,
     settFormVilkårData,
 }) => {
-    const { settVurderingSteg, settBrevSteg, settResultatSteg } = useBehandling();
+    const { settVurderingSteg, settBrevSteg, settResultatSteg, hentBehandling } = useBehandling();
     const { axiosRequest, nullstillIkkePersisterteKomponenter, settIkkePersistertKomponent } =
         useApp();
 
@@ -115,6 +115,7 @@ export const Formvilkår: React.FC<IFormvilkårKomponent> = ({
                 nullstillIkkePersisterteKomponenter();
             }
             settSenderInn(false);
+            hentBehandling.rerun();
         });
     };
 
