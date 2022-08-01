@@ -1,4 +1,4 @@
-import { Behandling } from './fagsak';
+import { Behandling, StegType } from './fagsak';
 
 export enum BehandlingStatus {
     OPPRETTET = 'OPPRETTET',
@@ -13,7 +13,7 @@ export const behandlingStatusTilTekst: Record<BehandlingStatus, string> = {
 };
 
 export const erBehandlingRedigerbar = (behandling: Behandling): boolean =>
-    [BehandlingStatus.OPPRETTET, BehandlingStatus.UTREDES].includes(behandling.status);
+    [StegType.FORMKRAV, StegType.VURDERING, StegType.BREV].includes(behandling.steg);
 
 export const erBehandlingUnderArbeid = (behandling: Behandling): boolean =>
-    [BehandlingStatus.OPPRETTET, BehandlingStatus.UTREDES].includes(behandling.status);
+    [StegType.FORMKRAV, StegType.VURDERING, StegType.BREV].includes(behandling.steg);

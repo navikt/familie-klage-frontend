@@ -7,7 +7,7 @@ import { useApp } from '../../../App/context/AppContext';
 import styled from 'styled-components';
 
 // Komponenter
-import { Alert, Button, Textarea } from '@navikt/ds-react';
+import { Alert, Button, Textarea, Heading } from '@navikt/ds-react';
 import { FormkravOppsummering } from './FormkravOppsummering';
 import { Vedtak } from './Vedtak';
 import { Årsak } from './Årsak';
@@ -43,6 +43,16 @@ const VurderingKnapper = styled.div`
     margin: 0 4rem;
 `;
 
+const VurderingLesemodus = styled.div`
+    display: flex;
+    flex-direction: column;
+    margin: 0 4rem;
+`;
+
+const VurderingLesemodusPunkt = styled.div`
+    margin: 0 0 2rem 0;
+`;
+
 export const Vurdering: React.FC<{ behandlingId: string }> = ({ behandlingId }) => {
     // Formkravoppsummering
     const [oppfylt, settOppfylt] = useState(0);
@@ -51,7 +61,8 @@ export const Vurdering: React.FC<{ behandlingId: string }> = ({ behandlingId }) 
     const [formkravGodkjent, settForkravGodkjent] = useState(false);
     const [feilmelding, settFeilmelding] = useState('Dette er en feilmelding'); // TODO legge til enum-objekter som sier om det er begrunnelse eller vurdering som mangler
     const navigate = useNavigate();
-    const { settVurderingSideGyldig, settBrevSteg, settResultatSteg } = useBehandling();
+    const { settVurderingSideGyldig, settBrevSteg, settResultatSteg, behandlingErRedigerbar } =
+        useBehandling();
 
     const { vurderingData, settVurderingData, vurderingEndret, settVurderingEndret } =
         useBehandling();
@@ -145,7 +156,52 @@ export const Vurdering: React.FC<{ behandlingId: string }> = ({ behandlingId }) 
                 feilmelding={feilmelding}
                 formkravGodkjent={formkravGodkjent}
             />
-            {formkravGodkjent ? (
+            {!behandlingErRedigerbar && formkravGodkjent && (
+                <VurderingLesemodus>
+                    <VurderingLesemodusPunkt>
+                        <Heading level="1" size="medium">
+                            Vedtak
+                        </Heading>
+                        {vedtakValgTilTekst[vurderingData.vedtak]}
+                    </VurderingLesemodusPunkt>
+                    {vurderingData.arsak !== undefined && vurderingData.arsak !== ÅrsakValg.VELG && (
+                        <VurderingLesemodusPunkt>
+                            <Heading level="1" size="medium">
+                                Årsak
+                            </Heading>
+                            {årsakValgTilTekst[vurderingData.arsak]}
+                        </VurderingLesemodusPunkt>
+                    )}
+
+                    {vurderingData.hjemmel !== undefined &&
+                        vurderingData.hjemmel !== HjemmelValg.VELG && (
+                            <VurderingLesemodusPunkt>
+                                <Heading level="1" size="medium">
+                                    Hjemmel
+                                </Heading>
+                                {hjemmelValgTilTekst[vurderingData.hjemmel]}
+                            </VurderingLesemodusPunkt>
+                        )}
+
+                    <Textarea
+                        label="Vurdering"
+                        value={vurderingData.beskrivelse}
+                        onChange={(e) => {
+                            settBrevSteg(false);
+                            settResultatSteg(false);
+                            settIkkePersistertKomponent(e.target.value);
+                            settVurderingData((tidligereTilstand) => ({
+                                ...tidligereTilstand,
+                                beskrivelse: e.target.value,
+                            }));
+                            settVurderingEndret(true);
+                        }}
+                        size="medium"
+                        disabled={true}
+                    />
+                </VurderingLesemodus>
+            )}
+            {formkravGodkjent && behandlingErRedigerbar ? (
                 <>
                     <Vedtak
                         settVedtak={settVurderingData}
