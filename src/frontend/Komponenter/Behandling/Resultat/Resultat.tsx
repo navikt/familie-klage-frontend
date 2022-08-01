@@ -19,7 +19,7 @@ interface IResultat {
 
 export const Resultat: React.FC<IResultat> = ({ behandlingId }) => {
     const { axiosRequest } = useApp();
-    const { behandling, hentBehandling } = useBehandling();
+    const { behandling, hentBehandling, behandlingErRedigerbar } = useBehandling();
     const [historikk, settHistorikk] = useState<Ressurs<IBehandlingshistorikk[]>>(byggTomRessurs);
 
     useEffect(() => {
@@ -36,7 +36,7 @@ export const Resultat: React.FC<IResultat> = ({ behandlingId }) => {
             }
         });
     }, [axiosRequest, behandlingId]);
-
+    console.log(behandlingErRedigerbar);
     return (
         <DataViewer response={{ behandling, historikk }}>
             {({ behandling, historikk }) => (

@@ -66,9 +66,11 @@ export const Brev: React.FC<IBrev> = ({ behandlingId }) => {
             settResultatSteg(true);
             settSenderInn(false);
         });
+        settErRedigerbar(false);
     };
 
-    const { visAdvarselSendBrev, settVisAdvarselSendBrev } = useBehandling();
+    const { visAdvarselSendBrev, settVisAdvarselSendBrev, erRedigerbar, settErRedigerbar } =
+        useBehandling();
 
     return (
         <div>
@@ -81,21 +83,28 @@ export const Brev: React.FC<IBrev> = ({ behandlingId }) => {
                             oppdaterBrevressurs={oppdaterBrevRessurs}
                         />
                     </DataViewer>
-                    <BrevKnapper>
-                        <Button
-                            variant="primary"
-                            size="medium"
-                            onClick={() => {
-                                settVisAdvarselSendBrev(true);
-                            }}
-                        >
-                            Ferdigstill
-                        </Button>
+                    {erRedigerbar ? (
+                        <BrevKnapper>
+                            <Button
+                                variant="primary"
+                                size="medium"
+                                onClick={() => {
+                                    settVisAdvarselSendBrev(true);
+                                }}
+                            >
+                                Ferdigstill
+                            </Button>
 
-                        {visAdvarselSendBrev && (
-                            <BrevModal ferdigstillBrev={ferdigstillBrev} senderInn={senderInn} />
-                        )}
-                    </BrevKnapper>
+                            {visAdvarselSendBrev && (
+                                <BrevModal
+                                    ferdigstillBrev={ferdigstillBrev}
+                                    senderInn={senderInn}
+                                />
+                            )}
+                        </BrevKnapper>
+                    ) : (
+                        ''
+                    )}
                 </div>
                 <PdfVisning pdfFilInnhold={brevRessurs} />
             </StyledBrev>
