@@ -54,15 +54,14 @@ export const Formvilkår: React.FC<IFormvilkårKomponent> = ({
     settFormVilkårData,
 }) => {
     const {
-        settVurderingSteg,
         settBrevSteg,
         settResultatSteg,
         visAdvarselFormkrav,
         settVisAdvarselFormkrav,
-        hentBehandling
+        hentBehandling,
     } = useBehandling();
 
-const { axiosRequest, nullstillIkkePersisterteKomponenter, settIkkePersistertKomponent } =
+    const { axiosRequest, nullstillIkkePersisterteKomponenter, settIkkePersistertKomponent } =
         useApp();
 
     const vilkårErGyldig = (): boolean => {
@@ -106,10 +105,8 @@ const { axiosRequest, nullstillIkkePersisterteKomponenter, settIkkePersistertKom
         else settBrevSteg(true);
 
         if (vilkårErBesvart()) {
-            settVurderingSteg(true);
             settFormkravBesvart(true);
         } else {
-            settVurderingSteg(false);
             settBrevSteg(false);
             settFormkravBesvart(false);
         }
@@ -179,7 +176,6 @@ const { axiosRequest, nullstillIkkePersisterteKomponenter, settIkkePersistertKom
                                             [item.navn]: val,
                                         }));
                                         settIkkePersistertKomponent(val);
-                                        settVurderingSteg(false);
                                         settBrevSteg(false);
                                         settResultatSteg(false);
                                     }}
@@ -199,7 +195,6 @@ const { axiosRequest, nullstillIkkePersisterteKomponenter, settIkkePersistertKom
                             value={formData.saksbehandlerBegrunnelse}
                             onChange={(e) => {
                                 settIkkePersistertKomponent(e.target.value);
-                                settVurderingSteg(false);
                                 settBrevSteg(false);
                                 settResultatSteg(false);
                                 settFormVilkårData((prevState: IFormVilkår) => ({
