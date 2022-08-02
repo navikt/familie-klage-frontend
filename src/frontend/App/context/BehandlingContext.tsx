@@ -8,7 +8,7 @@ import { useHentBehandling } from '../hooks/useHentBehandling';
 import { useHentBehandlingHistorikk } from '../hooks/useHentBehandlingHistorikk';
 import { useHentTotrinnskontroll } from '../hooks/useHentTotrinnStatus';
 import { useHentRegler } from '../hooks/useHentRegler';
-import { RessursStatus } from '../typer/ressurs';
+import { Ressurs, RessursStatus } from '../typer/ressurs';
 import { erBehandlingRedigerbar } from '../typer/behandlingstatus';
 import {
     HjemmelValg,
@@ -17,6 +17,7 @@ import {
     ÅrsakValg,
 } from '../../Komponenter/Behandling/Vurdering/vurderingValg';
 import { useHentSteg } from '../hooks/useHentSteg';
+import { IFormVilkår, VilkårStatus } from '../../Komponenter/Behandling/Formkrav/utils';
 
 const [BehandlingProvider, useBehandling] = constate(() => {
     const behandlingId = useParams<IBehandlingParams>().behandlingId as string;
@@ -56,9 +57,10 @@ const [BehandlingProvider, useBehandling] = constate(() => {
     const [åpenHøyremeny, settÅpenHøyremeny] = useState(true);
 
     const [formkravLåst, settFormkravLåst] = useState<boolean>(false);
-    const [formkravBesvart, settFormkravBesvart] = useState<boolean>(false);
 
+    const [formkravBesvart, settFormkravBesvart] = useState<boolean>(false);
     const [formkravGyldig, settFormkravGyldig] = useState<boolean>(false);
+
     const [vurderingSideGyldig, settVurderingSideGyldig] = useState<boolean>(false);
     const [brevSideGyldig, settBrevSideGyldig] = useState<boolean>(false);
     const [resultatSideGyldig, settResultatSideGyldig] = useState<boolean>(false);
