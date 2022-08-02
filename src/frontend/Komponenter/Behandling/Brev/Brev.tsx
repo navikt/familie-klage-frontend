@@ -50,7 +50,6 @@ export const Brev: React.FC<IBrev> = ({ behandlingId }) => {
         visAdvarselSendBrev,
         settVisAdvarselSendBrev,
         behandlingErRedigerbar,
-        settBehandlingErRedigerbar,
     } = useBehandling();
 
     const { mellomlagretBrev } = useHentBrev(behandlingId);
@@ -77,7 +76,6 @@ export const Brev: React.FC<IBrev> = ({ behandlingId }) => {
             settSenderInn(false);
             hentBehandling.rerun();
         });
-        settBehandlingErRedigerbar(false);
     };
 
     return (
