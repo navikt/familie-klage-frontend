@@ -51,6 +51,21 @@ const [BehandlingProvider, useBehandling] = constate(() => {
         [behandling]
     );
 
+    useEffect(() => {
+        if (behandling.status === 'SUKSESS') {
+            settFormkravSteg(true);
+            if (behandling.data.steg !== 'FORMKRAV') {
+                settVurderingSteg(true);
+                if (behandling.data.steg !== 'VURDERING') {
+                    settBrevSteg(true);
+                    if (behandling.data.steg !== 'BREV') {
+                        settResultatSteg(true);
+                    }
+                }
+            }
+        }
+    });
+
     const [visBrevmottakereModal, settVisBrevmottakereModal] = useState(false);
     const [visHenleggModal, settVisHenleggModal] = useState(false);
     const [åpenHøyremeny, settÅpenHøyremeny] = useState(true);
