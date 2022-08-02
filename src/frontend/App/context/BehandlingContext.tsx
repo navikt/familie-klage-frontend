@@ -8,7 +8,7 @@ import { useHentBehandling } from '../hooks/useHentBehandling';
 import { useHentBehandlingHistorikk } from '../hooks/useHentBehandlingHistorikk';
 import { useHentTotrinnskontroll } from '../hooks/useHentTotrinnStatus';
 import { useHentRegler } from '../hooks/useHentRegler';
-import { Ressurs, RessursStatus } from '../typer/ressurs';
+import { RessursStatus } from '../typer/ressurs';
 import { erBehandlingRedigerbar } from '../typer/behandlingstatus';
 import {
     HjemmelValg,
@@ -17,7 +17,6 @@ import {
     ÅrsakValg,
 } from '../../Komponenter/Behandling/Vurdering/vurderingValg';
 import { useHentSteg } from '../hooks/useHentSteg';
-import { IFormVilkår, VilkårStatus } from '../../Komponenter/Behandling/Formkrav/utils';
 
 const [BehandlingProvider, useBehandling] = constate(() => {
     const behandlingId = useParams<IBehandlingParams>().behandlingId as string;

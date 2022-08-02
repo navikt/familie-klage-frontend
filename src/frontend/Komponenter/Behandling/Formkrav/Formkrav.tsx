@@ -101,7 +101,7 @@ export const Formkrav: React.FC<{ behandlingId: string }> = ({ behandlingId }) =
                 settFormkravGyldig(besvart === muligBesvart);
             } else settFormkravLåst(false);
         });
-    }, [axiosRequest, behandlingId, settFormkravLåst]);
+    }, [axiosRequest, behandlingId, settFormkravLåst, settFormkravGyldig]);
 
     return (
         <FormKravStyling>
