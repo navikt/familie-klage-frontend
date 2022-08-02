@@ -108,7 +108,7 @@ export const Vurdering: React.FC<{ behandlingId: string }> = ({ behandlingId }) 
                 });
             } else settVurderingEndret(true);
         });
-    }, [axiosRequest, behandlingId, settVurderingData]);
+    }, [axiosRequest, behandlingId, settVurderingData, settVurderingEndret]);
 
     useEffect(() => {
         if (!formkravGodkjent) {

@@ -5,7 +5,7 @@ import * as React from 'react';
 import styled from 'styled-components';
 
 // Komponenter
-import { Textarea, Heading, Detail } from '@navikt/ds-react';
+import { Heading } from '@navikt/ds-react';
 import {
     HjemmelValg,
     hjemmelValgTilTekst,
