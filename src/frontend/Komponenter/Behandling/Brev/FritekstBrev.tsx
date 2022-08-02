@@ -45,7 +45,7 @@ const FritekstBrev: React.FC<Props> = ({
     mellomlagretFritekstbrev,
     oppdaterBrevressurs,
 }) => {
-    const { behandling, settResultatSteg, erRedigerbar } = useBehandling();
+    const { behandling, settResultatSteg, behandlingErRedigerbar } = useBehandling();
     const { axiosRequest } = useApp();
 
     const personopplysningerConfig: AxiosRequestConfig = useMemo(
@@ -191,7 +191,7 @@ const FritekstBrev: React.FC<Props> = ({
             {({ behandling }) => (
                 <StyledBrev>
                     <h1>Fritekstbrev for {stønadstypeTilTekst[behandling.stonadsType]}</h1>
-                    {erRedigerbar ? (
+                    {behandlingErRedigerbar ? (
                         <BrevInnhold
                             brevType={brevType}
                             overskrift={overskrift}
