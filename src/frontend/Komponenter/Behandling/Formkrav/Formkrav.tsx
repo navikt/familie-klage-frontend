@@ -96,13 +96,15 @@ export const Formkrav: React.FC<{ behandlingId: string }> = ({ behandlingId }) =
                     res.data.klageSignert,
                 ];
 
-                const besvart = vilkårListe.filter((item: VilkårStatus) => item !== null).length;
+                const besvart = vilkårListe.filter(
+                    (item: VilkårStatus) => item === VilkårStatus.OPPFYLT
+                ).length;
                 const muligBesvart = vilkårListe.length;
                 settFormkravGyldig(besvart === muligBesvart);
+                settFormkravBesvart(true);
             } else settFormkravLåst(false);
         });
-    }, [axiosRequest, behandlingId, settFormkravLåst, settFormkravGyldig]);
-
+    }, [axiosRequest, behandlingId, settFormkravLåst, settFormkravGyldig, settFormkravBesvart]);
     return (
         <FormKravStyling>
             <FormKravStylingBody>
