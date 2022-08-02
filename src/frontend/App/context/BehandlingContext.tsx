@@ -16,7 +16,6 @@ import {
     VedtakValg,
     ÅrsakValg,
 } from '../../Komponenter/Behandling/Vurdering/vurderingValg';
-import { useHentSteg } from '../hooks/useHentSteg';
 
 const [BehandlingProvider, useBehandling] = constate(() => {
     const behandlingId = useParams<IBehandlingParams>().behandlingId as string;
@@ -51,21 +50,6 @@ const [BehandlingProvider, useBehandling] = constate(() => {
         [behandling]
     );
 
-    useEffect(() => {
-        if (behandling.status === 'SUKSESS') {
-            settFormkravSteg(true);
-            if (behandling.data.steg !== 'FORMKRAV') {
-                settVurderingSteg(true);
-                if (behandling.data.steg !== 'VURDERING') {
-                    settBrevSteg(true);
-                    if (behandling.data.steg !== 'BREV') {
-                        settResultatSteg(true);
-                    }
-                }
-            }
-        }
-    });
-
     const [visBrevmottakereModal, settVisBrevmottakereModal] = useState(false);
     const [visHenleggModal, settVisHenleggModal] = useState(false);
     const [åpenHøyremeny, settÅpenHøyremeny] = useState(true);
@@ -77,17 +61,31 @@ const [BehandlingProvider, useBehandling] = constate(() => {
     const [vurderingSideGyldig, settVurderingSideGyldig] = useState<boolean>(false);
     const [brevSideGyldig, settBrevSideGyldig] = useState<boolean>(false);
     const [resultatSideGyldig, settResultatSideGyldig] = useState<boolean>(false);
+    const [formkravSteg, settFormkravSteg] = useState(true);
+    const [vurderingSteg, settVurderingSteg] = useState(false);
+    const [brevSteg, settBrevSteg] = useState(false);
+    const [resultatSteg, settResultatSteg] = useState(false);
 
-    const {
-        brevSteg,
-        settBrevSteg,
-        resultatSteg,
-        settResultatSteg,
-        vurderingSteg,
-        settVurderingSteg,
-        formkravSteg,
-        settFormkravSteg,
-    } = useHentSteg(behandlingId);
+    useEffect(() => {
+        if (behandling.status === 'SUKSESS') {
+            settFormkravSteg(true);
+            if (behandling.data.steg !== 'FORMKRAV') {
+                settVurderingSteg(true);
+                if (behandling.data.steg !== 'VURDERING') {
+                    settBrevSteg(true);
+                    if (behandling.data.steg !== 'BREV') {
+                        settResultatSteg(true);
+                    } else {
+                        settResultatSteg(false);
+                    }
+                } else {
+                    settBrevSteg(false);
+                }
+            } else {
+                settVurderingSteg(false);
+            }
+        }
+    }, [behandling, settBrevSteg, settFormkravSteg, settResultatSteg, settVurderingSteg]);
 
     const [vilkårTom, settVilkårTom] = useState<boolean>(false);
 
@@ -137,13 +135,9 @@ const [BehandlingProvider, useBehandling] = constate(() => {
         resultatSideGyldig,
         settResultatSideGyldig,
         brevSteg,
-        settBrevSteg,
         resultatSteg,
-        settResultatSteg,
         vurderingSteg,
-        settVurderingSteg,
         formkravSteg,
-        settFormkravSteg,
         vurderingEndret,
         settVurderingEndret,
         vurderingData,

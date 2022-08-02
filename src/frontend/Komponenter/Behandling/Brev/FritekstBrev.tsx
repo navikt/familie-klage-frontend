@@ -45,7 +45,7 @@ const FritekstBrev: React.FC<Props> = ({
     mellomlagretFritekstbrev,
     oppdaterBrevressurs,
 }) => {
-    const { behandling, settResultatSteg } = useBehandling();
+    const { behandling } = useBehandling();
     const { axiosRequest } = useApp();
 
     const personopplysningerConfig: AxiosRequestConfig = useMemo(
@@ -73,37 +73,30 @@ const FritekstBrev: React.FC<Props> = ({
     };
 
     const endreOverskrift = (nyOverskrift: string) => {
-        settResultatSteg(false);
         settOverskrift(nyOverskrift);
     };
 
     const endreAvsnitt = (nyttAvsnitt: AvsnittMedId[]) => {
-        settResultatSteg(false);
         settAvsnitt(nyttAvsnitt);
     };
 
     const oppdaterFlyttAvsnittOppover = (avsnittId: string) => {
-        settResultatSteg(false);
         settAvsnitt(flyttAvsnittOppover(avsnittId, avsnitt));
     };
 
     const oppdaterFlyttAvsnittNedover = (avsnittId: string) => {
-        settResultatSteg(false);
         settAvsnitt(flyttAvsnittNedover(avsnittId, avsnitt));
     };
 
     const oppdaterLeggTilAvsnittFørst = () => {
-        settResultatSteg(false);
         settAvsnitt(leggTilAvsnittFørst(avsnitt));
     };
 
     const oppdaterLeggAvsnittBakSisteSynligeAvsnitt = () => {
-        settResultatSteg(false);
         settAvsnitt(leggAvsnittBakSisteSynligeAvsnitt(avsnitt));
     };
 
     const endreDeloverskriftAvsnitt = (radId: string, e: ChangeEvent<HTMLInputElement>) => {
-        settResultatSteg(false);
         const oppdaterteAvsnitt = avsnitt.map((rad) => {
             return rad.avsnittId === radId ? { ...rad, deloverskrift: e.target.value } : rad;
         });
@@ -112,7 +105,6 @@ const FritekstBrev: React.FC<Props> = ({
     };
 
     const endreInnholdAvsnitt = (radId: string, e: ChangeEvent<HTMLTextAreaElement>) => {
-        settResultatSteg(false);
         const oppdaterteAvsnitt = avsnitt.map((rad) => {
             return rad.avsnittId === radId ? { ...rad, innhold: e.target.value } : rad;
         });
@@ -121,7 +113,6 @@ const FritekstBrev: React.FC<Props> = ({
     };
 
     const fjernRad = (radId: string) => {
-        settResultatSteg(false);
         settAvsnitt((eksisterendeAvsnitt: AvsnittMedId[]) => {
             return eksisterendeAvsnitt.filter((rad) => radId !== rad.avsnittId);
         });

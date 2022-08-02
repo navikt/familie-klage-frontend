@@ -53,13 +53,7 @@ export const Formvilkår: React.FC<IFormvilkårKomponent> = ({
     settFormkravBesvart,
     settFormVilkårData,
 }) => {
-    const {
-        settBrevSteg,
-        settResultatSteg,
-        visAdvarselFormkrav,
-        settVisAdvarselFormkrav,
-        hentBehandling,
-    } = useBehandling();
+    const { visAdvarselFormkrav, settVisAdvarselFormkrav, hentBehandling } = useBehandling();
 
     const { axiosRequest, nullstillIkkePersisterteKomponenter, settIkkePersistertKomponent } =
         useApp();
@@ -102,12 +96,10 @@ export const Formvilkår: React.FC<IFormvilkårKomponent> = ({
         settSenderInn(true);
 
         if (vilkårErGyldig()) settFormkravGyldig(true);
-        else settBrevSteg(true);
 
         if (vilkårErBesvart()) {
             settFormkravBesvart(true);
         } else {
-            settBrevSteg(false);
             settFormkravBesvart(false);
         }
         settLåst(true);
@@ -176,8 +168,6 @@ export const Formvilkår: React.FC<IFormvilkårKomponent> = ({
                                             [item.navn]: val,
                                         }));
                                         settIkkePersistertKomponent(val);
-                                        settBrevSteg(false);
-                                        settResultatSteg(false);
                                     }}
                                     value={item.svar}
                                     key={index}
@@ -195,8 +185,6 @@ export const Formvilkår: React.FC<IFormvilkårKomponent> = ({
                             value={formData.saksbehandlerBegrunnelse}
                             onChange={(e) => {
                                 settIkkePersistertKomponent(e.target.value);
-                                settBrevSteg(false);
-                                settResultatSteg(false);
                                 settFormVilkårData((prevState: IFormVilkår) => ({
                                     ...prevState,
                                     saksbehandlerBegrunnelse: e.target.value,

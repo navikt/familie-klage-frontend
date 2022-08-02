@@ -41,8 +41,7 @@ interface IBrev {
 export const Brev: React.FC<IBrev> = ({ behandlingId }) => {
     const [brevRessurs, settBrevRessurs] = useState<Ressurs<string>>(byggTomRessurs());
 
-    const { personopplysningerResponse, behandling, settResultatSteg, hentBehandling } =
-        useBehandling();
+    const { personopplysningerResponse, behandling, hentBehandling } = useBehandling();
 
     const { mellomlagretBrev } = useHentBrev(behandlingId);
 
@@ -64,7 +63,6 @@ export const Brev: React.FC<IBrev> = ({ behandlingId }) => {
             method: 'POST',
             url: `/familie-klage/api/behandling/ferdigstill/${behandlingId}`,
         }).then(() => {
-            settResultatSteg(true);
             settSenderInn(false);
             hentBehandling.rerun();
         });

@@ -59,8 +59,6 @@ export const Vurdering: React.FC<{ behandlingId: string }> = ({ behandlingId }) 
         vurderingEndret,
         settVurderingEndret,
         settVurderingSideGyldig,
-        settBrevSteg,
-        settResultatSteg,
         hentBehandling,
         visAdvarselSendBrev,
         settVisAdvarselSendBrev,
@@ -139,7 +137,6 @@ export const Vurdering: React.FC<{ behandlingId: string }> = ({ behandlingId }) 
             if (res.status === RessursStatus.SUKSESS) {
                 nullstillIkkePersisterteKomponenter();
                 settVurderingSideGyldig(true);
-                settBrevSteg(true);
                 settVisAdvarselSendBrev(false);
             } else {
                 settVisAdvarselSendBrev(true);
@@ -197,8 +194,6 @@ export const Vurdering: React.FC<{ behandlingId: string }> = ({ behandlingId }) 
                                 label="Vurdering"
                                 value={vurderingData.beskrivelse}
                                 onChange={(e) => {
-                                    settBrevSteg(false);
-                                    settResultatSteg(false);
                                     settIkkePersistertKomponent(e.target.value);
                                     settVurderingData((tidligereTilstand) => ({
                                         ...tidligereTilstand,
