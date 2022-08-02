@@ -35,7 +35,6 @@ export const Årsak: React.FC<IÅrsak> = ({
             </Heading>
             <ÅrsakInnholdStyled>
                 <Select
-                    defaultValue={ÅrsakValg.VELG}
                     value={årsakValgt}
                     label=""
                     size="medium"
