@@ -27,6 +27,7 @@ import { hentBehandlingIdFraUrl } from '../BehandlingContainer';
 import { useNavigate } from 'react-router-dom';
 import { useBehandling } from '../../../App/context/BehandlingContext';
 import { formkravOppfylt } from '../../../App/utils/formkrav';
+import { VurderingLesemodus } from './VurderingLesemodus';
 
 const VurderingBeskrivelseStyled = styled.div`
     margin: 2rem 4rem 2rem 4rem;
@@ -50,20 +51,22 @@ export const Vurdering: React.FC<{ behandlingId: string }> = ({ behandlingId }) 
     const [muligOppfylt, settMuligOppfylt] = useState(0);
     const [begrunnelse, settBegrunnelse] = useState('');
     const [formkravGodkjent, settForkravGodkjent] = useState<boolean>(false);
-    const [feilmelding, settFeilmelding] = useState('Dette er en feilmelding'); // TODO legge til enum-objekter som sier om det er begrunnelse eller vurdering som mangler
+    const [feilmelding, settFeilmelding] = useState('');
     const navigate = useNavigate();
-    const { settVurderingSideGyldig, settBrevSteg, settResultatSteg } = useBehandling();
 
     const {
         vurderingData,
         settVurderingData,
         vurderingEndret,
         settVurderingEndret,
+        settVurderingSideGyldig,
+        settBrevSteg,
+        settResultatSteg,
         hentBehandling,
         visAdvarselSendBrev,
         settVisAdvarselSendBrev,
+        behandlingErRedigerbar,
     } = useBehandling();
-
     // Endringer
     const { axiosRequest, nullstillIkkePersisterteKomponenter, settIkkePersistertKomponent } =
         useApp();
@@ -155,7 +158,8 @@ export const Vurdering: React.FC<{ behandlingId: string }> = ({ behandlingId }) 
                 feilmelding={feilmelding}
                 formkravGodkjent={formkravGodkjent}
             />
-            {formkravGodkjent ? (
+            {!behandlingErRedigerbar && formkravGodkjent && <VurderingLesemodus />}
+            {formkravGodkjent && behandlingErRedigerbar ? (
                 <>
                     <Vedtak
                         settVedtak={settVurderingData}
