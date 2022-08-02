@@ -50,7 +50,7 @@ export const Vurdering: React.FC<{ behandlingId: string }> = ({ behandlingId }) 
     const [muligOppfylt, settMuligOppfylt] = useState(0);
     const [begrunnelse, settBegrunnelse] = useState('');
     const [formkravGodkjent, settForkravGodkjent] = useState(false);
-    const [feilmelding, settFeilmelding] = useState('Dette er en feilmelding'); // TODO legge til enum-objekter som sier om det er begrunnelse eller vurdering som mangler
+    const [feilmelding, settFeilmelding] = useState('');
     const navigate = useNavigate();
 
     const {
