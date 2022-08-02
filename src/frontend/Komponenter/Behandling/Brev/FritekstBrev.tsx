@@ -45,7 +45,7 @@ const FritekstBrev: React.FC<Props> = ({
     mellomlagretFritekstbrev,
     oppdaterBrevressurs,
 }) => {
-    const { behandling } = useBehandling();
+    const { behandling, behandlingErRedigerbar } = useBehandling();
     const { axiosRequest } = useApp();
 
     const personopplysningerConfig: AxiosRequestConfig = useMemo(
@@ -182,22 +182,26 @@ const FritekstBrev: React.FC<Props> = ({
             {({ behandling }) => (
                 <StyledBrev>
                     <h1>Fritekstbrev for {stønadstypeTilTekst[behandling.stonadsType]}</h1>
-                    <BrevInnhold
-                        brevType={brevType}
-                        overskrift={overskrift}
-                        endreOverskrift={endreOverskrift}
-                        avsnitt={avsnitt}
-                        endreAvsnitt={endreAvsnitt}
-                        endreDeloverskriftAvsnitt={endreDeloverskriftAvsnitt}
-                        endreInnholdAvsnitt={endreInnholdAvsnitt}
-                        fjernRad={fjernRad}
-                        leggTilAvsnittFørst={oppdaterLeggTilAvsnittFørst}
-                        leggAvsnittBakSisteSynligeAvsnitt={
-                            oppdaterLeggAvsnittBakSisteSynligeAvsnitt
-                        }
-                        flyttAvsnittOpp={oppdaterFlyttAvsnittOppover}
-                        flyttAvsnittNed={oppdaterFlyttAvsnittNedover}
-                    />
+                    {behandlingErRedigerbar ? (
+                        <BrevInnhold
+                            brevType={brevType}
+                            overskrift={overskrift}
+                            endreOverskrift={endreOverskrift}
+                            avsnitt={avsnitt}
+                            endreAvsnitt={endreAvsnitt}
+                            endreDeloverskriftAvsnitt={endreDeloverskriftAvsnitt}
+                            endreInnholdAvsnitt={endreInnholdAvsnitt}
+                            fjernRad={fjernRad}
+                            leggTilAvsnittFørst={oppdaterLeggTilAvsnittFørst}
+                            leggAvsnittBakSisteSynligeAvsnitt={
+                                oppdaterLeggAvsnittBakSisteSynligeAvsnitt
+                            }
+                            flyttAvsnittOpp={oppdaterFlyttAvsnittOppover}
+                            flyttAvsnittNed={oppdaterFlyttAvsnittNedover}
+                        />
+                    ) : (
+                        ''
+                    )}
                 </StyledBrev>
             )}
         </DataViewer>

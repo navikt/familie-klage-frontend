@@ -12,7 +12,7 @@ const VilkårStyling = styled.div`
     flex-direction: column;
     align-items: center;
     width: 50%;
-    margin: 0.5rem 1rem 1 rem 0rem;
+    margin: 0.5rem 1rem 1rem 1rem;
 `;
 
 const FormKravStylingBody = styled.div`
@@ -22,7 +22,7 @@ const FormKravStylingBody = styled.div`
         flex-direction: column;
     }
     width: 100%;
-    margin: 0.5rem 1rem 1rem 1rem;
+    margin: 0rem 1rem 1rem 1rem;
 `;
 
 const RadioKnapperContainer = styled.div`

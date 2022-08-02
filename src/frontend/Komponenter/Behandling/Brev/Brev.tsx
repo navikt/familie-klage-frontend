@@ -12,20 +12,21 @@ import { useApp } from '../../../App/context/AppContext';
 import { Button } from '@navikt/ds-react';
 import BrevModal from './BrevModal';
 
-const StyledBrev = styled.div`
-    background-color: #f2f2f2;
-    padding: 2rem 2rem;
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    grid-gap: 5rem;
-    justify-content: center;
-
-    @media only screen and (max-width: 1250px) {
-        display: flex;
-        flex-wrap: wrap;
-        gap: 3rem;
-    }
-`;
+const redigeringsmodus = {
+    backgroundColor: '#f2f2f2',
+    padding: '2rem 2rem',
+    display: 'grid',
+    gridTemplateColumns: '1fr 1fr',
+    gridGap: '5rem',
+    justifyContent: 'center',
+};
+const lesemodus = {
+    backgroundColor: '#f2f2f2',
+    padding: '2rem 2rem',
+    justifyContent: 'center',
+    alignItems: 'center',
+    textAlign: 'center' as const,
+};
 
 const BrevKnapper = styled.div`
     display: flex;
@@ -41,7 +42,14 @@ interface IBrev {
 export const Brev: React.FC<IBrev> = ({ behandlingId }) => {
     const [brevRessurs, settBrevRessurs] = useState<Ressurs<string>>(byggTomRessurs());
 
-    const { personopplysningerResponse, behandling, hentBehandling } = useBehandling();
+    const {
+        personopplysningerResponse,
+        behandling,
+        hentBehandling,
+        visAdvarselSendBrev,
+        settVisAdvarselSendBrev,
+        behandlingErRedigerbar,
+    } = useBehandling();
 
     const { mellomlagretBrev } = useHentBrev(behandlingId);
 
@@ -69,11 +77,9 @@ export const Brev: React.FC<IBrev> = ({ behandlingId }) => {
         });
     };
 
-    const { visAdvarselSendBrev, settVisAdvarselSendBrev } = useBehandling();
-
     return (
         <div>
-            <StyledBrev>
+            <div style={behandlingErRedigerbar ? redigeringsmodus : lesemodus}>
                 <div>
                     <DataViewer response={{ personopplysningerResponse, behandling }}>
                         <FritekstBrev
@@ -82,24 +88,31 @@ export const Brev: React.FC<IBrev> = ({ behandlingId }) => {
                             oppdaterBrevressurs={oppdaterBrevRessurs}
                         />
                     </DataViewer>
-                    <BrevKnapper>
-                        <Button
-                            variant="primary"
-                            size="medium"
-                            onClick={() => {
-                                settVisAdvarselSendBrev(true);
-                            }}
-                        >
-                            Ferdigstill
-                        </Button>
+                    {behandlingErRedigerbar ? (
+                        <BrevKnapper>
+                            <Button
+                                variant="primary"
+                                size="medium"
+                                onClick={() => {
+                                    settVisAdvarselSendBrev(true);
+                                }}
+                            >
+                                Ferdigstill
+                            </Button>
 
-                        {visAdvarselSendBrev && (
-                            <BrevModal ferdigstillBrev={ferdigstillBrev} senderInn={senderInn} />
-                        )}
-                    </BrevKnapper>
+                            {visAdvarselSendBrev && (
+                                <BrevModal
+                                    ferdigstillBrev={ferdigstillBrev}
+                                    senderInn={senderInn}
+                                />
+                            )}
+                        </BrevKnapper>
+                    ) : (
+                        ''
+                    )}
                 </div>
                 <PdfVisning pdfFilInnhold={brevRessurs} />
-            </StyledBrev>
+            </div>
         </div>
     );
 };
