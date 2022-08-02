@@ -59,10 +59,9 @@ export const Formvilkår: React.FC<IFormvilkårKomponent> = ({
         settResultatSteg,
         visAdvarselFormkrav,
         settVisAdvarselFormkrav,
-        hentBehandling
+        hentBehandling,
     } = useBehandling();
-
-const { axiosRequest, nullstillIkkePersisterteKomponenter, settIkkePersistertKomponent } =
+    const { axiosRequest, nullstillIkkePersisterteKomponenter, settIkkePersistertKomponent } =
         useApp();
 
     const vilkårErGyldig = (): boolean => {
