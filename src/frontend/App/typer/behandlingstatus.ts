@@ -14,6 +14,3 @@ export const behandlingStatusTilTekst: Record<BehandlingStatus, string> = {
 
 export const erBehandlingRedigerbar = (behandling: Behandling): boolean =>
     [StegType.FORMKRAV, StegType.VURDERING, StegType.BREV].includes(behandling.steg);
-
-export const erBehandlingUnderArbeid = (behandling: Behandling): boolean =>
-    [StegType.FORMKRAV, StegType.VURDERING, StegType.BREV].includes(behandling.steg);

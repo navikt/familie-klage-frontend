@@ -7,7 +7,6 @@ import styled from 'styled-components';
 import { Back, Next } from '@navikt/ds-icons';
 import navFarger from 'nav-frontend-core';
 import { useBehandling } from '../../../App/context/BehandlingContext';
-import { erBehandlingUnderArbeid } from '../../../App/typer/behandlingstatus';
 import { Behandling } from '../../../App/typer/fagsak';
 
 interface IHøyremenyProps {
@@ -50,10 +49,10 @@ export enum Høyremenyvalg {
 
 const Høyremeny: React.FC<IHøyremenyProps> = ({ åpenHøyremeny, behandling }) => {
     const [aktivtValg, settAktivtvalg] = useState<Høyremenyvalg>(Høyremenyvalg.Historikk);
-    const { settÅpenHøyremeny } = useBehandling();
+    const { settÅpenHøyremeny, behandlingErRedigerbar } = useBehandling();
 
     useEffect(() => {
-        if (erBehandlingUnderArbeid(behandling)) {
+        if (behandlingErRedigerbar) {
             settAktivtvalg(Høyremenyvalg.Historikk);
         }
     }, [behandling]);
