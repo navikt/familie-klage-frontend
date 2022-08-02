@@ -7,7 +7,7 @@ import { useApp } from '../../../App/context/AppContext';
 import styled from 'styled-components';
 
 // Komponenter
-import { Alert, Button, Textarea, Heading } from '@navikt/ds-react';
+import { Alert, Button, Textarea } from '@navikt/ds-react';
 import { FormkravOppsummering } from './FormkravOppsummering';
 import { Vedtak } from './Vedtak';
 import { Årsak } from './Årsak';
@@ -26,6 +26,7 @@ import { IFormVilkår, VilkårStatus } from '../Formkrav/utils';
 import { hentBehandlingIdFraUrl } from '../BehandlingContainer';
 import { useNavigate } from 'react-router-dom';
 import { useBehandling } from '../../../App/context/BehandlingContext';
+import { VurderingLesemodus } from './VurderingLesemodus';
 
 const VurderingBeskrivelseStyled = styled.div`
     margin: 2rem 4rem 2rem 4rem;
@@ -41,16 +42,6 @@ const VurderingKnapper = styled.div`
     flex-direction: row;
     justify-content: space-between;
     margin: 0 4rem;
-`;
-
-const VurderingLesemodus = styled.div`
-    display: flex;
-    flex-direction: column;
-    margin: 0 4rem;
-`;
-
-const VurderingLesemodusPunkt = styled.div`
-    margin: 0 0 2rem 0;
 `;
 
 export const Vurdering: React.FC<{ behandlingId: string }> = ({ behandlingId }) => {
@@ -168,51 +159,7 @@ export const Vurdering: React.FC<{ behandlingId: string }> = ({ behandlingId }) 
                 feilmelding={feilmelding}
                 formkravGodkjent={formkravGodkjent}
             />
-            {!behandlingErRedigerbar && formkravGodkjent && (
-                <VurderingLesemodus>
-                    <VurderingLesemodusPunkt>
-                        <Heading level="1" size="medium">
-                            Vedtak
-                        </Heading>
-                        {vedtakValgTilTekst[vurderingData.vedtak]}
-                    </VurderingLesemodusPunkt>
-                    {vurderingData.arsak !== undefined && vurderingData.arsak !== ÅrsakValg.VELG && (
-                        <VurderingLesemodusPunkt>
-                            <Heading level="1" size="medium">
-                                Årsak
-                            </Heading>
-                            {årsakValgTilTekst[vurderingData.arsak]}
-                        </VurderingLesemodusPunkt>
-                    )}
-
-                    {vurderingData.hjemmel !== undefined &&
-                        vurderingData.hjemmel !== HjemmelValg.VELG && (
-                            <VurderingLesemodusPunkt>
-                                <Heading level="1" size="medium">
-                                    Hjemmel
-                                </Heading>
-                                {hjemmelValgTilTekst[vurderingData.hjemmel]}
-                            </VurderingLesemodusPunkt>
-                        )}
-
-                    <Textarea
-                        label="Vurdering"
-                        value={vurderingData.beskrivelse}
-                        onChange={(e) => {
-                            settBrevSteg(false);
-                            settResultatSteg(false);
-                            settIkkePersistertKomponent(e.target.value);
-                            settVurderingData((tidligereTilstand) => ({
-                                ...tidligereTilstand,
-                                beskrivelse: e.target.value,
-                            }));
-                            settVurderingEndret(true);
-                        }}
-                        size="medium"
-                        disabled={true}
-                    />
-                </VurderingLesemodus>
-            )}
+            {!behandlingErRedigerbar && formkravGodkjent && <VurderingLesemodus />}
             {formkravGodkjent && behandlingErRedigerbar ? (
                 <>
                     <Vedtak
