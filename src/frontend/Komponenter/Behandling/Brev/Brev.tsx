@@ -65,6 +65,7 @@ export const Brev: React.FC<IBrev> = ({ behandlingId }) => {
         }).then(() => {
             settSenderInn(false);
             hentBehandling.rerun();
+            settVisAdvarselSendBrev(false);
         });
     };
 

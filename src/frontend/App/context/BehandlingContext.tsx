@@ -56,7 +56,6 @@ const [BehandlingProvider, useBehandling] = constate(() => {
 
     const [formkravLåst, settFormkravLåst] = useState<boolean>(false);
     const [formkravBesvart, settFormkravBesvart] = useState<boolean>(false);
-
     const [formkravGyldig, settFormkravGyldig] = useState<boolean>(false);
     const [vurderingSideGyldig, settVurderingSideGyldig] = useState<boolean>(false);
     const [brevSideGyldig, settBrevSideGyldig] = useState<boolean>(false);
