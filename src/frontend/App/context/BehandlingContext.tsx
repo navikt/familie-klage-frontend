@@ -61,10 +61,10 @@ const [BehandlingProvider, useBehandling] = constate(() => {
     const [vurderingSideGyldig, settVurderingSideGyldig] = useState<boolean>(false);
     const [brevSideGyldig, settBrevSideGyldig] = useState<boolean>(false);
     const [resultatSideGyldig, settResultatSideGyldig] = useState<boolean>(false);
-    const [formkravSteg, settFormkravSteg] = useState(true);
-    const [vurderingSteg, settVurderingSteg] = useState(false);
-    const [brevSteg, settBrevSteg] = useState(false);
-    const [resultatSteg, settResultatSteg] = useState(false);
+    const [formkravSteg, settFormkravSteg] = useState<boolean>(true);
+    const [vurderingSteg, settVurderingSteg] = useState<boolean>(false);
+    const [brevSteg, settBrevSteg] = useState<boolean>(false);
+    const [resultatSteg, settResultatSteg] = useState<boolean>(false);
 
     useEffect(() => {
         if (behandling.status === 'SUKSESS') {
