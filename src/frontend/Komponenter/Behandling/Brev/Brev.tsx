@@ -12,6 +12,19 @@ import { useApp } from '../../../App/context/AppContext';
 import { Button } from '@navikt/ds-react';
 import BrevModal from './BrevModal';
 
+const redigerbar = {
+    backgroundColor: '#f2f2f2',
+    padding: '2rem 2rem',
+    display: 'grid',
+    gridTemplateColumns: '1fr 1fr',
+    gridGap: '5rem',
+    justifyContent: 'center',
+};
+const lesemodus = {
+    justifyContent: 'center',
+    alignItems: 'center',
+    textAlign: 'center',
+};
 const StyledBrev = styled.div`
     background-color: #f2f2f2;
     padding: 2rem 2rem;
@@ -74,7 +87,7 @@ export const Brev: React.FC<IBrev> = ({ behandlingId }) => {
 
     return (
         <div>
-            <StyledBrev>
+            <div style={erRedigerbar ? redigerbar : lesemodus}>
                 <div>
                     <DataViewer response={{ personopplysningerResponse, behandling }}>
                         <FritekstBrev
@@ -107,7 +120,7 @@ export const Brev: React.FC<IBrev> = ({ behandlingId }) => {
                     )}
                 </div>
                 <PdfVisning pdfFilInnhold={brevRessurs} />
-            </StyledBrev>
+            </div>
         </div>
     );
 };
