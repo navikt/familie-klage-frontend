@@ -35,7 +35,6 @@ export const Hjemmel: React.FC<IHjemmel> = ({
             </Heading>
             <HjemmelInnholdStyled>
                 <Select
-                    defaultValue={HjemmelValg.VELG}
                     value={hjemmelValgt}
                     label=""
                     size="medium"
