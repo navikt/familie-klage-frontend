@@ -50,7 +50,7 @@ export const Vurdering: React.FC<{ behandlingId: string }> = ({ behandlingId }) 
     const [oppfylt, settOppfylt] = useState(0);
     const [muligOppfylt, settMuligOppfylt] = useState(0);
     const [begrunnelse, settBegrunnelse] = useState('');
-    const [formkravGodkjent, settForkravGodkjent] = useState<boolean>(false);
+    const [formkravGodkjent, settFormkravGodkjent] = useState<boolean>(false);
     const [feilmelding, settFeilmelding] = useState('');
     const navigate = useNavigate();
 
@@ -89,7 +89,7 @@ export const Vurdering: React.FC<{ behandlingId: string }> = ({ behandlingId }) 
                 ];
                 settOppfylt(vilkårListe.filter((item: VilkårStatus) => item === 'OPPFYLT').length);
                 settMuligOppfylt(vilkårListe.length);
-                settForkravGodkjent(formkravOppfylt(res.data));
+                settFormkravGodkjent(formkravOppfylt(res.data));
             }
         });
     }, [axiosRequest, behandlingId]);
