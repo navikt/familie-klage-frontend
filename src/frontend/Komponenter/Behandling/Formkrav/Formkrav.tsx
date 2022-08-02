@@ -88,9 +88,20 @@ export const Formkrav: React.FC<{ behandlingId: string }> = ({ behandlingId }) =
                     saksbehandlerBegrunnelse: res.data.saksbehandlerBegrunnelse,
                     endretTid: res.data.endretTid,
                 }));
+
+                const vilkårListe = [
+                    res.data.klagePart,
+                    res.data.klageKonkret,
+                    res.data.klagefristOverholdt,
+                    res.data.klageSignert,
+                ];
+
+                const besvart = vilkårListe.filter((item: VilkårStatus) => item !== null).length;
+                const muligBesvart = vilkårListe.length;
+                settFormkravGyldig(besvart === muligBesvart);
             } else settFormkravLåst(false);
         });
-    }, [axiosRequest, behandlingId, settFormkravLåst]);
+    }, [axiosRequest, behandlingId, settFormkravLåst, settFormkravGyldig]);
 
     return (
         <FormKravStyling>
