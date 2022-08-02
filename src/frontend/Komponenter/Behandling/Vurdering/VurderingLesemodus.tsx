@@ -5,7 +5,7 @@ import * as React from 'react';
 import styled from 'styled-components';
 
 // Komponenter
-import { Textarea, Heading } from '@navikt/ds-react';
+import { Textarea, Heading, Detail } from '@navikt/ds-react';
 import {
     HjemmelValg,
     hjemmelValgTilTekst,
@@ -54,13 +54,10 @@ export const VurderingLesemodus: React.FC = () => {
                         {hjemmelValgTilTekst[vurderingData.hjemmel]}
                     </VurderingLesemodusPunkt>
                 )}
-
-                <Textarea
-                    label="Vurdering"
-                    value={vurderingData.beskrivelse}
-                    size="medium"
-                    disabled={true}
-                />
+                <Heading level="1" size="medium">
+                    Vurdering
+                </Heading>
+                {vurderingData.beskrivelse}
             </VurderingLesemodusDiv>
         </div>
     );
