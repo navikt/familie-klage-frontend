@@ -54,7 +54,8 @@ interface IBrev {
 export const Brev: React.FC<IBrev> = ({ behandlingId }) => {
     const [brevRessurs, settBrevRessurs] = useState<Ressurs<string>>(byggTomRessurs());
 
-    const { personopplysningerResponse, behandling, settResultatSteg } = useBehandling();
+    const { personopplysningerResponse, behandling, settResultatSteg, hentBehandling } =
+        useBehandling();
 
     const { mellomlagretBrev } = useHentBrev(behandlingId);
 
@@ -78,6 +79,7 @@ export const Brev: React.FC<IBrev> = ({ behandlingId }) => {
         }).then(() => {
             settResultatSteg(true);
             settSenderInn(false);
+            hentBehandling.rerun();
         });
         settErRedigerbar(false);
     };

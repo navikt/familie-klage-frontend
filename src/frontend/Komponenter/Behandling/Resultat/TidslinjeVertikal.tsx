@@ -65,7 +65,13 @@ export const TidslinjeVertikal: React.FC<{
                         {behandlingHistorikk || aktivtSteg ? (
                             <StyledLinjeSort />
                         ) : (
-                            <StyledLinjeGrå />
+                            <>
+                                {steg === StegType.VURDERING ? (
+                                    <StyledLinjeSort />
+                                ) : (
+                                    <StyledLinjeGrå />
+                                )}
+                            </>
                         )}
                     </>
                 )}
@@ -85,14 +91,27 @@ export const TidslinjeVertikal: React.FC<{
                         />
                     </Ikon>
                 ) : (
-                    <Ikon>
-                        <path
-                            fillRule="evenodd"
-                            clipRule="evenodd"
-                            d="M12 0c6.627 0 12 5.373 12 12s-5.373 12-12 12S0 18.627 0 12 5.373 0 12 0Zm0 2C6.477 2 2 6.477 2 12s4.477 10 10 10 10-4.477 10-10S17.523 2 12 2Zm1 4v7H6v-2h5V6h2Z"
-                            fill={aktivtSteg ? 'currentcolor' : 'grey'}
-                        />
-                    </Ikon>
+                    <>
+                        {steg === StegType.VURDERING ? (
+                            <Ikon>
+                                <path
+                                    fillRule="evenodd"
+                                    clipRule="evenodd"
+                                    d="M12 0c6.627 0 12 5.373 12 12s-5.373 12-12 12S0 18.627 0 12 5.373 0 12 0Zm0 2C6.477 2 2 6.477 2 12s4.477 10 10 10 10-4.477 10-10S17.523 2 12 2Zm3.571 5L17 8.429 13.428 12 17 15.571 15.571 17 12 13.428 8.429 17 7 15.571 10.572 12 7 8.429 8.429 7 12 10.572 15.571 7Z"
+                                    fill="grey"
+                                />
+                            </Ikon>
+                        ) : (
+                            <Ikon>
+                                <path
+                                    fillRule="evenodd"
+                                    clipRule="evenodd"
+                                    d="M12 0c6.627 0 12 5.373 12 12s-5.373 12-12 12S0 18.627 0 12 5.373 0 12 0Zm0 2C6.477 2 2 6.477 2 12s4.477 10 10 10 10-4.477 10-10S17.523 2 12 2Zm1 4v7H6v-2h5V6h2Z"
+                                    fill={aktivtSteg ? 'currentcolor' : 'grey'}
+                                />
+                            </Ikon>
+                        )}
+                    </>
                 )}
             </StyledIkon>
             {behandlingHistorikk ? (
