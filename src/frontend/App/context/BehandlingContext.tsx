@@ -78,7 +78,6 @@ const [BehandlingProvider, useBehandling] = constate(() => {
     const [vurderingSideGyldig, settVurderingSideGyldig] = useState<boolean>(false);
     const [brevSideGyldig, settBrevSideGyldig] = useState<boolean>(false);
     const [resultatSideGyldig, settResultatSideGyldig] = useState<boolean>(false);
-
     const {
         brevSteg,
         settBrevSteg,
@@ -110,6 +109,7 @@ const [BehandlingProvider, useBehandling] = constate(() => {
     return {
         behandling,
         behandlingErRedigerbar,
+        settBehandlingErRedigerbar,
         totrinnskontroll,
         personopplysningerResponse,
         behandlingHistorikk,
