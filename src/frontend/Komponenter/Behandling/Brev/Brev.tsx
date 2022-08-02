@@ -45,7 +45,6 @@ export const Brev: React.FC<IBrev> = ({ behandlingId }) => {
     const {
         personopplysningerResponse,
         behandling,
-        settResultatSteg,
         hentBehandling,
         visAdvarselSendBrev,
         settVisAdvarselSendBrev,
@@ -72,7 +71,6 @@ export const Brev: React.FC<IBrev> = ({ behandlingId }) => {
             method: 'POST',
             url: `/familie-klage/api/behandling/ferdigstill/${behandlingId}`,
         }).then(() => {
-            settResultatSteg(true);
             settSenderInn(false);
             hentBehandling.rerun();
             settVisAdvarselSendBrev(false);
