@@ -92,7 +92,7 @@ export const Vurdering: React.FC<{ behandlingId: string }> = ({ behandlingId }) 
                 settFormkravGodkjent(formkravOppfylt(res.data));
             }
         });
-    }, [axiosRequest, behandlingId]);
+    }, [axiosRequest, behandlingId, settForkravGodkjent]);
 
     // Hent eksisterende vurderingsdata
     useEffect(() => {
