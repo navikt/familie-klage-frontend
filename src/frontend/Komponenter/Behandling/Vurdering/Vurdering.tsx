@@ -26,6 +26,7 @@ import { IFormVilkår, VilkårStatus } from '../Formkrav/utils';
 import { hentBehandlingIdFraUrl } from '../BehandlingContainer';
 import { useNavigate } from 'react-router-dom';
 import { useBehandling } from '../../../App/context/BehandlingContext';
+import { formkravOppfylt } from '../../../App/utils/formkrav';
 
 const VurderingBeskrivelseStyled = styled.div`
     margin: 2rem 4rem 2rem 4rem;
@@ -48,7 +49,7 @@ export const Vurdering: React.FC<{ behandlingId: string }> = ({ behandlingId }) 
     const [oppfylt, settOppfylt] = useState(0);
     const [muligOppfylt, settMuligOppfylt] = useState(0);
     const [begrunnelse, settBegrunnelse] = useState('');
-    const [formkravGodkjent, settForkravGodkjent] = useState(false);
+    const [formkravGodkjent, settForkravGodkjent] = useState<boolean>(false);
     const [feilmelding, settFeilmelding] = useState('Dette er en feilmelding'); // TODO legge til enum-objekter som sier om det er begrunnelse eller vurdering som mangler
     const navigate = useNavigate();
     const { settVurderingSideGyldig, settBrevSteg, settResultatSteg } = useBehandling();
@@ -85,6 +86,7 @@ export const Vurdering: React.FC<{ behandlingId: string }> = ({ behandlingId }) 
                 ];
                 settOppfylt(vilkårListe.filter((item: VilkårStatus) => item === 'OPPFYLT').length);
                 settMuligOppfylt(vilkårListe.length);
+                settForkravGodkjent(formkravOppfylt(res.data));
             }
         });
     }, [axiosRequest, behandlingId]);
@@ -108,14 +110,11 @@ export const Vurdering: React.FC<{ behandlingId: string }> = ({ behandlingId }) 
     }, [axiosRequest, behandlingId, settVurderingData]);
 
     useEffect(() => {
-        if (oppfylt < muligOppfylt || muligOppfylt == 0) {
-            settForkravGodkjent(false);
+        if (!formkravGodkjent) {
             settFeilmelding('Formkrav er ikke oppfylt.');
         } else if (begrunnelse.length === 0) {
-            settForkravGodkjent(false);
             settFeilmelding('Formkrav mangler en begrunnelse.');
         } else {
-            settForkravGodkjent(true);
             settFeilmelding('Det har skjedd en feil');
         }
     }, [oppfylt, muligOppfylt, begrunnelse.length]);
