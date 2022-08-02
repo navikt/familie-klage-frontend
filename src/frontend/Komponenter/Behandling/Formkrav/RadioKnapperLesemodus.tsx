@@ -33,7 +33,6 @@ const FormKravStyling = styled.div`
     align-items: center;
     width: 90%;
     margin: 0 3rem 0 0;
-    margin-top: 2%;
 `;
 
 const VilkårHeader = styled.div`
