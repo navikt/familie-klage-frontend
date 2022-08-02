@@ -23,22 +23,8 @@ const redigerbar = {
 const lesemodus = {
     justifyContent: 'center',
     alignItems: 'center',
-    textAlign: 'center',
+    textAlign: 'center' as const,
 };
-const StyledBrev = styled.div`
-    background-color: #f2f2f2;
-    padding: 2rem 2rem;
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    grid-gap: 5rem;
-    justify-content: center;
-
-    @media only screen and (max-width: 1250px) {
-        display: flex;
-        flex-wrap: wrap;
-        gap: 3rem;
-    }
-`;
 
 const BrevKnapper = styled.div`
     display: flex;
@@ -54,8 +40,16 @@ interface IBrev {
 export const Brev: React.FC<IBrev> = ({ behandlingId }) => {
     const [brevRessurs, settBrevRessurs] = useState<Ressurs<string>>(byggTomRessurs());
 
-    const { personopplysningerResponse, behandling, settResultatSteg, hentBehandling } =
-        useBehandling();
+    const {
+        personopplysningerResponse,
+        behandling,
+        settResultatSteg,
+        hentBehandling,
+        visAdvarselSendBrev,
+        settVisAdvarselSendBrev,
+        behandlingErRedigerbar,
+        settBehandlingErRedigerbar,
+    } = useBehandling();
 
     const { mellomlagretBrev } = useHentBrev(behandlingId);
 
@@ -81,15 +75,12 @@ export const Brev: React.FC<IBrev> = ({ behandlingId }) => {
             settSenderInn(false);
             hentBehandling.rerun();
         });
-        settErRedigerbar(false);
+        settBehandlingErRedigerbar(false);
     };
-
-    const { visAdvarselSendBrev, settVisAdvarselSendBrev, erRedigerbar, settErRedigerbar } =
-        useBehandling();
 
     return (
         <div>
-            <div style={erRedigerbar ? redigerbar : lesemodus}>
+            <div style={behandlingErRedigerbar ? redigerbar : lesemodus}>
                 <div>
                     <DataViewer response={{ personopplysningerResponse, behandling }}>
                         <FritekstBrev
@@ -98,7 +89,7 @@ export const Brev: React.FC<IBrev> = ({ behandlingId }) => {
                             oppdaterBrevressurs={oppdaterBrevRessurs}
                         />
                     </DataViewer>
-                    {erRedigerbar ? (
+                    {behandlingErRedigerbar ? (
                         <BrevKnapper>
                             <Button
                                 variant="primary"

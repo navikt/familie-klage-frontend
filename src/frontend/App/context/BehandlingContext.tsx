@@ -77,7 +77,6 @@ const [BehandlingProvider, useBehandling] = constate(() => {
     const [vurderingSideGyldig, settVurderingSideGyldig] = useState<boolean>(false);
     const [brevSideGyldig, settBrevSideGyldig] = useState<boolean>(false);
     const [resultatSideGyldig, settResultatSideGyldig] = useState<boolean>(false);
-    const [erRedigerbar, settErRedigerbar] = useState<boolean>(true);
     const {
         brevSteg,
         settBrevSteg,
@@ -151,8 +150,6 @@ const [BehandlingProvider, useBehandling] = constate(() => {
         settVurderingData,
         visAdvarselSendBrev,
         settVisAdvarselSendBrev,
-        erRedigerbar,
-        settErRedigerbar,
         visAdvarselFormkrav,
         settVisAdvarselFormkrav,
     };
