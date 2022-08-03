@@ -36,6 +36,10 @@ const Fanemeny: FC<Props> = ({ behandling }) => {
         status: RessursStatus.SUKSESS,
     };
 
+    const erFaneLåst = (gyldigeSider: boolean[], index: number) => {
+        return !gyldigeSider.slice(index, gyldigeSider.length).includes(true);
+    };
+
     return (
         <DataViewer response={{ mock }}>
             <StickyMedBoxShadow>
@@ -45,9 +49,7 @@ const Fanemeny: FC<Props> = ({ behandling }) => {
                             side={side}
                             behandlingId={behandling.id}
                             index={index}
-                            deaktivert={
-                                !gyldigeSider.slice(index, gyldigeSider.length).includes(true)
-                            }
+                            deaktivert={erFaneLåst(gyldigeSider, index)}
                             key={index}
                         />
                     ))}

@@ -24,7 +24,7 @@ export const Resultat: React.FC<IResultat> = ({ behandlingId }) => {
 
     useEffect(() => {
         hentBehandling.rerun();
-    }, []);
+    }, [hentBehandling]);
 
     useEffect(() => {
         axiosRequest<IBehandlingshistorikk[], null>({
@@ -35,7 +35,7 @@ export const Resultat: React.FC<IResultat> = ({ behandlingId }) => {
                 settHistorikk(res);
             }
         });
-    }, [axiosRequest, behandling]);
+    }, [axiosRequest, behandling, behandlingId]);
 
     return (
         <DataViewer response={{ behandling, historikk }}>

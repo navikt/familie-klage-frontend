@@ -1732,6 +1732,11 @@
   resolved "https://registry.yarnpkg.com/@bcoe/v8-coverage/-/v8-coverage-0.2.3.tgz#75a2e8b51cb758a7553d6804a5932d7aace75c39"
   integrity sha512-0hYQ8SB4Db5zvZB4axdMHGwEaQjkZzFjQiN9LVYvIFB2nSUHW9tYpxWriPrWDASIxiaXax83REcLxuSdnGPZtw==
 
+"@colors/colors@1.5.0":
+  version "1.5.0"
+  resolved "https://registry.yarnpkg.com/@colors/colors/-/colors-1.5.0.tgz#bb504579c1cae923e6576a4f5da43d25f97bdbd9"
+  integrity sha512-ooWCrlZP11i8GImSjTHYHLkvFDP48nS4+204nGb1RiX/WXYHmJA2III9/e2DWVabCESdW7hBAEzHRqUn9OUVvQ==
+
 "@dabh/diagnostics@^2.0.2":
   version "2.0.2"
   resolved "https://registry.yarnpkg.com/@dabh/diagnostics/-/diagnostics-2.0.2.tgz#290d08f7b381b8f94607dc8f471a12c675f9db31"
@@ -2183,27 +2188,20 @@
   dependencies:
     "@navikt/nap-bem-utils" "1.0.1"
 
-"@navikt/ds-css@^0.16.3":
-  version "0.16.21"
-  resolved "https://npm.pkg.github.com/download/@navikt/ds-css/0.16.21/d8f34cfa67882eddd09a7f05170f3d1d173fe45fa11c143f857319b6a57f00f2#b793f900f3148a048180423052480c04be239e68"
-  integrity sha512-kV9fLtnZoOIectWGZFg/aLzgp4gRi2sBjgq5VzoprNQlzSOnSxwR0QVLClpmjJe+oKZYUc5RndqDc0QAMawqkA==
-
 "@navikt/ds-css@^0.17.2":
   version "0.17.2"
   resolved "https://npm.pkg.github.com/download/@navikt/ds-css/0.17.2/fccadcb6847ad456e81328780e5d5cc84890d89028ad0d099520ba1516ac2450#04874e600a350ed101969af217f01e2516acda01"
   integrity sha512-+qZIm6rUeogt6OD2m8GPzgLiKV8lM3SYSYv7jUlVHoyJj1RB9iGK3hEceEhJh4aaVKiKZsYHiKc8MiRuMD64HA==
 
+"@navikt/ds-css@^0.18.26":
+  version "0.18.27"
+  resolved "https://npm.pkg.github.com/download/@navikt/ds-css/0.18.27/09aef1ba9b86cb9ca987e4f9427beb008f0ff9d44f670537e5afbf38f3aca761#77a464d3dc1299e8b64329d8e18f43a05a70c6f2"
+  integrity sha512-JK+EqtuUcehxSRI6YqyZuVeDLXotoZLYmED6DM77+atCRvphpPDc9fQuzXkByI25s9crNdXaS0sRCXSYSS62yA==
+
 "@navikt/ds-icons@^0.2.1":
   version "0.2.2"
   resolved "https://registry.yarnpkg.com/@navikt/ds-icons/-/ds-icons-0.2.2.tgz#5296982182ddb40c6bb6374cab4d3274ee64d880"
   integrity sha512-r2UVHOVzxGk6wLBbRtMFBAYI5XD+lqHAktNuSmly6cre7PXgVfar+JcVHqEc1r1HSZxkC4Kl4EjlU/laOPSr0Q==
-
-"@navikt/ds-icons@^0.8.11", "@navikt/ds-icons@^0.8.4":
-  version "0.8.11"
-  resolved "https://npm.pkg.github.com/download/@navikt/ds-icons/0.8.11/9d23d99d977655dbf28547b15069539716f76f9dd23239eed7cfdca1f9de9564#b9e2e62d0c6145f86c9688a59c97049657af80cb"
-  integrity sha512-1oO4hp1wnJUgLlw/YqT5w+N2UAhEBNuoOD+ngY3QhoQAyj6MLsIkw/778hD93qZAB5f2msfFvDqLUsYOSCHCdQ==
-  dependencies:
-    uuid "^8.3.2"
 
 "@navikt/ds-icons@^0.8.12":
   version "0.8.12"
@@ -2219,53 +2217,24 @@
   dependencies:
     uuid "^8.3.2"
 
-"@navikt/ds-react-internal@^0.12.8":
-  version "0.12.30"
-  resolved "https://npm.pkg.github.com/download/@navikt/ds-react-internal/0.12.30/e6c8a6bae861c5a7d19052c8bc9cee8f4abaa3459352633f8cf6341fcc849d2d#ea6bed0727ce8a27c02705bead9549fb0a1999cd"
-  integrity sha512-2rkFqT7cl7N9GA1dkyAnZuaTmsTiHNmSdquJn3fhvr+97JZtGe14hd5Bt7XwoPu+TGtLQUzsMna1SrXf1cm/nQ==
+"@navikt/ds-icons@^0.8.18", "@navikt/ds-icons@^0.8.20":
+  version "0.8.20"
+  resolved "https://npm.pkg.github.com/download/@navikt/ds-icons/0.8.20/ba6319506a1be93bdcf630eab40a8daade25347c87bb3f69d4ca14af3de37cec#b3c52f1839929d2e755b1ce6da44b4e02caf6f7e"
+  integrity sha512-ftX5GHpH8WdGXfw94P5M3Nn1Bma/MI3TaL1zlMnXBoqs/lFo6V3BeKNTcGoFTE7mJLJDE8qrcvewCWK2E6pkgw==
   dependencies:
-    "@navikt/ds-icons" "^0.8.11"
-    "@navikt/ds-react" "^0.17.27"
+    uuid "^8.3.2"
+
+"@navikt/ds-react-internal@^0.14.20":
+  version "0.14.26"
+  resolved "https://npm.pkg.github.com/download/@navikt/ds-react-internal/0.14.26/f1b51bd15c422d25660cee0307eae3ad8ff58915dd3a63991d86915d4a490773#c1e35c45d8f682e9f8d790396186bc8baf92b566"
+  integrity sha512-EWBeYQ/3u9z5j51rR/iXzDT3CC7tbqU6v5NDE8mYHW+aULyfPsNY8XFp+EgnXRh9Pk16sqUqXcSVMK0gVPRksg==
+  dependencies:
+    "@navikt/ds-icons" "^0.8.20"
+    "@navikt/ds-react" "^0.19.25"
     "@popperjs/core" "^2.10.1"
     classnames "^2.3.1"
     copy-to-clipboard "^3.3.1"
     react-merge-refs "^1.1.0"
-
-"@navikt/ds-react@^0.17.27":
-  version "0.17.27"
-  resolved "https://npm.pkg.github.com/download/@navikt/ds-react/0.17.27/cadcae82d4fb79e1628615597583f09184424cffb63e24eec0e50c899c16a8a6#d826baf51bb8693b30ce0f84de041eb97bb6eeed"
-  integrity sha512-AIB2z+SdK8d/NSsEhuhEsMV1sPFn5em+LcWPdm4nmrPJ3Son7RckKcW2smRkMfrPaaJGzSlqvYTLDkK9z+W3BA==
-  dependencies:
-    "@floating-ui/react-dom" "0.6.0"
-    "@material-ui/core" "^4.12.3"
-    "@navikt/ds-icons" "^0.8.11"
-    "@popperjs/core" "^2.10.1"
-    "@radix-ui/react-tabs" "0.1.5"
-    "@radix-ui/react-toggle-group" "0.1.5"
-    classnames "^2.2.6"
-    react-collapse "^5.1.0"
-    react-merge-refs "^1.1.0"
-    react-modal "3.14.3"
-    react-popper "^2.2.5"
-    uuid "^8.3.2"
-
-"@navikt/ds-react@^0.18.1":
-  version "0.18.5"
-  resolved "https://npm.pkg.github.com/download/@navikt/ds-react/0.18.5/c73e06ac324d508345ba01e1300e8cc0d1699748acb4ff7d1e7642dd87b26551#eff081e248b867e433ec188b38224d28435efe27"
-  integrity sha512-kXd0XRsS2OUijHbA0kqvfXOOt2XOJgsQ5pvjZI0/pj2v3LNxeW4Rzmy3UvYXY7Gkzupz9Z7vCCauXD04AI8bpw==
-  dependencies:
-    "@floating-ui/react-dom" "0.6.0"
-    "@material-ui/core" "^4.12.3"
-    "@navikt/ds-icons" "^0.8.11"
-    "@popperjs/core" "^2.10.1"
-    "@radix-ui/react-tabs" "0.1.5"
-    "@radix-ui/react-toggle-group" "0.1.5"
-    classnames "^2.2.6"
-    react-collapse "^5.1.0"
-    react-merge-refs "^1.1.0"
-    react-modal "3.14.3"
-    react-popper "^2.2.5"
-    uuid "^8.3.2"
 
 "@navikt/ds-react@^0.18.6":
   version "0.18.6"
@@ -2285,12 +2254,31 @@
     react-popper "^2.2.5"
     uuid "^8.3.2"
 
-"@navikt/familie-backend@6.0.1":
-  version "6.0.1"
-  resolved "https://npm.pkg.github.com/download/@navikt/familie-backend/6.0.1/313031a39f02ffe01ee3cec60690bef3e861b4d4be8fbfb1d11f2f195244e6c1#6561c357fc1198de790b38ce9b2a936355d44b32"
-  integrity sha512-oLwHbXEpJKlNRE6HMGyoNQCAmfn+TnFbh2+Ilsx+kLaUc/Cz4fC4ZIg1EMZ5UEd+PgmmFJVwCL38IfLtla3TKg==
+"@navikt/ds-react@^0.19.19", "@navikt/ds-react@^0.19.25":
+  version "0.19.25"
+  resolved "https://npm.pkg.github.com/download/@navikt/ds-react/0.19.25/6cc4b49e3eee98dabda9ed67ad60ecab339972c65ece87056284ca4f12c0c30d#db43b172eab1c6efe62c6d00690b1d2ac5d33ea5"
+  integrity sha512-PAA06TEWnfbXJJGxC77eyCN/QfDiKoVFD163F6AGedT58icJQBkqtTcPC0HSpsxbtvJL6Z/ophgeD4LnCsSLhw==
   dependencies:
-    "@navikt/familie-logging" "^2.0.0"
+    "@floating-ui/react-dom" "0.6.0"
+    "@material-ui/core" "^4.12.3"
+    "@navikt/ds-icons" "^0.8.20"
+    "@popperjs/core" "^2.10.1"
+    "@radix-ui/react-tabs" "0.1.5"
+    "@radix-ui/react-toggle-group" "0.1.5"
+    classnames "^2.2.6"
+    react-collapse "^5.1.0"
+    react-merge-refs "^1.1.0"
+    react-modal "3.15.1"
+    react-popper "^2.2.5"
+    uuid "^8.3.2"
+
+"@navikt/familie-backend@^7.0.4":
+  version "7.0.4"
+  resolved "https://npm.pkg.github.com/download/@navikt/familie-backend/7.0.4/e90fbdf6e9d46822eb3a3dc732acbcabe9ec9703c76dcbb283682be4240c2248#5663b88300cbb453feb4705536d92d3afd19959f"
+  integrity sha512-9oJ8DZS6VKv+8dzQQmG0DtHErD75P/LXk61Ws5r7lZ2O3g1JFhJEr8+JaKAMc2GZbqNawylFGz35MyehyAC8lg==
+  dependencies:
+    "@navikt/familie-logging" "^3.0.1"
+    "@types/connect-redis" "~0.0.18"
     "@types/cookie-parser" "^1.4.2"
     "@types/express" "^4.17.11"
     "@types/express-session" "^1.17.3"
@@ -2306,9 +2294,8 @@
     express-http-proxy "^1.6.0"
     express-session "^1.17.1"
     https-proxy-agent "^5.0.0"
-    moment-timezone "^0.5.27"
     openid-client "^4.7.2"
-    passport "^0.4.0"
+    passport "^0.6.0"
     prom-client "^13.1.0"
     redis "^3.0.2"
     request-promise "^4.2.5"
@@ -2341,20 +2328,19 @@
     nav-frontend-typografi-style "^1.1.1"
     prop-types "^15.7.2"
 
-"@navikt/familie-endringslogg@^2.0.2":
-  version "2.0.2"
-  resolved "https://npm.pkg.github.com/download/@navikt/familie-endringslogg/2.0.2/8feffd7b9fd4e73b49f0f40004ff7f2009925fb34fada239c7658d8af5a5f03b#0839eb0c099c23bc779312a3c8bfb5251a83f746"
-  integrity sha512-yizTupLRXQaS75/XQp7CfTvbpXlJAZTRfmxm6b+JTZuSj1VORkuecR818mlY5NH9l+2S2ILgeJ+YmWKKxhk2Zw==
+"@navikt/familie-endringslogg@^3.0.0":
+  version "3.0.0"
+  resolved "https://npm.pkg.github.com/download/@navikt/familie-endringslogg/3.0.0/ee6c03c31ff82dc6cde54389479afc3860184e18c9e872a0c6bf48c5ac31dfe4#ab52861579e1f6d369a42983ef9c59d33c4be39b"
+  integrity sha512-GSKmuOnuZoWVdL5MhIvccdG2JsdT9oERpss3CRGutiXAaKivIYfbtFUL/K5jdI7gLs/AeUTNiWMFJvrzwuc2kA==
   dependencies:
-    "@navikt/ds-css" "^0.16.3"
-    "@navikt/ds-icons" "^0.8.4"
-    "@navikt/ds-react" "^0.18.1"
-    "@navikt/ds-react-internal" "^0.12.8"
+    "@navikt/ds-css" "^0.18.26"
+    "@navikt/ds-icons" "^0.8.18"
+    "@navikt/ds-react" "^0.19.19"
+    "@navikt/ds-react-internal" "^0.14.20"
     "@sanity/block-content-to-react" "^3.0.0"
-    "@types/react" "^17.0.39"
     "@types/react-modal" "^3.13.1"
-    classnames "^2.2.6"
-    react-modal "^3.14.4"
+    classnames "^2.3.1"
+    react-modal "^3.15.1"
     react-transition-group "^4.4.2"
 
 "@navikt/familie-form-elements@^4.0.2":
@@ -2421,17 +2407,12 @@
   dependencies:
     "@navikt/familie-typer" "^5.0.0"
 
-"@navikt/familie-logging@^2.0.0":
-  version "2.0.0"
-  resolved "https://npm.pkg.github.com/download/@navikt/familie-logging/2.0.0/a36fbf16e65ba0de20254fa372d59c57f7f59590580e84b40be8a182fca4a106#a6b041899d45671529d5565a75ecdc9bab68063a"
-  integrity sha512-Odl6NqiqYUgnsxW0uf4jQlXJe/aPMBbLOK1D8fltU2iBvR9dz6ZY/Wh5+itItIr/403TePeelc33LkvwhrudUg==
+"@navikt/familie-logging@^3.0.1":
+  version "3.0.1"
+  resolved "https://npm.pkg.github.com/download/@navikt/familie-logging/3.0.1/7d6e5b52f48c274285a67620ed3d838aa66477b1dab9ab8e060384dc1c88d489#347fe4d5a405886e1809d80cb09600d35dbb5171"
+  integrity sha512-1016v5Pk+ItWS+fSkKvHH+OY2O3maknAtaStNzHb52jYSU55ibGKbY9T0GOVocUDI3aAxJ5hS5G1RWXkLNkT6Q==
   dependencies:
-    winston "^3.2.1"
-
-"@navikt/familie-typer@^4.0.0":
-  version "4.0.0"
-  resolved "https://npm.pkg.github.com/download/@navikt/familie-typer/4.0.0/adda0a9283e562ad0b509d1e3a0bc5e6dfffecb2250ed4cb45d8325d35bc58ab#d74b795678bd5c5d80e5e662dd2c4989b300cfd0"
-  integrity sha512-GxXL7TcUa/XTOSG5AEhP/U7rVcENFZRLw9AQlOqnByb3HYX0EeFSRdruXvR/km/NCpVmGC6wOVoiKZk7A4WjAw==
+    winston "^3.8.1"
 
 "@navikt/familie-typer@^5.0.0":
   version "5.0.0"
@@ -2848,6 +2829,16 @@
   dependencies:
     classnames "*"
 
+"@types/connect-redis@~0.0.18":
+  version "0.0.18"
+  resolved "https://registry.yarnpkg.com/@types/connect-redis/-/connect-redis-0.0.18.tgz#f2dd17607626a741177efa22641cc2030924eda3"
+  integrity sha512-iGygGbXgPIr94DEAuoluWhzre3c2/ew5NPlbW9IWvwCTXMM1YCmc7M9wpXMkYqt6kB9aO1sjZnmDzyugUu+2vQ==
+  dependencies:
+    "@types/express" "*"
+    "@types/express-session" "*"
+    "@types/ioredis" "*"
+    "@types/redis" "^2.8.0"
+
 "@types/connect@*":
   version "3.4.35"
   resolved "https://registry.yarnpkg.com/@types/connect/-/connect-3.4.35.tgz#5fcf6ae445e4021d1fc2219a4873cc73a3bb2ad1"
@@ -2905,6 +2896,13 @@
     "@types/qs" "*"
     "@types/range-parser" "*"
 
+"@types/express-session@*":
+  version "1.17.5"
+  resolved "https://registry.yarnpkg.com/@types/express-session/-/express-session-1.17.5.tgz#13f48852b4aa60ff595835faeb4b4dda0ba0866e"
+  integrity sha512-l0DhkvNVfyUPEEis8fcwbd46VptfA/jmMwHfob2TfDMf3HyPLiB9mKD71LXhz5TMUobODXPD27zXSwtFQLHm+w==
+  dependencies:
+    "@types/express" "*"
+
 "@types/express-session@^1.17.3":
   version "1.17.4"
   resolved "https://registry.yarnpkg.com/@types/express-session/-/express-session-1.17.4.tgz#97a30a35e853a61bdd26e727453b8ed314d6166b"
@@ -2961,6 +2959,13 @@
   version "1.17.8"
   resolved "https://registry.yarnpkg.com/@types/http-proxy/-/http-proxy-1.17.8.tgz#968c66903e7e42b483608030ee85800f22d03f55"
   integrity sha512-5kPLG5BKpWYkw/LVOGWpiq3nEVqxiN32rTgI53Sk12/xHFQ2rG3ehI9IO+O3W2QoKeyB92dJkoka8SUm6BX1pA==
+  dependencies:
+    "@types/node" "*"
+
+"@types/ioredis@*":
+  version "4.28.10"
+  resolved "https://registry.yarnpkg.com/@types/ioredis/-/ioredis-4.28.10.tgz#40ceb157a4141088d1394bb87c98ed09a75a06ff"
+  integrity sha512-69LyhUgrXdgcNDv7ogs1qXZomnfOEnSmrmMFqKgt1XMJxmoOSG/u3wYy13yACIfKuMJ8IhKgHafDO3sx19zVQQ==
   dependencies:
     "@types/node" "*"
 
@@ -3143,16 +3148,7 @@
     "@types/scheduler" "*"
     csstype "^3.0.2"
 
-"@types/react@^17.0.39":
-  version "17.0.44"
-  resolved "https://registry.yarnpkg.com/@types/react/-/react-17.0.44.tgz#c3714bd34dd551ab20b8015d9d0dbec812a51ec7"
-  integrity sha512-Ye0nlw09GeMp2Suh8qoOv0odfgCoowfM/9MG6WeRD60Gq9wS90bdkdRtYbRkNhXOpG4H+YXGvj4wOWhAC0LJ1g==
-  dependencies:
-    "@types/prop-types" "*"
-    "@types/scheduler" "*"
-    csstype "^3.0.2"
-
-"@types/redis@^2.8.14":
+"@types/redis@^2.8.0", "@types/redis@^2.8.14":
   version "2.8.32"
   resolved "https://registry.yarnpkg.com/@types/redis/-/redis-2.8.32.tgz#1d3430219afbee10f8cfa389dad2571a05ecfb11"
   integrity sha512-7jkMKxcGq9p242exlbsVzuJb57KqHRhNl4dHoQu2Y5v9bCAbtIXXH0R3HleSQW4CTOqpHIYUW3t6tpUj4BVQ+w==
@@ -7634,6 +7630,17 @@ logform@^2.3.2:
     safe-stable-stringify "^1.1.0"
     triple-beam "^1.3.0"
 
+logform@^2.4.0:
+  version "2.4.2"
+  resolved "https://registry.yarnpkg.com/logform/-/logform-2.4.2.tgz#a617983ac0334d0c3b942c34945380062795b47c"
+  integrity sha512-W4c9himeAwXEdZ05dQNerhFz2XG80P9Oj0loPUMV23VC2it0orMHQhJm4hdnnor3rd1HsGf6a2lPwBM1zeXHGw==
+  dependencies:
+    "@colors/colors" "1.5.0"
+    fecha "^4.2.0"
+    ms "^2.1.1"
+    safe-stable-stringify "^2.3.1"
+    triple-beam "^1.3.0"
+
 loglevel@^1.8.0:
   version "1.8.0"
   resolved "https://registry.yarnpkg.com/loglevel/-/loglevel-1.8.0.tgz#e7ec73a57e1e7b419cb6c6ac06bf050b67356114"
@@ -7872,14 +7879,7 @@ mkdirp@~0.5.1:
   dependencies:
     minimist "^1.2.5"
 
-moment-timezone@^0.5.27:
-  version "0.5.34"
-  resolved "https://registry.yarnpkg.com/moment-timezone/-/moment-timezone-0.5.34.tgz#a75938f7476b88f155d3504a9343f7519d9a405c"
-  integrity sha512-3zAEHh2hKUs3EXLESx/wsgw6IQdusOT8Bxm3D9UrHPQR7zlMmzwybC8zHEM1tQ4LJwP7fcxrWr8tuBg05fFCbg==
-  dependencies:
-    moment ">= 2.9.0"
-
-"moment@>= 2.9.0", moment@^2.19.3:
+moment@^2.19.3:
   version "2.29.1"
   resolved "https://registry.yarnpkg.com/moment/-/moment-2.29.1.tgz#b2be769fa31940be9eeea6469c075e35006fa3d3"
   integrity sha512-kHmoybcPV8Sqy59DwNDY3Jefr64lK/by/da0ViFcuA4DH0vQg5Q6Ze5VimxkfQNSC+Mls/Kx53s7TjP1RhFEDQ==
@@ -8644,7 +8644,7 @@ passport-strategy@1.x.x:
   resolved "https://registry.yarnpkg.com/passport-strategy/-/passport-strategy-1.0.0.tgz#b5539aa8fc225a3d1ad179476ddf236b440f52e4"
   integrity sha1-tVOaqPwiWj0a0XlHbd8ja0QPUuQ=
 
-passport@^0.4.0, passport@^0.4.1:
+passport@^0.4.1:
   version "0.4.1"
   resolved "https://registry.yarnpkg.com/passport/-/passport-0.4.1.tgz#941446a21cb92fc688d97a0861c38ce9f738f270"
   integrity sha512-IxXgZZs8d7uFSt3eqNjM9NQ3g3uQCW5avD8mRNoXV99Yig50vjuaez6dQK2qC0kVWPRTujxY0dWgGfT09adjYg==
@@ -9097,17 +9097,7 @@ react-modal@3.14.3:
     react-lifecycles-compat "^3.0.0"
     warning "^4.0.3"
 
-react-modal@^3.14.4:
-  version "3.14.4"
-  resolved "https://registry.yarnpkg.com/react-modal/-/react-modal-3.14.4.tgz#2ca7e8e9a180955e5c9508c228b73167c1e6f6a3"
-  integrity sha512-8surmulejafYCH9wfUmFyj4UfbSJwjcgbS9gf3oOItu4Hwd6ivJyVBETI0yHRhpJKCLZMUtnhzk76wXTsNL6Qg==
-  dependencies:
-    exenv "^1.2.0"
-    prop-types "^15.7.2"
-    react-lifecycles-compat "^3.0.0"
-    warning "^4.0.3"
-
-react-modal@^3.15.1:
+react-modal@3.15.1, react-modal@^3.15.1:
   version "3.15.1"
   resolved "https://registry.yarnpkg.com/react-modal/-/react-modal-3.15.1.tgz#950ce67bfef80971182dd0ed38f2d9b1a681288b"
   integrity sha512-duB9bxOaYg7Zt6TMFldIFxQRtSP+Dg3F1ZX3FXxSUn+3tZZ/9JCgeAQKDg7rhZSAqopq8TFRw3yIbnx77gyFTw==
@@ -9239,7 +9229,7 @@ readable-stream@^2.0.1:
     string_decoder "~1.1.1"
     util-deprecate "~1.0.1"
 
-readable-stream@^3.4.0:
+readable-stream@^3.4.0, readable-stream@^3.6.0:
   version "3.6.0"
   resolved "https://registry.yarnpkg.com/readable-stream/-/readable-stream-3.6.0.tgz#337bbda3adc0706bd3e024426a286d4b4b2c9198"
   integrity sha512-BViHy7LKeTz4oNnkcLJ+lVSL6vpiFeX6/d3oSH8zCW7UxP2onchk+vTGB143xuFjHS3deTgkKoXXymXqymiIdA==
@@ -9594,6 +9584,11 @@ safe-stable-stringify@^1.1.0:
   version "1.1.1"
   resolved "https://registry.yarnpkg.com/safe-stable-stringify/-/safe-stable-stringify-1.1.1.tgz#c8a220ab525cd94e60ebf47ddc404d610dc5d84a"
   integrity sha512-ERq4hUjKDbJfE4+XtZLFPCDi8Vb1JqaxAPTxWFLBx8XcAlf9Bda/ZJdVezs/NAfsMQScyIlUMx+Yeu7P7rx5jw==
+
+safe-stable-stringify@^2.3.1:
+  version "2.3.1"
+  resolved "https://registry.yarnpkg.com/safe-stable-stringify/-/safe-stable-stringify-2.3.1.tgz#ab67cbe1fe7d40603ca641c5e765cb942d04fc73"
+  integrity sha512-kYBSfT+troD9cDA85VDnHZ1rpHC50O0g1e6WlGHVCz/g+JS+9WKLj+XwFYyR8UbrZN8ll9HUpDAAddY58MGisg==
 
 "safer-buffer@>= 2.1.2 < 3", safer-buffer@^2.0.2, safer-buffer@^2.1.0, safer-buffer@~2.1.0:
   version "2.1.2"
@@ -10292,7 +10287,7 @@ tr46@~0.0.3:
   resolved "https://registry.yarnpkg.com/tr46/-/tr46-0.0.3.tgz#8184fd347dac9cdc185992f3a6622e14b9d9ab6a"
   integrity sha1-gYT9NH2snNwYWZLzpmIuFLnZq2o=
 
-triple-beam@^1.2.0, triple-beam@^1.3.0:
+triple-beam@^1.3.0:
   version "1.3.0"
   resolved "https://registry.yarnpkg.com/triple-beam/-/triple-beam-1.3.0.tgz#a595214c7298db8339eeeee083e4d10bd8cb8dd9"
   integrity sha512-XrHUvV5HpdLmIj4uVMxHggLbFSZYIn7HEWsqePZcI50pco+MPqJ50wMGY794X7AOOhxOBAjbkqfAbEe/QMp2Lw==
@@ -10789,29 +10784,30 @@ wildcard@^2.0.0:
   resolved "https://registry.yarnpkg.com/wildcard/-/wildcard-2.0.0.tgz#a77d20e5200c6faaac979e4b3aadc7b3dd7f8fec"
   integrity sha512-JcKqAHLPxcdb9KM49dufGXn2x3ssnfjbcaQdLlfZsL9rH9wgDQjUtDxbo8NE0F6SFvydeu1VhZe7hZuHsB2/pw==
 
-winston-transport@^4.4.2:
-  version "4.4.2"
-  resolved "https://registry.yarnpkg.com/winston-transport/-/winston-transport-4.4.2.tgz#554efe3fce229d046df006e0e3c411d240652e51"
-  integrity sha512-9jmhltAr5ygt5usgUTQbEiw/7RYXpyUbEAFRCSicIacpUzPkrnQsQZSPGEI12aLK9Jth4zNcYJx3Cvznwrl8pw==
+winston-transport@^4.5.0:
+  version "4.5.0"
+  resolved "https://registry.yarnpkg.com/winston-transport/-/winston-transport-4.5.0.tgz#6e7b0dd04d393171ed5e4e4905db265f7ab384fa"
+  integrity sha512-YpZzcUzBedhlTAfJg6vJDlyEai/IFMIVcaEZZyl3UXIl4gmqRpU7AE89AHLkbzLUsv0NVmw7ts+iztqKxxPW1Q==
   dependencies:
     logform "^2.3.2"
-    readable-stream "^3.4.0"
-    triple-beam "^1.2.0"
+    readable-stream "^3.6.0"
+    triple-beam "^1.3.0"
 
-winston@^3.2.1:
-  version "3.4.0"
-  resolved "https://registry.yarnpkg.com/winston/-/winston-3.4.0.tgz#7080f24b02a0684f8a37f9d5c6afb1ac23e95b84"
-  integrity sha512-FqilVj+5HKwCfIHQzMxrrd5tBIH10JTS3koFGbLVWBODjiIYq7zir08rFyBT4rrTYG/eaTqDcfSIbcjSM78YSw==
+winston@^3.8.1:
+  version "3.8.1"
+  resolved "https://registry.yarnpkg.com/winston/-/winston-3.8.1.tgz#76f15b3478cde170b780234e0c4cf805c5a7fb57"
+  integrity sha512-r+6YAiCR4uI3N8eQNOg8k3P3PqwAm20cLKlzVD9E66Ch39+LZC+VH1UKf9JemQj2B3QoUHfKD7Poewn0Pr3Y1w==
   dependencies:
     "@dabh/diagnostics" "^2.0.2"
     async "^3.2.3"
     is-stream "^2.0.0"
-    logform "^2.3.2"
+    logform "^2.4.0"
     one-time "^1.0.0"
     readable-stream "^3.4.0"
+    safe-stable-stringify "^2.3.1"
     stack-trace "0.0.x"
     triple-beam "^1.3.0"
-    winston-transport "^4.4.2"
+    winston-transport "^4.5.0"
 
 word-wrap@^1.2.3, word-wrap@~1.2.3:
   version "1.2.3"
