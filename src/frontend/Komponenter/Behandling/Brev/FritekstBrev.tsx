@@ -28,6 +28,8 @@ import { IPersonopplysninger } from '../../../App/typer/personopplysninger';
 import { AxiosRequestConfig } from 'axios';
 import { useDebouncedCallback } from 'use-debounce';
 import { VedtakValg } from '../Vurdering/vurderingValg';
+import { formkravOppfylt } from '../../../App/utils/formkrav';
+import { IFormVilkår } from '../Formkrav/utils';
 
 const StyledBrev = styled.div`
     margin-bottom: 1rem;
@@ -45,7 +47,7 @@ const FritekstBrev: React.FC<Props> = ({
     mellomlagretFritekstbrev,
     oppdaterBrevressurs,
 }) => {
-    const { behandling, settResultatSteg } = useBehandling();
+    const { behandling, behandlingErRedigerbar } = useBehandling();
     const { axiosRequest } = useApp();
 
     const personopplysningerConfig: AxiosRequestConfig = useMemo(
@@ -73,37 +75,30 @@ const FritekstBrev: React.FC<Props> = ({
     };
 
     const endreOverskrift = (nyOverskrift: string) => {
-        settResultatSteg(false);
         settOverskrift(nyOverskrift);
     };
 
     const endreAvsnitt = (nyttAvsnitt: AvsnittMedId[]) => {
-        settResultatSteg(false);
         settAvsnitt(nyttAvsnitt);
     };
 
     const oppdaterFlyttAvsnittOppover = (avsnittId: string) => {
-        settResultatSteg(false);
         settAvsnitt(flyttAvsnittOppover(avsnittId, avsnitt));
     };
 
     const oppdaterFlyttAvsnittNedover = (avsnittId: string) => {
-        settResultatSteg(false);
         settAvsnitt(flyttAvsnittNedover(avsnittId, avsnitt));
     };
 
     const oppdaterLeggTilAvsnittFørst = () => {
-        settResultatSteg(false);
         settAvsnitt(leggTilAvsnittFørst(avsnitt));
     };
 
     const oppdaterLeggAvsnittBakSisteSynligeAvsnitt = () => {
-        settResultatSteg(false);
         settAvsnitt(leggAvsnittBakSisteSynligeAvsnitt(avsnitt));
     };
 
     const endreDeloverskriftAvsnitt = (radId: string, e: ChangeEvent<HTMLInputElement>) => {
-        settResultatSteg(false);
         const oppdaterteAvsnitt = avsnitt.map((rad) => {
             return rad.avsnittId === radId ? { ...rad, deloverskrift: e.target.value } : rad;
         });
@@ -112,7 +107,6 @@ const FritekstBrev: React.FC<Props> = ({
     };
 
     const endreInnholdAvsnitt = (radId: string, e: ChangeEvent<HTMLTextAreaElement>) => {
-        settResultatSteg(false);
         const oppdaterteAvsnitt = avsnitt.map((rad) => {
             return rad.avsnittId === radId ? { ...rad, innhold: e.target.value } : rad;
         });
@@ -121,7 +115,6 @@ const FritekstBrev: React.FC<Props> = ({
     };
 
     const fjernRad = (radId: string) => {
-        settResultatSteg(false);
         settAvsnitt((eksisterendeAvsnitt: AvsnittMedId[]) => {
             return eksisterendeAvsnitt.filter((rad) => radId !== rad.avsnittId);
         });
@@ -162,12 +155,19 @@ const FritekstBrev: React.FC<Props> = ({
             let type: FritekstBrevtype = FritekstBrevtype.VEDTAK_AVSLAG;
             if (res.status === RessursStatus.SUKSESS) {
                 const vedtak: VedtakValg = res.data;
-                if (vedtak === VedtakValg.OMGJØR_VEDTAK) {
-                    type = FritekstBrevtype.VEDTAK_INVILGELSE;
-                }
+                axiosRequest<IFormVilkår, null>({
+                    method: 'GET',
+                    url: `/familie-klage/api/formkrav/vilkar/${behandlingId}`,
+                }).then((res: Ressurs<IFormVilkår>) => {
+                    if (res.status === RessursStatus.SUKSESS && res.data != null) {
+                        if (vedtak === VedtakValg.OMGJØR_VEDTAK && formkravOppfylt(res.data)) {
+                            type = FritekstBrevtype.VEDTAK_INVILGELSE;
+                        }
+                    }
+                    endreBrevType(type);
+                    settOverskiftOgAvsnitt(type);
+                });
             }
-            endreBrevType(type);
-            settOverskiftOgAvsnitt(type);
         });
     }, [axiosRequest, behandlingId]);
 
@@ -191,22 +191,26 @@ const FritekstBrev: React.FC<Props> = ({
             {({ behandling }) => (
                 <StyledBrev>
                     <h1>Fritekstbrev for {stønadstypeTilTekst[behandling.stonadsType]}</h1>
-                    <BrevInnhold
-                        brevType={brevType}
-                        overskrift={overskrift}
-                        endreOverskrift={endreOverskrift}
-                        avsnitt={avsnitt}
-                        endreAvsnitt={endreAvsnitt}
-                        endreDeloverskriftAvsnitt={endreDeloverskriftAvsnitt}
-                        endreInnholdAvsnitt={endreInnholdAvsnitt}
-                        fjernRad={fjernRad}
-                        leggTilAvsnittFørst={oppdaterLeggTilAvsnittFørst}
-                        leggAvsnittBakSisteSynligeAvsnitt={
-                            oppdaterLeggAvsnittBakSisteSynligeAvsnitt
-                        }
-                        flyttAvsnittOpp={oppdaterFlyttAvsnittOppover}
-                        flyttAvsnittNed={oppdaterFlyttAvsnittNedover}
-                    />
+                    {behandlingErRedigerbar ? (
+                        <BrevInnhold
+                            brevType={brevType}
+                            overskrift={overskrift}
+                            endreOverskrift={endreOverskrift}
+                            avsnitt={avsnitt}
+                            endreAvsnitt={endreAvsnitt}
+                            endreDeloverskriftAvsnitt={endreDeloverskriftAvsnitt}
+                            endreInnholdAvsnitt={endreInnholdAvsnitt}
+                            fjernRad={fjernRad}
+                            leggTilAvsnittFørst={oppdaterLeggTilAvsnittFørst}
+                            leggAvsnittBakSisteSynligeAvsnitt={
+                                oppdaterLeggAvsnittBakSisteSynligeAvsnitt
+                            }
+                            flyttAvsnittOpp={oppdaterFlyttAvsnittOppover}
+                            flyttAvsnittNed={oppdaterFlyttAvsnittNedover}
+                        />
+                    ) : (
+                        ''
+                    )}
                 </StyledBrev>
             )}
         </DataViewer>

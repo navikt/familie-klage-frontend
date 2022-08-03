@@ -27,7 +27,7 @@ export const Årsak: React.FC<IÅrsak> = ({
     årsakValgmuligheter,
     endring,
 }) => {
-    const { settVurderingEndret, settBrevSteg, settResultatSteg } = useBehandling();
+    const { settVurderingEndret } = useBehandling();
     return (
         <ÅrsakStyled>
             <Heading spacing size="medium" level="5">
@@ -35,13 +35,10 @@ export const Årsak: React.FC<IÅrsak> = ({
             </Heading>
             <ÅrsakInnholdStyled>
                 <Select
-                    defaultValue={ÅrsakValg.VELG}
                     value={årsakValgt}
                     label=""
                     size="medium"
                     onChange={(e) => {
-                        settBrevSteg(false);
-                        settResultatSteg(false);
                         endring(e.target.value);
                         settÅrsak((tidligereTilstand: IVurdering) => ({
                             ...tidligereTilstand,

@@ -33,7 +33,6 @@ const FormKravStyling = styled.div`
     align-items: center;
     width: 90%;
     margin: 0 3rem 0 0;
-    margin-top: 2%;
 `;
 
 const VilkårHeader = styled.div`
@@ -96,7 +95,8 @@ export const RadioknapperLesemodus: React.FC<IRadioKnapperLeseModus> = ({
     settFormVilkårData,
     settFormkravGyldig,
 }) => {
-    const { settFormkravLåst, formkravGyldig, formkravBesvart } = useBehandling();
+    const { settFormkravLåst, formkravGyldig, formkravBesvart, behandlingErRedigerbar } =
+        useBehandling();
     const { axiosRequest } = useApp();
     const navigate = useNavigate();
     const slettHandling = () => {
@@ -138,16 +138,18 @@ export const RadioknapperLesemodus: React.FC<IRadioKnapperLeseModus> = ({
                         {formkravGyldig ? 'Vilkår oppfylt' : 'Vilkår ikke oppfylt'}
                     </Heading>
                 </RadSentrertVertikalt>
-                <div>
-                    <LenkeKnapp onClick={() => redigerHandling(false)}>
-                        <RedigerBlyant withDefaultStroke={false} width={19} heigth={19} />
-                        <span>Rediger</span>
-                    </LenkeKnapp>
-                    <LenkeKnapp onClick={() => slettHandling()}>
-                        <SlettSøppelkasse withDefaultStroke={false} width={19} heigth={19} />
-                        <span>Slett</span>
-                    </LenkeKnapp>
-                </div>
+                {behandlingErRedigerbar && (
+                    <div>
+                        <LenkeKnapp onClick={() => redigerHandling(false)}>
+                            <RedigerBlyant withDefaultStroke={false} width={19} heigth={19} />
+                            <span>Rediger</span>
+                        </LenkeKnapp>
+                        <LenkeKnapp onClick={() => slettHandling()}>
+                            <SlettSøppelkasse withDefaultStroke={false} width={19} heigth={19} />
+                            <span>Slett</span>
+                        </LenkeKnapp>
+                    </div>
+                )}
             </VilkårHeader>
             <FormKravStylingBody>
                 Sist endret - {formaterIsoDatoTid(endretTid)}
@@ -171,7 +173,7 @@ export const RadioknapperLesemodus: React.FC<IRadioKnapperLeseModus> = ({
                     Fortsett
                 </ButtonStyled>
             )}
-            {!formkravGyldig && formkravBesvart && (
+            {!formkravGyldig && formkravBesvart && behandlingErRedigerbar && (
                 <ButtonStyled
                     variant="primary"
                     size="medium"
@@ -180,17 +182,17 @@ export const RadioknapperLesemodus: React.FC<IRadioKnapperLeseModus> = ({
                     Fortsett
                 </ButtonStyled>
             )}
-            {formkravGyldig && formkravBesvart && (
+            {formkravGyldig && formkravBesvart && behandlingErRedigerbar && (
                 <AlertStyled variant={'success'} size={'medium'}>
                     Du har lagret vilkår.
                 </AlertStyled>
             )}
-            {!formkravGyldig && formkravBesvart && (
+            {!formkravGyldig && formkravBesvart && behandlingErRedigerbar && (
                 <AlertStyled variant={'info'} size={'medium'}>
                     Du har lagret vilkår som ikke oppfylt.
                 </AlertStyled>
             )}
-            {!formkravGyldig && !formkravBesvart && (
+            {!formkravGyldig && !formkravBesvart && behandlingErRedigerbar && (
                 <AlertStyled variant={'warning'} size={'medium'}>
                     Noen vilkår er ikke besvart.
                 </AlertStyled>
