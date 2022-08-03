@@ -1,4 +1,4 @@
-import './konfigurerApp';
+import './konfigurerApp.js';
 
 import backend, { IApp, ensureAuthenticated } from '@navikt/familie-backend';
 import bodyParser from 'body-parser';
@@ -7,14 +7,14 @@ import webpack from 'webpack';
 import webpackDevMiddleware from 'webpack-dev-middleware';
 import webpackHotMiddleware from 'webpack-hot-middleware';
 
-import { buildPath, klageProxyUrl, sessionConfig } from './config';
-import { prometheusTellere } from './metrikker';
-import { addCallId, attachToken, doProxy } from './proxy';
-import setupRouter from './router';
+import { buildPath, klageProxyUrl, sessionConfig } from './config.js';
+import { prometheusTellere } from './metrikker.js';
+import { addCallId, attachToken, doProxy } from './proxy.js';
+import setupRouter from './router.js';
 import expressStaticGzip from 'express-static-gzip';
 import { logError, logInfo } from '@navikt/familie-logging';
-// eslint-disable-next-line
-const config = require('../../build_n_deploy/webpack/webpack.dev');
+// @ts-ignore
+import config from '../../build_n_deploy/webpack/webpack.dev.js';
 
 const port = 8000;
 
