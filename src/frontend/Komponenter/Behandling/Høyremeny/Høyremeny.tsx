@@ -55,7 +55,7 @@ const Høyremeny: React.FC<IHøyremenyProps> = ({ åpenHøyremeny, behandling })
         if (behandlingErRedigerbar) {
             settAktivtvalg(Høyremenyvalg.Historikk);
         }
-    }, [behandling]);
+    }, [behandling, behandlingErRedigerbar]);
 
     return (
         <>
