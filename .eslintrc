@@ -1,4 +1,4 @@
-module.exports = {
+{
     "extends": [
         "eslint:recommended",
         "plugin:jsx-a11y/recommended",
@@ -44,4 +44,4 @@ module.exports = {
     "env": {
         "node": true
     }
-};
+}
