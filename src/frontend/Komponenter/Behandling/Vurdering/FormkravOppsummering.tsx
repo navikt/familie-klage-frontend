@@ -26,7 +26,7 @@ interface IFormkravOppsummering {
     muligOppfylt: number;
     begrunnelse: string;
     feilmelding: string;
-    formkravGodkjent: boolean;
+    formkravGodkjent: boolean | undefined;
 }
 
 export const FormkravOppsummering: React.FC<IFormkravOppsummering> = ({
@@ -42,7 +42,7 @@ export const FormkravOppsummering: React.FC<IFormkravOppsummering> = ({
                 <Heading spacing size="medium" level="5">
                     Formkrav
                 </Heading>
-                {formkravGodkjent ? (
+                {formkravGodkjent && (
                     <OppfyltStyled>
                         <BodyLong size="small">
                             {oppfylt} av {muligOppfylt} oppfylt
@@ -62,7 +62,8 @@ export const FormkravOppsummering: React.FC<IFormkravOppsummering> = ({
                             />
                         </Ikon>
                     </OppfyltStyled>
-                ) : (
+                )}
+                {!formkravGodkjent && (
                     <>
                         <BodyLong size="small">
                             {oppfylt} av {muligOppfylt} oppfylt
