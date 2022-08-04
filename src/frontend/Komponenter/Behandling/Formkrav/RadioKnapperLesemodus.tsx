@@ -179,7 +179,7 @@ export const RadioknapperLesemodus: React.FC<IRadioKnapperLeseModus> = ({
                     size="medium"
                     onClick={() => navigate(`/behandling/${hentBehandlingIdFraUrl()}/brev`)}
                 >
-                    Fortset
+                    Fortsett
                 </ButtonStyled>
             )}
             {formkravGyldig && formkravBesvart && behandlingErRedigerbar && (
