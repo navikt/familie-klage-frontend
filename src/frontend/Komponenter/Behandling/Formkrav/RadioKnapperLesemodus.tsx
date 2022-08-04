@@ -164,7 +164,7 @@ export const RadioknapperLesemodus: React.FC<IRadioKnapperLeseModus> = ({
                     <Svar>{saksbehandlerBegrunnelse}</Svar>
                 </SvarElement>
             </FormKravStylingBody>
-            {formkravGyldig && formkravBesvart && (
+            {formkravGyldig && formkravBesvart && behandlingErRedigerbar && (
                 <ButtonStyled
                     variant="primary"
                     size="medium"
