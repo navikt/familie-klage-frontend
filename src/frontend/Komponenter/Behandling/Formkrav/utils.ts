@@ -4,7 +4,7 @@ export interface IFormvilkårKomponent {
     settLåst: (value: boolean) => void;
     formData: IFormVilkår;
     settFormkravBesvart: (value: boolean) => void;
-    settFormVilkårData: (value: any) => void;
+    settFormVilkårData: (value: IFormVilkår) => void;
 }
 
 export interface IVilkårNullstill {
@@ -41,7 +41,7 @@ export interface IRadioKnapperLeseModus {
     redigerHandling: (value: boolean) => void;
     saksbehandlerBegrunnelse: string;
     endretTid: string;
-    settFormVilkårData: (value: any) => void;
+    settFormVilkårData: (value: IFormVilkår) => void;
     settFormkravGyldig: (value: boolean) => void;
     senderInn: boolean;
     settSenderInn: (value: boolean) => void;
