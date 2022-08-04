@@ -15,7 +15,7 @@ const VedtakInnholdStyled = styled.div`
 `;
 
 interface IVedtak {
-    settVedtak: Dispatch<SetStateAction<any>>;
+    settVedtak: Dispatch<SetStateAction<IVurdering>>;
     vedtakValgt: VedtakValg;
     vedtakValgmuligheter: Record<string, string>;
     endring: (komponentId: string) => void;
@@ -28,12 +28,15 @@ export const Vedtak: React.FC<IVedtak> = ({
     endring,
 }) => {
     const oppdaterVedtak = (nyttValg: string) => {
-        settVedtak((tidligereTilstand: IVurdering) => ({
-            ...tidligereTilstand,
-            vedtak: nyttValg,
-            arsak: ÅrsakValg.VELG,
-            hjemmel: HjemmelValg.VELG,
-        }));
+        settVedtak(
+            (tidligereTilstand: IVurdering) =>
+                ({
+                    ...tidligereTilstand,
+                    vedtak: nyttValg,
+                    arsak: ÅrsakValg.VELG,
+                    hjemmel: HjemmelValg.VELG,
+                } as IVurdering)
+        );
     };
 
     const { settVurderingEndret } = useBehandling();

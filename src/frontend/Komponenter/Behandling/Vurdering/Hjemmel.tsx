@@ -15,7 +15,7 @@ const HjemmelInnholdStyled = styled.div`
 `;
 
 interface IHjemmel {
-    settHjemmel: Dispatch<SetStateAction<any>>;
+    settHjemmel: Dispatch<SetStateAction<IVurdering>>;
     hjemmelValgmuligheter: Record<string, string>;
     hjemmelValgt: HjemmelValg;
     endring: (komponentId: string) => void;
@@ -40,10 +40,13 @@ export const Hjemmel: React.FC<IHjemmel> = ({
                     size="medium"
                     onChange={(e) => {
                         endring(e.target.value);
-                        settHjemmel((tidligereTilstand: IVurdering) => ({
-                            ...tidligereTilstand,
-                            hjemmel: e.target.value,
-                        }));
+                        settHjemmel(
+                            (tidligereTilstand: IVurdering) =>
+                                ({
+                                    ...tidligereTilstand,
+                                    hjemmel: e.target.value,
+                                } as IVurdering)
+                        );
                         settVurderingEndret(true);
                     }}
                     hideLabel

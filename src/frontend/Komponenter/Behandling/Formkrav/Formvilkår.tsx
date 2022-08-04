@@ -136,7 +136,7 @@ export const Formvilkår: React.FC<IFormvilkårKomponent> = ({
             navn: 'klagePart',
         },
         {
-            spørsmål: 'Klages det på konkrete elementer i vedtaket',
+            spørsmål: 'Klages det på konkrete elementer i vedtaket?',
             svar: formData.klageKonkret,
             navn: 'klageKonkret',
         },
