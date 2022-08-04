@@ -50,7 +50,7 @@ export const Vurdering: React.FC<{ behandlingId: string }> = ({ behandlingId }) 
     const [oppfylt, settOppfylt] = useState(0);
     const [muligOppfylt, settMuligOppfylt] = useState(0);
     const [begrunnelse, settBegrunnelse] = useState('');
-    const [formkravGodkjent, settFormkravGodkjent] = useState<boolean>(false);
+    const [formkravGodkjent, settFormkravGodkjent] = useState<boolean>();
     const [feilmelding, settFeilmelding] = useState('');
     const navigate = useNavigate();
 
@@ -118,7 +118,7 @@ export const Vurdering: React.FC<{ behandlingId: string }> = ({ behandlingId }) 
         } else {
             settFeilmelding('Det har skjedd en feil');
         }
-    }, [oppfylt, muligOppfylt, begrunnelse.length]);
+    }, [oppfylt, muligOppfylt, begrunnelse.length, formkravGodkjent]);
 
     const [senderInn, settSenderInn] = useState<boolean>(false);
 
