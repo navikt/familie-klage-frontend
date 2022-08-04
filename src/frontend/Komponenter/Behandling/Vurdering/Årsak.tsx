@@ -15,7 +15,7 @@ const ÅrsakInnholdStyled = styled.div`
 `;
 
 interface IÅrsak {
-    settÅrsak: Dispatch<SetStateAction<any>>;
+    settÅrsak: Dispatch<SetStateAction<IVurdering>>;
     årsakValgt: ÅrsakValg;
     årsakValgmuligheter: Record<string, string>;
     endring: (komponentId: string) => void;
@@ -40,10 +40,13 @@ export const Årsak: React.FC<IÅrsak> = ({
                     size="medium"
                     onChange={(e) => {
                         endring(e.target.value);
-                        settÅrsak((tidligereTilstand: IVurdering) => ({
-                            ...tidligereTilstand,
-                            arsak: e.target.value,
-                        }));
+                        settÅrsak(
+                            (tidligereTilstand: IVurdering) =>
+                                ({
+                                    ...tidligereTilstand,
+                                    arsak: e.target.value,
+                                } as IVurdering)
+                        );
                         settVurderingEndret(true);
                     }}
                     hideLabel
