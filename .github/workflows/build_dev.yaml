@@ -19,6 +19,6 @@ jobs:
       - name: Yarn install
         run: yarn --prefer-offline --frozen-lockfile
         env:
-          NODE_AUTH_TOKEN: ${{ secrets.READER_TOKEN }}
+          NODE_AUTH_TOKEN: ${{ secrets.SALSA_CREDENTIALS }}
       - name: Yarn build
         run: yarn build
