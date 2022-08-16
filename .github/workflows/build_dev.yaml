@@ -1,23 +1,17 @@
 name: Build app
 
 on: [pull_request, workflow_dispatch]
+env:
+  IMAGE: ghcr.io/navikt/familie-klage-frontend:${{ github.sha }}
 
 jobs:
   build:
     name: Bygg app og Docker image
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v2
-      - uses: actions/setup-node@v2
-        with:
-          node-version: '14'
-          cache: yarn
-          registry-url: "https://npm.pkg.github.com"
-      - uses: navikt/familie-action-yarn-cache/@v1
-        if: github.actor != 'dependabot[bot]'
-      - name: Yarn install
-        run: yarn --prefer-offline --frozen-lockfile
+      - uses: actions/checkout@v3
+      - name: Bygg app
         env:
-          NODE_AUTH_TOKEN: ${{ secrets.READER_TOKEN }}
-      - name: Yarn build
-        run: yarn build
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          NPM_TOKEN: ${{ secrets.READER_TOKEN }}
+        run: docker build -t ${IMAGE} . --build-arg NPM_TOKEN=${NPM_TOKEN}
