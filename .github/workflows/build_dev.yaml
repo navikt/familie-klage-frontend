@@ -6,12 +6,19 @@ env:
 
 jobs:
   build:
-    name: Bygg app og Docker image
+    name: Bygg app
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
-      - name: Bygg app
+      - uses: actions/setup-node@v3
+        with:
+          node-version: '16'
+          cache: yarn
+          registry-url: "https://npm.pkg.github.com"
+        if: github.actor != 'dependabot[bot]'
+      - name: Yarn install
+        run: yarn --prefer-offline --frozen-lockfile
         env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          NPM_TOKEN: ${{ secrets.READER_TOKEN }}
-        run: docker build -t ${IMAGE} . --build-arg NPM_TOKEN=${NPM_TOKEN}
+          NODE_AUTH_TOKEN: ${{ secrets.READER_TOKEN }}
+      - name: Yarn build
+        run: yarn build
