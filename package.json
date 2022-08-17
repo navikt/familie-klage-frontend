@@ -1,8 +1,8 @@
 {
-  "name": "familie-ef-sak-frontend",
+  "name": "familie-klage-frontend",
   "version": "0.0.1",
   "main": "node_dist/server.js",
-  "repository": "https://github.com/navikt/familie-ef-sak-frontend.git",
+  "repository": "https://github.com/navikt/familie-klage-frontend.git",
   "author": "Nav - teamfamilie",
   "license": "MIT",
   "type": "module",

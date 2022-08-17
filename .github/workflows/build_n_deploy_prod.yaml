@@ -7,7 +7,7 @@ on:
 
 env:
   IMAGE: ghcr.io/navikt/familie-klage-frontend:${{ github.sha }}
-  IMAGE_LATEST: ghcr.io/navikt/familie-ef-sak-frontend:latest
+  IMAGE_LATEST: ghcr.io/navikt/familie-klage-frontend:latest
 
 jobs:
   build:
