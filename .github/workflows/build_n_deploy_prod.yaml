@@ -6,7 +6,7 @@ on:
       - 'master'
 
 env:
-  IMAGE: ghcr.io/navikt/familie-ef-sak-frontend:${{ github.sha }}
+  IMAGE: ghcr.io/navikt/familie-klage-frontend:${{ github.sha }}
   IMAGE_LATEST: ghcr.io/navikt/familie-ef-sak-frontend:latest
 
 jobs:
@@ -14,8 +14,8 @@ jobs:
     name: Build and push Docker container
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v2
-      - uses: actions/setup-node@v2
+      - uses: actions/checkout@v3
+      - uses: actions/setup-node@v3
         with:
           node-version: '16'
           cache: yarn
@@ -46,15 +46,15 @@ jobs:
     needs: build
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v1
+      - uses: actions/checkout@v3
       - name: Deploy til dev-gcp
-        uses: nais/deploy/actions/deploy@v1
+        uses: nais/deploy/actions/deploy@v3
         env:
           APIKEY: ${{ secrets.NAIS_DEPLOY_APIKEY }}
           CLUSTER: dev-gcp
           RESOURCE: build_n_deploy/naiserator/dev.yaml
       - name: Deploy til prod-gcp
-        uses: nais/deploy/actions/deploy@v1
+        uses: nais/deploy/actions/deploy@v3
         env:
           APIKEY: ${{ secrets.NAIS_DEPLOY_APIKEY }}
           CLUSTER: prod-gcp
