@@ -23,12 +23,12 @@ spec:
     enabled: true
     path: /metrics
   ingresses:
-    - https://ensligmorellerfar.intern.nav.no
+    - https://familie-klage.intern.nav.no
   azure:
     application:
       enabled: true
       replyURLs:
-        - https://ensligmorellerfar.intern.nav.no/auth/openid/callback
+        - https://familie-klage.intern.nav.no/auth/openid/callback
       claims:
         groups:
           - id: "31778fd8-3b71-4867-8db6-a81235fbe001" # 0000-GA-Enslig-Forsorger-Veileder
