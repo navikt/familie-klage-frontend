@@ -20,7 +20,7 @@ spec:
     path: /isReady
     initialDelay: 5
   ingresses:
-    - https://familie-klage.dev.nav.no
+    - https://familie-klage.dev.intern.nav.no
   azure:
     application:
       enabled: true
