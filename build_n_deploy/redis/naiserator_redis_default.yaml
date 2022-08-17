@@ -1,7 +1,7 @@
 apiVersion: "nais.io/v1alpha1"
 kind: "Application"
 metadata:
-  name: familie-ef-sak-frontend-redis
+  name: familie-klage-frontend-redis
   namespace: teamfamilie
   labels:
     team: teamfamilie
@@ -27,7 +27,6 @@ spec:
   accessPolicy:
     inbound:
       rules:
-        - application: familie-ef-sak-frontend
-        - application: familie-ef-sak-frontend-redis-exporter
+        - application: familie-klage-frontend
   envFrom:
-    - secret: familie-ef-sak-frontend-redis
+    - secret: familie-klage-frontend-redis

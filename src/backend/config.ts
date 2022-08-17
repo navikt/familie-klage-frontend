@@ -44,7 +44,7 @@ const Environment = (): IEnvironment => {
         return {
             buildPath: 'frontend_production',
             namespace: 'e2e',
-            klageProxyUrl: 'http://familie-ef-sak:8093',
+            klageProxyUrl: 'http://familie-klage:8093',
             roller: rollerDev,
             //Har ikke satt opp redis
         };
@@ -52,8 +52,8 @@ const Environment = (): IEnvironment => {
         return {
             buildPath: 'frontend_production',
             namespace: 'preprod',
-            klageProxyUrl: 'http://familie-ef-sak',
-            redisUrl: 'familie-ef-sak-frontend-redis',
+            klageProxyUrl: 'http://familie-klage',
+            redisUrl: 'familie-klage-frontend-redis',
             roller: rollerDev,
         };
     }
@@ -61,8 +61,8 @@ const Environment = (): IEnvironment => {
     return {
         buildPath: 'frontend_production',
         namespace: 'production',
-        klageProxyUrl: 'http://familie-ef-sak',
-        redisUrl: 'familie-ef-sak-frontend-redis',
+        klageProxyUrl: 'http://familie-klage',
+        redisUrl: 'familie-klage-frontend-redis',
         roller: rollerProd,
     };
 };
@@ -70,7 +70,7 @@ const env = Environment();
 
 export const sessionConfig: ISessionKonfigurasjon = {
     cookieSecret: [`${process.env.COOKIE_KEY1}`, `${process.env.COOKIE_KEY2}`],
-    navn: 'familie-ef-sak-v1',
+    navn: 'familie-klage-v1',
     redisPassord: process.env.REDIS_PASSWORD,
     redisUrl: env.redisUrl,
     secureCookie: !(process.env.ENV === 'local' || process.env.ENV === 'e2e'),
@@ -78,7 +78,7 @@ export const sessionConfig: ISessionKonfigurasjon = {
 };
 
 if (!process.env.EF_SAK_SCOPE) {
-    throw new Error('Scope mot familie-ef-sak er ikke konfigurert');
+    throw new Error('Scope mot familie-klage er ikke konfigurert');
 }
 
 export const oboConfig: IApi = {

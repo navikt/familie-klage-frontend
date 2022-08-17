@@ -1,4 +1,4 @@
-export const erProd = (): boolean => window.location.host === 'ensligmorellerfar.intern.nav.no';
+export const erProd = (): boolean => window.location.host === 'familie-klage.intern.nav.no';
 
 export const tilbakekrevingBaseUrl = (): string =>
     erProd()

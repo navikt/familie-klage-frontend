@@ -6,12 +6,12 @@ import CopyPlugin from 'copy-webpack-plugin';
 import ReactRefreshWebpackPlugin from '@pmmmwh/react-refresh-webpack-plugin';
 
 const config = mergeWithCustomize({
-    'entry.familie-ef-sak': 'prepend',
+    'entry.familie-klage': 'prepend',
     'module.rules': 'append',
 })(common, {
     mode: 'development',
     entry: {
-        'familie-ef-sak': [
+        'familie-klage': [
             'babel-polyfill',
             'webpack-hot-middleware/client?reload=true&overlay=false',
         ],

@@ -8,12 +8,12 @@ import CopyPlugin from 'copy-webpack-plugin';
 import CompressionPlugin from 'compression-webpack-plugin';
 
 const config = mergeWithCustomize({
-    'entry.familie-ef-sak': 'prepend',
+    'entry.familie-klage': 'prepend',
     'module.rules': 'append',
 })(common, {
     mode: 'production',
     entry: {
-        'familie-ef-sak': ['babel-polyfill'],
+        'familie-klage': ['babel-polyfill'],
     },
     output: {
         path: path.join(process.cwd(), 'frontend_production'),

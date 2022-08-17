@@ -1,7 +1,7 @@
 #######
 # Denne er brukt til å gjøre det mulig å bruke tokens lokalt
 #
-# secret kan hentes fra cluster med "kubectl -n teamfamilie get secret azuread-familie-ef-sak-frontend-lokal -o json | jq '.data | map_values(@base64d)'"
+# secret kan hentes fra cluster med "kubectl -n teamfamilie get secret azuread-familie-klage-frontend-lokal -o json | jq '.data | map_values(@base64d)'"
 #
 # Kjøres en gang eller ved endringer med
 # kubectl apply -f .build_n_deploy/naiserator/azure-ad-app-lokal.yaml
@@ -9,7 +9,7 @@
 apiVersion: nais.io/v1
 kind: AzureAdApplication
 metadata:
-  name: familie-ef-sak-frontend-lokal
+  name: familie-klage-frontend-lokal
   namespace: teamfamilie
   labels:
     team: teamfamilie
@@ -18,7 +18,7 @@ spec:
   tenant: trygdeetaten.no
   replyUrls:
     - url: "http://localhost:8000/auth/openid/callback"
-  secretName: azuread-familie-ef-sak-frontend-lokal
+  secretName: azuread-familie-klage-frontend-lokal
   claims:
     groups:
       - id: "01166863-22f1-4e16-9785-d7a05a22df74" # 0000-GA-Enslig-Forsorger-Beslutter

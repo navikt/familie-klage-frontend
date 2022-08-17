@@ -5,7 +5,7 @@ import ESLintPlugin from 'eslint-webpack-plugin';
 
 const common = {
     entry: {
-        'familie-ef-sak': ['./src/frontend/index.tsx'],
+        'familie-klage': ['./src/frontend/index.tsx'],
     },
     devtool: 'source-map',
     resolve: {
