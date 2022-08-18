@@ -51,7 +51,7 @@ spec:
         - application: familie-brev
         - application: familie-klage
   envFrom:
-    - secret: familie                       # Henter ut EF_SAK_SCOPE
+    - secret: familie                       # Henter ut FAMILIE_KLAGE
     - secret: familie-klage-frontend-redis  # Henter ut REDIS_PASSWORD
     - secret: familie-klage-frontend        # Ulike secrets
   env:

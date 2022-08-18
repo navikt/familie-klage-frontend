@@ -25,7 +25,7 @@ Appen krever en del miljøvariabler og legges til i .env fila i root på prosjek
     PASSPORTCOOKIE_KEY4='<any string of length 12>'
     SESSION_SECRET='<any string of length 32>'
 
-    EF_SAK_SCOPE='api://<AZURE_APP_CLIENT_ID fra secret til azuread-familie-klage-lokal>/.default'
+    FAMILIE_KLAGE_SCOPE='api://<AZURE_APP_CLIENT_ID fra secret til azuread-familie-klage-lokal>/.default'
     CLIENT_ID='<AZURE_APP_CLIENT_ID fra secret>'
     CLIENT_SECRET='<AZURE_APP_CLIENT_SECRET fra secret>'
 ```
