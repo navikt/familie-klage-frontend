@@ -13,6 +13,11 @@ For å kunne installere avhengigheter fra navikt registry må man være logget i
 username er det samme på github og passordet er utvikler-tokenet som er generert i github.
 Dersom tokenet allerede er generert, finnes det typisk i m2-settings/gradle.properties fil.
 
+## Client id & client secret
+secret kan hentes fra cluster med
+`kubectl -n teamfamilie get secret azuread-familie-klage-frontend-lokal -o json | jq '.data | map_values(@base64d)'`
+`kubectl -n teamfamilie get secret azuread-familie-klage-lokal -o json | jq '.data | map_values(@base64d)'`
+
 Appen krever en del miljøvariabler og legges til i .env fila i root på prosjektet.
 ```
     ENV=local
