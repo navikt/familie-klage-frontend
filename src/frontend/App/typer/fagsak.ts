@@ -38,8 +38,7 @@ export enum StegType {
     FORMKRAV = 'FORMKRAV',
     VURDERING = 'VURDERING',
     BREV = 'BREV',
-    SEND_TIL_BESLUTTER = 'SEND_TIL_BESLUTTER',
-    VENTE_PÅ_SVAR_FRA_BESLUTTER = 'VENTE_PÅ_SVAR_FRA_BESLUTTER',
+    OVERFØRING_TIL_KABAL = 'OVERFØRING_TIL_KABAL',
     BEHANDLING_FERDIGSTILT = 'BEHANDLING_FERDIGSTILT',
 }
 
@@ -47,8 +46,7 @@ export const StegTypeListe: StegType[] = [
     StegType.FORMKRAV,
     StegType.VURDERING,
     StegType.BREV,
-    StegType.SEND_TIL_BESLUTTER,
-    StegType.VENTE_PÅ_SVAR_FRA_BESLUTTER,
+    StegType.OVERFØRING_TIL_KABAL,
     StegType.BEHANDLING_FERDIGSTILT,
 ];
 
@@ -56,8 +54,7 @@ export const behandlingStegTilTekst: Record<StegType, string> = {
     FORMKRAV: 'Formkrav',
     VURDERING: 'Vurdering',
     BREV: 'Brev',
-    SEND_TIL_BESLUTTER: 'Sende til beslutter',
-    VENTE_PÅ_SVAR_FRA_BESLUTTER: 'Vente på svar',
+    OVERFØRING_TIL_KABAL: 'Overført til kabal',
     BEHANDLING_FERDIGSTILT: 'Fullført',
 };
 
@@ -65,8 +62,7 @@ export const behandlingStegFullførtTilTekst: Record<StegType, string> = {
     FORMKRAV: 'Formkrav er oppdatert',
     VURDERING: 'Vurdering er oppdatert',
     BREV: 'Brev er oppdatert',
-    SEND_TIL_BESLUTTER: 'Klage er sendt til beslutter',
-    VENTE_PÅ_SVAR_FRA_BESLUTTER: 'Venter på svar fra beslutter',
+    OVERFØRING_TIL_KABAL: 'Overført til kabal',
     BEHANDLING_FERDIGSTILT: 'Klagen er ferdigstilt',
 };
 
@@ -74,8 +70,7 @@ export const behandlingStegInformasjonTilTekst: Record<StegType, string> = {
     FORMKRAV: 'Formkrav avgjør om klagen er gyldig eller ikke',
     VURDERING: 'Vurdering er saksbehandlers vurdering av klagen',
     BREV: 'Brev blir skrevet og gjort klart til sending',
-    SEND_TIL_BESLUTTER: 'Klage er sendt til Kabal og lagret i JoArk',
-    VENTE_PÅ_SVAR_FRA_BESLUTTER: 'Venter på vurdering fra Kabal',
+    OVERFØRING_TIL_KABAL: 'Behandlingen er overført tol kabal',
     BEHANDLING_FERDIGSTILT: 'Behandling er ferdig og klageresultat er oppdatert',
 };
 
