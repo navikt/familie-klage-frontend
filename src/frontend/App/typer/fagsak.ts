@@ -70,7 +70,7 @@ export const behandlingStegInformasjonTilTekst: Record<StegType, string> = {
     FORMKRAV: 'Formkrav avgjør om klagen er gyldig eller ikke',
     VURDERING: 'Vurdering er saksbehandlers vurdering av klagen',
     BREV: 'Brev blir skrevet og gjort klart til sending',
-    OVERFØRING_TIL_KABAL: 'Behandlingen er overført tol kabal',
+    OVERFØRING_TIL_KABAL: 'Behandlingen er overført til kabal',
     BEHANDLING_FERDIGSTILT: 'Behandling er ferdig og klageresultat er oppdatert',
 };
 
