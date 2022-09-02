@@ -12,7 +12,7 @@ import VisittkortComponent from '../../Felles/Visittkort/Visittkort';
 import { Behandling } from '../../App/typer/fagsak';
 import { useSetValgtFagsakId } from '../../App/hooks/useSetValgtFagsakId';
 import { IPersonopplysninger } from '../../App/typer/personopplysninger';
-import SystemetLaster from '../../Felles/SystemetLaster/SystemetLaster';
+import DataViewer from '../../Felles/DataViewer/DataViewer';
 
 const Container = styled.div`
     display: flex;
@@ -93,16 +93,17 @@ const BehandlingOverbygg: FC = () => {
     useEffect(() => {
         document.title = 'Behandling';
     }, []);
-    if (behandling.status === 'SUKSESS' && personopplysningerResponse.status === 'SUKSESS') {
-        return (
-            <BehandlingContent
-                behandling={behandling.data}
-                personopplysninger={personopplysningerResponse.data}
-            />
-        );
-    } else {
-        return <SystemetLaster tittel={'Prøver å hente behandling...'} />;
-    }
+
+    return (
+        <DataViewer response={{ behandling, personopplysningerResponse }}>
+            {({ behandling, personopplysningerResponse }) => (
+                <BehandlingContent
+                    behandling={behandling}
+                    personopplysninger={personopplysningerResponse}
+                />
+            )}
+        </DataViewer>
+    );
 };
 
 export default BehandlingContainer;
