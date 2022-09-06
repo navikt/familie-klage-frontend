@@ -11,10 +11,10 @@ import { useHentRegler } from '../hooks/useHentRegler';
 import { RessursStatus } from '../typer/ressurs';
 import { erBehandlingRedigerbar } from '../typer/behandlingstatus';
 import {
-    HjemmelValg,
+    Hjemmel,
     IVurdering,
     VedtakValg,
-    ÅrsakValg,
+    ÅrsakOmgjøring,
 } from '../../Komponenter/Behandling/Vurdering/vurderingValg';
 
 const [BehandlingProvider, useBehandling] = constate(() => {
@@ -95,8 +95,8 @@ const [BehandlingProvider, useBehandling] = constate(() => {
     const vurderingObject: IVurdering = {
         behandlingId: behandlingId,
         vedtak: VedtakValg.VELG,
-        arsak: ÅrsakValg.VELG,
-        hjemmel: HjemmelValg.VELG,
+        arsak: ÅrsakOmgjøring.VELG,
+        hjemmel: Hjemmel.VELG,
         beskrivelse: '',
     };
     const [vurderingData, settVurderingData] = useState<IVurdering>(vurderingObject);

@@ -11,14 +11,14 @@ import { Alert, Button, Textarea } from '@navikt/ds-react';
 import { FormkravOppsummering } from './FormkravOppsummering';
 import { Vedtak } from './Vedtak';
 import { Årsak } from './Årsak';
-import { Hjemmel } from './Hjemmel';
+import { HjemmelVelger } from './HjemmelVelger';
 import {
-    HjemmelValg,
-    hjemmelValgTilTekst,
+    Hjemmel,
+    hjemmelTilTekst,
     IVurdering,
     VedtakValg,
     vedtakValgTilTekst,
-    ÅrsakValg,
+    ÅrsakOmgjøring,
     årsakValgTilTekst,
 } from './vurderingValg';
 import { Ressurs, RessursStatus } from '../../../App/typer/ressurs';
@@ -177,10 +177,10 @@ export const Vurdering: React.FC<{ behandlingId: string }> = ({ behandlingId }) 
                     )}
                     {vurderingData.vedtak == VedtakValg.OPPRETTHOLD_VEDTAK &&
                     vurderingData.hjemmel !== undefined ? (
-                        <Hjemmel
+                        <HjemmelVelger
                             settHjemmel={settVurderingData}
                             hjemmelValgt={vurderingData.hjemmel}
-                            hjemmelValgmuligheter={hjemmelValgTilTekst}
+                            hjemmelValgmuligheter={hjemmelTilTekst}
                             endring={settIkkePersistertKomponent}
                         />
                     ) : (
@@ -220,8 +220,8 @@ export const Vurdering: React.FC<{ behandlingId: string }> = ({ behandlingId }) 
                                         vurderingData.vedtak == VedtakValg.OMGJØR_VEDTAK
                                     ) ||
                                     vurderingData.beskrivelse.length == 0 ||
-                                    (vurderingData.arsak == ÅrsakValg.VELG &&
-                                        vurderingData.hjemmel == HjemmelValg.VELG)
+                                    (vurderingData.arsak == ÅrsakOmgjøring.VELG &&
+                                        vurderingData.hjemmel == Hjemmel.VELG)
                                 }
                             >
                                 Lagre vurdering
