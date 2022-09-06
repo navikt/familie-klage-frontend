@@ -2,7 +2,7 @@ import * as React from 'react';
 import { Heading, Select } from '@navikt/ds-react';
 import styled from 'styled-components';
 import { Dispatch, SetStateAction } from 'react';
-import { HjemmelValg, IVurdering } from './vurderingValg';
+import { Hjemmel, IVurdering } from './vurderingValg';
 import { useBehandling } from '../../../App/context/BehandlingContext';
 
 const HjemmelStyled = styled.div`
@@ -17,11 +17,11 @@ const HjemmelInnholdStyled = styled.div`
 interface IHjemmel {
     settHjemmel: Dispatch<SetStateAction<IVurdering>>;
     hjemmelValgmuligheter: Record<string, string>;
-    hjemmelValgt: HjemmelValg;
+    hjemmelValgt: Hjemmel;
     endring: (komponentId: string) => void;
 }
 
-export const Hjemmel: React.FC<IHjemmel> = ({
+export const HjemmelVelger: React.FC<IHjemmel> = ({
     settHjemmel,
     hjemmelValgmuligheter,
     hjemmelValgt,

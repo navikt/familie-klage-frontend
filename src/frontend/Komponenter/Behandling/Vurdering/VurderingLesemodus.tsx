@@ -7,10 +7,10 @@ import styled from 'styled-components';
 // Komponenter
 import { Heading } from '@navikt/ds-react';
 import {
-    HjemmelValg,
-    hjemmelValgTilTekst,
+    Hjemmel,
+    hjemmelTilTekst,
     vedtakValgTilTekst,
-    ÅrsakValg,
+    ÅrsakOmgjøring,
     årsakValgTilTekst,
 } from './vurderingValg';
 import { useBehandling } from '../../../App/context/BehandlingContext';
@@ -37,7 +37,7 @@ export const VurderingLesemodus: React.FC = () => {
                     </Heading>
                     {vedtakValgTilTekst[vurderingData.vedtak]}
                 </VurderingLesemodusPunkt>
-                {vurderingData.arsak !== undefined && vurderingData.arsak !== ÅrsakValg.VELG && (
+                {vurderingData.arsak !== undefined && vurderingData.arsak !== ÅrsakOmgjøring.VELG && (
                     <VurderingLesemodusPunkt>
                         <Heading level="1" size="medium">
                             Årsak
@@ -46,12 +46,12 @@ export const VurderingLesemodus: React.FC = () => {
                     </VurderingLesemodusPunkt>
                 )}
 
-                {vurderingData.hjemmel !== undefined && vurderingData.hjemmel !== HjemmelValg.VELG && (
+                {vurderingData.hjemmel !== undefined && vurderingData.hjemmel !== Hjemmel.VELG && (
                     <VurderingLesemodusPunkt>
                         <Heading level="1" size="medium">
                             Hjemmel
                         </Heading>
-                        {hjemmelValgTilTekst[vurderingData.hjemmel]}
+                        {hjemmelTilTekst[vurderingData.hjemmel]}
                     </VurderingLesemodusPunkt>
                 )}
                 <Heading level="1" size="medium">

@@ -2,7 +2,7 @@ import * as React from 'react';
 import { Heading, Select } from '@navikt/ds-react';
 import styled from 'styled-components';
 import { Dispatch, SetStateAction } from 'react';
-import { IVurdering, ÅrsakValg } from './vurderingValg';
+import { IVurdering, ÅrsakOmgjøring } from './vurderingValg';
 import { useBehandling } from '../../../App/context/BehandlingContext';
 
 const ÅrsakStyled = styled.div`
@@ -16,7 +16,7 @@ const ÅrsakInnholdStyled = styled.div`
 
 interface IÅrsak {
     settÅrsak: Dispatch<SetStateAction<IVurdering>>;
-    årsakValgt: ÅrsakValg;
+    årsakValgt: ÅrsakOmgjøring;
     årsakValgmuligheter: Record<string, string>;
     endring: (komponentId: string) => void;
 }
