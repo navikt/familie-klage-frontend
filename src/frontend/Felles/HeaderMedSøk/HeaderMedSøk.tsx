@@ -1,6 +1,5 @@
 import React from 'react';
 import { Header } from '@navikt/familie-header';
-import PersonSøk from './PersonSøk';
 import { ISaksbehandler } from '../../App/typer/saksbehandler';
 import { useApp } from '../../App/context/AppContext';
 import './headermedsøk.less';
@@ -26,8 +25,6 @@ export const HeaderMedSøk: React.FunctionComponent<IHeaderMedSøkProps> = ({
             }}
             brukerPopoverItems={[{ name: 'Logg ut', href: `${window.origin}/auth/logout` }]}
             eksterneLenker={[]}
-        >
-            {innloggetSaksbehandler && <PersonSøk />}
-        </Header>
+        />
     );
 };
