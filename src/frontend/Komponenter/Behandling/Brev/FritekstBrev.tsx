@@ -1,10 +1,7 @@
 import React, { ChangeEvent, useEffect, useMemo, useState } from 'react';
 import { useBehandling } from '../../../App/context/BehandlingContext';
 import { Ressurs, RessursStatus } from '../../../App/typer/ressurs';
-
-import DataViewer from '../../../Felles/DataViewer/DataViewer';
 import BrevInnhold from './BrevInnhold';
-import { stønadstypeTilTekst } from '../../../App/typer/behandlingstema';
 import styled from 'styled-components';
 import {
     AvsnittMedId,
@@ -47,7 +44,7 @@ const FritekstBrev: React.FC<Props> = ({
     mellomlagretFritekstbrev,
     oppdaterBrevressurs,
 }) => {
-    const { behandling, behandlingErRedigerbar } = useBehandling();
+    const { behandlingErRedigerbar } = useBehandling();
     const { axiosRequest } = useApp();
 
     const personopplysningerConfig: AxiosRequestConfig = useMemo(
@@ -187,33 +184,25 @@ const FritekstBrev: React.FC<Props> = ({
     };
 
     return (
-        <DataViewer response={{ behandling }} key={behandlingId}>
-            {({ behandling }) => (
-                <StyledBrev>
-                    <h1>Fritekstbrev for {stønadstypeTilTekst[behandling.stonadsType]}</h1>
-                    {behandlingErRedigerbar ? (
-                        <BrevInnhold
-                            brevType={brevType}
-                            overskrift={overskrift}
-                            endreOverskrift={endreOverskrift}
-                            avsnitt={avsnitt}
-                            endreAvsnitt={endreAvsnitt}
-                            endreDeloverskriftAvsnitt={endreDeloverskriftAvsnitt}
-                            endreInnholdAvsnitt={endreInnholdAvsnitt}
-                            fjernRad={fjernRad}
-                            leggTilAvsnittFørst={oppdaterLeggTilAvsnittFørst}
-                            leggAvsnittBakSisteSynligeAvsnitt={
-                                oppdaterLeggAvsnittBakSisteSynligeAvsnitt
-                            }
-                            flyttAvsnittOpp={oppdaterFlyttAvsnittOppover}
-                            flyttAvsnittNed={oppdaterFlyttAvsnittNedover}
-                        />
-                    ) : (
-                        ''
-                    )}
-                </StyledBrev>
+        <StyledBrev>
+            <h1>Fritekstbrev</h1>
+            {behandlingErRedigerbar && (
+                <BrevInnhold
+                    brevType={brevType}
+                    overskrift={overskrift}
+                    endreOverskrift={endreOverskrift}
+                    avsnitt={avsnitt}
+                    endreAvsnitt={endreAvsnitt}
+                    endreDeloverskriftAvsnitt={endreDeloverskriftAvsnitt}
+                    endreInnholdAvsnitt={endreInnholdAvsnitt}
+                    fjernRad={fjernRad}
+                    leggTilAvsnittFørst={oppdaterLeggTilAvsnittFørst}
+                    leggAvsnittBakSisteSynligeAvsnitt={oppdaterLeggAvsnittBakSisteSynligeAvsnitt}
+                    flyttAvsnittOpp={oppdaterFlyttAvsnittOppover}
+                    flyttAvsnittNed={oppdaterFlyttAvsnittNedover}
+                />
             )}
-        </DataViewer>
+        </StyledBrev>
     );
 };
 
