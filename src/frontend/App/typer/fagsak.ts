@@ -25,6 +25,7 @@ export interface Fagsak {
     behandlinger: Behandling[];
     erLøpende: boolean;
     erMigrert: boolean;
+    fagsystem: Fagsystem;
 }
 
 export enum Fagsystem {
