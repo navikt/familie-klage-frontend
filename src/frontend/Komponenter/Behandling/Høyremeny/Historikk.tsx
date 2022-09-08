@@ -33,11 +33,6 @@ const Historikk: React.FC<{ behandling: Behandling }> = ({ behandling }) => {
                     opprettet={false}
                 />
             ))}
-            <HistorikkOppdatering
-                opprettet={true}
-                endretTid={behandling.opprettet}
-                opprettetAv={behandling.personId}
-            />
         </div>
     );
 };
