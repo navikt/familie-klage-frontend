@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
 import React from 'react';
 import styled from 'styled-components';
 import SlettSøppelkasse from '../../../Felles/Ikoner/SlettSøppelkasse';
@@ -7,13 +6,12 @@ import LenkeKnapp from '../../../Felles/Knapper/LenkeKnapp';
 import navFarger from 'nav-frontend-core';
 import BrukerMedBlyant from '../../../Felles/Ikoner/BrukerMedBlyant';
 import {
-    VilkårStatus,
-    vilkårStatusTilTekst,
-    IRadioKnapperLeseModus,
+    IFormVilkår,
     IRadioKnapper,
     IVilkårNullstill,
-    IFormVilkår,
-} from './utils';
+    VilkårStatus,
+    vilkårStatusTilTekst,
+} from './typer';
 import { useBehandling } from '../../../App/context/BehandlingContext';
 import { hentBehandlingIdFraUrl } from '../BehandlingContainer';
 import { useApp } from '../../../App/context/AppContext';
@@ -87,7 +85,18 @@ const AlertStyled = styled(Alert)`
     width: 100%;
 `;
 
-export const RadioknapperLesemodus: React.FC<IRadioKnapperLeseModus> = ({
+interface IProps {
+    radioKnapper: IRadioKnapper[];
+    redigerHandling: (value: boolean) => void;
+    saksbehandlerBegrunnelse: string;
+    endretTid: string;
+    settFormVilkårData: (value: IFormVilkår) => void;
+    settFormkravGyldig: (value: boolean) => void;
+    senderInn: boolean;
+    settSenderInn: (value: boolean) => void;
+}
+
+export const VisFormkravVurderinger: React.FC<IProps> = ({
     radioKnapper,
     redigerHandling,
     saksbehandlerBegrunnelse,

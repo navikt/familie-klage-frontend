@@ -1,27 +1,11 @@
 import React, { useEffect, useState } from 'react';
-import styled from 'styled-components';
-import { Formvilkår } from './Formvilkår';
-import { Klageinfo } from './Klageinfo';
+import { KlageInfo } from './KlageInfo';
 import { useApp } from '../../../App/context/AppContext';
 import { Ressurs, RessursStatus } from '../../../App/typer/ressurs';
 import { useBehandling } from '../../../App/context/BehandlingContext';
-import { IFormKlage, IFormVilkår, VilkårStatus } from './utils';
-
-const FormKravStyling = styled.div`
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    width: 90%;
-    margin: 1.5rem 5rem 0rem 5rem;
-`;
-
-const FormKravStylingBody = styled.div`
-    display: flex;
-    @media only screen and (max-width: 800px) {
-        flex-direction: column;
-    }
-    width: 100%;
-`;
+import { IFormKlage, IFormVilkår, VilkårStatus } from './typer';
+import ToKolonnerLayout from '../../../Felles/Visningskomponenter/ToKolonnerLayout';
+import { VisEllerEndreFormkravVurderinger } from './VisEllerEndreFormkravVurderinger';
 
 export const Formkrav: React.FC<{ behandlingId: string }> = ({ behandlingId }) => {
     const { axiosRequest } = useApp();
@@ -106,24 +90,26 @@ export const Formkrav: React.FC<{ behandlingId: string }> = ({ behandlingId }) =
         });
     }, [axiosRequest, behandlingId, settFormkravLåst, settFormkravGyldig, settFormkravBesvart]);
     return (
-        <FormKravStyling>
-            <FormKravStylingBody>
-                {formKlageData !== undefined && (
-                    <Klageinfo
+        <ToKolonnerLayout>
+            {{
+                venstre: (
+                    <KlageInfo
                         formkravGyldig={formkravGyldig}
                         formkrav={formKlageData}
                         låst={formkravLåst}
                     />
-                )}
-                <Formvilkår
-                    settFormkravGyldig={settFormkravGyldig}
-                    låst={formkravLåst}
-                    settLåst={settFormkravLåst}
-                    formData={formVilkårData}
-                    settFormkravBesvart={settFormkravBesvart}
-                    settFormVilkårData={settFormVilkårData}
-                />
-            </FormKravStylingBody>
-        </FormKravStyling>
+                ),
+                høyre: (
+                    <VisEllerEndreFormkravVurderinger
+                        settFormkravGyldig={settFormkravGyldig}
+                        låst={formkravLåst}
+                        settLåst={settFormkravLåst}
+                        formData={formVilkårData}
+                        settFormkravBesvart={settFormkravBesvart}
+                        settFormVilkårData={settFormVilkårData}
+                    />
+                ),
+            }}
+        </ToKolonnerLayout>
     );
 };
