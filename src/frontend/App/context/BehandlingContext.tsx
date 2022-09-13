@@ -54,9 +54,6 @@ const [BehandlingProvider, useBehandling] = constate(() => {
     const [visHenleggModal, settVisHenleggModal] = useState(false);
     const [åpenHøyremeny, settÅpenHøyremeny] = useState(true);
 
-    const [formkravLåst, settFormkravLåst] = useState<boolean>(false);
-
-    const [formkravBesvart, settFormkravBesvart] = useState<boolean>(false);
     const [formkravGyldig, settFormkravGyldig] = useState<boolean>(false);
 
     const [vurderingSideGyldig, settVurderingSideGyldig] = useState<boolean>(false);
@@ -121,10 +118,6 @@ const [BehandlingProvider, useBehandling] = constate(() => {
         settVisHenleggModal,
         åpenHøyremeny,
         settÅpenHøyremeny,
-        formkravLåst,
-        settFormkravLåst,
-        formkravBesvart,
-        settFormkravBesvart,
         vilkårTom,
         settVilkårTom,
         formkravGyldig,

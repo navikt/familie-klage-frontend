@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import styled from 'styled-components';
 import SlettSøppelkasse from '../../../Felles/Ikoner/SlettSøppelkasse';
 import RedigerBlyant from '../../../Felles/Ikoner/RedigerBlyant';
@@ -8,16 +8,17 @@ import BrukerMedBlyant from '../../../Felles/Ikoner/BrukerMedBlyant';
 import {
     IFormVilkår,
     IRadioKnapper,
-    IVilkårNullstill,
+    Redigeringsmodus,
     VilkårStatus,
     vilkårStatusTilTekst,
 } from './typer';
 import { useBehandling } from '../../../App/context/BehandlingContext';
 import { hentBehandlingIdFraUrl } from '../BehandlingContainer';
-import { useApp } from '../../../App/context/AppContext';
 import { Alert, Button, Heading } from '@navikt/ds-react';
 import { useNavigate } from 'react-router-dom';
 import { formaterIsoDatoTid } from '../../../App/utils/formatter';
+import { Ressurs, RessursFeilet, RessursStatus, RessursSuksess } from '../../../App/typer/ressurs';
+import { utledRadioKnapper } from './utils';
 
 export const RadSentrertVertikalt = styled.div`
     display: flex;
@@ -25,30 +26,25 @@ export const RadSentrertVertikalt = styled.div`
     align-items: center;
 `;
 
-const FormKravStyling = styled.div`
+const VisFormkravContainer = styled.div`
     display: flex;
     flex-direction: column;
     align-items: center;
     width: 90%;
-    margin: 0 3rem 0 0;
 `;
 
-const VilkårHeader = styled.div`
+const Header = styled.div`
     display: flex;
     justify-content: space-between;
     width: 100%;
 `;
 
-const FormKravStylingBody = styled.div`
+const Body = styled.div`
     display: flex;
     flex-direction: column;
-    @media only screen and (max-width: 800px) {
-        flex-direction: column;
-    }
     width: 100%;
     border-left: 0.4rem solid ${navFarger.navLillaLighten20};
     padding-left: 2rem;
-    margin-bottom: 1rem;
 `;
 
 const SvarElement = styled.ul`
@@ -76,8 +72,8 @@ const BrukerMedBlyantStyled = styled(BrukerMedBlyant)`
     overflow: visible;
 `;
 
-const ButtonStyled = styled(Button)`
-    margin-right: auto;
+const LagreKnapp = styled(Button)`
+    margin-top: 1rem;
 `;
 
 const AlertStyled = styled(Alert)`
@@ -86,31 +82,38 @@ const AlertStyled = styled(Alert)`
 `;
 
 interface IProps {
-    radioKnapper: IRadioKnapper[];
     redigerHandling: (value: boolean) => void;
     saksbehandlerBegrunnelse: string;
     endretTid: string;
-    settFormVilkårData: (value: IFormVilkår) => void;
     settFormkravGyldig: (value: boolean) => void;
     senderInn: boolean;
     settSenderInn: (value: boolean) => void;
+    settRedigeringsmodus: (redigeringsmodus: Redigeringsmodus) => void;
+    lagreVurderinger: (
+        vurderinger: IFormVilkår
+    ) => Promise<RessursSuksess<IFormVilkår> | RessursFeilet>;
+    vurderinger: IFormVilkår;
 }
 
 export const VisFormkravVurderinger: React.FC<IProps> = ({
-    radioKnapper,
-    redigerHandling,
     saksbehandlerBegrunnelse,
     endretTid,
-    settFormVilkårData,
-    settFormkravGyldig,
+    settRedigeringsmodus,
+    lagreVurderinger,
+    vurderinger,
 }) => {
-    const { settFormkravLåst, formkravGyldig, formkravBesvart, behandlingErRedigerbar } =
-        useBehandling();
-    const { axiosRequest } = useApp();
+    const { formkravGyldig, behandlingErRedigerbar, hentBehandling } = useBehandling();
     const navigate = useNavigate();
-    const slettHandling = () => {
-        const nullstilteVilkår: IVilkårNullstill = {
-            behandlingId: hentBehandlingIdFraUrl(),
+    const [nullstillerVurderinger, settNullstillerVurderinger] = useState<boolean>(false);
+
+    const nullstillVurderinger = () => {
+        if (nullstillerVurderinger) {
+            return;
+        }
+        settNullstillerVurderinger(true);
+
+        const nullstilteVurderinger: IFormVilkår = {
+            ...vurderinger,
             klagePart: VilkårStatus.IKKE_SATT,
             klageKonkret: VilkårStatus.IKKE_SATT,
             klagefristOverholdt: VilkårStatus.IKKE_SATT,
@@ -118,27 +121,20 @@ export const VisFormkravVurderinger: React.FC<IProps> = ({
             saksbehandlerBegrunnelse: '',
         };
 
-        settFormVilkårData((prevState: IFormVilkår) => ({
-            ...prevState,
-            klagePart: VilkårStatus.IKKE_SATT,
-            klageKonkret: VilkårStatus.IKKE_SATT,
-            klagefristOverholdt: VilkårStatus.IKKE_SATT,
-            klageSignert: VilkårStatus.IKKE_SATT,
-            saksbehandlerBegrunnelse: '',
-        }));
-        settFormkravGyldig(false);
-
-        axiosRequest<IFormVilkår, IVilkårNullstill>({
-            method: 'POST',
-            url: `/familie-klage/api/formkrav`,
-            data: nullstilteVilkår,
+        lagreVurderinger(nullstilteVurderinger).then((res: Ressurs<IFormVilkår>) => {
+            settNullstillerVurderinger(false);
+            if (res.status === RessursStatus.SUKSESS) {
+                settRedigeringsmodus(Redigeringsmodus.REDIGERING);
+                hentBehandling.rerun();
+            }
         });
-        settFormkravLåst(false);
     };
 
+    const radioKnapper = utledRadioKnapper(vurderinger);
+
     return (
-        <FormKravStyling>
-            <VilkårHeader>
+        <VisFormkravContainer>
+            <Header>
                 <RadSentrertVertikalt>
                     <VilkårIkon>
                         <BrukerMedBlyantStyled heigth={23} width={23} />
@@ -149,18 +145,20 @@ export const VisFormkravVurderinger: React.FC<IProps> = ({
                 </RadSentrertVertikalt>
                 {behandlingErRedigerbar && (
                     <div>
-                        <LenkeKnapp onClick={() => redigerHandling(false)}>
+                        <LenkeKnapp
+                            onClick={() => settRedigeringsmodus(Redigeringsmodus.REDIGERING)}
+                        >
                             <RedigerBlyant withDefaultStroke={false} width={19} heigth={19} />
                             <span>Rediger</span>
                         </LenkeKnapp>
-                        <LenkeKnapp onClick={() => slettHandling()}>
+                        <LenkeKnapp onClick={() => nullstillVurderinger()}>
                             <SlettSøppelkasse withDefaultStroke={false} width={19} heigth={19} />
                             <span>Slett</span>
                         </LenkeKnapp>
                     </div>
                 )}
-            </VilkårHeader>
-            <FormKravStylingBody>
+            </Header>
+            <Body>
                 Sist endret - {formaterIsoDatoTid(endretTid)}
                 {radioKnapper.map((item: IRadioKnapper, index) => (
                     <SvarElement key={index}>
@@ -172,40 +170,42 @@ export const VisFormkravVurderinger: React.FC<IProps> = ({
                     <Spørsmål>Begrunnelse</Spørsmål>
                     <Svar>{saksbehandlerBegrunnelse}</Svar>
                 </SvarElement>
-            </FormKravStylingBody>
-            {formkravGyldig && formkravBesvart && behandlingErRedigerbar && (
-                <ButtonStyled
-                    variant="primary"
-                    size="medium"
-                    onClick={() => navigate(`/behandling/${hentBehandlingIdFraUrl()}/vurdering`)}
-                >
-                    Fortsett
-                </ButtonStyled>
-            )}
-            {!formkravGyldig && formkravBesvart && behandlingErRedigerbar && (
-                <ButtonStyled
-                    variant="primary"
-                    size="medium"
-                    onClick={() => navigate(`/behandling/${hentBehandlingIdFraUrl()}/brev`)}
-                >
-                    Fortsett
-                </ButtonStyled>
-            )}
-            {formkravGyldig && formkravBesvart && behandlingErRedigerbar && (
+                {formkravGyldig && behandlingErRedigerbar && (
+                    <LagreKnapp
+                        variant="primary"
+                        size="medium"
+                        onClick={() =>
+                            navigate(`/behandling/${hentBehandlingIdFraUrl()}/vurdering`)
+                        }
+                    >
+                        Fortsett
+                    </LagreKnapp>
+                )}
+                {!formkravGyldig && behandlingErRedigerbar && (
+                    <LagreKnapp
+                        variant="primary"
+                        size="medium"
+                        onClick={() => navigate(`/behandling/${hentBehandlingIdFraUrl()}/brev`)}
+                    >
+                        Fortsett
+                    </LagreKnapp>
+                )}
+            </Body>
+            {formkravGyldig && behandlingErRedigerbar && (
                 <AlertStyled variant={'success'} size={'medium'}>
                     Du har lagret vilkår.
                 </AlertStyled>
             )}
-            {!formkravGyldig && formkravBesvart && behandlingErRedigerbar && (
+            {!formkravGyldig && behandlingErRedigerbar && (
                 <AlertStyled variant={'info'} size={'medium'}>
                     Du har lagret vilkår som ikke oppfylt.
                 </AlertStyled>
             )}
-            {!formkravGyldig && !formkravBesvart && behandlingErRedigerbar && (
+            {!formkravGyldig && behandlingErRedigerbar && (
                 <AlertStyled variant={'warning'} size={'medium'}>
                     Noen vilkår er ikke besvart.
                 </AlertStyled>
             )}
-        </FormKravStyling>
+        </VisFormkravContainer>
     );
 };

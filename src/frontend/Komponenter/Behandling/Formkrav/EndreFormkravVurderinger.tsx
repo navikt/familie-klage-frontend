@@ -1,27 +1,11 @@
 import React, { useState } from 'react';
-import { IFormVilkår, IRadioKnapper, VilkårStatus } from './typer';
+import { IFormVilkår, IRadioKnapper, Redigeringsmodus, VilkårStatus } from './typer';
 import { Alert, Button, Radio, RadioGroup, Textarea } from '@navikt/ds-react';
 import { useBehandling } from '../../../App/context/BehandlingContext';
 import { useApp } from '../../../App/context/AppContext';
-import { Ressurs, RessursStatus } from '../../../App/typer/ressurs';
+import { Ressurs, RessursFeilet, RessursStatus, RessursSuksess } from '../../../App/typer/ressurs';
 import styled from 'styled-components';
-
-const VilkårStyling = styled.div`
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    width: 50%;
-    margin: 0.5rem 1rem 1rem 1rem;
-`;
-
-const FormKravStylingBody = styled.div`
-    display: flex;
-    flex-direction: column;
-    @media only screen and (max-width: 800px) {
-        flex-direction: column;
-    }
-    width: 100%;
-`;
+import { utledRadioKnapper } from './utils';
 
 const RadioGrupperContainer = styled.div`
     display: flex;
@@ -46,104 +30,48 @@ const AlertStripe = styled(Alert)`
 `;
 
 interface IProps {
-    radioKnapper: IRadioKnapper[];
-    settFormkravGyldig: (value: boolean) => void;
-    låst: boolean;
-    settLåst: (value: boolean) => void;
-    formData: IFormVilkår;
-    settFormkravBesvart: (value: boolean) => void;
-    settFormVilkårData: (value: IFormVilkår) => void;
+    vurderinger: IFormVilkår;
+    settRedigeringsmodus: (redigeringsmodus: Redigeringsmodus) => void;
+    lagreVurderinger: (
+        vurderinger: IFormVilkår
+    ) => Promise<RessursSuksess<IFormVilkår> | RessursFeilet>;
 }
 
 export const EndreFormkravVurderinger: React.FC<IProps> = ({
-    radioKnapper,
-    settFormkravGyldig,
-    låst,
-    settLåst,
-    formData,
-    settFormkravBesvart,
-    settFormVilkårData,
+    vurderinger,
+    settRedigeringsmodus,
+    lagreVurderinger,
 }) => {
-    const { visAdvarselFormkrav, settVisAdvarselFormkrav, hentBehandling } = useBehandling();
+    const { visAdvarselFormkrav, hentBehandling } = useBehandling();
 
-    const { axiosRequest, nullstillIkkePersisterteKomponenter, settIkkePersistertKomponent } =
-        useApp();
+    const { settIkkePersistertKomponent } = useApp();
 
-    const vilkårErGyldig = (): boolean => {
-        const svarListe = [
-            formData.klagePart,
-            formData.klageSignert,
-            formData.klageKonkret,
-            formData.klagefristOverholdt,
-        ];
-        return (
-            svarListe.filter((svar) => svar !== 'OPPFYLT').length === 0 &&
-            formData.saksbehandlerBegrunnelse.length !== 0
-        );
-    };
+    const [oppdatererVurderinger, settOppdatererVurderinger] = useState<boolean>(false);
+    const [oppdaterteVurderinger, settOppdaterteVurderinger] = useState<IFormVilkår>(vurderinger);
 
-    const vilkårErBesvart = (): boolean => {
-        const svarListe = [
-            formData.klagePart,
-            formData.klageSignert,
-            formData.klageKonkret,
-            formData.klagefristOverholdt,
-        ];
-        return (
-            ((svarListe.includes(VilkårStatus.SKAL_IKKE_VURDERES) &&
-                svarListe.includes(VilkårStatus.IKKE_OPPFYLT)) ||
-                !svarListe.includes(VilkårStatus.SKAL_IKKE_VURDERES)) &&
-            !svarListe.includes(VilkårStatus.IKKE_SATT) &&
-            formData.saksbehandlerBegrunnelse !== ''
-        );
-    };
-
-    const [senderInn, settSenderInn] = useState<boolean>(false);
-
-    const opprettForm = () => {
-        if (senderInn) {
+    const submitOppdaterteVurderinger = () => {
+        if (oppdatererVurderinger) {
             return;
         }
-        settSenderInn(true);
+        settOppdatererVurderinger(true);
 
-        if (vilkårErGyldig()) settFormkravGyldig(true);
-
-        if (vilkårErBesvart()) {
-            settFormkravBesvart(true);
-        } else {
-            settFormkravBesvart(false);
-        }
-        settLåst(true);
-        axiosRequest<IFormVilkår, IFormVilkår>({
-            method: 'POST',
-            url: `/familie-klage/api/formkrav`,
-            data: formData,
-        }).then((res: Ressurs<IFormVilkår>) => {
+        lagreVurderinger(oppdaterteVurderinger).then((res: Ressurs<IFormVilkår>) => {
+            settOppdatererVurderinger(false);
             if (res.status === RessursStatus.SUKSESS) {
-                settFormVilkårData((prevState: IFormVilkår) => ({
-                    ...prevState,
-                    endretTid: res.data.endretTid,
-                }));
-                settVisAdvarselFormkrav(false);
-                nullstillIkkePersisterteKomponenter();
-            } else {
-                settLåst(false);
-                settVisAdvarselFormkrav(true);
+                settRedigeringsmodus(Redigeringsmodus.VISNING);
+                hentBehandling.rerun();
             }
-            settSenderInn(false);
-            hentBehandling.rerun();
         });
     };
 
-    const låsOppFormVilkår = (val: boolean) => {
-        settFormkravGyldig(val);
-        settLåst(val);
-    };
+    const radioKnapper = utledRadioKnapper(oppdaterteVurderinger);
 
     return (
         <form
-            onSubmit={() => {
-                opprettForm();
+            onSubmit={(event) => {
+                event.preventDefault();
+                event.stopPropagation();
+                submitOppdaterteVurderinger();
             }}
         >
             <RadioGrupperContainer>
@@ -152,7 +80,7 @@ export const EndreFormkravVurderinger: React.FC<IProps> = ({
                         legend={item.spørsmål}
                         size="medium"
                         onChange={(val: VilkårStatus) => {
-                            settFormVilkårData((prevState: IFormVilkår) => {
+                            settOppdaterteVurderinger((prevState: IFormVilkår) => {
                                 return {
                                     ...prevState,
                                     [item.navn]: val,
@@ -173,10 +101,10 @@ export const EndreFormkravVurderinger: React.FC<IProps> = ({
             </RadioGrupperContainer>
             <Textarea
                 label={'Vurdering'}
-                value={formData.saksbehandlerBegrunnelse}
+                value={oppdaterteVurderinger.saksbehandlerBegrunnelse}
                 onChange={(e) => {
                     settIkkePersistertKomponent(e.target.value);
-                    settFormVilkårData((prevState: IFormVilkår) => {
+                    settOppdaterteVurderinger((prevState: IFormVilkår) => {
                         return {
                             ...prevState,
                             saksbehandlerBegrunnelse: e.target.value,

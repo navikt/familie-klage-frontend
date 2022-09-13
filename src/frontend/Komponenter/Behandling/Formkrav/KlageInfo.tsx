@@ -31,13 +31,12 @@ const BegrunnelseContainer = styled.div`
     flex-direction: row;
 `;
 
-interface IFormkravVenstre {
+interface IProps {
     formkravGyldig: boolean;
-    låst: boolean;
     formkrav: IFormKlage;
 }
 
-export const KlageInfo: React.FC<IFormkravVenstre> = ({ formkravGyldig, formkrav }) => {
+export const KlageInfo: React.FC<IProps> = ({ formkravGyldig, formkrav }) => {
     const { visAdvarselFormkrav } = useBehandling();
 
     const oppfyltEllerIkkeOppfyltIkon = () => {
