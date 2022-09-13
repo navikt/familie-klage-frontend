@@ -51,6 +51,7 @@ export const HjemmelVelger: React.FC<IHjemmel> = ({
                     }}
                     hideLabel
                 >
+                    <option value={''}>Velg</option>
                     {Object.keys(hjemmelValgmuligheter).map((valg, index) => (
                         <option value={valg} key={index}>
                             {hjemmelValgmuligheter[valg]}
