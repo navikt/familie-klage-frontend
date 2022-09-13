@@ -5,7 +5,7 @@ const webpackHotMiddleware = require('webpack-hot-middleware');
 const config = require('../build_n_deploy/webpack/webpack.dev');
 const path = require('path');
 
-const port = 8000;
+const port = 8020;
 
 // @ts-ignore
 const compiler = webpack(config);
