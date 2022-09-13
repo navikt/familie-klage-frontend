@@ -16,7 +16,7 @@ import { logError, logInfo } from '@navikt/familie-logging';
 // @ts-ignore
 import config from '../../build_n_deploy/webpack/webpack.dev.js';
 
-const port = 8000;
+const port = 8020;
 
 backend(sessionConfig, prometheusTellere).then(({ app, azureAuthClient, router }: IApp) => {
     let middleware;
