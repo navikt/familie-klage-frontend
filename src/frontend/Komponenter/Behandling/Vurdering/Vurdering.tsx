@@ -162,8 +162,7 @@ export const Vurdering: React.FC<{ behandlingId: string }> = ({ behandlingId }) 
                         vedtakValgmuligheter={vedtakValgTilTekst}
                         endring={settIkkePersistertKomponent}
                     />
-                    {vurderingData.vedtak == VedtakValg.OMGJØR_VEDTAK &&
-                    vurderingData.arsak !== undefined ? (
+                    {vurderingData.vedtak == VedtakValg.OMGJØR_VEDTAK ? (
                         <Årsak
                             settÅrsak={settVurderingData}
                             årsakValgt={vurderingData.arsak}
@@ -173,8 +172,7 @@ export const Vurdering: React.FC<{ behandlingId: string }> = ({ behandlingId }) 
                     ) : (
                         ''
                     )}
-                    {vurderingData.vedtak == VedtakValg.OPPRETTHOLD_VEDTAK &&
-                    vurderingData.hjemmel !== undefined ? (
+                    {vurderingData.vedtak == VedtakValg.OPPRETTHOLD_VEDTAK ? (
                         <HjemmelVelger
                             settHjemmel={settVurderingData}
                             hjemmelValgt={vurderingData.hjemmel}

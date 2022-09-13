@@ -16,7 +16,7 @@ const ÅrsakInnholdStyled = styled.div`
 
 interface IÅrsak {
     settÅrsak: Dispatch<SetStateAction<IVurdering>>;
-    årsakValgt: ÅrsakOmgjøring;
+    årsakValgt?: ÅrsakOmgjøring;
     årsakValgmuligheter: Record<string, string>;
     endring: (komponentId: string) => void;
 }
