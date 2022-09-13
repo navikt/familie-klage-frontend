@@ -13,12 +13,10 @@ import { Vedtak } from './Vedtak';
 import { Årsak } from './Årsak';
 import { HjemmelVelger } from './HjemmelVelger';
 import {
-    Hjemmel,
     hjemmelTilTekst,
     IVurdering,
     VedtakValg,
     vedtakValgTilTekst,
-    ÅrsakOmgjøring,
     årsakValgTilTekst,
 } from './vurderingValg';
 import { Ressurs, RessursStatus } from '../../../App/typer/ressurs';
@@ -164,8 +162,7 @@ export const Vurdering: React.FC<{ behandlingId: string }> = ({ behandlingId }) 
                         vedtakValgmuligheter={vedtakValgTilTekst}
                         endring={settIkkePersistertKomponent}
                     />
-                    {vurderingData.vedtak == VedtakValg.OMGJØR_VEDTAK &&
-                    vurderingData.arsak !== undefined ? (
+                    {vurderingData.vedtak == VedtakValg.OMGJØR_VEDTAK ? (
                         <Årsak
                             settÅrsak={settVurderingData}
                             årsakValgt={vurderingData.arsak}
@@ -175,8 +172,7 @@ export const Vurdering: React.FC<{ behandlingId: string }> = ({ behandlingId }) 
                     ) : (
                         ''
                     )}
-                    {vurderingData.vedtak == VedtakValg.OPPRETTHOLD_VEDTAK &&
-                    vurderingData.hjemmel !== undefined ? (
+                    {vurderingData.vedtak == VedtakValg.OPPRETTHOLD_VEDTAK ? (
                         <HjemmelVelger
                             settHjemmel={settVurderingData}
                             hjemmelValgt={vurderingData.hjemmel}
@@ -220,8 +216,7 @@ export const Vurdering: React.FC<{ behandlingId: string }> = ({ behandlingId }) 
                                         vurderingData.vedtak == VedtakValg.OMGJØR_VEDTAK
                                     ) ||
                                     vurderingData.beskrivelse.length == 0 ||
-                                    (vurderingData.arsak == ÅrsakOmgjøring.VELG &&
-                                        vurderingData.hjemmel == Hjemmel.VELG)
+                                    (!vurderingData.arsak && !vurderingData.hjemmel)
                                 }
                             >
                                 Lagre vurdering

@@ -17,7 +17,7 @@ const HjemmelInnholdStyled = styled.div`
 interface IHjemmel {
     settHjemmel: Dispatch<SetStateAction<IVurdering>>;
     hjemmelValgmuligheter: Record<string, string>;
-    hjemmelValgt: Hjemmel;
+    hjemmelValgt?: Hjemmel;
     endring: (komponentId: string) => void;
 }
 
@@ -51,6 +51,7 @@ export const HjemmelVelger: React.FC<IHjemmel> = ({
                     }}
                     hideLabel
                 >
+                    <option value={''}>Velg</option>
                     {Object.keys(hjemmelValgmuligheter).map((valg, index) => (
                         <option value={valg} key={index}>
                             {hjemmelValgmuligheter[valg]}

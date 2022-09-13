@@ -16,7 +16,7 @@ const ÅrsakInnholdStyled = styled.div`
 
 interface IÅrsak {
     settÅrsak: Dispatch<SetStateAction<IVurdering>>;
-    årsakValgt: ÅrsakOmgjøring;
+    årsakValgt?: ÅrsakOmgjøring;
     årsakValgmuligheter: Record<string, string>;
     endring: (komponentId: string) => void;
 }
@@ -51,6 +51,7 @@ export const Årsak: React.FC<IÅrsak> = ({
                     }}
                     hideLabel
                 >
+                    <option value={''}>Velg</option>
                     {Object.keys(årsakValgmuligheter).map((valg, index) => (
                         <option value={valg} key={index}>
                             {årsakValgmuligheter[valg]}
