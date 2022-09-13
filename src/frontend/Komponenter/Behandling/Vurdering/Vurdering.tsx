@@ -22,7 +22,7 @@ import {
     årsakValgTilTekst,
 } from './vurderingValg';
 import { Ressurs, RessursStatus } from '../../../App/typer/ressurs';
-import { IFormVilkår, VilkårStatus } from '../Formkrav/utils';
+import { IFormkravVilkår, VilkårStatus } from '../Formkrav/typer';
 import { hentBehandlingIdFraUrl } from '../BehandlingContainer';
 import { useNavigate } from 'react-router-dom';
 import { useBehandling } from '../../../App/context/BehandlingContext';
@@ -71,10 +71,10 @@ export const Vurdering: React.FC<{ behandlingId: string }> = ({ behandlingId }) 
 
     // Hent data fra formkrav
     useEffect(() => {
-        axiosRequest<IFormVilkår, null>({
+        axiosRequest<IFormkravVilkår, null>({
             method: 'GET',
             url: `/familie-klage/api/formkrav/vilkar/${behandlingId}`,
-        }).then((res: Ressurs<IFormVilkår>) => {
+        }).then((res: Ressurs<IFormkravVilkår>) => {
             if (res.status === RessursStatus.SUKSESS) {
                 if (res.data.saksbehandlerBegrunnelse.length !== 0)
                     settBegrunnelse(res.data.saksbehandlerBegrunnelse);

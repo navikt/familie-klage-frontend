@@ -54,8 +54,6 @@ const [BehandlingProvider, useBehandling] = constate(() => {
     const [visHenleggModal, settVisHenleggModal] = useState(false);
     const [åpenHøyremeny, settÅpenHøyremeny] = useState(true);
 
-    const [formkravGyldig, settFormkravGyldig] = useState<boolean>(false);
-
     const [vurderingSideGyldig, settVurderingSideGyldig] = useState<boolean>(false);
     const [brevSideGyldig, settBrevSideGyldig] = useState<boolean>(false);
     const [resultatSideGyldig, settResultatSideGyldig] = useState<boolean>(false);
@@ -100,8 +98,6 @@ const [BehandlingProvider, useBehandling] = constate(() => {
 
     const [visAdvarselSendBrev, settVisAdvarselSendBrev] = useState(false);
 
-    const [visAdvarselFormkrav, settVisAdvarselFormkrav] = useState(false);
-
     return {
         behandling,
         behandlingErRedigerbar,
@@ -120,8 +116,6 @@ const [BehandlingProvider, useBehandling] = constate(() => {
         settÅpenHøyremeny,
         vilkårTom,
         settVilkårTom,
-        formkravGyldig,
-        settFormkravGyldig,
         vurderingSideGyldig,
         settVurderingSideGyldig,
         brevSideGyldig,
@@ -138,8 +132,6 @@ const [BehandlingProvider, useBehandling] = constate(() => {
         settVurderingData,
         visAdvarselSendBrev,
         settVisAdvarselSendBrev,
-        visAdvarselFormkrav,
-        settVisAdvarselFormkrav,
     };
 });
 

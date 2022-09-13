@@ -1,6 +1,6 @@
-import { IFormVilkår, VilkårStatus } from '../../Komponenter/Behandling/Formkrav/utils';
+import { IFormkravVilkår, VilkårStatus } from '../../Komponenter/Behandling/Formkrav/typer';
 
-export const formkravOppfylt = (formVilkår: IFormVilkår): boolean => {
+export const formkravOppfylt = (formVilkår: IFormkravVilkår): boolean => {
     const vilkårListe = [
         formVilkår.klagePart,
         formVilkår.klageKonkret,

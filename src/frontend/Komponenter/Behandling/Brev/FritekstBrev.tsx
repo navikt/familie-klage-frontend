@@ -26,7 +26,7 @@ import { AxiosRequestConfig } from 'axios';
 import { useDebouncedCallback } from 'use-debounce';
 import { VedtakValg } from '../Vurdering/vurderingValg';
 import { formkravOppfylt } from '../../../App/utils/formkrav';
-import { IFormVilkår } from '../Formkrav/utils';
+import { IFormkravVilkår } from '../Formkrav/typer';
 
 const StyledBrev = styled.div`
     margin-bottom: 1rem;
@@ -152,10 +152,10 @@ const FritekstBrev: React.FC<Props> = ({
             let type: FritekstBrevtype = FritekstBrevtype.VEDTAK_AVSLAG;
             if (res.status === RessursStatus.SUKSESS) {
                 const vedtak: VedtakValg = res.data;
-                axiosRequest<IFormVilkår, null>({
+                axiosRequest<IFormkravVilkår, null>({
                     method: 'GET',
                     url: `/familie-klage/api/formkrav/vilkar/${behandlingId}`,
-                }).then((res: Ressurs<IFormVilkår>) => {
+                }).then((res: Ressurs<IFormkravVilkår>) => {
                     if (res.status === RessursStatus.SUKSESS && res.data != null) {
                         if (vedtak === VedtakValg.OMGJØR_VEDTAK && formkravOppfylt(res.data)) {
                             type = FritekstBrevtype.VEDTAK_INVILGELSE;

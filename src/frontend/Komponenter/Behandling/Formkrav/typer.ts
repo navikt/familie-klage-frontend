@@ -1,12 +1,3 @@
-export interface IVilkårNullstill {
-    behandlingId: string;
-    klagePart: VilkårStatus;
-    klageKonkret: VilkårStatus;
-    klagefristOverholdt: VilkårStatus;
-    klageSignert: VilkårStatus;
-    saksbehandlerBegrunnelse: string;
-}
-
 export enum VilkårStatus {
     OPPFYLT = 'OPPFYLT',
     IKKE_OPPFYLT = 'IKKE_OPPFYLT',
@@ -27,7 +18,7 @@ export interface IRadioKnapper {
     navn: string;
 }
 
-export interface IFormVilkår {
+export interface IFormkravVilkår {
     behandlingId: string;
     fagsakId: string;
     klagePart: VilkårStatus;
@@ -38,7 +29,7 @@ export interface IFormVilkår {
     endretTid: string;
 }
 
-export interface IFormKlage {
+export interface IKlageInfo {
     behandlingId: string;
     fagsakId: string;
     vedtaksDato: string;

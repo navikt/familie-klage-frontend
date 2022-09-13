@@ -1,20 +1,54 @@
 import React, { useEffect, useState } from 'react';
 import { KlageInfo } from './KlageInfo';
 import { useApp } from '../../../App/context/AppContext';
-import { Ressurs, RessursStatus } from '../../../App/typer/ressurs';
+import { Ressurs, RessursFeilet, RessursStatus, RessursSuksess } from '../../../App/typer/ressurs';
 import { useBehandling } from '../../../App/context/BehandlingContext';
-import { IFormKlage } from './typer';
+import { IFormkravVilkår, IKlageInfo } from './typer';
 import ToKolonnerLayout from '../../../Felles/Visningskomponenter/ToKolonnerLayout';
 import { VisEllerEndreFormkravVurderinger } from './VisEllerEndreFormkravVurderinger';
 import DataViewer from '../../../Felles/DataViewer/DataViewer';
 import { useHentFormkravVilkår } from '../../../App/hooks/useHentFormkravVilkår';
+import { utledRedigeringsmodus } from './utils';
 
 export const Formkrav: React.FC<{ behandlingId: string }> = ({ behandlingId }) => {
-    const { axiosRequest } = useApp();
-    const { vilkårsvurderinger, hentVilkårsvurderinger, lagreVilkårsvurderinger, feilmeldinger } =
+    const { vilkårsvurderinger, hentVilkårsvurderinger, lagreVilkårsvurderinger } =
         useHentFormkravVilkår();
 
-    const formKlageObjekt: IFormKlage = {
+    useEffect(() => {
+        if (behandlingId !== undefined) {
+            if (vilkårsvurderinger.status !== RessursStatus.SUKSESS) {
+                hentVilkårsvurderinger(behandlingId);
+            }
+        }
+        // eslint-disable-next-line
+    }, [behandlingId]);
+
+    return (
+        <DataViewer response={{ vilkårsvurderinger }}>
+            {({ vilkårsvurderinger }) => {
+                return (
+                    <FormkravKomponent
+                        behandlingId={behandlingId}
+                        vilkårsvurderinger={vilkårsvurderinger}
+                        lagreVurderinger={lagreVilkårsvurderinger}
+                    />
+                );
+            }}
+        </DataViewer>
+    );
+};
+
+const FormkravKomponent: React.FC<{
+    behandlingId: string;
+    vilkårsvurderinger: IFormkravVilkår;
+    lagreVurderinger: (
+        vurderinger: IFormkravVilkår
+    ) => Promise<RessursSuksess<IFormkravVilkår> | RessursFeilet>;
+}> = ({ behandlingId, vilkårsvurderinger, lagreVurderinger }) => {
+    const { axiosRequest } = useApp();
+    const { behandlingErRedigerbar } = useBehandling();
+
+    const formKlageObjekt: IKlageInfo = {
         behandlingId: behandlingId,
         fagsakId: 'b0fa4cae-a676-44b3-8725-232dac935c4a',
         vedtaksDato: '',
@@ -23,17 +57,19 @@ export const Formkrav: React.FC<{ behandlingId: string }> = ({ behandlingId }) =
         klageBeskrivelse: '',
     };
 
-    const [formKlageData, settFormKlageData] = useState<IFormKlage>(formKlageObjekt);
-    const { formkravGyldig, settFormkravGyldig } = useBehandling();
+    const [klageInfo, settKlageInfo] = useState<IKlageInfo>(formKlageObjekt);
+    const [redigeringsmodus, settRedigeringsmodus] = useState(
+        utledRedigeringsmodus(behandlingErRedigerbar, vilkårsvurderinger)
+    );
 
     useEffect(() => {
         document.title = 'Oppgavebenk';
-        axiosRequest<IFormKlage, null>({
+        axiosRequest<IKlageInfo, null>({
             method: 'GET',
             url: `/familie-klage/api/klageinfo/${behandlingId}`,
-        }).then((res: Ressurs<IFormKlage>) => {
+        }).then((res: Ressurs<IKlageInfo>) => {
             if (res.status === RessursStatus.SUKSESS) {
-                settFormKlageData((prevState) => ({
+                settKlageInfo((prevState) => ({
                     ...prevState,
                     fagsakId: res.data.fagsakId,
                     klageMottatt: res.data.klageMottatt,
@@ -45,37 +81,25 @@ export const Formkrav: React.FC<{ behandlingId: string }> = ({ behandlingId }) =
         });
     }, [axiosRequest, behandlingId]);
 
-    useEffect(() => {
-        if (behandlingId !== undefined) {
-            if (vilkårsvurderinger.status !== RessursStatus.SUKSESS) {
-                hentVilkårsvurderinger(behandlingId);
-            }
-        }
-    }, [behandlingId]);
-
     return (
-        <DataViewer response={{ vilkårsvurderinger }}>
-            {({ vilkårsvurderinger }) => {
-                return (
-                    <ToKolonnerLayout>
-                        {{
-                            venstre: (
-                                <KlageInfo
-                                    formkravGyldig={formkravGyldig}
-                                    formkrav={formKlageData}
-                                />
-                            ),
-                            høyre: (
-                                <VisEllerEndreFormkravVurderinger
-                                    settFormkravGyldig={settFormkravGyldig}
-                                    vurderinger={vilkårsvurderinger}
-                                    lagreVurderinger={lagreVilkårsvurderinger}
-                                />
-                            ),
-                        }}
-                    </ToKolonnerLayout>
-                );
+        <ToKolonnerLayout>
+            {{
+                venstre: (
+                    <KlageInfo
+                        klageInfo={klageInfo}
+                        vurderinger={vilkårsvurderinger}
+                        redigeringsmodus={redigeringsmodus}
+                    />
+                ),
+                høyre: (
+                    <VisEllerEndreFormkravVurderinger
+                        vurderinger={vilkårsvurderinger}
+                        lagreVurderinger={lagreVurderinger}
+                        redigeringsmodus={redigeringsmodus}
+                        settRedigeringsmodus={settRedigeringsmodus}
+                    />
+                ),
             }}
-        </DataViewer>
+        </ToKolonnerLayout>
     );
 };

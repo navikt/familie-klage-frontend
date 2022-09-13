@@ -3,17 +3,22 @@ import styled from 'styled-components';
 import { BodyLong, Heading } from '@navikt/ds-react';
 import navFarger from 'nav-frontend-core';
 import Oppfylt from '../../../Felles/Ikoner/Oppfylt';
-import { IFormKlage } from './typer';
-import { useBehandling } from '../../../App/context/BehandlingContext';
+import { IFormkravVilkår, IKlageInfo, Redigeringsmodus } from './typer';
 import { GridTabell } from '../../../Felles/Visningskomponenter/GridTabell';
 import { Søknadsgrunnlag } from '../../../Felles/Ikoner/DataGrunnlagIkoner';
 import IkkeOppfylt from '../../../Felles/Ikoner/IkkeOppfylt';
+import Advarsel from '../../../Felles/Ikoner/Advarsel';
+import { alleVilkårOppfylt } from './utils';
 
 const OppfyltIkonStyled = styled(Oppfylt)`
     margin-left: -0.2rem;
 `;
 
 const IkkeVurdertIkonStyled = styled(IkkeOppfylt)`
+    margin-left: -0.2rem;
+`;
+
+const AdvarselIkonStyled = styled(Advarsel)`
     margin-left: -0.2rem;
 `;
 
@@ -32,25 +37,25 @@ const BegrunnelseContainer = styled.div`
 `;
 
 interface IProps {
-    formkravGyldig: boolean;
-    formkrav: IFormKlage;
+    klageInfo: IKlageInfo;
+    vurderinger: IFormkravVilkår;
+    redigeringsmodus: Redigeringsmodus;
 }
 
-export const KlageInfo: React.FC<IProps> = ({ formkravGyldig, formkrav }) => {
-    const { visAdvarselFormkrav } = useBehandling();
-
-    const oppfyltEllerIkkeOppfyltIkon = () => {
-        return formkravGyldig && !visAdvarselFormkrav ? (
-            <OppfyltIkonStyled heigth={23} width={23} />
-        ) : (
-            <IkkeVurdertIkonStyled heigth={23} width={23} />
-        );
+export const KlageInfo: React.FC<IProps> = ({ klageInfo, vurderinger, redigeringsmodus }) => {
+    const utledetIkon = () => {
+        if (redigeringsmodus === Redigeringsmodus.IKKE_PÅSTARTET) {
+            return <AdvarselIkonStyled heigth={23} width={23} />;
+        } else if (alleVilkårOppfylt(vurderinger)) {
+            return <OppfyltIkonStyled heigth={23} width={23} />;
+        }
+        return <IkkeVurdertIkonStyled heigth={23} width={23} />;
     };
 
     return (
         <GridTabell>
             <>
-                {oppfyltEllerIkkeOppfyltIkon()}
+                {utledetIkon()}
                 <Heading spacing size="medium" level="5">
                     Formkrav
                 </Heading>
@@ -58,24 +63,24 @@ export const KlageInfo: React.FC<IProps> = ({ formkravGyldig, formkrav }) => {
             <>
                 <Søknadsgrunnlag />
                 <BodyLongStyled size="small">Oppgitt vedtaksdato</BodyLongStyled>
-                <BodyLongStyled size="small">{formkrav.vedtaksDato} </BodyLongStyled>
+                <BodyLongStyled size="small">{klageInfo.vedtaksDato} </BodyLongStyled>
             </>
             <>
                 <Søknadsgrunnlag />
                 <BodyLongStyled size="small">Klage mottatt</BodyLongStyled>
-                <BodyLongStyled size="small">{formkrav.klageMottatt}</BodyLongStyled>
+                <BodyLongStyled size="small">{klageInfo.klageMottatt}</BodyLongStyled>
             </>
             <>
                 <Søknadsgrunnlag />
                 <BodyLongStyled size="small">Hva er du uenig i?</BodyLongStyled>
-                <BodyLongStyled size="small">{formkrav.klageAarsak}</BodyLongStyled>
+                <BodyLongStyled size="small">{klageInfo.klageAarsak}</BodyLongStyled>
             </>
             <>
                 <Søknadsgrunnlag />
                 <BodyLongStyled size="small">Hvorfor er du uenig?</BodyLongStyled>
                 <BegrunnelseContainer>
                     <BlåStrek />
-                    <BodyLong size="small">{formkrav.klageBeskrivelse}</BodyLong>
+                    <BodyLong size="small">{klageInfo.klageBeskrivelse}</BodyLong>
                 </BegrunnelseContainer>
             </>
         </GridTabell>

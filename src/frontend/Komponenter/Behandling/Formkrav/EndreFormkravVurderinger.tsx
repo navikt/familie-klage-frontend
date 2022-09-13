@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { IFormVilkår, IRadioKnapper, Redigeringsmodus, VilkårStatus } from './typer';
+import { IFormkravVilkår, IRadioKnapper, Redigeringsmodus, VilkårStatus } from './typer';
 import { Alert, Button, Radio, RadioGroup, Textarea } from '@navikt/ds-react';
 import { useBehandling } from '../../../App/context/BehandlingContext';
 import { useApp } from '../../../App/context/AppContext';
@@ -30,11 +30,11 @@ const AlertStripe = styled(Alert)`
 `;
 
 interface IProps {
-    vurderinger: IFormVilkår;
+    vurderinger: IFormkravVilkår;
     settRedigeringsmodus: (redigeringsmodus: Redigeringsmodus) => void;
     lagreVurderinger: (
-        vurderinger: IFormVilkår
-    ) => Promise<RessursSuksess<IFormVilkår> | RessursFeilet>;
+        vurderinger: IFormkravVilkår
+    ) => Promise<RessursSuksess<IFormkravVilkår> | RessursFeilet>;
 }
 
 export const EndreFormkravVurderinger: React.FC<IProps> = ({
@@ -42,12 +42,13 @@ export const EndreFormkravVurderinger: React.FC<IProps> = ({
     settRedigeringsmodus,
     lagreVurderinger,
 }) => {
-    const { visAdvarselFormkrav, hentBehandling } = useBehandling();
+    const { hentBehandling } = useBehandling();
 
     const { settIkkePersistertKomponent } = useApp();
 
     const [oppdatererVurderinger, settOppdatererVurderinger] = useState<boolean>(false);
-    const [oppdaterteVurderinger, settOppdaterteVurderinger] = useState<IFormVilkår>(vurderinger);
+    const [oppdaterteVurderinger, settOppdaterteVurderinger] =
+        useState<IFormkravVilkår>(vurderinger);
 
     const submitOppdaterteVurderinger = () => {
         if (oppdatererVurderinger) {
@@ -55,7 +56,7 @@ export const EndreFormkravVurderinger: React.FC<IProps> = ({
         }
         settOppdatererVurderinger(true);
 
-        lagreVurderinger(oppdaterteVurderinger).then((res: Ressurs<IFormVilkår>) => {
+        lagreVurderinger(oppdaterteVurderinger).then((res: Ressurs<IFormkravVilkår>) => {
             settOppdatererVurderinger(false);
             if (res.status === RessursStatus.SUKSESS) {
                 settRedigeringsmodus(Redigeringsmodus.VISNING);
@@ -80,11 +81,11 @@ export const EndreFormkravVurderinger: React.FC<IProps> = ({
                         legend={item.spørsmål}
                         size="medium"
                         onChange={(val: VilkårStatus) => {
-                            settOppdaterteVurderinger((prevState: IFormVilkår) => {
+                            settOppdaterteVurderinger((prevState: IFormkravVilkår) => {
                                 return {
                                     ...prevState,
                                     [item.navn]: val,
-                                } as IFormVilkår;
+                                } as IFormkravVilkår;
                             });
                             settIkkePersistertKomponent(val);
                         }}
@@ -104,7 +105,7 @@ export const EndreFormkravVurderinger: React.FC<IProps> = ({
                 value={oppdaterteVurderinger.saksbehandlerBegrunnelse}
                 onChange={(e) => {
                     settIkkePersistertKomponent(e.target.value);
-                    settOppdaterteVurderinger((prevState: IFormVilkår) => {
+                    settOppdaterteVurderinger((prevState: IFormkravVilkår) => {
                         return {
                             ...prevState,
                             saksbehandlerBegrunnelse: e.target.value,
@@ -116,11 +117,9 @@ export const EndreFormkravVurderinger: React.FC<IProps> = ({
             <LagreKnapp htmlType="submit" variant="primary" size="medium">
                 Lagre
             </LagreKnapp>
-            {visAdvarselFormkrav && (
-                <AlertStripe variant={'error'} size={'medium'}>
-                    Noe gikk galt. Prøv å lagre igjen
-                </AlertStripe>
-            )}
+            <AlertStripe variant={'error'} size={'medium'}>
+                Noe gikk galt
+            </AlertStripe>
         </form>
     );
 };

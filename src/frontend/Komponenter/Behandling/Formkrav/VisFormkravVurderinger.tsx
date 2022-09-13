@@ -6,7 +6,7 @@ import LenkeKnapp from '../../../Felles/Knapper/LenkeKnapp';
 import navFarger from 'nav-frontend-core';
 import BrukerMedBlyant from '../../../Felles/Ikoner/BrukerMedBlyant';
 import {
-    IFormVilkår,
+    IFormkravVilkår,
     IRadioKnapper,
     Redigeringsmodus,
     VilkårStatus,
@@ -14,11 +14,11 @@ import {
 } from './typer';
 import { useBehandling } from '../../../App/context/BehandlingContext';
 import { hentBehandlingIdFraUrl } from '../BehandlingContainer';
-import { Alert, Button, Heading } from '@navikt/ds-react';
+import { Button, Heading } from '@navikt/ds-react';
 import { useNavigate } from 'react-router-dom';
 import { formaterIsoDatoTid } from '../../../App/utils/formatter';
 import { Ressurs, RessursFeilet, RessursStatus, RessursSuksess } from '../../../App/typer/ressurs';
-import { utledRadioKnapper } from './utils';
+import { alleVilkårOppfylt, utledRadioKnapper } from './utils';
 
 export const RadSentrertVertikalt = styled.div`
     display: flex;
@@ -39,7 +39,7 @@ const Header = styled.div`
     width: 100%;
 `;
 
-const Body = styled.div`
+const SpørsmålContainer = styled.div`
     display: flex;
     flex-direction: column;
     width: 100%;
@@ -74,25 +74,17 @@ const BrukerMedBlyantStyled = styled(BrukerMedBlyant)`
 
 const LagreKnapp = styled(Button)`
     margin-top: 1rem;
-`;
-
-const AlertStyled = styled(Alert)`
-    margin: 1rem;
-    width: 100%;
+    margin-right: auto;
 `;
 
 interface IProps {
-    redigerHandling: (value: boolean) => void;
     saksbehandlerBegrunnelse: string;
     endretTid: string;
-    settFormkravGyldig: (value: boolean) => void;
-    senderInn: boolean;
-    settSenderInn: (value: boolean) => void;
     settRedigeringsmodus: (redigeringsmodus: Redigeringsmodus) => void;
     lagreVurderinger: (
-        vurderinger: IFormVilkår
-    ) => Promise<RessursSuksess<IFormVilkår> | RessursFeilet>;
-    vurderinger: IFormVilkår;
+        vurderinger: IFormkravVilkår
+    ) => Promise<RessursSuksess<IFormkravVilkår> | RessursFeilet>;
+    vurderinger: IFormkravVilkår;
 }
 
 export const VisFormkravVurderinger: React.FC<IProps> = ({
@@ -102,7 +94,7 @@ export const VisFormkravVurderinger: React.FC<IProps> = ({
     lagreVurderinger,
     vurderinger,
 }) => {
-    const { formkravGyldig, behandlingErRedigerbar, hentBehandling } = useBehandling();
+    const { behandlingErRedigerbar, hentBehandling } = useBehandling();
     const navigate = useNavigate();
     const [nullstillerVurderinger, settNullstillerVurderinger] = useState<boolean>(false);
 
@@ -112,7 +104,7 @@ export const VisFormkravVurderinger: React.FC<IProps> = ({
         }
         settNullstillerVurderinger(true);
 
-        const nullstilteVurderinger: IFormVilkår = {
+        const nullstilteVurderinger: IFormkravVilkår = {
             ...vurderinger,
             klagePart: VilkårStatus.IKKE_SATT,
             klageKonkret: VilkårStatus.IKKE_SATT,
@@ -121,16 +113,24 @@ export const VisFormkravVurderinger: React.FC<IProps> = ({
             saksbehandlerBegrunnelse: '',
         };
 
-        lagreVurderinger(nullstilteVurderinger).then((res: Ressurs<IFormVilkår>) => {
+        lagreVurderinger(nullstilteVurderinger).then((res: Ressurs<IFormkravVilkår>) => {
             settNullstillerVurderinger(false);
             if (res.status === RessursStatus.SUKSESS) {
-                settRedigeringsmodus(Redigeringsmodus.REDIGERING);
+                settRedigeringsmodus(Redigeringsmodus.IKKE_PÅSTARTET);
                 hentBehandling.rerun();
             }
         });
     };
 
     const radioKnapper = utledRadioKnapper(vurderinger);
+    const alleVilkårErOppfylt = alleVilkårOppfylt(vurderinger);
+
+    const urlPostfix = (): string => {
+        if (!behandlingErRedigerbar) {
+            return '';
+        }
+        return alleVilkårErOppfylt ? 'vurdering' : 'brev';
+    };
 
     return (
         <VisFormkravContainer>
@@ -140,7 +140,7 @@ export const VisFormkravVurderinger: React.FC<IProps> = ({
                         <BrukerMedBlyantStyled heigth={23} width={23} />
                     </VilkårIkon>
                     <Heading spacing size={'medium'}>
-                        {formkravGyldig ? 'Vilkår oppfylt' : 'Vilkår ikke oppfylt'}
+                        {alleVilkårErOppfylt ? 'Vilkår oppfylt' : 'Vilkår ikke oppfylt'}
                     </Heading>
                 </RadSentrertVertikalt>
                 {behandlingErRedigerbar && (
@@ -158,7 +158,7 @@ export const VisFormkravVurderinger: React.FC<IProps> = ({
                     </div>
                 )}
             </Header>
-            <Body>
+            <SpørsmålContainer>
                 Sist endret - {formaterIsoDatoTid(endretTid)}
                 {radioKnapper.map((item: IRadioKnapper, index) => (
                     <SvarElement key={index}>
@@ -170,42 +170,18 @@ export const VisFormkravVurderinger: React.FC<IProps> = ({
                     <Spørsmål>Begrunnelse</Spørsmål>
                     <Svar>{saksbehandlerBegrunnelse}</Svar>
                 </SvarElement>
-                {formkravGyldig && behandlingErRedigerbar && (
+                {urlPostfix && (
                     <LagreKnapp
                         variant="primary"
                         size="medium"
                         onClick={() =>
-                            navigate(`/behandling/${hentBehandlingIdFraUrl()}/vurdering`)
+                            navigate(`/behandling/${hentBehandlingIdFraUrl()}/${urlPostfix()}`)
                         }
                     >
                         Fortsett
                     </LagreKnapp>
                 )}
-                {!formkravGyldig && behandlingErRedigerbar && (
-                    <LagreKnapp
-                        variant="primary"
-                        size="medium"
-                        onClick={() => navigate(`/behandling/${hentBehandlingIdFraUrl()}/brev`)}
-                    >
-                        Fortsett
-                    </LagreKnapp>
-                )}
-            </Body>
-            {formkravGyldig && behandlingErRedigerbar && (
-                <AlertStyled variant={'success'} size={'medium'}>
-                    Du har lagret vilkår.
-                </AlertStyled>
-            )}
-            {!formkravGyldig && behandlingErRedigerbar && (
-                <AlertStyled variant={'info'} size={'medium'}>
-                    Du har lagret vilkår som ikke oppfylt.
-                </AlertStyled>
-            )}
-            {!formkravGyldig && behandlingErRedigerbar && (
-                <AlertStyled variant={'warning'} size={'medium'}>
-                    Noen vilkår er ikke besvart.
-                </AlertStyled>
-            )}
+            </SpørsmålContainer>
         </VisFormkravContainer>
     );
 };
