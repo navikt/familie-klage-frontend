@@ -1,72 +1,63 @@
-export interface IFormvilkårKomponent {
-    settFormkravGyldig: (value: boolean) => void;
-    låst: boolean;
-    settLåst: (value: boolean) => void;
-    formData: IFormVilkår;
-    settFormkravBesvart: (value: boolean) => void;
-    settFormVilkårData: (value: IFormVilkår) => void;
-}
+import { IFormkravVilkår, IRadioKnapper, Redigeringsmodus, VilkårStatus } from './typer';
 
-export interface IVilkårNullstill {
-    behandlingId: string;
-    klagePart: VilkårStatus;
-    klageKonkret: VilkårStatus;
-    klagefristOverholdt: VilkårStatus;
-    klageSignert: VilkårStatus;
-    saksbehandlerBegrunnelse: string;
-}
-
-export enum VilkårStatus {
-    OPPFYLT = 'OPPFYLT',
-    IKKE_OPPFYLT = 'IKKE_OPPFYLT',
-    SKAL_IKKE_VURDERES = 'SKAL_IKKE_VURDERES',
-    IKKE_SATT = 'IKKE_SATT',
-}
-
-export const vilkårStatusTilTekst: Record<VilkårStatus, string> = {
-    OPPFYLT: 'Oppfylt',
-    IKKE_OPPFYLT: 'Ikke oppfylt',
-    SKAL_IKKE_VURDERES: 'Skal ikke vurderes',
-    IKKE_SATT: 'Ikke satt',
+export const utledRedigeringsmodus = (
+    behandlingErRedigerbar: boolean,
+    vurderinger: IFormkravVilkår
+): Redigeringsmodus => {
+    if (!behandlingErRedigerbar) {
+        return Redigeringsmodus.VISNING;
+    }
+    if (
+        alleVurderingerErStatus(vurderinger, VilkårStatus.IKKE_SATT) &&
+        vurderinger.saksbehandlerBegrunnelse.length === 0
+    ) {
+        return Redigeringsmodus.IKKE_PÅSTARTET;
+    }
+    return Redigeringsmodus.VISNING;
 };
 
-export interface IRadioKnapper {
-    spørsmål: string;
-    svar: VilkårStatus;
-    navn: string;
-}
-
-export interface IRadioKnapperLeseModus {
-    radioKnapper: IRadioKnapper[];
-    redigerHandling: (value: boolean) => void;
-    saksbehandlerBegrunnelse: string;
-    endretTid: string;
-    settFormVilkårData: (value: IFormVilkår) => void;
-    settFormkravGyldig: (value: boolean) => void;
-    senderInn: boolean;
-    settSenderInn: (value: boolean) => void;
-}
-
-export const datoFormatering = (dato: Date) => {
-    return dato.getDay() + '.' + dato.getMonth() + '.' + dato.getFullYear();
+export const alleVilkårOppfylt = (vurderinger: IFormkravVilkår) => {
+    return (
+        alleVurderingerErStatus(vurderinger, VilkårStatus.OPPFYLT) &&
+        vurderinger.saksbehandlerBegrunnelse.length > 0
+    );
 };
 
-export interface IFormVilkår {
-    behandlingId: string;
-    fagsakId: string;
-    klagePart: VilkårStatus;
-    klageKonkret: VilkårStatus;
-    klagefristOverholdt: VilkårStatus;
-    klageSignert: VilkårStatus;
-    saksbehandlerBegrunnelse: string;
-    endretTid: string;
-}
+export const alleVurderingerErStatus = (
+    formkravVurdering: IFormkravVilkår,
+    status: VilkårStatus
+): boolean => {
+    const { klagePart, klageKonkret, klagefristOverholdt, klageSignert } = formkravVurdering;
+    return (
+        klagePart === status &&
+        klageKonkret === status &&
+        klagefristOverholdt === status &&
+        klageSignert === status
+    );
+};
 
-export interface IFormKlage {
-    behandlingId: string;
-    fagsakId: string;
-    vedtaksDato: string;
-    klageMottatt: string;
-    klageAarsak: string;
-    klageBeskrivelse: string;
-}
+export const utledRadioKnapper = (vurderinger: IFormkravVilkår): IRadioKnapper[] => {
+    const { klagePart, klageKonkret, klagefristOverholdt, klageSignert } = vurderinger;
+    return [
+        {
+            spørsmål: 'Er klager part i saken?',
+            svar: klagePart,
+            navn: 'klagePart',
+        },
+        {
+            spørsmål: 'Klages det på konkrete elementer i vedtaket?',
+            svar: klageKonkret,
+            navn: 'klageKonkret',
+        },
+        {
+            spørsmål: 'Er klagefristen overholdt?',
+            svar: klagefristOverholdt,
+            navn: 'klagefristOverholdt',
+        },
+        {
+            spørsmål: 'Er klagen signert?',
+            svar: klageSignert,
+            navn: 'klageSignert',
+        },
+    ];
+};
