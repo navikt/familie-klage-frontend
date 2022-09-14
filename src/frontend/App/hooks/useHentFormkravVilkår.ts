@@ -15,21 +15,13 @@ export const useHentFormkravVilkår = (): {
     lagreVilkårsvurderinger: (
         vurderinger: IFormkravVilkår
     ) => Promise<RessursSuksess<IFormkravVilkår> | RessursFeilet>;
-    feilmeldinger: string;
+    feilVedLagring: string;
 } => {
     const { axiosRequest } = useApp();
 
-    const [feilmeldinger, settFeilmeldinger] = useState<string>('');
+    const [feilVedLagring, settFeilVedLagring] = useState<string>('');
     const [vilkårsvurderinger, settVilkårsvurderinger] =
         useState<Ressurs<IFormkravVilkår>>(byggTomRessurs);
-
-    const tilbakestillFeilmelding = () => {
-        settFeilmeldinger('');
-    };
-
-    const leggTilFeilmelding = () => {
-        settFeilmeldinger('Noe gikk galt');
-    };
 
     const hentVilkårsvurderinger = useCallback(
         (behandlingId: string) => {
@@ -46,16 +38,16 @@ export const useHentFormkravVilkår = (): {
     const lagreVilkårsvurderinger = (
         vurderinger: IFormkravVilkår
     ): Promise<RessursSuksess<IFormkravVilkår> | RessursFeilet> => {
+        settFeilVedLagring('');
         return axiosRequest<IFormkravVilkår, IFormkravVilkår>({
             method: 'POST',
             url: `/familie-klage/api/formkrav`,
             data: vurderinger,
         }).then((respons: RessursSuksess<IFormkravVilkår> | RessursFeilet) => {
             if (respons.status === RessursStatus.SUKSESS) {
-                tilbakestillFeilmelding();
-                settVilkårsvurderinger(() => respons as RessursSuksess<IFormkravVilkår>);
+                settVilkårsvurderinger(respons);
             } else {
-                leggTilFeilmelding();
+                settFeilVedLagring(respons.frontendFeilmelding ?? 'Noe gikk galt');
             }
             return respons;
         });
@@ -65,6 +57,6 @@ export const useHentFormkravVilkår = (): {
         vilkårsvurderinger,
         hentVilkårsvurderinger,
         lagreVilkårsvurderinger,
-        feilmeldinger,
+        feilVedLagring,
     };
 };

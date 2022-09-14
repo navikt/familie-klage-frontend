@@ -11,7 +11,7 @@ import { useHentFormkravVilkår } from '../../../App/hooks/useHentFormkravVilkå
 import { utledRedigeringsmodus } from './utils';
 
 export const Formkrav: React.FC<{ behandlingId: string }> = ({ behandlingId }) => {
-    const { vilkårsvurderinger, hentVilkårsvurderinger, lagreVilkårsvurderinger } =
+    const { vilkårsvurderinger, hentVilkårsvurderinger, lagreVilkårsvurderinger, feilVedLagring } =
         useHentFormkravVilkår();
 
     useEffect(() => {
@@ -31,6 +31,7 @@ export const Formkrav: React.FC<{ behandlingId: string }> = ({ behandlingId }) =
                         behandlingId={behandlingId}
                         vilkårsvurderinger={vilkårsvurderinger}
                         lagreVurderinger={lagreVilkårsvurderinger}
+                        feilmelding={feilVedLagring}
                     />
                 );
             }}
@@ -44,7 +45,8 @@ const FormkravKomponent: React.FC<{
     lagreVurderinger: (
         vurderinger: IFormkravVilkår
     ) => Promise<RessursSuksess<IFormkravVilkår> | RessursFeilet>;
-}> = ({ behandlingId, vilkårsvurderinger, lagreVurderinger }) => {
+    feilmelding: string;
+}> = ({ behandlingId, vilkårsvurderinger, lagreVurderinger, feilmelding }) => {
     const { axiosRequest } = useApp();
     const { behandlingErRedigerbar } = useBehandling();
 
@@ -97,6 +99,7 @@ const FormkravKomponent: React.FC<{
                         lagreVurderinger={lagreVurderinger}
                         redigeringsmodus={redigeringsmodus}
                         settRedigeringsmodus={settRedigeringsmodus}
+                        feilmelding={feilmelding}
                     />
                 ),
             }}

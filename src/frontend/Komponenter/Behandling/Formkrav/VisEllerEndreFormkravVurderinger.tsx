@@ -11,6 +11,7 @@ export interface IProps {
     ) => Promise<RessursSuksess<IFormkravVilkår> | RessursFeilet>;
     redigeringsmodus: Redigeringsmodus;
     settRedigeringsmodus: (redigeringsmodus: Redigeringsmodus) => void;
+    feilmelding: string;
 }
 
 export const VisEllerEndreFormkravVurderinger: React.FC<IProps> = ({
@@ -18,6 +19,7 @@ export const VisEllerEndreFormkravVurderinger: React.FC<IProps> = ({
     lagreVurderinger,
     redigeringsmodus,
     settRedigeringsmodus,
+    feilmelding,
 }) => {
     switch (redigeringsmodus) {
         case Redigeringsmodus.IKKE_PÅSTARTET:
@@ -27,6 +29,7 @@ export const VisEllerEndreFormkravVurderinger: React.FC<IProps> = ({
                     settRedigeringsmodus={settRedigeringsmodus}
                     vurderinger={vurderinger}
                     lagreVurderinger={lagreVurderinger}
+                    feilmelding={feilmelding}
                 />
             );
         case Redigeringsmodus.VISNING:

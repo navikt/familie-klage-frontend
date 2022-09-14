@@ -21,7 +21,7 @@ const RadioButton = styled(Radio)`
 `;
 
 const LagreKnapp = styled(Button)`
-    margin-top: 2rem;
+    margin-top: 1rem;
     padding: 0.75rem 1.5rem;
 `;
 
@@ -35,15 +35,16 @@ interface IProps {
     lagreVurderinger: (
         vurderinger: IFormkravVilkår
     ) => Promise<RessursSuksess<IFormkravVilkår> | RessursFeilet>;
+    feilmelding: string;
 }
 
 export const EndreFormkravVurderinger: React.FC<IProps> = ({
     vurderinger,
     settRedigeringsmodus,
     lagreVurderinger,
+    feilmelding,
 }) => {
     const { hentBehandling } = useBehandling();
-
     const { settIkkePersistertKomponent } = useApp();
 
     const [oppdatererVurderinger, settOppdatererVurderinger] = useState<boolean>(false);
@@ -114,12 +115,14 @@ export const EndreFormkravVurderinger: React.FC<IProps> = ({
                 }}
                 maxLength={1500}
             />
+            {feilmelding && (
+                <AlertStripe variant={'error'} size={'medium'}>
+                    {feilmelding}
+                </AlertStripe>
+            )}
             <LagreKnapp htmlType="submit" variant="primary" size="medium">
                 Lagre
             </LagreKnapp>
-            <AlertStripe variant={'error'} size={'medium'}>
-                Noe gikk galt
-            </AlertStripe>
         </form>
     );
 };
