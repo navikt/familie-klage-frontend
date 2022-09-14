@@ -6,7 +6,7 @@ Frontend app for behandling av klager (team familie)
 
 * Installere avhengigheter `yarn`
 * Starte dev-server `yarn start:dev`
-* Åpne `http://localhost:8000` i nettleseren din
+* Åpne `http://localhost:8020` i nettleseren din
 
 For å kunne installere avhengigheter fra navikt registry må man være logget inn i github packages. Kjør kommando:
 `npm login --scope=@navikt --registry=https://npm.pkg.github.com`

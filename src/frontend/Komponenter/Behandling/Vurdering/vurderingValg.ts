@@ -8,20 +8,17 @@ export interface IVurdering {
 
 // VEDTAK
 export enum VedtakValg {
-    VELG = 'VELG',
     OMGJØR_VEDTAK = 'OMGJØR_VEDTAK',
     OPPRETTHOLD_VEDTAK = 'OPPRETTHOLD_VEDTAK',
 }
 
 export const vedtakValgTilTekst: Record<VedtakValg, string> = {
-    VELG: 'Velg',
     OMGJØR_VEDTAK: 'Omgjør vedtak',
     OPPRETTHOLD_VEDTAK: 'Oppretthold vedtak',
 };
 
 // ÅRSAK
 export enum ÅrsakOmgjøring {
-    VELG = 'VELG',
     FEIL_I_LOVANDVENDELSE = 'FEIL_I_LOVANDVENDELSE',
     FEIL_REGELVERKSFORSTÅELSE = 'FEIL_REGELVERKSFORSTÅELSE',
     FEIL_ELLER_ENDRET_FAKTA = 'FEIL_ELLER_ENDRET_FAKTA',
@@ -31,7 +28,6 @@ export enum ÅrsakOmgjøring {
 }
 
 export const årsakValgTilTekst: Record<ÅrsakOmgjøring, string> = {
-    VELG: 'Velg',
     FEIL_I_LOVANDVENDELSE: 'Feil lovanvendelse',
     FEIL_REGELVERKSFORSTÅELSE: 'Feil regelverksforståelse',
     FEIL_ELLER_ENDRET_FAKTA: 'Feil eller endret fakta',
@@ -41,43 +37,45 @@ export const årsakValgTilTekst: Record<ÅrsakOmgjøring, string> = {
 };
 
 export enum Hjemmel {
-    VELG = 'VELG',
-    FEMTEN_TO = 'FEMTEN_TO',
-    FEMTEN_TRE = 'FEMTEN_TRE',
-    FEMTEN_FIRE = 'FEMTEN_FIRE',
-    FEMTEN_FEM = 'FEMTEN_FEM',
-    FEMTEN_SEKS = 'FEMTEN_SEKS',
-    FEMTEN_ÅTTE = 'FEMTEN_ÅTTE',
-    FEMTEN_NI = 'FEMTEN_NI',
-    FEMTEN_TI = 'FEMTEN_TI',
-    FEMTEN_ELLEVE = 'FEMTEN_ELLEVE',
-    FEMTEN_TOLV = 'FEMTEN_TOLV',
-    FEMTEN_TRETTEN = 'FEMTEN_TRETTEN',
-    TO = 'TO',
-    FIRE = 'FIRE',
-    FEM = 'FEM',
-    NI = 'NI',
-    TRETTEN = 'TRETTEN',
-    EØS = 'EØS',
+    FT_FEMTEN_TO = 'FT_FEMTEN_TO',
+    FT_FEMTEN_TRE = 'FT_FEMTEN_TRE',
+    FT_FEMTEN_FIRE = 'FT_FEMTEN_FIRE',
+    FT_FEMTEN_FEM = 'FT_FEMTEN_FEM',
+    FT_FEMTEN_SEKS = 'FT_FEMTEN_SEKS',
+    FT_FEMTEN_ÅTTE = 'FT_FEMTEN_ÅTTE',
+    FT_FEMTEN_NI = 'FT_FEMTEN_NI',
+    FT_FEMTEN_TI = 'FT_FEMTEN_TI',
+    FT_FEMTEN_ELLEVE = 'FT_FEMTEN_ELLEVE',
+    FT_FEMTEN_TOLV = 'FT_FEMTEN_TOLV',
+    FT_FEMTEN_TRETTEN = 'FT_FEMTEN_TRETTEN',
+    FT_TJUETO_FEMTEN = 'FT_TJUETO_FEMTEN',
+    BT_TO = 'BT_TO',
+    BT_FIRE = 'BT_FIRE',
+    BT_FEM = 'BT_FEM',
+    BT_NI = 'BT_NI',
+    BT_TRETTEN = 'BT_TRETTEN',
+    FT_EØS = 'FT_EØS',
+    FT_EØS_FOR = 'FT_EØS_FOR',
 }
 
 export const hjemmelTilTekst: Record<Hjemmel, string> = {
-    VELG: 'Velg',
-    FEMTEN_TO: '§ 15-2',
-    FEMTEN_TRE: '§ 15-3',
-    FEMTEN_FIRE: '§ 15-4',
-    FEMTEN_FEM: '§ 15-5',
-    FEMTEN_SEKS: '§ 15-6',
-    FEMTEN_ÅTTE: '§ 15-8',
-    FEMTEN_NI: '§ 15-9',
-    FEMTEN_TI: '§ 15-10',
-    FEMTEN_ELLEVE: '§ 15-11',
-    FEMTEN_TOLV: '§ 15-12',
-    FEMTEN_TRETTEN: '§ 15-13',
-    TO: '§ 2',
-    FIRE: '§ 4',
-    FEM: '§ 5',
-    NI: '§ 9',
-    TRETTEN: '§ 13',
-    EØS: 'EØS',
+    FT_FEMTEN_TO: '§ 15-2',
+    FT_FEMTEN_TRE: '§ 15-3',
+    FT_FEMTEN_FIRE: '§ 15-4',
+    FT_FEMTEN_FEM: '§ 15-5',
+    FT_FEMTEN_SEKS: '§ 15-6',
+    FT_FEMTEN_ÅTTE: '§ 15-8',
+    FT_FEMTEN_NI: '§ 15-9',
+    FT_FEMTEN_TI: '§ 15-10',
+    FT_FEMTEN_ELLEVE: '§ 15-11',
+    FT_FEMTEN_TOLV: '§ 15-12',
+    FT_FEMTEN_TRETTEN: '§ 15-13',
+    FT_TJUETO_FEMTEN: '$ 22-15',
+    BT_TO: '§ 2',
+    BT_FIRE: '§ 4',
+    BT_FEM: '§ 5',
+    BT_NI: '§ 9',
+    BT_TRETTEN: '§ 13',
+    FT_EØS: 'EØS-avtalen',
+    FT_EØS_FOR: 'EØS art. 6',
 };

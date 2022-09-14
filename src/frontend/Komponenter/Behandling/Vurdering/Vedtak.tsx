@@ -2,7 +2,7 @@ import * as React from 'react';
 import { Dispatch, SetStateAction } from 'react';
 import { Heading, Select } from '@navikt/ds-react';
 import styled from 'styled-components';
-import { Hjemmel, IVurdering, VedtakValg, ÅrsakOmgjøring } from './vurderingValg';
+import { IVurdering, VedtakValg } from './vurderingValg';
 import { useBehandling } from '../../../App/context/BehandlingContext';
 
 const VedtakStyled = styled.div`
@@ -33,8 +33,8 @@ export const Vedtak: React.FC<IVedtak> = ({
                 ({
                     ...tidligereTilstand,
                     vedtak: nyttValg,
-                    arsak: ÅrsakOmgjøring.VELG,
-                    hjemmel: Hjemmel.VELG,
+                    arsak: undefined,
+                    hjemmel: undefined,
                 } as IVurdering)
         );
     };
@@ -57,6 +57,7 @@ export const Vedtak: React.FC<IVedtak> = ({
                     }}
                     hideLabel
                 >
+                    <option value={''}>Velg</option>
                     {Object.keys(vedtakValgmuligheter).map((valg, index) => (
                         <option value={valg} key={index}>
                             {vedtakValgmuligheter[valg]}
