@@ -45,7 +45,7 @@ export const EndreFormkravVurderinger: React.FC<IProps> = ({
     feilmelding,
 }) => {
     const { hentBehandling } = useBehandling();
-    const { settIkkePersistertKomponent } = useApp();
+    const { settIkkePersistertKomponent, nullstillIkkePersistertKomponent } = useApp();
 
     const [oppdatererVurderinger, settOppdatererVurderinger] = useState<boolean>(false);
     const [oppdaterteVurderinger, settOppdaterteVurderinger] =
@@ -60,6 +60,7 @@ export const EndreFormkravVurderinger: React.FC<IProps> = ({
         lagreVurderinger(oppdaterteVurderinger).then((res: Ressurs<IFormkravVilkår>) => {
             settOppdatererVurderinger(false);
             if (res.status === RessursStatus.SUKSESS) {
+                nullstillIkkePersistertKomponent('formkravVilkår');
                 settRedigeringsmodus(Redigeringsmodus.VISNING);
                 hentBehandling.rerun();
             }
@@ -88,7 +89,7 @@ export const EndreFormkravVurderinger: React.FC<IProps> = ({
                                     [item.navn]: val,
                                 } as IFormkravVilkår;
                             });
-                            settIkkePersistertKomponent(val);
+                            settIkkePersistertKomponent('formkravVilkår');
                         }}
                         value={item.svar}
                         key={index}
@@ -105,7 +106,7 @@ export const EndreFormkravVurderinger: React.FC<IProps> = ({
                 label={'Vurdering'}
                 value={oppdaterteVurderinger.saksbehandlerBegrunnelse}
                 onChange={(e) => {
-                    settIkkePersistertKomponent(e.target.value);
+                    settIkkePersistertKomponent('formkravVilkår');
                     settOppdaterteVurderinger((prevState: IFormkravVilkår) => {
                         return {
                             ...prevState,
