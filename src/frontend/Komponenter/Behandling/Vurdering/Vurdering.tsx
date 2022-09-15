@@ -24,8 +24,8 @@ import { IFormkravVilkår, VilkårStatus } from '../Formkrav/typer';
 import { hentBehandlingIdFraUrl } from '../BehandlingContainer';
 import { useNavigate } from 'react-router-dom';
 import { useBehandling } from '../../../App/context/BehandlingContext';
-import { formkravOppfylt } from '../../../App/utils/formkrav';
 import { VurderingLesemodus } from './VurderingLesemodus';
+import { alleVilkårOppfylt } from '../Formkrav/utils';
 
 const VurderingBeskrivelseStyled = styled.div`
     margin: 2rem 4rem 2rem 4rem;
@@ -85,7 +85,7 @@ export const Vurdering: React.FC<{ behandlingId: string }> = ({ behandlingId }) 
                 ];
                 settOppfylt(vilkårListe.filter((item: VilkårStatus) => item === 'OPPFYLT').length);
                 settMuligOppfylt(vilkårListe.length);
-                settFormkravGodkjent(formkravOppfylt(res.data));
+                settFormkravGodkjent(alleVilkårOppfylt(res.data));
             }
         });
     }, [axiosRequest, behandlingId, settFormkravGodkjent]);
