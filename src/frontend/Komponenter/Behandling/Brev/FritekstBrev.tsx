@@ -25,8 +25,8 @@ import { IPersonopplysninger } from '../../../App/typer/personopplysninger';
 import { AxiosRequestConfig } from 'axios';
 import { useDebouncedCallback } from 'use-debounce';
 import { VedtakValg } from '../Vurdering/vurderingValg';
-import { formkravOppfylt } from '../../../App/utils/formkrav';
 import { IFormkravVilkår } from '../Formkrav/typer';
+import { alleVilkårOppfylt } from '../Formkrav/utils';
 
 const StyledBrev = styled.div`
     margin-bottom: 1rem;
@@ -157,7 +157,7 @@ const FritekstBrev: React.FC<Props> = ({
                     url: `/familie-klage/api/formkrav/vilkar/${behandlingId}`,
                 }).then((res: Ressurs<IFormkravVilkår>) => {
                     if (res.status === RessursStatus.SUKSESS && res.data != null) {
-                        if (vedtak === VedtakValg.OMGJØR_VEDTAK && formkravOppfylt(res.data)) {
+                        if (vedtak === VedtakValg.OMGJØR_VEDTAK && alleVilkårOppfylt(res.data)) {
                             type = FritekstBrevtype.VEDTAK_INVILGELSE;
                         }
                     }
