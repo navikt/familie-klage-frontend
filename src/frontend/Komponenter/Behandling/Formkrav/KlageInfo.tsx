@@ -1,14 +1,14 @@
 import React from 'react';
 import styled from 'styled-components';
 import { BodyLong, Heading } from '@navikt/ds-react';
-import navFarger from 'nav-frontend-core';
 import Oppfylt from '../../../Felles/Ikoner/Oppfylt';
-import { IFormkravVilkår, IKlageInfo, Redigeringsmodus } from './typer';
+import { IFormkravVilkår, Redigeringsmodus } from './typer';
 import { GridTabell } from '../../../Felles/Visningskomponenter/GridTabell';
 import { Søknadsgrunnlag } from '../../../Felles/Ikoner/DataGrunnlagIkoner';
 import IkkeOppfylt from '../../../Felles/Ikoner/IkkeOppfylt';
 import Advarsel from '../../../Felles/Ikoner/Advarsel';
 import { alleVilkårOppfylt } from './utils';
+import { Behandling } from '../../../App/typer/fagsak';
 
 const OppfyltIkonStyled = styled(Oppfylt)`
     margin-left: -0.2rem;
@@ -26,23 +26,13 @@ const BodyLongStyled = styled(BodyLong)`
     margin: 0 5rem 1 1.5rem;
 `;
 
-const BlåStrek = styled.div`
-    border-left: solid 2px ${navFarger.navBlaLighten60};
-    margin-right: 0.5rem;
-`;
-
-const BegrunnelseContainer = styled.div`
-    display: flex;
-    flex-direction: row;
-`;
-
 interface IProps {
-    klageInfo: IKlageInfo;
+    behandling: Behandling;
     vurderinger: IFormkravVilkår;
     redigeringsmodus: Redigeringsmodus;
 }
 
-export const KlageInfo: React.FC<IProps> = ({ klageInfo, vurderinger, redigeringsmodus }) => {
+export const KlageInfo: React.FC<IProps> = ({ vurderinger, redigeringsmodus }) => {
     const utledetIkon = () => {
         if (redigeringsmodus === Redigeringsmodus.IKKE_PÅSTARTET) {
             return <AdvarselIkonStyled heigth={23} width={23} />;
@@ -63,25 +53,12 @@ export const KlageInfo: React.FC<IProps> = ({ klageInfo, vurderinger, redigering
             <>
                 <Søknadsgrunnlag />
                 <BodyLongStyled size="small">Oppgitt vedtaksdato</BodyLongStyled>
-                <BodyLongStyled size="small">{klageInfo.vedtaksDato} </BodyLongStyled>
+                <BodyLongStyled size="small">Ikke tilgjengelig </BodyLongStyled>
             </>
             <>
                 <Søknadsgrunnlag />
                 <BodyLongStyled size="small">Klage mottatt</BodyLongStyled>
-                <BodyLongStyled size="small">{klageInfo.klageMottatt}</BodyLongStyled>
-            </>
-            <>
-                <Søknadsgrunnlag />
-                <BodyLongStyled size="small">Hva er du uenig i?</BodyLongStyled>
-                <BodyLongStyled size="small">{klageInfo.klageAarsak}</BodyLongStyled>
-            </>
-            <>
-                <Søknadsgrunnlag />
-                <BodyLongStyled size="small">Hvorfor er du uenig?</BodyLongStyled>
-                <BegrunnelseContainer>
-                    <BlåStrek />
-                    <BodyLong size="small">{klageInfo.klageBeskrivelse}</BodyLong>
-                </BegrunnelseContainer>
+                <BodyLongStyled size="small">Ikke tilgjengelig</BodyLongStyled>
             </>
         </GridTabell>
     );

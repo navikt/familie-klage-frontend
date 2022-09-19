@@ -1,18 +1,19 @@
 import React, { useEffect, useState } from 'react';
 import { KlageInfo } from './KlageInfo';
-import { useApp } from '../../../App/context/AppContext';
-import { Ressurs, RessursFeilet, RessursStatus, RessursSuksess } from '../../../App/typer/ressurs';
+import { RessursFeilet, RessursStatus, RessursSuksess } from '../../../App/typer/ressurs';
 import { useBehandling } from '../../../App/context/BehandlingContext';
-import { IFormkravVilkår, IKlageInfo } from './typer';
+import { IFormkravVilkår } from './typer';
 import ToKolonnerLayout from '../../../Felles/Visningskomponenter/ToKolonnerLayout';
 import { VisEllerEndreFormkravVurderinger } from './VisEllerEndreFormkravVurderinger';
 import DataViewer from '../../../Felles/DataViewer/DataViewer';
 import { useHentFormkravVilkår } from '../../../App/hooks/useHentFormkravVilkår';
 import { utledRedigeringsmodus } from './utils';
+import { Behandling } from '../../../App/typer/fagsak';
 
-export const Formkrav: React.FC<{ behandlingId: string }> = ({ behandlingId }) => {
+export const Formkrav: React.FC<{ behandling: Behandling }> = ({ behandling }) => {
     const { vilkårsvurderinger, hentVilkårsvurderinger, lagreVilkårsvurderinger, feilVedLagring } =
         useHentFormkravVilkår();
+    const behandlingId = behandling.id;
 
     useEffect(() => {
         if (behandlingId !== undefined) {
@@ -21,16 +22,16 @@ export const Formkrav: React.FC<{ behandlingId: string }> = ({ behandlingId }) =
             }
         }
         // eslint-disable-next-line
-    }, [behandlingId]);
+    }, [behandlingId, hentVilkårsvurderinger]);
 
     return (
         <DataViewer response={{ vilkårsvurderinger }}>
             {({ vilkårsvurderinger }) => {
                 return (
                     <FormkravKomponent
-                        behandlingId={behandlingId}
                         vilkårsvurderinger={vilkårsvurderinger}
                         lagreVurderinger={lagreVilkårsvurderinger}
+                        behandling={behandling}
                         feilmelding={feilVedLagring}
                     />
                 );
@@ -40,55 +41,25 @@ export const Formkrav: React.FC<{ behandlingId: string }> = ({ behandlingId }) =
 };
 
 const FormkravKomponent: React.FC<{
-    behandlingId: string;
     vilkårsvurderinger: IFormkravVilkår;
     lagreVurderinger: (
         vurderinger: IFormkravVilkår
     ) => Promise<RessursSuksess<IFormkravVilkår> | RessursFeilet>;
+    behandling: Behandling;
     feilmelding: string;
-}> = ({ behandlingId, vilkårsvurderinger, lagreVurderinger, feilmelding }) => {
-    const { axiosRequest } = useApp();
+}> = ({ vilkårsvurderinger, lagreVurderinger, behandling, feilmelding }) => {
     const { behandlingErRedigerbar } = useBehandling();
 
-    const formKlageObjekt: IKlageInfo = {
-        behandlingId: behandlingId,
-        fagsakId: 'b0fa4cae-a676-44b3-8725-232dac935c4a',
-        vedtaksDato: '',
-        klageMottatt: '',
-        klageAarsak: '',
-        klageBeskrivelse: '',
-    };
-
-    const [klageInfo, settKlageInfo] = useState<IKlageInfo>(formKlageObjekt);
     const [redigeringsmodus, settRedigeringsmodus] = useState(
         utledRedigeringsmodus(behandlingErRedigerbar, vilkårsvurderinger)
     );
-
-    useEffect(() => {
-        document.title = 'Oppgavebenk';
-        axiosRequest<IKlageInfo, null>({
-            method: 'GET',
-            url: `/familie-klage/api/klageinfo/${behandlingId}`,
-        }).then((res: Ressurs<IKlageInfo>) => {
-            if (res.status === RessursStatus.SUKSESS) {
-                settKlageInfo((prevState) => ({
-                    ...prevState,
-                    fagsakId: res.data.fagsakId,
-                    klageMottatt: res.data.klageMottatt,
-                    klageAarsak: res.data.klageAarsak,
-                    klageBeskrivelse: res.data.klageBeskrivelse,
-                    vedtaksDato: res.data.vedtaksDato,
-                }));
-            }
-        });
-    }, [axiosRequest, behandlingId]);
 
     return (
         <ToKolonnerLayout>
             {{
                 venstre: (
                     <KlageInfo
-                        klageInfo={klageInfo}
+                        behandling={behandling}
                         vurderinger={vilkårsvurderinger}
                         redigeringsmodus={redigeringsmodus}
                     />
