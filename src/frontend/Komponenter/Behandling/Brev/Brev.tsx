@@ -69,7 +69,7 @@ export const Brev: React.FC<IBrev> = ({ behandlingId }) => {
         settSenderInn(true);
         axiosRequest<null, null>({
             method: 'POST',
-            url: `/familie-klage/api/behandling/ferdigstill/${behandlingId}`,
+            url: `/familie-klage/api/behandling/${behandlingId}/ferdigstill`,
         }).then(() => {
             settSenderInn(false);
             hentBehandling.rerun();
