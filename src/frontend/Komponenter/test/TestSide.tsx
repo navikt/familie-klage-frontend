@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import styled from 'styled-components';
 import { Side } from '../../Felles/Visningskomponenter/Side';
-import { Alert, Button } from '@navikt/ds-react';
+import { Alert, BodyShort, Button } from '@navikt/ds-react';
 import { useApp } from '../../App/context/AppContext';
 import { Stønadstype } from '../../App/typer/behandlingstema';
 import { RessursStatus } from '../../App/typer/ressurs';
@@ -37,8 +37,12 @@ export const TestSide: React.FC = () => {
         }
     };
 
-    if (appEnv.namespace !== 'local') {
-        return <></>;
+    if (appEnv.miljø !== 'local') {
+        return (
+            <BodyShort>
+                Du må velge en behandling fra fagsystemet for å se på en klagebehandling
+            </BodyShort>
+        );
     }
 
     return (

@@ -10,7 +10,7 @@ type Roller = {
 
 interface IEnvironment {
     buildPath: string;
-    namespace: string;
+    miljø: string;
     klageProxyUrl: string;
     redisUrl?: string;
     roller: Roller;
@@ -36,14 +36,14 @@ const Environment = (): IEnvironment => {
     if (process.env.ENV === 'local') {
         return {
             buildPath: 'frontend_development',
-            namespace: 'local',
+            miljø: 'local',
             klageProxyUrl: 'http://localhost:8094',
             roller: rollerDev,
         };
     } else if (process.env.ENV === 'e2e') {
         return {
             buildPath: 'frontend_production',
-            namespace: 'e2e',
+            miljø: 'e2e',
             klageProxyUrl: 'http://familie-klage:8093',
             roller: rollerDev,
             //Har ikke satt opp redis
@@ -51,7 +51,7 @@ const Environment = (): IEnvironment => {
     } else if (process.env.ENV === 'preprod') {
         return {
             buildPath: 'frontend_production',
-            namespace: 'preprod',
+            miljø: 'preprod',
             klageProxyUrl: 'http://familie-klage',
             redisUrl: 'familie-klage-frontend-redis',
             roller: rollerDev,
@@ -60,7 +60,7 @@ const Environment = (): IEnvironment => {
 
     return {
         buildPath: 'frontend_production',
-        namespace: 'production',
+        miljø: 'production',
         klageProxyUrl: 'http://familie-klage',
         redisUrl: 'familie-klage-frontend-redis',
         roller: rollerProd,
@@ -88,5 +88,5 @@ export const oboConfig: IApi = {
 
 export const buildPath = env.buildPath;
 export const klageProxyUrl = env.klageProxyUrl;
-export const namespace = env.namespace;
+export const miljø = env.miljø;
 export const roller = env.roller;

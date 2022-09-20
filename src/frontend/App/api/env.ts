@@ -3,7 +3,7 @@ import { Roller } from '../utils/roller';
 
 export interface AppEnv {
     roller: Roller;
-    namespace: string;
+    miljø: string;
 }
 
 export const hentEnv = (): Promise<AppEnv> => {
