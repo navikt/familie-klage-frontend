@@ -2,8 +2,8 @@ import { preferredAxios } from './axios';
 import { Roller } from '../utils/roller';
 
 export interface AppEnv {
-    aInntekt: string;
     roller: Roller;
+    namespace: string;
 }
 
 export const hentEnv = (): Promise<AppEnv> => {

@@ -15,7 +15,7 @@ const StyledTest = styled.div`
 `;
 
 export const TestSide: React.FC = () => {
-    const { axiosRequest } = useApp();
+    const { axiosRequest, appEnv } = useApp();
     const [ident, settIdent] = useState<string>();
     const [feil, settFeil] = useState<string>();
     const [stønadstype, settStønadstype] = useState<Stønadstype>();
@@ -36,6 +36,10 @@ export const TestSide: React.FC = () => {
             });
         }
     };
+
+    if (appEnv.namespace !== 'local') {
+        return <></>;
+    }
 
     return (
         <Side className={'container'}>
