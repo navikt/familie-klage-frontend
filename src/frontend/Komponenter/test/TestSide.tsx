@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import styled from 'styled-components';
 import { Side } from '../../Felles/Visningskomponenter/Side';
-import { Alert, Button } from '@navikt/ds-react';
+import { Alert, BodyShort, Button } from '@navikt/ds-react';
 import { useApp } from '../../App/context/AppContext';
 import { Stønadstype } from '../../App/typer/behandlingstema';
 import { RessursStatus } from '../../App/typer/ressurs';
@@ -15,7 +15,7 @@ const StyledTest = styled.div`
 `;
 
 export const TestSide: React.FC = () => {
-    const { axiosRequest } = useApp();
+    const { axiosRequest, appEnv } = useApp();
     const [ident, settIdent] = useState<string>();
     const [feil, settFeil] = useState<string>();
     const [stønadstype, settStønadstype] = useState<Stønadstype>();
@@ -36,6 +36,14 @@ export const TestSide: React.FC = () => {
             });
         }
     };
+
+    if (appEnv.miljø !== 'local') {
+        return (
+            <BodyShort>
+                Du må velge en behandling fra fagsystemet for å se på en klagebehandling
+            </BodyShort>
+        );
+    }
 
     return (
         <Side className={'container'}>
