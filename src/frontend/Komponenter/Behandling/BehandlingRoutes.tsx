@@ -13,7 +13,7 @@ interface Props {
 const BehandlingRoutes: React.FC<Props> = ({ behandling }) => {
     return (
         <Routes>
-            <Route path="/formkrav" element={<Formkrav behandlingId={behandling.id} />} />
+            <Route path="/formkrav" element={<Formkrav behandling={behandling} />} />
             <Route path="/vurdering" element={<Vurdering behandlingId={behandling.id} />} />
             <Route path="/brev" element={<Brev behandlingId={behandling.id} />} />
             <Route path="/resultat" element={<Resultat behandlingId={behandling.id} />} />
