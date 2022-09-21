@@ -92,7 +92,7 @@ export const EndreFormkravVurderinger: React.FC<IProps> = ({
         >
             <RadioGrupperContainer>
                 {radioKnapper.map((item: IRadioKnapper, index) => (
-                    <FlexRow>
+                    <FlexRow key={index}>
                         <RadioGruppe
                             legend={item.spørsmål}
                             size="medium"
@@ -141,7 +141,7 @@ export const EndreFormkravVurderinger: React.FC<IProps> = ({
                     {feilmelding}
                 </AlertStripe>
             )}
-            <LagreKnapp htmlType="submit" variant="primary" size="medium">
+            <LagreKnapp htmltype="submit" variant="primary" size="medium">
                 Lagre
             </LagreKnapp>
         </form>

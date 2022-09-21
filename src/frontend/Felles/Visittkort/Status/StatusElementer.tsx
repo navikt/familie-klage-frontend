@@ -100,7 +100,6 @@ export const Status = styled.div<StatusProps>`
 
 export const StatusMeny: FC<{ behandling: Behandling }> = ({ behandling }) => {
     const [åpenStatusMeny, settÅpenStatusMeny] = useState<boolean>(false);
-
     return (
         <div>
             <VisStatuserKnapp
@@ -118,7 +117,7 @@ export const StatusMeny: FC<{ behandling: Behandling }> = ({ behandling }) => {
                             <Status>
                                 <GråTekst>Stønadstype</GråTekst>
                                 <Normaltekst>
-                                    {stønadstypeTilTekst[behandling.stonadsType]}
+                                    {stønadstypeTilTekst[behandling.stønadstype]}
                                 </Normaltekst>
                             </Status>
                         </li>

@@ -68,7 +68,7 @@ export interface Behandling {
     opprettet: string;
     resultat: BehandlingResultat;
     vedtakDato?: string;
-    stonadstype: Stønadstype;
+    stønadstype: Stønadstype;
 }
 
 export interface IEndringerRegistergrunnlag {
