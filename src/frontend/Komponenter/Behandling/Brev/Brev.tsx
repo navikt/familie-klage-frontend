@@ -1,6 +1,12 @@
 import * as React from 'react';
 import { useState } from 'react';
-import { byggTomRessurs, Ressurs } from '../../../App/typer/ressurs';
+import {
+    byggTomRessurs,
+    Ressurs,
+    RessursFeilet,
+    RessursStatus,
+    RessursSuksess,
+} from '../../../App/typer/ressurs';
 import FritekstBrev from './FritekstBrev';
 import PdfVisning from './PdfVisning';
 import { IFritekstBrev } from './BrevTyper';
@@ -11,6 +17,8 @@ import { useHentBrev } from '../../../App/hooks/useHentBrev';
 import { useApp } from '../../../App/context/AppContext';
 import { Button } from '@navikt/ds-react';
 import BrevModal from './BrevModal';
+import { hentBehandlingIdFraUrl } from '../BehandlingContainer';
+import { useNavigate } from 'react-router-dom';
 
 const redigeringsmodus = {
     backgroundColor: '#f2f2f2',
@@ -52,7 +60,7 @@ export const Brev: React.FC<IBrev> = ({ behandlingId }) => {
     } = useBehandling();
 
     const { mellomlagretBrev } = useHentBrev(behandlingId);
-
+    const navigate = useNavigate();
     const { axiosRequest } = useApp();
 
     const oppdaterBrevRessurs = (respons: Ressurs<string>) => {
@@ -60,6 +68,7 @@ export const Brev: React.FC<IBrev> = ({ behandlingId }) => {
     };
 
     const [senderInn, settSenderInn] = useState<boolean>(false);
+    const [feilFerdigstilling, settFeilFerdigstilling] = useState('');
 
     const ferdigstillBrev = () => {
         if (senderInn) {
@@ -70,10 +79,16 @@ export const Brev: React.FC<IBrev> = ({ behandlingId }) => {
         axiosRequest<null, null>({
             method: 'POST',
             url: `/familie-klage/api/behandling/${behandlingId}/ferdigstill`,
-        }).then(() => {
+        }).then((res: RessursSuksess<null> | RessursFeilet) => {
             settSenderInn(false);
-            hentBehandling.rerun();
-            settVisAdvarselSendBrev(false);
+            if (res.status === RessursStatus.SUKSESS) {
+                settFeilFerdigstilling('');
+                hentBehandling.rerun();
+                settVisAdvarselSendBrev(false);
+                navigate(`/behandling/${hentBehandlingIdFraUrl()}/resultat`);
+            } else {
+                settFeilFerdigstilling(res.frontendFeilmelding);
+            }
         });
     };
 
@@ -103,7 +118,8 @@ export const Brev: React.FC<IBrev> = ({ behandlingId }) => {
                             {visAdvarselSendBrev && (
                                 <BrevModal
                                     ferdigstillBrev={ferdigstillBrev}
-                                    senderInn={senderInn}
+                                    settFeil={settFeilFerdigstilling}
+                                    feil={feilFerdigstilling}
                                 />
                             )}
                         </BrevKnapper>
