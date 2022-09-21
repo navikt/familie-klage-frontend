@@ -13,6 +13,10 @@ const SentrerKnapper = styled.div`
     }
 `;
 
+const FeilContainer = styled.div`
+    padding-top: 1rem;
+`;
+
 interface BrevModal {
     ferdigstillBrev: () => void;
     settFeil: React.Dispatch<SetStateAction<string>>;
@@ -48,7 +52,12 @@ const BrevModal: React.FC<BrevModal> = ({ ferdigstillBrev, settFeil, feil }) => 
                     Gå tilbake for å redigere
                 </Button>
             </SentrerKnapper>
-            {feil && <Alert variant={'error'}>{feil}</Alert>}
+
+            {feil && (
+                <FeilContainer>
+                    <Alert variant={'error'}>{feil}</Alert>
+                </FeilContainer>
+            )}
         </UIModalWrapper>
     );
 };
