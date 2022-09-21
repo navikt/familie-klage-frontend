@@ -6,16 +6,9 @@ import { useRerunnableEffect } from '../hooks/felles/useRerunnableEffect';
 import { useHentPersonopplysninger } from '../hooks/useHentPersonopplysninger';
 import { useHentBehandling } from '../hooks/useHentBehandling';
 import { useHentBehandlingHistorikk } from '../hooks/useHentBehandlingHistorikk';
-import { useHentTotrinnskontroll } from '../hooks/useHentTotrinnStatus';
-import { useHentRegler } from '../hooks/useHentRegler';
 import { RessursStatus } from '../typer/ressurs';
 import { erBehandlingRedigerbar } from '../typer/behandlingstatus';
-import {
-    Hjemmel,
-    IVurdering,
-    VedtakValg,
-    ÅrsakOmgjøring,
-} from '../../Komponenter/Behandling/Vurdering/vurderingValg';
+import { IVurdering } from '../../Komponenter/Behandling/Vurdering/vurderingValg';
 
 const [BehandlingProvider, useBehandling] = constate(() => {
     const behandlingId = useParams<IBehandlingParams>().behandlingId as string;
@@ -26,19 +19,12 @@ const [BehandlingProvider, useBehandling] = constate(() => {
     const { hentBehandlingCallback, behandling } = useHentBehandling(behandlingId);
     const { hentBehandlingshistorikkCallback, behandlingHistorikk } =
         useHentBehandlingHistorikk(behandlingId);
-    const { hentTotrinnskontrollCallback, totrinnskontroll } =
-        useHentTotrinnskontroll(behandlingId);
 
     const hentBehandling = useRerunnableEffect(hentBehandlingCallback, [behandlingId]);
     const hentBehandlingshistorikk = useRerunnableEffect(hentBehandlingshistorikkCallback, [
         behandlingId,
     ]);
 
-    const { hentRegler, regler } = useHentRegler();
-    // eslint-disable-next-line
-    useEffect(() => hentRegler(), [behandlingId]);
-
-    const hentTotrinnskontroll = useRerunnableEffect(hentTotrinnskontrollCallback, [behandlingId]);
     // eslint-disable-next-line
     useEffect(() => hentPersonopplysninger(behandlingId), [behandlingId]);
     useEffect(
@@ -54,9 +40,6 @@ const [BehandlingProvider, useBehandling] = constate(() => {
     const [visHenleggModal, settVisHenleggModal] = useState(false);
     const [åpenHøyremeny, settÅpenHøyremeny] = useState(true);
 
-    const [vurderingSideGyldig, settVurderingSideGyldig] = useState<boolean>(false);
-    const [brevSideGyldig, settBrevSideGyldig] = useState<boolean>(false);
-    const [resultatSideGyldig, settResultatSideGyldig] = useState<boolean>(false);
     const [formkravSteg, settFormkravSteg] = useState<boolean>(true);
     const [vurderingSteg, settVurderingSteg] = useState<boolean>(false);
     const [brevSteg, settBrevSteg] = useState<boolean>(false);
@@ -87,27 +70,18 @@ const [BehandlingProvider, useBehandling] = constate(() => {
 
     const [vurderingEndret, settVurderingEndret] = useState(false);
 
-    const vurderingObject: IVurdering = {
-        behandlingId: behandlingId,
-        vedtak: VedtakValg.VELG,
-        arsak: ÅrsakOmgjøring.VELG,
-        hjemmel: Hjemmel.VELG,
-        beskrivelse: '',
-    };
-    const [vurderingData, settVurderingData] = useState<IVurdering>(vurderingObject);
+    const initiellVurdering: IVurdering = { behandlingId: behandlingId };
+    const [vurderingData, settVurderingData] = useState<IVurdering>(initiellVurdering);
 
     const [visAdvarselSendBrev, settVisAdvarselSendBrev] = useState(false);
 
     return {
         behandling,
         behandlingErRedigerbar,
-        totrinnskontroll,
         personopplysningerResponse,
         behandlingHistorikk,
         hentBehandling,
-        hentTotrinnskontroll,
         hentBehandlingshistorikk,
-        regler,
         visBrevmottakereModal,
         settVisBrevmottakereModal,
         visHenleggModal,
@@ -116,12 +90,6 @@ const [BehandlingProvider, useBehandling] = constate(() => {
         settÅpenHøyremeny,
         vilkårTom,
         settVilkårTom,
-        vurderingSideGyldig,
-        settVurderingSideGyldig,
-        brevSideGyldig,
-        settBrevSideGyldig,
-        resultatSideGyldig,
-        settResultatSideGyldig,
         brevSteg,
         resultatSteg,
         vurderingSteg,

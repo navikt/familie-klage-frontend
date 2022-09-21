@@ -7,20 +7,14 @@ export const utledRedigeringsmodus = (
     if (!behandlingErRedigerbar) {
         return Redigeringsmodus.VISNING;
     }
-    if (
-        alleVurderingerErStatus(vurderinger, VilkårStatus.IKKE_SATT) &&
-        vurderinger.saksbehandlerBegrunnelse.length === 0
-    ) {
+    if (alleVurderingerErStatus(vurderinger, VilkårStatus.IKKE_SATT)) {
         return Redigeringsmodus.IKKE_PÅSTARTET;
     }
     return Redigeringsmodus.VISNING;
 };
 
 export const alleVilkårOppfylt = (vurderinger: IFormkravVilkår) => {
-    return (
-        alleVurderingerErStatus(vurderinger, VilkårStatus.OPPFYLT) &&
-        vurderinger.saksbehandlerBegrunnelse.length > 0
-    );
+    return alleVurderingerErStatus(vurderinger, VilkårStatus.OPPFYLT);
 };
 
 export const alleVurderingerErStatus = (

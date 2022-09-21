@@ -1,20 +1,5 @@
 import { Stønadstype } from './behandlingstema';
 import { BehandlingStatus } from './behandlingstatus';
-import { TilbakekrevingBehandlingsresultatstype } from './tilbakekreving';
-
-export interface IFagsakPerson {
-    id: string;
-    overgangsstønad?: string;
-    barnetilsyn?: string;
-    skolepenger?: string;
-}
-
-export interface IFagsakPersonMedBehandlinger {
-    id: string;
-    overgangsstønad?: Fagsak;
-    barnetilsyn?: Fagsak;
-    skolepenger?: Fagsak;
-}
 
 export interface Fagsak {
     id: string;
@@ -103,24 +88,3 @@ export const behandlingResultatTilTekst: Record<BehandlingResultat, string> = {
     IKKE_MEDHOLD_FORMKRAV_AVVIST: 'Ikke medhold formkrav avvist',
     IKKE_SATT: 'Ikke satt',
 };
-
-export const tilbakekrevingBehandlingsresultattypeTilTekst: Record<
-    TilbakekrevingBehandlingsresultatstype,
-    string
-> = {
-    IKKE_FASTSATT: 'Ikke fastsatt',
-    INGEN_TILBAKEBETALING: 'Ingen tilbakebetaling',
-    DELVIS_TILBAKEBETALING: 'Delvis tilbakebetaling',
-    FULL_TILBAKEBETALING: 'Full tilbakebetaling',
-    HENLAGT: 'Henlagt',
-};
-
-export const BehandlingResultatInkludertTilbakekreving = {
-    ...BehandlingResultat,
-    ...TilbakekrevingBehandlingsresultatstype,
-};
-
-export const behandlingResultatInkludertTilbakekrevingTilTekst: Record<
-    BehandlingResultat | TilbakekrevingBehandlingsresultatstype,
-    string
-> = { ...behandlingResultatTilTekst, ...tilbakekrevingBehandlingsresultattypeTilTekst };

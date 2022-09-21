@@ -1,7 +1,8 @@
 import * as React from 'react';
-import { Heading, BodyLong, Alert } from '@navikt/ds-react';
+import { BodyLong, Heading } from '@navikt/ds-react';
 import styled from 'styled-components';
 import { Ikon } from './Ikon';
+import { IFormkravVilkår, VilkårStatus } from '../Formkrav/typer';
 
 const FormkravOppsummeringStyled = styled.div`
     display: flex;
@@ -16,36 +17,34 @@ const OppfyltStyled = styled.div`
     display: flex;
 `;
 
-const FeilVedtaksresultatStyled = styled.div`
-    display: flex;
-    margin-top: 1rem;
-`;
-
 interface IFormkravOppsummering {
-    oppfylt: number;
-    muligOppfylt: number;
-    begrunnelse: string;
-    feilmelding: string;
-    formkravGodkjent: boolean | undefined;
+    formkrav: IFormkravVilkår;
+    alleVilkårOppfylt: boolean;
 }
 
 export const FormkravOppsummering: React.FC<IFormkravOppsummering> = ({
-    oppfylt,
-    muligOppfylt,
-    formkravGodkjent,
-    begrunnelse,
-    feilmelding,
+    formkrav,
+    alleVilkårOppfylt,
 }) => {
+    const formkravStatuser = [
+        formkrav.klagePart,
+        formkrav.klageKonkret,
+        formkrav.klageSignert,
+        formkrav.klagefristOverholdt,
+    ];
+    const antallOppfylt = formkravStatuser.filter(
+        (formkravstatus) => formkravstatus === VilkårStatus.OPPFYLT
+    ).length;
     return (
         <FormkravOppsummeringStyled>
             <div>
                 <Heading spacing size="medium" level="5">
                     Formkrav
                 </Heading>
-                {formkravGodkjent && (
+                {alleVilkårOppfylt && (
                     <OppfyltStyled>
                         <BodyLong size="small">
-                            {oppfylt} av {muligOppfylt} oppfylt
+                            {antallOppfylt} av {formkravStatuser.length} oppfylt
                         </BodyLong>
                         <Ikon>
                             <path
@@ -63,16 +62,11 @@ export const FormkravOppsummering: React.FC<IFormkravOppsummering> = ({
                         </Ikon>
                     </OppfyltStyled>
                 )}
-                {!formkravGodkjent && (
+                {!alleVilkårOppfylt && (
                     <>
                         <BodyLong size="small">
-                            {oppfylt} av {muligOppfylt} oppfylt
+                            {antallOppfylt} av {formkravStatuser.length} oppfylt
                         </BodyLong>
-                        <FeilVedtaksresultatStyled>
-                            <Alert variant="error" size="medium">
-                                {feilmelding}
-                            </Alert>
-                        </FeilVedtaksresultatStyled>
                     </>
                 )}
             </div>
@@ -80,7 +74,7 @@ export const FormkravOppsummering: React.FC<IFormkravOppsummering> = ({
                 <Heading spacing size="medium" level="5">
                     Begrunnelse
                 </Heading>
-                <BodyLong size="small">{begrunnelse}</BodyLong>
+                <BodyLong size="small">{formkrav.saksbehandlerBegrunnelse}</BodyLong>
             </BegrunnelseStyled>
         </FormkravOppsummeringStyled>
     );
