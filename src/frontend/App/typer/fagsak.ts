@@ -91,19 +91,17 @@ export interface IEndringerRegistergrunnlag {
 }
 
 export enum BehandlingResultat {
-    INNVILGET = 'INNVILGET',
+    MEDHOLD = 'MEDHOLD',
+    IKKE_MEDHOLD = 'IKKE_MEDHOLD',
+    IKKE_MEDHOLD_FORMKRAV_AVVIST = 'IKKE_MEDHOLD_FORMKRAV_AVVIST',
     IKKE_SATT = 'IKKE_SATT',
-    HENLAGT = 'HENLAGT',
-    AVSLÅTT = 'AVSLÅTT',
-    OPPHØRT = 'OPPHØRT',
 }
 
 export const behandlingResultatTilTekst: Record<BehandlingResultat, string> = {
-    INNVILGET: 'Innvilget',
+    MEDHOLD: 'Medhold',
+    IKKE_MEDHOLD: 'Ikke medhold',
+    IKKE_MEDHOLD_FORMKRAV_AVVIST: 'Ikke medhold formkrav avvist',
     IKKE_SATT: 'Ikke satt',
-    HENLAGT: 'Henlagt',
-    OPPHØRT: 'Opphørt',
-    AVSLÅTT: 'Avslått',
 };
 
 export const tilbakekrevingBehandlingsresultattypeTilTekst: Record<
