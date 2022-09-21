@@ -16,7 +16,7 @@ const VedtakInnholdStyled = styled.div`
 
 interface IVedtak {
     settVedtak: Dispatch<SetStateAction<IVurdering>>;
-    vedtakValgt: VedtakValg;
+    vedtakValgt?: VedtakValg;
     vedtakValgmuligheter: Record<string, string>;
     endring: (komponentId: string) => void;
 }

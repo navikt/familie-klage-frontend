@@ -19,13 +19,20 @@ import {
     vedtakValgTilTekst,
     årsakValgTilTekst,
 } from './vurderingValg';
-import { Ressurs, RessursStatus } from '../../../App/typer/ressurs';
-import { IFormkravVilkår, VilkårStatus } from '../Formkrav/typer';
+import {
+    byggTomRessurs,
+    Ressurs,
+    RessursFeilet,
+    RessursStatus,
+    RessursSuksess,
+} from '../../../App/typer/ressurs';
+import { IFormkravVilkår } from '../Formkrav/typer';
 import { hentBehandlingIdFraUrl } from '../BehandlingContainer';
 import { useNavigate } from 'react-router-dom';
 import { useBehandling } from '../../../App/context/BehandlingContext';
 import { VurderingLesemodus } from './VurderingLesemodus';
 import { alleVilkårOppfylt } from '../Formkrav/utils';
+import DataViewer from '../../../Felles/DataViewer/DataViewer';
 
 const VurderingBeskrivelseStyled = styled.div`
     margin: 2rem 4rem 2rem 4rem;
@@ -33,7 +40,7 @@ const VurderingBeskrivelseStyled = styled.div`
 
 const AlertStyled = styled(Alert)`
     margin: 2rem 4rem 2rem 4rem;
-    width: 18rem;
+    width: 25rem;
 `;
 
 const VurderingKnapper = styled.div`
@@ -43,13 +50,24 @@ const VurderingKnapper = styled.div`
     margin: 0 4rem;
 `;
 
+interface IMelding {
+    tekst: string;
+    type: 'success' | 'error';
+}
+const erAlleFelterUtfylt = (vurderingData: IVurdering): boolean => {
+    return !!(
+        vurderingData.vedtak &&
+        vurderingData.beskrivelse &&
+        vurderingData.beskrivelse.length > 0 &&
+        (vurderingData.arsak || vurderingData.hjemmel)
+    );
+};
 export const Vurdering: React.FC<{ behandlingId: string }> = ({ behandlingId }) => {
-    // Formkravoppsummering
-    const [oppfylt, settOppfylt] = useState(0);
-    const [muligOppfylt, settMuligOppfylt] = useState(0);
-    const [begrunnelse, settBegrunnelse] = useState('');
-    const [formkravGodkjent, settFormkravGodkjent] = useState<boolean>();
-    const [feilmelding, settFeilmelding] = useState('');
+    const [formkrav, settFormkrav] = useState<Ressurs<IFormkravVilkår>>(byggTomRessurs());
+    const [vurdering, settVurdering] = useState<Ressurs<IVurdering>>(byggTomRessurs());
+    const [senderInn, settSenderInn] = useState<boolean>(false);
+    const [melding, settMelding] = useState<IMelding>();
+
     const navigate = useNavigate();
 
     const {
@@ -57,10 +75,7 @@ export const Vurdering: React.FC<{ behandlingId: string }> = ({ behandlingId }) 
         settVurderingData,
         vurderingEndret,
         settVurderingEndret,
-        settVurderingSideGyldig,
         hentBehandling,
-        visAdvarselSendBrev,
-        settVisAdvarselSendBrev,
         behandlingErRedigerbar,
     } = useBehandling();
     // Endringer
@@ -72,53 +87,22 @@ export const Vurdering: React.FC<{ behandlingId: string }> = ({ behandlingId }) 
         axiosRequest<IFormkravVilkår, null>({
             method: 'GET',
             url: `/familie-klage/api/formkrav/vilkar/${behandlingId}`,
-        }).then((res: Ressurs<IFormkravVilkår>) => {
-            if (res.status === RessursStatus.SUKSESS) {
-                if (res.data.saksbehandlerBegrunnelse.length !== 0)
-                    settBegrunnelse(res.data.saksbehandlerBegrunnelse);
+        }).then(settFormkrav);
+    }, [axiosRequest, behandlingId, settFormkrav]);
 
-                const vilkårListe = [
-                    res.data.klagePart,
-                    res.data.klageKonkret,
-                    res.data.klagefristOverholdt,
-                    res.data.klageSignert,
-                ];
-                settOppfylt(vilkårListe.filter((item: VilkårStatus) => item === 'OPPFYLT').length);
-                settMuligOppfylt(vilkårListe.length);
-                settFormkravGodkjent(alleVilkårOppfylt(res.data));
-            }
-        });
-    }, [axiosRequest, behandlingId, settFormkravGodkjent]);
+    useEffect(() => {
+        if (vurdering.status === RessursStatus.SUKSESS && vurdering.data != null) {
+            settVurderingData(vurdering.data);
+        } else settVurderingEndret(true);
+    }, [vurdering, settVurderingEndret, settVurderingData]);
 
     // Hent eksisterende vurderingsdata
     useEffect(() => {
         axiosRequest<IVurdering, null>({
             method: 'GET',
             url: `/familie-klage/api/vurdering/${behandlingId}`,
-        }).then((res: Ressurs<IVurdering>) => {
-            if (res.status === RessursStatus.SUKSESS && res.data != null) {
-                settVurderingData({
-                    behandlingId: res.data.behandlingId,
-                    vedtak: res.data.vedtak,
-                    arsak: res.data.arsak,
-                    hjemmel: res.data.hjemmel,
-                    beskrivelse: res.data.beskrivelse,
-                });
-            } else settVurderingEndret(true);
-        });
+        }).then(settVurdering);
     }, [axiosRequest, behandlingId, settVurderingData, settVurderingEndret]);
-
-    useEffect(() => {
-        if (!formkravGodkjent) {
-            settFeilmelding('Formkrav er ikke oppfylt.');
-        } else if (begrunnelse.length === 0) {
-            settFeilmelding('Formkrav mangler en begrunnelse.');
-        } else {
-            settFeilmelding('Det har skjedd en feil');
-        }
-    }, [oppfylt, muligOppfylt, begrunnelse.length, formkravGodkjent]);
-
-    const [senderInn, settSenderInn] = useState<boolean>(false);
 
     const opprettVurdering = () => {
         if (senderInn) {
@@ -126,17 +110,23 @@ export const Vurdering: React.FC<{ behandlingId: string }> = ({ behandlingId }) 
         }
 
         settSenderInn(true);
+        settMelding(undefined);
         axiosRequest<IVurdering, IVurdering>({
             method: 'POST',
             url: `/familie-klage/api/vurdering`,
             data: vurderingData,
-        }).then((res: Ressurs<IVurdering>) => {
+        }).then((res: RessursSuksess<IVurdering> | RessursFeilet) => {
             if (res.status === RessursStatus.SUKSESS) {
                 nullstillIkkePersisterteKomponenter();
-                settVurderingSideGyldig(true);
-                settVisAdvarselSendBrev(false);
+                settMelding({
+                    tekst: 'Vurderingen er lagret',
+                    type: 'success',
+                });
             } else {
-                settVisAdvarselSendBrev(true);
+                settMelding({
+                    tekst: res.frontendFeilmelding || 'Noe gikk galt ved innsending',
+                    type: 'error',
+                });
             }
             settSenderInn(false);
             settVurderingEndret(false);
@@ -145,114 +135,98 @@ export const Vurdering: React.FC<{ behandlingId: string }> = ({ behandlingId }) 
     };
 
     return (
-        <div>
-            <FormkravOppsummering
-                oppfylt={oppfylt}
-                muligOppfylt={muligOppfylt}
-                begrunnelse={begrunnelse}
-                feilmelding={feilmelding}
-                formkravGodkjent={formkravGodkjent}
-            />
-            {!behandlingErRedigerbar && formkravGodkjent && <VurderingLesemodus />}
-            {formkravGodkjent && behandlingErRedigerbar ? (
-                <>
-                    <Vedtak
-                        settVedtak={settVurderingData}
-                        vedtakValgt={vurderingData.vedtak}
-                        vedtakValgmuligheter={vedtakValgTilTekst}
-                        endring={settIkkePersistertKomponent}
-                    />
-                    {vurderingData.vedtak == VedtakValg.OMGJØR_VEDTAK ? (
-                        <Årsak
-                            settÅrsak={settVurderingData}
-                            årsakValgt={vurderingData.arsak}
-                            årsakValgmuligheter={årsakValgTilTekst}
-                            endring={settIkkePersistertKomponent}
+        <DataViewer response={{ formkrav, vurdering }}>
+            {({ formkrav }) => {
+                return (
+                    <>
+                        <FormkravOppsummering
+                            formkrav={formkrav}
+                            alleVilkårOppfylt={alleVilkårOppfylt(formkrav)}
                         />
-                    ) : (
-                        ''
-                    )}
-                    {vurderingData.vedtak == VedtakValg.OPPRETTHOLD_VEDTAK ? (
-                        <HjemmelVelger
-                            settHjemmel={settVurderingData}
-                            hjemmelValgt={vurderingData.hjemmel}
-                            hjemmelValgmuligheter={hjemmelTilTekst}
-                            endring={settIkkePersistertKomponent}
-                        />
-                    ) : (
-                        ''
-                    )}
-                    {vurderingData.vedtak == VedtakValg.OPPRETTHOLD_VEDTAK ||
-                    vurderingData.vedtak == VedtakValg.OMGJØR_VEDTAK ? (
-                        <VurderingBeskrivelseStyled>
-                            <Textarea
-                                label="Vurdering"
-                                value={vurderingData.beskrivelse}
-                                onChange={(e) => {
-                                    settIkkePersistertKomponent(e.target.value);
-                                    settVurderingData((tidligereTilstand) => ({
-                                        ...tidligereTilstand,
-                                        beskrivelse: e.target.value,
-                                    }));
-                                    settVurderingEndret(true);
-                                }}
-                                size="medium"
-                            />
-                        </VurderingBeskrivelseStyled>
-                    ) : (
-                        ''
-                    )}
-                    <VurderingKnapper>
-                        {(vurderingEndret || visAdvarselSendBrev) && (
-                            <Button
-                                variant="primary"
-                                size="medium"
-                                onClick={() => {
-                                    opprettVurdering();
-                                }}
-                                disabled={
-                                    !(
-                                        vurderingData.vedtak == VedtakValg.OPPRETTHOLD_VEDTAK ||
-                                        vurderingData.vedtak == VedtakValg.OMGJØR_VEDTAK
-                                    ) ||
-                                    vurderingData.beskrivelse.length == 0 ||
-                                    (!vurderingData.arsak && !vurderingData.hjemmel)
-                                }
-                            >
-                                Lagre vurdering
-                            </Button>
+                        {behandlingErRedigerbar && !alleVilkårOppfylt(formkrav) && (
+                            <Alert variant={'error'}>Noen formkrav er ikke oppfylt</Alert>
                         )}
-                        {!vurderingEndret && (
-                            <Button
-                                variant="primary"
-                                size="medium"
-                                onClick={() =>
-                                    navigate(`/behandling/${hentBehandlingIdFraUrl()}/brev`)
-                                }
-                            >
-                                Fortsett
-                            </Button>
+                        {!behandlingErRedigerbar && alleVilkårOppfylt(formkrav) && (
+                            <VurderingLesemodus />
                         )}
-                    </VurderingKnapper>
-                    {!vurderingEndret ? (
-                        <>
-                            {!visAdvarselSendBrev ? (
-                                <AlertStyled variant="success" size="medium">
-                                    Du har lagret vurderingen.
-                                </AlertStyled>
-                            ) : (
-                                <AlertStyled variant="error" size="medium">
-                                    Noe gikk galt. Prøv å lagre igjen.
-                                </AlertStyled>
-                            )}
-                        </>
-                    ) : (
-                        ''
-                    )}
-                </>
-            ) : (
-                ''
-            )}
-        </div>
+                        {alleVilkårOppfylt(formkrav) && behandlingErRedigerbar && (
+                            <>
+                                <Vedtak
+                                    settVedtak={settVurderingData}
+                                    vedtakValgt={vurderingData.vedtak}
+                                    vedtakValgmuligheter={vedtakValgTilTekst}
+                                    endring={settIkkePersistertKomponent}
+                                />
+                                {vurderingData.vedtak == VedtakValg.OMGJØR_VEDTAK && (
+                                    <Årsak
+                                        settÅrsak={settVurderingData}
+                                        årsakValgt={vurderingData.arsak}
+                                        årsakValgmuligheter={årsakValgTilTekst}
+                                        endring={settIkkePersistertKomponent}
+                                    />
+                                )}
+                                {vurderingData.vedtak == VedtakValg.OPPRETTHOLD_VEDTAK && (
+                                    <HjemmelVelger
+                                        settHjemmel={settVurderingData}
+                                        hjemmelValgt={vurderingData.hjemmel}
+                                        hjemmelValgmuligheter={hjemmelTilTekst}
+                                        endring={settIkkePersistertKomponent}
+                                    />
+                                )}
+
+                                <VurderingBeskrivelseStyled>
+                                    <Textarea
+                                        label="Vurdering"
+                                        value={vurderingData.beskrivelse}
+                                        onChange={(e) => {
+                                            settIkkePersistertKomponent(e.target.value);
+                                            settVurderingData((tidligereTilstand) => ({
+                                                ...tidligereTilstand,
+                                                beskrivelse: e.target.value,
+                                            }));
+                                            settVurderingEndret(true);
+                                        }}
+                                        size="medium"
+                                    />
+                                </VurderingBeskrivelseStyled>
+
+                                <VurderingKnapper>
+                                    {vurderingEndret && (
+                                        <Button
+                                            variant="primary"
+                                            size="medium"
+                                            onClick={opprettVurdering}
+                                            disabled={!erAlleFelterUtfylt(vurderingData)}
+                                        >
+                                            Lagre vurdering
+                                        </Button>
+                                    )}
+                                    {!vurderingEndret && (
+                                        <>
+                                            <Button
+                                                variant="primary"
+                                                size="medium"
+                                                onClick={() =>
+                                                    navigate(
+                                                        `/behandling/${hentBehandlingIdFraUrl()}/brev`
+                                                    )
+                                                }
+                                            >
+                                                Fortsett
+                                            </Button>
+                                        </>
+                                    )}
+                                </VurderingKnapper>
+                                {melding && (
+                                    <AlertStyled variant={melding.type} size="medium">
+                                        {melding.tekst}
+                                    </AlertStyled>
+                                )}
+                            </>
+                        )}
+                    </>
+                );
+            }}
+        </DataViewer>
     );
 };
