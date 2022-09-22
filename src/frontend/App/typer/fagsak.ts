@@ -1,5 +1,6 @@
 import { Stønadstype } from './behandlingstema';
 import { BehandlingStatus } from './behandlingstatus';
+import { Klageresultat } from './klageresultat';
 
 export interface Fagsak {
     id: string;
@@ -64,7 +65,8 @@ export interface Behandling {
     opprettet: string;
     resultat: BehandlingResultat;
     vedtakDato?: string;
-    stønadstype: Stønadstype;
+    stonadstype: Stønadstype;
+    klageresultat: Klageresultat[];
 }
 
 export interface IEndringerRegistergrunnlag {
