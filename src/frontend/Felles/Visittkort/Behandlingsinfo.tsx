@@ -9,8 +9,8 @@ import { Menyknapp } from 'nav-frontend-ikonknapper';
 import Popover, { PopoverOrientering } from 'nav-frontend-popover';
 import { formaterIsoDatoTid } from '../../App/utils/formatter';
 import { behandlingStatusTilTekst } from '../../App/typer/behandlingstatus';
-import { Normaltekst } from 'nav-frontend-typografi';
 import navFarger from 'nav-frontend-core';
+import { BodyShort } from '@navikt/ds-react';
 
 const BehandlingsinfoWrapper = styled.div`
     margin: auto;
@@ -31,7 +31,7 @@ const PopoverTabell = styled.div`
     }
 `;
 
-const GråTekst = styled(Normaltekst)`
+const GråTekst = styled(BodyShort)`
     color: ${navFarger.navGra60};
 `;
 
@@ -52,7 +52,7 @@ const Behandlingsinfo: FC<{ behandling: Behandling }> = ({ behandling }) => {
         <BehandlingsinfoWrapper>
             <StyledMenyKnapp
                 id="visBehandlingsinfo"
-                onClick={(e) => togglePopover(e.currentTarget)}
+                onClick={(e: React.MouseEvent<HTMLButtonElement>) => togglePopover(e.currentTarget)}
                 aria-expanded={anker !== undefined}
                 aria-controls={popoverId}
                 aria-haspopup="menu"
@@ -69,19 +69,19 @@ const Behandlingsinfo: FC<{ behandling: Behandling }> = ({ behandling }) => {
                 <PopoverInnehold>
                     <PopoverTabell>
                         <GråTekst>Behandlingsstatus</GråTekst>
-                        <Normaltekst>{behandlingStatusTilTekst[behandling.status]}</Normaltekst>
+                        <BodyShort>{behandlingStatusTilTekst[behandling.status]}</BodyShort>
 
                         <GråTekst>Behandlingsresultat</GråTekst>
-                        <Normaltekst>{behandlingResultatTilTekst[behandling.resultat]}</Normaltekst>
+                        <BodyShort>{behandlingResultatTilTekst[behandling.resultat]}</BodyShort>
 
                         <GråTekst>Opprettet</GråTekst>
-                        <Normaltekst>{formaterIsoDatoTid(behandling.opprettet)}</Normaltekst>
+                        <BodyShort>{formaterIsoDatoTid(behandling.opprettet)}</BodyShort>
 
                         <GråTekst>Sist endret</GråTekst>
-                        <Normaltekst>{formaterIsoDatoTid(behandling.sistEndret)}</Normaltekst>
+                        <BodyShort>{formaterIsoDatoTid(behandling.sistEndret)}</BodyShort>
 
                         <GråTekst>Steg</GråTekst>
-                        <Normaltekst>{behandlingStegTilTekst[behandling.steg]}</Normaltekst>
+                        <BodyShort>{behandlingStegTilTekst[behandling.steg]}</BodyShort>
                     </PopoverTabell>
                     <GråTekst>Id: {behandling.id}</GråTekst>
                 </PopoverInnehold>

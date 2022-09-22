@@ -2,11 +2,10 @@ import React from 'react';
 import { FC, useState } from 'react';
 import { Behandling, behandlingResultatTilTekst } from '../../../App/typer/fagsak';
 import { Expand } from '@navikt/ds-icons';
-import { Button } from '@navikt/ds-react';
+import { BodyShort, Button } from '@navikt/ds-react';
 import navFarger from 'nav-frontend-core';
 import { behandlingStatusTilTekst } from '../../../App/typer/behandlingstatus';
 import { formaterIsoDatoTid } from '../../../App/utils/formatter';
-import { Normaltekst } from 'nav-frontend-typografi';
 import styled from 'styled-components';
 import { stønadstypeTilTekst } from '../../../App/typer/behandlingstema';
 
@@ -18,7 +17,7 @@ interface StatusProps {
     kunEttElement?: boolean;
 }
 
-export const GråTekst = styled(Normaltekst)`
+export const GråTekst = styled(BodyShort)`
     color: ${navFarger.navGra60};
 `;
 
@@ -116,36 +115,32 @@ export const StatusMeny: FC<{ behandling: Behandling }> = ({ behandling }) => {
                         <li>
                             <Status>
                                 <GråTekst>Stønadstype</GråTekst>
-                                <Normaltekst>
-                                    {stønadstypeTilTekst[behandling.stønadstype]}
-                                </Normaltekst>
+                                <BodyShort>{stønadstypeTilTekst[behandling.stønadstype]}</BodyShort>
                             </Status>
                         </li>
                     </VisStønadOgBehandlingstypePåLitenSkjerm>
                     <li>
                         <Status>
                             <GråTekst>Behandlingsstatus</GråTekst>
-                            <Normaltekst>{behandlingStatusTilTekst[behandling.status]}</Normaltekst>
+                            <BodyShort>{behandlingStatusTilTekst[behandling.status]}</BodyShort>
                         </Status>
                     </li>
                     <li>
                         <Status>
                             <GråTekst>Behandlingsresultat</GråTekst>
-                            <Normaltekst>
-                                {behandlingResultatTilTekst[behandling.resultat]}
-                            </Normaltekst>
+                            <BodyShort>{behandlingResultatTilTekst[behandling.resultat]}</BodyShort>
                         </Status>
                     </li>
                     <li>
                         <Status>
                             <GråTekst>Opprettet</GråTekst>
-                            <Normaltekst>{formaterIsoDatoTid(behandling.opprettet)}</Normaltekst>
+                            <BodyShort>{formaterIsoDatoTid(behandling.opprettet)}</BodyShort>
                         </Status>
                     </li>
                     <li>
                         <Status>
                             <GråTekst>Sist endret</GråTekst>
-                            <Normaltekst>{formaterIsoDatoTid(behandling.sistEndret)}</Normaltekst>
+                            <BodyShort>{formaterIsoDatoTid(behandling.sistEndret)}</BodyShort>
                         </Status>
                     </li>
                 </ul>
@@ -159,19 +154,19 @@ export const AlleStatuser: FC<{ behandling: Behandling }> = ({ behandling }) => 
         <Statuser>
             <Status>
                 <GråTekst>Behandlingsstatus</GråTekst>
-                <Normaltekst>{behandlingStatusTilTekst[behandling.status]}</Normaltekst>
+                <BodyShort>{behandlingStatusTilTekst[behandling.status]}</BodyShort>
             </Status>
             <Status>
                 <GråTekst>Behandlingsresultat</GråTekst>
-                <Normaltekst>{behandlingResultatTilTekst[behandling.resultat]}</Normaltekst>
+                <BodyShort>{behandlingResultatTilTekst[behandling.resultat]}</BodyShort>
             </Status>
             <Status>
                 <GråTekst>Opprettet</GråTekst>
-                <Normaltekst>{formaterIsoDatoTid(behandling.opprettet)}</Normaltekst>
+                <BodyShort>{formaterIsoDatoTid(behandling.opprettet)}</BodyShort>
             </Status>
             <Status>
                 <GråTekst>Sist endret</GråTekst>
-                <Normaltekst>{formaterIsoDatoTid(behandling.sistEndret)}</Normaltekst>
+                <BodyShort>{formaterIsoDatoTid(behandling.sistEndret)}</BodyShort>
             </Status>
         </Statuser>
     );

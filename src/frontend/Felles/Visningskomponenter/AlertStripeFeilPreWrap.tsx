@@ -1,7 +1,7 @@
 import styled from 'styled-components';
-import { AlertStripeFeil } from 'nav-frontend-alertstriper';
+import { Alert } from '@navikt/ds-react';
 
-const AlertStripeFeilPreWrap = styled(AlertStripeFeil)`
+const AlertStripeFeilPreWrap = styled(Alert)`
     white-space: pre-wrap;
     word-wrap: break-word;
 `;

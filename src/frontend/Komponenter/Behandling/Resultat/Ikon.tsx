@@ -1,6 +1,7 @@
 import * as React from 'react';
+import { PropsWithChildren } from '../../../App/typer/common';
 
-export const Ikon: React.FC = (props) => {
+export const Ikon: React.FC<PropsWithChildren> = (props) => {
     return (
         <svg
             width="35"

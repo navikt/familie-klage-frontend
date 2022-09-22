@@ -39,8 +39,6 @@ const InnholdWrapper = styled.div<InnholdWrapperProps>`
     flex-grow: 1;
     flex-basis: 0px;
     min-width: 0px;
-    overflow-x: scroll;
-    height: 90vh;
     max-width: ${(p) => (p.åpenHøyremeny ? 'calc(100% - 20rem)' : '100%')};
 `;
 

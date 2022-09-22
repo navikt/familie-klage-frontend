@@ -1,11 +1,12 @@
 import Modal from 'nav-frontend-modal';
-import { Undertittel } from 'nav-frontend-typografi';
 import * as React from 'react';
 import { IModal } from '../../App/typer/modal';
 import classNames from 'classnames';
+import { Heading } from '@navikt/ds-react';
 
 interface IProps {
     modal: IModal;
+    children: React.ReactElement | React.ReactElement[];
 }
 
 const UIModalWrapper: React.FunctionComponent<IProps> = ({ modal, children }) => {
@@ -20,7 +21,7 @@ const UIModalWrapper: React.FunctionComponent<IProps> = ({ modal, children }) =>
             closeButton={lukkKnapp}
         >
             <div className="uimodal__content">
-                <Undertittel children={tittel} />
+                <Heading size={'medium'}>{tittel}</Heading>
                 <div className="uimodal__content--inner-content">{children}</div>
                 {actions && <div className="uimodal__content--actions"> {actions} </div>}
             </div>

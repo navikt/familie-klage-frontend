@@ -2,15 +2,15 @@ import React, { FC } from 'react';
 import { IPersonopplysninger } from '../../App/typer/personopplysninger';
 import Visittkort from '@navikt/familie-visittkort';
 import styled from 'styled-components';
-import { Element } from 'nav-frontend-typografi';
 import { Behandling } from '../../App/typer/fagsak';
 import navFarger from 'nav-frontend-core';
 import { Sticky } from '../Visningskomponenter/Sticky';
 import { Hamburgermeny } from './Hamburgermeny';
 import { erBehandlingRedigerbar } from '../../App/typer/behandlingstatus';
 import { AlleStatuser, StatuserLitenSkjerm, StatusMeny } from './Status/StatusElementer';
+import { BodyShort } from '@navikt/ds-react';
 
-const Visningsnavn = styled(Element)`
+const Visningsnavn = styled(BodyShort)`
     text-overflow: ellipsis;
     overflow: hidden;
     white-space: nowrap;
