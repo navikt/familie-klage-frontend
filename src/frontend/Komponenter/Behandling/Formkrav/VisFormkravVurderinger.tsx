@@ -19,6 +19,7 @@ import { useNavigate } from 'react-router-dom';
 import { formaterIsoDatoTid } from '../../../App/utils/formatter';
 import { Ressurs, RessursFeilet, RessursStatus, RessursSuksess } from '../../../App/typer/ressurs';
 import { alleVilkårOppfylt, utledRadioKnapper } from './utils';
+import { harVerdi } from '../../../App/utils/utils';
 
 export const RadSentrertVertikalt = styled.div`
     display: flex;
@@ -125,12 +126,17 @@ export const VisFormkravVurderinger: React.FC<IProps> = ({
     const radioKnapper = utledRadioKnapper(vurderinger);
     const alleVilkårErOppfylt = alleVilkårOppfylt(vurderinger);
 
-    const urlPostfix = (): string => {
+    const utledUrlPostfix = (): string => {
         if (!behandlingErRedigerbar) {
+            return '';
+        }
+        if (!harVerdi(vurderinger.saksbehandlerBegrunnelse)) {
             return '';
         }
         return alleVilkårErOppfylt ? 'vurdering' : 'brev';
     };
+
+    const urlPostfix = utledUrlPostfix();
 
     return (
         <VisFormkravContainer>
@@ -175,7 +181,7 @@ export const VisFormkravVurderinger: React.FC<IProps> = ({
                         variant="primary"
                         size="medium"
                         onClick={() =>
-                            navigate(`/behandling/${hentBehandlingIdFraUrl()}/${urlPostfix()}`)
+                            navigate(`/behandling/${hentBehandlingIdFraUrl()}/${urlPostfix}`)
                         }
                     >
                         Fortsett

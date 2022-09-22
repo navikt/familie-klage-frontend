@@ -9,6 +9,8 @@ import IkkeOppfylt from '../../../Felles/Ikoner/IkkeOppfylt';
 import Advarsel from '../../../Felles/Ikoner/Advarsel';
 import { alleVilkårOppfylt } from './utils';
 import { Behandling } from '../../../App/typer/fagsak';
+import Info from '../../../Felles/Ikoner/Info';
+import { harVerdi } from '../../../App/utils/utils';
 
 const OppfyltIkonStyled = styled(Oppfylt)`
     margin-left: -0.2rem;
@@ -19,6 +21,10 @@ const IkkeVurdertIkonStyled = styled(IkkeOppfylt)`
 `;
 
 const AdvarselIkonStyled = styled(Advarsel)`
+    margin-left: -0.2rem;
+`;
+
+const InfoIkonStyled = styled(Info)`
     margin-left: -0.2rem;
 `;
 
@@ -36,8 +42,13 @@ export const KlageInfo: React.FC<IProps> = ({ vurderinger, redigeringsmodus }) =
     const utledetIkon = () => {
         if (redigeringsmodus === Redigeringsmodus.IKKE_PÅSTARTET) {
             return <AdvarselIkonStyled heigth={23} width={23} />;
-        } else if (alleVilkårOppfylt(vurderinger)) {
+        } else if (
+            alleVilkårOppfylt(vurderinger) &&
+            harVerdi(vurderinger.saksbehandlerBegrunnelse)
+        ) {
             return <OppfyltIkonStyled heigth={23} width={23} />;
+        } else if (alleVilkårOppfylt(vurderinger)) {
+            return <InfoIkonStyled heigth={23} width={23} />;
         }
         return <IkkeVurdertIkonStyled heigth={23} width={23} />;
     };

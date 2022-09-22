@@ -117,7 +117,7 @@ export const StatusMeny: FC<{ behandling: Behandling }> = ({ behandling }) => {
                             <Status>
                                 <GråTekst>Stønadstype</GråTekst>
                                 <Normaltekst>
-                                    {stønadstypeTilTekst[behandling.stønadstype]}
+                                    {stønadstypeTilTekst[behandling.stonadstype]}
                                 </Normaltekst>
                             </Status>
                         </li>
