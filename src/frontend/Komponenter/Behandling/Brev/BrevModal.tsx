@@ -1,9 +1,7 @@
-import React from 'react';
+import React, { SetStateAction } from 'react';
 import UIModalWrapper from '../../../Felles/Modal/UIModalWrapper';
-import { Button } from '@navikt/ds-react';
-import { useNavigate } from 'react-router-dom';
+import { Alert, Button } from '@navikt/ds-react';
 import styled from 'styled-components';
-import { hentBehandlingIdFraUrl } from '../BehandlingContainer';
 import { useBehandling } from '../../../App/context/BehandlingContext';
 
 const SentrerKnapper = styled.div`
@@ -15,13 +13,17 @@ const SentrerKnapper = styled.div`
     }
 `;
 
+const FeilContainer = styled.div`
+    padding-top: 1rem;
+`;
+
 interface BrevModal {
     ferdigstillBrev: () => void;
-    senderInn: boolean;
+    settFeil: React.Dispatch<SetStateAction<string>>;
+    feil: string;
 }
 
-const BrevModal: React.FC<BrevModal> = ({ ferdigstillBrev, senderInn }) => {
-    const navigate = useNavigate();
+const BrevModal: React.FC<BrevModal> = ({ ferdigstillBrev, settFeil, feil }) => {
     const { visAdvarselSendBrev, settVisAdvarselSendBrev } = useBehandling();
 
     return (
@@ -30,21 +32,15 @@ const BrevModal: React.FC<BrevModal> = ({ ferdigstillBrev, senderInn }) => {
                 tittel: 'Er du sikker på at du ønsker å sende brev?',
                 lukkKnapp: false,
                 visModal: visAdvarselSendBrev,
-                onClose: () => settVisAdvarselSendBrev(false),
+                onClose: () => {
+                    settVisAdvarselSendBrev(false);
+                    settFeil('');
+                },
                 className: 'cake',
             }}
         >
             <SentrerKnapper>
-                <Button
-                    variant="tertiary"
-                    onClick={() => {
-                        ferdigstillBrev();
-                        {
-                            !senderInn &&
-                                navigate(`/behandling/${hentBehandlingIdFraUrl()}/resultat`);
-                        }
-                    }}
-                >
+                <Button variant="tertiary" onClick={ferdigstillBrev}>
                     Send brev
                 </Button>
                 <Button
@@ -56,6 +52,12 @@ const BrevModal: React.FC<BrevModal> = ({ ferdigstillBrev, senderInn }) => {
                     Gå tilbake for å redigere
                 </Button>
             </SentrerKnapper>
+
+            {feil && (
+                <FeilContainer>
+                    <Alert variant={'error'}>{feil}</Alert>
+                </FeilContainer>
+            )}
         </UIModalWrapper>
     );
 };

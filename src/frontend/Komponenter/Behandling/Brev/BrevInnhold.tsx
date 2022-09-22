@@ -101,7 +101,7 @@ const BrevInnhold: React.FC<IBrevInnhold> = ({
                 const knappWrapperId = `knappWrapper-${rad.avsnittId}`;
 
                 return (
-                    <ToKolonneLayout id={toKolonneId}>
+                    <ToKolonneLayout id={toKolonneId} key={toKolonneId}>
                         <Innholdsrad key={rad.avsnittId} border>
                             <Input
                                 onChange={(e) => {
