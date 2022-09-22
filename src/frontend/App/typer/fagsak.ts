@@ -24,22 +24,16 @@ export enum StegType {
     VURDERING = 'VURDERING',
     BREV = 'BREV',
     OVERFØRING_TIL_KABAL = 'OVERFØRING_TIL_KABAL',
+    KABAL_VENTER_SVAR = 'KABAL_VENTER_SVAR',
     BEHANDLING_FERDIGSTILT = 'BEHANDLING_FERDIGSTILT',
 }
-
-export const StegTypeListe: StegType[] = [
-    StegType.FORMKRAV,
-    StegType.VURDERING,
-    StegType.BREV,
-    StegType.OVERFØRING_TIL_KABAL,
-    StegType.BEHANDLING_FERDIGSTILT,
-];
 
 export const behandlingStegTilTekst: Record<StegType, string> = {
     FORMKRAV: 'Formkrav',
     VURDERING: 'Vurdering',
     BREV: 'Brev',
     OVERFØRING_TIL_KABAL: 'Overført til kabal',
+    KABAL_VENTER_SVAR: 'Venter på svar fra kabal',
     BEHANDLING_FERDIGSTILT: 'Fullført',
 };
 
@@ -48,6 +42,7 @@ export const behandlingStegFullførtTilTekst: Record<StegType, string> = {
     VURDERING: 'Vurdering er oppdatert',
     BREV: 'Brev er oppdatert',
     OVERFØRING_TIL_KABAL: 'Overført til kabal',
+    KABAL_VENTER_SVAR: 'Mottatt svar fra kabal',
     BEHANDLING_FERDIGSTILT: 'Klagen er ferdigstilt',
 };
 
@@ -56,6 +51,7 @@ export const behandlingStegInformasjonTilTekst: Record<StegType, string> = {
     VURDERING: 'Vurdering er saksbehandlers vurdering av klagen',
     BREV: 'Brev blir skrevet og gjort klart til sending',
     OVERFØRING_TIL_KABAL: 'Behandlingen er overført til kabal',
+    KABAL_VENTER_SVAR: 'Behandlingen har mottatt svar fra kabal',
     BEHANDLING_FERDIGSTILT: 'Behandling er ferdig og klageresultat er oppdatert',
 };
 
