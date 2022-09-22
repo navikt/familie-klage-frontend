@@ -1,8 +1,7 @@
-import Modal from 'nav-frontend-modal';
 import * as React from 'react';
 import { IModal } from '../../App/typer/modal';
 import classNames from 'classnames';
-import { Heading } from '@navikt/ds-react';
+import { Heading, Modal } from '@navikt/ds-react';
 
 interface IProps {
     modal: IModal;
@@ -15,9 +14,8 @@ const UIModalWrapper: React.FunctionComponent<IProps> = ({ modal, children }) =>
     return (
         <Modal
             className={classNames(className, 'uimodal')}
-            isOpen={visModal}
-            onRequestClose={(): void => onClose && onClose()}
-            contentLabel="ui-modal"
+            open={visModal}
+            onClose={(): void => onClose && onClose()}
             closeButton={lukkKnapp}
         >
             <div className="uimodal__content">

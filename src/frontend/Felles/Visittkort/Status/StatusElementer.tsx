@@ -3,11 +3,11 @@ import { FC, useState } from 'react';
 import { Behandling, behandlingResultatTilTekst } from '../../../App/typer/fagsak';
 import { Expand } from '@navikt/ds-icons';
 import { BodyShort, Button } from '@navikt/ds-react';
-import navFarger from 'nav-frontend-core';
 import { behandlingStatusTilTekst } from '../../../App/typer/behandlingstatus';
 import { formaterIsoDatoTid } from '../../../App/utils/formatter';
 import styled from 'styled-components';
 import { stønadstypeTilTekst } from '../../../App/typer/behandlingstema';
+import { NavdsSemanticColorText, NavdsSemanticColorTextMuted } from '@navikt/ds-tokens/dist/tokens';
 
 interface StatusMenyInnholdProps {
     åpen: boolean;
@@ -18,7 +18,7 @@ interface StatusProps {
 }
 
 export const GråTekst = styled(BodyShort)`
-    color: ${navFarger.navGra60};
+    color: ${NavdsSemanticColorTextMuted};
 `;
 
 const StatusMenyInnhold = styled.div`
@@ -52,7 +52,7 @@ const StatusMenyInnhold = styled.div`
 `;
 
 const VisStatuserKnapp = styled(Button)`
-    color: ${navFarger.navGra60};
+    color: ${NavdsSemanticColorText};
 `;
 
 const VisStønadOgBehandlingstypePåLitenSkjerm = styled.div`

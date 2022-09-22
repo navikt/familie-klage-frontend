@@ -6,10 +6,10 @@ import {
     RessursSuksess,
 } from '../../App/typer/ressurs';
 import SystemetLaster from '../SystemetLaster/SystemetLaster';
-import { AlertStripeFeil } from 'nav-frontend-alertstriper';
 import { Link } from 'react-router-dom';
 import styled from 'styled-components';
 import AlertStripePreWrap from '../Visningskomponenter/AlertStripeFeilPreWrap';
+import { Alert } from '@navikt/ds-react';
 
 /**
  * Input: { behandling: Ressurss<Behandling>, personopslyninger: Ressurss<IPersonopplysninger> }
@@ -71,7 +71,7 @@ function DataViewer<T extends Record<string, unknown>>(
     if (harNoenRessursMedStatus(responses, RessursStatus.FUNKSJONELL_FEIL, RessursStatus.FEILET)) {
         return renderFeil(responses);
     } else if (harNoenRessursMedStatus(responses, RessursStatus.IKKE_TILGANG)) {
-        return <AlertStripeFeil children="Ikke tilgang!" />;
+        return <Alert variant={'error'}>Ikke tilgang!</Alert>;
     } else if (harNoenRessursMedStatus(responses, RessursStatus.HENTER)) {
         return <SystemetLaster />;
     } else if (harNoenRessursMedStatus(responses, RessursStatus.IKKE_HENTET)) {

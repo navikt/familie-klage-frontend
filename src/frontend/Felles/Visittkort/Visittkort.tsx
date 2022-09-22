@@ -3,14 +3,14 @@ import { IPersonopplysninger } from '../../App/typer/personopplysninger';
 import Visittkort from '@navikt/familie-visittkort';
 import styled from 'styled-components';
 import { Behandling } from '../../App/typer/fagsak';
-import navFarger from 'nav-frontend-core';
+import { NavdsSemanticColorBorder } from '@navikt/ds-tokens/dist/tokens';
 import { Sticky } from '../Visningskomponenter/Sticky';
 import { Hamburgermeny } from './Hamburgermeny';
 import { erBehandlingRedigerbar } from '../../App/typer/behandlingstatus';
 import { AlleStatuser, StatuserLitenSkjerm, StatusMeny } from './Status/StatusElementer';
-import { BodyShort } from '@navikt/ds-react';
+import { Label } from '@navikt/ds-react';
 
-const Visningsnavn = styled(BodyShort)`
+const Visningsnavn = styled.div`
     text-overflow: ellipsis;
     overflow: hidden;
     white-space: nowrap;
@@ -19,8 +19,8 @@ const Visningsnavn = styled(BodyShort)`
 export const VisittkortWrapper = styled(Sticky)`
     display: flex;
 
-    border-bottom: 1px solid ${navFarger.navGra80};
-    z-index: 22;
+    border-bottom: 1px solid ${NavdsSemanticColorBorder};
+    z-index: 20;
     top: 47px;
 
     .visittkort {
@@ -48,8 +48,14 @@ const VisittkortComponent: FC<{
                 alder={20}
                 ident={personIdent}
                 kjønn={kjønn}
-                navn={<Visningsnavn>{navn}</Visningsnavn>}
-            ></Visittkort>
+                navn={
+                    <Visningsnavn>
+                        <Label size={'small'} as={'p'}>
+                            {navn}
+                        </Label>
+                    </Visningsnavn>
+                }
+            />
 
             {behandling && (
                 <>

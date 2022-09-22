@@ -6,7 +6,11 @@ import {
     StegType,
 } from '../../../App/typer/fagsak';
 import { formaterIsoDatoTid } from '../../../App/utils/formatter';
-import navFarger from 'nav-frontend-core';
+import {
+    NavdsSemanticColorBorder,
+    NavdsSemanticColorTextMuted,
+} from '@navikt/ds-tokens/dist/tokens';
+
 import styled from 'styled-components';
 import { Detail, Heading, Tooltip } from '@navikt/ds-react';
 import { Ikon } from './Ikon';
@@ -17,7 +21,7 @@ const StyledIkon = styled.div`
 `;
 
 const StyledLinjeGrå = styled.div`
-    border-left: 0.1rem solid ${navFarger.navGra40};
+    border-left: 0.1rem solid ${NavdsSemanticColorBorder};
     margin: 0 0 0.7rem 1.1rem;
     height: 4rem;
 `;
@@ -48,7 +52,7 @@ const StyledTidslinje = styled.div`
 `;
 
 const HeadingIkkeFullført = styled(Heading)`
-    color: ${navFarger.navGra40};
+    color: ${NavdsSemanticColorTextMuted};
 `;
 
 export const TidslinjeVertikal: React.FC<{
