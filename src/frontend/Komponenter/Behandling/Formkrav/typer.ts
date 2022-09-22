@@ -20,22 +20,12 @@ export interface IRadioKnapper {
 
 export interface IFormkravVilkår {
     behandlingId: string;
-    fagsakId: string;
     klagePart: VilkårStatus;
     klageKonkret: VilkårStatus;
     klagefristOverholdt: VilkårStatus;
     klageSignert: VilkårStatus;
     saksbehandlerBegrunnelse: string;
     endretTid: string;
-}
-
-export interface IKlageInfo {
-    behandlingId: string;
-    fagsakId: string;
-    vedtaksDato: string;
-    klageMottatt: string;
-    klageAarsak: string;
-    klageBeskrivelse: string;
 }
 
 export enum Redigeringsmodus {
