@@ -19,7 +19,7 @@ export const HeaderMedSøk: React.FunctionComponent<IHeaderMedSøkProps> = ({
                 gåTilUrl('/');
             }}
             tittelHref={'#'}
-            tittel="NAV Enslig mor eller far"
+            tittel="NAV Familie - klage"
             brukerinfo={{
                 navn: innloggetSaksbehandler?.displayName || 'Ukjent',
             }}

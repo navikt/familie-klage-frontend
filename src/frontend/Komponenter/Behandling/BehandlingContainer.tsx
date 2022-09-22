@@ -6,8 +6,6 @@ import Fanemeny from './Fanemeny/Fanemeny';
 import navFarger from 'nav-frontend-core';
 import BehandlingRoutes from './BehandlingRoutes';
 import { BehandlingProvider, useBehandling } from '../../App/context/BehandlingContext';
-import { ModalProvider } from '../../App/context/ModalContext';
-import ModalController from '../../Felles/Modal/ModalController';
 import VisittkortComponent from '../../Felles/Visittkort/Visittkort';
 import { Behandling } from '../../App/typer/fagsak';
 import { useSetValgtFagsakId } from '../../App/hooks/useSetValgtFagsakId';
@@ -55,12 +53,9 @@ export const hentBehandlingIdFraUrl = (): string => {
 
 const BehandlingContainer: FC = () => {
     return (
-        <ModalProvider>
-            <BehandlingProvider>
-                <ModalController />
-                <BehandlingOverbygg />
-            </BehandlingProvider>
-        </ModalProvider>
+        <BehandlingProvider>
+            <BehandlingOverbygg />
+        </BehandlingProvider>
     );
 };
 
