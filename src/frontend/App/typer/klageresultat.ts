@@ -1,18 +1,18 @@
 export interface Klageresultat {
-    type: BehandlingEventType;
+    type: KlagehendelseType;
     utfall?: Utfall;
     mottattEllerAvsluttetTidspunkt: string;
     journalpostReferanser: string[];
 }
 
-export enum BehandlingEventType {
+export enum KlagehendelseType {
     KLAGEBEHANDLING_AVSLUTTET = 'KLAGEBEHANDLING_AVSLUTTET',
     ANKEBEHANDLING_OPPRETTET = 'ANKEBEHANDLING_OPPRETTET',
     ANKEBEHANDLING_AVSLUTTET = 'ANKEBEHANDLING_AVSLUTTET',
     ANKE_I_TRYGDERETTENBEHANDLING_OPPRETTET = 'ANKE_I_TRYGDERETTENBEHANDLING_OPPRETTET',
 }
 
-export const behandlingEventTypeTilTekst: Record<BehandlingEventType, string> = {
+export const klagehendelseTypeTilTekst: Record<KlagehendelseType, string> = {
     KLAGEBEHANDLING_AVSLUTTET: 'Klagebehandling avsluttet',
     ANKEBEHANDLING_OPPRETTET: 'Ankebehandling opprettet',
     ANKEBEHANDLING_AVSLUTTET: 'Ankebehandling avsluttet',

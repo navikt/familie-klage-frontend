@@ -1,6 +1,6 @@
 import * as React from 'react';
 import {
-    behandlingEventTypeTilTekst,
+    klagehendelseTypeTilTekst,
     Klageresultat,
     utfallTilTekst,
 } from '../../../App/typer/klageresultat';
@@ -22,11 +22,11 @@ export const KlageresultatVisning: React.FC<Props> = ({ klageresultat }) => {
                     )
                 )
                 .map((resultat) => (
-                    <>
-                        <div>{behandlingEventTypeTilTekst[resultat.type]}</div>
+                    <div key={resultat.mottattEllerAvsluttetTidspunkt}>
+                        <div>{klagehendelseTypeTilTekst[resultat.type]}</div>
                         <div>{resultat.utfall && utfallTilTekst[resultat.utfall]}</div>
                         <div>{formaterIsoDato(resultat.mottattEllerAvsluttetTidspunkt)}</div>
-                    </>
+                    </div>
                 ))}
         </>
     );
