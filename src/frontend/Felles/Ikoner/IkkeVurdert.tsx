@@ -6,7 +6,7 @@ interface IOppfylt {
     width?: number;
 }
 
-const IkkeVurdert: React.StatelessComponent<IOppfylt> = ({ className, heigth, width }) => {
+const IkkeVurdert: React.FunctionComponent<IOppfylt> = ({ className, heigth, width }) => {
     return (
         <svg
             aria-labelledby={'ikke vurdert'}

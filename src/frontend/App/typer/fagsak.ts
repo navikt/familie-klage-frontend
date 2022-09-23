@@ -74,7 +74,7 @@ export interface Behandling {
     opprettet: string;
     resultat: BehandlingResultat;
     vedtakDato?: string;
-    stonadstype: Stønadstype;
+    stønadstype: Stønadstype;
     klageresultat: Klageresultat[];
 }
 

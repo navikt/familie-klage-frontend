@@ -1,10 +1,15 @@
 import * as React from 'react';
 import styled from 'styled-components';
 import { NavLink } from 'react-router-dom';
-import { Normaltekst } from 'nav-frontend-typografi';
-import navFarger from 'nav-frontend-core';
+import {
+    NavdsGlobalColorBlue400,
+    NavdsGlobalColorGray100,
+    NavdsGlobalColorGray400,
+    NavdsSemanticColorLink,
+} from '@navikt/ds-tokens/dist/tokens';
 import { ISide } from './sider';
 import { useApp } from '../../../App/context/AppContext';
+import { BodyShort } from '@navikt/ds-react';
 
 const StyledNavLink = styled(NavLink)`
     border-bottom: 5px solid white;
@@ -20,14 +25,14 @@ const StyledNavLink = styled(NavLink)`
     padding-left: 5px;
     padding-right: 5px;
     :hover {
-        border-bottom: 5px solid ${navFarger.navBlaLighten20};
-        .typo-normal {
-            color: ${navFarger.navBla};
+        border-bottom: 5px solid ${NavdsGlobalColorBlue400};
+        p {
+            color: ${NavdsSemanticColorLink};
         }
     }
     &.active {
-        background-color: ${navFarger.navLysGra};
-        border-bottom: 5px solid ${navFarger.navBla};
+        background-color: ${NavdsGlobalColorGray100};
+        border-bottom: 5px solid ${NavdsSemanticColorLink};
 
         .typo-normal {
             font-weight: bold;
@@ -35,15 +40,15 @@ const StyledNavLink = styled(NavLink)`
     }
 `;
 
-const StyledLenketekst = styled(Normaltekst)`
+const StyledLenketekst = styled(BodyShort)`
     text-overflow: ellipsis;
     overflow: hidden;
     white-space: nowrap;
 `;
 
-const StyledTekst = styled(Normaltekst)`
+const StyledTekst = styled(BodyShort)`
     border-bottom: 5px solid white;
-    color: ${navFarger.navGra20};
+    color: ${NavdsGlobalColorGray400};
     text-align: center;
     text-decoration: none;
     width: 100%;
@@ -69,7 +74,7 @@ const Fane: React.FC<Props> = ({ side, behandlingId, index, deaktivert }) => {
     return (
         <>
             {deaktivert && (
-                <StyledTekst>
+                <StyledTekst size={'small'}>
                     {index + 1}. {fanenavn}
                 </StyledTekst>
             )}
@@ -82,7 +87,7 @@ const Fane: React.FC<Props> = ({ side, behandlingId, index, deaktivert }) => {
                         gåTilUrl(`/behandling/${behandlingId}/${side.href}`);
                     }}
                 >
-                    <StyledLenketekst>
+                    <StyledLenketekst size={'small'}>
                         {index + 1}. {fanenavn}
                     </StyledLenketekst>
                 </StyledNavLink>

@@ -1,4 +1,3 @@
-import Modal from 'nav-frontend-modal';
 import * as React from 'react';
 import { useEffect, useState } from 'react';
 import { AppProvider, useApp } from './App/context/AppContext';
@@ -14,8 +13,9 @@ import UlagretDataModal from './Komponenter/Behandling/Fanemeny/UlagretDataModal
 import { AppEnv, hentEnv } from './App/api/env';
 import { Toast } from './Felles/Toast/Toast';
 import { TestSide } from './Komponenter/test/TestSide';
+import { Modal } from '@navikt/ds-react';
 
-Modal.setAppElement(document.getElementById('modal-a11y-wrapper'));
+Modal.setAppElement && Modal.setAppElement(document.getElementById('modal-a11y-wrapper'));
 
 const App: React.FC = () => {
     const [innloggetSaksbehandler, settInnloggetSaksbehandler] = useState<ISaksbehandler>();

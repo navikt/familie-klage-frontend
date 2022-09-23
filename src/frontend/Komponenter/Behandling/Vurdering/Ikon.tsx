@@ -1,12 +1,13 @@
 import * as React from 'react';
 import styled from 'styled-components';
+import { PropsWithChildren } from '../../../App/typer/common';
 
 const IkonStyled = styled.svg`
     margin-right: 0.4rem;
     margin-left: 0.6rem;
 `;
 
-export const Ikon: React.FC = (props) => {
+export const Ikon: React.FC<PropsWithChildren> = (props) => {
     return (
         <IkonStyled
             width="1.5rem"

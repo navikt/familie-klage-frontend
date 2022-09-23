@@ -3,13 +3,14 @@ import { FC } from 'react';
 import styled from 'styled-components';
 import { alleSider, ISide, SideNavn } from './sider';
 import { Sticky } from '../../../Felles/Visningskomponenter/Sticky';
-import navFarger from 'nav-frontend-core';
 import Fane from './Fane';
 import { Behandling, behandlingStegTilRekkefølge, StegType } from '../../../App/typer/fagsak';
 import { useBehandling } from '../../../App/context/BehandlingContext';
+import { NavdsGlobalColorWhite, NavdsSemanticColorBorder } from '@navikt/ds-tokens/dist/tokens';
 
 const StickyMedBoxShadow = styled(Sticky)`
     box-shadow: 0 2px 5px rgba(0, 0, 0, 0.4);
+    top: 6rem;
 `;
 
 const StyledFanemeny = styled.div`
@@ -17,8 +18,8 @@ const StyledFanemeny = styled.div`
     display: flex;
     justify-content: space-evenly;
     align-items: center;
-    border-bottom: ${navFarger.navGra40} solid 2px;
-    background-color: ${navFarger.white};
+    border-bottom: ${NavdsSemanticColorBorder} solid 2px;
+    background-color: ${NavdsGlobalColorWhite};
 `;
 
 interface Props {
