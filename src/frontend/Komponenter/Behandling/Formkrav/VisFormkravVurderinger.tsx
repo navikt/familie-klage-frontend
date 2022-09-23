@@ -11,11 +11,12 @@ import {
 } from './typer';
 import { useBehandling } from '../../../App/context/BehandlingContext';
 import { hentBehandlingIdFraUrl } from '../BehandlingContainer';
-import { Button, Heading } from '@navikt/ds-react';
+import { Alert, BodyShort, Button, Heading, Label } from '@navikt/ds-react';
 import { useNavigate } from 'react-router-dom';
 import { formaterIsoDatoTid } from '../../../App/utils/formatter';
 import { Ressurs, RessursFeilet, RessursStatus, RessursSuksess } from '../../../App/typer/ressurs';
-import { alleVilkårOppfylt, utledRadioKnapper } from './utils';
+import { alleVilkårOppfylt, utledIkkeUtfylteVilkår, utledRadioKnapper } from './utils';
+import { harVerdi } from '../../../App/utils/utils';
 import { Delete, Edit } from '@navikt/ds-icons';
 
 export const RadSentrertVertikalt = styled.div`
@@ -75,6 +76,12 @@ const LagreKnapp = styled(Button)`
     margin-right: auto;
 `;
 
+const StyledAlert = styled(Alert)`
+    margin-top: 1rem;
+    align-self: flex-start;
+    padding-right: 5rem;
+`;
+
 interface IProps {
     saksbehandlerBegrunnelse: string;
     endretTid: string;
@@ -122,13 +129,20 @@ export const VisFormkravVurderinger: React.FC<IProps> = ({
 
     const radioKnapper = utledRadioKnapper(vurderinger);
     const alleVilkårErOppfylt = alleVilkårOppfylt(vurderinger);
+    const manglerBegrunnelse = !harVerdi(vurderinger.saksbehandlerBegrunnelse);
 
-    const urlPostfix = (): string => {
+    const utledUrlPostfix = (): string => {
         if (!behandlingErRedigerbar) {
+            return '';
+        }
+        if (manglerBegrunnelse) {
             return '';
         }
         return alleVilkårErOppfylt ? 'vurdering' : 'brev';
     };
+
+    const urlPostfix = utledUrlPostfix();
+    const ikkeUtfylteVilkår = utledIkkeUtfylteVilkår(vurderinger);
 
     return (
         <VisFormkravContainer>
@@ -177,13 +191,28 @@ export const VisFormkravVurderinger: React.FC<IProps> = ({
                         variant="primary"
                         size="medium"
                         onClick={() =>
-                            navigate(`/behandling/${hentBehandlingIdFraUrl()}/${urlPostfix()}`)
+                            navigate(`/behandling/${hentBehandlingIdFraUrl()}/${urlPostfix}`)
                         }
                     >
                         Fortsett
                     </LagreKnapp>
                 )}
             </SpørsmålContainer>
+            {ikkeUtfylteVilkår.length > 0 && (
+                <StyledAlert variant={'error'}>
+                    <Label>Følgende vilkår er ikke utfylt:</Label>
+                    <ul>
+                        {ikkeUtfylteVilkår.map((vilkår) => {
+                            return (
+                                <li>
+                                    <BodyShort key={vilkår.navn}>{vilkår.spørsmål}</BodyShort>
+                                </li>
+                            );
+                        })}
+                        {manglerBegrunnelse && <li>Begrunnelse er ikke utfylt</li>}
+                    </ul>
+                </StyledAlert>
+            )}
         </VisFormkravContainer>
     );
 };

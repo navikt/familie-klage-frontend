@@ -55,3 +55,7 @@ export const utledRadioKnapper = (vurderinger: IFormkravVilkår): IRadioKnapper[
         },
     ];
 };
+
+export const utledIkkeUtfylteVilkår = (vilkår: IFormkravVilkår) => {
+    return utledRadioKnapper(vilkår).filter((valg) => valg.svar === VilkårStatus.IKKE_SATT);
+};

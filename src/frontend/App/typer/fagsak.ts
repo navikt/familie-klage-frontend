@@ -29,6 +29,15 @@ export enum StegType {
     BEHANDLING_FERDIGSTILT = 'BEHANDLING_FERDIGSTILT',
 }
 
+export const behandlingStegTilRekkefølge: Record<StegType, number> = {
+    FORMKRAV: 1,
+    VURDERING: 2,
+    BREV: 3,
+    OVERFØRING_TIL_KABAL: 4,
+    KABAL_VENTER_SVAR: 4,
+    BEHANDLING_FERDIGSTILT: 4,
+};
+
 export const behandlingStegTilTekst: Record<StegType, string> = {
     FORMKRAV: 'Formkrav',
     VURDERING: 'Vurdering',
@@ -65,7 +74,7 @@ export interface Behandling {
     opprettet: string;
     resultat: BehandlingResultat;
     vedtakDato?: string;
-    stonadstype: Stønadstype;
+    stønadstype: Stønadstype;
     klageresultat: Klageresultat[];
 }
 
