@@ -1,14 +1,13 @@
 import React, { ChangeEvent } from 'react';
 import { AvsnittMedId, FritekstBrevtype, FrittståendeBrevtype } from './BrevTyper';
 import styled from 'styled-components';
-import LenkeKnapp from '../../../Felles/Knapper/LenkeKnapp';
-import SlettSøppelkasse from '../../../Felles/Ikoner/SlettSøppelkasse';
 import OppKnapp from '../../../Felles/Knapper/OppKnapp';
 import NedKnapp from '../../../Felles/Knapper/NedKnapp';
 import LeggTilKnapp from '../../../Felles/Knapper/LeggTilKnapp';
 import { FamilieInput } from '@navikt/familie-form-elements';
-import { Panel } from '@navikt/ds-react';
+import { Button, Panel } from '@navikt/ds-react';
 import { EnsligTextArea } from '../../../Felles/Input/TekstInput/EnsligTextArea';
+import { Delete } from '@navikt/ds-icons';
 
 const Innholdsrad = styled(Panel)`
     width: 95%;
@@ -122,14 +121,15 @@ const BrevInnhold: React.FC<IBrevInnhold> = ({
                                 maxLength={0}
                                 erLesevisning={false}
                             />
-                            <LenkeKnapp
+                            <Button
                                 onClick={() => {
                                     fjernRad(rad.avsnittId);
                                 }}
+                                variant={'tertiary'}
+                                icon={<Delete />}
                             >
-                                <SlettSøppelkasse withDefaultStroke={false} />
                                 Slett avsnitt
-                            </LenkeKnapp>
+                            </Button>
                         </Innholdsrad>
                         <FlyttAvsnittKnappWrapper id={knappWrapperId}>
                             {index > 0 && (

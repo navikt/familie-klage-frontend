@@ -1,8 +1,5 @@
 import React, { useState } from 'react';
 import styled from 'styled-components';
-import SlettSøppelkasse from '../../../Felles/Ikoner/SlettSøppelkasse';
-import RedigerBlyant from '../../../Felles/Ikoner/RedigerBlyant';
-import LenkeKnapp from '../../../Felles/Knapper/LenkeKnapp';
 import { NavdsGlobalColorPurple500 } from '@navikt/ds-tokens/dist/tokens';
 import BrukerMedBlyant from '../../../Felles/Ikoner/BrukerMedBlyant';
 import {
@@ -20,6 +17,7 @@ import { formaterIsoDatoTid } from '../../../App/utils/formatter';
 import { Ressurs, RessursFeilet, RessursStatus, RessursSuksess } from '../../../App/typer/ressurs';
 import { alleVilkårOppfylt, utledIkkeUtfylteVilkår, utledRadioKnapper } from './utils';
 import { harVerdi } from '../../../App/utils/utils';
+import { Delete, Edit } from '@navikt/ds-icons';
 
 export const RadSentrertVertikalt = styled.div`
     display: flex;
@@ -159,16 +157,20 @@ export const VisFormkravVurderinger: React.FC<IProps> = ({
                 </RadSentrertVertikalt>
                 {behandlingErRedigerbar && (
                     <div>
-                        <LenkeKnapp
+                        <Button
+                            variant={'tertiary'}
+                            icon={<Edit />}
                             onClick={() => settRedigeringsmodus(Redigeringsmodus.REDIGERING)}
                         >
-                            <RedigerBlyant withDefaultStroke={false} width={19} heigth={19} />
                             <span>Rediger</span>
-                        </LenkeKnapp>
-                        <LenkeKnapp onClick={() => nullstillVurderinger()}>
-                            <SlettSøppelkasse withDefaultStroke={false} width={19} heigth={19} />
+                        </Button>
+                        <Button
+                            onClick={() => nullstillVurderinger()}
+                            variant={'tertiary'}
+                            icon={<Delete />}
+                        >
                             <span>Slett</span>
-                        </LenkeKnapp>
+                        </Button>
                     </div>
                 )}
             </Header>
