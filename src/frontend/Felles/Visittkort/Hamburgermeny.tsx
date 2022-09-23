@@ -59,7 +59,7 @@ const Knapp = styled.button`
 
 export const Hamburgermeny = () => {
     const ref = useRef(null);
-    const { settVisBrevmottakereModal, settVisHenleggModal } = useBehandling();
+    const { settVisHenleggModal } = useBehandling();
     const [åpenHamburgerMeny, settÅpenHamburgerMeny] = useState<boolean>(false);
 
     useEffect(() => {
@@ -88,15 +88,6 @@ export const Hamburgermeny = () => {
             />
             <HamburgerMenyInnhold åpen={åpenHamburgerMeny}>
                 <ul>
-                    <li>
-                        <Knapp
-                            onClick={() => {
-                                settVisBrevmottakereModal(true);
-                            }}
-                        >
-                            <Normaltekst>Sett Verge/Fullmakt mottakere</Normaltekst>
-                        </Knapp>
-                    </li>
                     <li>
                         <Knapp
                             onClick={() => {
