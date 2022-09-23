@@ -3,7 +3,7 @@ import styled from 'styled-components';
 import SlettSøppelkasse from '../../../Felles/Ikoner/SlettSøppelkasse';
 import RedigerBlyant from '../../../Felles/Ikoner/RedigerBlyant';
 import LenkeKnapp from '../../../Felles/Knapper/LenkeKnapp';
-import navFarger from 'nav-frontend-core';
+import { NavdsGlobalColorPurple500 } from '@navikt/ds-tokens/dist/tokens';
 import BrukerMedBlyant from '../../../Felles/Ikoner/BrukerMedBlyant';
 import {
     IFormkravVilkår,
@@ -43,7 +43,7 @@ const SpørsmålContainer = styled.div`
     display: flex;
     flex-direction: column;
     width: 100%;
-    border-left: 0.4rem solid ${navFarger.navLillaLighten20};
+    border-left: 0.4rem solid ${NavdsGlobalColorPurple500};
     padding-left: 2rem;
 `;
 

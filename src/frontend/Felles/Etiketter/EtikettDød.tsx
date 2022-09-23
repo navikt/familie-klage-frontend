@@ -1,9 +1,9 @@
 import React from 'react';
 import styled from 'styled-components';
-import EtikettBase from 'nav-frontend-etiketter';
 import { formaterIsoDato } from '../../App/utils/formatter';
+import { Tag } from '@navikt/ds-react';
 
-const SortEtikett = styled(EtikettBase)`
+const SortEtikett = styled(Tag)`
     background-color: black;
     color: #eee;
     margin-left: 0.5rem;
@@ -11,7 +11,7 @@ const SortEtikett = styled(EtikettBase)`
 `;
 
 const EtikettDød: React.FC<{ dødsdato: string }> = ({ dødsdato }) => (
-    <SortEtikett mini type={'info'}>
+    <SortEtikett variant={'info'} size={'small'}>
         Død {formaterIsoDato(dødsdato)}
     </SortEtikett>
 );

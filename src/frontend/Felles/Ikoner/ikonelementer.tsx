@@ -1,10 +1,10 @@
 import styled from 'styled-components';
 
-import navFarger from 'nav-frontend-core';
+import { NavdsGlobalColorGray500 } from '@navikt/ds-tokens/dist/tokens';
 
 export const TidslinjeIkonbakgrunn = styled.div`
     display: inline-block;
-    background-color: ${navFarger.navGra20};
+    background-color: ${NavdsGlobalColorGray500};
     width: 26px;
     height: 26px;
     border-radius: 50%;

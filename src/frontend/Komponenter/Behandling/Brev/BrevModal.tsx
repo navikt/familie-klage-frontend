@@ -3,6 +3,7 @@ import UIModalWrapper from '../../../Felles/Modal/UIModalWrapper';
 import { Alert, Button } from '@navikt/ds-react';
 import styled from 'styled-components';
 import { useBehandling } from '../../../App/context/BehandlingContext';
+import { harVerdi } from '../../../App/utils/utils';
 
 const SentrerKnapper = styled.div`
     display: flex;
@@ -53,11 +54,9 @@ const BrevModal: React.FC<BrevModal> = ({ ferdigstillBrev, settFeil, feil }) => 
                 </Button>
             </SentrerKnapper>
 
-            {feil && (
-                <FeilContainer>
-                    <Alert variant={'error'}>{feil}</Alert>
-                </FeilContainer>
-            )}
+            <FeilContainer hidden={!harVerdi(feil)}>
+                <Alert variant={'error'}>{feil}</Alert>
+            </FeilContainer>
         </UIModalWrapper>
     );
 };

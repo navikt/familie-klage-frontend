@@ -5,7 +5,7 @@ import Historikk from './Historikk';
 import Dokumenter from './Dokumenter';
 import styled from 'styled-components';
 import { Back, Next } from '@navikt/ds-icons';
-import navFarger from 'nav-frontend-core';
+import { NavdsSemanticColorFeedbackInfoIcon } from '@navikt/ds-tokens/dist/tokens';
 import { useBehandling } from '../../../App/context/BehandlingContext';
 import { Behandling } from '../../../App/typer/fagsak';
 
@@ -29,7 +29,7 @@ const StyledNext = styled(Next)`
 
 const StyledButton = styled.button`
     position: absolute;
-    background-color: ${navFarger.navBlaLighten20};
+    background-color: ${NavdsSemanticColorFeedbackInfoIcon};
     margin-left: -12px;
     top: 200px;
     width: 24px;
