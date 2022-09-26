@@ -1,20 +1,6 @@
 import { Stønadstype } from './behandlingstema';
 import { BehandlingStatus } from './behandlingstatus';
-import { TilbakekrevingBehandlingsresultatstype } from './tilbakekreving';
-
-export interface IFagsakPerson {
-    id: string;
-    overgangsstønad?: string;
-    barnetilsyn?: string;
-    skolepenger?: string;
-}
-
-export interface IFagsakPersonMedBehandlinger {
-    id: string;
-    overgangsstønad?: Fagsak;
-    barnetilsyn?: Fagsak;
-    skolepenger?: Fagsak;
-}
+import { Klageresultat } from './klageresultat';
 
 export interface Fagsak {
     id: string;
@@ -39,22 +25,25 @@ export enum StegType {
     VURDERING = 'VURDERING',
     BREV = 'BREV',
     OVERFØRING_TIL_KABAL = 'OVERFØRING_TIL_KABAL',
+    KABAL_VENTER_SVAR = 'KABAL_VENTER_SVAR',
     BEHANDLING_FERDIGSTILT = 'BEHANDLING_FERDIGSTILT',
 }
 
-export const StegTypeListe: StegType[] = [
-    StegType.FORMKRAV,
-    StegType.VURDERING,
-    StegType.BREV,
-    StegType.OVERFØRING_TIL_KABAL,
-    StegType.BEHANDLING_FERDIGSTILT,
-];
+export const behandlingStegTilRekkefølge: Record<StegType, number> = {
+    FORMKRAV: 1,
+    VURDERING: 2,
+    BREV: 3,
+    OVERFØRING_TIL_KABAL: 4,
+    KABAL_VENTER_SVAR: 4,
+    BEHANDLING_FERDIGSTILT: 4,
+};
 
 export const behandlingStegTilTekst: Record<StegType, string> = {
     FORMKRAV: 'Formkrav',
     VURDERING: 'Vurdering',
     BREV: 'Brev',
     OVERFØRING_TIL_KABAL: 'Overført til kabal',
+    KABAL_VENTER_SVAR: 'Venter på svar fra kabal',
     BEHANDLING_FERDIGSTILT: 'Fullført',
 };
 
@@ -63,6 +52,7 @@ export const behandlingStegFullførtTilTekst: Record<StegType, string> = {
     VURDERING: 'Vurdering er oppdatert',
     BREV: 'Brev er oppdatert',
     OVERFØRING_TIL_KABAL: 'Overført til kabal',
+    KABAL_VENTER_SVAR: 'Mottatt svar fra kabal',
     BEHANDLING_FERDIGSTILT: 'Klagen er ferdigstilt',
 };
 
@@ -71,6 +61,7 @@ export const behandlingStegInformasjonTilTekst: Record<StegType, string> = {
     VURDERING: 'Vurdering er saksbehandlers vurdering av klagen',
     BREV: 'Brev blir skrevet og gjort klart til sending',
     OVERFØRING_TIL_KABAL: 'Behandlingen er overført til kabal',
+    KABAL_VENTER_SVAR: 'Behandlingen har mottatt svar fra kabal',
     BEHANDLING_FERDIGSTILT: 'Behandling er ferdig og klageresultat er oppdatert',
 };
 
@@ -83,7 +74,8 @@ export interface Behandling {
     opprettet: string;
     resultat: BehandlingResultat;
     vedtakDato?: string;
-    stonadstype: Stønadstype;
+    stønadstype: Stønadstype;
+    klageresultat: Klageresultat[];
 }
 
 export interface IEndringerRegistergrunnlag {
@@ -103,24 +95,3 @@ export const behandlingResultatTilTekst: Record<BehandlingResultat, string> = {
     IKKE_MEDHOLD_FORMKRAV_AVVIST: 'Ikke medhold formkrav avvist',
     IKKE_SATT: 'Ikke satt',
 };
-
-export const tilbakekrevingBehandlingsresultattypeTilTekst: Record<
-    TilbakekrevingBehandlingsresultatstype,
-    string
-> = {
-    IKKE_FASTSATT: 'Ikke fastsatt',
-    INGEN_TILBAKEBETALING: 'Ingen tilbakebetaling',
-    DELVIS_TILBAKEBETALING: 'Delvis tilbakebetaling',
-    FULL_TILBAKEBETALING: 'Full tilbakebetaling',
-    HENLAGT: 'Henlagt',
-};
-
-export const BehandlingResultatInkludertTilbakekreving = {
-    ...BehandlingResultat,
-    ...TilbakekrevingBehandlingsresultatstype,
-};
-
-export const behandlingResultatInkludertTilbakekrevingTilTekst: Record<
-    BehandlingResultat | TilbakekrevingBehandlingsresultatstype,
-    string
-> = { ...behandlingResultatTilTekst, ...tilbakekrevingBehandlingsresultattypeTilTekst };

@@ -1,6 +1,10 @@
 import * as React from 'react';
 import { BrukerMedBlyantIkon } from '../../../Felles/Ikoner/DataGrunnlagIkoner';
-import navFarger from 'nav-frontend-core';
+import {
+    NavdsSemanticColorBorder,
+    NavdsSemanticColorBorderInverted,
+    NavdsSemanticColorText,
+} from '@navikt/ds-tokens/dist/tokens';
 import { Detail, Label } from '@navikt/ds-react';
 import styled from 'styled-components';
 import { formaterIsoDatoTid } from '../../../App/utils/formatter';
@@ -16,7 +20,7 @@ const StyledIkon = styled.div`
 `;
 
 const StripletLinje = styled.div`
-    border-left: 0.15rem dotted ${navFarger.navGra40};
+    border-left: 0.15rem dotted ${NavdsSemanticColorBorder};
     margin: -0.6rem 0 0 0.68rem;
     height: 1.35rem;
 `;
@@ -42,8 +46,8 @@ const HistorikkOppdatering: React.FunctionComponent<IHistorikkOppdatering> = ({
         <Oppdatering>
             <StyledIkon>
                 <BrukerMedBlyantIkon
-                    backgroundColor={navFarger.navLysGra}
-                    frontColor={navFarger.navMorkGra}
+                    backgroundColor={NavdsSemanticColorBorderInverted}
+                    frontColor={NavdsSemanticColorText}
                 />
                 <StripletLinje />
             </StyledIkon>

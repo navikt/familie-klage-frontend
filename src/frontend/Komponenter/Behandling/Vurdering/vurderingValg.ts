@@ -1,9 +1,9 @@
 export interface IVurdering {
     behandlingId: string;
-    vedtak: VedtakValg;
+    vedtak?: VedtakValg;
     arsak?: ÅrsakOmgjøring;
     hjemmel?: Hjemmel;
-    beskrivelse: string;
+    beskrivelse?: string;
 }
 
 // VEDTAK

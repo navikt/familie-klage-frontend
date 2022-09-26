@@ -8,6 +8,7 @@ import { byggTomRessurs, Ressurs, RessursStatus } from '../../../App/typer/ressu
 import { IBehandlingshistorikk } from '../Høyremeny/behandlingshistorikk';
 import { Heading } from '@navikt/ds-react';
 import { useBehandling } from '../../../App/context/BehandlingContext';
+import { KlageresultatVisning } from './KlageresultatVisning';
 
 const ResultatStyling = styled.div`
     margin: 2rem 5rem 0 5rem;
@@ -48,6 +49,7 @@ export const Resultat: React.FC<IResultat> = ({ behandlingId }) => {
                         aktivtSteg={behandling.steg}
                         historikkForVisning={historikk}
                     />
+                    <KlageresultatVisning klageresultat={behandling.klageresultat} />
                 </ResultatStyling>
             )}
         </DataViewer>

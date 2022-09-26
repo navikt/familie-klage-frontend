@@ -1,7 +1,7 @@
 import styled from 'styled-components';
-import { Normaltekst } from 'nav-frontend-typografi';
+import { BodyShort } from '@navikt/ds-react';
 
-export const BreakWordNormaltekst = styled(Normaltekst)`
+export const BreakWordNormaltekst = styled(BodyShort)`
     white-space: pre-wrap;
     word-wrap: break-word;
 `;

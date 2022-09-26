@@ -2,7 +2,7 @@ import React, { useEffect, useRef, useState } from 'react';
 import { Hamburger } from '@navikt/ds-icons';
 import styled from 'styled-components';
 import { useBehandling } from '../../App/context/BehandlingContext';
-import { Normaltekst } from 'nav-frontend-typografi';
+import { BodyShort } from '@navikt/ds-react';
 
 interface HamburgerMenyInnholdProps {
     åpen: boolean;
@@ -94,7 +94,7 @@ export const Hamburgermeny = () => {
                                 settVisHenleggModal(true);
                             }}
                         >
-                            <Normaltekst>Henlegg</Normaltekst>
+                            <BodyShort size={'small'}>Henlegg</BodyShort>
                         </Knapp>
                     </li>
                 </ul>

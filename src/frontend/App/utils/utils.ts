@@ -1,7 +1,6 @@
 import { KeyboardEvent } from 'react';
 import { OrNothing } from '../hooks/felles/useSorteringState';
 import { isAfter, isBefore } from 'date-fns';
-import { IOppgaveRequest } from '../../Komponenter/Oppgavebenk/typer/oppgaverequest';
 import { validate } from 'uuid';
 
 export const datoFeil = (valgtDatoFra?: string, valgtDatoTil?: string): OrNothing<string> => {
@@ -16,22 +15,6 @@ export const datoFeil = (valgtDatoFra?: string, valgtDatoTil?: string): OrNothin
 
 export const datoErEtterDagensDato = (dato: string): boolean => {
     return isAfter(new Date(dato), new Date());
-};
-
-export const oppdaterFilter = (
-    object: IOppgaveRequest,
-    key: keyof IOppgaveRequest,
-    val?: string | number
-): IOppgaveRequest => {
-    if (!val || val === '') {
-        // eslint-disable-next-line
-        const { [key]: dummy, ...remainder } = object;
-        return remainder;
-    }
-    return {
-        ...object,
-        [key]: val,
-    };
 };
 
 export const base64toBlob = (b64Data: string, contentType = '', sliceSize = 512): Blob => {
@@ -105,7 +88,7 @@ export const åpneFilIEgenTab = (
     filnavn: string
 ): void => {
     const newWindow = window.open(
-        `/dokument/journalpost/${journalpostId}/dokument-pdf/${dokumentinfoId}`,
+        `/dokument/vedlegg/${journalpostId}/dokument-pdf/${dokumentinfoId}`,
         '_blank'
     );
     setTimeout(function () {

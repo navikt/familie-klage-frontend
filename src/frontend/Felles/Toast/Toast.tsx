@@ -2,9 +2,9 @@ import React, { useEffect } from 'react';
 
 import styled from 'styled-components';
 
-import { AlertStripeSuksess } from 'nav-frontend-alertstriper';
 import { useApp } from '../../App/context/AppContext';
 import { toastTilTekst } from '../../App/typer/toast';
+import { Alert } from '@navikt/ds-react';
 
 const Container = styled.div`
     z-index: 9999;
@@ -25,7 +25,7 @@ export const Toast: React.FC = () => {
 
     return toast ? (
         <Container>
-            <AlertStripeSuksess>{toastTilTekst[toast]}</AlertStripeSuksess>
+            <Alert variant={'success'}>{toastTilTekst[toast]}</Alert>
         </Container>
     ) : null;
 };

@@ -1,16 +1,22 @@
 import * as React from 'react';
 import styled from 'styled-components';
-import navFarger from 'nav-frontend-core';
+import {
+    NavdsGlobalColorBlue400,
+    NavdsGlobalColorGray100,
+    NavdsSemanticColorBorder,
+    NavdsSemanticColorFeedbackInfoIcon,
+    NavdsSemanticColorLink,
+} from '@navikt/ds-tokens/dist/tokens';
 import { Høyremenyvalg } from './Høyremeny';
 import { Folder, ClockFilled } from '@navikt/ds-icons';
-import { Normaltekst } from 'nav-frontend-typografi';
+import { BodyShort } from '@navikt/ds-react';
 
 const StyledIkonWrapper = styled.div`
     width: 100%;
     display: flex;
     justify-content: space-evenly;
     align-items: center;
-    border-bottom: ${navFarger.navGra40} solid 2px;
+    border-bottom: ${NavdsSemanticColorBorder} solid 2px;
     text-align: center;
     .typo-normal {
         font-size: 12px;
@@ -26,17 +32,17 @@ const StyledIkon = styled.div<IkonProps>`
     flex: 1;
     padding-top: 1rem;
     padding-bottom: 0.62rem;
-    background-color: ${navFarger.navBla};
-    color: ${navFarger.navBla};
+    background-color: ${NavdsSemanticColorFeedbackInfoIcon};
+    color: ${NavdsSemanticColorLink};
     :hover {
         cursor: pointer;
         svg {
-            fill: ${navFarger.navBlaLighten20};
+            fill: ${NavdsGlobalColorBlue400};
         }
-        border-bottom: 5px solid ${navFarger.navBlaLighten20};
+        border-bottom: 5px solid ${NavdsGlobalColorBlue400};
     }
-    background-color: ${(props) => (props.erAktiv ? navFarger.navLysGra : 'white')};
-    border-bottom: 5px solid ${(props) => (props.erAktiv ? navFarger.navBla : 'white')};
+    background-color: ${(props) => (props.erAktiv ? NavdsGlobalColorGray100 : 'white')};
+    border-bottom: 5px solid ${(props) => (props.erAktiv ? NavdsGlobalColorBlue400 : 'white')};
 `;
 
 interface ValgvisningProps {
@@ -53,7 +59,7 @@ const Valgvisning: React.FC<ValgvisningProps> = ({ aktiv, settAktiv }) => {
                 onClick={() => settAktiv(Høyremenyvalg.Historikk)}
             >
                 <ClockFilled aria-label="Historikk" />
-                <Normaltekst>Historikk</Normaltekst>
+                <BodyShort size={'small'}>Historikk</BodyShort>
             </StyledIkon>
             <StyledIkon
                 role={'button'}
@@ -61,7 +67,7 @@ const Valgvisning: React.FC<ValgvisningProps> = ({ aktiv, settAktiv }) => {
                 onClick={() => settAktiv(Høyremenyvalg.Dokumenter)}
             >
                 <Folder />
-                <Normaltekst>Dokumenter</Normaltekst>
+                <BodyShort size={'small'}>Dokumenter</BodyShort>
             </StyledIkon>
         </StyledIkonWrapper>
     );

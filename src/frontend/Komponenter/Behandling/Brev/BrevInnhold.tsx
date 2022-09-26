@@ -1,13 +1,13 @@
 import React, { ChangeEvent } from 'react';
 import { AvsnittMedId, FritekstBrevtype, FrittståendeBrevtype } from './BrevTyper';
 import styled from 'styled-components';
-import { Input, Textarea } from 'nav-frontend-skjema';
-import Panel from 'nav-frontend-paneler';
-import LenkeKnapp from '../../../Felles/Knapper/LenkeKnapp';
-import SlettSøppelkasse from '../../../Felles/Ikoner/SlettSøppelkasse';
 import OppKnapp from '../../../Felles/Knapper/OppKnapp';
 import NedKnapp from '../../../Felles/Knapper/NedKnapp';
 import LeggTilKnapp from '../../../Felles/Knapper/LeggTilKnapp';
+import { FamilieInput } from '@navikt/familie-form-elements';
+import { Button, Panel } from '@navikt/ds-react';
+import { EnsligTextArea } from '../../../Felles/Input/TekstInput/EnsligTextArea';
+import { Delete } from '@navikt/ds-icons';
 
 const Innholdsrad = styled(Panel)`
     width: 95%;
@@ -21,7 +21,7 @@ const ToKolonneLayout = styled.div`
     display: flex;
 `;
 
-const Overskrift = styled(Input)`
+const Overskrift = styled(FamilieInput)`
     margin-top: 1rem;
 `;
 
@@ -101,9 +101,9 @@ const BrevInnhold: React.FC<IBrevInnhold> = ({
                 const knappWrapperId = `knappWrapper-${rad.avsnittId}`;
 
                 return (
-                    <ToKolonneLayout id={toKolonneId}>
+                    <ToKolonneLayout id={toKolonneId} key={toKolonneId}>
                         <Innholdsrad key={rad.avsnittId} border>
-                            <Input
+                            <FamilieInput
                                 onChange={(e) => {
                                     endreDeloverskriftAvsnitt(rad.avsnittId, e);
                                 }}
@@ -111,7 +111,7 @@ const BrevInnhold: React.FC<IBrevInnhold> = ({
                                 id={deloverskriftId}
                                 value={rad.deloverskrift}
                             />
-                            <Textarea
+                            <EnsligTextArea
                                 onChange={(e) => {
                                     endreInnholdAvsnitt(rad.avsnittId, e);
                                 }}
@@ -119,15 +119,17 @@ const BrevInnhold: React.FC<IBrevInnhold> = ({
                                 id={innholdId}
                                 value={rad.innhold}
                                 maxLength={0}
+                                erLesevisning={false}
                             />
-                            <LenkeKnapp
+                            <Button
                                 onClick={() => {
                                     fjernRad(rad.avsnittId);
                                 }}
+                                variant={'tertiary'}
+                                icon={<Delete />}
                             >
-                                <SlettSøppelkasse withDefaultStroke={false} />
                                 Slett avsnitt
-                            </LenkeKnapp>
+                            </Button>
                         </Innholdsrad>
                         <FlyttAvsnittKnappWrapper id={knappWrapperId}>
                             {index > 0 && (

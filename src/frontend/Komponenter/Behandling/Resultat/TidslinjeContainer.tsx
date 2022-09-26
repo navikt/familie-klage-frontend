@@ -1,12 +1,21 @@
 import * as React from 'react';
+import { useEffect, useState } from 'react';
 
 import { IBehandlingshistorikk } from '../Høyremeny/behandlingshistorikk';
 import { TidslinjeHorisontal } from './TidslinjeHorisontal';
 import { TidslinjeVertikal } from './TidslinjeVertikal';
-import { StegType, StegTypeListe } from '../../../App/typer/fagsak';
-import { fullførteSteg, StegHistorikkResultat, finnBehandlinghistorikkFraListe } from './utils';
+import { StegType } from '../../../App/typer/fagsak';
+import { finnBehandlinghistorikkFraListe, fullførteSteg, StegHistorikkResultat } from './utils';
 import styled from 'styled-components';
-import { useEffect, useState } from 'react';
+
+const StegTypeListe: StegType[] = [
+    StegType.FORMKRAV,
+    StegType.VURDERING,
+    StegType.BREV,
+    StegType.OVERFØRING_TIL_KABAL,
+    StegType.KABAL_VENTER_SVAR,
+    StegType.BEHANDLING_FERDIGSTILT,
+];
 
 const HorisontalTidslinjeContainer = styled.div`
     margin-top: 20vh;

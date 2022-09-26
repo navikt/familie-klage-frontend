@@ -19,7 +19,7 @@ export const useHentBehandlingHistorikk = (
     const hentBehandlingshistorikkCallback = useCallback(() => {
         const behandlingConfig: AxiosRequestConfig = {
             method: 'GET',
-            url: `/familie-ef-sak/api/behandlingshistorikk/${behandlingId}`,
+            url: `/familie-klage/api/behandlingshistorikk/${behandlingId}`,
         };
         axiosRequest<Behandlingshistorikk[], null>(behandlingConfig).then(
             (res: Ressurs<Behandlingshistorikk[]>) => settBehandlingHistorikk(res)
