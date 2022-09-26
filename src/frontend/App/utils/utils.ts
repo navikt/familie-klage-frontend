@@ -88,7 +88,7 @@ export const åpneFilIEgenTab = (
     filnavn: string
 ): void => {
     const newWindow = window.open(
-        `/dokument/journalpost/${journalpostId}/dokument-pdf/${dokumentinfoId}`,
+        `/dokument/vedlegg/${journalpostId}/dokument-pdf/${dokumentinfoId}`,
         '_blank'
     );
     setTimeout(function () {

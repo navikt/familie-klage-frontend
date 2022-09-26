@@ -47,6 +47,14 @@ backend(sessionConfig, prometheusTellere).then(({ app, azureAuthClient, router }
         doProxy('/familie-klage/api', klageProxyUrl)
     );
 
+    app.use(
+        '/dokument',
+        addCallId(),
+        ensureAuthenticated(azureAuthClient, false),
+        attachToken(azureAuthClient),
+        doProxy('/dokument', klageProxyUrl)
+    );
+
     // Sett opp bodyParser og router etter proxy. Spesielt viktig med tanke på større payloads som blir parset av bodyParser
     app.use(bodyParser.json({ limit: '200mb' }));
     app.use(bodyParser.urlencoded({ limit: '200mb', extended: true }));
