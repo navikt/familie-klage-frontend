@@ -1,17 +1,13 @@
 import React, { FC, useState } from 'react';
 import { useBehandling } from '../../../App/context/BehandlingContext';
-import Modal from 'nav-frontend-modal';
-import styled from 'styled-components';
 import { Ressurs, RessursStatus } from '../../../App/typer/ressurs';
-import { Radio } from 'nav-frontend-skjema';
-import { FamilieRadioGruppe } from '@navikt/familie-form-elements';
 import { Behandling } from '../../../App/typer/fagsak';
 import { useApp } from '../../../App/context/AppContext';
 import { useNavigate } from 'react-router-dom';
-import { Hovedknapp, Knapp } from 'nav-frontend-knapper';
-import { AlertStripeFeil } from 'nav-frontend-alertstriper';
 import { EToast } from '../../../App/typer/toast';
 import { EHenlagtårsak } from './EHenlagtÅrsak';
+import styled from 'styled-components';
+import { Alert, Button, Heading, Modal, Radio, RadioGroup } from '@navikt/ds-react';
 
 interface IHenlegg {
     settHenlagtårsak: (årsak: EHenlagtårsak) => void;
@@ -62,18 +58,18 @@ export const HenleggModal: FC<{ behandling: Behandling }> = ({ behandling }) => 
             .finally(() => settLåsKnapp(false));
     };
 
-    const ModalInnhold = styled.div`
-        margin-top: 3rem;
+    const StyledModalInnhold = styled(Modal.Content)`
+        margin-top: 1rem;
+        margin-right: 1rem;
+        margin-left: 1rem;
     `;
 
     return (
-        <Modal
-            isOpen={visHenleggModal}
-            onRequestClose={() => settVisHenleggModal(false)}
-            closeButton={true}
-            contentLabel={'Velg årsak til henleggelse'}
-        >
-            <ModalInnhold>
+        <Modal open={visHenleggModal} onClose={() => settVisHenleggModal(false)} closeButton={true}>
+            <StyledModalInnhold>
+                <Heading spacing level="1" size="medium">
+                    Henlegg
+                </Heading>
                 <Henlegging
                     lagreHenleggelse={lagreHenleggelse}
                     henlagtårsak={henlagtårsak}
@@ -81,11 +77,15 @@ export const HenleggModal: FC<{ behandling: Behandling }> = ({ behandling }) => 
                     låsKnapp={låsKnapp}
                     settVisHenleggModal={settVisHenleggModal}
                 />
-                {feilmelding && <AlertStripeFeil>{feilmelding}</AlertStripeFeil>}
-            </ModalInnhold>
+                {feilmelding && <Alert variant="error">{feilmelding}</Alert>}
+            </StyledModalInnhold>
         </Modal>
     );
 };
+
+const StyledButton = styled(Button)`
+    margin-top: 1rem;
+`;
 
 const Henlegging: React.FC<IHenlegg> = ({
     settHenlagtårsak,
@@ -95,28 +95,20 @@ const Henlegging: React.FC<IHenlegg> = ({
     settVisHenleggModal,
 }) => (
     <>
-        <h4>Henlegg</h4>
-        <FamilieRadioGruppe erLesevisning={false}>
-            <Radio
-                checked={henlagtårsak === EHenlagtårsak.TRUKKET_TILBAKE}
-                label="Trukket tilbake"
-                name="henleggRadio"
-                onChange={() => {
-                    settHenlagtårsak(EHenlagtårsak.TRUKKET_TILBAKE);
-                }}
-            />
-            <Radio
-                checked={henlagtårsak === EHenlagtårsak.FEILREGISTRERT}
-                label="Feilregistrert"
-                name="henleggRadio"
-                onChange={() => {
-                    settHenlagtårsak(EHenlagtårsak.FEILREGISTRERT);
-                }}
-            />
-            <Hovedknapp htmlType={'submit'} onClick={lagreHenleggelse} disabled={låsKnapp}>
+        <RadioGroup
+            legend=""
+            size="medium"
+            onChange={(val: EHenlagtårsak) => settHenlagtårsak(val)}
+            defaultValue={henlagtårsak}
+        >
+            <Radio value={EHenlagtårsak.TRUKKET_TILBAKE}>Trukket tilbake</Radio>
+            <Radio value={EHenlagtårsak.FEILREGISTRERT}>Feilregistrert</Radio>
+            <StyledButton onClick={lagreHenleggelse} disabled={låsKnapp}>
                 Henlegg
-            </Hovedknapp>
-            <Knapp onClick={() => settVisHenleggModal(false)}>Avbryt</Knapp>
-        </FamilieRadioGruppe>
+            </StyledButton>
+            <StyledButton variant="secondary" onClick={() => settVisHenleggModal(false)}>
+                Avbryt
+            </StyledButton>
+        </RadioGroup>
     </>
 );
