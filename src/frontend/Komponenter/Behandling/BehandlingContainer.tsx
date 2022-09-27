@@ -11,6 +11,7 @@ import { Behandling } from '../../App/typer/fagsak';
 import { useSetValgtFagsakId } from '../../App/hooks/useSetValgtFagsakId';
 import { IPersonopplysninger } from '../../App/typer/personopplysninger';
 import DataViewer from '../../Felles/DataViewer/DataViewer';
+import { HenleggModal } from './Henleggelse/HenleggModal';
 
 const Container = styled.div`
     display: flex;
@@ -71,6 +72,7 @@ const BehandlingContent: FC<{
                 <InnholdWrapper åpenHøyremeny={åpenHøyremeny}>
                     <Fanemeny behandling={behandling} />
                     <BehandlingRoutes behandling={behandling} />
+                    <HenleggModal behandling={behandling} />
                 </InnholdWrapper>
                 <HøyreMenyWrapper åpenHøyremeny={åpenHøyremeny}>
                     <Høyremeny åpenHøyremeny={åpenHøyremeny} behandling={behandling} />
