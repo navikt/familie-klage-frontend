@@ -45,7 +45,8 @@ export const HenleggModal: FC<{ behandling: Behandling }> = ({ behandling }) => 
         })
             .then((respons: RessursSuksess<string> | RessursFeilet) => {
                 if (respons.status === RessursStatus.SUKSESS) {
-                    navigate(`/fagsak/${behandling.fagsakId}`);
+                    settVisHenleggModal(false);
+                    navigate(`/behandling/${behandling.id}/resultat`);
                     settToast(EToast.BEHANDLING_HENLAGT);
                 } else {
                     settFeilmelding(respons.frontendFeilmelding);
@@ -94,7 +95,6 @@ const Henlegging: React.FC<IHenlegg> = ({
     settHenlagtårsak,
     lagreHenleggelse,
     låsKnapp,
-    henlagtårsak,
     settVisHenleggModal,
 }) => (
     <>
@@ -102,7 +102,6 @@ const Henlegging: React.FC<IHenlegg> = ({
             legend=""
             size="medium"
             onChange={(val: EHenlagtårsak) => settHenlagtårsak(val)}
-            defaultValue={henlagtårsak}
         >
             <Radio value={EHenlagtårsak.TRUKKET_TILBAKE}>Trukket tilbake</Radio>
             <Radio value={EHenlagtårsak.FEILREGISTRERT}>Feilregistrert</Radio>
