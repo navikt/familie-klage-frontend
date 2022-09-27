@@ -1,13 +1,14 @@
 import React, { FC, useState } from 'react';
 import { useBehandling } from '../../../App/context/BehandlingContext';
-import { Ressurs, RessursStatus } from '../../../App/typer/ressurs';
+import { RessursFeilet, RessursStatus, RessursSuksess } from '../../../App/typer/ressurs';
 import { Behandling } from '../../../App/typer/fagsak';
 import { useApp } from '../../../App/context/AppContext';
 import { useNavigate } from 'react-router-dom';
 import { EToast } from '../../../App/typer/toast';
 import { EHenlagtårsak } from './EHenlagtÅrsak';
 import styled from 'styled-components';
-import { Alert, Button, Heading, Modal, Radio, RadioGroup } from '@navikt/ds-react';
+import { Alert, Button, Modal, Radio, RadioGroup } from '@navikt/ds-react';
+import UIModalWrapper from '../../../Felles/Modal/UIModalWrapper';
 
 interface IHenlegg {
     settHenlagtårsak: (årsak: EHenlagtårsak) => void;
@@ -42,17 +43,12 @@ export const HenleggModal: FC<{ behandling: Behandling }> = ({ behandling }) => 
                 årsak: henlagtårsak,
             },
         })
-            .then((respons: Ressurs<string>) => {
-                switch (respons.status) {
-                    case RessursStatus.SUKSESS:
-                        navigate(`/fagsak/${behandling.fagsakId}`);
-                        settToast(EToast.BEHANDLING_HENLAGT);
-                        break;
-                    case RessursStatus.HENTER:
-                    case RessursStatus.IKKE_HENTET:
-                        break;
-                    default:
-                        settFeilmelding(respons.frontendFeilmelding);
+            .then((respons: RessursSuksess<string> | RessursFeilet) => {
+                if (respons.status === RessursStatus.SUKSESS) {
+                    navigate(`/fagsak/${behandling.fagsakId}`);
+                    settToast(EToast.BEHANDLING_HENLAGT);
+                } else {
+                    settFeilmelding(respons.frontendFeilmelding);
                 }
             })
             .finally(() => settLåsKnapp(false));
@@ -65,11 +61,15 @@ export const HenleggModal: FC<{ behandling: Behandling }> = ({ behandling }) => 
     `;
 
     return (
-        <Modal open={visHenleggModal} onClose={() => settVisHenleggModal(false)} closeButton={true}>
+        <UIModalWrapper
+            modal={{
+                tittel: 'Henlegg',
+                lukkKnapp: true,
+                visModal: visHenleggModal,
+                onClose: () => settVisHenleggModal(false),
+            }}
+        >
             <StyledModalInnhold>
-                <Heading spacing level="1" size="medium">
-                    Henlegg
-                </Heading>
                 <Henlegging
                     lagreHenleggelse={lagreHenleggelse}
                     henlagtårsak={henlagtårsak}
@@ -79,12 +79,15 @@ export const HenleggModal: FC<{ behandling: Behandling }> = ({ behandling }) => 
                 />
                 {feilmelding && <Alert variant="error">{feilmelding}</Alert>}
             </StyledModalInnhold>
-        </Modal>
+        </UIModalWrapper>
     );
 };
 
-const StyledButton = styled(Button)`
+const StyledKnappWrapper = styled.div`
     margin-top: 1rem;
+    display: flex;
+    justify-content: center;
+    gap: 1rem;
 `;
 
 const Henlegging: React.FC<IHenlegg> = ({
@@ -103,12 +106,14 @@ const Henlegging: React.FC<IHenlegg> = ({
         >
             <Radio value={EHenlagtårsak.TRUKKET_TILBAKE}>Trukket tilbake</Radio>
             <Radio value={EHenlagtårsak.FEILREGISTRERT}>Feilregistrert</Radio>
-            <StyledButton onClick={lagreHenleggelse} disabled={låsKnapp}>
-                Henlegg
-            </StyledButton>
-            <StyledButton variant="secondary" onClick={() => settVisHenleggModal(false)}>
-                Avbryt
-            </StyledButton>
+            <StyledKnappWrapper>
+                <Button onClick={lagreHenleggelse} disabled={låsKnapp}>
+                    Henlegg
+                </Button>
+                <Button variant="secondary" onClick={() => settVisHenleggModal(false)}>
+                    Avbryt
+                </Button>
+            </StyledKnappWrapper>
         </RadioGroup>
     </>
 );
