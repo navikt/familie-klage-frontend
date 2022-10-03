@@ -2,24 +2,6 @@ import { Stønadstype } from './behandlingstema';
 import { BehandlingStatus } from './behandlingstatus';
 import { Klageresultat } from './klageresultat';
 
-export interface Fagsak {
-    id: string;
-    eksternId: number;
-    fagsakPersonId: string;
-    personIdent: string;
-    stønadstype: Stønadstype;
-    behandlinger: Behandling[];
-    erLøpende: boolean;
-    erMigrert: boolean;
-    fagsystem: Fagsystem;
-}
-
-export enum Fagsystem {
-    EF = 'EF',
-    BA = 'BA',
-    KS = 'KS',
-}
-
 export enum StegType {
     FORMKRAV = 'FORMKRAV',
     VURDERING = 'VURDERING',
@@ -56,15 +38,6 @@ export const behandlingStegFullførtTilTekst: Record<StegType, string> = {
     BEHANDLING_FERDIGSTILT: 'Klagen er ferdigstilt',
 };
 
-export const behandlingStegInformasjonTilTekst: Record<StegType, string> = {
-    FORMKRAV: 'Formkrav avgjør om klagen er gyldig eller ikke',
-    VURDERING: 'Vurdering er saksbehandlers vurdering av klagen',
-    BREV: 'Brev blir skrevet og gjort klart til sending',
-    OVERFØRING_TIL_KABAL: 'Behandlingen er overført til kabal',
-    KABAL_VENTER_SVAR: 'Behandlingen har mottatt svar fra kabal',
-    BEHANDLING_FERDIGSTILT: 'Behandling er ferdig og klageresultat er oppdatert',
-};
-
 export interface Behandling {
     id: string;
     fagsakId: string;
@@ -76,10 +49,6 @@ export interface Behandling {
     vedtakDato?: string;
     stønadstype: Stønadstype;
     klageresultat: Klageresultat[];
-}
-
-export interface IEndringerRegistergrunnlag {
-    [key: string]: string[];
 }
 
 export enum BehandlingResultat {

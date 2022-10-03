@@ -1,17 +1,20 @@
 import * as React from 'react';
 import { useEffect, useState } from 'react';
 import styled from 'styled-components';
-import { TidslinjeContainer } from './TidslinjeContainer';
+import { Tidslinje } from './Tidslinje';
 import DataViewer from '../../../Felles/DataViewer/DataViewer';
 import { useApp } from '../../../App/context/AppContext';
 import { byggTomRessurs, Ressurs, RessursStatus } from '../../../App/typer/ressurs';
 import { IBehandlingshistorikk } from '../Høyremeny/behandlingshistorikk';
 import { Heading } from '@navikt/ds-react';
 import { useBehandling } from '../../../App/context/BehandlingContext';
-import { KlageresultatVisning } from './KlageresultatVisning';
 
-const ResultatStyling = styled.div`
-    margin: 2rem 5rem 0 5rem;
+const FaneContainer = styled.div`
+    margin: 2rem 5rem 0rem 5rem;
+`;
+
+const TidslinjeContainer = styled.div`
+    margin-top: 12rem;
 `;
 
 interface IResultat {
@@ -41,16 +44,14 @@ export const Resultat: React.FC<IResultat> = ({ behandlingId }) => {
     return (
         <DataViewer response={{ behandling, historikk }}>
             {({ behandling, historikk }) => (
-                <ResultatStyling>
+                <FaneContainer>
                     <Heading spacing size="large" level="5">
                         Resultat
                     </Heading>
-                    <TidslinjeContainer
-                        aktivtSteg={behandling.steg}
-                        historikkForVisning={historikk}
-                    />
-                    <KlageresultatVisning klageresultat={behandling.klageresultat} />
-                </ResultatStyling>
+                    <TidslinjeContainer>
+                        <Tidslinje aktivtSteg={behandling.steg} behandlingHistorikk={historikk} />
+                    </TidslinjeContainer>
+                </FaneContainer>
             )}
         </DataViewer>
     );
