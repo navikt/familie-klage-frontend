@@ -9,6 +9,7 @@ import { EHenlagtårsak } from './EHenlagtÅrsak';
 import styled from 'styled-components';
 import { Alert, Button, Modal, Radio, RadioGroup } from '@navikt/ds-react';
 import UIModalWrapper from '../../../Felles/Modal/UIModalWrapper';
+import { KnappWrapper } from '../../../Felles/Knapper/KnappWrapper';
 
 interface IHenlegg {
     settHenlagtårsak: (årsak: EHenlagtårsak | undefined) => void;
@@ -87,13 +88,6 @@ export const HenleggModal: FC<{ behandling: Behandling }> = ({ behandling }) => 
     );
 };
 
-const StyledKnappWrapper = styled.div`
-    margin-top: 1rem;
-    display: flex;
-    justify-content: center;
-    gap: 1rem;
-`;
-
 const Henlegging: React.FC<IHenlegg> = ({
     settHenlagtårsak,
     lagreHenleggelse,
@@ -112,7 +106,7 @@ const Henlegging: React.FC<IHenlegg> = ({
             >
                 <Radio value={EHenlagtårsak.TRUKKET_TILBAKE}>Trukket tilbake</Radio>
                 <Radio value={EHenlagtårsak.FEILREGISTRERT}>Feilregistrert</Radio>
-                <StyledKnappWrapper>
+                <KnappWrapper>
                     <Button
                         variant="tertiary"
                         size={'small'}
@@ -131,7 +125,7 @@ const Henlegging: React.FC<IHenlegg> = ({
                     >
                         Henlegg
                     </Button>
-                </StyledKnappWrapper>
+                </KnappWrapper>
             </RadioGroup>
         </>
     );
