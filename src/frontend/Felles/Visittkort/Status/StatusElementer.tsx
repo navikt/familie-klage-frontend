@@ -1,8 +1,7 @@
-import React from 'react';
-import { FC, useState } from 'react';
+import React, { FC, useState } from 'react';
 import { Behandling, behandlingResultatTilTekst } from '../../../App/typer/fagsak';
-import { Expand } from '@navikt/ds-icons';
-import { BodyShort, Button } from '@navikt/ds-react';
+import { Expand, ExternalLink } from '@navikt/ds-icons';
+import { BodyShort, Button, Link } from '@navikt/ds-react';
 import { behandlingStatusTilTekst } from '../../../App/typer/behandlingstatus';
 import { formaterIsoDatoTid } from '../../../App/utils/formatter';
 import styled from 'styled-components';
@@ -143,6 +142,18 @@ export const StatusMeny: FC<{ behandling: Behandling }> = ({ behandling }) => {
                             <BodyShort>{formaterIsoDatoTid(behandling.sistEndret)}</BodyShort>
                         </Status>
                     </li>
+                    <li>
+                        <Status>
+                            <Link
+                                className={'visittkort__lenke'}
+                                href={'fagsakgreierHer'}
+                                target="_blank"
+                            >
+                                Gå til saksoversikt
+                                <ExternalLink aria-label="Gå til saksoversikt" />
+                            </Link>
+                        </Status>
+                    </li>
                 </ul>
             </StatusMenyInnhold>
         </div>
@@ -167,6 +178,12 @@ export const AlleStatuser: FC<{ behandling: Behandling }> = ({ behandling }) => 
             <Status>
                 <GråTekst>Sist endret</GråTekst>
                 <BodyShort>{formaterIsoDatoTid(behandling.sistEndret)}</BodyShort>
+            </Status>
+            <Status>
+                <Link className={'visittkort__lenke'} href={'fagsakgreierHer'} target="_blank">
+                    Gå til saksoversikt
+                    <ExternalLink aria-label="Gå til saksoversikt" />
+                </Link>
             </Status>
         </Statuser>
     );
