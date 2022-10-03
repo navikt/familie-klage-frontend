@@ -46,7 +46,7 @@ export const KlageInfo: React.FC<IProps> = ({ vurderinger, redigeringsmodus }) =
             alleVilkårOppfylt(vurderinger) &&
             harVerdi(vurderinger.saksbehandlerBegrunnelse)
         ) {
-            return <OppfyltIkonStyled heigth={23} width={23} />;
+            return <OppfyltIkonStyled height={23} width={23} />;
         } else if (alleVilkårOppfylt(vurderinger)) {
             return <InfoIkonStyled heigth={23} width={23} />;
         }

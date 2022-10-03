@@ -14,8 +14,17 @@ export const fjernDuplikatStegFraHistorikk = (steg: IBehandlingshistorikk[]) => 
                 ensure(historikkListe.find((steg) => historikk.steg == steg.steg))
             )
         ),
-    ];
-    return visning.reverse();
+    ].reverse();
+
+    const venterPåSvarFraKabal = visning[visning.length - 1].steg === StegType.OVERFØRING_TIL_KABAL;
+    if (venterPåSvarFraKabal) {
+        return [
+            ...visning,
+            lagHistorikkInnslag(StegType.KABAL_VENTER_SVAR),
+            lagHistorikkInnslag(StegType.BEHANDLING_FERDIGSTILT),
+        ];
+    }
+    return visning;
 };
 
 export const utledTekstForTidslinje = (behandling: Behandling, steg: StegType) => {
@@ -32,3 +41,10 @@ export const utledTekstForTidslinje = (behandling: Behandling, steg: StegType) =
             return behandlingStegTilTekst[steg];
     }
 };
+
+const lagHistorikkInnslag = (steg: StegType): IBehandlingshistorikk => ({
+    behandlingId: '',
+    steg: steg,
+    opprettetAv: '',
+    endretTid: '',
+});
