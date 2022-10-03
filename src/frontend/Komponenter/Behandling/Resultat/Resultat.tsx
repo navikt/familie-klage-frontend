@@ -14,7 +14,13 @@ const FaneContainer = styled.div`
 `;
 
 const TidslinjeContainer = styled.div`
-    margin-top: 12rem;
+    @media (max-width: 1300px) {
+        display: flex;
+        justify-content: center;
+    }
+    @media (min-width: 1300px) {
+        margin-top: 12rem;
+    }
 `;
 
 interface IResultat {
@@ -49,7 +55,7 @@ export const Resultat: React.FC<IResultat> = ({ behandlingId }) => {
                         Resultat
                     </Heading>
                     <TidslinjeContainer>
-                        <Tidslinje aktivtSteg={behandling.steg} behandlingHistorikk={historikk} />
+                        <Tidslinje behandling={behandling} behandlingHistorikk={historikk} />
                     </TidslinjeContainer>
                 </FaneContainer>
             )}
