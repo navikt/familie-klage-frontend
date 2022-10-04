@@ -12,6 +12,7 @@ import { IVurdering } from '../../Komponenter/Behandling/Vurdering/vurderingValg
 import { useHentFormkravVilkår } from '../hooks/useHentFormkravVilkår';
 import { alleVilkårOppfylt } from '../../Komponenter/Behandling/Formkrav/utils';
 import { harVerdi } from '../utils/utils';
+import { useHentFagsak } from '../hooks/useHentFagsak';
 
 const [BehandlingProvider, useBehandling] = constate(() => {
     const behandlingId = useParams<IBehandlingParams>().behandlingId as string;
@@ -19,6 +20,7 @@ const [BehandlingProvider, useBehandling] = constate(() => {
     const [behandlingErRedigerbar, settBehandlingErRedigerbar] = useState<boolean>(true);
     const { hentPersonopplysninger, personopplysningerResponse } =
         useHentPersonopplysninger(behandlingId);
+    const { hentFagsak, fagsakResponse } = useHentFagsak();
     const { hentBehandlingCallback, behandling } = useHentBehandling(behandlingId);
     const { hentBehandlingshistorikkCallback, behandlingHistorikk } =
         useHentBehandlingHistorikk(behandlingId);
@@ -32,6 +34,11 @@ const [BehandlingProvider, useBehandling] = constate(() => {
 
     // eslint-disable-next-line
     useEffect(() => hentPersonopplysninger(behandlingId), [behandlingId]);
+    useEffect(() => {
+        if (behandling.status === RessursStatus.SUKSESS) {
+            hentFagsak(behandling.data.fagsakId);
+        }
+    }, [behandling, hentFagsak]);
     useEffect(() => {
         settBehandlingErRedigerbar(
             behandling.status === RessursStatus.SUKSESS && erBehandlingRedigerbar(behandling.data)
@@ -81,6 +88,7 @@ const [BehandlingProvider, useBehandling] = constate(() => {
         visAdvarselSendBrev,
         settVisAdvarselSendBrev,
         vilkårOppfyltOgBesvart,
+        fagsakResponse,
     };
 });
 

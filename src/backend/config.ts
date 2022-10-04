@@ -3,9 +3,14 @@
 import { appConfig, IApi, ISessionKonfigurasjon } from '@navikt/familie-backend';
 
 type Rolle = 'veileder' | 'saksbehandler' | 'beslutter' | 'kode6' | 'kode7';
+type EksternlenkeKey = 'efSakUrl' | 'baSakUrl' | 'ksSakUrl';
 
 type Roller = {
     [key in Rolle]: string;
+};
+
+type Eksternlenker = {
+    [key in EksternlenkeKey]: string;
 };
 
 interface IEnvironment {
@@ -14,6 +19,7 @@ interface IEnvironment {
     klageProxyUrl: string;
     redisUrl?: string;
     roller: Roller;
+    eksternlenker: Eksternlenker;
 }
 
 const rollerDev: Roller = {
@@ -32,6 +38,24 @@ const rollerProd: Roller = {
     kode7: '9ec6487d-f37a-4aad-a027-cd221c1ac32b', // 0000-GA-Fortrolig_Adresse
 };
 
+const lenkerDev: Eksternlenker = {
+    efSakUrl: 'https://ensligmorellerfar.dev.intern.nav.no',
+    baSakUrl: 'https://barnetrygd.dev.intern.nav.no',
+    ksSakUrl: 'https://ks.dev.intern.nav.no',
+};
+
+const lenkerProd: Eksternlenker = {
+    efSakUrl: 'https://ensligmorellerfar.intern.nav.no',
+    baSakUrl: 'https://barnetrygd.intern.nav.no',
+    ksSakUrl: 'https://ks.intern.nav.no',
+};
+
+const lenkerLocal: Eksternlenker = {
+    efSakUrl: 'localhost:8000',
+    baSakUrl: 'localhost:8000',
+    ksSakUrl: 'localhost:8000',
+};
+
 const Environment = (): IEnvironment => {
     if (process.env.ENV === 'local') {
         return {
@@ -39,6 +63,7 @@ const Environment = (): IEnvironment => {
             miljø: 'local',
             klageProxyUrl: 'http://localhost:8094',
             roller: rollerDev,
+            eksternlenker: lenkerLocal,
         };
     } else if (process.env.ENV === 'e2e') {
         return {
@@ -46,6 +71,7 @@ const Environment = (): IEnvironment => {
             miljø: 'e2e',
             klageProxyUrl: 'http://familie-klage:8093',
             roller: rollerDev,
+            eksternlenker: lenkerLocal,
             //Har ikke satt opp redis
         };
     } else if (process.env.ENV === 'preprod') {
@@ -55,6 +81,7 @@ const Environment = (): IEnvironment => {
             klageProxyUrl: 'http://familie-klage',
             redisUrl: 'familie-klage-frontend-redis',
             roller: rollerDev,
+            eksternlenker: lenkerDev,
         };
     }
 
@@ -64,6 +91,7 @@ const Environment = (): IEnvironment => {
         klageProxyUrl: 'http://familie-klage',
         redisUrl: 'familie-klage-frontend-redis',
         roller: rollerProd,
+        eksternlenker: lenkerProd,
     };
 };
 const env = Environment();
@@ -90,3 +118,4 @@ export const buildPath = env.buildPath;
 export const klageProxyUrl = env.klageProxyUrl;
 export const miljø = env.miljø;
 export const roller = env.roller;
+export const eksternlenker = env.eksternlenker;

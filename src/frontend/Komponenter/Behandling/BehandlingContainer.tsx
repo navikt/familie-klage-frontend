@@ -8,7 +8,6 @@ import BehandlingRoutes from './BehandlingRoutes';
 import { BehandlingProvider, useBehandling } from '../../App/context/BehandlingContext';
 import VisittkortComponent from '../../Felles/Visittkort/Visittkort';
 import { Behandling } from '../../App/typer/fagsak';
-import { useSetValgtFagsakId } from '../../App/hooks/useSetValgtFagsakId';
 import { IPersonopplysninger } from '../../App/typer/personopplysninger';
 import DataViewer from '../../Felles/DataViewer/DataViewer';
 import { HenleggModal } from './Henleggelse/HenleggModal';
@@ -62,23 +61,30 @@ const BehandlingContent: FC<{
     behandling: Behandling;
     personopplysninger: IPersonopplysninger;
 }> = ({ behandling, personopplysninger }) => {
-    useSetValgtFagsakId(behandling.fagsakId);
-    const { åpenHøyremeny } = useBehandling();
+    const { åpenHøyremeny, fagsakResponse } = useBehandling();
 
     return (
-        <>
-            <VisittkortComponent personopplysninger={personopplysninger} behandling={behandling} />
-            <Container>
-                <InnholdWrapper åpenHøyremeny={åpenHøyremeny}>
-                    <Fanemeny behandling={behandling} />
-                    <BehandlingRoutes behandling={behandling} />
-                    <HenleggModal behandling={behandling} />
-                </InnholdWrapper>
-                <HøyreMenyWrapper åpenHøyremeny={åpenHøyremeny}>
-                    <Høyremeny åpenHøyremeny={åpenHøyremeny} behandling={behandling} />
-                </HøyreMenyWrapper>
-            </Container>
-        </>
+        <DataViewer response={{ fagsakResponse }}>
+            {({ fagsakResponse }) => (
+                <>
+                    <VisittkortComponent
+                        personopplysninger={personopplysninger}
+                        behandling={behandling}
+                        fagsak={fagsakResponse}
+                    />
+                    <Container>
+                        <InnholdWrapper åpenHøyremeny={åpenHøyremeny}>
+                            <Fanemeny behandling={behandling} />
+                            <BehandlingRoutes behandling={behandling} />
+                            <HenleggModal behandling={behandling} />
+                        </InnholdWrapper>
+                        <HøyreMenyWrapper åpenHøyremeny={åpenHøyremeny}>
+                            <Høyremeny åpenHøyremeny={åpenHøyremeny} behandling={behandling} />
+                        </HøyreMenyWrapper>
+                    </Container>
+                </>
+            )}
+        </DataViewer>
     );
 };
 

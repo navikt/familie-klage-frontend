@@ -8,9 +8,6 @@ export interface Fagsak {
     fagsakPersonId: string;
     personIdent: string;
     stønadstype: Stønadstype;
-    behandlinger: Behandling[];
-    erLøpende: boolean;
-    erMigrert: boolean;
     fagsystem: Fagsystem;
 }
 
@@ -76,6 +73,7 @@ export interface Behandling {
     vedtakDato?: string;
     stønadstype: Stønadstype;
     klageresultat: Klageresultat[];
+    eksternFagsystemBehandlingId: string;
 }
 
 export interface IEndringerRegistergrunnlag {

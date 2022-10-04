@@ -2,7 +2,7 @@ import React, { FC } from 'react';
 import { IPersonopplysninger } from '../../App/typer/personopplysninger';
 import Visittkort from '@navikt/familie-visittkort';
 import styled from 'styled-components';
-import { Behandling } from '../../App/typer/fagsak';
+import { Behandling, Fagsak } from '../../App/typer/fagsak';
 import { NavdsSemanticColorBorder } from '@navikt/ds-tokens/dist/tokens';
 import { Sticky } from '../Visningskomponenter/Sticky';
 import { Hamburgermeny } from './Hamburgermeny';
@@ -40,7 +40,8 @@ const StyledHamburgermeny = styled(Hamburgermeny)`
 const VisittkortComponent: FC<{
     personopplysninger: IPersonopplysninger;
     behandling: Behandling;
-}> = ({ personopplysninger, behandling }) => {
+    fagsak: Fagsak;
+}> = ({ personopplysninger, behandling, fagsak }) => {
     const { personIdent, kjønn, navn } = personopplysninger;
     return (
         <VisittkortWrapper>
@@ -59,9 +60,9 @@ const VisittkortComponent: FC<{
 
             {behandling && (
                 <>
-                    <AlleStatuser behandling={behandling} />
+                    <AlleStatuser behandling={behandling} fagsak={fagsak} />
                     <StatuserLitenSkjerm>
-                        <StatusMeny behandling={behandling} />
+                        <StatusMeny behandling={behandling} fagsak={fagsak} />
                     </StatuserLitenSkjerm>
                 </>
             )}
