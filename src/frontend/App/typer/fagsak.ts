@@ -2,15 +2,6 @@ import { Stønadstype } from './behandlingstema';
 import { BehandlingStatus } from './behandlingstatus';
 import { Klageresultat } from './klageresultat';
 
-export interface Fagsak {
-    id: string;
-    eksternId: number;
-    fagsakPersonId: string;
-    personIdent: string;
-    stønadstype: Stønadstype;
-    fagsystem: Fagsystem;
-}
-
 export enum Fagsystem {
     EF = 'EF',
     BA = 'BA',
@@ -74,6 +65,8 @@ export interface Behandling {
     stønadstype: Stønadstype;
     klageresultat: Klageresultat[];
     eksternFagsystemBehandlingId: string;
+    eksternFagsystemFagsakId: string;
+    fagsystem: Fagsystem;
 }
 
 export interface IEndringerRegistergrunnlag {

@@ -1,5 +1,5 @@
 import React, { FC, useState } from 'react';
-import { Behandling, behandlingResultatTilTekst, Fagsak } from '../../../App/typer/fagsak';
+import { Behandling, behandlingResultatTilTekst } from '../../../App/typer/fagsak';
 import { Expand, ExternalLink } from '@navikt/ds-icons';
 import { BodyShort, Button, Link } from '@navikt/ds-react';
 import { behandlingStatusTilTekst } from '../../../App/typer/behandlingstatus';
@@ -98,10 +98,7 @@ export const Status = styled.div<StatusProps>`
     }
 `;
 
-export const StatusMeny: FC<{ behandling: Behandling; fagsak: Fagsak }> = ({
-    behandling,
-    fagsak,
-}) => {
+export const StatusMeny: FC<{ behandling: Behandling }> = ({ behandling }) => {
     const [åpenStatusMeny, settÅpenStatusMeny] = useState<boolean>(false);
     const { appEnv } = useApp();
     return (
@@ -151,11 +148,7 @@ export const StatusMeny: FC<{ behandling: Behandling; fagsak: Fagsak }> = ({
                     <li>
                         <Status>
                             <Link
-                                href={utledBehandlingLenke(
-                                    fagsak,
-                                    behandling,
-                                    appEnv.eksternlenker
-                                )}
+                                href={utledBehandlingLenke(behandling, appEnv.eksternlenker)}
                                 target="_blank"
                             >
                                 Gå til behandling
@@ -166,7 +159,7 @@ export const StatusMeny: FC<{ behandling: Behandling; fagsak: Fagsak }> = ({
                     <li>
                         <Status>
                             <Link
-                                href={utledSaksoversiktLenke(fagsak, appEnv.eksternlenker)}
+                                href={utledSaksoversiktLenke(behandling, appEnv.eksternlenker)}
                                 target="_blank"
                             >
                                 Gå til saksoversikt
@@ -180,10 +173,7 @@ export const StatusMeny: FC<{ behandling: Behandling; fagsak: Fagsak }> = ({
     );
 };
 
-export const AlleStatuser: FC<{ behandling: Behandling; fagsak: Fagsak }> = ({
-    behandling,
-    fagsak,
-}) => {
+export const AlleStatuser: FC<{ behandling: Behandling }> = ({ behandling }) => {
     const { appEnv } = useApp();
     return (
         <Statuser>
@@ -204,16 +194,16 @@ export const AlleStatuser: FC<{ behandling: Behandling; fagsak: Fagsak }> = ({
                 <BodyShort>{formaterIsoDatoTid(behandling.sistEndret)}</BodyShort>
             </Status>
             <Status>
-                <Link
-                    href={utledBehandlingLenke(fagsak, behandling, appEnv.eksternlenker)}
-                    target="_blank"
-                >
+                <Link href={utledBehandlingLenke(behandling, appEnv.eksternlenker)} target="_blank">
                     Gå til behandling
                     <ExternalLink aria-label="Gå til behandling" />
                 </Link>
             </Status>
             <Status>
-                <Link href={utledSaksoversiktLenke(fagsak, appEnv.eksternlenker)} target="_blank">
+                <Link
+                    href={utledSaksoversiktLenke(behandling, appEnv.eksternlenker)}
+                    target="_blank"
+                >
                     Gå til saksoversikt
                     <ExternalLink aria-label="Gå til saksoversikt" />
                 </Link>

@@ -51,9 +51,9 @@ const lenkerProd: Eksternlenker = {
 };
 
 const lenkerLocal: Eksternlenker = {
-    efSakUrl: 'localhost:8000',
-    baSakUrl: 'localhost:8000',
-    ksSakUrl: 'localhost:8000',
+    efSakUrl: 'http://localhost:8000',
+    baSakUrl: 'http://localhost:8000',
+    ksSakUrl: 'http://localhost:8000',
 };
 
 const Environment = (): IEnvironment => {

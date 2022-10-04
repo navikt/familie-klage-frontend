@@ -2,7 +2,7 @@ import { KeyboardEvent } from 'react';
 import { OrNothing } from '../hooks/felles/useSorteringState';
 import { isAfter, isBefore } from 'date-fns';
 import { validate } from 'uuid';
-import { Behandling, Fagsak, Fagsystem } from '../typer/fagsak';
+import { Behandling, Fagsystem } from '../typer/fagsak';
 import { Eksternlenker } from '../typer/Eksternlenker';
 
 export const datoFeil = (valgtDatoFra?: string, valgtDatoTil?: string): OrNothing<string> => {
@@ -56,21 +56,25 @@ export const harVerdi = (str: string | undefined | null): boolean =>
     str !== undefined && str !== '' && str !== null;
 
 export const utledBehandlingLenke = (
-    fagsak: Fagsak,
     behandling: Behandling,
     eksternLenker: Eksternlenker
 ): string => {
-    return `${utledFagsystemUrl(fagsak, eksternLenker)}/fagsak/${fagsak.eksternId}/${
-        behandling.eksternFagsystemBehandlingId
-    }`;
+    return `${utledFagsystemUrl(behandling.fagsystem, eksternLenker)}/fagsak/${
+        behandling.eksternFagsystemFagsakId
+    }/${behandling.eksternFagsystemBehandlingId}`;
 };
 
-export const utledSaksoversiktLenke = (fagsak: Fagsak, eksternLenker: Eksternlenker): string => {
-    return `${utledFagsystemUrl(fagsak, eksternLenker)}/fagsak/${fagsak.eksternId}/saksoversikt`;
+export const utledSaksoversiktLenke = (
+    behandling: Behandling,
+    eksternLenker: Eksternlenker
+): string => {
+    return `${utledFagsystemUrl(behandling.fagsystem, eksternLenker)}/fagsak/${
+        behandling.eksternFagsystemFagsakId
+    }/saksoversikt`;
 };
 
-export const utledFagsystemUrl = (fagsak: Fagsak, eksternLenker: Eksternlenker): string => {
-    switch (fagsak.fagsystem) {
+export const utledFagsystemUrl = (fagsystem: Fagsystem, eksternLenker: Eksternlenker): string => {
+    switch (fagsystem) {
         case Fagsystem.EF:
             return eksternLenker.efSakUrl;
         case Fagsystem.BA:

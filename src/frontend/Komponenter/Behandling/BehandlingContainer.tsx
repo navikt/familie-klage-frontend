@@ -61,30 +61,22 @@ const BehandlingContent: FC<{
     behandling: Behandling;
     personopplysninger: IPersonopplysninger;
 }> = ({ behandling, personopplysninger }) => {
-    const { åpenHøyremeny, fagsakResponse } = useBehandling();
+    const { åpenHøyremeny } = useBehandling();
 
     return (
-        <DataViewer response={{ fagsakResponse }}>
-            {({ fagsakResponse }) => (
-                <>
-                    <VisittkortComponent
-                        personopplysninger={personopplysninger}
-                        behandling={behandling}
-                        fagsak={fagsakResponse}
-                    />
-                    <Container>
-                        <InnholdWrapper åpenHøyremeny={åpenHøyremeny}>
-                            <Fanemeny behandling={behandling} />
-                            <BehandlingRoutes behandling={behandling} />
-                            <HenleggModal behandling={behandling} />
-                        </InnholdWrapper>
-                        <HøyreMenyWrapper åpenHøyremeny={åpenHøyremeny}>
-                            <Høyremeny åpenHøyremeny={åpenHøyremeny} behandling={behandling} />
-                        </HøyreMenyWrapper>
-                    </Container>
-                </>
-            )}
-        </DataViewer>
+        <>
+            <VisittkortComponent personopplysninger={personopplysninger} behandling={behandling} />
+            <Container>
+                <InnholdWrapper åpenHøyremeny={åpenHøyremeny}>
+                    <Fanemeny behandling={behandling} />
+                    <BehandlingRoutes behandling={behandling} />
+                    <HenleggModal behandling={behandling} />
+                </InnholdWrapper>
+                <HøyreMenyWrapper åpenHøyremeny={åpenHøyremeny}>
+                    <Høyremeny åpenHøyremeny={åpenHøyremeny} behandling={behandling} />
+                </HøyreMenyWrapper>
+            </Container>
+        </>
     );
 };
 
