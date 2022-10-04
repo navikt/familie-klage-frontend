@@ -6,7 +6,7 @@ import NedKnapp from '../../../Felles/Knapper/NedKnapp';
 import LeggTilKnapp from '../../../Felles/Knapper/LeggTilKnapp';
 import { FamilieInput } from '@navikt/familie-form-elements';
 import { Button, Panel } from '@navikt/ds-react';
-import { EnsligTextArea } from '../../../Felles/Input/TekstInput/EnsligTextArea';
+import { EnsligTextArea } from '../../../Felles/Input/EnsligTextArea';
 import { Delete } from '@navikt/ds-icons';
 
 const Innholdsrad = styled(Panel)`

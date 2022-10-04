@@ -67,7 +67,7 @@ const VilkårIkon = styled.div`
     margin: 0 1.5rem 0 -0.7rem;
 `;
 
-const BrukerMedBlyantStyled = styled(BrukerMedBlyant)`
+const BrukerMedBlyantIkon = styled(BrukerMedBlyant)`
     overflow: visible;
 `;
 
@@ -149,7 +149,7 @@ export const VisFormkravVurderinger: React.FC<IProps> = ({
             <Header>
                 <RadSentrertVertikalt>
                     <VilkårIkon>
-                        <BrukerMedBlyantStyled heigth={23} width={23} />
+                        <BrukerMedBlyantIkon heigth={23} width={23} />
                     </VilkårIkon>
                     <Heading spacing size={'medium'}>
                         {alleVilkårErOppfylt ? 'Vilkår oppfylt' : 'Vilkår ikke oppfylt'}

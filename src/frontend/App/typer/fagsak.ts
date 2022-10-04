@@ -2,6 +2,12 @@ import { Stønadstype } from './behandlingstema';
 import { BehandlingStatus } from './behandlingstatus';
 import { Klageresultat } from './klageresultat';
 
+export enum Fagsystem {
+    EF = 'EF',
+    BA = 'BA',
+    KS = 'KS',
+}
+
 export enum StegType {
     FORMKRAV = 'FORMKRAV',
     VURDERING = 'VURDERING',
