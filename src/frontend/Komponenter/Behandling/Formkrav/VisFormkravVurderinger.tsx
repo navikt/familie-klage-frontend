@@ -99,7 +99,7 @@ export const VisFormkravVurderinger: React.FC<IProps> = ({
     lagreVurderinger,
     vurderinger,
 }) => {
-    const { behandlingErRedigerbar, hentBehandling } = useBehandling();
+    const { behandlingErRedigerbar, hentBehandling, hentBehandlingshistorikk } = useBehandling();
     const navigate = useNavigate();
     const [nullstillerVurderinger, settNullstillerVurderinger] = useState<boolean>(false);
 
@@ -123,6 +123,7 @@ export const VisFormkravVurderinger: React.FC<IProps> = ({
             if (res.status === RessursStatus.SUKSESS) {
                 settRedigeringsmodus(Redigeringsmodus.IKKE_PÅSTARTET);
                 hentBehandling.rerun();
+                hentBehandlingshistorikk.rerun();
             }
         });
     };

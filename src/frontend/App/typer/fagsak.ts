@@ -67,6 +67,7 @@ export interface Behandling {
     eksternFagsystemBehandlingId: string;
     eksternFagsystemFagsakId: string;
     fagsystem: Fagsystem;
+    klageMottatt: string;
 }
 
 export interface IEndringerRegistergrunnlag {

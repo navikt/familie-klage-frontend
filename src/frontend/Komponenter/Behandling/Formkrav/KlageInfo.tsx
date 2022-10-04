@@ -11,6 +11,7 @@ import { alleVilkårOppfylt } from './utils';
 import { Behandling } from '../../../App/typer/fagsak';
 import Info from '../../../Felles/Ikoner/Info';
 import { harVerdi } from '../../../App/utils/utils';
+import { formaterIsoDato } from '../../../App/utils/formatter';
 
 const OppfyltIkonStyled = styled(Oppfylt)`
     margin-left: -0.2rem;
@@ -38,7 +39,7 @@ interface IProps {
     redigeringsmodus: Redigeringsmodus;
 }
 
-export const KlageInfo: React.FC<IProps> = ({ vurderinger, redigeringsmodus }) => {
+export const KlageInfo: React.FC<IProps> = ({ behandling, vurderinger, redigeringsmodus }) => {
     const utledetIkon = () => {
         if (redigeringsmodus === Redigeringsmodus.IKKE_PÅSTARTET) {
             return <AdvarselIkonStyled heigth={23} width={23} />;
@@ -63,13 +64,10 @@ export const KlageInfo: React.FC<IProps> = ({ vurderinger, redigeringsmodus }) =
             </>
             <>
                 <Søknadsgrunnlag />
-                <BodyLongStyled size="small">Oppgitt vedtaksdato</BodyLongStyled>
-                <BodyLongStyled size="small">Ikke tilgjengelig </BodyLongStyled>
-            </>
-            <>
-                <Søknadsgrunnlag />
                 <BodyLongStyled size="small">Klage mottatt</BodyLongStyled>
-                <BodyLongStyled size="small">Ikke tilgjengelig</BodyLongStyled>
+                <BodyLongStyled size="small">
+                    {formaterIsoDato(behandling.klageMottatt)}
+                </BodyLongStyled>
             </>
         </GridTabell>
     );
