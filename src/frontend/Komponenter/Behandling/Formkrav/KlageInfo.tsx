@@ -12,6 +12,7 @@ import {
     SuccessColored,
     WarningColored,
 } from '@navikt/ds-icons';
+import { formaterIsoDato } from '../../../App/utils/formatter';
 
 const OppfyltIkonStyled = styled(SuccessColored)`
     margin-top: 0.25rem;
@@ -43,7 +44,7 @@ interface IProps {
     redigeringsmodus: Redigeringsmodus;
 }
 
-export const KlageInfo: React.FC<IProps> = ({ vurderinger, redigeringsmodus }) => {
+export const KlageInfo: React.FC<IProps> = ({ behandling, vurderinger, redigeringsmodus }) => {
     const utledetIkon = () => {
         if (redigeringsmodus === Redigeringsmodus.IKKE_PÅSTARTET) {
             return <Advarsel height={26} width={26} />;
@@ -75,6 +76,11 @@ export const KlageInfo: React.FC<IProps> = ({ vurderinger, redigeringsmodus }) =
                 <FileContent />
                 <BodyLong size="small">Klage mottatt</BodyLong>
                 <BodyLong size="small">Ikke tilgjengelig</BodyLong>
+            </TabellRad>
+            <TabellRad>
+                <FileContent />
+                <BodyLong size="small">Klage mottatt</BodyLong>
+                <BodyLong size="small">{formaterIsoDato(behandling.klageMottatt)}</BodyLong>
             </TabellRad>
         </>
     );

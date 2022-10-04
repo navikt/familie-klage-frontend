@@ -11,7 +11,7 @@ import { Alert, Button, Modal, Radio, RadioGroup } from '@navikt/ds-react';
 import UIModalWrapper from '../../../Felles/Modal/UIModalWrapper';
 
 interface IHenlegg {
-    settHenlagtårsak: (årsak: EHenlagtårsak) => void;
+    settHenlagtårsak: (årsak: EHenlagtårsak | undefined) => void;
     lagreHenleggelse: () => void;
     låsKnapp: boolean;
     henlagtårsak?: EHenlagtårsak;
@@ -67,7 +67,10 @@ export const HenleggModal: FC<{ behandling: Behandling }> = ({ behandling }) => 
                 tittel: 'Henlegg',
                 lukkKnapp: true,
                 visModal: visHenleggModal,
-                onClose: () => settVisHenleggModal(false),
+                onClose: () => {
+                    settHenlagtårsak(undefined);
+                    settVisHenleggModal(false);
+                },
             }}
         >
             <StyledModalInnhold>
@@ -94,25 +97,42 @@ const StyledKnappWrapper = styled.div`
 const Henlegging: React.FC<IHenlegg> = ({
     settHenlagtårsak,
     lagreHenleggelse,
+    henlagtårsak,
     låsKnapp,
     settVisHenleggModal,
-}) => (
-    <>
-        <RadioGroup
-            legend=""
-            size="medium"
-            onChange={(val: EHenlagtårsak) => settHenlagtårsak(val)}
-        >
-            <Radio value={EHenlagtårsak.TRUKKET_TILBAKE}>Trukket tilbake</Radio>
-            <Radio value={EHenlagtårsak.FEILREGISTRERT}>Feilregistrert</Radio>
-            <StyledKnappWrapper>
-                <Button onClick={lagreHenleggelse} disabled={låsKnapp}>
-                    Henlegg
-                </Button>
-                <Button variant="secondary" onClick={() => settVisHenleggModal(false)}>
-                    Avbryt
-                </Button>
-            </StyledKnappWrapper>
-        </RadioGroup>
-    </>
-);
+}) => {
+    return (
+        <>
+            <RadioGroup
+                legend="Henlagtårsak"
+                hideLegend
+                value={henlagtårsak}
+                size="medium"
+                onChange={(val: EHenlagtårsak) => settHenlagtårsak(val)}
+            >
+                <Radio value={EHenlagtårsak.TRUKKET_TILBAKE}>Trukket tilbake</Radio>
+                <Radio value={EHenlagtårsak.FEILREGISTRERT}>Feilregistrert</Radio>
+                <StyledKnappWrapper>
+                    <Button
+                        variant="tertiary"
+                        size={'small'}
+                        onClick={() => {
+                            settHenlagtårsak(undefined);
+                            settVisHenleggModal(false);
+                        }}
+                    >
+                        Avbryt
+                    </Button>
+                    <Button
+                        variant={'primary'}
+                        onClick={lagreHenleggelse}
+                        size={'small'}
+                        disabled={låsKnapp}
+                    >
+                        Henlegg
+                    </Button>
+                </StyledKnappWrapper>
+            </RadioGroup>
+        </>
+    );
+};

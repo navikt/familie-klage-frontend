@@ -54,6 +54,7 @@ export const Brev: React.FC<IBrev> = ({ behandlingId }) => {
         personopplysningerResponse,
         behandling,
         hentBehandling,
+        hentBehandlingshistorikk,
         visAdvarselSendBrev,
         settVisAdvarselSendBrev,
         behandlingErRedigerbar,
@@ -84,6 +85,7 @@ export const Brev: React.FC<IBrev> = ({ behandlingId }) => {
             if (res.status === RessursStatus.SUKSESS) {
                 settFeilFerdigstilling('');
                 hentBehandling.rerun();
+                hentBehandlingshistorikk.rerun();
                 settVisAdvarselSendBrev(false);
                 navigate(`/behandling/${hentBehandlingIdFraUrl()}/resultat`);
             } else {

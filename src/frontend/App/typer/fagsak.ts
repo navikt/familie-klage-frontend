@@ -55,6 +55,7 @@ export interface Behandling {
     vedtakDato?: string;
     stønadstype: Stønadstype;
     klageresultat: Klageresultat[];
+    klageMottatt: string;
 }
 
 export enum BehandlingResultat {
@@ -62,6 +63,7 @@ export enum BehandlingResultat {
     IKKE_MEDHOLD = 'IKKE_MEDHOLD',
     IKKE_MEDHOLD_FORMKRAV_AVVIST = 'IKKE_MEDHOLD_FORMKRAV_AVVIST',
     IKKE_SATT = 'IKKE_SATT',
+    HENLAGT = 'HENLAGT',
 }
 
 export const behandlingResultatTilTekst: Record<BehandlingResultat, string> = {
@@ -69,4 +71,5 @@ export const behandlingResultatTilTekst: Record<BehandlingResultat, string> = {
     IKKE_MEDHOLD: 'Ikke medhold',
     IKKE_MEDHOLD_FORMKRAV_AVVIST: 'Ikke medhold formkrav avvist',
     IKKE_SATT: 'Ikke satt',
+    HENLAGT: 'Henlagt',
 };
