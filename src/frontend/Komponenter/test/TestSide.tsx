@@ -1,6 +1,5 @@
 import React, { useState } from 'react';
 import styled from 'styled-components';
-import { Side } from '../../Felles/Visningskomponenter/Side';
 import { Alert, BodyShort, Button } from '@navikt/ds-react';
 import { useApp } from '../../App/context/AppContext';
 import { Stønadstype } from '../../App/typer/behandlingstema';
@@ -46,7 +45,7 @@ export const TestSide: React.FC = () => {
     }
 
     return (
-        <Side className={'container'}>
+        <>
             <StyledTest>
                 <b>[Test] Opprett dummy-behandling</b>
                 <input
@@ -68,6 +67,6 @@ export const TestSide: React.FC = () => {
                 <Button onClick={opprettDummyBehandling}>Lag behandling</Button>
             </StyledTest>
             {feil && <Alert variant={'error'}>{feil}</Alert>}
-        </Side>
+        </>
     );
 };

@@ -1,14 +1,23 @@
 import * as React from 'react';
 import { useEffect } from 'react';
 import styled from 'styled-components';
-import { TidslinjeContainer } from './TidslinjeContainer';
+import { Tidslinje } from './Tidslinje';
 import DataViewer from '../../../Felles/DataViewer/DataViewer';
 import { Heading } from '@navikt/ds-react';
 import { useBehandling } from '../../../App/context/BehandlingContext';
-import { KlageresultatVisning } from './KlageresultatVisning';
 
-const ResultatStyling = styled.div`
-    margin: 2rem 5rem 0 5rem;
+const FaneContainer = styled.div`
+    margin: 2rem 5rem 0rem 5rem;
+`;
+
+const TidslinjeContainer = styled.div`
+    @media (max-width: 1400px) {
+        display: flex;
+        justify-content: center;
+    }
+    @media (min-width: 1400px) {
+        margin-top: 12rem;
+    }
 `;
 
 export const Resultat: React.FC = () => {
@@ -21,16 +30,17 @@ export const Resultat: React.FC = () => {
     return (
         <DataViewer response={{ behandling, behandlingHistorikk }}>
             {({ behandling, behandlingHistorikk }) => (
-                <ResultatStyling>
+                <FaneContainer>
                     <Heading spacing size="large" level="5">
                         Resultat
                     </Heading>
-                    <TidslinjeContainer
-                        aktivtSteg={behandling.steg}
-                        historikkForVisning={behandlingHistorikk}
-                    />
-                    <KlageresultatVisning klageresultat={behandling.klageresultat} />
-                </ResultatStyling>
+                    <TidslinjeContainer>
+                        <Tidslinje
+                            behandling={behandling}
+                            behandlingHistorikk={behandlingHistorikk}
+                        />
+                    </TidslinjeContainer>
+                </FaneContainer>
             )}
         </DataViewer>
     );

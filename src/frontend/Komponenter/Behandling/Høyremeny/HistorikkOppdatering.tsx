@@ -1,14 +1,10 @@
 import * as React from 'react';
-import { BrukerMedBlyantIkon } from '../../../Felles/Ikoner/DataGrunnlagIkoner';
-import {
-    NavdsSemanticColorBorder,
-    NavdsSemanticColorBorderInverted,
-    NavdsSemanticColorText,
-} from '@navikt/ds-tokens/dist/tokens';
+import { NavdsSemanticColorBorder } from '@navikt/ds-tokens/dist/tokens';
 import { Detail, Label } from '@navikt/ds-react';
 import styled from 'styled-components';
 import { formaterIsoDatoTid } from '../../../App/utils/formatter';
 import { behandlingStegFullførtTilTekst, StegType } from '../../../App/typer/fagsak';
+import { PeopleInCircle } from '@navikt/ds-icons';
 
 const Oppdatering = styled.div`
     display: flex;
@@ -45,10 +41,7 @@ const HistorikkOppdatering: React.FunctionComponent<IHistorikkOppdatering> = ({
     return (
         <Oppdatering>
             <StyledIkon>
-                <BrukerMedBlyantIkon
-                    backgroundColor={NavdsSemanticColorBorderInverted}
-                    frontColor={NavdsSemanticColorText}
-                />
+                <PeopleInCircle width={26} height={26} />
                 <StripletLinje />
             </StyledIkon>
             <TekstligInformasjon>
