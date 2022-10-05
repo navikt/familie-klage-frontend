@@ -55,6 +55,9 @@ export interface Behandling {
     vedtakDato?: string;
     stønadstype: Stønadstype;
     klageresultat: Klageresultat[];
+    eksternFagsystemBehandlingId: string;
+    eksternFagsystemFagsakId: string;
+    fagsystem: Fagsystem;
     klageMottatt: string;
 }
 

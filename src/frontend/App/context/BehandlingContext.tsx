@@ -32,6 +32,7 @@ const [BehandlingProvider, useBehandling] = constate(() => {
 
     // eslint-disable-next-line
     useEffect(() => hentPersonopplysninger(behandlingId), [behandlingId]);
+
     useEffect(() => {
         settBehandlingErRedigerbar(
             behandling.status === RessursStatus.SUKSESS && erBehandlingRedigerbar(behandling.data)

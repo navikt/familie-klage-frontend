@@ -1,9 +1,11 @@
 import { preferredAxios } from './axios';
 import { Roller } from '../utils/roller';
+import { Eksternlenker } from '../typer/Eksternlenker';
 
 export interface AppEnv {
     roller: Roller;
     miljø: string;
+    eksternlenker: Eksternlenker;
 }
 
 export const hentEnv = (): Promise<AppEnv> => {

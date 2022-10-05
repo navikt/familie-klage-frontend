@@ -2,6 +2,8 @@ import { KeyboardEvent } from 'react';
 import { OrNothing } from '../hooks/felles/useSorteringState';
 import { isAfter, isBefore } from 'date-fns';
 import { validate } from 'uuid';
+import { Behandling, Fagsystem } from '../typer/fagsak';
+import { Eksternlenker } from '../typer/Eksternlenker';
 
 export const datoFeil = (valgtDatoFra?: string, valgtDatoTil?: string): OrNothing<string> => {
     if (!valgtDatoFra || !valgtDatoTil) {
@@ -52,6 +54,35 @@ export const slåSammenTekst = (...tekstElementer: (string | undefined)[]): stri
 
 export const harVerdi = (str: string | undefined | null): boolean =>
     str !== undefined && str !== '' && str !== null;
+
+export const utledBehandlingLenke = (
+    behandling: Behandling,
+    eksternLenker: Eksternlenker
+): string => {
+    return `${utledFagsystemUrl(behandling.fagsystem, eksternLenker)}/fagsak/${
+        behandling.eksternFagsystemFagsakId
+    }/${behandling.eksternFagsystemBehandlingId}`;
+};
+
+export const utledSaksoversiktLenke = (
+    behandling: Behandling,
+    eksternLenker: Eksternlenker
+): string => {
+    return `${utledFagsystemUrl(behandling.fagsystem, eksternLenker)}/fagsak/${
+        behandling.eksternFagsystemFagsakId
+    }/saksoversikt`;
+};
+
+export const utledFagsystemUrl = (fagsystem: Fagsystem, eksternLenker: Eksternlenker): string => {
+    switch (fagsystem) {
+        case Fagsystem.EF:
+            return eksternLenker.efSakUrl;
+        case Fagsystem.BA:
+            return eksternLenker.baSakUrl;
+        case Fagsystem.KS:
+            return eksternLenker.ksSakUrl;
+    }
+};
 
 export const harTallverdi = (verdi: number | undefined | null): boolean =>
     verdi !== undefined && verdi !== null;

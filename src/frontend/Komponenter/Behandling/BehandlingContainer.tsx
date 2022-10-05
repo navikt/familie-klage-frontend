@@ -8,7 +8,6 @@ import BehandlingRoutes from './BehandlingRoutes';
 import { BehandlingProvider, useBehandling } from '../../App/context/BehandlingContext';
 import VisittkortComponent from '../../Felles/Visittkort/Visittkort';
 import { Behandling } from '../../App/typer/fagsak';
-import { useSetValgtFagsakId } from '../../App/hooks/useSetValgtFagsakId';
 import { IPersonopplysninger } from '../../App/typer/personopplysninger';
 import DataViewer from '../../Felles/DataViewer/DataViewer';
 import { HenleggModal } from './Henleggelse/HenleggModal';
@@ -62,7 +61,6 @@ const BehandlingContent: FC<{
     behandling: Behandling;
     personopplysninger: IPersonopplysninger;
 }> = ({ behandling, personopplysninger }) => {
-    useSetValgtFagsakId(behandling.fagsakId);
     const { åpenHøyremeny } = useBehandling();
 
     return (
