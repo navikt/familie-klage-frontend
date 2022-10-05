@@ -59,7 +59,7 @@ export const utledBehandlingLenke = (
     behandling: Behandling,
     eksternLenker: Eksternlenker
 ): string => {
-    return `${utledFagsystemUrl(behandling.fagsystem, eksternLenker)}/fagsak/${
+    return `${utledFagsystemUrl(behandling.fagsystem, eksternLenker)}/ekstern/fagsak/${
         behandling.eksternFagsystemFagsakId
     }/${behandling.eksternFagsystemBehandlingId}`;
 };
@@ -68,7 +68,7 @@ export const utledSaksoversiktLenke = (
     behandling: Behandling,
     eksternLenker: Eksternlenker
 ): string => {
-    return `${utledFagsystemUrl(behandling.fagsystem, eksternLenker)}/fagsak/${
+    return `${utledFagsystemUrl(behandling.fagsystem, eksternLenker)}/ekstern/fagsak/${
         behandling.eksternFagsystemFagsakId
     }/saksoversikt`;
 };
