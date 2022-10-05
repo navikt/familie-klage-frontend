@@ -39,19 +39,19 @@ const rollerProd: Roller = {
 };
 
 const lenkerDev: Eksternlenker = {
-    efSakUrl: 'https://ensligmorellerfar.dev.intern.nav.no',
+    efSakUrl: 'https://ensligmorellerfar.dev.intern.nav.no/ekstern',
     baSakUrl: 'https://barnetrygd.dev.intern.nav.no',
     ksSakUrl: 'https://ks.dev.intern.nav.no',
 };
 
 const lenkerProd: Eksternlenker = {
-    efSakUrl: 'https://ensligmorellerfar.intern.nav.no',
+    efSakUrl: 'https://ensligmorellerfar.intern.nav.no/ekstern',
     baSakUrl: 'https://barnetrygd.intern.nav.no',
     ksSakUrl: 'https://ks.intern.nav.no',
 };
 
 const lenkerLocal: Eksternlenker = {
-    efSakUrl: 'http://localhost:8000',
+    efSakUrl: 'http://localhost:8000/ekstern',
     baSakUrl: 'http://localhost:8000',
     ksSakUrl: 'http://localhost:8000',
 };
