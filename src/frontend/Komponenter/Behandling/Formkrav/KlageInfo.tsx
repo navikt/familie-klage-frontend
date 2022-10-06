@@ -69,16 +69,6 @@ export const KlageInfo: React.FC<IProps> = ({ behandling, vurderinger, redigerin
             </TabellRad>
             <TabellRad>
                 <FileContent />
-                <BodyLong size="small">Oppgitt vedtaksdato</BodyLong>
-                <BodyLong size="small">Ikke tilgjengelig </BodyLong>
-            </TabellRad>
-            <TabellRad>
-                <FileContent />
-                <BodyLong size="small">Klage mottatt</BodyLong>
-                <BodyLong size="small">Ikke tilgjengelig</BodyLong>
-            </TabellRad>
-            <TabellRad>
-                <FileContent />
                 <BodyLong size="small">Klage mottatt</BodyLong>
                 <BodyLong size="small">{formaterIsoDato(behandling.klageMottatt)}</BodyLong>
             </TabellRad>
