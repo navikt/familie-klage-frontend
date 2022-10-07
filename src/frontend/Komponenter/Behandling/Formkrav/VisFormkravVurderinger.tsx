@@ -131,9 +131,13 @@ export const VisFormkravVurderinger: React.FC<IProps> = ({
     const radioKnapper = utledRadioKnapper(vurderinger);
     const alleVilkårErOppfylt = alleVilkårOppfylt(vurderinger);
     const manglerBegrunnelse = !harVerdi(vurderinger.saksbehandlerBegrunnelse);
+    const ikkeUtfylteVilkår = utledIkkeUtfylteVilkår(vurderinger);
 
     const utledUrlPostfix = (): string => {
         if (!behandlingErRedigerbar) {
+            return '';
+        }
+        if (ikkeUtfylteVilkår.length > 0) {
             return '';
         }
         if (manglerBegrunnelse) {
@@ -143,7 +147,6 @@ export const VisFormkravVurderinger: React.FC<IProps> = ({
     };
 
     const urlPostfix = utledUrlPostfix();
-    const ikkeUtfylteVilkår = utledIkkeUtfylteVilkår(vurderinger);
 
     return (
         <VisFormkravContainer>
