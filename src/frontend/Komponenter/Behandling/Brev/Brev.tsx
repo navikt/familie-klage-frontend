@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import {
     byggTomRessurs,
     Ressurs,
@@ -7,18 +7,16 @@ import {
     RessursStatus,
     RessursSuksess,
 } from '../../../App/typer/ressurs';
-import FritekstBrev from './FritekstBrev';
 import PdfVisning from './PdfVisning';
-import { IFritekstBrev } from './BrevTyper';
 import DataViewer from '../../../Felles/DataViewer/DataViewer';
 import { useBehandling } from '../../../App/context/BehandlingContext';
 import styled from 'styled-components';
-import { useHentBrev } from '../../../App/hooks/useHentBrev';
 import { useApp } from '../../../App/context/AppContext';
 import { Button } from '@navikt/ds-react';
 import BrevModal from './BrevModal';
 import { hentBehandlingIdFraUrl } from '../BehandlingContainer';
 import { useNavigate } from 'react-router-dom';
+import BrevRedigerer from './BrevRedigerer';
 
 const redigeringsmodus = {
     backgroundColor: '#f2f2f2',
@@ -60,16 +58,20 @@ export const Brev: React.FC<IBrev> = ({ behandlingId }) => {
         behandlingErRedigerbar,
     } = useBehandling();
 
-    const { mellomlagretBrev } = useHentBrev(behandlingId);
     const navigate = useNavigate();
     const { axiosRequest } = useApp();
 
-    const oppdaterBrevRessurs = (respons: Ressurs<string>) => {
-        settBrevRessurs(respons);
-    };
-
     const [senderInn, settSenderInn] = useState<boolean>(false);
     const [feilFerdigstilling, settFeilFerdigstilling] = useState('');
+
+    useEffect(() => {
+        if (!behandlingErRedigerbar) {
+            axiosRequest<string, null>({
+                method: 'GET',
+                url: `/familie-klage/api/brev/${behandlingId}/pdf`,
+            }).then(settBrevRessurs);
+        }
+    }, [axiosRequest, behandlingId, behandlingErRedigerbar, settBrevRessurs]);
 
     const ferdigstillBrev = () => {
         if (senderInn) {
@@ -95,16 +97,15 @@ export const Brev: React.FC<IBrev> = ({ behandlingId }) => {
     };
 
     return (
-        <div>
+        <DataViewer response={{ personopplysningerResponse, behandling }}>
             <div style={behandlingErRedigerbar ? redigeringsmodus : lesemodus}>
                 <div>
-                    <DataViewer response={{ personopplysningerResponse, behandling }}>
-                        <FritekstBrev
+                    {behandlingErRedigerbar && (
+                        <BrevRedigerer
                             behandlingId={behandlingId}
-                            mellomlagretFritekstbrev={mellomlagretBrev as IFritekstBrev}
-                            oppdaterBrevressurs={oppdaterBrevRessurs}
+                            oppdaterBrevressurs={settBrevRessurs}
                         />
-                    </DataViewer>
+                    )}
                     {behandlingErRedigerbar ? (
                         <BrevKnapper>
                             <Button
@@ -131,6 +132,6 @@ export const Brev: React.FC<IBrev> = ({ behandlingId }) => {
                 </div>
                 <PdfVisning pdfFilInnhold={brevRessurs} />
             </div>
-        </div>
+        </DataViewer>
     );
 };
