@@ -1,4 +1,4 @@
-import React, { useEffect, useMemo, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useBehandling } from '../../../App/context/BehandlingContext';
 import { Ressurs, RessursStatus } from '../../../App/typer/ressurs';
 import BrevInnhold from './BrevInnhold';
@@ -20,9 +20,6 @@ import {
     skjulAvsnittIBrevbygger,
 } from './BrevUtils';
 import { useApp } from '../../../App/context/AppContext';
-import { useDataHenter } from '../../../App/hooks/felles/useDataHenter';
-import { IPersonopplysninger } from '../../../App/typer/personopplysninger';
-import { AxiosRequestConfig } from 'axios';
 import { useDebouncedCallback } from 'use-debounce';
 import { VedtakValg } from '../Vurdering/vurderingValg';
 import { IFormkravVilkår } from '../Formkrav/typer';
@@ -33,38 +30,24 @@ const StyledBrev = styled.div`
     width: inherit;
 `;
 
-export interface Props {
+interface Props {
     oppdaterBrevressurs: (brevRessurs: Ressurs<string>) => void;
     behandlingId: string;
-    mellomlagretFritekstbrev?: IFritekstBrev;
+    mellomlagretBrev: IFritekstBrev | undefined;
 }
 
-const FritekstBrev: React.FC<Props> = ({
-    behandlingId,
-    mellomlagretFritekstbrev,
-    oppdaterBrevressurs,
-}) => {
+const FritekstBrev: React.FC<Props> = ({ behandlingId, oppdaterBrevressurs, mellomlagretBrev }) => {
     const { behandlingErRedigerbar } = useBehandling();
     const { axiosRequest } = useApp();
 
-    const personopplysningerConfig: AxiosRequestConfig = useMemo(
-        () => ({
-            method: 'GET',
-            url: `/familie-klage/api/personopplysninger/${behandlingId}`,
-        }),
-        [behandlingId]
-    );
-
-    const personopplysninger = useDataHenter<IPersonopplysninger, null>(personopplysningerConfig);
-
     const [brevType, settBrevType] = useState<FritekstBrevtype | undefined>(
-        mellomlagretFritekstbrev?.brevType
+        mellomlagretBrev?.brevType
     );
     const [overskrift, settOverskrift] = useState(
-        (mellomlagretFritekstbrev && mellomlagretFritekstbrev?.overskrift) || ''
+        (mellomlagretBrev && mellomlagretBrev?.overskrift) || ''
     );
     const [avsnitt, settAvsnitt] = useState<AvsnittMedId[]>(
-        initielleAvsnittMellomlager(mellomlagretFritekstbrev)
+        initielleAvsnittMellomlager(mellomlagretBrev)
     );
     const [senderInn, settSenderInn] = useState<boolean>(false);
 
@@ -116,7 +99,6 @@ const FritekstBrev: React.FC<Props> = ({
         }
 
         settSenderInn(true);
-        if (personopplysninger.status !== RessursStatus.SUKSESS) return;
         if (!brevType) return;
 
         const brev: IFritekstBrev = {
@@ -159,13 +141,6 @@ const FritekstBrev: React.FC<Props> = ({
             }
         });
     }, [axiosRequest, behandlingId]);
-
-    useEffect(() => {
-        if (mellomlagretFritekstbrev) {
-            settOverskrift(mellomlagretFritekstbrev.overskrift);
-            settAvsnitt(mellomlagretFritekstbrev.avsnitt);
-        }
-    }, [mellomlagretFritekstbrev]);
 
     const utsattGenererBrev = useDebouncedCallback(genererBrev, 1000);
     useEffect(utsattGenererBrev, [utsattGenererBrev, avsnitt, overskrift]);

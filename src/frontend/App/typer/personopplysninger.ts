@@ -7,7 +7,7 @@ export interface IPersonopplysninger {
     navn: string;
     kjønn: kjønnType;
     telefonnummer?: string;
-    adresse: string;
+    adresse: string; // TODO fjern?
 }
 
 export interface INavn {
