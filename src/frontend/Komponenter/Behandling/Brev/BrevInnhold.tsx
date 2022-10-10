@@ -1,4 +1,4 @@
-import React, { ChangeEvent } from 'react';
+import React from 'react';
 import { AvsnittMedId, FritekstBrevtype, FrittståendeBrevtype } from './BrevTyper';
 import styled from 'styled-components';
 import OppKnapp from '../../../Felles/Knapper/OppKnapp';
@@ -50,9 +50,9 @@ export interface IBrevInnhold {
     endreOverskrift: (nyOverskrift: string) => void;
     avsnitt: AvsnittMedId[];
     endreAvsnitt: (avsnitt: AvsnittMedId[]) => void;
-    endreDeloverskriftAvsnitt: (radId: string, e: ChangeEvent<HTMLInputElement>) => AvsnittMedId[];
-    endreInnholdAvsnitt: (radId: string, e: ChangeEvent<HTMLTextAreaElement>) => AvsnittMedId[];
-    fjernRad: (radId: string) => void;
+    endreDeloverskriftAvsnitt: (avsnittId: string, deloverskrift: string) => AvsnittMedId[];
+    endreInnholdAvsnitt: (avsnittId: string, innhold: string) => AvsnittMedId[];
+    fjernAvsnitt: (avsnittId: string) => void;
     leggTilAvsnittFørst: () => void;
     leggAvsnittBakSisteSynligeAvsnitt: () => void;
     flyttAvsnittOpp: (avsnittId: string) => void;
@@ -66,7 +66,7 @@ const BrevInnhold: React.FC<IBrevInnhold> = ({
     avsnitt,
     endreDeloverskriftAvsnitt,
     endreInnholdAvsnitt,
-    fjernRad,
+    fjernAvsnitt,
     leggTilAvsnittFørst,
     leggAvsnittBakSisteSynligeAvsnitt,
     flyttAvsnittOpp,
@@ -94,36 +94,37 @@ const BrevInnhold: React.FC<IBrevInnhold> = ({
                     <LeggTilKnapp onClick={leggTilAvsnittFørst} knappetekst="Legg til avsnitt" />
                 </LeggTilKnappWrapper>
             )}
-            {avsnittSomSkalVises.map((rad, index) => {
-                const deloverskriftId = `deloverskrift-${rad.avsnittId}`;
-                const innholdId = `innhold-${rad.avsnittId}`;
-                const toKolonneId = `toKolonne-${rad.avsnittId}`;
-                const knappWrapperId = `knappWrapper-${rad.avsnittId}`;
+            {avsnittSomSkalVises.map((avsnitt, index) => {
+                const avsnittId = avsnitt.avsnittId;
+                const deloverskriftId = `deloverskrift-${avsnittId}`;
+                const innholdId = `innhold-${avsnittId}`;
+                const toKolonneId = `toKolonne-${avsnittId}`;
+                const knappWrapperId = `knappWrapper-${avsnittId}`;
 
                 return (
                     <ToKolonneLayout id={toKolonneId} key={toKolonneId}>
-                        <Innholdsrad key={rad.avsnittId} border>
+                        <Innholdsrad key={avsnittId} border>
                             <FamilieInput
                                 onChange={(e) => {
-                                    endreDeloverskriftAvsnitt(rad.avsnittId, e);
+                                    endreDeloverskriftAvsnitt(avsnittId, e.target.value);
                                 }}
                                 label="Deloverskrift (valgfri)"
                                 id={deloverskriftId}
-                                value={rad.deloverskrift}
+                                value={avsnitt.deloverskrift}
                             />
                             <EnsligTextArea
                                 onChange={(e) => {
-                                    endreInnholdAvsnitt(rad.avsnittId, e);
+                                    endreInnholdAvsnitt(avsnittId, e.target.value);
                                 }}
                                 label="Innhold"
                                 id={innholdId}
-                                value={rad.innhold}
+                                value={avsnitt.innhold}
                                 maxLength={0}
                                 erLesevisning={false}
                             />
                             <Button
                                 onClick={() => {
-                                    fjernRad(rad.avsnittId);
+                                    fjernAvsnitt(avsnittId);
                                 }}
                                 variant={'tertiary'}
                                 icon={<Delete />}
@@ -135,14 +136,14 @@ const BrevInnhold: React.FC<IBrevInnhold> = ({
                             {index > 0 && (
                                 <OppKnapp
                                     onClick={() => {
-                                        flyttAvsnittOpp(rad.avsnittId);
+                                        flyttAvsnittOpp(avsnittId);
                                     }}
                                 />
                             )}
                             {index + 1 < avsnittSomSkalVises.length && (
                                 <NedKnapp
                                     onClick={() => {
-                                        flyttAvsnittNed(rad.avsnittId);
+                                        flyttAvsnittNed(avsnittId);
                                     }}
                                 />
                             )}

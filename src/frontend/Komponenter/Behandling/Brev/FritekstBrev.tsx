@@ -1,4 +1,4 @@
-import React, { ChangeEvent, useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useBehandling } from '../../../App/context/BehandlingContext';
 import { Ressurs, RessursStatus } from '../../../App/typer/ressurs';
 import BrevInnhold from './BrevInnhold';
@@ -49,6 +49,7 @@ const FritekstBrev: React.FC<Props> = ({ behandlingId, oppdaterBrevressurs, mell
     const [avsnitt, settAvsnitt] = useState<AvsnittMedId[]>(
         initielleAvsnittMellomlager(mellomlagretBrev)
     );
+    const [senderInn, settSenderInn] = useState<boolean>(false);
 
     const endreBrevType = (nyBrevType: FrittståendeBrevtype | FritekstBrevtype) => {
         settBrevType(nyBrevType as FritekstBrevtype);
@@ -70,28 +71,27 @@ const FritekstBrev: React.FC<Props> = ({ behandlingId, oppdaterBrevressurs, mell
         settAvsnitt(leggAvsnittBakSisteSynligeAvsnitt(avsnitt));
     };
 
-    const endreDeloverskriftAvsnitt = (radId: string, e: ChangeEvent<HTMLInputElement>) => {
-        const oppdaterteAvsnitt = avsnitt.map((rad) => {
-            return rad.avsnittId === radId ? { ...rad, deloverskrift: e.target.value } : rad;
-        });
+    const endreDeloverskriftAvsnitt = (radId: string, deloverskrift: string) => {
+        const oppdaterteAvsnitt = avsnitt.map((rad) =>
+            rad.avsnittId === radId ? { ...rad, deloverskrift } : rad
+        );
         settAvsnitt(oppdaterteAvsnitt);
         return oppdaterteAvsnitt;
     };
 
-    const endreInnholdAvsnitt = (radId: string, e: ChangeEvent<HTMLTextAreaElement>) => {
-        const oppdaterteAvsnitt = avsnitt.map((rad) => {
-            return rad.avsnittId === radId ? { ...rad, innhold: e.target.value } : rad;
-        });
+    const endreInnholdAvsnitt = (avsnittId: string, innhold: string) => {
+        const oppdaterteAvsnitt = avsnitt.map((rad) =>
+            rad.avsnittId === avsnittId ? { ...rad, innhold } : rad
+        );
         settAvsnitt(oppdaterteAvsnitt);
         return oppdaterteAvsnitt;
     };
 
-    const fjernRad = (radId: string) => {
-        settAvsnitt((eksisterendeAvsnitt: AvsnittMedId[]) => {
-            return eksisterendeAvsnitt.filter((rad) => radId !== rad.avsnittId);
-        });
+    const fjernAvsnitt = (avsnittId: string) => {
+        settAvsnitt((eksisterendeAvsnitt: AvsnittMedId[]) =>
+            eksisterendeAvsnitt.filter((rad) => avsnittId !== rad.avsnittId)
+        );
     };
-    const [senderInn, settSenderInn] = useState<boolean>(false);
 
     const genererBrev = () => {
         if (senderInn) {
@@ -162,7 +162,7 @@ const FritekstBrev: React.FC<Props> = ({ behandlingId, oppdaterBrevressurs, mell
                     endreAvsnitt={settAvsnitt}
                     endreDeloverskriftAvsnitt={endreDeloverskriftAvsnitt}
                     endreInnholdAvsnitt={endreInnholdAvsnitt}
-                    fjernRad={fjernRad}
+                    fjernAvsnitt={fjernAvsnitt}
                     leggTilAvsnittFørst={oppdaterLeggTilAvsnittFørst}
                     leggAvsnittBakSisteSynligeAvsnitt={oppdaterLeggAvsnittBakSisteSynligeAvsnitt}
                     flyttAvsnittOpp={oppdaterFlyttAvsnittOppover}
