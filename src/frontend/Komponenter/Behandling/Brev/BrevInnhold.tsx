@@ -51,7 +51,7 @@ export interface IBrevInnhold {
     avsnitt: AvsnittMedId[];
     endreAvsnitt: (avsnitt: AvsnittMedId[]) => void;
     endreDeloverskriftAvsnitt: (avsnittId: string, deloverskrift: string) => AvsnittMedId[];
-    endreInnholdAvsnitt: (avsnittId: string, innehold: string) => AvsnittMedId[];
+    endreInnholdAvsnitt: (avsnittId: string, innhold: string) => AvsnittMedId[];
     fjernAvsnitt: (avsnittId: string) => void;
     leggTilAvsnittFørst: () => void;
     leggAvsnittBakSisteSynligeAvsnitt: () => void;

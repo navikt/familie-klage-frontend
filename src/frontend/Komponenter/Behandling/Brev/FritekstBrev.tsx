@@ -96,9 +96,9 @@ const FritekstBrev: React.FC<Props> = ({
         return oppdaterteAvsnitt;
     };
 
-    const endreInnholdAvsnitt = (avsnittId: string, innehold: string) => {
+    const endreInnholdAvsnitt = (avsnittId: string, innhold: string) => {
         const oppdaterteAvsnitt = avsnitt.map((rad) =>
-            rad.avsnittId === avsnittId ? { ...rad, innehold } : rad
+            rad.avsnittId === avsnittId ? { ...rad, innhold } : rad
         );
         settAvsnitt(oppdaterteAvsnitt);
         return oppdaterteAvsnitt;
