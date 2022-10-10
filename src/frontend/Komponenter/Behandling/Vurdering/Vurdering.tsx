@@ -54,6 +54,7 @@ interface IMelding {
     tekst: string;
     type: 'success' | 'error';
 }
+
 const erAlleFelterUtfylt = (vurderingData: IVurdering): boolean => {
     return !!(
         vurderingData.vedtak &&
@@ -136,6 +137,36 @@ export const Vurdering: React.FC<{ behandlingId: string }> = ({ behandlingId }) 
         });
     };
 
+    const ferdigstillBehandlingOgNavigerTilResultat = () => {
+        if (senderInn) {
+            return;
+        }
+
+        settSenderInn(true);
+        axiosRequest<null, null>({
+            method: 'POST',
+            url: `/familie-klage/api/behandling/${behandlingId}/ferdigstill`,
+        }).then((res: RessursSuksess<null> | RessursFeilet) => {
+            settSenderInn(false);
+            if (res.status === RessursStatus.SUKSESS) {
+                hentBehandling.rerun();
+                hentBehandlingshistorikk.rerun();
+                navigate(`/behandling/${hentBehandlingIdFraUrl()}/resultat`);
+            } else {
+                settMelding({
+                    tekst: res.frontendFeilmelding || 'Noe gikk galt ved ferdigstilling',
+                    type: 'error',
+                });
+            }
+        });
+    };
+
+    const skalOmgjøre = !vurderingEndret && vurderingData.vedtak == VedtakValg.OMGJØR_VEDTAK;
+
+    function navigerTilBrev() {
+        navigate(`/behandling/${hentBehandlingIdFraUrl()}/brev`);
+    }
+
     return (
         <DataViewer response={{ formkrav, vurdering }}>
             {({ formkrav }) => {
@@ -204,19 +235,17 @@ export const Vurdering: React.FC<{ behandlingId: string }> = ({ behandlingId }) 
                                         </Button>
                                     )}
                                     {!vurderingEndret && (
-                                        <>
-                                            <Button
-                                                variant="primary"
-                                                size="medium"
-                                                onClick={() =>
-                                                    navigate(
-                                                        `/behandling/${hentBehandlingIdFraUrl()}/brev`
-                                                    )
-                                                }
-                                            >
-                                                Fortsett
-                                            </Button>
-                                        </>
+                                        <Button
+                                            variant="primary"
+                                            size="medium"
+                                            onClick={() =>
+                                                skalOmgjøre
+                                                    ? ferdigstillBehandlingOgNavigerTilResultat()
+                                                    : navigerTilBrev()
+                                            }
+                                        >
+                                            {skalOmgjøre ? 'Ferdigstill' : 'Fortsett'}
+                                        </Button>
                                     )}
                                 </VurderingKnapper>
                                 {melding && (
