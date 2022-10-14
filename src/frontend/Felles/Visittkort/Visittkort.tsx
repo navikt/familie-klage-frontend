@@ -9,6 +9,11 @@ import { Hamburgermeny } from './Hamburgermeny';
 import { erBehandlingRedigerbar } from '../../App/typer/behandlingstatus';
 import { AlleStatuser, StatuserLitenSkjerm, StatusMeny } from './Status/StatusElementer';
 import { Label } from '@navikt/ds-react';
+import PersonStatusVarsel from '../Varsel/PersonStatusVarsel';
+import AdressebeskyttelseVarsel from '../Varsel/AdressebeskyttelseVarsel';
+import { EtikettFokus, EtikettSuksess } from '../Varsel/Etikett';
+import { erEtterDagensDato } from '../../App/utils/dato';
+import { stønadstypeTilTekstKort } from '../../App/typer/behandlingstema';
 
 const Visningsnavn = styled.div`
     text-overflow: ellipsis;
@@ -29,6 +34,16 @@ export const VisittkortWrapper = styled(Sticky)`
     }
 `;
 
+const ElementWrapper = styled.div`
+    margin-left: 1rem;
+`;
+
+const TagsKnyttetTilBehandling = styled.div`
+    display: flex;
+    justify-content: flex-end;
+    flex-grow: 1;
+`;
+
 const StyledHamburgermeny = styled(Hamburgermeny)`
     margin-left: auto;
     display: block;
@@ -41,7 +56,16 @@ const VisittkortComponent: FC<{
     personopplysninger: IPersonopplysninger;
     behandling: Behandling;
 }> = ({ personopplysninger, behandling }) => {
-    const { personIdent, kjønn, navn } = personopplysninger;
+    const {
+        personIdent,
+        kjønn,
+        navn,
+        folkeregisterpersonstatus,
+        adressebeskyttelse,
+        egenAnsatt,
+        fullmakt,
+        vergemål,
+    } = personopplysninger;
     return (
         <VisittkortWrapper>
             <Visittkort
@@ -55,7 +79,40 @@ const VisittkortComponent: FC<{
                         </Label>
                     </Visningsnavn>
                 }
-            />
+            >
+                {folkeregisterpersonstatus && (
+                    <ElementWrapper>
+                        <PersonStatusVarsel folkeregisterpersonstatus={folkeregisterpersonstatus} />
+                    </ElementWrapper>
+                )}
+                {adressebeskyttelse && (
+                    <ElementWrapper>
+                        <AdressebeskyttelseVarsel adressebeskyttelse={adressebeskyttelse} />
+                    </ElementWrapper>
+                )}
+                {egenAnsatt && (
+                    <ElementWrapper>
+                        <EtikettFokus>Egen ansatt</EtikettFokus>
+                    </ElementWrapper>
+                )}
+                {fullmakt.some((f) => erEtterDagensDato(f.gyldigTilOgMed)) && (
+                    <ElementWrapper>
+                        <EtikettFokus>Fullmakt</EtikettFokus>
+                    </ElementWrapper>
+                )}
+
+                {vergemål.length && (
+                    <ElementWrapper>
+                        <EtikettFokus>Verge</EtikettFokus>
+                    </ElementWrapper>
+                )}
+
+                <TagsKnyttetTilBehandling>
+                    <EtikettSuksess>
+                        {stønadstypeTilTekstKort[behandling.stønadstype]}
+                    </EtikettSuksess>
+                </TagsKnyttetTilBehandling>
+            </Visittkort>
 
             {behandling && (
                 <>
