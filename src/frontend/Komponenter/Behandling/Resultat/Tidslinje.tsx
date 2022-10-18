@@ -3,9 +3,10 @@ import { IBehandlingshistorikk } from '../Høyremeny/behandlingshistorikk';
 import { Behandling, behandlingStegTilTekst } from '../../../App/typer/fagsak';
 import { fjernDuplikatStegFraHistorikk, utledTekstForTidslinje } from './utils';
 import styled from 'styled-components';
-import { Detail, Heading, Label } from '@navikt/ds-react';
+import { BodyShort, Detail, Heading, Label } from '@navikt/ds-react';
 import { formaterIsoDato, formaterIsoKlokke } from '../../../App/utils/formatter';
 import { Clock, SuccessColored } from '@navikt/ds-icons';
+import { KlagehendelseType } from '../../../App/typer/klageresultat';
 
 const Flexbox = styled.div`
     display: flex;
@@ -76,18 +77,36 @@ export const Tidslinje: React.FC<{
     // );
 
     return (
-        <Flexbox>
-            {historikk.map((steg, index) => (
-                <HistorikkInnslag key={index}>
-                    <LinjeSort synlig={index > 0} />
-                    <Node behandling={behandling} steg={steg} />
-                    <LinjeSort synlig={index + 1 < historikk.length} />
-                </HistorikkInnslag>
-            ))}
-        </Flexbox>
+        <>
+            <Flexbox>
+                {historikk.map((steg, index) => (
+                    <HistorikkInnslag key={index}>
+                        <LinjeSort synlig={index > 0} />
+                        <Node behandling={behandling} steg={steg} />
+                        <LinjeSort synlig={index + 1 < historikk.length} />
+                    </HistorikkInnslag>
+                ))}
+            </Flexbox>
+            <AnkeInfo behandling={behandling} />
+        </>
     );
 };
-
+const AnkeInfo: React.FC<{ behandling: Behandling }> = ({ behandling }) => {
+    const resultatUtenKlagebehandlinger = behandling.klageresultat.filter(
+        (resultat) => resultat.type != KlagehendelseType.KLAGEBEHANDLING_AVSLUTTET
+    );
+    return (
+        <>
+            {resultatUtenKlagebehandlinger.map((res) => (
+                <>
+                    <Label>{res.type}</Label>
+                    <BodyShort> {res.mottattEllerAvsluttetTidspunkt} </BodyShort>
+                    <BodyShort> {res.utfall} </BodyShort>
+                </>
+            ))}
+        </>
+    );
+};
 const Node: React.FC<{ behandling: Behandling; steg: IBehandlingshistorikk }> = ({
     behandling,
     steg,

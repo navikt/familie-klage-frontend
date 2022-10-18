@@ -6,7 +6,7 @@ import {
     behandlingResultatTilTekst,
     StegType,
 } from '../../../App/typer/fagsak';
-import { utfallTilTekst } from '../../../App/typer/klageresultat';
+import { KlagehendelseType, utfallTilTekst } from '../../../App/typer/klageresultat';
 
 export const fjernDuplikatStegFraHistorikk = (steg: IBehandlingshistorikk[]) => {
     const visning = [
@@ -42,7 +42,10 @@ export const utledTekstForTidslinje = (behandling: Behandling, steg: StegType) =
 };
 
 export const utledTekstForEksternutfall = (behandling: Behandling) => {
-    const klageResultatMedUtfall = behandling.klageresultat.filter((resultat) => resultat.utfall);
+    const klageResultatMedUtfall = behandling.klageresultat.filter(
+        (resultat) =>
+            resultat.utfall && resultat.type == KlagehendelseType.KLAGEBEHANDLING_AVSLUTTET
+    );
     if (klageResultatMedUtfall.length > 0) {
         const utfall = klageResultatMedUtfall[0];
         if (utfall.utfall) {
