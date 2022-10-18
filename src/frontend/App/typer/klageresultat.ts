@@ -31,12 +31,12 @@ export enum Utfall {
 }
 
 export const utfallTilTekst: Record<Utfall, string> = {
-    TRUKKET: 'Trukket',
-    RETUR: 'Retur',
-    OPPHEVET: 'Opphevet',
-    MEDHOLD: 'Medhold',
-    DELVIS_MEDHOLD: 'Delvis medhold',
-    STADFESTELSE: 'Stadfestelse',
-    UGUNST: 'Ugunst (Ugyldig)',
-    AVVIST: 'Avvist',
+    TRUKKET: 'Trukket KA',
+    RETUR: 'Retur KA',
+    OPPHEVET: 'Opphevet KA',
+    MEDHOLD: 'Medhold KA',
+    DELVIS_MEDHOLD: 'Delvis medhold KA',
+    STADFESTELSE: 'Stadfestelse KA',
+    UGUNST: 'Ugunst (Ugyldig) KA',
+    AVVIST: 'Avvist KA',
 };

@@ -71,10 +71,7 @@ const Høyremeny: React.FC<IHøyremenyProps> = ({ åpenHøyremeny, behandling })
                         </StyledButton>
                         <Valgvisning aktiv={aktivtValg} settAktiv={settAktivtvalg} />
                         <Dokumenter hidden={aktivtValg !== Høyremenyvalg.Dokumenter} />
-                        <Historikk
-                            hidden={aktivtValg !== Høyremenyvalg.Historikk}
-                            behandling={behandling}
-                        />
+                        <Historikk hidden={aktivtValg !== Høyremenyvalg.Historikk} />
                     </StyledHøyremeny>
                 </>
             ) : (

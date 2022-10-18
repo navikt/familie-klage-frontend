@@ -3,9 +3,10 @@ import { ensure } from '../../../App/utils/utils';
 import {
     Behandling,
     BehandlingResultat,
-    behandlingStegTilTekst,
+    behandlingResultatTilTekst,
     StegType,
 } from '../../../App/typer/fagsak';
+import { utfallTilTekst } from '../../../App/typer/klageresultat';
 
 export const fjernDuplikatStegFraHistorikk = (steg: IBehandlingshistorikk[]) => {
     const visning = [
@@ -31,15 +32,30 @@ export const utledTekstForTidslinje = (behandling: Behandling, steg: StegType) =
     switch (steg) {
         case StegType.FORMKRAV:
             return behandling.resultat === BehandlingResultat.IKKE_MEDHOLD_FORMKRAV_AVVIST
-                ? 'Formkrav - ikke oppfylt'
-                : 'Formkrav - oppfylt';
+                ? 'Ikke oppfylt'
+                : 'Oppfylt';
         case StegType.VURDERING:
-            return behandling.resultat === BehandlingResultat.MEDHOLD
-                ? 'Vurdering - omgjør'
-                : 'Vurdering - oppretthold';
-        default:
-            return behandlingStegTilTekst[steg];
+            return behandling.resultat === BehandlingResultat.MEDHOLD ? 'Omgjør' : 'Oppretthold';
+        case StegType.BEHANDLING_FERDIGSTILT:
+            return utledTekstForEksternutfall(behandling);
     }
+};
+
+export const utledTekstForEksternutfall = (behandling: Behandling) => {
+    const klageResultatMedUtfall = behandling.klageresultat.filter((resultat) => resultat.utfall);
+    if (klageResultatMedUtfall.length > 0) {
+        const utfall = klageResultatMedUtfall[0];
+        if (utfall.utfall) {
+            return utfallTilTekst[utfall.utfall];
+        }
+    }
+};
+
+export const utledTekstForBehandlingsresultat = (behandling: Behandling) => {
+    const eksternUtfallTekst = utledTekstForEksternutfall(behandling);
+    return eksternUtfallTekst
+        ? eksternUtfallTekst
+        : behandlingResultatTilTekst[behandling.resultat];
 };
 
 const lagHistorikkInnslag = (steg: StegType): IBehandlingshistorikk => ({
