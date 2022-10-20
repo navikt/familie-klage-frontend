@@ -8,14 +8,21 @@ import { TogglesProvider } from './App/context/TogglesContext';
 import { BrowserRouter, Navigate, Route, Routes, useNavigate } from 'react-router-dom';
 import { HeaderMedSøk } from './Felles/HeaderMedSøk/HeaderMedSøk';
 import BehandlingContainer from './Komponenter/Behandling/BehandlingContainer';
-import UgyldigSesjon from './Felles/Modal/SesjonUtløpt';
-import UlagretDataModal from './Komponenter/Behandling/Fanemeny/UlagretDataModal';
 import { AppEnv, hentEnv } from './App/api/env';
 import { Toast } from './Felles/Toast/Toast';
 import { TestSide } from './Komponenter/test/TestSide';
-import { Modal } from '@navikt/ds-react';
+import { BodyLong, Modal } from '@navikt/ds-react';
+import { ModalWrapper } from './Felles/Modal/ModalWrapper';
+import styled from 'styled-components';
+import UlagretDataModal from './Felles/Modal/UlagretDataModal';
 
-Modal.setAppElement && Modal.setAppElement(document.getElementById('modal-a11y-wrapper'));
+// @ts-ignore
+Modal.setAppElement(document.getElementById('modal-a11y-wrapper'));
+
+const Innhold = styled(BodyLong)`
+    margin-top: 2rem;
+    margin-bottom: 2rem;
+`;
 
 const App: React.FC = () => {
     const [innloggetSaksbehandler, settInnloggetSaksbehandler] = useState<ISaksbehandler>();
@@ -59,7 +66,13 @@ const AppRoutes: React.FC<{ innloggetSaksbehandler: ISaksbehandler }> = ({
             {autentisert ? (
                 <AppInnhold innloggetSaksbehandler={innloggetSaksbehandler} />
             ) : (
-                <UgyldigSesjon />
+                <ModalWrapper
+                    tittel={'Ugyldig sesjon'}
+                    visModal={true}
+                    ariaLabel={'Sesjonen har utløpt. Prøv å last inn siden på nytt.'}
+                >
+                    <Innhold>Prøv å last siden på nytt</Innhold>
+                </ModalWrapper>
             )}
         </BrowserRouter>
     );
