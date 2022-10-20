@@ -1,7 +1,7 @@
 import { Behandling, BehandlingResultat, StegType } from '../../App/typer/fagsak';
 import { utledTekstForEksternutfall } from './Resultat/utils';
 
-export const utledTekstForTidslinje = (behandling: Behandling, steg: StegType) => {
+export const utledStegutfall = (behandling: Behandling, steg: StegType) => {
     switch (steg) {
         case StegType.FORMKRAV:
             return behandling.resultat === BehandlingResultat.IKKE_MEDHOLD_FORMKRAV_AVVIST

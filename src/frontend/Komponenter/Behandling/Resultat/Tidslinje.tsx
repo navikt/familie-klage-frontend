@@ -6,7 +6,7 @@ import { BodyShort, Detail, Heading, Label } from '@navikt/ds-react';
 import { formaterIsoDato, formaterIsoKlokke } from '../../../App/utils/formatter';
 import { Clock, SuccessColored } from '@navikt/ds-icons';
 import { KlagehendelseType } from '../../../App/typer/klageresultat';
-import { utledTekstForTidslinje } from '../utils';
+import { utledStegutfall } from '../utils';
 import { fjernDuplikatStegFraHistorikk } from './utils';
 
 const Flexbox = styled.div`
@@ -120,7 +120,7 @@ const Node: React.FC<{ behandling: Behandling; steg: IBehandlingshistorikk }> = 
             {steg.endretTid ? <Suksess width={36} height={36} /> : <Clock width={36} height={36} />}
             <Detail size="small">{steg.endretTid && formaterIsoDato(steg.endretTid)}</Detail>
             <Detail size="small">{steg.endretTid && formaterIsoKlokke(steg.endretTid)}</Detail>
-            <Label size={'small'}>{utledTekstForTidslinje(behandling, steg.steg)}</Label>
+            <Label size={'small'}>{utledStegutfall(behandling, steg.steg)}</Label>
         </NodeContainer>
     );
 };

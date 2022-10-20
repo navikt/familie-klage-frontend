@@ -5,7 +5,7 @@ import styled from 'styled-components';
 import { formaterIsoDatoTid } from '../../../App/utils/formatter';
 import { Behandling, behandlingStegFullførtTilTekst, StegType } from '../../../App/typer/fagsak';
 import { PeopleInCircle } from '@navikt/ds-icons';
-import { utledTekstForTidslinje } from '../utils';
+import { utledStegutfall } from '../utils';
 
 const Innslag = styled.div`
     display: flex;
@@ -29,10 +29,10 @@ const Tekst = styled.div`
 
 interface IHistorikkOppdatering {
     behandling: Behandling;
-    steg?: StegType;
+    steg: StegType;
     opprettetAv: string;
     endretTid: string;
-    opprettet: boolean;
+    visStegutfall: boolean;
 }
 
 const HistorikkInnslag: React.FunctionComponent<IHistorikkOppdatering> = ({
@@ -40,7 +40,7 @@ const HistorikkInnslag: React.FunctionComponent<IHistorikkOppdatering> = ({
     steg,
     opprettetAv,
     endretTid,
-    opprettet,
+    visStegutfall,
 }) => {
     return (
         <Innslag>
@@ -49,12 +49,8 @@ const HistorikkInnslag: React.FunctionComponent<IHistorikkOppdatering> = ({
                 <StipletLinje />
             </Ikon>
             <Tekst>
-                {opprettet || !steg ? (
-                    <Label size="small">Behandling er opprettet</Label>
-                ) : (
-                    <Label size="small">{behandlingStegFullførtTilTekst[steg]}</Label>
-                )}
-                {steg && <BodyShort>{utledTekstForTidslinje(behandling, steg)}</BodyShort>}
+                <Label size="small">{behandlingStegFullførtTilTekst[steg]}</Label>
+                {visStegutfall && <BodyShort>{utledStegutfall(behandling, steg)}</BodyShort>}
                 <Detail size="small">
                     {formaterIsoDatoTid(endretTid)} | {opprettetAv}
                 </Detail>
