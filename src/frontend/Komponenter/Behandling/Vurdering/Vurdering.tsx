@@ -1,12 +1,7 @@
-// React
 import * as React from 'react';
 import { useEffect, useState } from 'react';
 import { useApp } from '../../../App/context/AppContext';
-
-// CSS
 import styled from 'styled-components';
-
-// Komponenter
 import { Alert, Button, Textarea } from '@navikt/ds-react';
 import { FormkravOppsummering } from './FormkravOppsummering';
 import { Vedtak } from './Vedtak';
@@ -33,14 +28,19 @@ import { useBehandling } from '../../../App/context/BehandlingContext';
 import { VurderingLesemodus } from './VurderingLesemodus';
 import { alleVilkårOppfylt } from '../Formkrav/utils';
 import DataViewer from '../../../Felles/DataViewer/DataViewer';
+import { ModalWrapper } from '../../../Felles/Modal/ModalWrapper';
 
-const VurderingBeskrivelseStyled = styled.div`
+const FritekstFelt = styled(Textarea)`
     margin: 2rem 4rem 2rem 4rem;
 `;
 
 const AlertStyled = styled(Alert)`
     margin: 2rem 4rem 2rem 4rem;
     width: 25rem;
+`;
+
+const AlertStripeModal = styled(Alert)`
+    margin-top: 1rem;
 `;
 
 const VurderingKnapper = styled.div`
@@ -68,6 +68,8 @@ export const Vurdering: React.FC<{ behandlingId: string }> = ({ behandlingId }) 
     const [vurdering, settVurdering] = useState<Ressurs<IVurdering>>(byggTomRessurs());
     const [senderInn, settSenderInn] = useState<boolean>(false);
     const [melding, settMelding] = useState<IMelding>();
+    const [feilmelding, settFeilmelding] = useState<string>('');
+    const [visModal, settVisModal] = useState<boolean>(false);
 
     const navigate = useNavigate();
 
@@ -80,11 +82,9 @@ export const Vurdering: React.FC<{ behandlingId: string }> = ({ behandlingId }) 
         hentBehandling,
         behandlingErRedigerbar,
     } = useBehandling();
-    // Endringer
     const { axiosRequest, nullstillIkkePersisterteKomponenter, settIkkePersistertKomponent } =
         useApp();
 
-    // Hent data fra formkrav
     useEffect(() => {
         axiosRequest<IFormkravVilkår, null>({
             method: 'GET',
@@ -98,7 +98,6 @@ export const Vurdering: React.FC<{ behandlingId: string }> = ({ behandlingId }) 
         } else settVurderingEndret(true);
     }, [vurdering, settVurderingEndret, settVurderingData]);
 
-    // Hent eksisterende vurderingsdata
     useEffect(() => {
         axiosRequest<IVurdering, null>({
             method: 'GET',
@@ -149,14 +148,16 @@ export const Vurdering: React.FC<{ behandlingId: string }> = ({ behandlingId }) 
         }).then((res: RessursSuksess<null> | RessursFeilet) => {
             settSenderInn(false);
             if (res.status === RessursStatus.SUKSESS) {
+                lukkModal();
                 hentBehandling.rerun();
                 hentBehandlingshistorikk.rerun();
                 navigate(`/behandling/${hentBehandlingIdFraUrl()}/resultat`);
             } else {
-                settMelding({
-                    tekst: res.frontendFeilmelding || 'Noe gikk galt ved ferdigstilling',
-                    type: 'error',
-                });
+                settFeilmelding(
+                    res.frontendFeilmelding
+                        ? res.frontendFeilmelding
+                        : 'Noe gikk galt ved ferdigstilling'
+                );
             }
         });
     };
@@ -166,6 +167,11 @@ export const Vurdering: React.FC<{ behandlingId: string }> = ({ behandlingId }) 
     function navigerTilBrev() {
         navigate(`/behandling/${hentBehandlingIdFraUrl()}/brev`);
     }
+
+    const lukkModal = () => {
+        settVisModal(false);
+        settFeilmelding('');
+    };
 
     return (
         <DataViewer response={{ formkrav, vurdering }}>
@@ -206,23 +212,19 @@ export const Vurdering: React.FC<{ behandlingId: string }> = ({ behandlingId }) 
                                         endring={settIkkePersistertKomponent}
                                     />
                                 )}
-
-                                <VurderingBeskrivelseStyled>
-                                    <Textarea
-                                        label="Vurdering"
-                                        value={vurderingData.beskrivelse}
-                                        onChange={(e) => {
-                                            settIkkePersistertKomponent(e.target.value);
-                                            settVurderingData((tidligereTilstand) => ({
-                                                ...tidligereTilstand,
-                                                beskrivelse: e.target.value,
-                                            }));
-                                            settVurderingEndret(true);
-                                        }}
-                                        size="medium"
-                                    />
-                                </VurderingBeskrivelseStyled>
-
+                                <FritekstFelt
+                                    label="Vurdering"
+                                    value={vurderingData.beskrivelse}
+                                    onChange={(e) => {
+                                        settIkkePersistertKomponent(e.target.value);
+                                        settVurderingData((tidligereTilstand) => ({
+                                            ...tidligereTilstand,
+                                            beskrivelse: e.target.value,
+                                        }));
+                                        settVurderingEndret(true);
+                                    }}
+                                    size="medium"
+                                />
                                 <VurderingKnapper>
                                     {vurderingEndret && (
                                         <Button
@@ -239,9 +241,7 @@ export const Vurdering: React.FC<{ behandlingId: string }> = ({ behandlingId }) 
                                             variant="primary"
                                             size="medium"
                                             onClick={() =>
-                                                skalOmgjøre
-                                                    ? ferdigstillBehandlingOgNavigerTilResultat()
-                                                    : navigerTilBrev()
+                                                skalOmgjøre ? settVisModal(true) : navigerTilBrev()
                                             }
                                         >
                                             {skalOmgjøre ? 'Ferdigstill' : 'Fortsett'}
@@ -253,6 +253,28 @@ export const Vurdering: React.FC<{ behandlingId: string }> = ({ behandlingId }) 
                                         {melding.tekst}
                                     </AlertStyled>
                                 )}
+                                <ModalWrapper
+                                    tittel={'Bekreft ferdigstillelse av klagebehandling'}
+                                    visModal={visModal}
+                                    onClose={() => lukkModal()}
+                                    aksjonsknapper={{
+                                        hovedKnapp: {
+                                            onClick: () =>
+                                                ferdigstillBehandlingOgNavigerTilResultat(),
+                                            tekst: 'Ferdigstill',
+                                            disabled: senderInn,
+                                        },
+                                        lukkKnapp: { onClick: () => lukkModal(), tekst: 'Avbryt' },
+                                        marginTop: 4,
+                                    }}
+                                    ariaLabel={'Bekreft ustending av frittstående brev'}
+                                >
+                                    {feilmelding && (
+                                        <AlertStripeModal variant={'error'}>
+                                            {feilmelding}
+                                        </AlertStripeModal>
+                                    )}
+                                </ModalWrapper>
                             </>
                         )}
                     </>

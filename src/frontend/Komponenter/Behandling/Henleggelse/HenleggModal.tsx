@@ -7,16 +7,12 @@ import { useNavigate } from 'react-router-dom';
 import { EToast } from '../../../App/typer/toast';
 import { EHenlagtårsak } from './EHenlagtÅrsak';
 import styled from 'styled-components';
-import { Alert, Button, Modal, Radio, RadioGroup } from '@navikt/ds-react';
-import UIModalWrapper from '../../../Felles/Modal/UIModalWrapper';
+import { Alert, Radio, RadioGroup } from '@navikt/ds-react';
+import { ModalWrapper } from '../../../Felles/Modal/ModalWrapper';
 
-interface IHenlegg {
-    settHenlagtårsak: (årsak: EHenlagtårsak | undefined) => void;
-    lagreHenleggelse: () => void;
-    låsKnapp: boolean;
-    henlagtårsak?: EHenlagtårsak;
-    settVisHenleggModal: React.Dispatch<React.SetStateAction<boolean>>;
-}
+const AlertStripe = styled(Alert)`
+    margin-top: 1rem;
+`;
 
 export const HenleggModal: FC<{ behandling: Behandling }> = ({ behandling }) => {
     const { visHenleggModal, settVisHenleggModal } = useBehandling();
@@ -55,84 +51,31 @@ export const HenleggModal: FC<{ behandling: Behandling }> = ({ behandling }) => 
             .finally(() => settLåsKnapp(false));
     };
 
-    const StyledModalInnhold = styled(Modal.Content)`
-        margin-top: 1rem;
-        margin-right: 1rem;
-        margin-left: 1rem;
-    `;
+    const lukkModal = () => {
+        settFeilmelding('');
+        settVisHenleggModal(false);
+    };
 
     return (
-        <UIModalWrapper
-            modal={{
-                tittel: 'Henlegg',
-                lukkKnapp: true,
-                visModal: visHenleggModal,
-                onClose: () => {
-                    settHenlagtårsak(undefined);
-                    settVisHenleggModal(false);
+        <ModalWrapper
+            tittel={'Henlegg'}
+            visModal={visHenleggModal}
+            onClose={() => lukkModal()}
+            aksjonsknapper={{
+                hovedKnapp: {
+                    onClick: () => lagreHenleggelse(),
+                    tekst: 'Henlegg',
+                    disabled: låsKnapp,
                 },
+                lukkKnapp: { onClick: () => lukkModal(), tekst: 'Avbryt' },
             }}
+            ariaLabel={'Velg årsak til henleggelse av behandlingen'}
         >
-            <StyledModalInnhold>
-                <Henlegging
-                    lagreHenleggelse={lagreHenleggelse}
-                    henlagtårsak={henlagtårsak}
-                    settHenlagtårsak={settHenlagtårsak}
-                    låsKnapp={låsKnapp}
-                    settVisHenleggModal={settVisHenleggModal}
-                />
-                {feilmelding && <Alert variant="error">{feilmelding}</Alert>}
-            </StyledModalInnhold>
-        </UIModalWrapper>
-    );
-};
-
-const StyledKnappWrapper = styled.div`
-    margin-top: 1rem;
-    display: flex;
-    justify-content: center;
-    gap: 1rem;
-`;
-
-const Henlegging: React.FC<IHenlegg> = ({
-    settHenlagtårsak,
-    lagreHenleggelse,
-    henlagtårsak,
-    låsKnapp,
-    settVisHenleggModal,
-}) => {
-    return (
-        <>
-            <RadioGroup
-                legend="Henlagtårsak"
-                hideLegend
-                value={henlagtårsak}
-                size="medium"
-                onChange={(val: EHenlagtårsak) => settHenlagtårsak(val)}
-            >
+            <RadioGroup legend={''} onChange={(årsak: EHenlagtårsak) => settHenlagtårsak(årsak)}>
                 <Radio value={EHenlagtårsak.TRUKKET_TILBAKE}>Trukket tilbake</Radio>
                 <Radio value={EHenlagtårsak.FEILREGISTRERT}>Feilregistrert</Radio>
-                <StyledKnappWrapper>
-                    <Button
-                        variant="tertiary"
-                        size={'small'}
-                        onClick={() => {
-                            settHenlagtårsak(undefined);
-                            settVisHenleggModal(false);
-                        }}
-                    >
-                        Avbryt
-                    </Button>
-                    <Button
-                        variant={'primary'}
-                        onClick={lagreHenleggelse}
-                        size={'small'}
-                        disabled={låsKnapp}
-                    >
-                        Henlegg
-                    </Button>
-                </StyledKnappWrapper>
             </RadioGroup>
-        </>
+            {feilmelding && <AlertStripe variant={'error'}>{feilmelding}</AlertStripe>}
+        </ModalWrapper>
     );
 };

@@ -12,33 +12,23 @@ import DataViewer from '../../../Felles/DataViewer/DataViewer';
 import { useBehandling } from '../../../App/context/BehandlingContext';
 import styled from 'styled-components';
 import { useApp } from '../../../App/context/AppContext';
-import { Button } from '@navikt/ds-react';
-import BrevModal from './BrevModal';
+import { Alert, Button } from '@navikt/ds-react';
 import { hentBehandlingIdFraUrl } from '../BehandlingContainer';
 import { useNavigate } from 'react-router-dom';
 import BrevRedigerer from './BrevRedigerer';
+import { ModalWrapper } from '../../../Felles/Modal/ModalWrapper';
 
-const redigeringsmodus = {
-    backgroundColor: '#f2f2f2',
-    padding: '2rem 2rem',
-    display: 'grid',
-    gridTemplateColumns: '1fr 1fr',
-    gridGap: '5rem',
-    justifyContent: 'center',
-};
-const lesemodus = {
-    backgroundColor: '#f2f2f2',
-    padding: '2rem 2rem',
-    justifyContent: 'center',
-    alignItems: 'center',
-    textAlign: 'center' as const,
-};
+const Container = styled.div`
+    background-color: var(--navds-semantic-color-canvas-background);
+    padding: 2rem 2rem;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    grid-gap: 5rem;
+    justify-content: center;
+`;
 
-const BrevKnapper = styled.div`
-    display: flex;
-    flex-direction: row;
-    justify-content: space-between;
-    margin: 0 0rem;
+const AlertStripe = styled(Alert)`
+    margin-top: 2rem;
 `;
 
 interface IBrev {
@@ -53,16 +43,15 @@ export const Brev: React.FC<IBrev> = ({ behandlingId }) => {
         behandling,
         hentBehandling,
         hentBehandlingshistorikk,
-        visAdvarselSendBrev,
-        settVisAdvarselSendBrev,
         behandlingErRedigerbar,
     } = useBehandling();
 
     const navigate = useNavigate();
     const { axiosRequest } = useApp();
 
-    const [senderInn, settSenderInn] = useState<boolean>(false);
-    const [feilFerdigstilling, settFeilFerdigstilling] = useState('');
+    const [senderInnBrev, settSenderInnBrev] = useState<boolean>(false);
+    const [visModal, settVisModal] = useState<boolean>(false);
+    const [feilmelding, settFeilmelding] = useState('');
 
     useEffect(() => {
         if (!behandlingErRedigerbar) {
@@ -74,64 +63,72 @@ export const Brev: React.FC<IBrev> = ({ behandlingId }) => {
     }, [axiosRequest, behandlingId, behandlingErRedigerbar, settBrevRessurs]);
 
     const ferdigstillBrev = () => {
-        if (senderInn) {
+        if (senderInnBrev) {
             return;
         }
-
-        settSenderInn(true);
+        settSenderInnBrev(true);
         axiosRequest<null, null>({
             method: 'POST',
             url: `/familie-klage/api/behandling/${behandlingId}/ferdigstill`,
         }).then((res: RessursSuksess<null> | RessursFeilet) => {
-            settSenderInn(false);
+            settSenderInnBrev(false);
             if (res.status === RessursStatus.SUKSESS) {
-                settFeilFerdigstilling('');
+                lukkModal();
                 hentBehandling.rerun();
                 hentBehandlingshistorikk.rerun();
-                settVisAdvarselSendBrev(false);
                 navigate(`/behandling/${hentBehandlingIdFraUrl()}/resultat`);
             } else {
-                settFeilFerdigstilling(res.frontendFeilmelding);
+                settFeilmelding(res.frontendFeilmelding);
             }
         });
     };
 
+    const lukkModal = () => {
+        settVisModal(false);
+        settFeilmelding('');
+    };
+
     return (
         <DataViewer response={{ personopplysningerResponse, behandling }}>
-            <div style={behandlingErRedigerbar ? redigeringsmodus : lesemodus}>
-                <div>
-                    {behandlingErRedigerbar && (
+            <Container>
+                {behandlingErRedigerbar && (
+                    <div>
                         <BrevRedigerer
                             behandlingId={behandlingId}
                             oppdaterBrevressurs={settBrevRessurs}
                         />
-                    )}
-                    {behandlingErRedigerbar ? (
-                        <BrevKnapper>
-                            <Button
-                                variant="primary"
-                                size="medium"
-                                onClick={() => {
-                                    settVisAdvarselSendBrev(true);
-                                }}
-                            >
-                                Ferdigstill
-                            </Button>
-
-                            {visAdvarselSendBrev && (
-                                <BrevModal
-                                    ferdigstillBrev={ferdigstillBrev}
-                                    settFeil={settFeilFerdigstilling}
-                                    feil={feilFerdigstilling}
-                                />
-                            )}
-                        </BrevKnapper>
-                    ) : (
-                        ''
-                    )}
-                </div>
+                        <Button
+                            variant="primary"
+                            size="medium"
+                            onClick={() => {
+                                settVisModal(true);
+                            }}
+                        >
+                            Ferdigstill
+                        </Button>
+                    </div>
+                )}
                 <PdfVisning pdfFilInnhold={brevRessurs} />
-            </div>
+            </Container>
+            <ModalWrapper
+                tittel={'Bekreft utsending av brev'}
+                visModal={visModal}
+                onClose={() => lukkModal()}
+                aksjonsknapper={{
+                    hovedKnapp: {
+                        onClick: () => ferdigstillBrev(),
+                        tekst: 'Send brev',
+                        disabled: senderInnBrev,
+                    },
+                    lukkKnapp: { onClick: () => lukkModal(), tekst: 'Avbryt' },
+                    marginTop: 4,
+                }}
+                ariaLabel={'Bekreft ustending av frittstående brev'}
+            >
+                {feilmelding && (
+                    <AlertStripe variant={'error'}>Utsending feilet. {feilmelding}</AlertStripe>
+                )}
+            </ModalWrapper>
         </DataViewer>
     );
 };
