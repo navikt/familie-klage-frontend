@@ -5,19 +5,20 @@ import DataViewer from '../../../Felles/DataViewer/DataViewer';
 import hiddenIf from '../../../Felles/HiddenIf/hiddenIf';
 
 const Historikk: React.FC = () => {
-    const { behandlingHistorikk } = useBehandling();
+    const { behandlingHistorikk, behandling } = useBehandling();
 
     return (
-        <DataViewer response={{ behandlingHistorikk }}>
-            {({ behandlingHistorikk }) => (
+        <DataViewer response={{ behandlingHistorikk, behandling }}>
+            {({ behandlingHistorikk, behandling }) => (
                 <>
                     {behandlingHistorikk.map((behandlingshistorikk, index) => (
                         <HistorikkInnslag
-                            key={index}
+                            behandling={behandling}
                             steg={behandlingshistorikk.steg}
-                            endretTid={behandlingshistorikk.endretTid}
                             opprettetAv={behandlingshistorikk.opprettetAv}
+                            endretTid={behandlingshistorikk.endretTid}
                             opprettet={false}
+                            key={index}
                         />
                     ))}
                 </>

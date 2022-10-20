@@ -1,12 +1,7 @@
 import { IBehandlingshistorikk } from '../Høyremeny/behandlingshistorikk';
 import { ensure } from '../../../App/utils/utils';
-import {
-    Behandling,
-    BehandlingResultat,
-    behandlingResultatTilTekst,
-    StegType,
-} from '../../../App/typer/fagsak';
 import { KlagehendelseType, utfallTilTekst } from '../../../App/typer/klageresultat';
+import { Behandling, behandlingResultatTilTekst, StegType } from '../../../App/typer/fagsak';
 
 export const fjernDuplikatStegFraHistorikk = (steg: IBehandlingshistorikk[]) => {
     const visning = [
@@ -26,19 +21,6 @@ export const fjernDuplikatStegFraHistorikk = (steg: IBehandlingshistorikk[]) => 
         ];
     }
     return visning;
-};
-
-export const utledTekstForTidslinje = (behandling: Behandling, steg: StegType) => {
-    switch (steg) {
-        case StegType.FORMKRAV:
-            return behandling.resultat === BehandlingResultat.IKKE_MEDHOLD_FORMKRAV_AVVIST
-                ? 'Ikke oppfylt'
-                : 'Oppfylt';
-        case StegType.VURDERING:
-            return behandling.resultat === BehandlingResultat.MEDHOLD ? 'Omgjør' : 'Oppretthold';
-        case StegType.BEHANDLING_FERDIGSTILT:
-            return utledTekstForEksternutfall(behandling);
-    }
 };
 
 export const utledTekstForEksternutfall = (behandling: Behandling) => {

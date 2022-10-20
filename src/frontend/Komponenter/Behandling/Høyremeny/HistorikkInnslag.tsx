@@ -3,12 +3,13 @@ import { NavdsSemanticColorBorder } from '@navikt/ds-tokens/dist/tokens';
 import { BodyShort, Detail, Label } from '@navikt/ds-react';
 import styled from 'styled-components';
 import { formaterIsoDatoTid } from '../../../App/utils/formatter';
-import { behandlingStegFullførtTilTekst, StegType } from '../../../App/typer/fagsak';
+import { Behandling, behandlingStegFullførtTilTekst, StegType } from '../../../App/typer/fagsak';
 import { PeopleInCircle } from '@navikt/ds-icons';
+import { utledTekstForTidslinje } from '../utils';
 
 const Innslag = styled.div`
     display: flex;
-    margin: 1rem 1.6rem 1rem 1.6rem;
+    margin: 1rem 1.6rem;
 `;
 
 const Ikon = styled.div`
@@ -27,6 +28,7 @@ const Tekst = styled.div`
 `;
 
 interface IHistorikkOppdatering {
+    behandling: Behandling;
     steg?: StegType;
     opprettetAv: string;
     endretTid: string;
@@ -34,6 +36,7 @@ interface IHistorikkOppdatering {
 }
 
 const HistorikkInnslag: React.FunctionComponent<IHistorikkOppdatering> = ({
+    behandling,
     steg,
     opprettetAv,
     endretTid,
@@ -51,7 +54,7 @@ const HistorikkInnslag: React.FunctionComponent<IHistorikkOppdatering> = ({
                 ) : (
                     <Label size="small">{behandlingStegFullførtTilTekst[steg]}</Label>
                 )}
-                <BodyShort>Avvist KA</BodyShort>
+                {steg && <BodyShort>{utledTekstForTidslinje(behandling, steg)}</BodyShort>}
                 <Detail size="small">
                     {formaterIsoDatoTid(endretTid)} | {opprettetAv}
                 </Detail>

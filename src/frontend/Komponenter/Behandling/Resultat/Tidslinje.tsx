@@ -1,12 +1,13 @@
 import * as React from 'react';
 import { IBehandlingshistorikk } from '../Høyremeny/behandlingshistorikk';
 import { Behandling, behandlingStegTilTekst } from '../../../App/typer/fagsak';
-import { fjernDuplikatStegFraHistorikk, utledTekstForTidslinje } from './utils';
 import styled from 'styled-components';
 import { BodyShort, Detail, Heading, Label } from '@navikt/ds-react';
 import { formaterIsoDato, formaterIsoKlokke } from '../../../App/utils/formatter';
 import { Clock, SuccessColored } from '@navikt/ds-icons';
 import { KlagehendelseType } from '../../../App/typer/klageresultat';
+import { utledTekstForTidslinje } from '../utils';
+import { fjernDuplikatStegFraHistorikk } from './utils';
 
 const Flexbox = styled.div`
     display: flex;
