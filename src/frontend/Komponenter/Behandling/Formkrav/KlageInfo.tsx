@@ -1,9 +1,14 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
 import { BodyLong, Heading } from '@navikt/ds-react';
 import { IFormkravVilkår, Redigeringsmodus } from './typer';
 import { alleVilkårOppfylt } from './utils';
-import { Behandling } from '../../../App/typer/fagsak';
+import {
+    Behandling,
+    PåklagetVedtak,
+    PåklagetVedtakstype,
+    påklagetVedtakstypeTilTekst,
+} from '../../../App/typer/fagsak';
 import { harVerdi } from '../../../App/utils/utils';
 import {
     ErrorColored,
@@ -12,7 +17,11 @@ import {
     SuccessColored,
     WarningColored,
 } from '@navikt/ds-icons';
-import { formaterIsoDato } from '../../../App/utils/formatter';
+import { formaterIsoDato, formaterIsoDatoTid } from '../../../App/utils/formatter';
+import { useApp } from '../../../App/context/AppContext';
+import { byggTomRessurs, Ressurs } from '../../../App/typer/ressurs';
+import { FamilieSelect } from '@navikt/familie-form-elements';
+import DataViewer from '../../../Felles/DataViewer/DataViewer';
 
 const OppfyltIkonStyled = styled(SuccessColored)`
     margin-top: 0.25rem;
@@ -44,7 +53,41 @@ interface IProps {
     redigeringsmodus: Redigeringsmodus;
 }
 
+interface FagsystemVedtak {
+    behandlingstype: string;
+    resultat: string;
+    eksternBehandlingId: string;
+    vedtakstidspunkt: string;
+}
+
+const fagsystemVedtakTilVisningstekst = (vedtak: FagsystemVedtak) =>
+    `${vedtak.behandlingstype} - ${vedtak.resultat} - ${formaterIsoDatoTid(
+        vedtak.vedtakstidspunkt
+    )}`;
+
+function erVedtak(valg: FagsystemVedtak | PåklagetVedtakstype): valg is FagsystemVedtak {
+    return (valg as FagsystemVedtak).eksternBehandlingId !== undefined;
+}
+
 export const KlageInfo: React.FC<IProps> = ({ behandling, vurderinger, redigeringsmodus }) => {
+    const { axiosRequest } = useApp();
+    const [fagsystemVedtak, settFagsystemVedtak] = useState<Ressurs<FagsystemVedtak[]>>(
+        byggTomRessurs()
+    );
+
+    const [valgtVedtak, settValgtVedtak] = useState<number>(0);
+
+    useEffect(() => {
+        const hentVedtak = () => {
+            axiosRequest<FagsystemVedtak[], null>({
+                method: 'GET',
+                url: `/familie-klage/api/behandling/${behandling.id}/fagsystem-vedtak`,
+            }).then(settFagsystemVedtak);
+        };
+
+        hentVedtak();
+    }, [axiosRequest, behandling.id]);
+
     const utledetIkon = () => {
         if (redigeringsmodus === Redigeringsmodus.IKKE_PÅSTARTET) {
             return <Advarsel height={26} width={26} />;
@@ -72,6 +115,34 @@ export const KlageInfo: React.FC<IProps> = ({ behandling, vurderinger, redigerin
                 <BodyLong size="small">Klage mottatt</BodyLong>
                 <BodyLong size="small">{formaterIsoDato(behandling.klageMottatt)}</BodyLong>
             </TabellRad>
+            <div>
+                <DataViewer response={{ fagsystemVedtak }}>
+                    {({ fagsystemVedtak }) => {
+                        const muligeValg = [
+                            PåklagetVedtakstype.IKKE_VALGT,
+                            PåklagetVedtakstype.UTEN_VEDTAK,
+                            ...fagsystemVedtak,
+                        ];
+                        return (
+                            <FamilieSelect
+                                label={'Vedtak som er påklaget'}
+                                onChange={(e) => {
+                                    settValgtVedtak(e.target.value as unknown as number);
+                                }}
+                                value={valgtVedtak}
+                            >
+                                {muligeValg.map((valg, index) => (
+                                    <option key={index} value={index}>
+                                        {erVedtak(valg)
+                                            ? fagsystemVedtakTilVisningstekst(valg)
+                                            : påklagetVedtakstypeTilTekst[valg]}
+                                    </option>
+                                ))}
+                            </FamilieSelect>
+                        );
+                    }}
+                </DataViewer>
+            </div>
         </>
     );
 };
