@@ -101,7 +101,7 @@ const VisittkortComponent: FC<{
                     </ElementWrapper>
                 )}
 
-                {vergemål.length && (
+                {vergemål.length > 0 && (
                     <ElementWrapper>
                         <EtikettFokus>Verge</EtikettFokus>
                     </ElementWrapper>
