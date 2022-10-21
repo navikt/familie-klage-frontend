@@ -6,7 +6,6 @@ import styled from 'styled-components';
 import {
     AvsnittMedId,
     BrevtyperTilAvsnitt,
-    BrevtyperTilOverskrift,
     FritekstBrevtype,
     FrittståendeBrevtype,
     IFritekstBrev,
@@ -146,7 +145,6 @@ const FritekstBrev: React.FC<Props> = ({ behandlingId, oppdaterBrevressurs, mell
     useEffect(utsattGenererBrev, [utsattGenererBrev, avsnitt, overskrift]);
 
     const settOverskiftOgAvsnitt = (brevType?: FritekstBrevtype) => {
-        settOverskrift(brevType ? BrevtyperTilOverskrift[brevType] : '');
         settAvsnitt(brevType ? skjulAvsnittIBrevbygger(BrevtyperTilAvsnitt[brevType]) : []);
     };
 
