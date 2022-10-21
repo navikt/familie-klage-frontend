@@ -5,7 +5,11 @@ import styled from 'styled-components';
 import { BodyShort, Detail, Heading, Label } from '@navikt/ds-react';
 import { formaterIsoDato, formaterIsoKlokke } from '../../../App/utils/formatter';
 import { Clock, SuccessColored } from '@navikt/ds-icons';
-import { KlagehendelseType } from '../../../App/typer/klageresultat';
+import {
+    KlagehendelseType,
+    klagehendelseTypeTilTekst,
+    utfallTilTekst,
+} from '../../../App/typer/klageresultat';
 import { utledStegutfall } from '../utils';
 import { fjernDuplikatStegFraHistorikk } from './utils';
 
@@ -63,19 +67,23 @@ const Suksess = styled(SuccessColored)`
     margin-bottom: 0.5rem;
 `;
 
+const StyledAnkeInfo = styled.div`
+    display: flex;
+`;
+
+const StyledAnkeInfoBox = styled.div`
+    margin: 5rem 1rem 1rem 4rem;
+`;
+
+const StyledBodyShort = styled(BodyShort)`
+    margin-left: 1rem;
+`;
+
 export const Tidslinje: React.FC<{
     behandling: Behandling;
     behandlingHistorikk: IBehandlingshistorikk[];
 }> = ({ behandling, behandlingHistorikk }) => {
     const historikk = fjernDuplikatStegFraHistorikk(behandlingHistorikk);
-    // TODO: sorter eksternutfall med generisk funksjon
-    // const { sortertListe, settSortering, sortConfig } = useSorteringState<GamleBehandlingerTabell>(
-    //     gamleBehandlinger,
-    //     {
-    //         sorteringsfelt: 'opprettet',
-    //         rekkefolge: 'ascending',
-    //     }
-    // );
 
     return (
         <>
@@ -97,15 +105,21 @@ const AnkeInfo: React.FC<{ behandling: Behandling }> = ({ behandling }) => {
         (resultat) => resultat.type != KlagehendelseType.KLAGEBEHANDLING_AVSLUTTET
     );
     return (
-        <>
+        <StyledAnkeInfoBox>
             {resultatUtenKlagebehandlinger.map((res) => (
-                <>
-                    <Label>{res.type}</Label>
-                    <BodyShort> {res.mottattEllerAvsluttetTidspunkt} </BodyShort>
-                    <BodyShort> {res.utfall} </BodyShort>
-                </>
+                <StyledAnkeInfo key={res.mottattEllerAvsluttetTidspunkt}>
+                    <Label size={'small'}>{klagehendelseTypeTilTekst[res.type]}</Label>:
+                    <StyledBodyShort size={'small'}>
+                        {' '}
+                        {res.mottattEllerAvsluttetTidspunkt}{' '}
+                    </StyledBodyShort>
+                    <StyledBodyShort size={'small'}>
+                        {' '}
+                        {res.utfall && utfallTilTekst[res.utfall]}{' '}
+                    </StyledBodyShort>
+                </StyledAnkeInfo>
             ))}
-        </>
+        </StyledAnkeInfoBox>
     );
 };
 const Node: React.FC<{ behandling: Behandling; steg: IBehandlingshistorikk }> = ({
