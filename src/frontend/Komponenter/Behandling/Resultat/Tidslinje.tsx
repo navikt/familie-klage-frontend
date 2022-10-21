@@ -110,12 +110,10 @@ const AnkeInfo: React.FC<{ behandling: Behandling }> = ({ behandling }) => {
                 <StyledAnkeInfo key={res.mottattEllerAvsluttetTidspunkt}>
                     <Label size={'small'}>{klagehendelseTypeTilTekst[res.type]}</Label>:
                     <StyledBodyShort size={'small'}>
-                        {' '}
-                        {res.mottattEllerAvsluttetTidspunkt}{' '}
+                        {res.mottattEllerAvsluttetTidspunkt}
                     </StyledBodyShort>
                     <StyledBodyShort size={'small'}>
-                        {' '}
-                        {res.utfall && utfallTilTekst[res.utfall]}{' '}
+                        {res.utfall && utfallTilTekst[res.utfall]}
                     </StyledBodyShort>
                 </StyledAnkeInfo>
             ))}
