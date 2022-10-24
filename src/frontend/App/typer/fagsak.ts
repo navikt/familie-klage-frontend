@@ -59,7 +59,6 @@ export interface Behandling {
     eksternFagsystemFagsakId: string;
     fagsystem: Fagsystem;
     klageMottatt: string;
-    påklagetVedtak: PåklagetVedtak;
 }
 
 export interface PåklagetVedtak {
@@ -74,7 +73,7 @@ export enum PåklagetVedtakstype {
 }
 
 export const påklagetVedtakstypeTilTekst: Record<PåklagetVedtakstype, string> = {
-    IKKE_VALGT: 'Velg',
+    IKKE_VALGT: 'Ikke valgt',
     UTEN_VEDTAK: 'Ikke påklaget et vedtak',
     VEDTAK: 'Vedtak',
 };

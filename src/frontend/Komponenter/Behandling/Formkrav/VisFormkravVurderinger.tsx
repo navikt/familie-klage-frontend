@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { Dispatch, SetStateAction, useState } from 'react';
 import styled from 'styled-components';
 import { NavdsGlobalColorPurple500 } from '@navikt/ds-tokens/dist/tokens';
 import BrukerMedBlyant from '../../../Felles/Ikoner/BrukerMedBlyant';
@@ -86,6 +86,7 @@ interface IProps {
     saksbehandlerBegrunnelse: string;
     endretTid: string;
     settRedigeringsmodus: (redigeringsmodus: Redigeringsmodus) => void;
+    settOppdaterteVurderinger: Dispatch<SetStateAction<IFormkravVilkår>>;
     lagreVurderinger: (
         vurderinger: IFormkravVilkår
     ) => Promise<RessursSuksess<IFormkravVilkår> | RessursFeilet>;
@@ -98,6 +99,7 @@ export const VisFormkravVurderinger: React.FC<IProps> = ({
     settRedigeringsmodus,
     lagreVurderinger,
     vurderinger,
+    settOppdaterteVurderinger,
 }) => {
     const { behandlingErRedigerbar, hentBehandling, hentBehandlingshistorikk } = useBehandling();
     const navigate = useNavigate();
@@ -121,6 +123,7 @@ export const VisFormkravVurderinger: React.FC<IProps> = ({
         lagreVurderinger(nullstilteVurderinger).then((res: Ressurs<IFormkravVilkår>) => {
             settNullstillerVurderinger(false);
             if (res.status === RessursStatus.SUKSESS) {
+                settOppdaterteVurderinger(nullstilteVurderinger);
                 settRedigeringsmodus(Redigeringsmodus.IKKE_PÅSTARTET);
                 hentBehandling.rerun();
                 hentBehandlingshistorikk.rerun();

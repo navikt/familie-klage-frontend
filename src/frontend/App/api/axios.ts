@@ -25,7 +25,7 @@ export const håndterFeil = <T>(
     innloggetSaksbehandler?: ISaksbehandler
 ): RessursSuksess<T> | RessursFeilet => {
     const headers = error.response?.headers;
-    if (!error.response?.data.status) {
+    if (!error.response?.data?.status) {
         loggFeil(
             error,
             innloggetSaksbehandler,

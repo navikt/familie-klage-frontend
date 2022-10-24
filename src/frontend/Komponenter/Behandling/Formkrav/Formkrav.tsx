@@ -49,7 +49,8 @@ const FormkravKomponent: React.FC<{
     feilmelding: string;
 }> = ({ vilkårsvurderinger, lagreVurderinger, behandling, feilmelding }) => {
     const { behandlingErRedigerbar } = useBehandling();
-
+    const [oppdaterteVurderinger, settOppdaterteVurderinger] =
+        useState<IFormkravVilkår>(vilkårsvurderinger);
     const [redigeringsmodus, settRedigeringsmodus] = useState(
         utledRedigeringsmodus(behandlingErRedigerbar, vilkårsvurderinger)
     );
@@ -60,13 +61,15 @@ const FormkravKomponent: React.FC<{
                 venstre: (
                     <KlageInfo
                         behandling={behandling}
-                        vurderinger={vilkårsvurderinger}
+                        vurderinger={oppdaterteVurderinger}
                         redigeringsmodus={redigeringsmodus}
+                        settOppdaterteVurderinger={settOppdaterteVurderinger}
                     />
                 ),
                 høyre: (
                     <VisEllerEndreFormkravVurderinger
-                        vurderinger={vilkårsvurderinger}
+                        vurderinger={oppdaterteVurderinger}
+                        settOppdaterteVurderinger={settOppdaterteVurderinger}
                         lagreVurderinger={lagreVurderinger}
                         redigeringsmodus={redigeringsmodus}
                         settRedigeringsmodus={settRedigeringsmodus}
