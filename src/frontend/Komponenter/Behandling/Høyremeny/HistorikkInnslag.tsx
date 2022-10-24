@@ -3,9 +3,10 @@ import { NavdsSemanticColorBorder } from '@navikt/ds-tokens/dist/tokens';
 import { BodyShort, Detail, Label } from '@navikt/ds-react';
 import styled from 'styled-components';
 import { formaterIsoDatoTid } from '../../../App/utils/formatter';
-import { Behandling, behandlingStegFullførtTilTekst, StegType } from '../../../App/typer/fagsak';
+import { behandlingStegFullførtTilTekst, StegType } from '../../../App/typer/fagsak';
 import { PeopleInCircle } from '@navikt/ds-icons';
-import { utledStegutfall } from '../utils';
+import { utledStegutfallForIkkeFerdigstiltBehandling } from '../utils';
+import { useBehandling } from '../../../App/context/BehandlingContext';
 
 const Innslag = styled.div`
     display: flex;
@@ -28,7 +29,6 @@ const Tekst = styled.div`
 `;
 
 interface IHistorikkOppdatering {
-    behandling: Behandling;
     steg: StegType;
     opprettetAv: string;
     endretTid: string;
@@ -36,12 +36,13 @@ interface IHistorikkOppdatering {
 }
 
 const HistorikkInnslag: React.FunctionComponent<IHistorikkOppdatering> = ({
-    behandling,
     steg,
     opprettetAv,
     endretTid,
     visStegutfall,
 }) => {
+    const { vilkårOppfyltOgBesvart, vurderingData } = useBehandling();
+
     return (
         <Innslag>
             <Ikon>
@@ -50,7 +51,15 @@ const HistorikkInnslag: React.FunctionComponent<IHistorikkOppdatering> = ({
             </Ikon>
             <Tekst>
                 <Label size="small">{behandlingStegFullførtTilTekst[steg]}</Label>
-                {visStegutfall && <BodyShort>{utledStegutfall(behandling, steg)}</BodyShort>}
+                {visStegutfall && (
+                    <BodyShort>
+                        {utledStegutfallForIkkeFerdigstiltBehandling(
+                            steg,
+                            vilkårOppfyltOgBesvart,
+                            vurderingData
+                        )}
+                    </BodyShort>
+                )}
                 <Detail size="small">
                     {formaterIsoDatoTid(endretTid)} | {opprettetAv}
                 </Detail>

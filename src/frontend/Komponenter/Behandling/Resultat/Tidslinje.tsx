@@ -10,7 +10,7 @@ import {
     klagehendelseTypeTilTekst,
     utfallTilTekst,
 } from '../../../App/typer/klageresultat';
-import { utledStegutfall } from '../utils';
+import { utledStegutfallForFerdigstiltBehandling } from '../utils';
 import { fjernDuplikatStegFraHistorikk } from './utils';
 
 const Flexbox = styled.div`
@@ -132,7 +132,9 @@ const Node: React.FC<{ behandling: Behandling; steg: IBehandlingshistorikk }> = 
             {steg.endretTid ? <Suksess width={36} height={36} /> : <Clock width={36} height={36} />}
             <Detail size="small">{steg.endretTid && formaterIsoDato(steg.endretTid)}</Detail>
             <Detail size="small">{steg.endretTid && formaterIsoKlokke(steg.endretTid)}</Detail>
-            <Label size={'small'}>{utledStegutfall(behandling, steg.steg)}</Label>
+            <Label size={'small'}>
+                {utledStegutfallForFerdigstiltBehandling(behandling, steg.steg)}
+            </Label>
         </NodeContainer>
     );
 };
