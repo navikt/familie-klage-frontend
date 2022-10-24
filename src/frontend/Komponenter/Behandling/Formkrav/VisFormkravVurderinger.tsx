@@ -18,6 +18,7 @@ import { Ressurs, RessursFeilet, RessursStatus, RessursSuksess } from '../../../
 import { alleVilkårOppfylt, utledIkkeUtfylteVilkår, utledRadioKnapper } from './utils';
 import { harVerdi } from '../../../App/utils/utils';
 import { Delete, Edit } from '@navikt/ds-icons';
+import { PåklagetVedtakstype } from '../../../App/typer/fagsak';
 
 export const RadSentrertVertikalt = styled.div`
     display: flex;
@@ -135,6 +136,8 @@ export const VisFormkravVurderinger: React.FC<IProps> = ({
     const alleVilkårErOppfylt = alleVilkårOppfylt(vurderinger);
     const manglerBegrunnelse = !harVerdi(vurderinger.saksbehandlerBegrunnelse);
     const ikkeUtfylteVilkår = utledIkkeUtfylteVilkår(vurderinger);
+    const ikkeValgtPåklagetVedtak =
+        vurderinger.påklagetVedtak.påklagetVedtakstype === PåklagetVedtakstype.IKKE_VALGT;
 
     const utledUrlPostfix = (): string => {
         if (!behandlingErRedigerbar) {
@@ -144,6 +147,9 @@ export const VisFormkravVurderinger: React.FC<IProps> = ({
             return '';
         }
         if (manglerBegrunnelse) {
+            return '';
+        }
+        if (ikkeValgtPåklagetVedtak) {
             return '';
         }
         return alleVilkårErOppfylt ? 'vurdering' : 'brev';
@@ -205,7 +211,7 @@ export const VisFormkravVurderinger: React.FC<IProps> = ({
                     </LagreKnapp>
                 )}
             </SpørsmålContainer>
-            {ikkeUtfylteVilkår.length > 0 && (
+            {(ikkeUtfylteVilkår.length > 0 || ikkeValgtPåklagetVedtak) && (
                 <StyledAlert variant={'error'}>
                     <Label>Følgende vilkår er ikke utfylt:</Label>
                     <ul>
@@ -217,6 +223,7 @@ export const VisFormkravVurderinger: React.FC<IProps> = ({
                             );
                         })}
                         {manglerBegrunnelse && <li>Begrunnelse er ikke utfylt</li>}
+                        {ikkeValgtPåklagetVedtak && <li>Ikke valgt påklaget vedtak</li>}
                     </ul>
                 </StyledAlert>
             )}
