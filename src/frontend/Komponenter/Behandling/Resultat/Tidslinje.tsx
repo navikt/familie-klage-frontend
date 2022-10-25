@@ -6,10 +6,10 @@ import { BodyShort, Detail, Heading, Label } from '@navikt/ds-react';
 import { formaterIsoDato, formaterIsoKlokke } from '../../../App/utils/formatter';
 import { Clock, SuccessColored } from '@navikt/ds-icons';
 import {
-    KlagehendelseType,
+    KlageinstansEventType,
     klagehendelseTypeTilTekst,
     utfallTilTekst,
-} from '../../../App/typer/klageresultat';
+} from '../../../App/typer/fagsak';
 import { utledStegutfallForFerdigstiltBehandling } from '../utils';
 import { fjernDuplikatStegFraHistorikk } from './utils';
 
@@ -101,8 +101,8 @@ export const Tidslinje: React.FC<{
     );
 };
 const AnkeInfo: React.FC<{ behandling: Behandling }> = ({ behandling }) => {
-    const resultatUtenKlagebehandlinger = behandling.klageresultat.filter(
-        (resultat) => resultat.type != KlagehendelseType.KLAGEBEHANDLING_AVSLUTTET
+    const resultatUtenKlagebehandlinger = behandling.klageinstansResultat.filter(
+        (resultat) => resultat.type != KlageinstansEventType.KLAGEBEHANDLING_AVSLUTTET
     );
     return (
         <StyledAnkeInfoBox>

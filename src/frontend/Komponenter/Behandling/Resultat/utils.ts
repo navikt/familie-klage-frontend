@@ -1,6 +1,6 @@
 import { IBehandlingshistorikk } from '../Høyremeny/behandlingshistorikk';
 import { ensure } from '../../../App/utils/utils';
-import { KlagehendelseType, utfallTilTekst } from '../../../App/typer/klageresultat';
+import { KlageinstansEventType, utfallTilTekst } from '../../../App/typer/fagsak';
 import { Behandling, behandlingResultatTilTekst, StegType } from '../../../App/typer/fagsak';
 
 export const fjernDuplikatStegFraHistorikk = (steg: IBehandlingshistorikk[]) => {
@@ -24,9 +24,9 @@ export const fjernDuplikatStegFraHistorikk = (steg: IBehandlingshistorikk[]) => 
 };
 
 export const utledTekstForEksternutfall = (behandling: Behandling) => {
-    const klageResultatMedUtfall = behandling.klageresultat.filter(
+    const klageResultatMedUtfall = behandling.klageinstansResultat.filter(
         (resultat) =>
-            resultat.utfall && resultat.type == KlagehendelseType.KLAGEBEHANDLING_AVSLUTTET
+            resultat.utfall && resultat.type == KlageinstansEventType.KLAGEBEHANDLING_AVSLUTTET
     );
     if (klageResultatMedUtfall.length > 0) {
         const utfall = klageResultatMedUtfall[0];

@@ -1,6 +1,5 @@
 import { Stønadstype } from './behandlingstema';
 import { BehandlingStatus } from './behandlingstatus';
-import { Klageresultat } from './klageresultat';
 
 export enum Fagsystem {
     EF = 'EF',
@@ -54,7 +53,7 @@ export interface Behandling {
     resultat: BehandlingResultat;
     vedtakDato?: string;
     stønadstype: Stønadstype;
-    klageresultat: Klageresultat[];
+    klageinstansResultat: KlageinstansResultat[];
     eksternFagsystemBehandlingId: string;
     eksternFagsystemFagsakId: string;
     fagsystem: Fagsystem;
@@ -75,4 +74,47 @@ export const behandlingResultatTilTekst: Record<BehandlingResultat, string> = {
     IKKE_MEDHOLD_FORMKRAV_AVVIST: 'Ikke medhold formkrav avvist',
     IKKE_SATT: 'Ikke satt',
     HENLAGT: 'Henlagt',
+};
+
+export interface KlageinstansResultat {
+    type: KlageinstansEventType;
+    utfall?: KlageinstansUtfall;
+    mottattEllerAvsluttetTidspunkt: string;
+    journalpostReferanser: string[];
+}
+
+export enum KlageinstansEventType {
+    KLAGEBEHANDLING_AVSLUTTET = 'KLAGEBEHANDLING_AVSLUTTET',
+    ANKEBEHANDLING_OPPRETTET = 'ANKEBEHANDLING_OPPRETTET',
+    ANKEBEHANDLING_AVSLUTTET = 'ANKEBEHANDLING_AVSLUTTET',
+    ANKE_I_TRYGDERETTENBEHANDLING_OPPRETTET = 'ANKE_I_TRYGDERETTENBEHANDLING_OPPRETTET',
+}
+
+export const klagehendelseTypeTilTekst: Record<KlageinstansEventType, string> = {
+    KLAGEBEHANDLING_AVSLUTTET: 'Klagebehandling avsluttet',
+    ANKEBEHANDLING_OPPRETTET: 'Ankebehandling opprettet',
+    ANKEBEHANDLING_AVSLUTTET: 'Ankebehandling avsluttet',
+    ANKE_I_TRYGDERETTENBEHANDLING_OPPRETTET: 'Anke i trygderettenbehandling opprettet',
+};
+
+export enum KlageinstansUtfall {
+    TRUKKET = 'TRUKKET',
+    RETUR = 'RETUR',
+    OPPHEVET = 'OPPHEVET',
+    MEDHOLD = 'MEDHOLD',
+    DELVIS_MEDHOLD = 'DELVIS_MEDHOLD',
+    STADFESTELSE = 'STADFESTELSE',
+    UGUNST = 'UGUNST',
+    AVVIST = 'AVVIST',
+}
+
+export const utfallTilTekst: Record<KlageinstansUtfall, string> = {
+    TRUKKET: 'Trukket KA',
+    RETUR: 'Retur KA',
+    OPPHEVET: 'Opphevet KA',
+    MEDHOLD: 'Medhold KA',
+    DELVIS_MEDHOLD: 'Delvis medhold KA',
+    STADFESTELSE: 'Stadfestelse KA',
+    UGUNST: 'Ugunst (Ugyldig) KA',
+    AVVIST: 'Avvist KA',
 };
