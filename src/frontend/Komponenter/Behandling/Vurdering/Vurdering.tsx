@@ -2,7 +2,7 @@ import * as React from 'react';
 import { useEffect, useState } from 'react';
 import { useApp } from '../../../App/context/AppContext';
 import styled from 'styled-components';
-import { Alert, Button, Textarea } from '@navikt/ds-react';
+import { Alert, Button } from '@navikt/ds-react';
 import { FormkravOppsummering } from './FormkravOppsummering';
 import { Vedtak } from './Vedtak';
 import { Årsak } from './Årsak';
@@ -29,9 +29,16 @@ import { VurderingLesemodus } from './VurderingLesemodus';
 import { alleVilkårOppfylt } from '../Formkrav/utils';
 import DataViewer from '../../../Felles/DataViewer/DataViewer';
 import { ModalWrapper } from '../../../Felles/Modal/ModalWrapper';
+import { AddCircle, Delete } from '@navikt/ds-icons';
+import { EnsligTextArea } from '../../../Felles/Input/EnsligTextArea';
+import { harVerdi } from '../../../App/utils/utils';
 
-const FritekstFelt = styled(Textarea)`
+const FritekstFeltWrapper = styled.div`
     margin: 2rem 4rem 2rem 4rem;
+`;
+
+const InterntNotatWrapper = styled.div`
+    margin: 0 4rem 2rem 4rem;
 `;
 
 const AlertStyled = styled(Alert)`
@@ -48,6 +55,13 @@ const VurderingKnapper = styled.div`
     flex-direction: row;
     justify-content: space-between;
     margin: 0 4rem;
+`;
+
+const InternNotatKnappContainer = styled.div`
+    display: flex;
+    justify-content: flex-end;
+    margin-right: 4rem;
+    margin-bottom: -2rem;
 `;
 
 interface IMelding {
@@ -70,6 +84,7 @@ export const Vurdering: React.FC<{ behandlingId: string }> = ({ behandlingId }) 
     const [melding, settMelding] = useState<IMelding>();
     const [feilmelding, settFeilmelding] = useState<string>('');
     const [visModal, settVisModal] = useState<boolean>(false);
+    const [skalViseInterntNotat, settSkalViseInterntNotat] = useState<boolean>(false);
 
     const navigate = useNavigate();
 
@@ -95,6 +110,7 @@ export const Vurdering: React.FC<{ behandlingId: string }> = ({ behandlingId }) 
     useEffect(() => {
         if (vurdering.status === RessursStatus.SUKSESS && vurdering.data != null) {
             settVurderingData(vurdering.data);
+            settSkalViseInterntNotat(harVerdi(vurdering.data.interntNotat));
         } else settVurderingEndret(true);
     }, [vurdering, settVurderingEndret, settVurderingData]);
 
@@ -212,19 +228,66 @@ export const Vurdering: React.FC<{ behandlingId: string }> = ({ behandlingId }) 
                                         endring={settIkkePersistertKomponent}
                                     />
                                 )}
-                                <FritekstFelt
-                                    label="Vurdering"
-                                    value={vurderingData.beskrivelse}
-                                    onChange={(e) => {
-                                        settIkkePersistertKomponent(e.target.value);
-                                        settVurderingData((tidligereTilstand) => ({
-                                            ...tidligereTilstand,
-                                            beskrivelse: e.target.value,
-                                        }));
-                                        settVurderingEndret(true);
-                                    }}
-                                    size="medium"
-                                />
+                                <FritekstFeltWrapper>
+                                    <EnsligTextArea
+                                        label="Vurdering"
+                                        value={vurderingData.beskrivelse}
+                                        onChange={(e) => {
+                                            settIkkePersistertKomponent(e.target.value);
+                                            settVurderingData((tidligereTilstand) => ({
+                                                ...tidligereTilstand,
+                                                beskrivelse: e.target.value,
+                                            }));
+                                            settVurderingEndret(true);
+                                        }}
+                                        size="medium"
+                                        erLesevisning={false}
+                                    />
+                                </FritekstFeltWrapper>
+                                <InternNotatKnappContainer>
+                                    {!skalViseInterntNotat && (
+                                        <Button
+                                            variant={'tertiary'}
+                                            hidden={skalViseInterntNotat}
+                                            icon={<AddCircle />}
+                                            onClick={() => settSkalViseInterntNotat(true)}
+                                        >
+                                            Skriv internt notat
+                                        </Button>
+                                    )}
+                                    {skalViseInterntNotat && (
+                                        <Button
+                                            variant={'tertiary'}
+                                            hidden={!skalViseInterntNotat}
+                                            icon={<Delete />}
+                                            onClick={() => {
+                                                settSkalViseInterntNotat(false);
+                                                settVurderingData((prevState) => ({
+                                                    ...prevState,
+                                                    interntNotat: undefined,
+                                                }));
+                                            }}
+                                        >
+                                            Fjern internt notat
+                                        </Button>
+                                    )}
+                                </InternNotatKnappContainer>
+                                {skalViseInterntNotat && (
+                                    <InterntNotatWrapper>
+                                        <EnsligTextArea
+                                            hidden={!skalViseInterntNotat}
+                                            label={'Internt notat'}
+                                            erLesevisning={!behandlingErRedigerbar}
+                                            onChange={(e) =>
+                                                settVurderingData((prevState) => ({
+                                                    ...prevState,
+                                                    interntNotat: e.target.value,
+                                                }))
+                                            }
+                                            value={vurderingData?.interntNotat}
+                                        />
+                                    </InterntNotatWrapper>
+                                )}
                                 <VurderingKnapper>
                                     {vurderingEndret && (
                                         <Button
