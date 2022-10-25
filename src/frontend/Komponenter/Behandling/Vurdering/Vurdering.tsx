@@ -31,6 +31,7 @@ import DataViewer from '../../../Felles/DataViewer/DataViewer';
 import { ModalWrapper } from '../../../Felles/Modal/ModalWrapper';
 import { AddCircle, Delete } from '@navikt/ds-icons';
 import { EnsligTextArea } from '../../../Felles/Input/EnsligTextArea';
+import { harVerdi } from '../../../App/utils/utils';
 
 const FritekstFeltWrapper = styled.div`
     margin: 2rem 4rem 2rem 4rem;
@@ -109,7 +110,7 @@ export const Vurdering: React.FC<{ behandlingId: string }> = ({ behandlingId }) 
     useEffect(() => {
         if (vurdering.status === RessursStatus.SUKSESS && vurdering.data != null) {
             settVurderingData(vurdering.data);
-            settSkalViseInterntNotat(!!vurdering.data.interntNotat);
+            settSkalViseInterntNotat(harVerdi(vurdering.data.interntNotat));
         } else settVurderingEndret(true);
     }, [vurdering, settVurderingEndret, settVurderingData]);
 
