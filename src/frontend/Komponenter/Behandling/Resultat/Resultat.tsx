@@ -5,6 +5,7 @@ import { Tidslinje } from './Tidslinje';
 import DataViewer from '../../../Felles/DataViewer/DataViewer';
 import { Heading } from '@navikt/ds-react';
 import { useBehandling } from '../../../App/context/BehandlingContext';
+import { AnkeVisning } from './AnkeVisning';
 
 const FaneContainer = styled.div`
     margin: 2rem 5rem 0rem 5rem;
@@ -39,6 +40,7 @@ export const Resultat: React.FC = () => {
                             behandling={behandling}
                             behandlingHistorikk={behandlingHistorikk}
                         />
+                        <AnkeVisning behandling={behandling} />
                     </TidslinjeContainer>
                 </FaneContainer>
             )}

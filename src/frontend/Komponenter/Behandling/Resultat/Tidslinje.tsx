@@ -2,14 +2,9 @@ import * as React from 'react';
 import { IBehandlingshistorikk } from '../Høyremeny/behandlingshistorikk';
 import { Behandling, behandlingStegTilTekst } from '../../../App/typer/fagsak';
 import styled from 'styled-components';
-import { BodyShort, Detail, Heading, Label } from '@navikt/ds-react';
+import { Detail, Heading, Label } from '@navikt/ds-react';
 import { formaterIsoDato, formaterIsoKlokke } from '../../../App/utils/formatter';
 import { Clock, SuccessColored } from '@navikt/ds-icons';
-import {
-    KlageinstansEventType,
-    klagehendelseTypeTilTekst,
-    utfallTilTekst,
-} from '../../../App/typer/fagsak';
 import { utledStegutfallForFerdigstiltBehandling } from '../utils';
 import { fjernDuplikatStegFraHistorikk } from './utils';
 
@@ -67,18 +62,6 @@ const Suksess = styled(SuccessColored)`
     margin-bottom: 0.5rem;
 `;
 
-const StyledAnkeInfo = styled.div`
-    display: flex;
-`;
-
-const StyledAnkeInfoBox = styled.div`
-    margin: 5rem 1rem 1rem 4rem;
-`;
-
-const StyledBodyShort = styled(BodyShort)`
-    margin-left: 1rem;
-`;
-
 export const Tidslinje: React.FC<{
     behandling: Behandling;
     behandlingHistorikk: IBehandlingshistorikk[];
@@ -96,30 +79,10 @@ export const Tidslinje: React.FC<{
                     </HistorikkInnslag>
                 ))}
             </Flexbox>
-            <AnkeInfo behandling={behandling} />
         </>
     );
 };
-const AnkeInfo: React.FC<{ behandling: Behandling }> = ({ behandling }) => {
-    const resultatUtenKlagebehandlinger = behandling.klageinstansResultat.filter(
-        (resultat) => resultat.type != KlageinstansEventType.KLAGEBEHANDLING_AVSLUTTET
-    );
-    return (
-        <StyledAnkeInfoBox>
-            {resultatUtenKlagebehandlinger.map((res) => (
-                <StyledAnkeInfo key={res.mottattEllerAvsluttetTidspunkt}>
-                    <Label size={'small'}>{klagehendelseTypeTilTekst[res.type]}</Label>:
-                    <StyledBodyShort size={'small'}>
-                        {res.mottattEllerAvsluttetTidspunkt}
-                    </StyledBodyShort>
-                    <StyledBodyShort size={'small'}>
-                        {res.utfall && utfallTilTekst[res.utfall]}
-                    </StyledBodyShort>
-                </StyledAnkeInfo>
-            ))}
-        </StyledAnkeInfoBox>
-    );
-};
+
 const Node: React.FC<{ behandling: Behandling; steg: IBehandlingshistorikk }> = ({
     behandling,
     steg,
