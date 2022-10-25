@@ -61,6 +61,23 @@ export interface Behandling {
     klageMottatt: string;
 }
 
+export interface PåklagetVedtak {
+    eksternFagsystemBehandlingId?: string;
+    påklagetVedtakstype: PåklagetVedtakstype;
+}
+
+export enum PåklagetVedtakstype {
+    VEDTAK = 'VEDTAK',
+    UTEN_VEDTAK = 'UTEN_VEDTAK',
+    IKKE_VALGT = 'IKKE_VALGT',
+}
+
+export const påklagetVedtakstypeTilTekst: Record<PåklagetVedtakstype, string> = {
+    IKKE_VALGT: 'Ikke valgt',
+    UTEN_VEDTAK: 'Ikke påklaget et vedtak',
+    VEDTAK: 'Vedtak',
+};
+
 export enum BehandlingResultat {
     MEDHOLD = 'MEDHOLD',
     IKKE_MEDHOLD = 'IKKE_MEDHOLD',

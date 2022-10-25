@@ -1,3 +1,5 @@
+import { PåklagetVedtak } from '../../../App/typer/fagsak';
+
 export enum VilkårStatus {
     OPPFYLT = 'OPPFYLT',
     IKKE_OPPFYLT = 'IKKE_OPPFYLT',
@@ -25,6 +27,7 @@ export interface IFormkravVilkår {
     klagefristOverholdt: VilkårStatus;
     klageSignert: VilkårStatus;
     saksbehandlerBegrunnelse: string;
+    påklagetVedtak: PåklagetVedtak;
     endretTid: string;
 }
 

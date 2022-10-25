@@ -1,9 +1,14 @@
-import React from 'react';
+import React, { Dispatch, SetStateAction, useEffect, useState } from 'react';
 import styled from 'styled-components';
 import { BodyLong, Heading } from '@navikt/ds-react';
 import { IFormkravVilkår, Redigeringsmodus } from './typer';
 import { alleVilkårOppfylt } from './utils';
-import { Behandling } from '../../../App/typer/fagsak';
+import {
+    Behandling,
+    PåklagetVedtak,
+    PåklagetVedtakstype,
+    påklagetVedtakstypeTilTekst,
+} from '../../../App/typer/fagsak';
 import { harVerdi } from '../../../App/utils/utils';
 import {
     ErrorColored,
@@ -12,7 +17,11 @@ import {
     SuccessColored,
     WarningColored,
 } from '@navikt/ds-icons';
-import { formaterIsoDato } from '../../../App/utils/formatter';
+import { formaterIsoDato, formaterIsoDatoTid } from '../../../App/utils/formatter';
+import { useApp } from '../../../App/context/AppContext';
+import { byggTomRessurs, Ressurs } from '../../../App/typer/ressurs';
+import { FamilieSelect } from '@navikt/familie-form-elements';
+import DataViewer from '../../../Felles/DataViewer/DataViewer';
 
 const OppfyltIkonStyled = styled(SuccessColored)`
     margin-top: 0.25rem;
@@ -42,9 +51,63 @@ interface IProps {
     behandling: Behandling;
     vurderinger: IFormkravVilkår;
     redigeringsmodus: Redigeringsmodus;
+    settOppdaterteVurderinger: Dispatch<SetStateAction<IFormkravVilkår>>;
 }
 
-export const KlageInfo: React.FC<IProps> = ({ behandling, vurderinger, redigeringsmodus }) => {
+interface FagsystemVedtak {
+    behandlingstype: string;
+    resultat: string;
+    eksternBehandlingId: string;
+    vedtakstidspunkt: string;
+}
+
+const fagsystemVedtakTilVisningstekst = (vedtak: FagsystemVedtak) =>
+    `${vedtak.behandlingstype} - ${vedtak.resultat} - ${formaterIsoDatoTid(
+        vedtak.vedtakstidspunkt
+    )}`;
+
+const erVedtak = (valgtElement: string) => {
+    return !(
+        valgtElement === PåklagetVedtakstype.UTEN_VEDTAK ||
+        valgtElement === PåklagetVedtakstype.IKKE_VALGT
+    );
+};
+
+const utledFagsystemVedtakFraPåklagetVedtak = (
+    fagsystemVedtak: FagsystemVedtak[],
+    påklagetVedtak: PåklagetVedtak
+) => {
+    return fagsystemVedtak.find(
+        (vedtak) => vedtak.eksternBehandlingId === påklagetVedtak.eksternFagsystemBehandlingId
+    );
+};
+
+const SelectWrapper = styled.div`
+    width: 80%;
+`;
+
+export const KlageInfo: React.FC<IProps> = ({
+    behandling,
+    vurderinger,
+    redigeringsmodus,
+    settOppdaterteVurderinger,
+}) => {
+    const { axiosRequest } = useApp();
+    const [fagsystemVedtak, settFagsystemVedtak] = useState<Ressurs<FagsystemVedtak[]>>(
+        byggTomRessurs()
+    );
+
+    useEffect(() => {
+        const hentVedtak = () => {
+            axiosRequest<FagsystemVedtak[], null>({
+                method: 'GET',
+                url: `/familie-klage/api/behandling/${behandling.id}/fagsystem-vedtak`,
+            }).then(settFagsystemVedtak);
+        };
+
+        hentVedtak();
+    }, [axiosRequest, behandling.id]);
+
     const utledetIkon = () => {
         if (redigeringsmodus === Redigeringsmodus.IKKE_PÅSTARTET) {
             return <Advarsel height={26} width={26} />;
@@ -72,6 +135,77 @@ export const KlageInfo: React.FC<IProps> = ({ behandling, vurderinger, redigerin
                 <BodyLong size="small">Klage mottatt</BodyLong>
                 <BodyLong size="small">{formaterIsoDato(behandling.klageMottatt)}</BodyLong>
             </TabellRad>
+            <div>
+                <DataViewer response={{ fagsystemVedtak }}>
+                    {({ fagsystemVedtak }) => {
+                        const gjeldendeFagsystemVedtak = utledFagsystemVedtakFraPåklagetVedtak(
+                            fagsystemVedtak,
+                            vurderinger.påklagetVedtak
+                        );
+                        return (
+                            <SelectWrapper>
+                                <FamilieSelect
+                                    label={'Vedtak som er påklaget'}
+                                    erLesevisning={redigeringsmodus === Redigeringsmodus.VISNING}
+                                    lesevisningVerdi={
+                                        gjeldendeFagsystemVedtak
+                                            ? fagsystemVedtakTilVisningstekst(
+                                                  gjeldendeFagsystemVedtak
+                                              )
+                                            : påklagetVedtakstypeTilTekst[
+                                                  vurderinger.påklagetVedtak.påklagetVedtakstype
+                                              ]
+                                    }
+                                    onChange={(e) => {
+                                        const valgtElement = e.target.value;
+                                        if (erVedtak(valgtElement)) {
+                                            settOppdaterteVurderinger((prevState) => ({
+                                                ...prevState,
+                                                påklagetVedtak: {
+                                                    eksternFagsystemBehandlingId: valgtElement,
+                                                    påklagetVedtakstype: PåklagetVedtakstype.VEDTAK,
+                                                },
+                                            }));
+                                        } else {
+                                            settOppdaterteVurderinger((prevState) => ({
+                                                ...prevState,
+                                                påklagetVedtak: {
+                                                    påklagetVedtakstype:
+                                                        valgtElement as PåklagetVedtakstype,
+                                                },
+                                            }));
+                                        }
+                                    }}
+                                    value={
+                                        vurderinger.påklagetVedtak.eksternFagsystemBehandlingId ??
+                                        vurderinger.påklagetVedtak.påklagetVedtakstype
+                                    }
+                                >
+                                    <option value={PåklagetVedtakstype.IKKE_VALGT}>
+                                        {
+                                            påklagetVedtakstypeTilTekst[
+                                                PåklagetVedtakstype.IKKE_VALGT
+                                            ]
+                                        }
+                                    </option>
+                                    <option value={PåklagetVedtakstype.UTEN_VEDTAK}>
+                                        {
+                                            påklagetVedtakstypeTilTekst[
+                                                PåklagetVedtakstype.UTEN_VEDTAK
+                                            ]
+                                        }
+                                    </option>
+                                    {fagsystemVedtak.map((valg, index) => (
+                                        <option key={index} value={valg.eksternBehandlingId}>
+                                            {fagsystemVedtakTilVisningstekst(valg)}
+                                        </option>
+                                    ))}
+                                </FamilieSelect>
+                            </SelectWrapper>
+                        );
+                    }}
+                </DataViewer>
+            </div>
         </>
     );
 };

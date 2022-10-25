@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { Dispatch, SetStateAction, useState } from 'react';
 import { IFormkravVilkår, IRadioKnapper, Redigeringsmodus, VilkårStatus } from './typer';
 import { Alert, Button, HelpText, Radio, RadioGroup, Textarea } from '@navikt/ds-react';
 import { useBehandling } from '../../../App/context/BehandlingContext';
@@ -49,10 +49,12 @@ interface IProps {
         vurderinger: IFormkravVilkår
     ) => Promise<RessursSuksess<IFormkravVilkår> | RessursFeilet>;
     feilmelding: string;
+    settOppdaterteVurderinger: Dispatch<SetStateAction<IFormkravVilkår>>;
 }
 
 export const EndreFormkravVurderinger: React.FC<IProps> = ({
     vurderinger,
+    settOppdaterteVurderinger,
     settRedigeringsmodus,
     lagreVurderinger,
     feilmelding,
@@ -61,8 +63,6 @@ export const EndreFormkravVurderinger: React.FC<IProps> = ({
     const { settIkkePersistertKomponent, nullstillIkkePersistertKomponent } = useApp();
 
     const [oppdatererVurderinger, settOppdatererVurderinger] = useState<boolean>(false);
-    const [oppdaterteVurderinger, settOppdaterteVurderinger] =
-        useState<IFormkravVilkår>(vurderinger);
 
     const submitOppdaterteVurderinger = () => {
         if (oppdatererVurderinger) {
@@ -70,7 +70,7 @@ export const EndreFormkravVurderinger: React.FC<IProps> = ({
         }
         settOppdatererVurderinger(true);
 
-        lagreVurderinger(oppdaterteVurderinger).then((res: Ressurs<IFormkravVilkår>) => {
+        lagreVurderinger(vurderinger).then((res: Ressurs<IFormkravVilkår>) => {
             settOppdatererVurderinger(false);
             if (res.status === RessursStatus.SUKSESS) {
                 nullstillIkkePersistertKomponent('formkravVilkår');
@@ -81,7 +81,7 @@ export const EndreFormkravVurderinger: React.FC<IProps> = ({
         });
     };
 
-    const radioKnapper = utledRadioKnapper(oppdaterteVurderinger);
+    const radioKnapper = utledRadioKnapper(vurderinger);
 
     return (
         <form
@@ -125,7 +125,7 @@ export const EndreFormkravVurderinger: React.FC<IProps> = ({
             </RadioGrupperContainer>
             <Textarea
                 label={'Vurdering'}
-                value={oppdaterteVurderinger.saksbehandlerBegrunnelse}
+                value={vurderinger.saksbehandlerBegrunnelse}
                 onChange={(e) => {
                     settIkkePersistertKomponent('formkravVilkår');
                     settOppdaterteVurderinger((prevState: IFormkravVilkår) => {

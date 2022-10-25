@@ -1,4 +1,5 @@
 import { IFormkravVilkår, IRadioKnapper, Redigeringsmodus, VilkårStatus } from './typer';
+import { PåklagetVedtakstype } from '../../../App/typer/fagsak';
 
 export const utledRedigeringsmodus = (
     behandlingErRedigerbar: boolean,
@@ -14,7 +15,10 @@ export const utledRedigeringsmodus = (
 };
 
 export const alleVilkårOppfylt = (vurderinger: IFormkravVilkår) => {
-    return alleVurderingerErStatus(vurderinger, VilkårStatus.OPPFYLT);
+    return (
+        alleVurderingerErStatus(vurderinger, VilkårStatus.OPPFYLT) &&
+        vurderinger.påklagetVedtak.påklagetVedtakstype !== PåklagetVedtakstype.IKKE_VALGT
+    );
 };
 
 export const alleVurderingerErStatus = (

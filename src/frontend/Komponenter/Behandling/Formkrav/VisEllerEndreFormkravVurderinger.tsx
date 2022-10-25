@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { Dispatch, SetStateAction } from 'react';
 import { VisFormkravVurderinger } from './VisFormkravVurderinger';
 import { IFormkravVilkår, Redigeringsmodus } from './typer';
 import { EndreFormkravVurderinger } from './EndreFormkravVurderinger';
@@ -9,6 +9,7 @@ export interface IProps {
     lagreVurderinger: (
         vurderinger: IFormkravVilkår
     ) => Promise<RessursSuksess<IFormkravVilkår> | RessursFeilet>;
+    settOppdaterteVurderinger: Dispatch<SetStateAction<IFormkravVilkår>>;
     redigeringsmodus: Redigeringsmodus;
     settRedigeringsmodus: (redigeringsmodus: Redigeringsmodus) => void;
     feilmelding: string;
@@ -19,6 +20,7 @@ export const VisEllerEndreFormkravVurderinger: React.FC<IProps> = ({
     lagreVurderinger,
     redigeringsmodus,
     settRedigeringsmodus,
+    settOppdaterteVurderinger,
     feilmelding,
 }) => {
     switch (redigeringsmodus) {
@@ -28,6 +30,7 @@ export const VisEllerEndreFormkravVurderinger: React.FC<IProps> = ({
                 <EndreFormkravVurderinger
                     settRedigeringsmodus={settRedigeringsmodus}
                     vurderinger={vurderinger}
+                    settOppdaterteVurderinger={settOppdaterteVurderinger}
                     lagreVurderinger={lagreVurderinger}
                     feilmelding={feilmelding}
                 />
@@ -37,6 +40,7 @@ export const VisEllerEndreFormkravVurderinger: React.FC<IProps> = ({
                 <VisFormkravVurderinger
                     settRedigeringsmodus={settRedigeringsmodus}
                     saksbehandlerBegrunnelse={vurderinger.saksbehandlerBegrunnelse}
+                    settOppdaterteVurderinger={settOppdaterteVurderinger}
                     endretTid={vurderinger.endretTid}
                     lagreVurderinger={lagreVurderinger}
                     vurderinger={vurderinger}
