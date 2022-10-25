@@ -4,6 +4,7 @@ export interface IVurdering {
     arsak?: ÅrsakOmgjøring;
     hjemmel?: Hjemmel;
     beskrivelse?: string;
+    interntNotat?: string;
 }
 
 // VEDTAK
