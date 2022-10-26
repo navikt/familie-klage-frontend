@@ -87,6 +87,15 @@ const SelectWrapper = styled.div`
     width: 80%;
 `;
 
+const sorterVedtakstidspunktDesc = (a: FagsystemVedtak, b: FagsystemVedtak): number => {
+    if (!a.vedtakstidspunkt) {
+        return 1;
+    } else if (!b.vedtakstidspunkt) {
+        return -1;
+    }
+    return compareDesc(new Date(a.vedtakstidspunkt), new Date(b.vedtakstidspunkt));
+};
+
 export const KlageInfo: React.FC<IProps> = ({
     behandling,
     vurderinger,
@@ -197,17 +206,7 @@ export const KlageInfo: React.FC<IProps> = ({
                                         }
                                     </option>
                                     {fagsystemVedtak
-                                        .sort((a, b) => {
-                                            if (!a.vedtakstidspunkt) {
-                                                return 1;
-                                            } else if (!b.vedtakstidspunkt) {
-                                                return -1;
-                                            }
-                                            return compareDesc(
-                                                new Date(a.vedtakstidspunkt),
-                                                new Date(b.vedtakstidspunkt)
-                                            );
-                                        })
+                                        .sort(sorterVedtakstidspunktDesc)
                                         .map((valg, index) => (
                                             <option key={index} value={valg.eksternBehandlingId}>
                                                 {fagsystemVedtakTilVisningstekst(valg)}
