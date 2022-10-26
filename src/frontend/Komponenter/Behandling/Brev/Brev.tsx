@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { useEffect, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import {
     byggTomRessurs,
     Ressurs,
@@ -8,15 +8,15 @@ import {
     RessursSuksess,
 } from '../../../App/typer/ressurs';
 import PdfVisning from './PdfVisning';
-import DataViewer from '../../../Felles/DataViewer/DataViewer';
 import { useBehandling } from '../../../App/context/BehandlingContext';
 import styled from 'styled-components';
 import { useApp } from '../../../App/context/AppContext';
 import { Alert, Button } from '@navikt/ds-react';
 import { hentBehandlingIdFraUrl } from '../BehandlingContainer';
 import { useNavigate } from 'react-router-dom';
-import BrevRedigerer from './BrevRedigerer';
 import { ModalWrapper } from '../../../Felles/Modal/ModalWrapper';
+import { IFritekstBrev } from './BrevTyper';
+import { lagOpprettholdelseBrev } from './Brevtekster';
 
 const Container = styled.div`
     background-color: var(--navds-semantic-color-canvas-background);
@@ -38,13 +38,7 @@ interface IBrev {
 export const Brev: React.FC<IBrev> = ({ behandlingId }) => {
     const [brevRessurs, settBrevRessurs] = useState<Ressurs<string>>(byggTomRessurs());
 
-    const {
-        personopplysningerResponse,
-        behandling,
-        hentBehandling,
-        hentBehandlingshistorikk,
-        behandlingErRedigerbar,
-    } = useBehandling();
+    const { hentBehandling, hentBehandlingshistorikk, behandlingErRedigerbar } = useBehandling();
 
     const navigate = useNavigate();
     const { axiosRequest } = useApp();
@@ -53,14 +47,44 @@ export const Brev: React.FC<IBrev> = ({ behandlingId }) => {
     const [visModal, settVisModal] = useState<boolean>(false);
     const [feilmelding, settFeilmelding] = useState('');
 
+    const hentBrev = useCallback(() => {
+        axiosRequest<string, null>({
+            method: 'GET',
+            url: `/familie-klage/api/brev/${behandlingId}/pdf`,
+        }).then(settBrevRessurs);
+    }, [axiosRequest, behandlingId]);
+
+    const genererBrev = useCallback(() => {
+        // TODO: Fiks innhold
+        const brev: IFritekstBrev = {
+            overskrift: '',
+            avsnitt: lagOpprettholdelseBrev('...'),
+            behandlingId: behandlingId,
+        };
+
+        axiosRequest<string, IFritekstBrev>({
+            method: 'POST',
+            url: `/familie-klage/api/brev/`,
+            data: brev,
+        }).then((respons: Ressurs<string>) => {
+            settBrevRessurs(respons);
+        });
+    }, [axiosRequest, behandlingId]);
+
     useEffect(() => {
-        if (!behandlingErRedigerbar) {
-            axiosRequest<string, null>({
-                method: 'GET',
-                url: `/familie-klage/api/brev/${behandlingId}/pdf`,
-            }).then(settBrevRessurs);
+        if (behandlingErRedigerbar) {
+            genererBrev();
+        } else {
+            hentBrev();
         }
-    }, [axiosRequest, behandlingId, behandlingErRedigerbar, settBrevRessurs]);
+    }, [
+        axiosRequest,
+        behandlingId,
+        behandlingErRedigerbar,
+        settBrevRessurs,
+        hentBrev,
+        genererBrev,
+    ]);
 
     const ferdigstillBrev = () => {
         if (senderInnBrev) {
@@ -89,14 +113,10 @@ export const Brev: React.FC<IBrev> = ({ behandlingId }) => {
     };
 
     return (
-        <DataViewer response={{ personopplysningerResponse, behandling }}>
+        <>
             <Container>
                 {behandlingErRedigerbar && (
                     <div>
-                        <BrevRedigerer
-                            behandlingId={behandlingId}
-                            oppdaterBrevressurs={settBrevRessurs}
-                        />
                         <Button
                             variant="primary"
                             size="medium"
@@ -126,9 +146,9 @@ export const Brev: React.FC<IBrev> = ({ behandlingId }) => {
                 ariaLabel={'Bekreft ustending av frittstående brev'}
             >
                 {feilmelding && (
-                    <AlertStripe variant={'error'}>Utsending feilet. {feilmelding}</AlertStripe>
+                    <AlertStripe variant={'error'}>Utsending feilet.{feilmelding}</AlertStripe>
                 )}
             </ModalWrapper>
-        </DataViewer>
+        </>
     );
 };
