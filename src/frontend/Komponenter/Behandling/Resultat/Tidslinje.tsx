@@ -69,17 +69,15 @@ export const Tidslinje: React.FC<{
     const historikk = fjernDuplikatStegFraHistorikk(behandlingHistorikk);
 
     return (
-        <>
-            <Flexbox>
-                {historikk.map((steg, index) => (
-                    <HistorikkInnslag key={index}>
-                        <LinjeSort synlig={index > 0} />
-                        <Node behandling={behandling} steg={steg} />
-                        <LinjeSort synlig={index + 1 < historikk.length} />
-                    </HistorikkInnslag>
-                ))}
-            </Flexbox>
-        </>
+        <Flexbox>
+            {historikk.map((steg, index) => (
+                <HistorikkInnslag key={index}>
+                    <LinjeSort synlig={index > 0} />
+                    <Node behandling={behandling} steg={steg} />
+                    <LinjeSort synlig={index + 1 < historikk.length} />
+                </HistorikkInnslag>
+            ))}
+        </Flexbox>
     );
 };
 
