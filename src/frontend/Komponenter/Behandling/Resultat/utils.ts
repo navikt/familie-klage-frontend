@@ -1,11 +1,7 @@
 import { IBehandlingshistorikk } from '../Høyremeny/behandlingshistorikk';
 import { ensure } from '../../../App/utils/utils';
-import {
-    Behandling,
-    BehandlingResultat,
-    behandlingStegTilTekst,
-    StegType,
-} from '../../../App/typer/fagsak';
+import { KlageinstansEventType, utfallTilTekst } from '../../../App/typer/fagsak';
+import { Behandling, behandlingResultatTilTekst, StegType } from '../../../App/typer/fagsak';
 
 export const fjernDuplikatStegFraHistorikk = (steg: IBehandlingshistorikk[]) => {
     const visning = [
@@ -27,19 +23,24 @@ export const fjernDuplikatStegFraHistorikk = (steg: IBehandlingshistorikk[]) => 
     return visning;
 };
 
-export const utledTekstForTidslinje = (behandling: Behandling, steg: StegType) => {
-    switch (steg) {
-        case StegType.FORMKRAV:
-            return behandling.resultat === BehandlingResultat.IKKE_MEDHOLD_FORMKRAV_AVVIST
-                ? 'Formkrav - ikke oppfylt'
-                : 'Formkrav - oppfylt';
-        case StegType.VURDERING:
-            return behandling.resultat === BehandlingResultat.MEDHOLD
-                ? 'Vurdering - omgjør'
-                : 'Vurdering - oppretthold';
-        default:
-            return behandlingStegTilTekst[steg];
+export const utledTekstForEksternutfall = (behandling: Behandling) => {
+    const klageResultatMedUtfall = behandling.klageinstansResultat.filter(
+        (resultat) =>
+            resultat.utfall && resultat.type == KlageinstansEventType.KLAGEBEHANDLING_AVSLUTTET
+    );
+    if (klageResultatMedUtfall.length > 0) {
+        const utfall = klageResultatMedUtfall[0];
+        if (utfall.utfall) {
+            return utfallTilTekst[utfall.utfall];
+        }
     }
+};
+
+export const utledTekstForBehandlingsresultat = (behandling: Behandling) => {
+    const eksternUtfallTekst = utledTekstForEksternutfall(behandling);
+    return eksternUtfallTekst
+        ? eksternUtfallTekst
+        : behandlingResultatTilTekst[behandling.resultat];
 };
 
 const lagHistorikkInnslag = (steg: StegType): IBehandlingshistorikk => ({

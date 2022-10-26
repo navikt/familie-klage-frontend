@@ -14,20 +14,20 @@ interface IHøyremenyProps {
     åpenHøyremeny: boolean;
 }
 
-const StyledBack = styled(Back)`
+const PilVenstreIkon = styled(Back)`
     border-radius: 0;
     margin-top: 3px;
     margin-right: 2px;
     color: white;
 `;
 
-const StyledNext = styled(Next)`
+const PilHøyreIkon = styled(Next)`
     border-radius: 0;
     margin-top: 3px;
     color: white;
 `;
 
-const StyledButton = styled.button`
+const ÅpneLukkeKnapp = styled.button`
     position: absolute;
     background-color: ${NavdsSemanticColorFeedbackInfoIcon};
     margin-left: -12px;
@@ -62,31 +62,26 @@ const Høyremeny: React.FC<IHøyremenyProps> = ({ åpenHøyremeny, behandling })
             {åpenHøyremeny ? (
                 <>
                     <StyledHøyremeny>
-                        <StyledButton
+                        <ÅpneLukkeKnapp
                             onClick={() => {
                                 settÅpenHøyremeny(!åpenHøyremeny);
                             }}
                         >
-                            <StyledNext />
-                        </StyledButton>
+                            <PilHøyreIkon />
+                        </ÅpneLukkeKnapp>
                         <Valgvisning aktiv={aktivtValg} settAktiv={settAktivtvalg} />
                         <Dokumenter hidden={aktivtValg !== Høyremenyvalg.Dokumenter} />
-                        <Historikk
-                            hidden={aktivtValg !== Høyremenyvalg.Historikk}
-                            behandling={behandling}
-                        />
+                        <Historikk hidden={aktivtValg !== Høyremenyvalg.Historikk} />
                     </StyledHøyremeny>
                 </>
             ) : (
-                <div>
-                    <StyledButton
-                        onClick={() => {
-                            settÅpenHøyremeny(!åpenHøyremeny);
-                        }}
-                    >
-                        <StyledBack />
-                    </StyledButton>
-                </div>
+                <ÅpneLukkeKnapp
+                    onClick={() => {
+                        settÅpenHøyremeny(!åpenHøyremeny);
+                    }}
+                >
+                    <PilVenstreIkon />
+                </ÅpneLukkeKnapp>
             )}
         </>
     );

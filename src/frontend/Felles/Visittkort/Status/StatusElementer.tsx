@@ -9,6 +9,7 @@ import { stønadstypeTilTekst } from '../../../App/typer/behandlingstema';
 import { NavdsSemanticColorText, NavdsSemanticColorTextMuted } from '@navikt/ds-tokens/dist/tokens';
 import { utledBehandlingLenke, utledSaksoversiktLenke } from '../../../App/utils/utils';
 import { useApp } from '../../../App/context/AppContext';
+import { utledTekstForBehandlingsresultat } from '../../../Komponenter/Behandling/Resultat/utils';
 
 interface StatusMenyInnholdProps {
     åpen: boolean;
@@ -183,7 +184,7 @@ export const AlleStatuser: FC<{ behandling: Behandling }> = ({ behandling }) => 
             </Status>
             <Status>
                 <GråTekst>Behandlingsresultat</GråTekst>
-                <BodyShort>{behandlingResultatTilTekst[behandling.resultat]}</BodyShort>
+                <BodyShort>{utledTekstForBehandlingsresultat(behandling)}</BodyShort>
             </Status>
             <Status>
                 <GråTekst>Opprettet</GråTekst>

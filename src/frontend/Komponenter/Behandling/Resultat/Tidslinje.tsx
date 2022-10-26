@@ -1,11 +1,12 @@
 import * as React from 'react';
 import { IBehandlingshistorikk } from '../Høyremeny/behandlingshistorikk';
-import { Behandling } from '../../../App/typer/fagsak';
-import { fjernDuplikatStegFraHistorikk, utledTekstForTidslinje } from './utils';
+import { Behandling, behandlingStegTilTekst } from '../../../App/typer/fagsak';
 import styled from 'styled-components';
-import { Detail, Heading } from '@navikt/ds-react';
+import { Detail, Heading, Label } from '@navikt/ds-react';
 import { formaterIsoDato, formaterIsoKlokke } from '../../../App/utils/formatter';
 import { Clock, SuccessColored } from '@navikt/ds-icons';
+import { utledStegutfallForFerdigstiltBehandling } from '../utils';
+import { fjernDuplikatStegFraHistorikk } from './utils';
 
 const Flexbox = styled.div`
     display: flex;
@@ -87,11 +88,14 @@ const Node: React.FC<{ behandling: Behandling; steg: IBehandlingshistorikk }> = 
     return (
         <NodeContainer>
             <Tittel level="1" size="xsmall">
-                {utledTekstForTidslinje(behandling, steg.steg)}
+                {behandlingStegTilTekst[steg.steg]}
             </Tittel>
             {steg.endretTid ? <Suksess width={36} height={36} /> : <Clock width={36} height={36} />}
             <Detail size="small">{steg.endretTid && formaterIsoDato(steg.endretTid)}</Detail>
             <Detail size="small">{steg.endretTid && formaterIsoKlokke(steg.endretTid)}</Detail>
+            <Label size={'small'}>
+                {utledStegutfallForFerdigstiltBehandling(behandling, steg.steg)}
+            </Label>
         </NodeContainer>
     );
 };

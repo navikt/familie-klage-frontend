@@ -34,10 +34,9 @@ interface Props {
 const Fanemeny: FC<Props> = ({ behandling }) => {
     const { vilkårOppfyltOgBesvart } = useBehandling();
     const faneErLåst = (side: ISide, steg: StegType): boolean => {
-        if (side.navn == SideNavn.BREV && behandling.resultat == BehandlingResultat.MEDHOLD) {
+        if (side.navn === SideNavn.BREV && behandling.resultat === BehandlingResultat.MEDHOLD) {
             return true;
         }
-
         if (side.navn === SideNavn.VURDERING) {
             return !vilkårOppfyltOgBesvart;
         }
