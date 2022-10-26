@@ -51,7 +51,7 @@ export const VurderingLesemodus: React.FC = () => {
                 <Heading level="1" size="medium">
                     Vurdering
                 </Heading>
-                {vurderingData.beskrivelse}
+                {vurderingData.innstillingKlageinstans}
             </VurderingLesemodusDiv>
         </div>
     );

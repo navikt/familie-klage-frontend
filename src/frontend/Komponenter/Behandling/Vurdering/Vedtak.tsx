@@ -35,6 +35,7 @@ export const Vedtak: React.FC<IVedtak> = ({
                     vedtak: nyttValg,
                     arsak: undefined,
                     hjemmel: undefined,
+                    innstillingKlageinstans: undefined,
                 } as IVurdering)
         );
     };
