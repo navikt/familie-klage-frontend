@@ -22,6 +22,7 @@ import { useApp } from '../../../App/context/AppContext';
 import { byggTomRessurs, Ressurs } from '../../../App/typer/ressurs';
 import { FamilieSelect } from '@navikt/familie-form-elements';
 import DataViewer from '../../../Felles/DataViewer/DataViewer';
+import { compareDesc } from 'date-fns';
 
 const OppfyltIkonStyled = styled(SuccessColored)`
     margin-top: 0.25rem;
@@ -85,6 +86,15 @@ const utledFagsystemVedtakFraPåklagetVedtak = (
 const SelectWrapper = styled.div`
     width: 80%;
 `;
+
+const sorterVedtakstidspunktDesc = (a: FagsystemVedtak, b: FagsystemVedtak): number => {
+    if (!a.vedtakstidspunkt) {
+        return 1;
+    } else if (!b.vedtakstidspunkt) {
+        return -1;
+    }
+    return compareDesc(new Date(a.vedtakstidspunkt), new Date(b.vedtakstidspunkt));
+};
 
 export const KlageInfo: React.FC<IProps> = ({
     behandling,
@@ -195,11 +205,13 @@ export const KlageInfo: React.FC<IProps> = ({
                                             ]
                                         }
                                     </option>
-                                    {fagsystemVedtak.map((valg, index) => (
-                                        <option key={index} value={valg.eksternBehandlingId}>
-                                            {fagsystemVedtakTilVisningstekst(valg)}
-                                        </option>
-                                    ))}
+                                    {fagsystemVedtak
+                                        .sort(sorterVedtakstidspunktDesc)
+                                        .map((valg, index) => (
+                                            <option key={index} value={valg.eksternBehandlingId}>
+                                                {fagsystemVedtakTilVisningstekst(valg)}
+                                            </option>
+                                        ))}
                                 </FamilieSelect>
                             </SelectWrapper>
                         );
