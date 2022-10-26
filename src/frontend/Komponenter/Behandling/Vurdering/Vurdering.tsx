@@ -304,7 +304,7 @@ export const Vurdering: React.FC<{ behandlingId: string }> = ({ behandlingId }) 
                                             Lagre vurdering
                                         </Button>
                                     )}
-                                    {!vurderingEndret && melding?.type === 'success' && (
+                                    {!vurderingEndret && melding?.type !== 'error' && (
                                         <Button
                                             variant="primary"
                                             size="medium"
