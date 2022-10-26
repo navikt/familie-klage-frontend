@@ -29,8 +29,8 @@ export const behandlingStegTilTekst: Record<StegType, string> = {
     FORMKRAV: 'Formkrav',
     VURDERING: 'Vurdering',
     BREV: 'Brev',
-    OVERFØRING_TIL_KABAL: 'Overført til kabal',
-    KABAL_VENTER_SVAR: 'Venter på svar fra kabal',
+    OVERFØRING_TIL_KABAL: 'Overført til NAV klageinstans',
+    KABAL_VENTER_SVAR: 'Venter på svar fra NAV klageinstans',
     BEHANDLING_FERDIGSTILT: 'Fullført',
 };
 
