@@ -70,12 +70,15 @@ interface IMelding {
 }
 
 const erAlleFelterUtfylt = (vurderingData: IVurdering): boolean => {
-    return !!(
-        vurderingData.vedtak &&
-        vurderingData.beskrivelse &&
-        vurderingData.beskrivelse.length > 0 &&
-        (vurderingData.arsak || vurderingData.hjemmel)
-    );
+    const { vedtak, innstillingKlageinstans, arsak, hjemmel } = vurderingData;
+
+    if (vedtak === VedtakValg.OMGJØR_VEDTAK) {
+        return harVerdi(arsak);
+    } else if (vedtak === VedtakValg.OPPRETTHOLD_VEDTAK) {
+        return harVerdi(innstillingKlageinstans) && harVerdi(hjemmel);
+    } else {
+        return false;
+    }
 };
 export const Vurdering: React.FC<{ behandlingId: string }> = ({ behandlingId }) => {
     const [formkrav, settFormkrav] = useState<Ressurs<IFormkravVilkår>>(byggTomRessurs());
@@ -221,29 +224,31 @@ export const Vurdering: React.FC<{ behandlingId: string }> = ({ behandlingId }) 
                                     />
                                 )}
                                 {vurderingData.vedtak == VedtakValg.OPPRETTHOLD_VEDTAK && (
-                                    <HjemmelVelger
-                                        settHjemmel={settVurderingData}
-                                        hjemmelValgt={vurderingData.hjemmel}
-                                        hjemmelValgmuligheter={hjemmelTilTekst}
-                                        endring={settIkkePersistertKomponent}
-                                    />
+                                    <>
+                                        <HjemmelVelger
+                                            settHjemmel={settVurderingData}
+                                            hjemmelValgt={vurderingData.hjemmel}
+                                            hjemmelValgmuligheter={hjemmelTilTekst}
+                                            endring={settIkkePersistertKomponent}
+                                        />
+                                        <FritekstFeltWrapper>
+                                            <EnsligTextArea
+                                                label="Innstilling til NAV Klageinstans"
+                                                value={vurderingData.innstillingKlageinstans}
+                                                onChange={(e) => {
+                                                    settIkkePersistertKomponent(e.target.value);
+                                                    settVurderingData((tidligereTilstand) => ({
+                                                        ...tidligereTilstand,
+                                                        innstillingKlageinstans: e.target.value,
+                                                    }));
+                                                    settVurderingEndret(true);
+                                                }}
+                                                size="medium"
+                                                erLesevisning={false}
+                                            />
+                                        </FritekstFeltWrapper>
+                                    </>
                                 )}
-                                <FritekstFeltWrapper>
-                                    <EnsligTextArea
-                                        label="Vurdering"
-                                        value={vurderingData.beskrivelse}
-                                        onChange={(e) => {
-                                            settIkkePersistertKomponent(e.target.value);
-                                            settVurderingData((tidligereTilstand) => ({
-                                                ...tidligereTilstand,
-                                                beskrivelse: e.target.value,
-                                            }));
-                                            settVurderingEndret(true);
-                                        }}
-                                        size="medium"
-                                        erLesevisning={false}
-                                    />
-                                </FritekstFeltWrapper>
                                 <InternNotatKnappContainer>
                                     {!skalViseInterntNotat && (
                                         <Button
@@ -289,7 +294,7 @@ export const Vurdering: React.FC<{ behandlingId: string }> = ({ behandlingId }) 
                                     </InterntNotatWrapper>
                                 )}
                                 <VurderingKnapper>
-                                    {vurderingEndret && (
+                                    {(vurderingEndret || melding?.type === 'error') && (
                                         <Button
                                             variant="primary"
                                             size="medium"
@@ -299,7 +304,7 @@ export const Vurdering: React.FC<{ behandlingId: string }> = ({ behandlingId }) 
                                             Lagre vurdering
                                         </Button>
                                     )}
-                                    {!vurderingEndret && (
+                                    {!vurderingEndret && melding?.type !== 'error' && (
                                         <Button
                                             variant="primary"
                                             size="medium"

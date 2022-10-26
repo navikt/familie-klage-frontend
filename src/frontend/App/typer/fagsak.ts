@@ -74,7 +74,7 @@ export enum PåklagetVedtakstype {
 
 export const påklagetVedtakstypeTilTekst: Record<PåklagetVedtakstype, string> = {
     IKKE_VALGT: 'Ikke valgt',
-    UTEN_VEDTAK: 'Ikke påklaget et vedtak',
+    UTEN_VEDTAK: 'Har ikke klaget på et vedtak',
     VEDTAK: 'Vedtak',
 };
 
