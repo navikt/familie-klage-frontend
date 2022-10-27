@@ -8,6 +8,7 @@ export enum Fagsystem {
 }
 
 export enum StegType {
+    OPPRETTET = 'OPPRETTET',
     FORMKRAV = 'FORMKRAV',
     VURDERING = 'VURDERING',
     BREV = 'BREV',
@@ -17,6 +18,7 @@ export enum StegType {
 }
 
 export const behandlingStegTilRekkefølge: Record<StegType, number> = {
+    OPPRETTET: 0,
     FORMKRAV: 1,
     VURDERING: 2,
     BREV: 3,
@@ -26,6 +28,7 @@ export const behandlingStegTilRekkefølge: Record<StegType, number> = {
 };
 
 export const behandlingStegTilTekst: Record<StegType, string> = {
+    OPPRETTET: 'Opprettet',
     FORMKRAV: 'Formkrav',
     VURDERING: 'Vurdering',
     BREV: 'Brev',
@@ -35,6 +38,7 @@ export const behandlingStegTilTekst: Record<StegType, string> = {
 };
 
 export const behandlingStegFullførtTilTekst: Record<StegType, string> = {
+    OPPRETTET: 'Behandling er opprettet',
     FORMKRAV: 'Formkrav er oppdatert',
     VURDERING: 'Vurdering er oppdatert',
     BREV: 'Brev er oppdatert',
