@@ -177,18 +177,14 @@ export const Brev: React.FC<IBrev> = ({ behandlingId }) => {
         return (
             <>
                 {behandlingErRedigerbar && (
-                    <>
-                        <AlertContainer>
-                            <Alert variant={'info'}>
-                                Resultatet av klagebehandlingen er at påklaget vedtak skal omgjøres.
-                                Du kan nå ferdigstille klagebehandlingen og opprette en revurdering
-                                for å fatte nytt vedtak.
-                            </Alert>
-                            <StyledKnapp onClick={() => settVisModal(true)}>
-                                Ferdigstill
-                            </StyledKnapp>
-                        </AlertContainer>
-                    </>
+                    <AlertContainer>
+                        <Alert variant={'info'}>
+                            Resultatet av klagebehandlingen er at påklaget vedtak skal omgjøres. Du
+                            kan nå ferdigstille klagebehandlingen og opprette en revurdering for å
+                            fatte nytt vedtak.
+                        </Alert>
+                        <StyledKnapp onClick={() => settVisModal(true)}>Ferdigstill</StyledKnapp>
+                    </AlertContainer>
                 )}
                 {!behandlingErRedigerbar && (
                     <AlertContainer>
