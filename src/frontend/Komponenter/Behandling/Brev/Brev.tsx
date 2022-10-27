@@ -31,6 +31,15 @@ const AlertStripe = styled(Alert)`
     margin-top: 2rem;
 `;
 
+const AlertContainer = styled.div`
+    padding: 2rem;
+    max-width: 40rem;
+`;
+
+const StyledKnapp = styled(Button)`
+    margin-top: 2rem;
+`;
+
 type Utfall = 'IKKE_SATT' | 'LAG_BREV' | 'OMGJØR_VEDTAK';
 
 interface IBrev {
@@ -43,7 +52,7 @@ export const Brev: React.FC<IBrev> = ({ behandlingId }) => {
     const navigate = useNavigate();
 
     const { axiosRequest } = useApp();
-    const [senderInnBrev, settSenderInnBrev] = useState<boolean>(false);
+    const [senderInn, settSenderInn] = useState<boolean>(false);
     const [visModal, settVisModal] = useState<boolean>(false);
     const [feilmelding, settFeilmelding] = useState('');
 
@@ -98,16 +107,16 @@ export const Brev: React.FC<IBrev> = ({ behandlingId }) => {
         }
     }, [behandlingErRedigerbar, genererBrev, hentBrev, utfall]);
 
-    const ferdigstillBrev = () => {
-        if (senderInnBrev) {
+    const ferdigstill = () => {
+        if (senderInn) {
             return;
         }
-        settSenderInnBrev(true);
+        settSenderInn(true);
         axiosRequest<null, null>({
             method: 'POST',
             url: `/familie-klage/api/behandling/${behandlingId}/ferdigstill`,
         }).then((res: RessursSuksess<null> | RessursFeilet) => {
-            settSenderInnBrev(false);
+            settSenderInn(false);
             if (res.status === RessursStatus.SUKSESS) {
                 lukkModal();
                 hentBehandling.rerun();
@@ -149,9 +158,9 @@ export const Brev: React.FC<IBrev> = ({ behandlingId }) => {
                     onClose={() => lukkModal()}
                     aksjonsknapper={{
                         hovedKnapp: {
-                            onClick: () => ferdigstillBrev(),
+                            onClick: () => ferdigstill(),
                             tekst: 'Send brev',
-                            disabled: senderInnBrev,
+                            disabled: senderInn,
                         },
                         lukkKnapp: { onClick: () => lukkModal(), tekst: 'Avbryt' },
                         marginTop: 4,
@@ -165,7 +174,43 @@ export const Brev: React.FC<IBrev> = ({ behandlingId }) => {
             </>
         );
     } else if (utfall === 'OMGJØR_VEDTAK') {
-        return <div>Skal ikke lage brev. Mer kommer her </div>;
+        return (
+            <>
+                {behandlingErRedigerbar && (
+                    <AlertContainer>
+                        <Alert variant={'info'}>
+                            Resultatet av klagebehandlingen er at påklaget vedtak skal omgjøres. Du
+                            kan nå ferdigstille klagebehandlingen og opprette en revurdering for å
+                            fatte nytt vedtak.
+                        </Alert>
+                        <StyledKnapp onClick={() => settVisModal(true)}>Ferdigstill</StyledKnapp>
+                    </AlertContainer>
+                )}
+                {!behandlingErRedigerbar && (
+                    <AlertContainer>
+                        <Alert variant={'info'}>
+                            Brev finnes ikke fordi klagen er tatt til følge.
+                        </Alert>
+                    </AlertContainer>
+                )}
+                <ModalWrapper
+                    tittel={'Bekreft ferdigstillelse av klagebehandling'}
+                    visModal={visModal}
+                    onClose={() => lukkModal()}
+                    aksjonsknapper={{
+                        hovedKnapp: {
+                            onClick: ferdigstill,
+                            tekst: 'Ferdigstill',
+                            disabled: senderInn,
+                        },
+                        lukkKnapp: { onClick: lukkModal, tekst: 'Avbryt' },
+                        marginTop: 4,
+                    }}
+                >
+                    {feilmelding && <AlertStripe variant={'error'}>{feilmelding}</AlertStripe>}
+                </ModalWrapper>
+            </>
+        );
     } else {
         return <div>{feilmelding || <SystemetLaster />}</div>;
     }
