@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { useEffect, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import {
     byggTomRessurs,
     Ressurs,
@@ -7,60 +7,96 @@ import {
     RessursStatus,
     RessursSuksess,
 } from '../../../App/typer/ressurs';
-import PdfVisning from './PdfVisning';
-import DataViewer from '../../../Felles/DataViewer/DataViewer';
 import { useBehandling } from '../../../App/context/BehandlingContext';
 import styled from 'styled-components';
 import { useApp } from '../../../App/context/AppContext';
 import { Alert, Button } from '@navikt/ds-react';
 import { hentBehandlingIdFraUrl } from '../BehandlingContainer';
 import { useNavigate } from 'react-router-dom';
-import BrevRedigerer from './BrevRedigerer';
+import { IVurdering, VedtakValg } from '../Vurdering/vurderingValg';
+import PdfVisning from './PdfVisning';
 import { ModalWrapper } from '../../../Felles/Modal/ModalWrapper';
+import SystemetLaster from '../../../Felles/SystemetLaster/SystemetLaster';
 
 const Container = styled.div`
     background-color: var(--navds-semantic-color-canvas-background);
-    padding: 2rem 2rem;
+    padding: 2rem 2rem 0 2rem;
     display: grid;
-    grid-template-columns: 1fr 1fr;
-    grid-gap: 5rem;
-    justify-content: center;
+    grid-template-columns: 1fr 4fr;
+    grid-gap: 1rem;
+    justify-content: space-between;
 `;
 
 const AlertStripe = styled(Alert)`
     margin-top: 2rem;
 `;
 
+type Utfall = 'IKKE_SATT' | 'LAG_BREV' | 'OMGJØR_VEDTAK';
+
 interface IBrev {
     behandlingId: string;
 }
-
 export const Brev: React.FC<IBrev> = ({ behandlingId }) => {
     const [brevRessurs, settBrevRessurs] = useState<Ressurs<string>>(byggTomRessurs());
 
-    const {
-        personopplysningerResponse,
-        behandling,
-        hentBehandling,
-        hentBehandlingshistorikk,
-        behandlingErRedigerbar,
-    } = useBehandling();
-
+    const { hentBehandling, hentBehandlingshistorikk, behandlingErRedigerbar } = useBehandling();
     const navigate = useNavigate();
-    const { axiosRequest } = useApp();
 
+    const { axiosRequest } = useApp();
     const [senderInnBrev, settSenderInnBrev] = useState<boolean>(false);
     const [visModal, settVisModal] = useState<boolean>(false);
     const [feilmelding, settFeilmelding] = useState('');
 
-    useEffect(() => {
-        if (!behandlingErRedigerbar) {
-            axiosRequest<string, null>({
+    const [utfall, settUtfall] = useState<Utfall>('IKKE_SATT');
+
+    const hentVurdering = useCallback(
+        (behandlingId: string) => {
+            axiosRequest<IVurdering | undefined, null>({
                 method: 'GET',
-                url: `/familie-klage/api/brev/${behandlingId}/pdf`,
-            }).then(settBrevRessurs);
+                url: `/familie-klage/api/vurdering/${behandlingId}`,
+            }).then((response: RessursSuksess<IVurdering | undefined> | RessursFeilet) => {
+                if (response.status === RessursStatus.SUKSESS) {
+                    if (response.data?.vedtak === VedtakValg.OMGJØR_VEDTAK) {
+                        settUtfall('OMGJØR_VEDTAK');
+                    } else {
+                        settUtfall('LAG_BREV');
+                    }
+                } else {
+                    settFeilmelding(response.frontendFeilmelding);
+                }
+            });
+        },
+        [axiosRequest]
+    );
+    useEffect(() => {
+        hentVurdering(behandlingId);
+    }, [behandlingId, hentVurdering]);
+
+    const hentBrev = useCallback(() => {
+        axiosRequest<string, null>({
+            method: 'GET',
+            url: `/familie-klage/api/brev/${behandlingId}/pdf`,
+        }).then(settBrevRessurs);
+    }, [axiosRequest, behandlingId]);
+
+    const genererBrev = useCallback(() => {
+        axiosRequest<string, null>({
+            method: 'POST',
+            url: `/familie-klage/api/brev/${behandlingId}`,
+        }).then((respons: Ressurs<string>) => {
+            settBrevRessurs(respons);
+        });
+    }, [axiosRequest, behandlingId]);
+
+    useEffect(() => {
+        if (utfall === 'LAG_BREV') {
+            if (behandlingErRedigerbar) {
+                genererBrev();
+            } else {
+                hentBrev();
+            }
         }
-    }, [axiosRequest, behandlingId, behandlingErRedigerbar, settBrevRessurs]);
+    }, [behandlingErRedigerbar, genererBrev, hentBrev, utfall]);
 
     const ferdigstillBrev = () => {
         if (senderInnBrev) {
@@ -88,47 +124,49 @@ export const Brev: React.FC<IBrev> = ({ behandlingId }) => {
         settFeilmelding('');
     };
 
-    return (
-        <DataViewer response={{ personopplysningerResponse, behandling }}>
-            <Container>
-                {behandlingErRedigerbar && (
-                    <div>
-                        <BrevRedigerer
-                            behandlingId={behandlingId}
-                            oppdaterBrevressurs={settBrevRessurs}
-                        />
-                        <Button
-                            variant="primary"
-                            size="medium"
-                            onClick={() => {
-                                settVisModal(true);
-                            }}
-                        >
-                            Ferdigstill
-                        </Button>
-                    </div>
-                )}
-                <PdfVisning pdfFilInnhold={brevRessurs} />
-            </Container>
-            <ModalWrapper
-                tittel={'Bekreft utsending av brev'}
-                visModal={visModal}
-                onClose={() => lukkModal()}
-                aksjonsknapper={{
-                    hovedKnapp: {
-                        onClick: () => ferdigstillBrev(),
-                        tekst: 'Send brev',
-                        disabled: senderInnBrev,
-                    },
-                    lukkKnapp: { onClick: () => lukkModal(), tekst: 'Avbryt' },
-                    marginTop: 4,
-                }}
-                ariaLabel={'Bekreft ustending av frittstående brev'}
-            >
-                {feilmelding && (
-                    <AlertStripe variant={'error'}>Utsending feilet. {feilmelding}</AlertStripe>
-                )}
-            </ModalWrapper>
-        </DataViewer>
-    );
+    if (utfall === 'LAG_BREV') {
+        return (
+            <>
+                <Container>
+                    {behandlingErRedigerbar && brevRessurs.status === RessursStatus.SUKSESS && (
+                        <div>
+                            <Button
+                                variant="primary"
+                                size="medium"
+                                onClick={() => {
+                                    settVisModal(true);
+                                }}
+                            >
+                                Ferdigstill behandling og send brev
+                            </Button>
+                        </div>
+                    )}
+                    <PdfVisning pdfFilInnhold={brevRessurs} />
+                </Container>
+                <ModalWrapper
+                    tittel={'Bekreft utsending av brev'}
+                    visModal={visModal}
+                    onClose={() => lukkModal()}
+                    aksjonsknapper={{
+                        hovedKnapp: {
+                            onClick: () => ferdigstillBrev(),
+                            tekst: 'Send brev',
+                            disabled: senderInnBrev,
+                        },
+                        lukkKnapp: { onClick: () => lukkModal(), tekst: 'Avbryt' },
+                        marginTop: 4,
+                    }}
+                    ariaLabel={'Bekreft ustending av frittstående brev'}
+                >
+                    {feilmelding && (
+                        <AlertStripe variant={'error'}>Utsending feilet.{feilmelding}</AlertStripe>
+                    )}
+                </ModalWrapper>
+            </>
+        );
+    } else if (utfall === 'OMGJØR_VEDTAK') {
+        return <div>Skal ikke lage brev. Mer kommer her </div>;
+    } else {
+        return <div>{feilmelding || <SystemetLaster />}</div>;
+    }
 };
