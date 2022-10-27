@@ -190,6 +190,14 @@ export const Brev: React.FC<IBrev> = ({ behandlingId }) => {
                         </AlertContainer>
                     </>
                 )}
+                {!behandlingErRedigerbar && (
+                    <AlertContainer>
+                        <Alert variant={'info'}>
+                            Brev finnes ikke. Resultatet av klagebehandlingen er at påklaget vedtak
+                            omgjøres.
+                        </Alert>
+                    </AlertContainer>
+                )}
                 <ModalWrapper
                     tittel={'Bekreft ferdigstillelse av klagebehandling'}
                     visModal={visModal}
