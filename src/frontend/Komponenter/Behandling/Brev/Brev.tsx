@@ -46,7 +46,6 @@ export const Brev: React.FC<IBrev> = ({ behandlingId }) => {
     const [senderInnBrev, settSenderInnBrev] = useState<boolean>(false);
     const [visModal, settVisModal] = useState<boolean>(false);
     const [feilmelding, settFeilmelding] = useState('');
-    const [vurdering, settVurdering] = useState<Ressurs<IVurdering | undefined>>(byggTomRessurs());
 
     const [utfall, settUtfall] = useState<Utfall>('IKKE_SATT');
 
@@ -56,8 +55,13 @@ export const Brev: React.FC<IBrev> = ({ behandlingId }) => {
                 method: 'GET',
                 url: `/familie-klage/api/vurdering/${behandlingId}`,
             }).then((response: RessursSuksess<IVurdering | undefined> | RessursFeilet) => {
-                settVurdering(response);
-                if (response.status !== RessursStatus.SUKSESS) {
+                if (response.status === RessursStatus.SUKSESS) {
+                    if (response.data?.vedtak === VedtakValg.OMGJØR_VEDTAK) {
+                        settUtfall('OMGJØR_VEDTAK');
+                    } else {
+                        settUtfall('LAG_BREV');
+                    }
+                } else {
                     settFeilmelding(response.frontendFeilmelding);
                 }
             });
@@ -67,16 +71,6 @@ export const Brev: React.FC<IBrev> = ({ behandlingId }) => {
     useEffect(() => {
         hentVurdering(behandlingId);
     }, [behandlingId, hentVurdering]);
-
-    useEffect(() => {
-        if (vurdering.status === RessursStatus.SUKSESS) {
-            if (vurdering.data?.vedtak === VedtakValg.OMGJØR_VEDTAK) {
-                settUtfall('OMGJØR_VEDTAK');
-            } else {
-                settUtfall('LAG_BREV');
-            }
-        }
-    }, [vurdering, settUtfall]);
 
     const hentBrev = useCallback(() => {
         axiosRequest<string, null>({
