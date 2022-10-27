@@ -193,8 +193,7 @@ export const Brev: React.FC<IBrev> = ({ behandlingId }) => {
                 {!behandlingErRedigerbar && (
                     <AlertContainer>
                         <Alert variant={'info'}>
-                            Brev finnes ikke. Resultatet av klagebehandlingen er at påklaget vedtak
-                            omgjøres.
+                            Brev finnes ikke fordi klagen er tatt til følge.
                         </Alert>
                     </AlertContainer>
                 )}
