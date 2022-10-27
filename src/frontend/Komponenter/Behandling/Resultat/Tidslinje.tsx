@@ -1,8 +1,8 @@
 import * as React from 'react';
 import { IBehandlingshistorikk } from '../Høyremeny/behandlingshistorikk';
-import { Behandling, behandlingStegTilTekst } from '../../../App/typer/fagsak';
+import { Behandling, BehandlingResultat, behandlingStegTilTekst } from '../../../App/typer/fagsak';
 import styled from 'styled-components';
-import { Detail, Heading, Label } from '@navikt/ds-react';
+import { Alert, Detail, Heading, Label } from '@navikt/ds-react';
 import { formaterIsoDato, formaterIsoKlokke } from '../../../App/utils/formatter';
 import { Clock, SuccessColored } from '@navikt/ds-icons';
 import { utledStegutfallForFerdigstiltBehandling } from '../utils';
@@ -13,6 +13,7 @@ const Flexbox = styled.div`
     @media (max-width: 1400px) {
         flex-direction: column;
         justify-content: center;
+        align-items: center;
     }
     @media (min-width: 1400px) {
         flex-direction: row;
@@ -30,12 +31,39 @@ const HistorikkInnslag = styled.div`
     }
 `;
 
+const RevurderingAlertContainer = styled.div`
+    @media (max-width: 1400px) {
+        width: 20rem;
+    }
+    @media (min-width: 1400px) {
+        flex-grow: 1;
+        display: grid;
+        grid-template-columns: auto 20rem auto;
+    }
+`;
+
+const LinjeStiplet = styled.div`
+    @media (max-width: 1400px) {
+        border-left: 2px dashed black;
+        margin: 0 auto 2px;
+        width: 0px;
+        height: 2rem;
+    }
+    @media (min-width: 1400px) {
+        border-top: 2px dashed black;
+        margin-top: 3.25rem;
+        margin-left: 2px;
+        min-width: 3rem;
+    }
+`;
+
 const LinjeSort = styled.div<{ synlig: boolean }>`
     @media (max-width: 1400px) {
         ${(props) => (props.synlig ? '' : 'transparent')}
         border-left: 2px solid black;
-        margin-left: 5rem;
+        margin: 0 auto;
         height: 2rem;
+        width: 0px;
     }
     @media (min-width: 1400px) {
         border-top: 2px solid ${(props) => (props.synlig ? 'black' : 'transparent')};
@@ -68,15 +96,27 @@ export const Tidslinje: React.FC<{
 }> = ({ behandling, behandlingHistorikk }) => {
     const historikk = fjernDuplikatStegFraHistorikk(behandlingHistorikk);
 
+    const måManueltOppretteRevurdering = behandling.resultat === BehandlingResultat.MEDHOLD;
     return (
         <Flexbox>
             {historikk.map((steg, index) => (
                 <HistorikkInnslag key={index}>
                     <LinjeSort synlig={index > 0} />
                     <Node behandling={behandling} steg={steg} />
-                    <LinjeSort synlig={index + 1 < historikk.length} />
+                    {index + 1 < historikk.length && <LinjeSort synlig={true} />}
+                    {måManueltOppretteRevurdering && index + 1 === historikk.length && (
+                        <LinjeStiplet />
+                    )}
                 </HistorikkInnslag>
             ))}
+            {måManueltOppretteRevurdering && (
+                <RevurderingAlertContainer>
+                    <LinjeStiplet />
+                    <Alert variant={'info'}>
+                        Det må manuelt opprettes en revurdering for å fatte nytt vedtak.
+                    </Alert>
+                </RevurderingAlertContainer>
+            )}
         </Flexbox>
     );
 };
