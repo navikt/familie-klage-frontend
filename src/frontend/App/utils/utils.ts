@@ -61,7 +61,7 @@ export const utledBehandlingLenke = (
 ): string => {
     return `${utledFagsystemUrl(behandling.fagsystem, eksternLenker)}/fagsak/${
         behandling.eksternFagsystemFagsakId
-    }/${behandling.eksternFagsystemBehandlingId}`;
+    }/${behandling.påklagetVedtak.eksternFagsystemBehandlingId}`;
 };
 
 export const utledSaksoversiktLenke = (

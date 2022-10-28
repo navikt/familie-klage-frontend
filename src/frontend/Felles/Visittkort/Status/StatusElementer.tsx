@@ -146,7 +146,7 @@ export const StatusMeny: FC<{ behandling: Behandling }> = ({ behandling }) => {
                             <BodyShort>{formaterIsoDatoTid(behandling.sistEndret)}</BodyShort>
                         </Status>
                     </li>
-                    {behandling.eksternFagsystemBehandlingId && (
+                    {behandling.påklagetVedtak.eksternFagsystemBehandlingId && (
                         <li>
                             <Status>
                                 <Link
@@ -196,7 +196,7 @@ export const AlleStatuser: FC<{ behandling: Behandling }> = ({ behandling }) => 
                 <GråTekst>Sist endret</GråTekst>
                 <BodyShort>{formaterIsoDatoTid(behandling.sistEndret)}</BodyShort>
             </Status>
-            {behandling.eksternFagsystemBehandlingId && (
+            {behandling.påklagetVedtak.eksternFagsystemBehandlingId && (
                 <Status>
                     <Link
                         href={utledBehandlingLenke(behandling, appEnv.eksternlenker)}
