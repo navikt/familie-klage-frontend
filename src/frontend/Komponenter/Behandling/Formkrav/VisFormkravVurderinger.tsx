@@ -139,7 +139,7 @@ export const VisFormkravVurderinger: React.FC<IProps> = ({
     const ikkeValgtPåklagetVedtak =
         vurderinger.påklagetVedtak.påklagetVedtakstype === PåklagetVedtakstype.IKKE_VALGT;
 
-    const utledUrlPostfix = (): string => {
+    const utledUrlSuffiks = (): string => {
         if (!behandlingErRedigerbar) {
             return '';
         }
@@ -155,7 +155,7 @@ export const VisFormkravVurderinger: React.FC<IProps> = ({
         return alleVilkårErOppfylt ? 'vurdering' : 'brev';
     };
 
-    const urlPostfix = utledUrlPostfix();
+    const urlSuffiks = utledUrlSuffiks();
 
     return (
         <VisFormkravContainer>
@@ -189,22 +189,22 @@ export const VisFormkravVurderinger: React.FC<IProps> = ({
             </Header>
             <SpørsmålContainer>
                 Sist endret - {formaterIsoDatoTid(endretTid)}
-                {radioKnapper.map((item: IRadioKnapper, index) => (
+                {radioKnapper.map((knapp: IRadioKnapper, index) => (
                     <SvarElement key={index}>
-                        <Spørsmål>{item.spørsmål}</Spørsmål>
-                        <Svar>{vilkårStatusTilTekst[item.svar]}</Svar>
+                        <Spørsmål>{knapp.spørsmål}</Spørsmål>
+                        <Svar>{vilkårStatusTilTekst[knapp.svar]}</Svar>
                     </SvarElement>
                 ))}
                 <SvarElement>
                     <Spørsmål>Begrunnelse</Spørsmål>
                     <Svar>{saksbehandlerBegrunnelse}</Svar>
                 </SvarElement>
-                {urlPostfix && (
+                {urlSuffiks && (
                     <LagreKnapp
                         variant="primary"
                         size="medium"
                         onClick={() =>
-                            navigate(`/behandling/${hentBehandlingIdFraUrl()}/${urlPostfix}`)
+                            navigate(`/behandling/${hentBehandlingIdFraUrl()}/${urlSuffiks}`)
                         }
                     >
                         Fortsett

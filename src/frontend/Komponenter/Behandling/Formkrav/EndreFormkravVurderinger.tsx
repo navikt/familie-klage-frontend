@@ -5,7 +5,7 @@ import { useBehandling } from '../../../App/context/BehandlingContext';
 import { useApp } from '../../../App/context/AppContext';
 import { Ressurs, RessursFeilet, RessursStatus, RessursSuksess } from '../../../App/typer/ressurs';
 import styled from 'styled-components';
-import { utledRadioKnapper } from './utils';
+import { alleVilkårOppfylt, utledRadioKnapper } from './utils';
 
 const RadioGrupperContainer = styled.div`
     display: flex;
@@ -64,13 +64,19 @@ export const EndreFormkravVurderinger: React.FC<IProps> = ({
 
     const [oppdatererVurderinger, settOppdatererVurderinger] = useState<boolean>(false);
 
+    const alleVilkårErOppfylt = alleVilkårOppfylt(vurderinger);
+
     const submitOppdaterteVurderinger = () => {
         if (oppdatererVurderinger) {
             return;
         }
         settOppdatererVurderinger(true);
 
-        lagreVurderinger(vurderinger).then((res: Ressurs<IFormkravVilkår>) => {
+        const vurderingerSomSkalLagres = alleVilkårErOppfylt
+            ? vurderinger
+            : { ...vurderinger, saksbehandlerBegrunnelse: '' };
+
+        lagreVurderinger(vurderingerSomSkalLagres).then((res: Ressurs<IFormkravVilkår>) => {
             settOppdatererVurderinger(false);
             if (res.status === RessursStatus.SUKSESS) {
                 nullstillIkkePersistertKomponent('formkravVilkår');
@@ -111,9 +117,6 @@ export const EndreFormkravVurderinger: React.FC<IProps> = ({
                         >
                             <RadioButton value={VilkårStatus.OPPFYLT}>Ja</RadioButton>
                             <RadioButton value={VilkårStatus.IKKE_OPPFYLT}>Nei</RadioButton>
-                            <RadioButton value={VilkårStatus.SKAL_IKKE_VURDERES}>
-                                Skal ikke vurderes
-                            </RadioButton>
                         </RadioGruppe>
                         {item.spørsmål === 'Er klagefristen overholdt?' && (
                             <StyledHelpText>
@@ -123,20 +126,22 @@ export const EndreFormkravVurderinger: React.FC<IProps> = ({
                     </FlexRow>
                 ))}
             </RadioGrupperContainer>
-            <Textarea
-                label={'Vurdering'}
-                value={vurderinger.saksbehandlerBegrunnelse}
-                onChange={(e) => {
-                    settIkkePersistertKomponent('formkravVilkår');
-                    settOppdaterteVurderinger((prevState: IFormkravVilkår) => {
-                        return {
-                            ...prevState,
-                            saksbehandlerBegrunnelse: e.target.value,
-                        };
-                    });
-                }}
-                maxLength={1500}
-            />
+            {alleVilkårErOppfylt && (
+                <Textarea
+                    label={'Begrunnelse'}
+                    value={vurderinger.saksbehandlerBegrunnelse}
+                    onChange={(e) => {
+                        settIkkePersistertKomponent('formkravVilkår');
+                        settOppdaterteVurderinger((prevState: IFormkravVilkår) => {
+                            return {
+                                ...prevState,
+                                saksbehandlerBegrunnelse: e.target.value,
+                            };
+                        });
+                    }}
+                    maxLength={1500}
+                />
+            )}
             {feilmelding && (
                 <AlertStripe variant={'error'} size={'medium'}>
                     {feilmelding}
