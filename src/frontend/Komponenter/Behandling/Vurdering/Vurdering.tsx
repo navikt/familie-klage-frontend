@@ -231,6 +231,7 @@ export const Vurdering: React.FC<{ behandlingId: string }> = ({ behandlingId }) 
                                                     ...prevState,
                                                     interntNotat: undefined,
                                                 }));
+                                                settVurderingEndret(true);
                                             }}
                                         >
                                             Fjern internt notat
@@ -243,12 +244,13 @@ export const Vurdering: React.FC<{ behandlingId: string }> = ({ behandlingId }) 
                                             hidden={!skalViseInterntNotat}
                                             label={'Internt notat'}
                                             erLesevisning={!behandlingErRedigerbar}
-                                            onChange={(e) =>
+                                            onChange={(e) => {
                                                 settVurderingData((prevState) => ({
                                                     ...prevState,
                                                     interntNotat: e.target.value,
-                                                }))
-                                            }
+                                                }));
+                                                settVurderingEndret(true);
+                                            }}
                                             value={vurderingData?.interntNotat}
                                         />
                                     </InterntNotatWrapper>
