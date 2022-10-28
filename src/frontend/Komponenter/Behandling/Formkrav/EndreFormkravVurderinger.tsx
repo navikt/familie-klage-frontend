@@ -79,6 +79,7 @@ export const EndreFormkravVurderinger: React.FC<IProps> = ({
         lagreVurderinger(vurderingerSomSkalLagres).then((res: Ressurs<IFormkravVilkår>) => {
             settOppdatererVurderinger(false);
             if (res.status === RessursStatus.SUKSESS) {
+                settOppdaterteVurderinger(vurderingerSomSkalLagres);
                 nullstillIkkePersistertKomponent('formkravVilkår');
                 settRedigeringsmodus(Redigeringsmodus.VISNING);
                 hentBehandling.rerun();

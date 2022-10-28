@@ -143,13 +143,13 @@ export const VisFormkravVurderinger: React.FC<IProps> = ({
         if (!behandlingErRedigerbar) {
             return '';
         }
+        if (ikkeValgtPåklagetVedtak) {
+            return '';
+        }
         if (ikkeUtfylteVilkår.length > 0) {
             return '';
         }
-        if (manglerBegrunnelse) {
-            return '';
-        }
-        if (ikkeValgtPåklagetVedtak) {
+        if (alleVilkårErOppfylt && manglerBegrunnelse) {
             return '';
         }
         return alleVilkårErOppfylt ? 'vurdering' : 'brev';
