@@ -11,7 +11,6 @@ import { useBehandling } from '../../../App/context/BehandlingContext';
 import styled from 'styled-components';
 import { useApp } from '../../../App/context/AppContext';
 import { Alert, Button } from '@navikt/ds-react';
-import { hentBehandlingIdFraUrl } from '../BehandlingContainer';
 import { useNavigate } from 'react-router-dom';
 import { IVurdering, VedtakValg } from '../Vurdering/vurderingValg';
 import PdfVisning from './PdfVisning';
@@ -121,7 +120,7 @@ export const Brev: React.FC<IBrev> = ({ behandlingId }) => {
                 lukkModal();
                 hentBehandling.rerun();
                 hentBehandlingshistorikk.rerun();
-                navigate(`/behandling/${hentBehandlingIdFraUrl()}/resultat`);
+                navigate(`/behandling/${behandlingId}/resultat`);
             } else {
                 settFeilmelding(res.frontendFeilmelding);
             }
