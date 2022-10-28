@@ -1,10 +1,9 @@
 import React, { Dispatch, FC, SetStateAction } from 'react';
 import styled from 'styled-components';
-import SlettSøppelkasse from '../../../Felles/Ikoner/SlettSøppelkasse';
 import { IBrevmottaker, IOrganisasjonMottaker } from './typer';
 import { BodyShort, Ingress } from '@navikt/ds-react';
 import { KopierbartNullableFødselsnummer } from '../../../Fødselsnummer/KopierbartNullableFødselsnummer';
-import LenkeKnapp from '../../../Felles/Knapper/LenkeKnapp';
+import SlettKnapp from '../../../Felles/Knapper/SlettKnapp';
 
 interface Props {
     valgtePersonMottakere: IBrevmottaker[];
@@ -57,9 +56,10 @@ export const BrevmottakereListe: FC<Props> = ({
                             <KopierbartNullableFødselsnummer fødselsnummer={mottaker.personIdent} />
                         </BodyShort>
                     </Flexboks>
-                    <LenkeKnapp onClick={fjernPersonMottaker(mottaker.personIdent)}>
-                        <SlettSøppelkasse withDefaultStroke={false} />
-                    </LenkeKnapp>
+                    <SlettKnapp
+                        onClick={fjernPersonMottaker(mottaker.personIdent)}
+                        knappetekst={''}
+                    />
                 </StyledMottakerBoks>
             ))}
             {valgteOrganisasjonMottakere.map((mottaker, index) => (
@@ -70,9 +70,10 @@ export const BrevmottakereListe: FC<Props> = ({
                             {`Organisasjonsnummer: ${mottaker.organisasjonsnummer}`}
                         </BodyShort>
                     </div>
-                    <LenkeKnapp onClick={fjernOrganisasjonMottaker(mottaker.organisasjonsnummer)}>
-                        <SlettSøppelkasse withDefaultStroke={false} />
-                    </LenkeKnapp>
+                    <SlettKnapp
+                        onClick={fjernOrganisasjonMottaker(mottaker.organisasjonsnummer)}
+                        knappetekst={''}
+                    />
                 </StyledMottakerBoks>
             ))}
         </>
