@@ -13,7 +13,6 @@ export interface IOrganisasjonMottaker {
     organisasjonsnummer: string;
     organisasjonsnavn: string;
     navnHosOrganisasjon: string;
-    mottakerRolle: 'VERGE';
 }
 
 export enum EBrevmottakerRolle {

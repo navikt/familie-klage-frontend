@@ -41,8 +41,7 @@ export const SøkOrganisasjon: React.FC<Props> = ({ settValgteMottakere }) => {
             {
                 organisasjonsnummer,
                 organisasjonsnavn,
-                navnHosOrganisasjon: navnHosOrganisasjon,
-                mottakerRolle: 'VERGE',
+                navnHosOrganisasjon,
             },
         ]);
     };
