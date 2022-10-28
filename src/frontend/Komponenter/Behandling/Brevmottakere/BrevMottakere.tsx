@@ -16,7 +16,7 @@ const Grid = styled.div`
 
 const InfoHeader = styled.div`
     display: grid;
-    grid-template-columns: 29rem 14rem;
+    grid-template-columns: 29rem 18rem;
 `;
 
 const KompaktButton = styled(Button)`
@@ -32,13 +32,15 @@ const BrevMottakereContainer: React.FC<{
     mottakere: IBrevmottakere;
 }> = ({ mottakere }) => {
     const { settVisBrevmottakereModal } = useApp();
+    const { behandlingErRedigerbar } = useBehandling();
     const utledNavnPåMottakere = (brevMottakere: IBrevmottakere) => {
         return [
             ...brevMottakere.personer.map(
                 (person) => `${person.navn} (${person.mottakerRolle.toLowerCase()})`
             ),
             ...brevMottakere.organisasjoner.map(
-                (org) => `${org.navnHosOrganisasjon} (${org.mottakerRolle.toLowerCase()})`
+                (org) =>
+                    `${org.navnHosOrganisasjon} - ${org.organisasjonsnavn} (${org.organisasjonsnummer})`
             ),
         ];
     };
@@ -53,14 +55,16 @@ const BrevMottakereContainer: React.FC<{
         <Alert variant={'info'}>
             <InfoHeader>
                 <Label>Brevmottakere:</Label>
-                <Tooltip content={'Legg til verge eller fullmektige brevmottakere'}>
-                    <KompaktButton
-                        variant={'tertiary'}
-                        onClick={() => settVisBrevmottakereModal(true)}
-                    >
-                        Legg til/endre brevmottakere
-                    </KompaktButton>
-                </Tooltip>
+                {behandlingErRedigerbar && (
+                    <Tooltip content={'Legg til verge eller fullmektige brevmottakere'}>
+                        <KompaktButton
+                            variant={'tertiary'}
+                            onClick={() => settVisBrevmottakereModal(true)}
+                        >
+                            Legg til/endre brevmottakere
+                        </KompaktButton>
+                    </Tooltip>
+                )}
             </InfoHeader>
             <ul>
                 {navn.map((navn, index) => (
@@ -74,11 +78,16 @@ const BrevMottakereContainer: React.FC<{
         <Grid>
             <Label>Brevmottaker:</Label>
             <BodyShort>{navn.map((navn) => navn)}</BodyShort>
-            <Tooltip content={'Legg til verge eller fullmektige brevmottakere'}>
-                <KompaktButton variant={'tertiary'} onClick={() => settVisBrevmottakereModal(true)}>
-                    Legg til/endre brevmottakere
-                </KompaktButton>
-            </Tooltip>
+            {behandlingErRedigerbar && (
+                <Tooltip content={'Legg til verge eller fullmektige brevmottakere'}>
+                    <KompaktButton
+                        variant={'tertiary'}
+                        onClick={() => settVisBrevmottakereModal(true)}
+                    >
+                        Legg til/endre brevmottakere
+                    </KompaktButton>
+                </Tooltip>
+            )}
         </Grid>
     );
 };
