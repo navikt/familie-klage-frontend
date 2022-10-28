@@ -137,8 +137,8 @@ export const Brev: React.FC<IBrev> = ({ behandlingId }) => {
         return (
             <>
                 <Container>
-                    {behandlingErRedigerbar && brevRessurs.status === RessursStatus.SUKSESS && (
-                        <div>
+                    <div>
+                        {behandlingErRedigerbar && brevRessurs.status === RessursStatus.SUKSESS && (
                             <Button
                                 variant="primary"
                                 size="medium"
@@ -148,8 +148,8 @@ export const Brev: React.FC<IBrev> = ({ behandlingId }) => {
                             >
                                 Ferdigstill behandling og send brev
                             </Button>
-                        </div>
-                    )}
+                        )}
+                    </div>
                     <PdfVisning pdfFilInnhold={brevRessurs} />
                 </Container>
                 <ModalWrapper

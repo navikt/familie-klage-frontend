@@ -6,8 +6,6 @@ import {
     RessursSuksess,
 } from '../../App/typer/ressurs';
 import SystemetLaster from '../SystemetLaster/SystemetLaster';
-import { Link } from 'react-router-dom';
-import styled from 'styled-components';
 import AlertStripePreWrap from '../Visningskomponenter/AlertStripeFeilPreWrap';
 import { Alert } from '@navikt/ds-react';
 
@@ -22,10 +20,6 @@ interface DataViewerProps<T extends Record<string, unknown>> {
     response: { [P in keyof T]: Ressurs<T[P]> };
     children: ((data: T) => React.ReactElement) | ReactNode;
 }
-
-const StyledLenke = styled(Link)`
-    margin-left: 1rem;
-`;
 
 // eslint-disable-next-line
 const renderFeil = (responses: Ressurs<any>[]) => (
@@ -44,9 +38,6 @@ const renderFeil = (responses: Ressurs<any>[]) => (
                 return null;
             }
         })}
-        <StyledLenke className="lenke" to={{ pathname: '/oppgavebenk' }}>
-            Gå til oppgavebenk
-        </StyledLenke>
     </>
 );
 

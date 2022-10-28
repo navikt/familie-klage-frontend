@@ -18,7 +18,7 @@ export const HeaderMedSøk: React.FunctionComponent<IHeaderMedSøkProps> = ({
         <Sticky>
             <Header
                 tittelOnClick={() => {
-                    gåTilUrl('/');
+                    gåTilUrl('#');
                 }}
                 tittelHref={'#'}
                 tittel="NAV Familie - klage"
