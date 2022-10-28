@@ -1,8 +1,13 @@
-import React from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import styled from 'styled-components';
 import { useApp } from '../../../App/context/AppContext';
 import { Alert, BodyShort, Button, Label, Tooltip } from '@navikt/ds-react';
 import { EBrevmottakerRolle, IBrevmottakere } from '../Brevmottakere/typer';
+import DataViewer from '../../../Felles/DataViewer/DataViewer';
+import { useBehandling } from '../../../App/context/BehandlingContext';
+import { BrevmottakereModal } from './BrevmottakereModal';
+import { byggTomRessurs, Ressurs } from '../../../App/typer/ressurs';
+import { AxiosRequestConfig } from 'axios';
 
 const Grid = styled.div`
     display: grid;
@@ -23,7 +28,9 @@ const KompaktButton = styled(Button)`
     }
 `;
 
-const BrevMottakere: React.FC<{ mottakere: IBrevmottakere }> = ({ mottakere }) => {
+const BrevMottakereContainer: React.FC<{
+    mottakere: IBrevmottakere;
+}> = ({ mottakere }) => {
     const { settVisBrevmottakereModal } = useApp();
     const utledNavnPåMottakere = (brevMottakere: IBrevmottakere) => {
         return [
@@ -31,7 +38,7 @@ const BrevMottakere: React.FC<{ mottakere: IBrevmottakere }> = ({ mottakere }) =
                 (person) => `${person.navn} (${person.mottakerRolle.toLowerCase()})`
             ),
             ...brevMottakere.organisasjoner.map(
-                (org) => `${org.organisasjonsnavn} (${org.mottakerRolle.toLowerCase()})`
+                (org) => `${org.navnHosOrganisasjon} (${org.mottakerRolle.toLowerCase()})`
             ),
         ];
     };
@@ -73,6 +80,43 @@ const BrevMottakere: React.FC<{ mottakere: IBrevmottakere }> = ({ mottakere }) =
                 </KompaktButton>
             </Tooltip>
         </Grid>
+    );
+};
+
+const BrevMottakere: React.FC<{ behandlingId: string }> = ({ behandlingId }) => {
+    const { axiosRequest } = useApp();
+    const { personopplysningerResponse } = useBehandling();
+
+    const [mottakere, settMottakere] = useState<Ressurs<IBrevmottakere>>(byggTomRessurs());
+
+    const hentBrevmottakere = useCallback(() => {
+        const behandlingConfig: AxiosRequestConfig = {
+            method: 'GET',
+            url: `/familie-klage/api/brev/${behandlingId}/mottakere`,
+        };
+        axiosRequest<IBrevmottakere, null>(behandlingConfig).then((res: Ressurs<IBrevmottakere>) =>
+            settMottakere(res)
+        );
+    }, [axiosRequest, behandlingId]);
+
+    useEffect(() => {
+        hentBrevmottakere();
+    }, [hentBrevmottakere]);
+
+    return (
+        <DataViewer response={{ mottakere, personopplysningerResponse }}>
+            {({ mottakere, personopplysningerResponse }) => (
+                <>
+                    <BrevMottakereContainer mottakere={mottakere} />
+                    <BrevmottakereModal
+                        behandlingId={behandlingId}
+                        personopplysninger={personopplysningerResponse}
+                        mottakere={mottakere}
+                        kallHentBrevmottakere={hentBrevmottakere}
+                    />
+                </>
+            )}
+        </DataViewer>
     );
 };
 

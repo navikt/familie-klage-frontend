@@ -1,4 +1,4 @@
-import React, { FC, useEffect, useMemo, useState } from 'react';
+import React, { FC, useCallback, useEffect, useState } from 'react';
 import { IPersonopplysninger } from '../../../App/typer/personopplysninger';
 import { VergerOgFullmektigeFraRegister } from './VergerOgFullmektigeFraRegister';
 import { SøkWrapper } from './SøkWrapper';
@@ -6,7 +6,7 @@ import { SkalBrukerHaBrev } from './SkalBrukerHaBrev';
 import { useApp } from '../../../App/context/AppContext';
 import { RessursFeilet, RessursStatus, RessursSuksess } from '../../../App/typer/ressurs';
 import { BrevmottakereListe } from './BrevmottakereListe';
-import { EBrevmottakerRolle, IBrevmottaker, IBrevmottakere, IOrganisasjonMottaker } from './typer';
+import { IBrevmottaker, IBrevmottakere, IOrganisasjonMottaker } from './typer';
 import styled from 'styled-components';
 import { Alert, Button } from '@navikt/ds-react';
 import { EToast } from '../../../App/typer/toast';
@@ -46,33 +46,36 @@ const VertikalLinje = styled.div`
 `;
 
 export const BrevmottakereModal: FC<{
+    behandlingId: string;
     personopplysninger: IPersonopplysninger;
-    kallSettBrevmottakere: (
-        brevmottakere: IBrevmottakere
-    ) => Promise<RessursSuksess<string> | RessursFeilet>;
-    kallHentBrevmottakere: () => Promise<
-        RessursSuksess<IBrevmottakere | undefined> | RessursFeilet
-    >;
-}> = ({ personopplysninger, kallSettBrevmottakere, kallHentBrevmottakere }) => {
+    mottakere: IBrevmottakere;
+    kallHentBrevmottakere: () => void;
+}> = ({ behandlingId, personopplysninger, mottakere, kallHentBrevmottakere }) => {
     const { visBrevmottakereModal, settVisBrevmottakereModal } = useApp();
-    const initielleBrevmottakere = useMemo(
-        () => [
-            {
-                mottakerRolle: EBrevmottakerRolle.BRUKER,
-                personIdent: personopplysninger.personIdent,
-                navn: personopplysninger.navn,
-            },
-        ],
-        [personopplysninger]
-    );
-    const [valgtePersonMottakere, settValgtePersonMottakere] =
-        useState<IBrevmottaker[]>(initielleBrevmottakere);
+
+    const [valgtePersonMottakere, settValgtePersonMottakere] = useState<IBrevmottaker[]>([]);
+
     const [valgteOrganisasjonMottakere, settValgteOrganisasjonMottakere] = useState<
         IOrganisasjonMottaker[]
     >([]);
     const [feilmelding, settFeilmelding] = useState('');
     const [innsendingSuksess, settInnsendingSukksess] = useState(false);
-    const { settToast } = useApp();
+    const { settToast, axiosRequest } = useApp();
+
+    const kallSettBrevmottakere = useCallback(
+        (brevmottakere: IBrevmottakere) =>
+            axiosRequest<IBrevmottakere, IBrevmottakere>({
+                url: `familie-klage/api/brev/${behandlingId}/mottakere`,
+                method: 'POST',
+                data: brevmottakere,
+            }),
+        [axiosRequest, behandlingId]
+    );
+
+    useEffect(() => {
+        settValgtePersonMottakere(mottakere.personer);
+        settValgteOrganisasjonMottakere(mottakere.organisasjoner);
+    }, [mottakere]);
 
     const settBrevmottakere = () => {
         settFeilmelding('');
@@ -80,8 +83,9 @@ export const BrevmottakereModal: FC<{
         kallSettBrevmottakere({
             personer: valgtePersonMottakere,
             organisasjoner: valgteOrganisasjonMottakere,
-        }).then((response: RessursSuksess<string> | RessursFeilet) => {
+        }).then((response: RessursSuksess<IBrevmottakere> | RessursFeilet) => {
             if (response.status === RessursStatus.SUKSESS) {
+                kallHentBrevmottakere();
                 settVisBrevmottakereModal(false);
                 settToast(EToast.BREVMOTTAKERE_SATT);
             } else {
@@ -89,30 +93,6 @@ export const BrevmottakereModal: FC<{
             }
         });
     };
-
-    useEffect(() => {
-        const hentBrevmottakere = () => {
-            kallHentBrevmottakere().then(
-                (resp: RessursSuksess<IBrevmottakere | undefined> | RessursFeilet) => {
-                    if (resp.status === RessursStatus.SUKSESS) {
-                        if (resp.data?.personer?.length || resp.data?.organisasjoner?.length) {
-                            settValgtePersonMottakere(resp.data.personer);
-                            settValgteOrganisasjonMottakere(resp.data.organisasjoner);
-                        } else {
-                            settValgtePersonMottakere(initielleBrevmottakere);
-                            settValgteOrganisasjonMottakere([]);
-                        }
-                    } else if (resp.status === RessursStatus.FEILET) {
-                        settFeilmelding(resp.frontendFeilmelding);
-                    }
-                }
-            );
-        };
-
-        if (visBrevmottakereModal) {
-            hentBrevmottakere();
-        }
-    }, [kallHentBrevmottakere, visBrevmottakereModal, initielleBrevmottakere]);
 
     const harValgtMottakere =
         valgtePersonMottakere.length > 0 || valgteOrganisasjonMottakere.length > 0;

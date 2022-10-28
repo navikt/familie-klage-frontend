@@ -17,10 +17,15 @@ import { IVurdering, VedtakValg } from '../Vurdering/vurderingValg';
 import PdfVisning from './PdfVisning';
 import { ModalWrapper } from '../../../Felles/Modal/ModalWrapper';
 import SystemetLaster from '../../../Felles/SystemetLaster/SystemetLaster';
+import BrevMottakere from '../Brevmottakere/BrevMottakere';
 
-const Container = styled.div`
+const Brevside = styled.div`
     background-color: var(--navds-semantic-color-canvas-background);
     padding: 2rem 2rem 0 2rem;
+`;
+
+const BrevContainer = styled.div`
+    padding-top: 2rem;
     display: grid;
     grid-template-columns: 1fr 4fr;
     grid-gap: 1rem;
@@ -135,8 +140,11 @@ export const Brev: React.FC<IBrev> = ({ behandlingId }) => {
 
     if (utfall === 'LAG_BREV') {
         return (
-            <>
-                <Container>
+            <Brevside>
+                {brevRessurs.status === RessursStatus.SUKSESS && (
+                    <BrevMottakere behandlingId={behandlingId} />
+                )}
+                <BrevContainer>
                     {behandlingErRedigerbar && brevRessurs.status === RessursStatus.SUKSESS && (
                         <div>
                             <Button
@@ -151,7 +159,7 @@ export const Brev: React.FC<IBrev> = ({ behandlingId }) => {
                         </div>
                     )}
                     <PdfVisning pdfFilInnhold={brevRessurs} />
-                </Container>
+                </BrevContainer>
                 <ModalWrapper
                     tittel={'Bekreft utsending av brev'}
                     visModal={visModal}
@@ -171,7 +179,7 @@ export const Brev: React.FC<IBrev> = ({ behandlingId }) => {
                         <AlertStripe variant={'error'}>Utsending feilet.{feilmelding}</AlertStripe>
                     )}
                 </ModalWrapper>
-            </>
+            </Brevside>
         );
     } else if (utfall === 'OMGJØR_VEDTAK') {
         return (
