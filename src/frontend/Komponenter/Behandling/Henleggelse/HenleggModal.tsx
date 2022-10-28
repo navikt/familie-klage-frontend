@@ -20,35 +20,35 @@ export const HenleggModal: FC<{ behandling: Behandling }> = ({ behandling }) => 
     const { axiosRequest, settToast } = useApp();
     const navigate = useNavigate();
     const [henlagtårsak, settHenlagtårsak] = useState<EHenlagtårsak>();
-    const [låsKnapp, settLåsKnapp] = useState<boolean>(false);
+    const [henleggerBehandling, settHenleggerBehandling] = useState<boolean>(false);
     const [feilmelding, settFeilmelding] = useState<string>();
 
-    const lagreHenleggelse = () => {
+    const henleggBehandling = () => {
+        if (henleggerBehandling) {
+            return;
+        }
         if (!henlagtårsak) {
             settFeilmelding('Du må velge en henleggelsesårsak');
         }
+        settHenleggerBehandling(true);
 
-        if (låsKnapp || !henlagtårsak) {
-            return;
-        }
-        settLåsKnapp(true);
         axiosRequest<string, { årsak: EHenlagtårsak }>({
             method: 'POST',
             url: `/familie-klage/api/behandling/${behandling.id}/henlegg`,
             data: {
-                årsak: henlagtårsak,
+                årsak: henlagtårsak as EHenlagtårsak,
             },
         })
             .then((respons: RessursSuksess<string> | RessursFeilet) => {
                 if (respons.status === RessursStatus.SUKSESS) {
-                    settVisHenleggModal(false);
+                    lukkModal();
                     navigate(`/behandling/${behandling.id}/resultat`);
                     settToast(EToast.BEHANDLING_HENLAGT);
                 } else {
                     settFeilmelding(respons.frontendFeilmelding);
                 }
             })
-            .finally(() => settLåsKnapp(false));
+            .finally(() => settHenleggerBehandling(false));
     };
 
     const lukkModal = () => {
@@ -63,9 +63,9 @@ export const HenleggModal: FC<{ behandling: Behandling }> = ({ behandling }) => 
             onClose={() => lukkModal()}
             aksjonsknapper={{
                 hovedKnapp: {
-                    onClick: () => lagreHenleggelse(),
+                    onClick: () => henleggBehandling(),
                     tekst: 'Henlegg',
-                    disabled: låsKnapp,
+                    disabled: henleggerBehandling,
                 },
                 lukkKnapp: { onClick: () => lukkModal(), tekst: 'Avbryt' },
             }}

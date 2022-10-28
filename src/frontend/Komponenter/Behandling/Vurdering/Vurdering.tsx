@@ -28,7 +28,6 @@ import { useBehandling } from '../../../App/context/BehandlingContext';
 import { VurderingLesemodus } from './VurderingLesemodus';
 import { alleVilkårOppfylt } from '../Formkrav/utils';
 import DataViewer from '../../../Felles/DataViewer/DataViewer';
-import { ModalWrapper } from '../../../Felles/Modal/ModalWrapper';
 import { AddCircle, Delete } from '@navikt/ds-icons';
 import { EnsligTextArea } from '../../../Felles/Input/EnsligTextArea';
 import { harVerdi } from '../../../App/utils/utils';
@@ -44,10 +43,6 @@ const InterntNotatWrapper = styled.div`
 const AlertStyled = styled(Alert)`
     margin: 2rem 4rem 2rem 4rem;
     width: 25rem;
-`;
-
-const AlertStripeModal = styled(Alert)`
-    margin-top: 1rem;
 `;
 
 const VurderingKnapper = styled.div`
@@ -85,8 +80,6 @@ export const Vurdering: React.FC<{ behandlingId: string }> = ({ behandlingId }) 
     const [vurdering, settVurdering] = useState<Ressurs<IVurdering>>(byggTomRessurs());
     const [senderInn, settSenderInn] = useState<boolean>(false);
     const [melding, settMelding] = useState<IMelding>();
-    const [feilmelding, settFeilmelding] = useState<string>('');
-    const [visModal, settVisModal] = useState<boolean>(false);
     const [skalViseInterntNotat, settSkalViseInterntNotat] = useState<boolean>(false);
 
     const navigate = useNavigate();
@@ -155,42 +148,9 @@ export const Vurdering: React.FC<{ behandlingId: string }> = ({ behandlingId }) 
         });
     };
 
-    const ferdigstillBehandlingOgNavigerTilResultat = () => {
-        if (senderInn) {
-            return;
-        }
-
-        settSenderInn(true);
-        axiosRequest<null, null>({
-            method: 'POST',
-            url: `/familie-klage/api/behandling/${behandlingId}/ferdigstill`,
-        }).then((res: RessursSuksess<null> | RessursFeilet) => {
-            settSenderInn(false);
-            if (res.status === RessursStatus.SUKSESS) {
-                lukkModal();
-                hentBehandling.rerun();
-                hentBehandlingshistorikk.rerun();
-                navigate(`/behandling/${hentBehandlingIdFraUrl()}/resultat`);
-            } else {
-                settFeilmelding(
-                    res.frontendFeilmelding
-                        ? res.frontendFeilmelding
-                        : 'Noe gikk galt ved ferdigstilling'
-                );
-            }
-        });
-    };
-
-    const skalOmgjøre = !vurderingEndret && vurderingData.vedtak == VedtakValg.OMGJØR_VEDTAK;
-
     function navigerTilBrev() {
         navigate(`/behandling/${hentBehandlingIdFraUrl()}/brev`);
     }
-
-    const lukkModal = () => {
-        settVisModal(false);
-        settFeilmelding('');
-    };
 
     return (
         <DataViewer response={{ formkrav, vurdering }}>
@@ -308,11 +268,9 @@ export const Vurdering: React.FC<{ behandlingId: string }> = ({ behandlingId }) 
                                         <Button
                                             variant="primary"
                                             size="medium"
-                                            onClick={() =>
-                                                skalOmgjøre ? settVisModal(true) : navigerTilBrev()
-                                            }
+                                            onClick={navigerTilBrev}
                                         >
-                                            {skalOmgjøre ? 'Ferdigstill' : 'Fortsett'}
+                                            Fortsett
                                         </Button>
                                     )}
                                 </VurderingKnapper>
@@ -321,28 +279,6 @@ export const Vurdering: React.FC<{ behandlingId: string }> = ({ behandlingId }) 
                                         {melding.tekst}
                                     </AlertStyled>
                                 )}
-                                <ModalWrapper
-                                    tittel={'Bekreft ferdigstillelse av klagebehandling'}
-                                    visModal={visModal}
-                                    onClose={() => lukkModal()}
-                                    aksjonsknapper={{
-                                        hovedKnapp: {
-                                            onClick: () =>
-                                                ferdigstillBehandlingOgNavigerTilResultat(),
-                                            tekst: 'Ferdigstill',
-                                            disabled: senderInn,
-                                        },
-                                        lukkKnapp: { onClick: () => lukkModal(), tekst: 'Avbryt' },
-                                        marginTop: 4,
-                                    }}
-                                    ariaLabel={'Bekreft ustending av frittstående brev'}
-                                >
-                                    {feilmelding && (
-                                        <AlertStripeModal variant={'error'}>
-                                            {feilmelding}
-                                        </AlertStripeModal>
-                                    )}
-                                </ModalWrapper>
                             </>
                         )}
                     </>
