@@ -113,6 +113,9 @@ export const Tidslinje: React.FC<{
                 <RevurderingAlertContainer>
                     <LinjeStiplet />
                     <Alert variant={'info'}>
+                        <Heading spacing size="small" level="3">
+                            Revurdering
+                        </Heading>
                         Det må manuelt opprettes en revurdering for å fatte nytt vedtak.
                     </Alert>
                 </RevurderingAlertContainer>
