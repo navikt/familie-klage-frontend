@@ -10,15 +10,15 @@ import {
     vilkårStatusTilTekst,
 } from './typer';
 import { useBehandling } from '../../../App/context/BehandlingContext';
-import { hentBehandlingIdFraUrl } from '../BehandlingContainer';
 import { Alert, BodyShort, Button, Heading, Label } from '@navikt/ds-react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import { formaterIsoDatoTid } from '../../../App/utils/formatter';
 import { Ressurs, RessursFeilet, RessursStatus, RessursSuksess } from '../../../App/typer/ressurs';
 import { alleVilkårOppfylt, utledIkkeUtfylteVilkår, utledRadioKnapper } from './utils';
 import { harVerdi } from '../../../App/utils/utils';
 import { Delete, Edit } from '@navikt/ds-icons';
 import { PåklagetVedtakstype } from '../../../App/typer/fagsak';
+import { IBehandlingParams } from '../../../App/typer/routing';
 
 export const RadSentrertVertikalt = styled.div`
     display: flex;
@@ -104,6 +104,7 @@ export const VisFormkravVurderinger: React.FC<IProps> = ({
 }) => {
     const { behandlingErRedigerbar, hentBehandling, hentBehandlingshistorikk } = useBehandling();
     const navigate = useNavigate();
+    const behandlingId = useParams<IBehandlingParams>().behandlingId as string;
     const [nullstillerVurderinger, settNullstillerVurderinger] = useState<boolean>(false);
 
     const nullstillVurderinger = () => {
@@ -203,9 +204,7 @@ export const VisFormkravVurderinger: React.FC<IProps> = ({
                     <LagreKnapp
                         variant="primary"
                         size="medium"
-                        onClick={() =>
-                            navigate(`/behandling/${hentBehandlingIdFraUrl()}/${urlPostfix}`)
-                        }
+                        onClick={() => navigate(`/behandling/${behandlingId}/${urlPostfix}`)}
                     >
                         Fortsett
                     </LagreKnapp>
