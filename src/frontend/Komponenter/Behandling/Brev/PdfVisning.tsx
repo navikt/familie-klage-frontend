@@ -24,7 +24,7 @@ const StyledDokument = styled(Document)`
         margin: 0 auto;
     }
 
-    margin: 0.5rem auto;
+    margin: 0 auto 2rem auto;
 `;
 
 const DokumentWrapper = styled.div`
