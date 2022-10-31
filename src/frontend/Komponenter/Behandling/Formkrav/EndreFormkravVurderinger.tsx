@@ -12,7 +12,11 @@ import { useApp } from '../../../App/context/AppContext';
 import { Ressurs, RessursFeilet, RessursStatus, RessursSuksess } from '../../../App/typer/ressurs';
 import styled from 'styled-components';
 import { VedtakSelect } from './VedtakSelect';
-import { alleVilkårOppfylt, påKlagetVedtakValgt } from './validerFormkravUtils';
+import {
+    alleVilkårOppfylt,
+    alleVilkårTattStillingTil,
+    påKlagetVedtakValgt,
+} from './validerFormkravUtils';
 import { utledRadioKnapper } from './utils';
 
 const RadioGrupperContainer = styled.div`
@@ -79,6 +83,7 @@ export const EndreFormkravVurderinger: React.FC<IProps> = ({
     const [oppdatererVurderinger, settOppdatererVurderinger] = useState<boolean>(false);
 
     const alleVilkårErOppfylt = alleVilkårOppfylt(vurderinger);
+    const alleVilkårUtfylt = alleVilkårTattStillingTil(vurderinger);
 
     const submitOppdaterteVurderinger = () => {
         if (oppdatererVurderinger) {
@@ -87,8 +92,8 @@ export const EndreFormkravVurderinger: React.FC<IProps> = ({
         settOppdatererVurderinger(true);
 
         const vurderingerSomSkalLagres = alleVilkårErOppfylt
-            ? vurderinger
-            : { ...vurderinger, saksbehandlerBegrunnelse: '' };
+            ? { ...vurderinger, saksbehandlerBegrunnelse: '' }
+            : vurderinger;
 
         lagreVurderinger(vurderingerSomSkalLagres).then((res: Ressurs<IFormkravVilkår>) => {
             settOppdatererVurderinger(false);
@@ -120,51 +125,53 @@ export const EndreFormkravVurderinger: React.FC<IProps> = ({
                 />
             </VedtakSelectContainer>
             {påKlagetVedtakValgt(vurderinger) && (
-                <RadioGrupperContainer>
-                    {radioKnapper.map((item: IRadioKnapper, index) => (
-                        <FlexRow key={index}>
-                            <RadioGruppe
-                                legend={item.spørsmål}
-                                size="medium"
-                                onChange={(val: VilkårStatus) => {
-                                    settOppdaterteVurderinger((prevState: IFormkravVilkår) => {
-                                        return {
-                                            ...prevState,
-                                            [item.navn]: val,
-                                        } as IFormkravVilkår;
-                                    });
-                                    settIkkePersistertKomponent('formkravVilkår');
-                                }}
-                                value={item.svar}
-                                key={index}
-                            >
-                                <RadioButton value={VilkårStatus.OPPFYLT}>Ja</RadioButton>
-                                <RadioButton value={VilkårStatus.IKKE_OPPFYLT}>Nei</RadioButton>
-                            </RadioGruppe>
-                            {item.spørsmål === 'Er klagefristen overholdt?' && (
-                                <StyledHelpText>
-                                    <HelpTextInnhold />
-                                </StyledHelpText>
-                            )}
-                        </FlexRow>
-                    ))}
-                </RadioGrupperContainer>
-            )}
-            {alleVilkårErOppfylt && (
-                <Textarea
-                    label={'Begrunnelse'}
-                    value={vurderinger.saksbehandlerBegrunnelse}
-                    onChange={(e) => {
-                        settIkkePersistertKomponent('formkravVilkår');
-                        settOppdaterteVurderinger((prevState: IFormkravVilkår) => {
-                            return {
-                                ...prevState,
-                                saksbehandlerBegrunnelse: e.target.value,
-                            };
-                        });
-                    }}
-                    maxLength={1500}
-                />
+                <>
+                    <RadioGrupperContainer>
+                        {radioKnapper.map((item: IRadioKnapper, index) => (
+                            <FlexRow key={index}>
+                                <RadioGruppe
+                                    legend={item.spørsmål}
+                                    size="medium"
+                                    onChange={(val: VilkårStatus) => {
+                                        settOppdaterteVurderinger((prevState: IFormkravVilkår) => {
+                                            return {
+                                                ...prevState,
+                                                [item.navn]: val,
+                                            } as IFormkravVilkår;
+                                        });
+                                        settIkkePersistertKomponent('formkravVilkår');
+                                    }}
+                                    value={item.svar}
+                                    key={index}
+                                >
+                                    <RadioButton value={VilkårStatus.OPPFYLT}>Ja</RadioButton>
+                                    <RadioButton value={VilkårStatus.IKKE_OPPFYLT}>Nei</RadioButton>
+                                </RadioGruppe>
+                                {item.spørsmål === 'Er klagefristen overholdt?' && (
+                                    <StyledHelpText>
+                                        <HelpTextInnhold />
+                                    </StyledHelpText>
+                                )}
+                            </FlexRow>
+                        ))}
+                    </RadioGrupperContainer>
+                    {!alleVilkårErOppfylt && alleVilkårUtfylt && (
+                        <Textarea
+                            label={'Begrunnelse'}
+                            value={vurderinger.saksbehandlerBegrunnelse}
+                            onChange={(e) => {
+                                settIkkePersistertKomponent('formkravVilkår');
+                                settOppdaterteVurderinger((prevState: IFormkravVilkår) => {
+                                    return {
+                                        ...prevState,
+                                        saksbehandlerBegrunnelse: e.target.value,
+                                    };
+                                });
+                            }}
+                            maxLength={1500}
+                        />
+                    )}
+                </>
             )}
             {feilmelding && (
                 <AlertStripe variant={'error'} size={'medium'}>

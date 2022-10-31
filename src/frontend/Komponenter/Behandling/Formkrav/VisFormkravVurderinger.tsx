@@ -127,7 +127,6 @@ export const VisFormkravVurderinger: React.FC<IProps> = ({
             klageSignert: VilkårStatus.IKKE_SATT,
             saksbehandlerBegrunnelse: '',
             påklagetVedtak: {
-                ...vurderinger.påklagetVedtak,
                 påklagetVedtakstype: PåklagetVedtakstype.IKKE_VALGT,
             },
         };
@@ -149,17 +148,16 @@ export const VisFormkravVurderinger: React.FC<IProps> = ({
     const harBegrunnelse = begrunnelseUtfylt(vurderinger);
     const ikkeUtfylteVilkår = utledIkkeUtfylteVilkår(vurderinger);
 
+    const manglerUtfylling =
+        ikkeUtfylteVilkår.length > 0 ||
+        !påKlagetVedtakErValgt ||
+        (!alleVilkårErOppfylt && !harBegrunnelse);
+
     const utledUrlSuffiks = (): string => {
         if (!behandlingErRedigerbar) {
             return '';
         }
-        if (!påKlagetVedtakErValgt) {
-            return '';
-        }
-        if (ikkeUtfylteVilkår.length > 0) {
-            return '';
-        }
-        if (alleVilkårErOppfylt && !harBegrunnelse) {
+        if (manglerUtfylling) {
             return '';
         }
         return alleVilkårErOppfylt ? 'vurdering' : 'brev';
@@ -171,11 +169,6 @@ export const VisFormkravVurderinger: React.FC<IProps> = ({
     );
 
     const urlSuffiks = utledUrlSuffiks();
-
-    const manglerUtfylling =
-        ikkeUtfylteVilkår.length > 0 ||
-        !påKlagetVedtakErValgt ||
-        (alleVilkårErOppfylt && !harBegrunnelse);
 
     return (
         <VisFormkravContainer>
@@ -232,7 +225,7 @@ export const VisFormkravVurderinger: React.FC<IProps> = ({
                         <Svar>{vilkårStatusTilTekst[knapp.svar]}</Svar>
                     </SvarElement>
                 ))}
-                {alleVilkårErOppfylt && (
+                {!alleVilkårErOppfylt && (
                     <SvarElement>
                         <Spørsmål>Begrunnelse</Spørsmål>
                         <Svar>{saksbehandlerBegrunnelse}</Svar>
@@ -243,7 +236,7 @@ export const VisFormkravVurderinger: React.FC<IProps> = ({
                         variant="primary"
                         size="medium"
                         onClick={() =>
-                            navigate(`/behandling/${vurderinger.behandlingId}/${urlPostfix}`)
+                            navigate(`/behandling/${vurderinger.behandlingId}/${urlSuffiks}`)
                         }
                     >
                         Fortsett

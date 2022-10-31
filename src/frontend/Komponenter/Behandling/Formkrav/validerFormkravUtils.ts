@@ -21,10 +21,11 @@ export const påKlagetVedtakValgt = (vurderinger: IFormkravVilkår) => {
 };
 
 export const alleVilkårOppfylt = (vurderinger: IFormkravVilkår) => {
-    return (
-        påKlagetVedtakValgt(vurderinger) &&
-        alleVurderingerErStatus(vurderinger, VilkårStatus.OPPFYLT)
-    );
+    return alleVurderingerErStatus(vurderinger, VilkårStatus.OPPFYLT);
+};
+
+export const alleVilkårTattStillingTil = (vurderinger: IFormkravVilkår) => {
+    return utledIkkeUtfylteVilkår(vurderinger).length === 0;
 };
 
 export const begrunnelseUtfylt = (vurderinger: IFormkravVilkår) => {

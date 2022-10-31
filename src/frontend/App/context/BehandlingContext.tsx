@@ -12,7 +12,6 @@ import { IVurdering } from '../../Komponenter/Behandling/Vurdering/vurderingValg
 import { useHentFormkravVilkår } from '../hooks/useHentFormkravVilkår';
 import {
     alleVilkårOppfylt,
-    begrunnelseUtfylt,
     påKlagetVedtakValgt,
 } from '../../Komponenter/Behandling/Formkrav/validerFormkravUtils';
 
@@ -46,8 +45,7 @@ const [BehandlingProvider, useBehandling] = constate(() => {
         settFormkravOppfylt(
             vilkårsvurderinger.status === RessursStatus.SUKSESS &&
                 påKlagetVedtakValgt(vilkårsvurderinger.data) &&
-                alleVilkårOppfylt(vilkårsvurderinger.data) &&
-                begrunnelseUtfylt(vilkårsvurderinger.data)
+                alleVilkårOppfylt(vilkårsvurderinger.data)
         );
     }, [vilkårsvurderinger]);
 
