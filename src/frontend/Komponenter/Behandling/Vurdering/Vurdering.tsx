@@ -22,7 +22,6 @@ import {
     RessursSuksess,
 } from '../../../App/typer/ressurs';
 import { IFormkravVilkår } from '../Formkrav/typer';
-import { hentBehandlingIdFraUrl } from '../BehandlingContainer';
 import { useNavigate } from 'react-router-dom';
 import { useBehandling } from '../../../App/context/BehandlingContext';
 import { VurderingLesemodus } from './VurderingLesemodus';
@@ -149,7 +148,7 @@ export const Vurdering: React.FC<{ behandlingId: string }> = ({ behandlingId }) 
     };
 
     function navigerTilBrev() {
-        navigate(`/behandling/${hentBehandlingIdFraUrl()}/brev`);
+        navigate(`/behandling/${behandlingId}/brev`);
     }
 
     return (

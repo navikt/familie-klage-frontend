@@ -42,13 +42,6 @@ const InnholdWrapper = styled.div<InnholdWrapperProps>`
     max-width: ${(p) => (p.åpenHøyremeny ? 'calc(100% - 20rem)' : '100%')};
 `;
 
-export const hentBehandlingIdFraUrl = (): string => {
-    return location.href.substring(
-        location.href.indexOf('behandling/') + 11,
-        location.href.indexOf('behandling/') + 47
-    );
-};
-
 const BehandlingContainer: FC = () => {
     return (
         <BehandlingProvider>

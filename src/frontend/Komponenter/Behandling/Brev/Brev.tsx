@@ -11,16 +11,20 @@ import { useBehandling } from '../../../App/context/BehandlingContext';
 import styled from 'styled-components';
 import { useApp } from '../../../App/context/AppContext';
 import { Alert, Button } from '@navikt/ds-react';
-import { hentBehandlingIdFraUrl } from '../BehandlingContainer';
 import { useNavigate } from 'react-router-dom';
 import { IVurdering, VedtakValg } from '../Vurdering/vurderingValg';
 import PdfVisning from './PdfVisning';
 import { ModalWrapper } from '../../../Felles/Modal/ModalWrapper';
 import SystemetLaster from '../../../Felles/SystemetLaster/SystemetLaster';
+import BrevMottakere from '../Brevmottakere/BrevMottakere';
 
-const Container = styled.div`
+const Brevside = styled.div`
     background-color: var(--navds-semantic-color-canvas-background);
     padding: 2rem 2rem 0 2rem;
+`;
+
+const BrevContainer = styled.div`
+    padding-top: 2rem;
     display: grid;
     grid-template-columns: 1fr 4fr;
     grid-gap: 1rem;
@@ -121,7 +125,7 @@ export const Brev: React.FC<IBrev> = ({ behandlingId }) => {
                 lukkModal();
                 hentBehandling.rerun();
                 hentBehandlingshistorikk.rerun();
-                navigate(`/behandling/${hentBehandlingIdFraUrl()}/resultat`);
+                navigate(`/behandling/${behandlingId}/resultat`);
             } else {
                 settFeilmelding(res.frontendFeilmelding);
             }
@@ -135,10 +139,13 @@ export const Brev: React.FC<IBrev> = ({ behandlingId }) => {
 
     if (utfall === 'LAG_BREV') {
         return (
-            <>
-                <Container>
-                    {behandlingErRedigerbar && brevRessurs.status === RessursStatus.SUKSESS && (
-                        <div>
+            <Brevside>
+                {brevRessurs.status === RessursStatus.SUKSESS && (
+                    <BrevMottakere behandlingId={behandlingId} />
+                )}
+                <BrevContainer>
+                    <div>
+                        {behandlingErRedigerbar && brevRessurs.status === RessursStatus.SUKSESS && (
                             <Button
                                 variant="primary"
                                 size="medium"
@@ -148,10 +155,10 @@ export const Brev: React.FC<IBrev> = ({ behandlingId }) => {
                             >
                                 Ferdigstill behandling og send brev
                             </Button>
-                        </div>
-                    )}
+                        )}
+                    </div>
                     <PdfVisning pdfFilInnhold={brevRessurs} />
-                </Container>
+                </BrevContainer>
                 <ModalWrapper
                     tittel={'Bekreft utsending av brev'}
                     visModal={visModal}
@@ -171,7 +178,7 @@ export const Brev: React.FC<IBrev> = ({ behandlingId }) => {
                         <AlertStripe variant={'error'}>Utsending feilet.{feilmelding}</AlertStripe>
                     )}
                 </ModalWrapper>
-            </>
+            </Brevside>
         );
     } else if (utfall === 'OMGJØR_VEDTAK') {
         return (

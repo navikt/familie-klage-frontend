@@ -146,17 +146,19 @@ export const StatusMeny: FC<{ behandling: Behandling }> = ({ behandling }) => {
                             <BodyShort>{formaterIsoDatoTid(behandling.sistEndret)}</BodyShort>
                         </Status>
                     </li>
-                    <li>
-                        <Status>
-                            <Link
-                                href={utledBehandlingLenke(behandling, appEnv.eksternlenker)}
-                                target="_blank"
-                            >
-                                Gå til behandling
-                                <ExternalLink aria-label="Gå til behandling" />
-                            </Link>
-                        </Status>
-                    </li>
+                    {behandling.påklagetVedtak.eksternFagsystemBehandlingId && (
+                        <li>
+                            <Status>
+                                <Link
+                                    href={utledBehandlingLenke(behandling, appEnv.eksternlenker)}
+                                    target="_blank"
+                                >
+                                    Gå til behandling
+                                    <ExternalLink aria-label="Gå til behandling" />
+                                </Link>
+                            </Status>
+                        </li>
+                    )}
                     <li>
                         <Status>
                             <Link
@@ -194,12 +196,17 @@ export const AlleStatuser: FC<{ behandling: Behandling }> = ({ behandling }) => 
                 <GråTekst>Sist endret</GråTekst>
                 <BodyShort>{formaterIsoDatoTid(behandling.sistEndret)}</BodyShort>
             </Status>
-            <Status>
-                <Link href={utledBehandlingLenke(behandling, appEnv.eksternlenker)} target="_blank">
-                    Gå til behandling
-                    <ExternalLink aria-label="Gå til behandling" />
-                </Link>
-            </Status>
+            {behandling.påklagetVedtak.eksternFagsystemBehandlingId && (
+                <Status>
+                    <Link
+                        href={utledBehandlingLenke(behandling, appEnv.eksternlenker)}
+                        target="_blank"
+                    >
+                        Gå til behandling
+                        <ExternalLink aria-label="Gå til behandling" />
+                    </Link>
+                </Status>
+            )}
             <Status>
                 <Link
                     href={utledSaksoversiktLenke(behandling, appEnv.eksternlenker)}

@@ -11,7 +11,6 @@ import {
     vilkårStatusTilTekst,
 } from './typer';
 import { useBehandling } from '../../../App/context/BehandlingContext';
-import { hentBehandlingIdFraUrl } from '../BehandlingContainer';
 import { Alert, BodyShort, Button, Heading, Label } from '@navikt/ds-react';
 import { useNavigate } from 'react-router-dom';
 import { formaterIsoDatoTid } from '../../../App/utils/formatter';
@@ -244,7 +243,7 @@ export const VisFormkravVurderinger: React.FC<IProps> = ({
                         variant="primary"
                         size="medium"
                         onClick={() =>
-                            navigate(`/behandling/${hentBehandlingIdFraUrl()}/${urlSuffiks}`)
+                            navigate(`/behandling/${vurderinger.behandlingId}/${urlPostfix}`)
                         }
                     >
                         Fortsett
