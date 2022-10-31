@@ -16,7 +16,7 @@ const Grid = styled.div`
 
 const InfoHeader = styled.div`
     display: grid;
-    grid-template-columns: 29rem 18rem;
+    grid-template-columns: 26rem 12rem;
 `;
 
 const KompaktButton = styled(Button)`

@@ -24,11 +24,16 @@ const Brevside = styled.div`
 `;
 
 const BrevContainer = styled.div`
-    padding-top: 2rem;
     display: grid;
     grid-template-columns: 1fr 4fr;
     grid-gap: 1rem;
     justify-content: space-between;
+
+    @media only screen and (max-width: 1660px) {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 3rem;
+    }
 `;
 
 const AlertStripe = styled(Alert)`
@@ -140,13 +145,13 @@ export const Brev: React.FC<IBrev> = ({ behandlingId }) => {
     if (utfall === 'LAG_BREV') {
         return (
             <Brevside>
-                {brevRessurs.status === RessursStatus.SUKSESS && (
-                    <BrevMottakere behandlingId={behandlingId} />
-                )}
                 <BrevContainer>
                     <div>
+                        {brevRessurs.status === RessursStatus.SUKSESS && (
+                            <BrevMottakere behandlingId={behandlingId} />
+                        )}
                         {behandlingErRedigerbar && brevRessurs.status === RessursStatus.SUKSESS && (
-                            <Button
+                            <StyledKnapp
                                 variant="primary"
                                 size="medium"
                                 onClick={() => {
@@ -154,7 +159,7 @@ export const Brev: React.FC<IBrev> = ({ behandlingId }) => {
                                 }}
                             >
                                 Ferdigstill behandling og send brev
-                            </Button>
+                            </StyledKnapp>
                         )}
                     </div>
                     <PdfVisning pdfFilInnhold={brevRessurs} />
