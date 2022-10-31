@@ -27,10 +27,10 @@ interface Props {
 }
 
 const Fanemeny: FC<Props> = ({ behandling }) => {
-    const { vilkårOppfyltOgBesvart } = useBehandling();
+    const { formkravOppfylt } = useBehandling();
     const faneErLåst = (side: ISide, steg: StegType): boolean => {
         if (side.navn === SideNavn.VURDERING) {
-            return !vilkårOppfyltOgBesvart;
+            return !formkravOppfylt;
         }
         return side.rekkefølge > behandlingStegTilRekkefølge[steg];
     };

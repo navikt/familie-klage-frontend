@@ -1,6 +1,11 @@
 import * as React from 'react';
 import { IBehandlingshistorikk } from '../Høyremeny/behandlingshistorikk';
-import { Behandling, BehandlingResultat, behandlingStegTilTekst } from '../../../App/typer/fagsak';
+import {
+    Behandling,
+    BehandlingResultat,
+    behandlingStegTilTekst,
+    StegType,
+} from '../../../App/typer/fagsak';
 import styled from 'styled-components';
 import { Alert, Detail, Heading, Label } from '@navikt/ds-react';
 import { formaterIsoDato, formaterIsoKlokke } from '../../../App/utils/formatter';
@@ -77,12 +82,19 @@ const NodeContainer = styled.div`
     flex-direction: column;
     align-self: flex-start;
     text-align: center;
-    white-space: nowrap;
     align-items: center;
 `;
 
-const Tittel = styled(Heading)`
+const Tittel = styled(Heading)<{ tittelErToLinjer: boolean }>`
+    min-width: 9rem;
     margin-bottom: 0.75rem;
+
+    @media (min-width: 1400px) {
+        ${(props) =>
+            props.tittelErToLinjer
+                ? 'position: relative; bottom: 1rem; margin-bottom: -0.75rem'
+                : ''}
+    }
 `;
 
 const Suksess = styled(SuccessColored)`
@@ -128,9 +140,12 @@ const Node: React.FC<{ behandling: Behandling; steg: IBehandlingshistorikk }> = 
     behandling,
     steg,
 }) => {
+    const tittelErToLinjer =
+        steg.steg === StegType.OVERFØRING_TIL_KABAL || steg.steg === StegType.KABAL_VENTER_SVAR;
+
     return (
         <NodeContainer>
-            <Tittel level="1" size="xsmall">
+            <Tittel level="1" size="xsmall" tittelErToLinjer={tittelErToLinjer}>
                 {behandlingStegTilTekst[steg.steg]}
             </Tittel>
             {steg.endretTid ? <Suksess width={36} height={36} /> : <Clock width={36} height={36} />}

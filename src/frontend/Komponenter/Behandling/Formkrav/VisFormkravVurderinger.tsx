@@ -3,6 +3,7 @@ import styled from 'styled-components';
 import { NavdsGlobalColorPurple500 } from '@navikt/ds-tokens/dist/tokens';
 import BrukerMedBlyant from '../../../Felles/Ikoner/BrukerMedBlyant';
 import {
+    FagsystemVedtak,
     IFormkravVilkår,
     IRadioKnapper,
     Redigeringsmodus,
@@ -14,10 +15,15 @@ import { Alert, BodyShort, Button, Heading, Label } from '@navikt/ds-react';
 import { useNavigate } from 'react-router-dom';
 import { formaterIsoDatoTid } from '../../../App/utils/formatter';
 import { Ressurs, RessursFeilet, RessursStatus, RessursSuksess } from '../../../App/typer/ressurs';
-import { alleVilkårOppfylt, utledIkkeUtfylteVilkår, utledRadioKnapper } from './utils';
-import { harVerdi } from '../../../App/utils/utils';
+import { utledFagsystemVedtakFraPåklagetVedtak, utledRadioKnapper } from './utils';
 import { Delete, Edit } from '@navikt/ds-icons';
-import { PåklagetVedtakstype } from '../../../App/typer/fagsak';
+import { PåklagetVedtakstype, påklagetVedtakstypeTilTekst } from '../../../App/typer/fagsak';
+import {
+    alleVilkårOppfylt,
+    begrunnelseUtfylt,
+    påKlagetVedtakValgt,
+    utledIkkeUtfylteVilkår,
+} from './validerFormkravUtils';
 
 export const RadSentrertVertikalt = styled.div`
     display: flex;
@@ -60,7 +66,7 @@ const Spørsmål = styled.li`
 
 const Svar = styled.li`
     padding: 0.5rem 0;
-    width: 40%;
+    width: 13rem;
 `;
 
 const VilkårIkon = styled.div`
@@ -83,23 +89,25 @@ const StyledAlert = styled(Alert)`
 `;
 
 interface IProps {
-    saksbehandlerBegrunnelse: string;
     endretTid: string;
-    settRedigeringsmodus: (redigeringsmodus: Redigeringsmodus) => void;
-    settOppdaterteVurderinger: Dispatch<SetStateAction<IFormkravVilkår>>;
+    fagsystemVedtak: FagsystemVedtak[];
     lagreVurderinger: (
         vurderinger: IFormkravVilkår
     ) => Promise<RessursSuksess<IFormkravVilkår> | RessursFeilet>;
+    saksbehandlerBegrunnelse: string;
+    settRedigeringsmodus: (redigeringsmodus: Redigeringsmodus) => void;
+    settOppdaterteVurderinger: Dispatch<SetStateAction<IFormkravVilkår>>;
     vurderinger: IFormkravVilkår;
 }
 
 export const VisFormkravVurderinger: React.FC<IProps> = ({
-    saksbehandlerBegrunnelse,
     endretTid,
-    settRedigeringsmodus,
+    fagsystemVedtak,
     lagreVurderinger,
-    vurderinger,
+    saksbehandlerBegrunnelse,
     settOppdaterteVurderinger,
+    settRedigeringsmodus,
+    vurderinger,
 }) => {
     const { behandlingErRedigerbar, hentBehandling, hentBehandlingshistorikk } = useBehandling();
     const navigate = useNavigate();
@@ -118,6 +126,9 @@ export const VisFormkravVurderinger: React.FC<IProps> = ({
             klagefristOverholdt: VilkårStatus.IKKE_SATT,
             klageSignert: VilkårStatus.IKKE_SATT,
             saksbehandlerBegrunnelse: '',
+            påklagetVedtak: {
+                påklagetVedtakstype: PåklagetVedtakstype.IKKE_VALGT,
+            },
         };
 
         lagreVurderinger(nullstilteVurderinger).then((res: Ressurs<IFormkravVilkår>) => {
@@ -133,28 +144,31 @@ export const VisFormkravVurderinger: React.FC<IProps> = ({
 
     const radioKnapper = utledRadioKnapper(vurderinger);
     const alleVilkårErOppfylt = alleVilkårOppfylt(vurderinger);
-    const manglerBegrunnelse = !harVerdi(vurderinger.saksbehandlerBegrunnelse);
+    const påKlagetVedtakErValgt = påKlagetVedtakValgt(vurderinger);
+    const harBegrunnelse = begrunnelseUtfylt(vurderinger);
     const ikkeUtfylteVilkår = utledIkkeUtfylteVilkår(vurderinger);
-    const ikkeValgtPåklagetVedtak =
-        vurderinger.påklagetVedtak.påklagetVedtakstype === PåklagetVedtakstype.IKKE_VALGT;
 
-    const utledUrlPostfix = (): string => {
+    const manglerUtfylling =
+        ikkeUtfylteVilkår.length > 0 ||
+        !påKlagetVedtakErValgt ||
+        (!alleVilkårErOppfylt && !harBegrunnelse);
+
+    const utledUrlSuffiks = (): string => {
         if (!behandlingErRedigerbar) {
             return '';
         }
-        if (ikkeUtfylteVilkår.length > 0) {
-            return '';
-        }
-        if (manglerBegrunnelse) {
-            return '';
-        }
-        if (ikkeValgtPåklagetVedtak) {
+        if (manglerUtfylling) {
             return '';
         }
         return alleVilkårErOppfylt ? 'vurdering' : 'brev';
     };
 
-    const urlPostfix = utledUrlPostfix();
+    const gjeldendeFagsystemVedtak = utledFagsystemVedtakFraPåklagetVedtak(
+        fagsystemVedtak,
+        vurderinger.påklagetVedtak
+    );
+
+    const urlSuffiks = utledUrlSuffiks();
 
     return (
         <VisFormkravContainer>
@@ -188,32 +202,52 @@ export const VisFormkravVurderinger: React.FC<IProps> = ({
             </Header>
             <SpørsmålContainer>
                 Sist endret - {formaterIsoDatoTid(endretTid)}
-                {radioKnapper.map((item: IRadioKnapper, index) => (
+                <SvarElement>
+                    <Spørsmål>Vedtak som er påklaget</Spørsmål>
+                    <Svar>
+                        {gjeldendeFagsystemVedtak ? (
+                            <div>
+                                {gjeldendeFagsystemVedtak.behandlingstype}
+                                <br />
+                                {gjeldendeFagsystemVedtak.resultat} -{' '}
+                                {formaterIsoDatoTid(gjeldendeFagsystemVedtak.vedtakstidspunkt)}
+                            </div>
+                        ) : (
+                            påklagetVedtakstypeTilTekst[
+                                vurderinger.påklagetVedtak.påklagetVedtakstype
+                            ]
+                        )}
+                    </Svar>
+                </SvarElement>
+                {radioKnapper.map((knapp: IRadioKnapper, index) => (
                     <SvarElement key={index}>
-                        <Spørsmål>{item.spørsmål}</Spørsmål>
-                        <Svar>{vilkårStatusTilTekst[item.svar]}</Svar>
+                        <Spørsmål>{knapp.spørsmål}</Spørsmål>
+                        <Svar>{vilkårStatusTilTekst[knapp.svar]}</Svar>
                     </SvarElement>
                 ))}
-                <SvarElement>
-                    <Spørsmål>Begrunnelse</Spørsmål>
-                    <Svar>{saksbehandlerBegrunnelse}</Svar>
-                </SvarElement>
-                {urlPostfix && (
+                {!alleVilkårErOppfylt && (
+                    <SvarElement>
+                        <Spørsmål>Begrunnelse</Spørsmål>
+                        <Svar>{saksbehandlerBegrunnelse}</Svar>
+                    </SvarElement>
+                )}
+                {urlSuffiks && (
                     <LagreKnapp
                         variant="primary"
                         size="medium"
                         onClick={() =>
-                            navigate(`/behandling/${vurderinger.behandlingId}/${urlPostfix}`)
+                            navigate(`/behandling/${vurderinger.behandlingId}/${urlSuffiks}`)
                         }
                     >
                         Fortsett
                     </LagreKnapp>
                 )}
             </SpørsmålContainer>
-            {(ikkeUtfylteVilkår.length > 0 || ikkeValgtPåklagetVedtak) && (
+            {manglerUtfylling && (
                 <StyledAlert variant={'error'}>
                     <Label>Følgende vilkår er ikke utfylt:</Label>
                     <ul>
+                        {!påKlagetVedtakErValgt && <li>Ikke valgt påklaget vedtak</li>}
                         {ikkeUtfylteVilkår.map((vilkår) => {
                             return (
                                 <li>
@@ -221,8 +255,7 @@ export const VisFormkravVurderinger: React.FC<IProps> = ({
                                 </li>
                             );
                         })}
-                        {manglerBegrunnelse && <li>Begrunnelse er ikke utfylt</li>}
-                        {ikkeValgtPåklagetVedtak && <li>Ikke valgt påklaget vedtak</li>}
+                        {!harBegrunnelse && <li>Begrunnelse er ikke utfylt</li>}
                     </ul>
                 </StyledAlert>
             )}

@@ -3,14 +3,12 @@ import { PåklagetVedtak } from '../../../App/typer/fagsak';
 export enum VilkårStatus {
     OPPFYLT = 'OPPFYLT',
     IKKE_OPPFYLT = 'IKKE_OPPFYLT',
-    SKAL_IKKE_VURDERES = 'SKAL_IKKE_VURDERES',
     IKKE_SATT = 'IKKE_SATT',
 }
 
 export const vilkårStatusTilTekst: Record<VilkårStatus, string> = {
     OPPFYLT: 'Oppfylt',
     IKKE_OPPFYLT: 'Ikke oppfylt',
-    SKAL_IKKE_VURDERES: 'Skal ikke vurderes',
     IKKE_SATT: 'Ikke satt',
 };
 
@@ -35,4 +33,11 @@ export enum Redigeringsmodus {
     REDIGERING = 'REDIGERING',
     VISNING = 'VISNING',
     IKKE_PÅSTARTET = 'IKKE_PÅSTARTET',
+}
+
+export interface FagsystemVedtak {
+    behandlingstype: string;
+    resultat: string;
+    eksternBehandlingId: string;
+    vedtakstidspunkt: string;
 }

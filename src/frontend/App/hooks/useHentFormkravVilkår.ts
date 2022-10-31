@@ -1,5 +1,5 @@
 import { useCallback, useState } from 'react';
-import { IFormkravVilkår } from '../../Komponenter/Behandling/Formkrav/typer';
+import { FagsystemVedtak, IFormkravVilkår } from '../../Komponenter/Behandling/Formkrav/typer';
 import {
     byggTomRessurs,
     Ressurs,
@@ -16,12 +16,18 @@ export const useHentFormkravVilkår = (): {
         vurderinger: IFormkravVilkår
     ) => Promise<RessursSuksess<IFormkravVilkår> | RessursFeilet>;
     feilVedLagring: string;
+    hentFagsystemVedtak: (behandlingId: string) => void;
+    fagsystemVedtak: Ressurs<FagsystemVedtak[]>;
 } => {
     const { axiosRequest } = useApp();
 
     const [feilVedLagring, settFeilVedLagring] = useState<string>('');
+
     const [vilkårsvurderinger, settVilkårsvurderinger] =
         useState<Ressurs<IFormkravVilkår>>(byggTomRessurs);
+
+    const [fagsystemVedtak, settFagsystemVedtak] =
+        useState<Ressurs<FagsystemVedtak[]>>(byggTomRessurs);
 
     const hentVilkårsvurderinger = useCallback(
         (behandlingId: string) => {
@@ -53,10 +59,22 @@ export const useHentFormkravVilkår = (): {
         });
     };
 
+    const hentFagsystemVedtak = useCallback(
+        (behandlingId: string) => {
+            axiosRequest<FagsystemVedtak[], null>({
+                method: 'GET',
+                url: `/familie-klage/api/behandling/${behandlingId}/fagsystem-vedtak`,
+            }).then(settFagsystemVedtak);
+        },
+        [axiosRequest]
+    );
+
     return {
         vilkårsvurderinger,
         hentVilkårsvurderinger,
         lagreVilkårsvurderinger,
         feilVedLagring,
+        hentFagsystemVedtak,
+        fagsystemVedtak,
     };
 };

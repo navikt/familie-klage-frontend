@@ -1,10 +1,22 @@
 import React, { Dispatch, SetStateAction, useState } from 'react';
-import { IFormkravVilkår, IRadioKnapper, Redigeringsmodus, VilkårStatus } from './typer';
+import {
+    FagsystemVedtak,
+    IFormkravVilkår,
+    IRadioKnapper,
+    Redigeringsmodus,
+    VilkårStatus,
+} from './typer';
 import { Alert, Button, HelpText, Radio, RadioGroup, Textarea } from '@navikt/ds-react';
 import { useBehandling } from '../../../App/context/BehandlingContext';
 import { useApp } from '../../../App/context/AppContext';
 import { Ressurs, RessursFeilet, RessursStatus, RessursSuksess } from '../../../App/typer/ressurs';
 import styled from 'styled-components';
+import { VedtakSelect } from './VedtakSelect';
+import {
+    alleVilkårOppfylt,
+    alleVilkårTattStillingTil,
+    påKlagetVedtakValgt,
+} from './validerFormkravUtils';
 import { utledRadioKnapper } from './utils';
 
 const RadioGrupperContainer = styled.div`
@@ -42,27 +54,36 @@ const HelpTextContainer = styled.div`
     max-width: 35rem;
 `;
 
+const VedtakSelectContainer = styled.div`
+    margin-bottom: 1rem;
+`;
+
 interface IProps {
-    vurderinger: IFormkravVilkår;
-    settRedigeringsmodus: (redigeringsmodus: Redigeringsmodus) => void;
+    fagsystemVedtak: FagsystemVedtak[];
+    feilmelding: string;
     lagreVurderinger: (
         vurderinger: IFormkravVilkår
     ) => Promise<RessursSuksess<IFormkravVilkår> | RessursFeilet>;
-    feilmelding: string;
+    settRedigeringsmodus: (redigeringsmodus: Redigeringsmodus) => void;
     settOppdaterteVurderinger: Dispatch<SetStateAction<IFormkravVilkår>>;
+    vurderinger: IFormkravVilkår;
 }
 
 export const EndreFormkravVurderinger: React.FC<IProps> = ({
-    vurderinger,
+    fagsystemVedtak,
+    feilmelding,
+    lagreVurderinger,
     settOppdaterteVurderinger,
     settRedigeringsmodus,
-    lagreVurderinger,
-    feilmelding,
+    vurderinger,
 }) => {
     const { hentBehandling, hentBehandlingshistorikk } = useBehandling();
     const { settIkkePersistertKomponent, nullstillIkkePersistertKomponent } = useApp();
 
     const [oppdatererVurderinger, settOppdatererVurderinger] = useState<boolean>(false);
+
+    const alleVilkårErOppfylt = alleVilkårOppfylt(vurderinger);
+    const alleVilkårUtfylt = alleVilkårTattStillingTil(vurderinger);
 
     const submitOppdaterteVurderinger = () => {
         if (oppdatererVurderinger) {
@@ -70,9 +91,14 @@ export const EndreFormkravVurderinger: React.FC<IProps> = ({
         }
         settOppdatererVurderinger(true);
 
-        lagreVurderinger(vurderinger).then((res: Ressurs<IFormkravVilkår>) => {
+        const vurderingerSomSkalLagres = alleVilkårErOppfylt
+            ? { ...vurderinger, saksbehandlerBegrunnelse: '' }
+            : vurderinger;
+
+        lagreVurderinger(vurderingerSomSkalLagres).then((res: Ressurs<IFormkravVilkår>) => {
             settOppdatererVurderinger(false);
             if (res.status === RessursStatus.SUKSESS) {
+                settOppdaterteVurderinger(vurderingerSomSkalLagres);
                 nullstillIkkePersistertKomponent('formkravVilkår');
                 settRedigeringsmodus(Redigeringsmodus.VISNING);
                 hentBehandling.rerun();
@@ -91,52 +117,62 @@ export const EndreFormkravVurderinger: React.FC<IProps> = ({
                 submitOppdaterteVurderinger();
             }}
         >
-            <RadioGrupperContainer>
-                {radioKnapper.map((item: IRadioKnapper, index) => (
-                    <FlexRow key={index}>
-                        <RadioGruppe
-                            legend={item.spørsmål}
-                            size="medium"
-                            onChange={(val: VilkårStatus) => {
+            <VedtakSelectContainer>
+                <VedtakSelect
+                    settOppdaterteVurderinger={settOppdaterteVurderinger}
+                    vedtak={fagsystemVedtak}
+                    vurderinger={vurderinger}
+                />
+            </VedtakSelectContainer>
+            {påKlagetVedtakValgt(vurderinger) && (
+                <>
+                    <RadioGrupperContainer>
+                        {radioKnapper.map((item: IRadioKnapper, index) => (
+                            <FlexRow key={index}>
+                                <RadioGruppe
+                                    legend={item.spørsmål}
+                                    size="medium"
+                                    onChange={(val: VilkårStatus) => {
+                                        settOppdaterteVurderinger((prevState: IFormkravVilkår) => {
+                                            return {
+                                                ...prevState,
+                                                [item.navn]: val,
+                                            } as IFormkravVilkår;
+                                        });
+                                        settIkkePersistertKomponent('formkravVilkår');
+                                    }}
+                                    value={item.svar}
+                                    key={index}
+                                >
+                                    <RadioButton value={VilkårStatus.OPPFYLT}>Ja</RadioButton>
+                                    <RadioButton value={VilkårStatus.IKKE_OPPFYLT}>Nei</RadioButton>
+                                </RadioGruppe>
+                                {item.spørsmål === 'Er klagefristen overholdt?' && (
+                                    <StyledHelpText>
+                                        <HelpTextInnhold />
+                                    </StyledHelpText>
+                                )}
+                            </FlexRow>
+                        ))}
+                    </RadioGrupperContainer>
+                    {!alleVilkårErOppfylt && alleVilkårUtfylt && (
+                        <Textarea
+                            label={'Begrunnelse'}
+                            value={vurderinger.saksbehandlerBegrunnelse}
+                            onChange={(e) => {
+                                settIkkePersistertKomponent('formkravVilkår');
                                 settOppdaterteVurderinger((prevState: IFormkravVilkår) => {
                                     return {
                                         ...prevState,
-                                        [item.navn]: val,
-                                    } as IFormkravVilkår;
+                                        saksbehandlerBegrunnelse: e.target.value,
+                                    };
                                 });
-                                settIkkePersistertKomponent('formkravVilkår');
                             }}
-                            value={item.svar}
-                            key={index}
-                        >
-                            <RadioButton value={VilkårStatus.OPPFYLT}>Ja</RadioButton>
-                            <RadioButton value={VilkårStatus.IKKE_OPPFYLT}>Nei</RadioButton>
-                            <RadioButton value={VilkårStatus.SKAL_IKKE_VURDERES}>
-                                Skal ikke vurderes
-                            </RadioButton>
-                        </RadioGruppe>
-                        {item.spørsmål === 'Er klagefristen overholdt?' && (
-                            <StyledHelpText>
-                                <HelpTextInnhold />
-                            </StyledHelpText>
-                        )}
-                    </FlexRow>
-                ))}
-            </RadioGrupperContainer>
-            <Textarea
-                label={'Vurdering'}
-                value={vurderinger.saksbehandlerBegrunnelse}
-                onChange={(e) => {
-                    settIkkePersistertKomponent('formkravVilkår');
-                    settOppdaterteVurderinger((prevState: IFormkravVilkår) => {
-                        return {
-                            ...prevState,
-                            saksbehandlerBegrunnelse: e.target.value,
-                        };
-                    });
-                }}
-                maxLength={1500}
-            />
+                            maxLength={1500}
+                        />
+                    )}
+                </>
+            )}
             {feilmelding && (
                 <AlertStripe variant={'error'} size={'medium'}>
                     {feilmelding}
