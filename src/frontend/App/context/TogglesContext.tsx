@@ -10,7 +10,7 @@ const [TogglesProvider, useToggles] = createUseContext(() => {
 
     const fetchToggles = useCallback(() => {
         const hentToggles = () => {
-            return axios.get(`/familie-ef-sak/api/featuretoggle`, {
+            return axios.get(`/familie-klage/api/featuretoggle`, {
                 withCredentials: true,
             });
         };
