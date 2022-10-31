@@ -11,9 +11,9 @@ import { useBehandling } from '../../../App/context/BehandlingContext';
 import { useApp } from '../../../App/context/AppContext';
 import { Ressurs, RessursFeilet, RessursStatus, RessursSuksess } from '../../../App/typer/ressurs';
 import styled from 'styled-components';
-import { alleVilkårOppfylt, utledRadioKnapper } from './utils';
 import { VedtakSelect } from './VedtakSelect';
-import { påKlagetVedtakValgt } from './validerFormkravUtils';
+import { alleVilkårOppfylt, påKlagetVedtakValgt } from './validerFormkravUtils';
+import { utledRadioKnapper } from './utils';
 
 const RadioGrupperContainer = styled.div`
     display: flex;

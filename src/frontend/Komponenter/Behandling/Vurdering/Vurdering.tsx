@@ -26,11 +26,11 @@ import { hentBehandlingIdFraUrl } from '../BehandlingContainer';
 import { useNavigate } from 'react-router-dom';
 import { useBehandling } from '../../../App/context/BehandlingContext';
 import { VurderingLesemodus } from './VurderingLesemodus';
-import { alleVilkårOppfylt } from '../Formkrav/utils';
 import DataViewer from '../../../Felles/DataViewer/DataViewer';
 import { AddCircle, Delete } from '@navikt/ds-icons';
 import { EnsligTextArea } from '../../../Felles/Input/EnsligTextArea';
 import { harVerdi } from '../../../App/utils/utils';
+import { alleVilkårOppfylt, påKlagetVedtakValgt } from '../Formkrav/validerFormkravUtils';
 
 const FritekstFeltWrapper = styled.div`
     margin: 2rem 4rem 2rem 4rem;
@@ -159,128 +159,133 @@ export const Vurdering: React.FC<{ behandlingId: string }> = ({ behandlingId }) 
                     <>
                         <FormkravOppsummering
                             formkrav={formkrav}
-                            alleVilkårOppfylt={alleVilkårOppfylt(formkrav)}
+                            alleVilkårOppfylt={
+                                påKlagetVedtakValgt(formkrav) && alleVilkårOppfylt(formkrav)
+                            }
                         />
-                        {behandlingErRedigerbar && !alleVilkårOppfylt(formkrav) && (
-                            <Alert variant={'error'}>Noen formkrav er ikke oppfylt</Alert>
-                        )}
-                        {!behandlingErRedigerbar && alleVilkårOppfylt(formkrav) && (
-                            <VurderingLesemodus />
-                        )}
-                        {alleVilkårOppfylt(formkrav) && behandlingErRedigerbar && (
-                            <>
-                                <Vedtak
-                                    settVedtak={settVurderingData}
-                                    vedtakValgt={vurderingData.vedtak}
-                                    vedtakValgmuligheter={vedtakValgTilTekst}
-                                    endring={settIkkePersistertKomponent}
-                                />
-                                {vurderingData.vedtak == VedtakValg.OMGJØR_VEDTAK && (
-                                    <Årsak
-                                        settÅrsak={settVurderingData}
-                                        årsakValgt={vurderingData.arsak}
-                                        årsakValgmuligheter={årsakValgTilTekst}
+                        {behandlingErRedigerbar &&
+                            !(alleVilkårOppfylt(formkrav) && påKlagetVedtakValgt(formkrav)) && (
+                                <Alert variant={'error'}>Noen formkrav er ikke oppfylt</Alert>
+                            )}
+                        {!behandlingErRedigerbar &&
+                            påKlagetVedtakValgt(formkrav) &&
+                            alleVilkårOppfylt(formkrav) && <VurderingLesemodus />}
+                        {påKlagetVedtakValgt(formkrav) &&
+                            alleVilkårOppfylt(formkrav) &&
+                            behandlingErRedigerbar && (
+                                <>
+                                    <Vedtak
+                                        settVedtak={settVurderingData}
+                                        vedtakValgt={vurderingData.vedtak}
+                                        vedtakValgmuligheter={vedtakValgTilTekst}
                                         endring={settIkkePersistertKomponent}
                                     />
-                                )}
-                                {vurderingData.vedtak == VedtakValg.OPPRETTHOLD_VEDTAK && (
-                                    <>
-                                        <HjemmelVelger
-                                            settHjemmel={settVurderingData}
-                                            hjemmelValgt={vurderingData.hjemmel}
-                                            hjemmelValgmuligheter={hjemmelTilTekst}
+                                    {vurderingData.vedtak == VedtakValg.OMGJØR_VEDTAK && (
+                                        <Årsak
+                                            settÅrsak={settVurderingData}
+                                            årsakValgt={vurderingData.arsak}
+                                            årsakValgmuligheter={årsakValgTilTekst}
                                             endring={settIkkePersistertKomponent}
                                         />
-                                        <FritekstFeltWrapper>
-                                            <EnsligTextArea
-                                                label="Innstilling til NAV Klageinstans"
-                                                value={vurderingData.innstillingKlageinstans}
-                                                onChange={(e) => {
-                                                    settIkkePersistertKomponent(e.target.value);
-                                                    settVurderingData((tidligereTilstand) => ({
-                                                        ...tidligereTilstand,
-                                                        innstillingKlageinstans: e.target.value,
-                                                    }));
-                                                    settVurderingEndret(true);
-                                                }}
-                                                size="medium"
-                                                erLesevisning={false}
+                                    )}
+                                    {vurderingData.vedtak == VedtakValg.OPPRETTHOLD_VEDTAK && (
+                                        <>
+                                            <HjemmelVelger
+                                                settHjemmel={settVurderingData}
+                                                hjemmelValgt={vurderingData.hjemmel}
+                                                hjemmelValgmuligheter={hjemmelTilTekst}
+                                                endring={settIkkePersistertKomponent}
                                             />
-                                        </FritekstFeltWrapper>
-                                    </>
-                                )}
-                                <InternNotatKnappContainer>
-                                    {!skalViseInterntNotat && (
-                                        <Button
-                                            variant={'tertiary'}
-                                            hidden={skalViseInterntNotat}
-                                            icon={<AddCircle />}
-                                            onClick={() => settSkalViseInterntNotat(true)}
-                                        >
-                                            Skriv internt notat
-                                        </Button>
+                                            <FritekstFeltWrapper>
+                                                <EnsligTextArea
+                                                    label="Innstilling til NAV Klageinstans"
+                                                    value={vurderingData.innstillingKlageinstans}
+                                                    onChange={(e) => {
+                                                        settIkkePersistertKomponent(e.target.value);
+                                                        settVurderingData((tidligereTilstand) => ({
+                                                            ...tidligereTilstand,
+                                                            innstillingKlageinstans: e.target.value,
+                                                        }));
+                                                        settVurderingEndret(true);
+                                                    }}
+                                                    size="medium"
+                                                    erLesevisning={false}
+                                                />
+                                            </FritekstFeltWrapper>
+                                        </>
                                     )}
+                                    <InternNotatKnappContainer>
+                                        {!skalViseInterntNotat && (
+                                            <Button
+                                                variant={'tertiary'}
+                                                hidden={skalViseInterntNotat}
+                                                icon={<AddCircle />}
+                                                onClick={() => settSkalViseInterntNotat(true)}
+                                            >
+                                                Skriv internt notat
+                                            </Button>
+                                        )}
+                                        {skalViseInterntNotat && (
+                                            <Button
+                                                variant={'tertiary'}
+                                                hidden={!skalViseInterntNotat}
+                                                icon={<Delete />}
+                                                onClick={() => {
+                                                    settSkalViseInterntNotat(false);
+                                                    settVurderingData((prevState) => ({
+                                                        ...prevState,
+                                                        interntNotat: undefined,
+                                                    }));
+                                                }}
+                                            >
+                                                Fjern internt notat
+                                            </Button>
+                                        )}
+                                    </InternNotatKnappContainer>
                                     {skalViseInterntNotat && (
-                                        <Button
-                                            variant={'tertiary'}
-                                            hidden={!skalViseInterntNotat}
-                                            icon={<Delete />}
-                                            onClick={() => {
-                                                settSkalViseInterntNotat(false);
-                                                settVurderingData((prevState) => ({
-                                                    ...prevState,
-                                                    interntNotat: undefined,
-                                                }));
-                                            }}
-                                        >
-                                            Fjern internt notat
-                                        </Button>
+                                        <InterntNotatWrapper>
+                                            <EnsligTextArea
+                                                hidden={!skalViseInterntNotat}
+                                                label={'Internt notat'}
+                                                erLesevisning={!behandlingErRedigerbar}
+                                                onChange={(e) =>
+                                                    settVurderingData((prevState) => ({
+                                                        ...prevState,
+                                                        interntNotat: e.target.value,
+                                                    }))
+                                                }
+                                                value={vurderingData?.interntNotat}
+                                            />
+                                        </InterntNotatWrapper>
                                     )}
-                                </InternNotatKnappContainer>
-                                {skalViseInterntNotat && (
-                                    <InterntNotatWrapper>
-                                        <EnsligTextArea
-                                            hidden={!skalViseInterntNotat}
-                                            label={'Internt notat'}
-                                            erLesevisning={!behandlingErRedigerbar}
-                                            onChange={(e) =>
-                                                settVurderingData((prevState) => ({
-                                                    ...prevState,
-                                                    interntNotat: e.target.value,
-                                                }))
-                                            }
-                                            value={vurderingData?.interntNotat}
-                                        />
-                                    </InterntNotatWrapper>
-                                )}
-                                <VurderingKnapper>
-                                    {(vurderingEndret || melding?.type === 'error') && (
-                                        <Button
-                                            variant="primary"
-                                            size="medium"
-                                            onClick={opprettVurdering}
-                                            disabled={!erAlleFelterUtfylt(vurderingData)}
-                                        >
-                                            Lagre vurdering
-                                        </Button>
+                                    <VurderingKnapper>
+                                        {(vurderingEndret || melding?.type === 'error') && (
+                                            <Button
+                                                variant="primary"
+                                                size="medium"
+                                                onClick={opprettVurdering}
+                                                disabled={!erAlleFelterUtfylt(vurderingData)}
+                                            >
+                                                Lagre vurdering
+                                            </Button>
+                                        )}
+                                        {!vurderingEndret && melding?.type !== 'error' && (
+                                            <Button
+                                                variant="primary"
+                                                size="medium"
+                                                onClick={navigerTilBrev}
+                                            >
+                                                Fortsett
+                                            </Button>
+                                        )}
+                                    </VurderingKnapper>
+                                    {melding && (
+                                        <AlertStyled variant={melding.type} size="medium">
+                                            {melding.tekst}
+                                        </AlertStyled>
                                     )}
-                                    {!vurderingEndret && melding?.type !== 'error' && (
-                                        <Button
-                                            variant="primary"
-                                            size="medium"
-                                            onClick={navigerTilBrev}
-                                        >
-                                            Fortsett
-                                        </Button>
-                                    )}
-                                </VurderingKnapper>
-                                {melding && (
-                                    <AlertStyled variant={melding.type} size="medium">
-                                        {melding.tekst}
-                                    </AlertStyled>
-                                )}
-                            </>
-                        )}
+                                </>
+                            )}
                     </>
                 );
             }}

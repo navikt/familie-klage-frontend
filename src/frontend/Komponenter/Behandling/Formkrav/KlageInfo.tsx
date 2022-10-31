@@ -2,9 +2,7 @@ import React from 'react';
 import styled from 'styled-components';
 import { BodyLong, Heading } from '@navikt/ds-react';
 import { IFormkravVilkår, Redigeringsmodus } from './typer';
-import { alleVilkårOppfylt } from './utils';
 import { Behandling } from '../../../App/typer/fagsak';
-import { harVerdi } from '../../../App/utils/utils';
 import {
     ErrorColored,
     FileContent,
@@ -13,6 +11,8 @@ import {
     WarningColored,
 } from '@navikt/ds-icons';
 import { formaterIsoDato } from '../../../App/utils/formatter';
+import { alleVilkårOppfylt, påKlagetVedtakValgt } from './validerFormkravUtils';
+import { useBehandling } from '../../../App/context/BehandlingContext';
 
 const OppfyltIkon = styled(SuccessColored)`
     margin-top: 0.25rem;
@@ -45,15 +45,13 @@ interface IProps {
 }
 
 export const KlageInfo: React.FC<IProps> = ({ behandling, vurderinger, redigeringsmodus }) => {
+    const { formkravOppfylt } = useBehandling();
     const utledetIkon = () => {
         if (redigeringsmodus === Redigeringsmodus.IKKE_PÅSTARTET) {
             return <Advarsel height={26} width={26} />;
-        } else if (
-            alleVilkårOppfylt(vurderinger) &&
-            harVerdi(vurderinger.saksbehandlerBegrunnelse)
-        ) {
+        } else if (formkravOppfylt) {
             return <OppfyltIkon height={23} width={23} />;
-        } else if (alleVilkårOppfylt(vurderinger)) {
+        } else if (påKlagetVedtakValgt(vurderinger) && alleVilkårOppfylt(vurderinger)) {
             return <InfoIkon height={23} width={23} />;
         }
         return <ErrorIkon height={23} width={23} />;

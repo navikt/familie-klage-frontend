@@ -6,9 +6,9 @@ import { FagsystemVedtak, IFormkravVilkår } from './typer';
 import ToKolonnerLayout from '../../../Felles/Visningskomponenter/ToKolonnerLayout';
 import { VisEllerEndreFormkravVurderinger } from './VisEllerEndreFormkravVurderinger';
 import DataViewer from '../../../Felles/DataViewer/DataViewer';
-import { utledRedigeringsmodus } from './utils';
 import { Behandling } from '../../../App/typer/fagsak';
 import { useHentFormkravVilkår } from '../../../App/hooks/useHentFormkravVilkår';
+import { utledRedigeringsmodus } from './validerFormkravUtils';
 
 export const Formkrav: React.FC<{ behandling: Behandling }> = ({ behandling }) => {
     const {

@@ -1,12 +1,7 @@
-import {
-    FormkravTilstand,
-    IFormkravVilkår,
-    IRadioKnapper,
-    Redigeringsmodus,
-    VilkårStatus,
-} from './typer';
-import { Behandling, PåklagetVedtakstype } from '../../../App/typer/fagsak';
+import { IFormkravVilkår, Redigeringsmodus, VilkårStatus } from './typer';
+import { PåklagetVedtakstype } from '../../../App/typer/fagsak';
 import { harVerdi } from '../../../App/utils/utils';
+import { utledRadioKnapper } from './utils';
 
 export const alleVurderingerErStatus = (
     formkravVurdering: IFormkravVilkår,
@@ -21,6 +16,10 @@ export const alleVurderingerErStatus = (
     );
 };
 
+export const påKlagetVedtakValgt = (vurderinger: IFormkravVilkår) => {
+    return vurderinger.påklagetVedtak.påklagetVedtakstype !== PåklagetVedtakstype.IKKE_VALGT;
+};
+
 export const alleVilkårOppfylt = (vurderinger: IFormkravVilkår) => {
     return (
         påKlagetVedtakValgt(vurderinger) &&
@@ -28,16 +27,8 @@ export const alleVilkårOppfylt = (vurderinger: IFormkravVilkår) => {
     );
 };
 
-export const påKlagetVedtakValgt = (vurderinger: IFormkravVilkår) => {
-    return vurderinger.påklagetVedtak.påklagetVedtakstype !== PåklagetVedtakstype.IKKE_VALGT;
-};
-
 export const begrunnelseUtfylt = (vurderinger: IFormkravVilkår) => {
     return harVerdi(vurderinger.saksbehandlerBegrunnelse);
-};
-
-export const utledFormkravTilstand = (vuderinger: IFormkravVilkår, behandling: Behandling) => {
-    return FormkravTilstand.IKKE_PÅSTARTET;
 };
 
 export const utledRedigeringsmodus = (
@@ -51,32 +42,6 @@ export const utledRedigeringsmodus = (
         return Redigeringsmodus.IKKE_PÅSTARTET;
     }
     return Redigeringsmodus.VISNING;
-};
-
-export const utledRadioKnapper = (vurderinger: IFormkravVilkår): IRadioKnapper[] => {
-    const { klagePart, klageKonkret, klagefristOverholdt, klageSignert } = vurderinger;
-    return [
-        {
-            spørsmål: 'Er klager part i saken?',
-            svar: klagePart,
-            navn: 'klagePart',
-        },
-        {
-            spørsmål: 'Klages det på konkrete elementer i vedtaket?',
-            svar: klageKonkret,
-            navn: 'klageKonkret',
-        },
-        {
-            spørsmål: 'Er klagefristen overholdt?',
-            svar: klagefristOverholdt,
-            navn: 'klagefristOverholdt',
-        },
-        {
-            spørsmål: 'Er klagen signert?',
-            svar: klageSignert,
-            navn: 'klageSignert',
-        },
-    ];
 };
 
 export const utledIkkeUtfylteVilkår = (vilkår: IFormkravVilkår) => {

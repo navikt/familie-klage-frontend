@@ -1,46 +1,7 @@
-import {
-    FagsystemVedtak,
-    IFormkravVilkår,
-    IRadioKnapper,
-    Redigeringsmodus,
-    VilkårStatus,
-} from './typer';
+import { FagsystemVedtak, IFormkravVilkår, IRadioKnapper } from './typer';
 import { PåklagetVedtak, PåklagetVedtakstype } from '../../../App/typer/fagsak';
 import { compareDesc } from 'date-fns';
 import { formaterIsoDatoTid } from '../../../App/utils/formatter';
-
-export const utledRedigeringsmodus = (
-    behandlingErRedigerbar: boolean,
-    vurderinger: IFormkravVilkår
-): Redigeringsmodus => {
-    if (!behandlingErRedigerbar) {
-        return Redigeringsmodus.VISNING;
-    }
-    if (alleVurderingerErStatus(vurderinger, VilkårStatus.IKKE_SATT)) {
-        return Redigeringsmodus.IKKE_PÅSTARTET;
-    }
-    return Redigeringsmodus.VISNING;
-};
-
-export const alleVilkårOppfylt = (vurderinger: IFormkravVilkår) => {
-    return (
-        alleVurderingerErStatus(vurderinger, VilkårStatus.OPPFYLT) &&
-        vurderinger.påklagetVedtak.påklagetVedtakstype !== PåklagetVedtakstype.IKKE_VALGT
-    );
-};
-
-export const alleVurderingerErStatus = (
-    formkravVurdering: IFormkravVilkår,
-    status: VilkårStatus
-): boolean => {
-    const { klagePart, klageKonkret, klagefristOverholdt, klageSignert } = formkravVurdering;
-    return (
-        klagePart === status &&
-        klageKonkret === status &&
-        klagefristOverholdt === status &&
-        klageSignert === status
-    );
-};
 
 export const utledRadioKnapper = (vurderinger: IFormkravVilkår): IRadioKnapper[] => {
     const { klagePart, klageKonkret, klagefristOverholdt, klageSignert } = vurderinger;

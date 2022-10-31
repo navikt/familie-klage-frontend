@@ -41,10 +41,3 @@ export interface FagsystemVedtak {
     eksternBehandlingId: string;
     vedtakstidspunkt: string;
 }
-
-export enum FormkravTilstand {
-    IKKE_PÅSTARTET,
-    PÅSTARTET,
-    OPPFYLT,
-    IKKE_OPPFYLT,
-}

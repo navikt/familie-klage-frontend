@@ -10,8 +10,11 @@ import { RessursStatus } from '../typer/ressurs';
 import { erBehandlingRedigerbar } from '../typer/behandlingstatus';
 import { IVurdering } from '../../Komponenter/Behandling/Vurdering/vurderingValg';
 import { useHentFormkravVilkår } from '../hooks/useHentFormkravVilkår';
-import { alleVilkårOppfylt } from '../../Komponenter/Behandling/Formkrav/utils';
-import { harVerdi } from '../utils/utils';
+import {
+    alleVilkårOppfylt,
+    begrunnelseUtfylt,
+    påKlagetVedtakValgt,
+} from '../../Komponenter/Behandling/Formkrav/validerFormkravUtils';
 
 const [BehandlingProvider, useBehandling] = constate(() => {
     const behandlingId = useParams<IBehandlingParams>().behandlingId as string;
@@ -23,7 +26,7 @@ const [BehandlingProvider, useBehandling] = constate(() => {
     const { hentBehandlingshistorikkCallback, behandlingHistorikk } =
         useHentBehandlingHistorikk(behandlingId);
     const { vilkårsvurderinger, hentVilkårsvurderinger } = useHentFormkravVilkår();
-    const [vilkårOppfyltOgBesvart, settVilkårOppfyltOgBesvart] = useState<boolean>(false);
+    const [formkravOppfylt, settFormkravOppfylt] = useState<boolean>(false);
 
     const hentBehandling = useRerunnableEffect(hentBehandlingCallback, [behandlingId]);
     const hentBehandlingshistorikk = useRerunnableEffect(hentBehandlingshistorikkCallback, [
@@ -40,10 +43,11 @@ const [BehandlingProvider, useBehandling] = constate(() => {
         hentVilkårsvurderinger(behandlingId);
     }, [behandling, behandlingId, hentVilkårsvurderinger]);
     useEffect(() => {
-        settVilkårOppfyltOgBesvart(
+        settFormkravOppfylt(
             vilkårsvurderinger.status === RessursStatus.SUKSESS &&
+                påKlagetVedtakValgt(vilkårsvurderinger.data) &&
                 alleVilkårOppfylt(vilkårsvurderinger.data) &&
-                harVerdi(vilkårsvurderinger.data.saksbehandlerBegrunnelse)
+                begrunnelseUtfylt(vilkårsvurderinger.data)
         );
     }, [vilkårsvurderinger]);
 
@@ -77,7 +81,7 @@ const [BehandlingProvider, useBehandling] = constate(() => {
         settVurderingEndret,
         vurderingData,
         settVurderingData,
-        vilkårOppfyltOgBesvart,
+        formkravOppfylt,
     };
 });
 
