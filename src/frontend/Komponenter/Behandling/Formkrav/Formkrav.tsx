@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { KlageInfo } from './KlageInfo';
 import { RessursFeilet, RessursStatus, RessursSuksess } from '../../../App/typer/ressurs';
 import { useBehandling } from '../../../App/context/BehandlingContext';
-import { IFormkravVilkår } from './typer';
+import { FagsystemVedtak, IFormkravVilkår } from './typer';
 import ToKolonnerLayout from '../../../Felles/Visningskomponenter/ToKolonnerLayout';
 import { VisEllerEndreFormkravVurderinger } from './VisEllerEndreFormkravVurderinger';
 import DataViewer from '../../../Felles/DataViewer/DataViewer';
@@ -11,28 +11,36 @@ import { Behandling } from '../../../App/typer/fagsak';
 import { useHentFormkravVilkår } from '../../../App/hooks/useHentFormkravVilkår';
 
 export const Formkrav: React.FC<{ behandling: Behandling }> = ({ behandling }) => {
-    const { vilkårsvurderinger, hentVilkårsvurderinger, lagreVilkårsvurderinger, feilVedLagring } =
-        useHentFormkravVilkår();
+    const {
+        vilkårsvurderinger,
+        hentVilkårsvurderinger,
+        lagreVilkårsvurderinger,
+        feilVedLagring,
+        fagsystemVedtak,
+        hentFagsystemVedtak,
+    } = useHentFormkravVilkår();
     const behandlingId = behandling.id;
 
     useEffect(() => {
         if (behandlingId !== undefined) {
             if (vilkårsvurderinger.status !== RessursStatus.SUKSESS) {
                 hentVilkårsvurderinger(behandlingId);
+                hentFagsystemVedtak(behandlingId);
             }
         }
         // eslint-disable-next-line
-    }, [behandlingId, hentVilkårsvurderinger]);
+    }, [behandlingId, hentVilkårsvurderinger, hentFagsystemVedtak]);
 
     return (
-        <DataViewer response={{ vilkårsvurderinger }}>
-            {({ vilkårsvurderinger }) => {
+        <DataViewer response={{ vilkårsvurderinger, fagsystemVedtak }}>
+            {({ vilkårsvurderinger, fagsystemVedtak }) => {
                 return (
                     <FormkravKomponent
                         vilkårsvurderinger={vilkårsvurderinger}
                         lagreVurderinger={lagreVilkårsvurderinger}
                         behandling={behandling}
                         feilmelding={feilVedLagring}
+                        fagsystemVedtak={fagsystemVedtak}
                     />
                 );
             }}
@@ -47,7 +55,8 @@ const FormkravKomponent: React.FC<{
     ) => Promise<RessursSuksess<IFormkravVilkår> | RessursFeilet>;
     behandling: Behandling;
     feilmelding: string;
-}> = ({ vilkårsvurderinger, lagreVurderinger, behandling, feilmelding }) => {
+    fagsystemVedtak: FagsystemVedtak[];
+}> = ({ vilkårsvurderinger, lagreVurderinger, behandling, feilmelding, fagsystemVedtak }) => {
     const { behandlingErRedigerbar } = useBehandling();
     const [oppdaterteVurderinger, settOppdaterteVurderinger] =
         useState<IFormkravVilkår>(vilkårsvurderinger);
@@ -63,7 +72,6 @@ const FormkravKomponent: React.FC<{
                         behandling={behandling}
                         vurderinger={oppdaterteVurderinger}
                         redigeringsmodus={redigeringsmodus}
-                        settOppdaterteVurderinger={settOppdaterteVurderinger}
                     />
                 ),
                 høyre: (
@@ -74,6 +82,7 @@ const FormkravKomponent: React.FC<{
                         redigeringsmodus={redigeringsmodus}
                         settRedigeringsmodus={settRedigeringsmodus}
                         feilmelding={feilmelding}
+                        fagsystemVedtak={fagsystemVedtak}
                     />
                 ),
             }}

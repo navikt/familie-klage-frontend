@@ -1,5 +1,13 @@
-import { IFormkravVilkår, IRadioKnapper, Redigeringsmodus, VilkårStatus } from './typer';
-import { PåklagetVedtakstype } from '../../../App/typer/fagsak';
+import {
+    FagsystemVedtak,
+    IFormkravVilkår,
+    IRadioKnapper,
+    Redigeringsmodus,
+    VilkårStatus,
+} from './typer';
+import { PåklagetVedtak, PåklagetVedtakstype } from '../../../App/typer/fagsak';
+import { compareDesc } from 'date-fns';
+import { formaterIsoDatoTid } from '../../../App/utils/formatter';
 
 export const utledRedigeringsmodus = (
     behandlingErRedigerbar: boolean,
@@ -60,6 +68,32 @@ export const utledRadioKnapper = (vurderinger: IFormkravVilkår): IRadioKnapper[
     ];
 };
 
-export const utledIkkeUtfylteVilkår = (vilkår: IFormkravVilkår) => {
-    return utledRadioKnapper(vilkår).filter((valg) => valg.svar === VilkårStatus.IKKE_SATT);
+export const utledFagsystemVedtakFraPåklagetVedtak = (
+    fagsystemVedtak: FagsystemVedtak[],
+    påklagetVedtak: PåklagetVedtak
+) => {
+    return fagsystemVedtak.find(
+        (vedtak) => vedtak.eksternBehandlingId === påklagetVedtak.eksternFagsystemBehandlingId
+    );
+};
+
+export const sorterVedtakstidspunktDesc = (a: FagsystemVedtak, b: FagsystemVedtak): number => {
+    if (!a.vedtakstidspunkt) {
+        return 1;
+    } else if (!b.vedtakstidspunkt) {
+        return -1;
+    }
+    return compareDesc(new Date(a.vedtakstidspunkt), new Date(b.vedtakstidspunkt));
+};
+
+export const fagsystemVedtakTilVisningstekst = (vedtak: FagsystemVedtak) =>
+    `${vedtak.behandlingstype} - ${vedtak.resultat} - ${formaterIsoDatoTid(
+        vedtak.vedtakstidspunkt
+    )}`;
+
+export const erVedtak = (valgtElement: string) => {
+    return !(
+        valgtElement === PåklagetVedtakstype.UTEN_VEDTAK ||
+        valgtElement === PåklagetVedtakstype.IKKE_VALGT
+    );
 };

@@ -1,11 +1,19 @@
 import React, { Dispatch, SetStateAction, useState } from 'react';
-import { IFormkravVilkår, IRadioKnapper, Redigeringsmodus, VilkårStatus } from './typer';
+import {
+    FagsystemVedtak,
+    IFormkravVilkår,
+    IRadioKnapper,
+    Redigeringsmodus,
+    VilkårStatus,
+} from './typer';
 import { Alert, Button, HelpText, Radio, RadioGroup, Textarea } from '@navikt/ds-react';
 import { useBehandling } from '../../../App/context/BehandlingContext';
 import { useApp } from '../../../App/context/AppContext';
 import { Ressurs, RessursFeilet, RessursStatus, RessursSuksess } from '../../../App/typer/ressurs';
 import styled from 'styled-components';
 import { alleVilkårOppfylt, utledRadioKnapper } from './utils';
+import { VedtakSelect } from './VedtakSelect';
+import { påKlagetVedtakValgt } from './validerFormkravUtils';
 
 const RadioGrupperContainer = styled.div`
     display: flex;
@@ -42,22 +50,28 @@ const HelpTextContainer = styled.div`
     max-width: 35rem;
 `;
 
+const VedtakSelectContainer = styled.div`
+    margin-bottom: 1rem;
+`;
+
 interface IProps {
-    vurderinger: IFormkravVilkår;
-    settRedigeringsmodus: (redigeringsmodus: Redigeringsmodus) => void;
+    fagsystemVedtak: FagsystemVedtak[];
+    feilmelding: string;
     lagreVurderinger: (
         vurderinger: IFormkravVilkår
     ) => Promise<RessursSuksess<IFormkravVilkår> | RessursFeilet>;
-    feilmelding: string;
+    settRedigeringsmodus: (redigeringsmodus: Redigeringsmodus) => void;
     settOppdaterteVurderinger: Dispatch<SetStateAction<IFormkravVilkår>>;
+    vurderinger: IFormkravVilkår;
 }
 
 export const EndreFormkravVurderinger: React.FC<IProps> = ({
-    vurderinger,
+    fagsystemVedtak,
+    feilmelding,
+    lagreVurderinger,
     settOppdaterteVurderinger,
     settRedigeringsmodus,
-    lagreVurderinger,
-    feilmelding,
+    vurderinger,
 }) => {
     const { hentBehandling, hentBehandlingshistorikk } = useBehandling();
     const { settIkkePersistertKomponent, nullstillIkkePersistertKomponent } = useApp();
@@ -98,35 +112,44 @@ export const EndreFormkravVurderinger: React.FC<IProps> = ({
                 submitOppdaterteVurderinger();
             }}
         >
-            <RadioGrupperContainer>
-                {radioKnapper.map((item: IRadioKnapper, index) => (
-                    <FlexRow key={index}>
-                        <RadioGruppe
-                            legend={item.spørsmål}
-                            size="medium"
-                            onChange={(val: VilkårStatus) => {
-                                settOppdaterteVurderinger((prevState: IFormkravVilkår) => {
-                                    return {
-                                        ...prevState,
-                                        [item.navn]: val,
-                                    } as IFormkravVilkår;
-                                });
-                                settIkkePersistertKomponent('formkravVilkår');
-                            }}
-                            value={item.svar}
-                            key={index}
-                        >
-                            <RadioButton value={VilkårStatus.OPPFYLT}>Ja</RadioButton>
-                            <RadioButton value={VilkårStatus.IKKE_OPPFYLT}>Nei</RadioButton>
-                        </RadioGruppe>
-                        {item.spørsmål === 'Er klagefristen overholdt?' && (
-                            <StyledHelpText>
-                                <HelpTextInnhold />
-                            </StyledHelpText>
-                        )}
-                    </FlexRow>
-                ))}
-            </RadioGrupperContainer>
+            <VedtakSelectContainer>
+                <VedtakSelect
+                    settOppdaterteVurderinger={settOppdaterteVurderinger}
+                    vedtak={fagsystemVedtak}
+                    vurderinger={vurderinger}
+                />
+            </VedtakSelectContainer>
+            {påKlagetVedtakValgt(vurderinger) && (
+                <RadioGrupperContainer>
+                    {radioKnapper.map((item: IRadioKnapper, index) => (
+                        <FlexRow key={index}>
+                            <RadioGruppe
+                                legend={item.spørsmål}
+                                size="medium"
+                                onChange={(val: VilkårStatus) => {
+                                    settOppdaterteVurderinger((prevState: IFormkravVilkår) => {
+                                        return {
+                                            ...prevState,
+                                            [item.navn]: val,
+                                        } as IFormkravVilkår;
+                                    });
+                                    settIkkePersistertKomponent('formkravVilkår');
+                                }}
+                                value={item.svar}
+                                key={index}
+                            >
+                                <RadioButton value={VilkårStatus.OPPFYLT}>Ja</RadioButton>
+                                <RadioButton value={VilkårStatus.IKKE_OPPFYLT}>Nei</RadioButton>
+                            </RadioGruppe>
+                            {item.spørsmål === 'Er klagefristen overholdt?' && (
+                                <StyledHelpText>
+                                    <HelpTextInnhold />
+                                </StyledHelpText>
+                            )}
+                        </FlexRow>
+                    ))}
+                </RadioGrupperContainer>
+            )}
             {alleVilkårErOppfylt && (
                 <Textarea
                     label={'Begrunnelse'}

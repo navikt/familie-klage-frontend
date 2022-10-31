@@ -10,24 +10,28 @@ const Container = styled.div`
     @media (max-width: 1600px) {
         flex-direction: column;
     }
+`;
 
-    .venstreKolonne {
-        padding: 1.5rem 0;
-        width: 50%;
+const VenstreKolonne = styled.div`
+    padding: 1.5rem 0;
+    width: 50%;
+    max-width: 50rem;
 
-        @media (max-width: 1600px) {
-            width: 100%;
-        }
-    }
-    .høyreKolonne {
-        padding: 1.5rem 0;
-        width: 50%;
-        max-width: 50rem;
-        @media (max-width: 1600px) {
-            width: 100%;
-        }
+    @media (max-width: 1600px) {
+        width: 100%;
     }
 `;
+
+const HøyreKolonne = styled.div`
+    padding: 1.5rem 0;
+    width: 50%;
+    max-width: 50rem;
+
+    @media (max-width: 1600px) {
+        width: 100%;
+    }
+`;
+
 interface Props {
     skillelinje?: boolean;
     children: {
@@ -42,8 +46,8 @@ const ToKolonnerLayout: React.FC<Props> = ({
 }) => {
     return (
         <Container skillelinje={skillelinje}>
-            <div className="venstreKolonne">{venstre}</div>
-            <div className="høyreKolonne">{høyre}</div>
+            <VenstreKolonne>{venstre}</VenstreKolonne>
+            <HøyreKolonne>{høyre}</HøyreKolonne>
         </Container>
     );
 };

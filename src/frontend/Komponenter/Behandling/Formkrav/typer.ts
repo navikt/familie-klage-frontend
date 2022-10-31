@@ -34,3 +34,17 @@ export enum Redigeringsmodus {
     VISNING = 'VISNING',
     IKKE_PÅSTARTET = 'IKKE_PÅSTARTET',
 }
+
+export interface FagsystemVedtak {
+    behandlingstype: string;
+    resultat: string;
+    eksternBehandlingId: string;
+    vedtakstidspunkt: string;
+}
+
+export enum FormkravTilstand {
+    IKKE_PÅSTARTET,
+    PÅSTARTET,
+    OPPFYLT,
+    IKKE_OPPFYLT,
+}
