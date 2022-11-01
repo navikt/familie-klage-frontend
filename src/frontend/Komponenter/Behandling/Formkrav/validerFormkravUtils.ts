@@ -32,6 +32,10 @@ export const begrunnelseUtfylt = (vurderinger: IFormkravVilkår) => {
     return harVerdi(vurderinger.saksbehandlerBegrunnelse);
 };
 
+export const brevtekstUtfylt = (vurderinger: IFormkravVilkår) => {
+    return harVerdi(vurderinger.brevtekst);
+};
+
 export const utledRedigeringsmodus = (
     behandlingErRedigerbar: boolean,
     vurderinger: IFormkravVilkår

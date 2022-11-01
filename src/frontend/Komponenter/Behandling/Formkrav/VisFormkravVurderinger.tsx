@@ -21,6 +21,7 @@ import { PåklagetVedtakstype, påklagetVedtakstypeTilTekst } from '../../../App
 import {
     alleVilkårOppfylt,
     begrunnelseUtfylt,
+    brevtekstUtfylt,
     påKlagetVedtakValgt,
     utledIkkeUtfylteVilkår,
 } from './validerFormkravUtils';
@@ -77,6 +78,11 @@ const BrukerMedBlyantIkon = styled(BrukerMedBlyant)`
     overflow: visible;
 `;
 
+const FritekstWrapper = styled.div`
+    white-space: pre-wrap;
+    word-wrap: break-word;
+`;
+
 const LagreKnapp = styled(Button)`
     margin-top: 1rem;
     margin-right: auto;
@@ -89,22 +95,18 @@ const StyledAlert = styled(Alert)`
 `;
 
 interface IProps {
-    endretTid: string;
     fagsystemVedtak: FagsystemVedtak[];
     lagreVurderinger: (
         vurderinger: IFormkravVilkår
     ) => Promise<RessursSuksess<IFormkravVilkår> | RessursFeilet>;
-    saksbehandlerBegrunnelse: string;
     settRedigeringsmodus: (redigeringsmodus: Redigeringsmodus) => void;
     settOppdaterteVurderinger: Dispatch<SetStateAction<IFormkravVilkår>>;
     vurderinger: IFormkravVilkår;
 }
 
 export const VisFormkravVurderinger: React.FC<IProps> = ({
-    endretTid,
     fagsystemVedtak,
     lagreVurderinger,
-    saksbehandlerBegrunnelse,
     settOppdaterteVurderinger,
     settRedigeringsmodus,
     vurderinger,
@@ -126,6 +128,7 @@ export const VisFormkravVurderinger: React.FC<IProps> = ({
             klagefristOverholdt: VilkårStatus.IKKE_SATT,
             klageSignert: VilkårStatus.IKKE_SATT,
             saksbehandlerBegrunnelse: '',
+            brevtekst: '',
             påklagetVedtak: {
                 påklagetVedtakstype: PåklagetVedtakstype.IKKE_VALGT,
             },
@@ -146,12 +149,14 @@ export const VisFormkravVurderinger: React.FC<IProps> = ({
     const alleVilkårErOppfylt = alleVilkårOppfylt(vurderinger);
     const påKlagetVedtakErValgt = påKlagetVedtakValgt(vurderinger);
     const harBegrunnelse = begrunnelseUtfylt(vurderinger);
+    const harBrevtekst = brevtekstUtfylt(vurderinger);
+    const manglerFritekster = !harBrevtekst || !harBegrunnelse;
     const ikkeUtfylteVilkår = utledIkkeUtfylteVilkår(vurderinger);
 
     const manglerUtfylling =
         ikkeUtfylteVilkår.length > 0 ||
         !påKlagetVedtakErValgt ||
-        (!alleVilkårErOppfylt && !harBegrunnelse);
+        (!alleVilkårErOppfylt && manglerFritekster);
 
     const utledUrlSuffiks = (): string => {
         if (!behandlingErRedigerbar) {
@@ -201,7 +206,7 @@ export const VisFormkravVurderinger: React.FC<IProps> = ({
                 )}
             </Header>
             <SpørsmålContainer>
-                Sist endret - {formaterIsoDatoTid(endretTid)}
+                Sist endret - {formaterIsoDatoTid(vurderinger.endretTid)}
                 <SvarElement>
                     <Spørsmål>Vedtak som er påklaget</Spørsmål>
                     <Svar>
@@ -226,10 +231,22 @@ export const VisFormkravVurderinger: React.FC<IProps> = ({
                     </SvarElement>
                 ))}
                 {!alleVilkårErOppfylt && (
-                    <SvarElement>
-                        <Spørsmål>Begrunnelse</Spørsmål>
-                        <Svar>{saksbehandlerBegrunnelse}</Svar>
-                    </SvarElement>
+                    <>
+                        <SvarElement>
+                            <Spørsmål>Begrunnelse (intern)</Spørsmål>
+                            <Svar>
+                                <FritekstWrapper>
+                                    {vurderinger.saksbehandlerBegrunnelse}
+                                </FritekstWrapper>
+                            </Svar>
+                        </SvarElement>
+                        <SvarElement>
+                            <Spørsmål>Fritekst til brev</Spørsmål>
+                            <Svar>
+                                <FritekstWrapper>{vurderinger.brevtekst}</FritekstWrapper>
+                            </Svar>
+                        </SvarElement>
+                    </>
                 )}
                 {urlSuffiks && (
                     <LagreKnapp
@@ -256,6 +273,7 @@ export const VisFormkravVurderinger: React.FC<IProps> = ({
                             );
                         })}
                         {!harBegrunnelse && <li>Begrunnelse er ikke utfylt</li>}
+                        {!harBrevtekst && <li>Fritekst til brev er ikke utfylt</li>}
                     </ul>
                 </StyledAlert>
             )}

@@ -6,7 +6,7 @@ import {
     Redigeringsmodus,
     VilkårStatus,
 } from './typer';
-import { Alert, Button, HelpText, Radio, RadioGroup, Textarea } from '@navikt/ds-react';
+import { Alert, Button, HelpText, Label, Radio, RadioGroup, Textarea } from '@navikt/ds-react';
 import { useBehandling } from '../../../App/context/BehandlingContext';
 import { useApp } from '../../../App/context/AppContext';
 import { Ressurs, RessursFeilet, RessursStatus, RessursSuksess } from '../../../App/typer/ressurs';
@@ -46,7 +46,7 @@ const FlexRow = styled.div`
     flex-direction: row;
 `;
 
-const StyledHelpText = styled(HelpText)`
+const HjelpeTekst = styled(HelpText)`
     margin-left: 0.5rem;
 `;
 
@@ -56,6 +56,10 @@ const HelpTextContainer = styled.div`
 
 const VedtakSelectContainer = styled.div`
     margin-bottom: 1rem;
+`;
+
+const FritekstFelt = styled(Textarea)`
+    margin-top: 1rem;
 `;
 
 interface IProps {
@@ -92,7 +96,7 @@ export const EndreFormkravVurderinger: React.FC<IProps> = ({
         settOppdatererVurderinger(true);
 
         const vurderingerSomSkalLagres = alleVilkårErOppfylt
-            ? { ...vurderinger, saksbehandlerBegrunnelse: '' }
+            ? { ...vurderinger, saksbehandlerBegrunnelse: '', brevtekst: '' }
             : vurderinger;
 
         lagreVurderinger(vurderingerSomSkalLagres).then((res: Ressurs<IFormkravVilkår>) => {
@@ -148,28 +152,49 @@ export const EndreFormkravVurderinger: React.FC<IProps> = ({
                                     <RadioButton value={VilkårStatus.IKKE_OPPFYLT}>Nei</RadioButton>
                                 </RadioGruppe>
                                 {item.spørsmål === 'Er klagefristen overholdt?' && (
-                                    <StyledHelpText>
+                                    <HjelpeTekst>
                                         <HelpTextInnhold />
-                                    </StyledHelpText>
+                                    </HjelpeTekst>
                                 )}
                             </FlexRow>
                         ))}
                     </RadioGrupperContainer>
                     {!alleVilkårErOppfylt && alleVilkårUtfylt && (
-                        <Textarea
-                            label={'Begrunnelse'}
-                            value={vurderinger.saksbehandlerBegrunnelse}
-                            onChange={(e) => {
-                                settIkkePersistertKomponent('formkravVilkår');
-                                settOppdaterteVurderinger((prevState: IFormkravVilkår) => {
-                                    return {
-                                        ...prevState,
-                                        saksbehandlerBegrunnelse: e.target.value,
-                                    };
-                                });
-                            }}
-                            maxLength={1500}
-                        />
+                        <>
+                            <Textarea
+                                label={'Begrunnelse (intern)'}
+                                value={vurderinger.saksbehandlerBegrunnelse}
+                                onChange={(e) => {
+                                    settIkkePersistertKomponent('formkravVilkår');
+                                    settOppdaterteVurderinger((prevState: IFormkravVilkår) => {
+                                        return {
+                                            ...prevState,
+                                            saksbehandlerBegrunnelse: e.target.value,
+                                        };
+                                    });
+                                }}
+                                maxLength={1500}
+                            />
+                            <FritekstFelt
+                                label={
+                                    <FlexRow>
+                                        <Label>Fritekst til brev</Label>
+                                        <HjelpeTekst>Dette vises i brevet</HjelpeTekst>
+                                    </FlexRow>
+                                }
+                                value={vurderinger.brevtekst}
+                                onChange={(e) => {
+                                    settIkkePersistertKomponent('formkravVilkår');
+                                    settOppdaterteVurderinger((prevState: IFormkravVilkår) => {
+                                        return {
+                                            ...prevState,
+                                            brevtekst: e.target.value,
+                                        };
+                                    });
+                                }}
+                                maxLength={1500}
+                            />
+                        </>
                     )}
                 </>
             )}

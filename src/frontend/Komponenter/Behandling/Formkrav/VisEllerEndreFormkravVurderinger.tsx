@@ -41,10 +41,8 @@ export const VisEllerEndreFormkravVurderinger: React.FC<IProps> = ({
         case Redigeringsmodus.VISNING:
             return (
                 <VisFormkravVurderinger
-                    endretTid={vurderinger.endretTid}
                     fagsystemVedtak={fagsystemVedtak}
                     lagreVurderinger={lagreVurderinger}
-                    saksbehandlerBegrunnelse={vurderinger.saksbehandlerBegrunnelse}
                     settOppdaterteVurderinger={settOppdaterteVurderinger}
                     settRedigeringsmodus={settRedigeringsmodus}
                     vurderinger={vurderinger}
