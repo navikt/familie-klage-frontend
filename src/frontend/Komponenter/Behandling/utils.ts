@@ -1,6 +1,11 @@
-import { Behandling, BehandlingResultat, StegType } from '../../App/typer/fagsak';
-import { utledTekstForBehandlingsresultat } from './Resultat/utils';
+import {
+    Behandling,
+    BehandlingResultat,
+    behandlingResultatTilTekst,
+    StegType,
+} from '../../App/typer/fagsak';
 import { IVurdering, vedtakValgTilTekst } from './Vurdering/vurderingValg';
+import { utledTekstForEksternutfall } from './Resultat/utils';
 
 export const utledStegutfallForIkkeFerdigstiltBehandling = (
     steg: StegType,
@@ -28,7 +33,9 @@ export const utledStegutfallForFerdigstiltBehandling = (behandling: Behandling, 
                 ? 'Omgjør vedtak'
                 : 'Oppretthold vedtak';
         case StegType.BEHANDLING_FERDIGSTILT:
-            return utledTekstForBehandlingsresultat(behandling);
+            return behandling.resultat === BehandlingResultat.IKKE_MEDHOLD
+                ? utledTekstForEksternutfall(behandling) || ''
+                : behandlingResultatTilTekst[behandling.resultat];
         default:
             return '';
     }
