@@ -127,8 +127,8 @@ export const VisFormkravVurderinger: React.FC<IProps> = ({
             klageKonkret: VilkårStatus.IKKE_SATT,
             klagefristOverholdt: VilkårStatus.IKKE_SATT,
             klageSignert: VilkårStatus.IKKE_SATT,
-            saksbehandlerBegrunnelse: '',
-            brevtekst: '',
+            saksbehandlerBegrunnelse: undefined,
+            brevtekst: undefined,
             påklagetVedtak: {
                 påklagetVedtakstype: PåklagetVedtakstype.IKKE_VALGT,
             },

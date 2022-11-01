@@ -96,7 +96,7 @@ export const EndreFormkravVurderinger: React.FC<IProps> = ({
         settOppdatererVurderinger(true);
 
         const vurderingerSomSkalLagres = alleVilkårErOppfylt
-            ? { ...vurderinger, saksbehandlerBegrunnelse: '', brevtekst: '' }
+            ? { ...vurderinger, saksbehandlerBegrunnelse: '', brevtekst: undefined }
             : vurderinger;
 
         lagreVurderinger(vurderingerSomSkalLagres).then((res: Ressurs<IFormkravVilkår>) => {
