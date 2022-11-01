@@ -178,7 +178,9 @@ export const EndreFormkravVurderinger: React.FC<IProps> = ({
                                 label={
                                     <FlexRow>
                                         <Label>Fritekst til brev</Label>
-                                        <HjelpeTekst>Dette vises i brevet</HjelpeTekst>
+                                        <HjelpeTekst>
+                                            Dette er fritekst som kommer med i brevet til bruker
+                                        </HjelpeTekst>
                                     </FlexRow>
                                 }
                                 value={vurderinger.brevtekst}
