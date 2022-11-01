@@ -24,7 +24,8 @@ export interface IFormkravVilkår {
     klageKonkret: VilkårStatus;
     klagefristOverholdt: VilkårStatus;
     klageSignert: VilkårStatus;
-    saksbehandlerBegrunnelse: string;
+    saksbehandlerBegrunnelse?: string;
+    brevtekst?: string;
     påklagetVedtak: PåklagetVedtak;
     endretTid: string;
 }

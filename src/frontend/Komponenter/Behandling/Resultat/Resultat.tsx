@@ -12,11 +12,11 @@ const FaneContainer = styled.div`
 `;
 
 const TidslinjeContainer = styled.div`
-    @media (max-width: 1400px) {
+    @media (max-width: 1449px) {
         display: flex;
         justify-content: center;
     }
-    @media (min-width: 1400px) {
+    @media (min-width: 1450px) {
         margin-top: 12rem;
     }
 `;
