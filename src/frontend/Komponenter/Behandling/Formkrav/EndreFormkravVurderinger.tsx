@@ -173,7 +173,6 @@ export const EndreFormkravVurderinger: React.FC<IProps> = ({
                                         };
                                     });
                                 }}
-                                maxLength={1500}
                             />
                             <FritekstFelt
                                 label={
@@ -192,7 +191,6 @@ export const EndreFormkravVurderinger: React.FC<IProps> = ({
                                         };
                                     });
                                 }}
-                                maxLength={1500}
                             />
                         </>
                     )}
