@@ -29,7 +29,7 @@ const BrevContainer = styled.div`
     grid-gap: 1rem;
     justify-content: space-between;
 
-    @media only screen and (max-width: 1660px) {
+    @media only screen and (max-width: 1800px) {
         display: flex;
         flex-wrap: wrap;
         gap: 3rem;
