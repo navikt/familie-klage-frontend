@@ -49,10 +49,10 @@ const VurderingKnapper = styled.div`
 `;
 
 const erAlleFelterUtfylt = (vurderingData: IVurdering): boolean => {
-    const { vedtak, innstillingKlageinstans, arsak, hjemmel } = vurderingData;
+    const { vedtak, innstillingKlageinstans, arsak, hjemmel, begrunnelseOmgjøring } = vurderingData;
 
     if (vedtak === VedtakValg.OMGJØR_VEDTAK) {
-        return harVerdi(arsak);
+        return harVerdi(arsak) && harVerdi(begrunnelseOmgjøring);
     } else if (vedtak === VedtakValg.OPPRETTHOLD_VEDTAK) {
         return harVerdi(innstillingKlageinstans) && harVerdi(hjemmel);
     } else {
@@ -126,6 +126,7 @@ export const Vurdering: React.FC<{ behandlingId: string }> = ({ behandlingId }) 
             ...prevState,
             interntNotat: tekst,
         }));
+        settIkkePersistertKomponent('internt-notat');
     };
 
     function navigerTilBrev() {
@@ -159,12 +160,30 @@ export const Vurdering: React.FC<{ behandlingId: string }> = ({ behandlingId }) 
                                     endring={settIkkePersistertKomponent}
                                 />
                                 {oppdatertVurdering.vedtak == VedtakValg.OMGJØR_VEDTAK && (
-                                    <Årsak
-                                        settÅrsak={settOppdatertVurdering}
-                                        årsakValgt={oppdatertVurdering.arsak}
-                                        årsakValgmuligheter={årsakValgTilTekst}
-                                        endring={settIkkePersistertKomponent}
-                                    />
+                                    <>
+                                        <Årsak
+                                            settÅrsak={settOppdatertVurdering}
+                                            årsakValgt={oppdatertVurdering.arsak}
+                                            årsakValgmuligheter={årsakValgTilTekst}
+                                            endring={settIkkePersistertKomponent}
+                                        />
+                                        <FritekstFeltWrapper>
+                                            <EnsligTextArea
+                                                label="Begrunnelse for omgjøring"
+                                                value={oppdatertVurdering.begrunnelseOmgjøring}
+                                                onChange={(e) => {
+                                                    settIkkePersistertKomponent(e.target.value);
+                                                    settOppdatertVurdering((tidligereTilstand) => ({
+                                                        ...tidligereTilstand,
+                                                        begrunnelseOmgjøring: e.target.value,
+                                                    }));
+                                                    settVurderingEndret(true);
+                                                }}
+                                                size="medium"
+                                                erLesevisning={false}
+                                            />
+                                        </FritekstFeltWrapper>
+                                    </>
                                 )}
                                 {oppdatertVurdering.vedtak == VedtakValg.OPPRETTHOLD_VEDTAK && (
                                     <>
@@ -190,13 +209,13 @@ export const Vurdering: React.FC<{ behandlingId: string }> = ({ behandlingId }) 
                                                 erLesevisning={false}
                                             />
                                         </FritekstFeltWrapper>
+                                        <InterntNotat
+                                            behandlingErRedigerbar={behandlingErRedigerbar}
+                                            tekst={oppdatertVurdering?.interntNotat}
+                                            oppdaterTekst={oppdaterNotat}
+                                        />
                                     </>
                                 )}
-                                <InterntNotat
-                                    behandlingErRedigerbar={behandlingErRedigerbar}
-                                    tekst={oppdatertVurdering?.interntNotat}
-                                    oppdaterTekst={oppdaterNotat}
-                                />
                                 <VurderingKnapper>
                                     {(vurderingEndret || melding?.type === 'error') && (
                                         <Button
