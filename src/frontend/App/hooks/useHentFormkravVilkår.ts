@@ -53,7 +53,7 @@ export const useHentFormkravVilkår = (): {
             if (respons.status === RessursStatus.SUKSESS) {
                 settVilkårsvurderinger(respons);
             } else {
-                settFeilVedLagring(respons.frontendFeilmelding ?? 'Noe gikk galt');
+                settFeilVedLagring(respons.frontendFeilmelding ?? 'Noe gikk galt ved innsending');
             }
             return respons;
         });
