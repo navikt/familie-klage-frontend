@@ -106,9 +106,24 @@ export const Vurdering: React.FC<{ behandlingId: string }> = ({ behandlingId }) 
             return;
         }
 
+        const vurderingSomSkalLagres =
+            oppdatertVurdering.vedtak === VedtakValg.OPPRETTHOLD_VEDTAK
+                ? {
+                      ...oppdatertVurdering,
+                      arsak: null,
+                      begrunnelseOmgjøring: null,
+                  }
+                : {
+                      ...oppdatertVurdering,
+                      hjemmel: null,
+                      innstillingKlageinstans: null,
+                      interntNotat: null,
+                  };
+
         settSenderInn(true);
         settMelding(undefined);
-        lagreVurdering(oppdatertVurdering).then(
+        // @ts-ignore
+        lagreVurdering(vurderingSomSkalLagres).then(
             (res: RessursSuksess<IVurdering> | RessursFeilet) => {
                 if (res.status === RessursStatus.SUKSESS) {
                     nullstillIkkePersisterteKomponenter();
