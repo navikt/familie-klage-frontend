@@ -149,7 +149,7 @@ export const Vurdering: React.FC<{ behandlingId: string }> = ({ behandlingId }) 
                             <Alert variant={'error'}>Noen formkrav er ikke oppfylt</Alert>
                         )}
                         {!behandlingErRedigerbar && skalViseVurderingsvalg && (
-                            <VurderingLesemodus />
+                            <VurderingLesemodus vurdering={oppdatertVurdering} />
                         )}
                         {behandlingErRedigerbar && skalViseVurderingsvalg && (
                             <>
