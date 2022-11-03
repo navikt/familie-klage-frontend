@@ -20,7 +20,7 @@ const VurderingLesemodusPunkt = styled.div`
 `;
 
 export const VurderingLesemodus: React.FC = () => {
-    const { vurderingData } = useBehandling();
+    const { oppdatertVurdering } = useBehandling();
 
     return (
         <div>
@@ -29,29 +29,29 @@ export const VurderingLesemodus: React.FC = () => {
                     <Heading level="1" size="medium">
                         Vedtak
                     </Heading>
-                    {vurderingData.vedtak && vedtakValgTilTekst[vurderingData.vedtak]}
+                    {oppdatertVurdering.vedtak && vedtakValgTilTekst[oppdatertVurdering.vedtak]}
                 </VurderingLesemodusPunkt>
-                {vurderingData.arsak && (
+                {oppdatertVurdering.arsak && (
                     <VurderingLesemodusPunkt>
                         <Heading level="1" size="medium">
                             Årsak
                         </Heading>
-                        {årsakValgTilTekst[vurderingData.arsak]}
+                        {årsakValgTilTekst[oppdatertVurdering.arsak]}
                     </VurderingLesemodusPunkt>
                 )}
 
-                {vurderingData.hjemmel && (
+                {oppdatertVurdering.hjemmel && (
                     <VurderingLesemodusPunkt>
                         <Heading level="1" size="medium">
                             Hjemmel
                         </Heading>
-                        {hjemmelTilTekst[vurderingData.hjemmel]}
+                        {hjemmelTilTekst[oppdatertVurdering.hjemmel]}
                     </VurderingLesemodusPunkt>
                 )}
                 <Heading level="1" size="medium">
                     Vurdering
                 </Heading>
-                {vurderingData.innstillingKlageinstans}
+                {oppdatertVurdering.innstillingKlageinstans}
             </VurderingLesemodusDiv>
         </div>
     );
