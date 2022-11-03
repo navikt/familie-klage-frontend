@@ -9,6 +9,11 @@ import {
 import { useApp } from '../context/AppContext';
 import { IVurdering } from '../../Komponenter/Behandling/Vurdering/vurderingValg';
 
+interface IMelding {
+    tekst: string;
+    type: 'success' | 'error';
+}
+
 export const useHentVurderinger = (): {
     vurdering: Ressurs<IVurdering>;
     hentVurdering: (behandlingId: string) => void;
@@ -16,10 +21,13 @@ export const useHentVurderinger = (): {
         vurderinger: IVurdering
     ) => Promise<RessursSuksess<IVurdering> | RessursFeilet>;
     feilVedLagring: string;
+    melding: IMelding | undefined;
+    settMelding: (melding?: IMelding) => void;
 } => {
     const { axiosRequest } = useApp();
 
     const [feilVedLagring, settFeilVedLagring] = useState<string>('');
+    const [melding, settMelding] = useState<IMelding>();
 
     const [vurdering, settVurdering] = useState<Ressurs<IVurdering>>(byggTomRessurs);
 
@@ -46,8 +54,15 @@ export const useHentVurderinger = (): {
         }).then((respons: RessursSuksess<IVurdering> | RessursFeilet) => {
             if (respons.status === RessursStatus.SUKSESS) {
                 settVurdering(respons);
+                settMelding({
+                    tekst: 'Vurderingen er lagret',
+                    type: 'success',
+                });
             } else {
-                settFeilVedLagring(respons.frontendFeilmelding ?? 'Noe gikk galt ved innsending');
+                settMelding({
+                    tekst: respons.frontendFeilmelding || 'Noe gikk galt ved innsending',
+                    type: 'error',
+                });
             }
             return respons;
         });
@@ -58,5 +73,7 @@ export const useHentVurderinger = (): {
         hentVurdering,
         lagreVurdering,
         feilVedLagring,
+        melding,
+        settMelding,
     };
 };
