@@ -58,7 +58,7 @@ const [BehandlingProvider, useBehandling] = constate(() => {
     const [vurderingEndret, settVurderingEndret] = useState(false);
 
     const initiellVurdering: IVurdering = { behandlingId: behandlingId };
-    const [vurderingData, settVurderingData] = useState<IVurdering>(initiellVurdering);
+    const [oppdatertVurdering, settOppdatertVurdering] = useState<IVurdering>(initiellVurdering);
 
     return {
         behandling,
@@ -77,8 +77,8 @@ const [BehandlingProvider, useBehandling] = constate(() => {
         settVilkårTom,
         vurderingEndret,
         settVurderingEndret,
-        vurderingData,
-        settVurderingData,
+        oppdatertVurdering,
+        settOppdatertVurdering,
         formkravOppfylt,
     };
 });

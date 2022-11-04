@@ -51,11 +51,11 @@ const HistorikkInnslag: React.FunctionComponent<IHistorikkOppdatering> = ({
     endretTid,
     visStegutfall,
 }) => {
-    const { formkravOppfylt, vurderingData } = useBehandling();
+    const { formkravOppfylt, oppdatertVurdering } = useBehandling();
 
     const utledStegutfall = (behandling: Behandling) => {
         return behandling.resultat === BehandlingResultat.IKKE_SATT
-            ? utledStegutfallForIkkeFerdigstiltBehandling(steg, formkravOppfylt, vurderingData)
+            ? utledStegutfallForIkkeFerdigstiltBehandling(steg, formkravOppfylt, oppdatertVurdering)
             : utledStegutfallForFerdigstiltBehandling(behandling, steg);
     };
 

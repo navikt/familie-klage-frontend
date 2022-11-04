@@ -2,6 +2,7 @@ export interface IVurdering {
     behandlingId: string;
     vedtak?: VedtakValg;
     arsak?: ÅrsakOmgjøring;
+    begrunnelseOmgjøring?: string;
     hjemmel?: Hjemmel;
     innstillingKlageinstans?: string;
     interntNotat?: string;

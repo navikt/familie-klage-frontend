@@ -179,7 +179,13 @@ export const EndreFormkravVurderinger: React.FC<IProps> = ({
                                     <FlexRow>
                                         <Label>Fritekst til brev</Label>
                                         <HjelpeTekst>
-                                            Dette er fritekst som kommer med i brevet til bruker
+                                            Ut ifra hvilke(t) formkrav som ikke er oppfylt, vil det
+                                            automatisk vises en generell tekst i brevet med årsak
+                                            til avvisning. I dette fritekstfeltet skrives en mer
+                                            detaljert begrunnelse. Hvis klagen skal avvises fordi
+                                            det er klaget for sent, så kan teksten for eksempel
+                                            inneholde datoen for når vedtaket ble gjort og datoen
+                                            for når bruker fremsatte klage.
                                         </HjelpeTekst>
                                     </FlexRow>
                                 }
