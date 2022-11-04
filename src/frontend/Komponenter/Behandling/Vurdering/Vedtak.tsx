@@ -33,7 +33,7 @@ export const Vedtak: React.FC<IVedtak> = ({
                 ({
                     ...tidligereTilstand,
                     vedtak: nyttValg,
-                    arsak: undefined,
+                    årsak: undefined,
                     hjemmel: undefined,
                     innstillingKlageinstans: undefined,
                 } as IVurdering)

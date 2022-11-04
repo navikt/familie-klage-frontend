@@ -31,7 +31,7 @@ export const VurderingLesemodus: React.FC<{ vurdering: IVurdering }> = ({ vurder
 };
 
 const OmgjørVedtak: React.FC<{ vurdering: IVurdering }> = ({ vurdering }) => {
-    const { vedtak, arsak, begrunnelseOmgjøring } = vurdering;
+    const { vedtak, årsak, begrunnelseOmgjøring } = vurdering;
     return (
         <Container>
             {vedtak && (
@@ -42,12 +42,12 @@ const OmgjørVedtak: React.FC<{ vurdering: IVurdering }> = ({ vurdering }) => {
                     <BodyShort>{vedtakValgTilTekst[vedtak]}</BodyShort>
                 </Avsnitt>
             )}
-            {arsak && (
+            {årsak && (
                 <Avsnitt>
                     <Heading level="1" size="medium">
                         Årsak
                     </Heading>
-                    <BodyShort>{årsakValgTilTekst[arsak]}</BodyShort>
+                    <BodyShort>{årsakValgTilTekst[årsak]}</BodyShort>
                 </Avsnitt>
             )}
             {begrunnelseOmgjøring && (
