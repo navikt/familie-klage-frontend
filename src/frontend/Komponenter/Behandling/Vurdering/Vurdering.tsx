@@ -49,10 +49,10 @@ const VurderingKnapper = styled.div`
 `;
 
 const erAlleFelterUtfylt = (vurderingData: IVurdering): boolean => {
-    const { vedtak, innstillingKlageinstans, arsak, hjemmel, begrunnelseOmgjøring } = vurderingData;
+    const { vedtak, innstillingKlageinstans, årsak, hjemmel, begrunnelseOmgjøring } = vurderingData;
 
     if (vedtak === VedtakValg.OMGJØR_VEDTAK) {
-        return harVerdi(arsak) && harVerdi(begrunnelseOmgjøring);
+        return harVerdi(årsak) && harVerdi(begrunnelseOmgjøring);
     } else if (vedtak === VedtakValg.OPPRETTHOLD_VEDTAK) {
         return harVerdi(innstillingKlageinstans) && harVerdi(hjemmel);
     } else {
