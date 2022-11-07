@@ -115,7 +115,7 @@ export const Vurdering: React.FC<{ behandlingId: string }> = ({ behandlingId }) 
             oppdatertVurdering.vedtak === VedtakValg.OPPRETTHOLD_VEDTAK
                 ? {
                       ...oppdatertVurdering,
-                      arsak: null,
+                      årsak: null,
                       begrunnelseOmgjøring: null,
                   }
                 : {
@@ -183,7 +183,7 @@ export const Vurdering: React.FC<{ behandlingId: string }> = ({ behandlingId }) 
                                     <>
                                         <Årsak
                                             settÅrsak={settOppdatertVurdering}
-                                            årsakValgt={oppdatertVurdering.arsak}
+                                            årsakValgt={oppdatertVurdering.årsak}
                                             årsakValgmuligheter={årsakValgTilTekst}
                                             endring={settIkkePersistertKomponent}
                                         />
