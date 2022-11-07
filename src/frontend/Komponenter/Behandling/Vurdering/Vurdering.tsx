@@ -3,7 +3,6 @@ import { useEffect, useState } from 'react';
 import { useApp } from '../../../App/context/AppContext';
 import styled from 'styled-components';
 import { Alert, Button, ReadMore } from '@navikt/ds-react';
-import { FormkravOppsummering } from './FormkravOppsummering';
 import { Vedtak } from './Vedtak';
 import { Årsak } from './Årsak';
 import { HjemmelVelger } from './HjemmelVelger';
@@ -161,10 +160,6 @@ export const Vurdering: React.FC<{ behandlingId: string }> = ({ behandlingId }) 
 
                 return (
                     <>
-                        <FormkravOppsummering
-                            formkrav={formkrav}
-                            alleVilkårOppfylt={skalViseVurderingsvalg}
-                        />
                         {behandlingErRedigerbar && !skalViseVurderingsvalg && (
                             <Alert variant={'error'}>Noen formkrav er ikke oppfylt</Alert>
                         )}

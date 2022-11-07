@@ -12,7 +12,7 @@ import {
 const Container = styled.div`
     display: flex;
     flex-direction: column;
-    margin: 0 4rem;
+    margin: 2rem 4rem;
 `;
 
 const Avsnitt = styled.div`
