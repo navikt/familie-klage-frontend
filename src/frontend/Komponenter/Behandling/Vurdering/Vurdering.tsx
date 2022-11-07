@@ -3,7 +3,6 @@ import { useEffect, useState } from 'react';
 import { useApp } from '../../../App/context/AppContext';
 import styled from 'styled-components';
 import { Alert, Button } from '@navikt/ds-react';
-import { FormkravOppsummering } from './FormkravOppsummering';
 import { Vedtak } from './Vedtak';
 import { Årsak } from './Årsak';
 import { HjemmelVelger } from './HjemmelVelger';
@@ -110,7 +109,7 @@ export const Vurdering: React.FC<{ behandlingId: string }> = ({ behandlingId }) 
             oppdatertVurdering.vedtak === VedtakValg.OPPRETTHOLD_VEDTAK
                 ? {
                       ...oppdatertVurdering,
-                      arsak: null,
+                      årsak: null,
                       begrunnelseOmgjøring: null,
                   }
                 : {
@@ -156,10 +155,6 @@ export const Vurdering: React.FC<{ behandlingId: string }> = ({ behandlingId }) 
 
                 return (
                     <>
-                        <FormkravOppsummering
-                            formkrav={formkrav}
-                            alleVilkårOppfylt={skalViseVurderingsvalg}
-                        />
                         {behandlingErRedigerbar && !skalViseVurderingsvalg && (
                             <Alert variant={'error'}>Noen formkrav er ikke oppfylt</Alert>
                         )}
@@ -178,7 +173,7 @@ export const Vurdering: React.FC<{ behandlingId: string }> = ({ behandlingId }) 
                                     <>
                                         <Årsak
                                             settÅrsak={settOppdatertVurdering}
-                                            årsakValgt={oppdatertVurdering.arsak}
+                                            årsakValgt={oppdatertVurdering.årsak}
                                             årsakValgmuligheter={årsakValgTilTekst}
                                             endring={settIkkePersistertKomponent}
                                         />
