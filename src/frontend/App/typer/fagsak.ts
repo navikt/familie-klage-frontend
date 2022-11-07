@@ -91,7 +91,7 @@ export enum BehandlingResultat {
 
 export const behandlingResultatTilTekst: Record<BehandlingResultat, string> = {
     MEDHOLD: 'Medhold',
-    IKKE_MEDHOLD: 'Ikke medhold',
+    IKKE_MEDHOLD: 'Oversendt til KA',
     IKKE_MEDHOLD_FORMKRAV_AVVIST: 'Ikke medhold formkrav avvist',
     IKKE_SATT: 'Ikke satt',
     HENLAGT: 'Henlagt',
