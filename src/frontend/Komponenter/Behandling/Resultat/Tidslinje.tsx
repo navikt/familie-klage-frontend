@@ -59,7 +59,6 @@ const LinjeStiplet = styled.div`
         border-top: 2px dashed black;
         margin-top: 3.25rem;
         margin-left: 2px;
-        min-width: 3rem;
     }
 `;
 
@@ -74,7 +73,6 @@ const LinjeSort = styled.div<{ synlig: boolean }>`
     @media (min-width: 1450px) {
         border-top: 2px solid ${(props) => (props.synlig ? 'black' : 'transparent')};
         margin-top: 3.25rem;
-        min-width: 3rem;
     }
 `;
 

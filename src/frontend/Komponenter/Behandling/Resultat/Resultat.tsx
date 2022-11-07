@@ -7,7 +7,7 @@ import { Heading } from '@navikt/ds-react';
 import { useBehandling } from '../../../App/context/BehandlingContext';
 import { AnkeVisning } from './AnkeVisning';
 
-const FaneContainer = styled.div`
+const HeadingContainer = styled.div`
     margin: 2rem 5rem 0rem 5rem;
 `;
 
@@ -31,10 +31,12 @@ export const Resultat: React.FC = () => {
     return (
         <DataViewer response={{ behandling, behandlingHistorikk }}>
             {({ behandling, behandlingHistorikk }) => (
-                <FaneContainer>
-                    <Heading spacing size="large" level="5">
-                        Resultat
-                    </Heading>
+                <>
+                    <HeadingContainer>
+                        <Heading spacing size="large" level="5">
+                            Resultat
+                        </Heading>
+                    </HeadingContainer>
                     <TidslinjeContainer>
                         <Tidslinje
                             behandling={behandling}
@@ -42,7 +44,7 @@ export const Resultat: React.FC = () => {
                         />
                         <AnkeVisning behandling={behandling} />
                     </TidslinjeContainer>
-                </FaneContainer>
+                </>
             )}
         </DataViewer>
     );
