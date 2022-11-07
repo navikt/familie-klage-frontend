@@ -2,7 +2,7 @@ import * as React from 'react';
 import { useEffect, useState } from 'react';
 import { useApp } from '../../../App/context/AppContext';
 import styled from 'styled-components';
-import { Alert, Button } from '@navikt/ds-react';
+import { Alert, Button, ReadMore } from '@navikt/ds-react';
 import { FormkravOppsummering } from './FormkravOppsummering';
 import { Vedtak } from './Vedtak';
 import { Årsak } from './Årsak';
@@ -46,6 +46,11 @@ const VurderingKnapper = styled.div`
     flex-direction: row;
     justify-content: space-between;
     margin: 0 4rem;
+`;
+
+const LesMerTekst = styled(ReadMore)`
+    margin-top: 0.25rem;
+    max-width: 40rem;
 `;
 
 const erAlleFelterUtfylt = (vurderingData: IVurdering): boolean => {
@@ -184,7 +189,7 @@ export const Vurdering: React.FC<{ behandlingId: string }> = ({ behandlingId }) 
                                         />
                                         <FritekstFeltWrapper>
                                             <EnsligTextArea
-                                                label="Begrunnelse for omgjøring"
+                                                label="Begrunnelse for omgjøring (internt notat)"
                                                 value={oppdatertVurdering.begrunnelseOmgjøring}
                                                 onChange={(e) => {
                                                     settIkkePersistertKomponent(e.target.value);
@@ -223,6 +228,7 @@ export const Vurdering: React.FC<{ behandlingId: string }> = ({ behandlingId }) 
                                                 size="medium"
                                                 erLesevisning={false}
                                             />
+                                            <LesMerTekstInnstilling />
                                         </FritekstFeltWrapper>
                                         <InterntNotat
                                             behandlingErRedigerbar={behandlingErRedigerbar}
@@ -263,5 +269,32 @@ export const Vurdering: React.FC<{ behandlingId: string }> = ({ behandlingId }) 
                 );
             }}
         </DataViewer>
+    );
+};
+
+const LesMerTekstInnstilling: React.FC = () => {
+    return (
+        <LesMerTekst size="small" header="Dette skal innstillingen inneholde">
+            <ol>
+                <li>
+                    Hva klagesaken gjelder
+                    <ol type="a">
+                        <li>
+                            Skriv kort om resultatet i vedtaket. Eksempel: Klagers søknad om
+                            overgangsstønad ble avslått fordi hun har fått nytt barn med samme
+                            partner.
+                        </li>
+                    </ol>
+                </li>
+                <li>
+                    Vurdering av klagen
+                    <ol type="a">
+                        <li>Begrunn hvorfor vi opprettholder vedtaket</li>
+                        <li>Klagers argumenter skal vurderes/kommenteres</li>
+                        <li>Avslutt med konklusjon og vis til hjemmel</li>
+                    </ol>
+                </li>
+            </ol>
+        </LesMerTekst>
     );
 };
