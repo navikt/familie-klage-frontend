@@ -57,7 +57,7 @@ const OmgjørVedtak: React.FC<{ vurdering: IVurdering }> = ({ vurdering }) => {
             {begrunnelseOmgjøring && (
                 <Avsnitt>
                     <Heading level="1" size="medium">
-                        Begrunnelse for omgjøring
+                        Begrunnelse for omgjøring (internt notat)
                     </Heading>
                     <FritekstfeltLesemodus>{begrunnelseOmgjøring}</FritekstfeltLesemodus>
                 </Avsnitt>
