@@ -19,6 +19,10 @@ const Avsnitt = styled.div`
     margin: 0 0 2rem 0;
 `;
 
+const FritekstfeltLesemodus = styled(BodyLong)`
+    white-space: pre-wrap;
+`;
+
 export const VurderingLesemodus: React.FC<{ vurdering: IVurdering }> = ({ vurdering }) => {
     switch (vurdering.vedtak) {
         case VedtakValg.OMGJØR_VEDTAK:
@@ -55,7 +59,7 @@ const OmgjørVedtak: React.FC<{ vurdering: IVurdering }> = ({ vurdering }) => {
                     <Heading level="1" size="medium">
                         Begrunnelse for omgjøring
                     </Heading>
-                    <BodyLong>{begrunnelseOmgjøring}</BodyLong>
+                    <FritekstfeltLesemodus>{begrunnelseOmgjøring}</FritekstfeltLesemodus>
                 </Avsnitt>
             )}
         </Container>
@@ -87,7 +91,7 @@ const OpprettholdVedtak: React.FC<{ vurdering: IVurdering }> = ({ vurdering }) =
                     <Heading level="1" size="medium">
                         Innstilling til NAV Klageinstans
                     </Heading>
-                    <BodyLong>{innstillingKlageinstans}</BodyLong>
+                    <FritekstfeltLesemodus>{innstillingKlageinstans}</FritekstfeltLesemodus>
                 </Avsnitt>
             )}
             {interntNotat && (
@@ -95,7 +99,7 @@ const OpprettholdVedtak: React.FC<{ vurdering: IVurdering }> = ({ vurdering }) =
                     <Heading level="1" size="medium">
                         Internt notat
                     </Heading>
-                    <BodyLong>{interntNotat}</BodyLong>
+                    <FritekstfeltLesemodus>{interntNotat}</FritekstfeltLesemodus>
                 </Avsnitt>
             )}
         </Container>
