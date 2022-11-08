@@ -13,23 +13,23 @@ import { Clock, SuccessColored } from '@navikt/ds-icons';
 import { utledStegutfallForFerdigstiltBehandling } from '../utils';
 import { fjernDuplikatStegFraHistorikk } from './utils';
 
-const Flexbox = styled.div`
+const Flexbox = styled.div<{ åpenHøyremeny: boolean }>`
     display: flex;
-    @media (max-width: 1449px) {
+    @media (max-width: ${(props) => (props.åpenHøyremeny ? '1449px' : '1149px')}) {
         flex-direction: column;
         justify-content: center;
         align-items: center;
     }
-    @media (min-width: 1450px) {
+    @media (min-width: ${(props) => (props.åpenHøyremeny ? '1450px' : '1150px')}) {
         flex-direction: row;
     }
 `;
 
-const HistorikkInnslag = styled.div`
-    @media (max-width: 1449px) {
+const HistorikkInnslag = styled.div<{ åpenHøyremeny: boolean }>`
+    @media (max-width: ${(props) => (props.åpenHøyremeny ? '1449px' : '1149px')}) {
         width: 10rem;
     }
-    @media (min-width: 1450px) {
+    @media (min-width: ${(props) => (props.åpenHøyremeny ? '1450px' : '1150px')}) {
         flex-grow: 1;
         display: grid;
         grid-template-columns: auto 5rem auto;
@@ -37,40 +37,40 @@ const HistorikkInnslag = styled.div`
     }
 `;
 
-const RevurderingAlertContainer = styled.div`
-    @media (max-width: 1449px) {
+const RevurderingAlertContainer = styled.div<{ åpenHøyremeny: boolean }>`
+    @media (max-width: ${(props) => (props.åpenHøyremeny ? '1449px' : '1149px')}) {
         width: 20rem;
     }
-    @media (min-width: 1450px) {
+    @media (min-width: ${(props) => (props.åpenHøyremeny ? '1450px' : '1150px')}) {
         flex-grow: 1;
         display: grid;
         grid-template-columns: auto 20rem auto;
     }
 `;
 
-const LinjeStiplet = styled.div`
-    @media (max-width: 1449px) {
+const LinjeStiplet = styled.div<{ åpenHøyremeny: boolean }>`
+    @media (max-width: ${(props) => (props.åpenHøyremeny ? '1449px' : '1149px')}) {
         border-left: 2px dashed black;
         margin: 0 auto 2px;
         width: 0px;
         height: 2rem;
     }
-    @media (min-width: 1450px) {
+    @media (min-width: ${(props) => (props.åpenHøyremeny ? '1450px' : '1150px')}) {
         border-top: 2px dashed black;
         margin-top: 3.25rem;
         margin-left: 2px;
     }
 `;
 
-const LinjeSort = styled.div<{ synlig: boolean }>`
-    @media (max-width: 1449px) {
+const LinjeSort = styled.div<{ synlig: boolean; åpenHøyremeny: boolean }>`
+    @media (max-width: ${(props) => (props.åpenHøyremeny ? '1449px' : '1149px')}) {
         ${(props) => (props.synlig ? '' : 'transparent')}
         border-left: 2px solid black;
         margin: 0 auto;
         height: 2rem;
         width: 0px;
     }
-    @media (min-width: 1450px) {
+    @media (min-width: ${(props) => (props.åpenHøyremeny ? '1450px' : '1150px')}) {
         border-top: 2px solid ${(props) => (props.synlig ? 'black' : 'transparent')};
         margin-top: 3.25rem;
     }
@@ -84,11 +84,11 @@ const NodeContainer = styled.div`
     align-items: center;
 `;
 
-const Tittel = styled(Heading)<{ tittelErToLinjer: boolean }>`
+const Tittel = styled(Heading)<{ tittelErToLinjer: boolean; åpenHøyremeny: boolean }>`
     min-width: 9rem;
     margin-bottom: 0.75rem;
 
-    @media (min-width: 1450px) {
+    @media (min-width: ${(props) => (props.åpenHøyremeny ? '1450px' : '1150px')}) {
         ${(props) =>
             props.tittelErToLinjer
                 ? 'position: relative; bottom: 1rem; margin-bottom: -0.75rem'
@@ -104,25 +104,28 @@ const Suksess = styled(SuccessColored)`
 export const Tidslinje: React.FC<{
     behandling: Behandling;
     behandlingHistorikk: IBehandlingshistorikk[];
-}> = ({ behandling, behandlingHistorikk }) => {
+    åpenHøyremeny: boolean;
+}> = ({ behandling, behandlingHistorikk, åpenHøyremeny }) => {
     const historikk = fjernDuplikatStegFraHistorikk(behandlingHistorikk);
 
     const måManueltOppretteRevurdering = behandling.resultat === BehandlingResultat.MEDHOLD;
     return (
-        <Flexbox>
+        <Flexbox åpenHøyremeny={åpenHøyremeny}>
             {historikk.map((steg, index) => (
-                <HistorikkInnslag key={index}>
-                    <LinjeSort synlig={index > 0} />
-                    <Node behandling={behandling} steg={steg} />
-                    {index + 1 < historikk.length && <LinjeSort synlig={true} />}
+                <HistorikkInnslag key={index} åpenHøyremeny={åpenHøyremeny}>
+                    <LinjeSort synlig={index > 0} åpenHøyremeny={åpenHøyremeny} />
+                    <Node behandling={behandling} steg={steg} åpenHøyremeny={åpenHøyremeny} />
+                    {index + 1 < historikk.length && (
+                        <LinjeSort synlig={true} åpenHøyremeny={åpenHøyremeny} />
+                    )}
                     {måManueltOppretteRevurdering && index + 1 === historikk.length && (
-                        <LinjeStiplet />
+                        <LinjeStiplet åpenHøyremeny={åpenHøyremeny} />
                     )}
                 </HistorikkInnslag>
             ))}
             {måManueltOppretteRevurdering && (
-                <RevurderingAlertContainer>
-                    <LinjeStiplet />
+                <RevurderingAlertContainer åpenHøyremeny={åpenHøyremeny}>
+                    <LinjeStiplet åpenHøyremeny={åpenHøyremeny} />
                     <Alert variant={'info'}>
                         <Heading spacing size="small" level="3">
                             Revurdering
@@ -135,16 +138,22 @@ export const Tidslinje: React.FC<{
     );
 };
 
-const Node: React.FC<{ behandling: Behandling; steg: IBehandlingshistorikk }> = ({
-    behandling,
-    steg,
-}) => {
+const Node: React.FC<{
+    behandling: Behandling;
+    steg: IBehandlingshistorikk;
+    åpenHøyremeny: boolean;
+}> = ({ behandling, steg, åpenHøyremeny }) => {
     const tittelErToLinjer =
         steg.steg === StegType.OVERFØRING_TIL_KABAL || steg.steg === StegType.KABAL_VENTER_SVAR;
 
     return (
         <NodeContainer>
-            <Tittel level="1" size="xsmall" tittelErToLinjer={tittelErToLinjer}>
+            <Tittel
+                level="1"
+                size="xsmall"
+                tittelErToLinjer={tittelErToLinjer}
+                åpenHøyremeny={åpenHøyremeny}
+            >
                 {behandlingStegTilTekst[steg.steg]}
             </Tittel>
             {steg.endretTid ? <Suksess width={36} height={36} /> : <Clock width={36} height={36} />}

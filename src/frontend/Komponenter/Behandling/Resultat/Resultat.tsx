@@ -11,18 +11,18 @@ const HeadingContainer = styled.div`
     margin: 2rem 5rem 0rem 5rem;
 `;
 
-const TidslinjeContainer = styled.div`
-    @media (max-width: 1449px) {
+const TidslinjeContainer = styled.div<{ åpenHøyremeny: boolean }>`
+    @media (max-width: ${(props) => (props.åpenHøyremeny ? '1449px' : '1149px')}) {
         display: flex;
         justify-content: center;
     }
-    @media (min-width: 1450px) {
+    @media (min-width: ${(props) => (props.åpenHøyremeny ? '1450px' : '1150px')}) {
         margin-top: 12rem;
     }
 `;
 
 export const Resultat: React.FC = () => {
-    const { behandling, hentBehandling, behandlingHistorikk } = useBehandling();
+    const { behandling, hentBehandling, behandlingHistorikk, åpenHøyremeny } = useBehandling();
 
     useEffect(() => {
         hentBehandling.rerun();
@@ -37,10 +37,11 @@ export const Resultat: React.FC = () => {
                             Resultat
                         </Heading>
                     </HeadingContainer>
-                    <TidslinjeContainer>
+                    <TidslinjeContainer åpenHøyremeny={åpenHøyremeny}>
                         <Tidslinje
                             behandling={behandling}
                             behandlingHistorikk={behandlingHistorikk}
+                            åpenHøyremeny={åpenHøyremeny}
                         />
                         <AnkeVisning behandling={behandling} />
                     </TidslinjeContainer>
