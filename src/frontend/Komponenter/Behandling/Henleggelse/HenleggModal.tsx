@@ -3,12 +3,11 @@ import { useBehandling } from '../../../App/context/BehandlingContext';
 import { RessursFeilet, RessursStatus, RessursSuksess } from '../../../App/typer/ressurs';
 import { Behandling } from '../../../App/typer/fagsak';
 import { useApp } from '../../../App/context/AppContext';
-import { useNavigate } from 'react-router-dom';
-import { EToast } from '../../../App/typer/toast';
 import { EHenlagtårsak } from './EHenlagtÅrsak';
 import styled from 'styled-components';
 import { Alert, Radio, RadioGroup } from '@navikt/ds-react';
 import { ModalWrapper } from '../../../Felles/Modal/ModalWrapper';
+import { utledSaksoversiktLenke } from '../../../App/utils/utils';
 
 const AlertStripe = styled(Alert)`
     margin-top: 1rem;
@@ -17,8 +16,7 @@ const AlertStripe = styled(Alert)`
 export const HenleggModal: FC<{ behandling: Behandling }> = ({ behandling }) => {
     const { visHenleggModal, settVisHenleggModal } = useBehandling();
 
-    const { axiosRequest, settToast } = useApp();
-    const navigate = useNavigate();
+    const { axiosRequest, appEnv } = useApp();
     const [henlagtårsak, settHenlagtårsak] = useState<EHenlagtårsak>();
     const [henleggerBehandling, settHenleggerBehandling] = useState<boolean>(false);
     const [feilmelding, settFeilmelding] = useState<string>();
@@ -41,9 +39,9 @@ export const HenleggModal: FC<{ behandling: Behandling }> = ({ behandling }) => 
         })
             .then((respons: RessursSuksess<string> | RessursFeilet) => {
                 if (respons.status === RessursStatus.SUKSESS) {
-                    lukkModal();
-                    navigate(`/behandling/${behandling.id}/resultat`);
-                    settToast(EToast.BEHANDLING_HENLAGT);
+                    window.location.assign(
+                        utledSaksoversiktLenke(behandling, appEnv.eksternlenker)
+                    );
                 } else {
                     settFeilmelding(respons.frontendFeilmelding);
                 }
