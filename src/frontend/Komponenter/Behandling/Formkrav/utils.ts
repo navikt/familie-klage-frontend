@@ -1,7 +1,7 @@
-import { FagsystemVedtak, IFormkravVilkår, IRadioKnapper } from './typer';
+import { FagsystemType, FagsystemVedtak, IFormkravVilkår, IRadioKnapper } from './typer';
 import { PåklagetVedtak, PåklagetVedtakstype } from '../../../App/typer/fagsak';
 import { compareDesc } from 'date-fns';
-import { formaterIsoDatoTid } from '../../../App/utils/formatter';
+import { formaterIsoDato, formaterIsoDatoTid } from '../../../App/utils/formatter';
 
 export const utledRadioKnapper = (vurderinger: IFormkravVilkår): IRadioKnapper[] => {
     const { klagePart, klageKonkret, klagefristOverholdt, klageSignert } = vurderinger;
@@ -48,9 +48,12 @@ export const sorterVedtakstidspunktDesc = (a: FagsystemVedtak, b: FagsystemVedta
 };
 
 export const fagsystemVedtakTilVisningstekst = (vedtak: FagsystemVedtak) =>
-    `${vedtak.behandlingstype} - ${vedtak.resultat} - ${formaterIsoDatoTid(
-        vedtak.vedtakstidspunkt
-    )}`;
+    `${vedtak.behandlingstype} - ${vedtak.resultat} - ${vedtakstidspunktTilVisningstekst(vedtak)}`;
+
+export const vedtakstidspunktTilVisningstekst = (vedtak: FagsystemVedtak) =>
+    vedtak.fagsystemType === FagsystemType.TILBAKEKREVING
+        ? formaterIsoDato(vedtak.vedtakstidspunkt)
+        : formaterIsoDatoTid(vedtak.vedtakstidspunkt);
 
 export const erVedtak = (valgtElement: string) => {
     return !(

@@ -41,4 +41,10 @@ export interface FagsystemVedtak {
     resultat: string;
     eksternBehandlingId: string;
     vedtakstidspunkt: string;
+    fagsystemType: FagsystemType;
+}
+
+export enum FagsystemType {
+    ORDNIÆR = 'ORDNIÆR',
+    TILBAKEKREVING = 'TILBAKEKREVING',
 }
