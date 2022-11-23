@@ -15,7 +15,11 @@ import { Alert, BodyShort, Button, Heading, Label } from '@navikt/ds-react';
 import { useNavigate } from 'react-router-dom';
 import { formaterIsoDatoTid } from '../../../App/utils/formatter';
 import { Ressurs, RessursFeilet, RessursStatus, RessursSuksess } from '../../../App/typer/ressurs';
-import { utledFagsystemVedtakFraPåklagetVedtak, utledRadioKnapper } from './utils';
+import {
+    utledFagsystemVedtakFraPåklagetVedtak,
+    utledRadioKnapper,
+    vedtakstidspunktTilVisningstekst,
+} from './utils';
 import { Delete, Edit } from '@navikt/ds-icons';
 import { PåklagetVedtakstype, påklagetVedtakstypeTilTekst } from '../../../App/typer/fagsak';
 import {
@@ -215,7 +219,7 @@ export const VisFormkravVurderinger: React.FC<IProps> = ({
                                 {gjeldendeFagsystemVedtak.behandlingstype}
                                 <br />
                                 {gjeldendeFagsystemVedtak.resultat} -{' '}
-                                {formaterIsoDatoTid(gjeldendeFagsystemVedtak.vedtakstidspunkt)}
+                                {vedtakstidspunktTilVisningstekst(gjeldendeFagsystemVedtak)}
                             </div>
                         ) : (
                             påklagetVedtakstypeTilTekst[
