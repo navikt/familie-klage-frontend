@@ -11,6 +11,7 @@ import { Behandling } from '../../App/typer/fagsak';
 import { IPersonopplysninger } from '../../App/typer/personopplysninger';
 import DataViewer from '../../Felles/DataViewer/DataViewer';
 import { HenleggModal } from './Henleggelse/HenleggModal';
+import ScrollToTop from '../../Felles/ScrollToTop/ScrollToTop';
 
 const Container = styled.div`
     display: flex;
@@ -58,6 +59,7 @@ const BehandlingContent: FC<{
 
     return (
         <>
+            <ScrollToTop />
             <VisittkortComponent personopplysninger={personopplysninger} behandling={behandling} />
             <Container>
                 <InnholdWrapper åpenHøyremeny={åpenHøyremeny}>
