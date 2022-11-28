@@ -1,5 +1,6 @@
 import { Stønadstype } from './behandlingstema';
 import { BehandlingStatus } from './behandlingstatus';
+import { FagsystemVedtak } from './fagsystemVedtak';
 
 export enum Fagsystem {
     EF = 'EF',
@@ -65,8 +66,9 @@ export interface Behandling {
 }
 
 export interface PåklagetVedtak {
-    eksternFagsystemBehandlingId?: string;
+    eksternFagsystemBehandlingId?: string; // TODO fjerne når fagsystemVedtak i backend er merget
     påklagetVedtakstype: PåklagetVedtakstype;
+    fagsystemVedtak?: FagsystemVedtak;
 }
 
 export enum PåklagetVedtakstype {
