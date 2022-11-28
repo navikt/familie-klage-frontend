@@ -1,30 +1,36 @@
-import { FagsystemType, FagsystemVedtak, IFormkravVilkår, IRadioKnapper } from './typer';
+import {
+    EFormalKravNavn,
+    FagsystemType,
+    FagsystemVedtak,
+    IFormkravVilkår,
+    IFormalkrav,
+} from './typer';
 import { PåklagetVedtak, PåklagetVedtakstype } from '../../../App/typer/fagsak';
 import { compareDesc } from 'date-fns';
 import { formaterIsoDato, formaterIsoDatoTid } from '../../../App/utils/formatter';
 
-export const utledRadioKnapper = (vurderinger: IFormkravVilkår): IRadioKnapper[] => {
+export const utledRadioKnapper = (vurderinger: IFormkravVilkår): IFormalkrav[] => {
     const { klagePart, klageKonkret, klagefristOverholdt, klageSignert } = vurderinger;
     return [
         {
             spørsmål: 'Er klager part i saken?',
             svar: klagePart,
-            navn: 'klagePart',
+            navn: EFormalKravNavn.KLAGER_ER_PART,
         },
         {
             spørsmål: 'Klages det på konkrete elementer i vedtaket?',
             svar: klageKonkret,
-            navn: 'klageKonkret',
+            navn: EFormalKravNavn.KLAGES_PÅ_KONKRET_ELEMENT_I_VEDTAK,
         },
         {
             spørsmål: 'Er klagefristen overholdt?',
             svar: klagefristOverholdt,
-            navn: 'klagefristOverholdt',
+            navn: EFormalKravNavn.KLAGEFRIST_OVERHOLDT,
         },
         {
             spørsmål: 'Er klagen signert?',
             svar: klageSignert,
-            navn: 'klageSignert',
+            navn: EFormalKravNavn.KLAGE_SIGNERT,
         },
     ];
 };

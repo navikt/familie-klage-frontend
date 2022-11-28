@@ -2,9 +2,10 @@ import React, { Dispatch, SetStateAction, useState } from 'react';
 import {
     FagsystemVedtak,
     IFormkravVilkår,
-    IRadioKnapper,
+    IFormalkrav,
     Redigeringsmodus,
     VilkårStatus,
+    EFormalKravNavn,
 } from './typer';
 import { Alert, Button, HelpText, Label, Radio, RadioGroup, Textarea } from '@navikt/ds-react';
 import { useBehandling } from '../../../App/context/BehandlingContext';
@@ -131,7 +132,7 @@ export const EndreFormkravVurderinger: React.FC<IProps> = ({
             {påKlagetVedtakValgt(vurderinger) && (
                 <>
                     <RadioGrupperContainer>
-                        {radioKnapper.map((item: IRadioKnapper, index) => (
+                        {radioKnapper.map((item: IFormalkrav, index) => (
                             <FlexRow key={index}>
                                 <RadioGruppe
                                     legend={item.spørsmål}
@@ -151,11 +152,10 @@ export const EndreFormkravVurderinger: React.FC<IProps> = ({
                                     <RadioButton value={VilkårStatus.OPPFYLT}>Ja</RadioButton>
                                     <RadioButton value={VilkårStatus.IKKE_OPPFYLT}>Nei</RadioButton>
                                 </RadioGruppe>
-                                {item.spørsmål === 'Er klagefristen overholdt?' && (
-                                    <HjelpeTekst>
-                                        <HelpTextInnhold />
-                                    </HjelpeTekst>
-                                )}
+
+                                <HjelpeTekst>
+                                    <HelpTextInnhold formkrav={item.navn} />
+                                </HjelpeTekst>
                             </FlexRow>
                         ))}
                     </RadioGrupperContainer>
@@ -216,7 +216,10 @@ export const EndreFormkravVurderinger: React.FC<IProps> = ({
     );
 };
 
-const HelpTextInnhold: React.FC = () => {
+const HelpTextInnhold: React.FC<{ formkrav: EFormalKravNavn }> = ({ formkrav }) => {
+    // switch (formkrav){
+    //     case
+    // }
     return (
         <HelpTextContainer>
             <div>
