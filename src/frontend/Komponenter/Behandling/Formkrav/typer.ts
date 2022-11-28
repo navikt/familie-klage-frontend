@@ -26,13 +26,6 @@ export enum EFormalKravType {
     KLAGE_SIGNERT = 'KLAGE_SIGNERT',
 }
 
-export const formalKravTypeTilTekst: Record<EFormalKravType, string> = {
-    KLAGER_ER_PART: 'klagePart',
-    KLAGES_PÅ_KONKRET_ELEMENT_I_VEDTAK: 'klageKonkret',
-    KLAGEFRIST_OVERHOLDT: 'klagefristOverholdt',
-    KLAGE_SIGNERT: 'klageSignert',
-};
-
 export interface IFormkravVilkår {
     behandlingId: string;
     klagePart: VilkårStatus;
