@@ -6,6 +6,21 @@ export enum VilkårStatus {
     IKKE_SATT = 'IKKE_SATT',
 }
 
+export enum FormkravFristUnntak {
+    UNNTAK_KAN_IKKE_LASTES = 'UNNTAK_KAN_IKKE_LASTES',
+    UNNTAK_SÆRLIG_GRUNN = 'UNNTAK_SÆRLIG_GRUNN',
+    IKKE_UNNTAK = 'IKKE_UNNTAK',
+    IKKE_SATT = 'IKKE_SATT',
+}
+
+export const FormkravFristUnntakTilTekst: Record<FormkravFristUnntak, string> = {
+    UNNTAK_KAN_IKKE_LASTES:
+        'Ja, parten eller hens fullmektig kan ikke lastes for å ha oversittet fristeneller for å ha drøyd med klage etterpå',
+    UNNTAK_SÆRLIG_GRUNN: 'Ja, det av særlige grunner er rimelig at klagen blir prøvd',
+    IKKE_UNNTAK: 'Nei',
+    IKKE_SATT: 'Ikke satt',
+};
+
 export const vilkårStatusTilTekst: Record<VilkårStatus, string> = {
     OPPFYLT: 'Oppfylt',
     IKKE_OPPFYLT: 'Ikke oppfylt',
@@ -31,6 +46,7 @@ export interface IFormkravVilkår {
     klagePart: VilkårStatus;
     klageKonkret: VilkårStatus;
     klagefristOverholdt: VilkårStatus;
+    klagefristOverholdtUnntak?: FormkravFristUnntak;
     klageSignert: VilkårStatus;
     saksbehandlerBegrunnelse?: string;
     brevtekst?: string;
