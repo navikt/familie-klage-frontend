@@ -5,7 +5,7 @@ import {
     IFormalkrav,
     Redigeringsmodus,
     VilkårStatus,
-    EFormalKravNavn,
+    EFormalKravType,
 } from './typer';
 import {
     Alert,
@@ -163,7 +163,7 @@ export const EndreFormkravVurderinger: React.FC<IProps> = ({
                                 </RadioGruppe>
                                 <HelpTextContainer>
                                     <HjelpeTekst>
-                                        <HelpTextInnhold formkrav={item.navn} />
+                                        <HelpTextInnhold formkrav={item.type} />
                                     </HjelpeTekst>
                                 </HelpTextContainer>
                             </FlexRow>
@@ -226,9 +226,9 @@ export const EndreFormkravVurderinger: React.FC<IProps> = ({
     );
 };
 
-const HelpTextInnhold: React.FC<{ formkrav: EFormalKravNavn }> = ({ formkrav }) => {
+const HelpTextInnhold: React.FC<{ formkrav: EFormalKravType }> = ({ formkrav }) => {
     switch (formkrav) {
-        case EFormalKravNavn.KLAGE_SIGNERT:
+        case EFormalKravType.KLAGE_SIGNERT:
             return (
                 <>
                     <BodyLong spacing>
@@ -244,7 +244,7 @@ const HelpTextInnhold: React.FC<{ formkrav: EFormalKravNavn }> = ({ formkrav }) 
                     </BodyLong>
                 </>
             );
-        case EFormalKravNavn.KLAGEFRIST_OVERHOLDT:
+        case EFormalKravType.KLAGEFRIST_OVERHOLDT:
             return (
                 <>
                     <BodyLong spacing>
@@ -264,7 +264,7 @@ const HelpTextInnhold: React.FC<{ formkrav: EFormalKravNavn }> = ({ formkrav }) 
                     </BodyLong>
                 </>
             );
-        case EFormalKravNavn.KLAGER_ER_PART:
+        case EFormalKravType.KLAGER_ER_PART:
             return (
                 <>
                     <BodyLong spacing>
@@ -281,7 +281,7 @@ const HelpTextInnhold: React.FC<{ formkrav: EFormalKravNavn }> = ({ formkrav }) 
                     </BodyLong>
                 </>
             );
-        case EFormalKravNavn.KLAGES_PÅ_KONKRET_ELEMENT_I_VEDTAK:
+        case EFormalKravType.KLAGES_PÅ_KONKRET_ELEMENT_I_VEDTAK:
             return (
                 <>
                     <BodyLong spacing>

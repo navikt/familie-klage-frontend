@@ -15,15 +15,23 @@ export const vilkårStatusTilTekst: Record<VilkårStatus, string> = {
 export interface IFormalkrav {
     spørsmål: string;
     svar: VilkårStatus;
-    navn: EFormalKravNavn;
+    navn: string;
+    type: EFormalKravType;
 }
 
-export enum EFormalKravNavn {
+export enum EFormalKravType {
     KLAGER_ER_PART = 'KLAGER_ER_PART',
     KLAGES_PÅ_KONKRET_ELEMENT_I_VEDTAK = 'KLAGES_PÅ_KONKRET_ELEMENT_I_VEDTAK',
     KLAGEFRIST_OVERHOLDT = 'KLAGEFRIST_OVERHOLDT',
     KLAGE_SIGNERT = 'KLAGE_SIGNERT',
 }
+
+export const formalKravTypeTilTekst: Record<EFormalKravType, string> = {
+    KLAGER_ER_PART: 'klagePart',
+    KLAGES_PÅ_KONKRET_ELEMENT_I_VEDTAK: 'klageKonkret',
+    KLAGEFRIST_OVERHOLDT: 'klagefristOverholdt',
+    KLAGE_SIGNERT: 'klageSignert',
+};
 
 export interface IFormkravVilkår {
     behandlingId: string;
