@@ -2,11 +2,21 @@ import React, { Dispatch, SetStateAction, useState } from 'react';
 import {
     FagsystemVedtak,
     IFormkravVilkår,
-    IRadioKnapper,
+    IFormalkrav,
     Redigeringsmodus,
     VilkårStatus,
+    EFormalKravType,
 } from './typer';
-import { Alert, Button, HelpText, Label, Radio, RadioGroup, Textarea } from '@navikt/ds-react';
+import {
+    Alert,
+    BodyLong,
+    Button,
+    HelpText,
+    Label,
+    Radio,
+    RadioGroup,
+    Textarea,
+} from '@navikt/ds-react';
 import { useBehandling } from '../../../App/context/BehandlingContext';
 import { useApp } from '../../../App/context/AppContext';
 import { Ressurs, RessursFeilet, RessursStatus, RessursSuksess } from '../../../App/typer/ressurs';
@@ -131,7 +141,7 @@ export const EndreFormkravVurderinger: React.FC<IProps> = ({
             {påKlagetVedtakValgt(vurderinger) && (
                 <>
                     <RadioGrupperContainer>
-                        {radioKnapper.map((item: IRadioKnapper, index) => (
+                        {radioKnapper.map((item: IFormalkrav, index) => (
                             <FlexRow key={index}>
                                 <RadioGruppe
                                     legend={item.spørsmål}
@@ -151,11 +161,11 @@ export const EndreFormkravVurderinger: React.FC<IProps> = ({
                                     <RadioButton value={VilkårStatus.OPPFYLT}>Ja</RadioButton>
                                     <RadioButton value={VilkårStatus.IKKE_OPPFYLT}>Nei</RadioButton>
                                 </RadioGruppe>
-                                {item.spørsmål === 'Er klagefristen overholdt?' && (
+                                <HelpTextContainer>
                                     <HjelpeTekst>
-                                        <HelpTextInnhold />
+                                        <HelpTextInnhold formkrav={item.type} />
                                     </HjelpeTekst>
-                                )}
+                                </HelpTextContainer>
                             </FlexRow>
                         ))}
                     </RadioGrupperContainer>
@@ -216,27 +226,74 @@ export const EndreFormkravVurderinger: React.FC<IProps> = ({
     );
 };
 
-const HelpTextInnhold: React.FC = () => {
-    return (
-        <HelpTextContainer>
-            <div>
-                Selv om fristen for innsendelse av klage har blitt overskredet, kan klagen tas til
-                behandling dersom et av følgende kriterier er oppfylt:
-            </div>
-            <br />
-            <div>
-                <b>a)</b> Parten eller hans fullmektig ikke kan lastes for å ha oversittet fristen
-                eller for å ha drøyd med å klage etterpå
-            </div>
-            <br />
-            <div>
-                <b>b)</b> Det av særlige grunner er rimelig at klagen blir prøvd
-            </div>
-            <br />
-            <div>
-                Dersom klagen tas til behandling som følge av et slikt unntak, vennligst beskriv
-                dette i fritekstfeltet.
-            </div>
-        </HelpTextContainer>
-    );
+const HelpTextInnhold: React.FC<{ formkrav: EFormalKravType }> = ({ formkrav }) => {
+    switch (formkrav) {
+        case EFormalKravType.KLAGE_SIGNERT:
+            return (
+                <>
+                    <BodyLong spacing>
+                        Klagen skal som hovedregel være skriftlig og underskrevet av klageren, eller
+                        av klagers fullmektig.
+                    </BodyLong>
+                    <BodyLong>
+                        Klager som er sendt inn via tjenester som krever personlig innlogging, for
+                        eksempel gjennom digitalt klageskjema eller Ditt NAV, har godkjent digital
+                        signatur. Hvis klagen er sendt inn per post, må den være signert av klager
+                        eller dens fullmektig. Hvis klagen mangler signatur, må vi innhente dette
+                        før klagen kan behandles.
+                    </BodyLong>
+                </>
+            );
+        case EFormalKravType.KLAGEFRIST_OVERHOLDT:
+            return (
+                <>
+                    <BodyLong spacing>
+                        Selv om fristen for innsendelse av klage har blitt overskredet, kan klagen
+                        tas til behandling dersom et av følgende kriterier er oppfylt:
+                    </BodyLong>
+                    <BodyLong spacing>
+                        <strong>a)</strong> Parten eller hans fullmektig ikke kan lastes for å ha
+                        oversittet fristen eller for å ha drøyd med å klage etterpå
+                    </BodyLong>
+                    <BodyLong spacing>
+                        <strong>b)</strong> Det av særlige grunner er rimelig at klagen blir prøvd
+                    </BodyLong>
+                    <BodyLong>
+                        Dersom klagen tas til behandling som følge av et slikt unntak, vennligst
+                        beskriv dette i fritekstfeltet.
+                    </BodyLong>
+                </>
+            );
+        case EFormalKravType.KLAGER_ER_PART:
+            return (
+                <>
+                    <BodyLong spacing>
+                        Parten er den som vedtaket retter seg mot, eller den som saken gjelder.
+                    </BodyLong>
+                    <BodyLong spacing>
+                        Parten har rett til å få bistand fra en advokat, verge eller annen
+                        fullmektig. Fullmektig som ikke er advokat, må som hovedregel legge frem en
+                        skriftlig fullmakt.
+                    </BodyLong>
+                    <BodyLong>
+                        Hvis det ikke foreligger fullmakt, må fullmakt innhentes før klagen kan
+                        behandles.
+                    </BodyLong>
+                </>
+            );
+        case EFormalKravType.KLAGES_PÅ_KONKRET_ELEMENT_I_VEDTAK:
+            return (
+                <>
+                    <BodyLong spacing>
+                        I klagen må det stå hvilket vedtak det klages på, og hvorfor klager er uenig
+                        i vedtaket.
+                    </BodyLong>
+                    <BodyLong>
+                        Hvis klagen ikke inneholder konkrete opplysninger, som for eksempel «Jeg er
+                        uenig i vedtaket» eller «Jeg klager på vedtaket», må vi gå i dialog med
+                        klager for å få vite hva klagen gjelder før saken kan behandles.
+                    </BodyLong>
+                </>
+            );
+    }
 };

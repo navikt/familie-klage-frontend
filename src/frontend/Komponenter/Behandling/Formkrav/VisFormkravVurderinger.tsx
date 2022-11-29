@@ -5,7 +5,7 @@ import BrukerMedBlyant from '../../../Felles/Ikoner/BrukerMedBlyant';
 import {
     FagsystemVedtak,
     IFormkravVilkår,
-    IRadioKnapper,
+    IFormalkrav,
     Redigeringsmodus,
     VilkårStatus,
     vilkårStatusTilTekst,
@@ -228,7 +228,7 @@ export const VisFormkravVurderinger: React.FC<IProps> = ({
                         )}
                     </Svar>
                 </SvarElement>
-                {radioKnapper.map((knapp: IRadioKnapper, index) => (
+                {radioKnapper.map((knapp: IFormalkrav, index) => (
                     <SvarElement key={index}>
                         <Spørsmål>{knapp.spørsmål}</Spørsmål>
                         <Svar>{vilkårStatusTilTekst[knapp.svar]}</Svar>
