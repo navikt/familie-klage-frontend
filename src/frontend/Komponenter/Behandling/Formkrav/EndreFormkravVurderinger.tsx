@@ -124,6 +124,10 @@ export const EndreFormkravVurderinger: React.FC<IProps> = ({
 
     const radioKnapper = utledRadioKnapper(vurderinger);
 
+    const skalViseHjelpetekst = (type: EFormalKravType) => {
+        return type != EFormalKravType.KLAGEFRIST_OVERHOLDT;
+    };
+
     const skalViseKlagefristUnntak = (vilkår: IFormalkrav) => {
         const { type, svar } = vilkår;
         return svar === VilkårStatus.IKKE_OPPFYLT && type === EFormalKravType.KLAGEFRIST_OVERHOLDT;
@@ -172,13 +176,21 @@ export const EndreFormkravVurderinger: React.FC<IProps> = ({
                                             Nei
                                         </RadioButton>
                                     </RadioGruppe>
-                                    <HelpTextContainer>
-                                        <HjelpeTekst>
-                                            <HelpTextInnhold formkrav={item.type} />
-                                        </HjelpeTekst>
-                                    </HelpTextContainer>
+
+                                    {skalViseHjelpetekst(item.type) && (
+                                        <HelpTextContainer>
+                                            <HjelpeTekst>
+                                                <HelpTextInnhold formkrav={item.type} />
+                                            </HjelpeTekst>
+                                        </HelpTextContainer>
+                                    )}
                                 </FlexRow>
-                                {skalViseKlagefristUnntak(item) && <KlagefristUnntak />}
+                                {skalViseKlagefristUnntak(item) && (
+                                    <KlagefristUnntak
+                                        settOppdaterteVurderinger={settOppdaterteVurderinger}
+                                        unntakVurdering={vurderinger.klagefristOverholdtUnntak}
+                                    />
+                                )}
                             </>
                         ))}
                     </RadioGrupperContainer>
