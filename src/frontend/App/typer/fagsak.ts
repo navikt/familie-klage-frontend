@@ -66,7 +66,7 @@ export interface Behandling {
 }
 
 export interface PåklagetVedtak {
-    eksternFagsystemBehandlingId?: string; // TODO fjerne når fagsystemVedtak i backend er merget
+    eksternFagsystemBehandlingId?: string;
     påklagetVedtakstype: PåklagetVedtakstype;
     fagsystemVedtak?: FagsystemVedtak;
 }
