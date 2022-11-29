@@ -25,7 +25,7 @@ export const VisittkortWrapper = styled(Sticky)`
     display: flex;
 
     border-bottom: 1px solid ${NavdsSemanticColorBorder};
-    z-index: 20;
+    z-index: 22;
     top: 47px;
 
     .visittkort {
