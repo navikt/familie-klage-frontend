@@ -111,18 +111,26 @@ export const Tidslinje: React.FC<{
     const måManueltOppretteRevurdering = behandling.resultat === BehandlingResultat.MEDHOLD;
     return (
         <Flexbox åpenHøyremeny={åpenHøyremeny}>
-            {historikk.map((steg, index) => (
-                <HistorikkInnslag key={index} åpenHøyremeny={åpenHøyremeny}>
-                    <LinjeSort synlig={index > 0} åpenHøyremeny={åpenHøyremeny} />
-                    <Node behandling={behandling} steg={steg} åpenHøyremeny={åpenHøyremeny} />
-                    {index + 1 < historikk.length && (
-                        <LinjeSort synlig={true} åpenHøyremeny={åpenHøyremeny} />
-                    )}
-                    {måManueltOppretteRevurdering && index + 1 === historikk.length && (
-                        <LinjeStiplet åpenHøyremeny={åpenHøyremeny} />
-                    )}
-                </HistorikkInnslag>
-            ))}
+            {historikk.map((steg, index) => {
+                if (
+                    steg.steg === StegType.VURDERING &&
+                    behandling.resultat === BehandlingResultat.IKKE_MEDHOLD_FORMKRAV_AVVIST
+                ) {
+                    return null;
+                }
+                return (
+                    <HistorikkInnslag key={index} åpenHøyremeny={åpenHøyremeny}>
+                        <LinjeSort synlig={index > 0} åpenHøyremeny={åpenHøyremeny} />
+                        <Node behandling={behandling} steg={steg} åpenHøyremeny={åpenHøyremeny} />
+                        {index + 1 < historikk.length && (
+                            <LinjeSort synlig={true} åpenHøyremeny={åpenHøyremeny} />
+                        )}
+                        {måManueltOppretteRevurdering && index + 1 === historikk.length && (
+                            <LinjeStiplet åpenHøyremeny={åpenHøyremeny} />
+                        )}
+                    </HistorikkInnslag>
+                );
+            })}
             {måManueltOppretteRevurdering && (
                 <RevurderingAlertContainer åpenHøyremeny={åpenHøyremeny}>
                     <LinjeStiplet åpenHøyremeny={åpenHøyremeny} />
