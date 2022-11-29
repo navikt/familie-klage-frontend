@@ -9,6 +9,7 @@ import {
     Redigeringsmodus,
     VilkårStatus,
     vilkårStatusTilTekst,
+    formkravFristUnntakTilTekst,
 } from './typer';
 import { useBehandling } from '../../../App/context/BehandlingContext';
 import { Alert, BodyShort, Button, Heading, Label } from '@navikt/ds-react';
@@ -16,6 +17,7 @@ import { useNavigate } from 'react-router-dom';
 import { formaterIsoDatoTid } from '../../../App/utils/formatter';
 import { Ressurs, RessursFeilet, RessursStatus, RessursSuksess } from '../../../App/typer/ressurs';
 import {
+    skalViseKlagefristUnntak,
     utledFagsystemVedtakFraPåklagetVedtak,
     utledRadioKnapper,
     vedtakstidspunktTilVisningstekst,
@@ -229,10 +231,24 @@ export const VisFormkravVurderinger: React.FC<IProps> = ({
                     </Svar>
                 </SvarElement>
                 {radioKnapper.map((knapp: IFormalkrav, index) => (
-                    <SvarElement key={index}>
-                        <Spørsmål>{knapp.spørsmål}</Spørsmål>
-                        <Svar>{vilkårStatusTilTekst[knapp.svar]}</Svar>
-                    </SvarElement>
+                    <>
+                        <SvarElement key={index}>
+                            <Spørsmål>{knapp.spørsmål}</Spørsmål>
+                            <Svar>{vilkårStatusTilTekst[knapp.svar]}</Svar>
+                        </SvarElement>
+                        {skalViseKlagefristUnntak(knapp) && vurderinger.klagefristOverholdtUnntak && (
+                            <SvarElement key={'unntaksvilkår'}>
+                                <Spørsmål>Er unntak for klagefristen oppfylt?</Spørsmål>
+                                <Svar>
+                                    {
+                                        formkravFristUnntakTilTekst[
+                                            vurderinger.klagefristOverholdtUnntak
+                                        ]
+                                    }
+                                </Svar>
+                            </SvarElement>
+                        )}
+                    </>
                 ))}
                 {!alleVilkårErOppfylt && (
                     <>

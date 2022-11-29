@@ -4,6 +4,7 @@ import {
     FagsystemVedtak,
     IFormkravVilkår,
     IFormalkrav,
+    VilkårStatus,
 } from './typer';
 import { PåklagetVedtak, PåklagetVedtakstype } from '../../../App/typer/fagsak';
 import { compareDesc } from 'date-fns';
@@ -70,4 +71,9 @@ export const erVedtak = (valgtElement: string) => {
         valgtElement === PåklagetVedtakstype.UTEN_VEDTAK ||
         valgtElement === PåklagetVedtakstype.IKKE_VALGT
     );
+};
+
+export const skalViseKlagefristUnntak = (vilkår: IFormalkrav) => {
+    const { type, svar } = vilkår;
+    return svar === VilkårStatus.IKKE_OPPFYLT && type === EFormalKravType.KLAGEFRIST_OVERHOLDT;
 };

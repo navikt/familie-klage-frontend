@@ -1,6 +1,7 @@
 import React, { Dispatch, SetStateAction } from 'react';
 import { Radio, RadioGroup } from '@navikt/ds-react';
 import { FormkravFristUnntak, formkravFristUnntakTilTekst, IFormkravVilkår } from './typer';
+import { useApp } from '../../../App/context/AppContext';
 
 interface IProps {
     settOppdaterteVurderinger: Dispatch<SetStateAction<IFormkravVilkår>>;
@@ -11,7 +12,10 @@ const EndreFormkravVurderinger: React.FC<IProps> = ({
     settOppdaterteVurderinger,
     unntakVurdering,
 }) => {
-    const handleChange = (val: FormkravFristUnntak) => {
+    const { settIkkePersistertKomponent } = useApp();
+
+    const håndterEndring = (val: FormkravFristUnntak) => {
+        settIkkePersistertKomponent('formkravVilkår');
         settOppdaterteVurderinger((prevState: IFormkravVilkår) => {
             return { ...prevState, klagefristOverholdtUnntak: val };
         });
@@ -21,7 +25,7 @@ const EndreFormkravVurderinger: React.FC<IProps> = ({
         <RadioGroup
             legend={'Er unntak for klagefristen oppfylt?'}
             size="medium"
-            onChange={(val: FormkravFristUnntak) => handleChange(val)}
+            onChange={(val: FormkravFristUnntak) => håndterEndring(val)}
             value={unntakVurdering}
         >
             <Radio value={FormkravFristUnntak.UNNTAK_KAN_IKKE_LASTES}>

@@ -27,7 +27,7 @@ import {
     alleVilkårTattStillingTil,
     påKlagetVedtakValgt,
 } from './validerFormkravUtils';
-import { utledRadioKnapper } from './utils';
+import { skalViseKlagefristUnntak, utledRadioKnapper } from './utils';
 import KlagefristUnntak from './KlagefristUnntak';
 
 const RadioGrupperContainer = styled.div`
@@ -110,10 +110,15 @@ export const EndreFormkravVurderinger: React.FC<IProps> = ({
             ? { ...vurderinger, saksbehandlerBegrunnelse: '', brevtekst: undefined }
             : vurderinger;
 
-        lagreVurderinger(vurderingerSomSkalLagres).then((res: Ressurs<IFormkravVilkår>) => {
+        const vurderingerSomSkalLagres2 =
+            vurderinger.klagefristOverholdt === VilkårStatus.OPPFYLT
+                ? { ...vurderingerSomSkalLagres, klagefristOverholdtUnntak: undefined }
+                : vurderingerSomSkalLagres;
+
+        lagreVurderinger(vurderingerSomSkalLagres2).then((res: Ressurs<IFormkravVilkår>) => {
             settOppdatererVurderinger(false);
             if (res.status === RessursStatus.SUKSESS) {
-                settOppdaterteVurderinger(vurderingerSomSkalLagres);
+                settOppdaterteVurderinger(vurderingerSomSkalLagres2);
                 nullstillIkkePersistertKomponent('formkravVilkår');
                 settRedigeringsmodus(Redigeringsmodus.VISNING);
                 hentBehandling.rerun();
@@ -126,11 +131,6 @@ export const EndreFormkravVurderinger: React.FC<IProps> = ({
 
     const skalViseHjelpetekst = (type: EFormalKravType) => {
         return type != EFormalKravType.KLAGEFRIST_OVERHOLDT;
-    };
-
-    const skalViseKlagefristUnntak = (vilkår: IFormalkrav) => {
-        const { type, svar } = vilkår;
-        return svar === VilkårStatus.IKKE_OPPFYLT && type === EFormalKravType.KLAGEFRIST_OVERHOLDT;
     };
 
     return (
