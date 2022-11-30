@@ -30,6 +30,7 @@ import {
     brevtekstUtfylt,
     påKlagetVedtakValgt,
     utledIkkeUtfylteVilkår,
+    utledIkkeUtfyltUnntak,
 } from './validerFormkravUtils';
 
 export const RadSentrertVertikalt = styled.div`
@@ -158,9 +159,11 @@ export const VisFormkravVurderinger: React.FC<IProps> = ({
     const harBrevtekst = brevtekstUtfylt(vurderinger);
     const manglerFritekster = !harBrevtekst || !harBegrunnelse;
     const ikkeUtfylteVilkår = utledIkkeUtfylteVilkår(vurderinger);
+    const ikkeUtfyltUnntak = utledIkkeUtfyltUnntak(vurderinger);
 
     const manglerUtfylling =
         ikkeUtfylteVilkår.length > 0 ||
+        ikkeUtfyltUnntak ||
         !påKlagetVedtakErValgt ||
         (!alleVilkårErOppfylt && manglerFritekster);
 
@@ -292,6 +295,13 @@ export const VisFormkravVurderinger: React.FC<IProps> = ({
                                 </li>
                             );
                         })}
+                        {ikkeUtfyltUnntak && (
+                            <li>
+                                <BodyShort key="unntakFrist">
+                                    Unntak for ikke overholdt frist ikke utfylt
+                                </BodyShort>
+                            </li>
+                        )}
                         {!harBegrunnelse && <li>Begrunnelse er ikke utfylt</li>}
                         {!harBrevtekst && <li>Fritekst til brev er ikke utfylt</li>}
                     </ul>
