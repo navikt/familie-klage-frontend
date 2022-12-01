@@ -29,7 +29,6 @@ import { EnsligTextArea } from '../../../Felles/Input/EnsligTextArea';
 import { harVerdi } from '../../../App/utils/utils';
 import { alleVilkårOppfylt, påKlagetVedtakValgt } from '../Formkrav/validerFormkravUtils';
 import { InterntNotat } from './InterntNotat';
-import { useHentVurderinger } from '../../../App/hooks/useHentVurderinger';
 
 const FritekstFeltWrapper = styled.div`
     margin: 2rem 4rem 2rem 4rem;
@@ -77,9 +76,10 @@ export const Vurdering: React.FC<{ behandlingId: string }> = ({ behandlingId }) 
         hentBehandlingshistorikk,
         hentBehandling,
         behandlingErRedigerbar,
+        hentVurderinger,
     } = useBehandling();
 
-    const { vurdering, hentVurdering, lagreVurdering, melding, settMelding } = useHentVurderinger();
+    const { vurdering, hentVurdering, lagreVurdering, melding, settMelding } = hentVurderinger;
     const { axiosRequest, nullstillIkkePersisterteKomponenter, settIkkePersistertKomponent } =
         useApp();
 

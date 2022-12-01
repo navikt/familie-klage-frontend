@@ -2,18 +2,19 @@ import React, { useEffect, useState } from 'react';
 import { KlageInfo } from './KlageInfo';
 import { RessursFeilet, RessursStatus, RessursSuksess } from '../../../App/typer/ressurs';
 import { useBehandling } from '../../../App/context/BehandlingContext';
-import { FagsystemVedtak, IFormkravVilkår } from './typer';
+import { IFormkravVilkår } from './typer';
 import ToKolonnerLayout from '../../../Felles/Visningskomponenter/ToKolonnerLayout';
 import { VisEllerEndreFormkravVurderinger } from './VisEllerEndreFormkravVurderinger';
 import DataViewer from '../../../Felles/DataViewer/DataViewer';
 import { Behandling } from '../../../App/typer/fagsak';
-import { useHentFormkravVilkår } from '../../../App/hooks/useHentFormkravVilkår';
 import { utledRedigeringsmodus } from './validerFormkravUtils';
 import { useHentFagsystemVedtak } from '../../../App/hooks/useHentFagsystemVedtak';
+import { FagsystemVedtak } from '../../../App/typer/fagsystemVedtak';
 
 export const Formkrav: React.FC<{ behandling: Behandling }> = ({ behandling }) => {
+    const { hentFormkravVilkår } = useBehandling();
     const { vilkårsvurderinger, hentVilkårsvurderinger, lagreVilkårsvurderinger, feilVedLagring } =
-        useHentFormkravVilkår();
+        hentFormkravVilkår;
     const { fagsystemVedtak, hentFagsystemVedtak } = useHentFagsystemVedtak();
     const behandlingId = behandling.id;
 
