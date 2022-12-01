@@ -27,14 +27,16 @@ export const alleVilkårOppfylt = (vurderinger: IFormkravVilkår) => {
     );
 };
 
-const fristHarUnntakOgAlleAndreErOppfylt = ({
-    klagePart,
-    klageKonkret,
-    klagefristOverholdt,
-    klageSignert,
-    klagefristOverholdtUnntak,
-}: IFormkravVilkår) => {
+const fristHarUnntakOgAlleAndreErOppfylt = (formkrav: IFormkravVilkår) => {
     const oppfylt = VilkårStatus.OPPFYLT;
+
+    const {
+        klagePart,
+        klageKonkret,
+        klagefristOverholdt,
+        klageSignert,
+        klagefristOverholdtUnntak,
+    } = formkrav;
 
     const skalSjekkeUnntak =
         klagePart === oppfylt &&
