@@ -10,10 +10,7 @@ import { RessursStatus } from '../typer/ressurs';
 import { erBehandlingRedigerbar } from '../typer/behandlingstatus';
 import { IVurdering } from '../../Komponenter/Behandling/Vurdering/vurderingValg';
 import { useHentFormkravVilkår } from '../hooks/useHentFormkravVilkår';
-import {
-    alleVilkårOppfylt,
-    påKlagetVedtakValgt,
-} from '../../Komponenter/Behandling/Formkrav/validerFormkravUtils';
+import { useHentVurderinger } from '../hooks/useHentVurderinger';
 
 const [BehandlingProvider, useBehandling] = constate(() => {
     const behandlingId = useParams<IBehandlingParams>().behandlingId as string;
@@ -24,8 +21,9 @@ const [BehandlingProvider, useBehandling] = constate(() => {
     const { hentBehandlingCallback, behandling } = useHentBehandling(behandlingId);
     const { hentBehandlingshistorikkCallback, behandlingHistorikk } =
         useHentBehandlingHistorikk(behandlingId);
-    const { vilkårsvurderinger, hentVilkårsvurderinger } = useHentFormkravVilkår();
-    const [formkravOppfylt, settFormkravOppfylt] = useState<boolean>(false);
+    const hentFormkravVilkår = useHentFormkravVilkår();
+    const { hentVilkårsvurderinger } = hentFormkravVilkår;
+    const hentVurderinger = useHentVurderinger();
 
     const hentBehandling = useRerunnableEffect(hentBehandlingCallback, [behandlingId]);
     const hentBehandlingshistorikk = useRerunnableEffect(hentBehandlingshistorikkCallback, [
@@ -39,15 +37,10 @@ const [BehandlingProvider, useBehandling] = constate(() => {
         settBehandlingErRedigerbar(
             behandling.status === RessursStatus.SUKSESS && erBehandlingRedigerbar(behandling.data)
         );
-        hentVilkårsvurderinger(behandlingId);
-    }, [behandling, behandlingId, hentVilkårsvurderinger]);
+    }, [behandling]);
     useEffect(() => {
-        settFormkravOppfylt(
-            vilkårsvurderinger.status === RessursStatus.SUKSESS &&
-                påKlagetVedtakValgt(vilkårsvurderinger.data) &&
-                alleVilkårOppfylt(vilkårsvurderinger.data)
-        );
-    }, [vilkårsvurderinger]);
+        hentVilkårsvurderinger(behandlingId);
+    }, [behandlingId, hentVilkårsvurderinger]);
 
     const [visBrevmottakereModal, settVisBrevmottakereModal] = useState(false);
     const [visHenleggModal, settVisHenleggModal] = useState(false);
@@ -75,7 +68,8 @@ const [BehandlingProvider, useBehandling] = constate(() => {
         settVurderingEndret,
         oppdatertVurdering,
         settOppdatertVurdering,
-        formkravOppfylt,
+        hentFormkravVilkår,
+        hentVurderinger,
     };
 });
 

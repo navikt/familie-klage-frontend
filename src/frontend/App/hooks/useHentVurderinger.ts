@@ -14,7 +14,7 @@ interface IMelding {
     type: 'success' | 'error';
 }
 
-export const useHentVurderinger = (): {
+export interface HentVurderinger {
     vurdering: Ressurs<IVurdering>;
     hentVurdering: (behandlingId: string) => void;
     lagreVurdering: (
@@ -23,7 +23,9 @@ export const useHentVurderinger = (): {
     feilVedLagring: string;
     melding: IMelding | undefined;
     settMelding: (melding?: IMelding) => void;
-} => {
+}
+
+export const useHentVurderinger = (): HentVurderinger => {
     const { axiosRequest } = useApp();
 
     const [feilVedLagring, settFeilVedLagring] = useState<string>('');

@@ -27,7 +27,8 @@ interface Props {
 }
 
 const Fanemeny: FC<Props> = ({ behandling }) => {
-    const { formkravOppfylt } = useBehandling();
+    const { hentFormkravVilkår } = useBehandling();
+    const { formkravOppfylt } = hentFormkravVilkår;
     const faneErLåst = (side: ISide, steg: StegType): boolean => {
         if (side.navn === SideNavn.VURDERING) {
             return !formkravOppfylt;

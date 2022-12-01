@@ -45,7 +45,8 @@ interface IProps {
 }
 
 export const KlageInfo: React.FC<IProps> = ({ behandling, vurderinger, redigeringsmodus }) => {
-    const { formkravOppfylt } = useBehandling();
+    const { hentFormkravVilkår } = useBehandling();
+    const { formkravOppfylt } = hentFormkravVilkår;
     const utledetIkon = () => {
         if (redigeringsmodus === Redigeringsmodus.IKKE_PÅSTARTET) {
             return <Advarsel height={26} width={26} />;
