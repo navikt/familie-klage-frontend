@@ -101,23 +101,38 @@ const Suksess = styled(SuccessColored)`
     margin-bottom: 0.5rem;
 `;
 
+/**
+ * Hvis resultat = HENLAGT, vis kun opprettet og ferdigstilt
+ * Hvis Resultat = IKKE_MEDHOLD_FORMKRAV_AVVIST, ikke vis vurdering, for å unngå at man først oppfylt krav, lagt inn vurdering, ikke oppfylt krav, ferdigstilt
+ */
+const filtrerResutatSteg = (
+    behandlingHistorikk: IBehandlingshistorikk[],
+    behandling: Behandling
+) => {
+    let historikk = fjernDuplikatStegFraHistorikk(behandlingHistorikk);
+    if (behandling.resultat === BehandlingResultat.HENLAGT) {
+        historikk = historikk.filter(
+            (steg) =>
+                steg.steg === StegType.OPPRETTET || steg.steg === StegType.BEHANDLING_FERDIGSTILT
+        );
+    }
+    if (behandling.resultat === BehandlingResultat.IKKE_MEDHOLD_FORMKRAV_AVVIST) {
+        historikk = historikk.filter((steg) => steg.steg !== StegType.VURDERING);
+    }
+    return historikk;
+};
+
 export const Tidslinje: React.FC<{
     behandling: Behandling;
     behandlingHistorikk: IBehandlingshistorikk[];
     åpenHøyremeny: boolean;
 }> = ({ behandling, behandlingHistorikk, åpenHøyremeny }) => {
-    const historikk = fjernDuplikatStegFraHistorikk(behandlingHistorikk);
+    const historikk = filtrerResutatSteg(behandlingHistorikk, behandling);
 
     const måManueltOppretteRevurdering = behandling.resultat === BehandlingResultat.MEDHOLD;
     return (
         <Flexbox åpenHøyremeny={åpenHøyremeny}>
             {historikk.map((steg, index) => {
-                if (
-                    steg.steg === StegType.VURDERING &&
-                    behandling.resultat === BehandlingResultat.IKKE_MEDHOLD_FORMKRAV_AVVIST
-                ) {
-                    return null;
-                }
                 return (
                     <HistorikkInnslag key={index} åpenHøyremeny={åpenHøyremeny}>
                         <LinjeSort synlig={index > 0} åpenHøyremeny={åpenHøyremeny} />
