@@ -23,43 +23,37 @@ export const påKlagetVedtakValgt = (vurderinger: IFormkravVilkår) => {
 export const alleVilkårOppfylt = (vurderinger: IFormkravVilkår) => {
     return (
         alleVurderingerErStatus(vurderinger, VilkårStatus.OPPFYLT) ||
-        fristHarUnntakOgAlleAndreErOppfylt(vurderinger)
+        (alleVurderingerOppfyltUntattKlagefrist(vurderinger) &&
+            klagefristUnntakErValgtOgOppfylt(vurderinger.klagefristOverholdtUnntak))
     );
 };
 
-const fristHarUnntakOgAlleAndreErOppfylt = (formkrav: IFormkravVilkår) => {
-    const oppfylt = VilkårStatus.OPPFYLT;
+export const alleVurderingerOppfyltUntattKlagefrist = (formkrav: IFormkravVilkår) => {
+    const { klagePart, klageKonkret, klagefristOverholdt, klageSignert } = formkrav;
+    return (
+        klagePart === VilkårStatus.OPPFYLT &&
+        klageKonkret === VilkårStatus.OPPFYLT &&
+        klageSignert === VilkårStatus.OPPFYLT &&
+        klagefristOverholdt === VilkårStatus.IKKE_OPPFYLT
+    );
+};
 
-    const {
-        klagePart,
-        klageKonkret,
-        klagefristOverholdt,
-        klageSignert,
-        klagefristOverholdtUnntak,
-    } = formkrav;
-
-    const skalSjekkeUnntak =
-        klagePart === oppfylt &&
-        klageKonkret === oppfylt &&
-        klagefristOverholdt === VilkårStatus.IKKE_OPPFYLT &&
-        klageSignert === oppfylt;
-    if (skalSjekkeUnntak) {
-        return klagefristOverholdtUnntak && klagefristUnntakOppfylt(klagefristOverholdtUnntak);
-    }
-    return false;
+export const klagefristUnntakErValgtOgOppfylt = (unntak?: FormkravFristUnntak) => {
+    return unntak !== undefined && klagefristUnntakOppfylt(unntak);
 };
 
 const klagefristUnntakOppfylt = (unntak: FormkravFristUnntak) =>
-    unntak == FormkravFristUnntak.UNNTAK_SÆRLIG_GRUNN ||
-    unntak == FormkravFristUnntak.UNNTAK_KAN_IKKE_LASTES;
+    unntak !== FormkravFristUnntak.IKKE_UNNTAK && unntak !== FormkravFristUnntak.IKKE_SATT;
 
-export const alleVilkårTattStillingTil = (vurderinger: IFormkravVilkår) => {
-    return utledIkkeUtfylteVilkår(vurderinger).length === 0 || !utledIkkeUtfyltUnntak;
-};
+export const alleVilkårTattStillingTil = (vurderinger: IFormkravVilkår) =>
+    utledIkkeUtfylteVilkår(vurderinger).length === 0 &&
+    klagefristUnntakTattStillingTil(vurderinger);
 
-export const utledIkkeUtfyltUnntak = (vurderinger: IFormkravVilkår) =>
-    vurderinger.klagefristOverholdt == VilkårStatus.IKKE_OPPFYLT &&
-    vurderinger.klagefristOverholdtUnntak == FormkravFristUnntak.IKKE_SATT;
+export const klagefristUnntakTattStillingTil = (vurderinger: IFormkravVilkår) =>
+    vurderinger.klagefristOverholdt === VilkårStatus.OPPFYLT ||
+    (vurderinger.klagefristOverholdt === VilkårStatus.IKKE_OPPFYLT &&
+        vurderinger.klagefristOverholdtUnntak !== undefined &&
+        vurderinger.klagefristOverholdtUnntak !== FormkravFristUnntak.IKKE_SATT);
 
 export const begrunnelseUtfylt = (vurderinger: IFormkravVilkår) => {
     return harVerdi(vurderinger.saksbehandlerBegrunnelse);
