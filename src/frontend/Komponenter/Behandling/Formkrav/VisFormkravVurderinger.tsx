@@ -3,7 +3,6 @@ import styled from 'styled-components';
 import { NavdsGlobalColorPurple500 } from '@navikt/ds-tokens/dist/tokens';
 import BrukerMedBlyant from '../../../Felles/Ikoner/BrukerMedBlyant';
 import {
-    FagsystemVedtak,
     IFormkravVilkår,
     IFormalkrav,
     Redigeringsmodus,
@@ -29,6 +28,7 @@ import {
     påKlagetVedtakValgt,
     utledIkkeUtfylteVilkår,
 } from './validerFormkravUtils';
+import { FagsystemVedtak } from '../../../App/typer/fagsystemVedtak';
 
 export const RadSentrertVertikalt = styled.div`
     display: flex;

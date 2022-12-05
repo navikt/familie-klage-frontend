@@ -1,6 +1,5 @@
 import React, { Dispatch, SetStateAction, useState } from 'react';
 import {
-    FagsystemVedtak,
     IFormkravVilkår,
     IFormalkrav,
     Redigeringsmodus,
@@ -28,6 +27,7 @@ import {
     påKlagetVedtakValgt,
 } from './validerFormkravUtils';
 import { utledRadioKnapper } from './utils';
+import { FagsystemVedtak } from '../../../App/typer/fagsystemVedtak';
 
 const RadioGrupperContainer = styled.div`
     display: flex;
