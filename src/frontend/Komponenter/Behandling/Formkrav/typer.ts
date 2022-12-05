@@ -14,8 +14,7 @@ export enum FormkravFristUnntak {
 }
 
 export const formkravFristUnntakTilTekst: Record<FormkravFristUnntak, string> = {
-    UNNTAK_KAN_IKKE_LASTES:
-        'Ja, klagepart eller fullmektig kan ikke lastes for å ha sendt inn etter frist',
+    UNNTAK_KAN_IKKE_LASTES: 'Ja, klager kan ikke lastes for å ha sendt inn klage etter fristen',
     UNNTAK_SÆRLIG_GRUNN: 'Ja, av særlige grunner er det rimelig at klagen blir behandlet',
     IKKE_UNNTAK: 'Nei',
     IKKE_SATT: 'Ikke satt',
