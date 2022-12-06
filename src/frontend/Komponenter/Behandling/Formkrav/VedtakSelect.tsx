@@ -10,6 +10,8 @@ import {
 } from './utils';
 import { FagsystemVedtak } from '../../../App/typer/fagsystemVedtak';
 import { Label } from '@navikt/ds-react';
+import { useToggles } from '../../../App/context/TogglesContext';
+import { ToggleName } from '../../../App/context/toggles';
 
 interface IProps {
     settOppdaterteVurderinger: Dispatch<SetStateAction<IFormkravVilkår>>;
@@ -30,6 +32,7 @@ export const VedtakSelect: React.FC<IProps> = ({
     vedtak,
     vurderinger,
 }) => {
+    const { toggles } = useToggles();
     const handleChange = (valgtElement: string) => {
         if (erVedtakFraFagsystemet(valgtElement)) {
             settOppdaterteVurderinger((prevState) => ({
@@ -67,9 +70,12 @@ export const VedtakSelect: React.FC<IProps> = ({
                 <option value={PåklagetVedtakstype.UTEN_VEDTAK}>
                     {påklagetVedtakstypeTilTekst[PåklagetVedtakstype.UTEN_VEDTAK]}
                 </option>
-                <option value={PåklagetVedtakstype.INFOTRYGD_TILBAKEKREVING}>
-                    {påklagetVedtakstypeTilTekst[PåklagetVedtakstype.INFOTRYGD_TILBAKEKREVING]}
-                </option>
+
+                {toggles[ToggleName.skalKunneVelgePåklagetVedtakFraInfotrygd] && (
+                    <option value={PåklagetVedtakstype.INFOTRYGD_TILBAKEKREVING}>
+                        {påklagetVedtakstypeTilTekst[PåklagetVedtakstype.INFOTRYGD_TILBAKEKREVING]}
+                    </option>
+                )}
                 {vedtak.sort(sorterVedtakstidspunktDesc).map((valg, index) => (
                     <option key={index} value={valg.eksternBehandlingId}>
                         {fagsystemVedtakTilVisningstekst(valg)}
@@ -79,9 +85,7 @@ export const VedtakSelect: React.FC<IProps> = ({
             {vurderinger.påklagetVedtak.påklagetVedtakstype ===
                 PåklagetVedtakstype.INFOTRYGD_TILBAKEKREVING && (
                 <DatoWrapper>
-                    <Label htmlFor={'vedtaksdato'}>
-                        Vedtaksdato for tilbakekreving i infotrygd
-                    </Label>
+                    <Label htmlFor={'vedtaksdato'}>Vedtaksdato</Label>
                     <FamilieDatovelger
                         label={null}
                         id={'vedtaksdato'}
