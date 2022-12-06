@@ -25,12 +25,9 @@ const HistorikkContainer: React.FC<{
     behandling: Behandling;
     behandlingHistorikk: IBehandlingshistorikk[];
 }> = ({ behandling, behandlingHistorikk }) => {
-    const steg = behandlingHistorikk.map((historikk) => historikk.steg);
-
     return (
         <>
             {behandlingHistorikk.map((historikk, index) => {
-                const erSisteForekomstAvStegtype = steg.indexOf(historikk.steg) === index;
                 return (
                     <HistorikkInnslag
                         behandling={behandling}
@@ -38,7 +35,6 @@ const HistorikkContainer: React.FC<{
                         opprettetAv={historikk.opprettetAv}
                         endretTid={historikk.endretTid}
                         key={index}
-                        visStegutfall={erSisteForekomstAvStegtype}
                     />
                 );
             })}

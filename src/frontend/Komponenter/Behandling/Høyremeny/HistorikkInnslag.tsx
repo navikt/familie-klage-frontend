@@ -3,18 +3,9 @@ import { NavdsSemanticColorBorder } from '@navikt/ds-tokens/dist/tokens';
 import { BodyShort, Detail, Label } from '@navikt/ds-react';
 import styled from 'styled-components';
 import { formaterIsoDatoTid } from '../../../App/utils/formatter';
-import {
-    Behandling,
-    BehandlingResultat,
-    behandlingStegFullførtTilTekst,
-    StegType,
-} from '../../../App/typer/fagsak';
+import { Behandling, behandlingStegFullførtTilTekst, StegType } from '../../../App/typer/fagsak';
 import { PeopleInCircle } from '@navikt/ds-icons';
-import {
-    utledStegutfallForFerdigstiltBehandling,
-    utledStegutfallForIkkeFerdigstiltBehandling,
-} from '../utils';
-import { useBehandling } from '../../../App/context/BehandlingContext';
+import { utledStegutfallForFerdigstiltBehandling } from '../utils';
 
 const Innslag = styled.div`
     display: flex;
@@ -41,7 +32,6 @@ interface IHistorikkOppdatering {
     steg: StegType;
     opprettetAv: string;
     endretTid: string;
-    visStegutfall: boolean;
 }
 
 const HistorikkInnslag: React.FunctionComponent<IHistorikkOppdatering> = ({
@@ -49,16 +39,7 @@ const HistorikkInnslag: React.FunctionComponent<IHistorikkOppdatering> = ({
     steg,
     opprettetAv,
     endretTid,
-    visStegutfall,
 }) => {
-    const { formkravOppfylt, oppdatertVurdering } = useBehandling();
-
-    const utledStegutfall = (behandling: Behandling) => {
-        return behandling.resultat === BehandlingResultat.IKKE_SATT
-            ? utledStegutfallForIkkeFerdigstiltBehandling(steg, formkravOppfylt, oppdatertVurdering)
-            : utledStegutfallForFerdigstiltBehandling(behandling, steg);
-    };
-
     return (
         <Innslag>
             <Ikon>
@@ -67,7 +48,11 @@ const HistorikkInnslag: React.FunctionComponent<IHistorikkOppdatering> = ({
             </Ikon>
             <Tekst>
                 <Label size="small">{behandlingStegFullførtTilTekst[steg]}</Label>
-                {visStegutfall && <BodyShort>{utledStegutfall(behandling)}</BodyShort>}
+                {steg === StegType.BEHANDLING_FERDIGSTILT && (
+                    <BodyShort>
+                        {utledStegutfallForFerdigstiltBehandling(behandling, steg)}
+                    </BodyShort>
+                )}
                 <Detail size="small">
                     {formaterIsoDatoTid(endretTid)} | {opprettetAv}
                 </Detail>

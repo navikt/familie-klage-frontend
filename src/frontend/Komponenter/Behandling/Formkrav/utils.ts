@@ -1,7 +1,6 @@
 import {
     EFormalKravType,
     FagsystemType,
-    FagsystemVedtak,
     IFormkravVilkår,
     IFormalkrav,
     VilkårStatus,
@@ -10,6 +9,7 @@ import {
 import { PåklagetVedtak, PåklagetVedtakstype } from '../../../App/typer/fagsak';
 import { compareDesc } from 'date-fns';
 import { formaterIsoDato, formaterIsoDatoTid } from '../../../App/utils/formatter';
+import { FagsystemVedtak } from '../../../App/typer/fagsystemVedtak';
 
 export const utledRadioKnapper = (vurderinger: IFormkravVilkår): IFormalkrav[] => {
     const { klagePart, klageKonkret, klagefristOverholdt, klageSignert } = vurderinger;

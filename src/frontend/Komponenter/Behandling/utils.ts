@@ -4,24 +4,12 @@ import {
     behandlingResultatTilTekst,
     StegType,
 } from '../../App/typer/fagsak';
-import { IVurdering, vedtakValgTilTekst } from './Vurdering/vurderingValg';
 import { utledTekstForEksternutfall } from './Resultat/utils';
 
-export const utledStegutfallForIkkeFerdigstiltBehandling = (
-    steg: StegType,
-    formKravOppfylt: boolean,
-    vurdering: IVurdering
-) => {
-    switch (steg) {
-        case StegType.FORMKRAV:
-            return formKravOppfylt ? 'Oppfylt' : 'Ikke oppfylt';
-        case StegType.VURDERING:
-            return vurdering.vedtak ? vedtakValgTilTekst[vurdering.vedtak] : '';
-        default:
-            return '';
-    }
-};
-
+/**
+ * Forenklet utledning av stegutfall
+ * Denne skal ikke brukes for formkrav eller vurdering hvis resultat = Henlagt
+ */
 export const utledStegutfallForFerdigstiltBehandling = (behandling: Behandling, steg: StegType) => {
     switch (steg) {
         case StegType.FORMKRAV:

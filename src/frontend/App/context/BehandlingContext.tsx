@@ -53,8 +53,6 @@ const [BehandlingProvider, useBehandling] = constate(() => {
     const [visHenleggModal, settVisHenleggModal] = useState(false);
     const [åpenHøyremeny, settÅpenHøyremeny] = useState(true);
 
-    const [vilkårTom, settVilkårTom] = useState<boolean>(false);
-
     const [vurderingEndret, settVurderingEndret] = useState(false);
 
     const initiellVurdering: IVurdering = { behandlingId: behandlingId };
@@ -73,8 +71,6 @@ const [BehandlingProvider, useBehandling] = constate(() => {
         settVisHenleggModal,
         åpenHøyremeny,
         settÅpenHøyremeny,
-        vilkårTom,
-        settVilkårTom,
         vurderingEndret,
         settVurderingEndret,
         oppdatertVurdering,

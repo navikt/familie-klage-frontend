@@ -2,34 +2,33 @@ import React, { useEffect, useState } from 'react';
 import { KlageInfo } from './KlageInfo';
 import { RessursFeilet, RessursStatus, RessursSuksess } from '../../../App/typer/ressurs';
 import { useBehandling } from '../../../App/context/BehandlingContext';
-import { FagsystemVedtak, IFormkravVilkår } from './typer';
+import { IFormkravVilkår } from './typer';
 import ToKolonnerLayout from '../../../Felles/Visningskomponenter/ToKolonnerLayout';
 import { VisEllerEndreFormkravVurderinger } from './VisEllerEndreFormkravVurderinger';
 import DataViewer from '../../../Felles/DataViewer/DataViewer';
 import { Behandling } from '../../../App/typer/fagsak';
 import { useHentFormkravVilkår } from '../../../App/hooks/useHentFormkravVilkår';
 import { utledRedigeringsmodus } from './validerFormkravUtils';
+import { useHentFagsystemVedtak } from '../../../App/hooks/useHentFagsystemVedtak';
+import { FagsystemVedtak } from '../../../App/typer/fagsystemVedtak';
 
 export const Formkrav: React.FC<{ behandling: Behandling }> = ({ behandling }) => {
-    const {
-        vilkårsvurderinger,
-        hentVilkårsvurderinger,
-        lagreVilkårsvurderinger,
-        feilVedLagring,
-        fagsystemVedtak,
-        hentFagsystemVedtak,
-    } = useHentFormkravVilkår();
+    const { vilkårsvurderinger, hentVilkårsvurderinger, lagreVilkårsvurderinger, feilVedLagring } =
+        useHentFormkravVilkår();
+    const { fagsystemVedtak, hentFagsystemVedtak } = useHentFagsystemVedtak();
     const behandlingId = behandling.id;
 
     useEffect(() => {
-        if (behandlingId !== undefined) {
-            if (vilkårsvurderinger.status !== RessursStatus.SUKSESS) {
-                hentVilkårsvurderinger(behandlingId);
-                hentFagsystemVedtak(behandlingId);
-            }
+        if (vilkårsvurderinger.status === RessursStatus.IKKE_HENTET) {
+            hentVilkårsvurderinger(behandlingId);
         }
-        // eslint-disable-next-line
-    }, [behandlingId, hentVilkårsvurderinger, hentFagsystemVedtak]);
+    }, [behandlingId, vilkårsvurderinger, hentVilkårsvurderinger]);
+
+    useEffect(() => {
+        if (fagsystemVedtak.status === RessursStatus.IKKE_HENTET) {
+            hentFagsystemVedtak(behandling);
+        }
+    }, [behandling, fagsystemVedtak, hentFagsystemVedtak]);
 
     return (
         <DataViewer response={{ vilkårsvurderinger, fagsystemVedtak }}>
