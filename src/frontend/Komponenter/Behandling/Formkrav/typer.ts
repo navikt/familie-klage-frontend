@@ -41,6 +41,7 @@ export interface IFormkravVilkår {
 export interface PåklagetVedtak {
     eksternFagsystemBehandlingId?: string;
     påklagetVedtakstype: PåklagetVedtakstype;
+    vedtaksdatoInfotrygd?: string;
 }
 
 export enum Redigeringsmodus {

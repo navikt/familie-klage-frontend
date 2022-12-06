@@ -60,9 +60,10 @@ export const vedtakstidspunktTilVisningstekst = (vedtak: FagsystemVedtak) =>
         ? formaterIsoDato(vedtak.vedtakstidspunkt)
         : formaterIsoDatoTid(vedtak.vedtakstidspunkt);
 
-export const erVedtak = (valgtElement: string) => {
+export const erVedtakFraFagsystemet = (valgtElement: string) => {
     return !(
         valgtElement === PåklagetVedtakstype.UTEN_VEDTAK ||
-        valgtElement === PåklagetVedtakstype.IKKE_VALGT
+        valgtElement === PåklagetVedtakstype.IKKE_VALGT ||
+        valgtElement === PåklagetVedtakstype.INFOTRYGD_TILBAKEKREVING
     );
 };
