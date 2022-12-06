@@ -85,9 +85,7 @@ export const VedtakSelect: React.FC<IProps> = ({
             {vurderinger.påklagetVedtak.påklagetVedtakstype ===
                 PåklagetVedtakstype.INFOTRYGD_TILBAKEKREVING && (
                 <DatoWrapper>
-                    <Label htmlFor={'vedtaksdato'}>
-                        Vedtaksdato for tilbakekreving i infotrygd
-                    </Label>
+                    <Label htmlFor={'vedtaksdato'}>Vedtaksdato</Label>
                     <FamilieDatovelger
                         label={null}
                         id={'vedtaksdato'}
