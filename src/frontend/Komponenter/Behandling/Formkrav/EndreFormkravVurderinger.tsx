@@ -27,7 +27,11 @@ import {
     alleVilkårTattStillingTil,
     påKlagetVedtakValgt,
 } from './validerFormkravUtils';
-import { skalViseKlagefristUnntak, utledRadioKnapper } from './utils';
+import {
+    evaluerOmFelterSkalTilbakestilles,
+    skalViseKlagefristUnntak,
+    utledRadioKnapper,
+} from './utils';
 import KlagefristUnntak from './KlagefristUnntak';
 
 const RadioGrupperContainer = styled.div`
@@ -106,19 +110,15 @@ export const EndreFormkravVurderinger: React.FC<IProps> = ({
         }
         settOppdatererVurderinger(true);
 
-        const vurderingerSomSkalLagres = alleVilkårErOppfylt
-            ? { ...vurderinger, saksbehandlerBegrunnelse: '', brevtekst: undefined }
-            : vurderinger;
+        const vurderingerSomSkalLagres = evaluerOmFelterSkalTilbakestilles(
+            vurderinger,
+            alleVilkårErOppfylt
+        );
 
-        const vurderingerSomSkalLagres2 =
-            vurderinger.klagefristOverholdt === VilkårStatus.OPPFYLT
-                ? { ...vurderingerSomSkalLagres, klagefristOverholdtUnntak: undefined }
-                : vurderingerSomSkalLagres;
-
-        lagreVurderinger(vurderingerSomSkalLagres2).then((res: Ressurs<IFormkravVilkår>) => {
+        lagreVurderinger(vurderingerSomSkalLagres).then((res: Ressurs<IFormkravVilkår>) => {
             settOppdatererVurderinger(false);
             if (res.status === RessursStatus.SUKSESS) {
-                settOppdaterteVurderinger(vurderingerSomSkalLagres2);
+                settOppdaterteVurderinger(vurderingerSomSkalLagres);
                 nullstillIkkePersistertKomponent('formkravVilkår');
                 settRedigeringsmodus(Redigeringsmodus.VISNING);
                 hentBehandling.rerun();

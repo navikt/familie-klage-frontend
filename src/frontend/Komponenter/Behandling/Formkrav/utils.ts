@@ -5,6 +5,7 @@ import {
     IFormkravVilkår,
     IFormalkrav,
     VilkårStatus,
+    FormkravFristUnntak,
 } from './typer';
 import { PåklagetVedtak, PåklagetVedtakstype } from '../../../App/typer/fagsak';
 import { compareDesc } from 'date-fns';
@@ -76,4 +77,23 @@ export const erVedtak = (valgtElement: string) => {
 export const skalViseKlagefristUnntak = (vilkår: IFormalkrav) => {
     const { type, svar } = vilkår;
     return svar === VilkårStatus.IKKE_OPPFYLT && type === EFormalKravType.KLAGEFRIST_OVERHOLDT;
+};
+
+export const evaluerOmFelterSkalTilbakestilles = (
+    vurderinger: IFormkravVilkår,
+    alleVilkårOppfylt: boolean
+) => {
+    const tilbakestillFritekstfelter = alleVilkårOppfylt
+        ? { ...vurderinger, saksbehandlerBegrunnelse: '', brevtekst: undefined }
+        : vurderinger;
+
+    const tilbakestillUnntak =
+        vurderinger.klagefristOverholdt === VilkårStatus.OPPFYLT
+            ? {
+                  ...tilbakestillFritekstfelter,
+                  klagefristOverholdtUnntak: FormkravFristUnntak.IKKE_SATT,
+              }
+            : tilbakestillFritekstfelter;
+
+    return tilbakestillUnntak;
 };

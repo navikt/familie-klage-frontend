@@ -239,7 +239,7 @@ export const VisFormkravVurderinger: React.FC<IProps> = ({
                             <Spørsmål>{knapp.spørsmål}</Spørsmål>
                             <Svar>{vilkårStatusTilTekst[knapp.svar]}</Svar>
                         </SvarElement>
-                        {skalViseKlagefristUnntak(knapp) && vurderinger.klagefristOverholdtUnntak && (
+                        {skalViseKlagefristUnntak(knapp) && (
                             <SvarElement key={'unntaksvilkår'}>
                                 <Spørsmål>Er unntak for klagefristen oppfylt?</Spørsmål>
                                 <Svar>
