@@ -17,7 +17,11 @@ export const alleVurderingerErStatus = (
 };
 
 export const påKlagetVedtakValgt = (vurderinger: IFormkravVilkår) => {
-    return vurderinger.påklagetVedtak.påklagetVedtakstype !== PåklagetVedtakstype.IKKE_VALGT;
+    const valgtVedtakstype = vurderinger.påklagetVedtak.påklagetVedtakstype;
+    if (valgtVedtakstype === PåklagetVedtakstype.INFOTRYGD_TILBAKEKREVING) {
+        return harVerdi(vurderinger.påklagetVedtak.vedtaksdatoInfotrygd);
+    }
+    return valgtVedtakstype !== PåklagetVedtakstype.IKKE_VALGT;
 };
 
 export const alleVilkårOppfylt = (vurderinger: IFormkravVilkår) => {

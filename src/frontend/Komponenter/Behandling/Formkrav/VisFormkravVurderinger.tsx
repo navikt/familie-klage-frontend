@@ -3,8 +3,8 @@ import styled from 'styled-components';
 import { NavdsGlobalColorPurple500 } from '@navikt/ds-tokens/dist/tokens';
 import BrukerMedBlyant from '../../../Felles/Ikoner/BrukerMedBlyant';
 import {
-    IFormkravVilkår,
     IFormalkrav,
+    IFormkravVilkår,
     Redigeringsmodus,
     VilkårStatus,
     vilkårStatusTilTekst,
@@ -13,7 +13,7 @@ import {
 import { useBehandling } from '../../../App/context/BehandlingContext';
 import { Alert, BodyShort, Button, Heading, Label } from '@navikt/ds-react';
 import { useNavigate } from 'react-router-dom';
-import { formaterIsoDatoTid } from '../../../App/utils/formatter';
+import { formaterIsoDatoTid, formaterNullableIsoDato } from '../../../App/utils/formatter';
 import { Ressurs, RessursFeilet, RessursStatus, RessursSuksess } from '../../../App/typer/ressurs';
 import {
     skalViseKlagefristUnntak,
@@ -119,6 +119,7 @@ export const VisFormkravVurderinger: React.FC<IProps> = ({
     vurderinger,
 }) => {
     const { behandlingErRedigerbar, hentBehandling, hentBehandlingshistorikk } = useBehandling();
+    const { påklagetVedtakstype, vedtaksdatoInfotrygd } = vurderinger.påklagetVedtak;
     const navigate = useNavigate();
     const [nullstillerVurderinger, settNullstillerVurderinger] = useState<boolean>(false);
 
@@ -181,6 +182,7 @@ export const VisFormkravVurderinger: React.FC<IProps> = ({
         fagsystemVedtak,
         vurderinger.påklagetVedtak
     );
+    const gjelderInfotrygd = påklagetVedtakstype === PåklagetVedtakstype.INFOTRYGD_TILBAKEKREVING;
 
     const urlSuffiks = utledUrlSuffiks();
 
@@ -221,15 +223,21 @@ export const VisFormkravVurderinger: React.FC<IProps> = ({
                     <Svar>
                         {gjeldendeFagsystemVedtak ? (
                             <div>
-                                {gjeldendeFagsystemVedtak.behandlingstype}
-                                <br />
-                                {gjeldendeFagsystemVedtak.resultat} -{' '}
-                                {vedtakstidspunktTilVisningstekst(gjeldendeFagsystemVedtak)}
+                                <div>{gjeldendeFagsystemVedtak.behandlingstype}</div>
+                                <div>
+                                    {gjeldendeFagsystemVedtak.resultat} -{' '}
+                                    {vedtakstidspunktTilVisningstekst(gjeldendeFagsystemVedtak)}
+                                </div>
                             </div>
                         ) : (
-                            påklagetVedtakstypeTilTekst[
-                                vurderinger.påklagetVedtak.påklagetVedtakstype
-                            ]
+                            <div>
+                                <div>{påklagetVedtakstypeTilTekst[påklagetVedtakstype]}</div>
+                                <div>
+                                    {gjelderInfotrygd
+                                        ? formaterNullableIsoDato(vedtaksdatoInfotrygd)
+                                        : ''}
+                                </div>
+                            </div>
                         )}
                     </Svar>
                 </SvarElement>
