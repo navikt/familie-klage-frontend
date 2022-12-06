@@ -8,6 +8,7 @@ import {
     Redigeringsmodus,
     VilkårStatus,
     vilkårStatusTilTekst,
+    formkravFristUnntakTilTekst,
 } from './typer';
 import { useBehandling } from '../../../App/context/BehandlingContext';
 import { Alert, BodyShort, Button, Heading, Label } from '@navikt/ds-react';
@@ -15,6 +16,7 @@ import { useNavigate } from 'react-router-dom';
 import { formaterIsoDatoTid } from '../../../App/utils/formatter';
 import { Ressurs, RessursFeilet, RessursStatus, RessursSuksess } from '../../../App/typer/ressurs';
 import {
+    skalViseKlagefristUnntak,
     utledFagsystemVedtakFraPåklagetVedtak,
     utledRadioKnapper,
     vedtakstidspunktTilVisningstekst,
@@ -27,6 +29,7 @@ import {
     brevtekstUtfylt,
     påKlagetVedtakValgt,
     utledIkkeUtfylteVilkår,
+    klagefristUnntakTattStillingTil,
 } from './validerFormkravUtils';
 import { FagsystemVedtak } from '../../../App/typer/fagsystemVedtak';
 
@@ -156,9 +159,11 @@ export const VisFormkravVurderinger: React.FC<IProps> = ({
     const harBrevtekst = brevtekstUtfylt(vurderinger);
     const manglerFritekster = !harBrevtekst || !harBegrunnelse;
     const ikkeUtfylteVilkår = utledIkkeUtfylteVilkår(vurderinger);
+    const unntakFormalkravTattStillingTil = klagefristUnntakTattStillingTil(vurderinger);
 
     const manglerUtfylling =
         ikkeUtfylteVilkår.length > 0 ||
+        !unntakFormalkravTattStillingTil ||
         !påKlagetVedtakErValgt ||
         (!alleVilkårErOppfylt && manglerFritekster);
 
@@ -229,10 +234,24 @@ export const VisFormkravVurderinger: React.FC<IProps> = ({
                     </Svar>
                 </SvarElement>
                 {radioKnapper.map((knapp: IFormalkrav, index) => (
-                    <SvarElement key={index}>
-                        <Spørsmål>{knapp.spørsmål}</Spørsmål>
-                        <Svar>{vilkårStatusTilTekst[knapp.svar]}</Svar>
-                    </SvarElement>
+                    <>
+                        <SvarElement key={index}>
+                            <Spørsmål>{knapp.spørsmål}</Spørsmål>
+                            <Svar>{vilkårStatusTilTekst[knapp.svar]}</Svar>
+                        </SvarElement>
+                        {skalViseKlagefristUnntak(knapp) && (
+                            <SvarElement key={'unntaksvilkår'}>
+                                <Spørsmål>Er unntak for klagefristen oppfylt?</Spørsmål>
+                                <Svar>
+                                    {
+                                        formkravFristUnntakTilTekst[
+                                            vurderinger.klagefristOverholdtUnntak
+                                        ]
+                                    }
+                                </Svar>
+                            </SvarElement>
+                        )}
+                    </>
                 ))}
                 {!alleVilkårErOppfylt && (
                     <>
@@ -276,6 +295,13 @@ export const VisFormkravVurderinger: React.FC<IProps> = ({
                                 </li>
                             );
                         })}
+                        {!unntakFormalkravTattStillingTil && (
+                            <li>
+                                <BodyShort key="unntakFrist">
+                                    Unntak for ikke overholdt frist ikke utfylt
+                                </BodyShort>
+                            </li>
+                        )}
                         {!harBegrunnelse && <li>Begrunnelse er ikke utfylt</li>}
                         {!harBrevtekst && <li>Fritekst til brev er ikke utfylt</li>}
                     </ul>

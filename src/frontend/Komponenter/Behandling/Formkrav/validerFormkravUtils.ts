@@ -1,4 +1,4 @@
-import { IFormkravVilkår, Redigeringsmodus, VilkårStatus } from './typer';
+import { FormkravFristUnntak, IFormkravVilkår, Redigeringsmodus, VilkårStatus } from './typer';
 import { PåklagetVedtakstype } from '../../../App/typer/fagsak';
 import { harVerdi } from '../../../App/utils/utils';
 import { utledRadioKnapper } from './utils';
@@ -21,12 +21,39 @@ export const påKlagetVedtakValgt = (vurderinger: IFormkravVilkår) => {
 };
 
 export const alleVilkårOppfylt = (vurderinger: IFormkravVilkår) => {
-    return alleVurderingerErStatus(vurderinger, VilkårStatus.OPPFYLT);
+    return (
+        alleVurderingerErStatus(vurderinger, VilkårStatus.OPPFYLT) ||
+        (alleVurderingerOppfyltUntattKlagefrist(vurderinger) &&
+            klagefristUnntakErValgtOgOppfylt(vurderinger.klagefristOverholdtUnntak))
+    );
 };
 
-export const alleVilkårTattStillingTil = (vurderinger: IFormkravVilkår) => {
-    return utledIkkeUtfylteVilkår(vurderinger).length === 0;
+export const alleVurderingerOppfyltUntattKlagefrist = (formkrav: IFormkravVilkår) => {
+    const { klagePart, klageKonkret, klagefristOverholdt, klageSignert } = formkrav;
+    return (
+        klagePart === VilkårStatus.OPPFYLT &&
+        klageKonkret === VilkårStatus.OPPFYLT &&
+        klageSignert === VilkårStatus.OPPFYLT &&
+        klagefristOverholdt === VilkårStatus.IKKE_OPPFYLT
+    );
 };
+
+export const klagefristUnntakErValgtOgOppfylt = (unntak?: FormkravFristUnntak) => {
+    return unntak !== undefined && klagefristUnntakOppfylt(unntak);
+};
+
+const klagefristUnntakOppfylt = (unntak: FormkravFristUnntak) =>
+    unntak !== FormkravFristUnntak.IKKE_UNNTAK && unntak !== FormkravFristUnntak.IKKE_SATT;
+
+export const alleVilkårTattStillingTil = (vurderinger: IFormkravVilkår) =>
+    utledIkkeUtfylteVilkår(vurderinger).length === 0 &&
+    klagefristUnntakTattStillingTil(vurderinger);
+
+export const klagefristUnntakTattStillingTil = (vurderinger: IFormkravVilkår) =>
+    vurderinger.klagefristOverholdt === VilkårStatus.OPPFYLT ||
+    (vurderinger.klagefristOverholdt === VilkårStatus.IKKE_OPPFYLT &&
+        vurderinger.klagefristOverholdtUnntak !== undefined &&
+        vurderinger.klagefristOverholdtUnntak !== FormkravFristUnntak.IKKE_SATT);
 
 export const begrunnelseUtfylt = (vurderinger: IFormkravVilkår) => {
     return harVerdi(vurderinger.saksbehandlerBegrunnelse);
