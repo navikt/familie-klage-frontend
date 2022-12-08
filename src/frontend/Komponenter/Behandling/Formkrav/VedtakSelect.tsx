@@ -67,20 +67,19 @@ export const VedtakSelect: React.FC<IProps> = ({
                 <option value={PåklagetVedtakstype.IKKE_VALGT}>
                     {påklagetVedtakstypeTilTekst[PåklagetVedtakstype.IKKE_VALGT]}
                 </option>
-                <option value={PåklagetVedtakstype.UTEN_VEDTAK}>
-                    {påklagetVedtakstypeTilTekst[PåklagetVedtakstype.UTEN_VEDTAK]}
-                </option>
-
-                {toggles[ToggleName.skalKunneVelgePåklagetVedtakFraInfotrygd] && (
-                    <option value={PåklagetVedtakstype.INFOTRYGD_TILBAKEKREVING}>
-                        {påklagetVedtakstypeTilTekst[PåklagetVedtakstype.INFOTRYGD_TILBAKEKREVING]}
-                    </option>
-                )}
                 {vedtak.sort(sorterVedtakstidspunktDesc).map((valg, index) => (
                     <option key={index} value={valg.eksternBehandlingId}>
                         {fagsystemVedtakTilVisningstekst(valg)}
                     </option>
                 ))}
+                {toggles[ToggleName.skalKunneVelgePåklagetVedtakFraInfotrygd] && (
+                    <option value={PåklagetVedtakstype.INFOTRYGD_TILBAKEKREVING}>
+                        {påklagetVedtakstypeTilTekst[PåklagetVedtakstype.INFOTRYGD_TILBAKEKREVING]}
+                    </option>
+                )}
+                <option value={PåklagetVedtakstype.UTEN_VEDTAK}>
+                    {påklagetVedtakstypeTilTekst[PåklagetVedtakstype.UTEN_VEDTAK]}
+                </option>
             </FamilieSelect>
             {vurderinger.påklagetVedtak.påklagetVedtakstype ===
                 PåklagetVedtakstype.INFOTRYGD_TILBAKEKREVING && (
