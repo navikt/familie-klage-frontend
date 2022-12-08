@@ -59,9 +59,21 @@ export const utledBehandlingLenke = (
     behandling: Behandling,
     eksternLenker: Eksternlenker
 ): string => {
+    return utledEksternBehandlingLenke(
+        behandling,
+        behandling.påklagetVedtak?.eksternFagsystemBehandlingId,
+        eksternLenker
+    );
+};
+
+export const utledEksternBehandlingLenke = (
+    behandling: Behandling,
+    eksternBehandlingId: string | undefined,
+    eksternLenker: Eksternlenker
+): string => {
     return `${utledFagsystemUrl(behandling.fagsystem, eksternLenker)}/fagsak/${
         behandling.eksternFagsystemFagsakId
-    }/${behandling.påklagetVedtak.fagsystemVedtak?.eksternBehandlingId}`;
+    }/${eksternBehandlingId}`;
 };
 
 export const utledSaksoversiktLenke = (

@@ -4,14 +4,17 @@ import {
     Behandling,
     BehandlingResultat,
     behandlingStegTilTekst,
+    revurderingIkkeOpprettetÅrsak,
     StegType,
 } from '../../../App/typer/fagsak';
 import styled from 'styled-components';
-import { Alert, Detail, Heading, Label } from '@navikt/ds-react';
+import { Button, Detail, Heading, Label } from '@navikt/ds-react';
 import { formaterIsoDato, formaterIsoKlokke } from '../../../App/utils/formatter';
-import { Clock, SuccessColored } from '@navikt/ds-icons';
+import { Clock, InformationColored, SuccessColored, WarningColored } from '@navikt/ds-icons';
 import { utledStegutfallForFerdigstiltBehandling } from '../utils';
 import { fjernDuplikatStegFraHistorikk } from './utils';
+import { useApp } from '../../../App/context/AppContext';
+import { utledEksternBehandlingLenke, utledSaksoversiktLenke } from '../../../App/utils/utils';
 
 const Flexbox = styled.div<{ åpenHøyremeny: boolean }>`
     display: flex;
@@ -39,12 +42,12 @@ const HistorikkInnslag = styled.div<{ åpenHøyremeny: boolean }>`
 
 const RevurderingAlertContainer = styled.div<{ åpenHøyremeny: boolean }>`
     @media (max-width: ${(props) => (props.åpenHøyremeny ? '1449px' : '1149px')}) {
-        width: 20rem;
+        width: 14rem;
     }
     @media (min-width: ${(props) => (props.åpenHøyremeny ? '1450px' : '1150px')}) {
         flex-grow: 1;
         display: grid;
-        grid-template-columns: auto 20rem auto;
+        grid-template-columns: auto 14rem auto;
     }
 `;
 
@@ -101,6 +104,10 @@ const Suksess = styled(SuccessColored)`
     margin-bottom: 0.5rem;
 `;
 
+const KnappMedLuftOver = styled(Button)`
+    margin-top: 0.5rem;
+`;
+
 /**
  * Hvis resultat = HENLAGT, vis kun opprettet og ferdigstilt
  * Hvis Resultat = IKKE_MEDHOLD_FORMKRAV_AVVIST, ikke vis vurdering, for å unngå at man først oppfylt krav, lagt inn vurdering, ikke oppfylt krav, ferdigstilt
@@ -129,7 +136,7 @@ export const Tidslinje: React.FC<{
 }> = ({ behandling, behandlingHistorikk, åpenHøyremeny }) => {
     const historikk = filtrerResutatSteg(behandlingHistorikk, behandling);
 
-    const måManueltOppretteRevurdering = behandling.resultat === BehandlingResultat.MEDHOLD;
+    const harFåttMedhold = behandling.resultat === BehandlingResultat.MEDHOLD;
     return (
         <Flexbox åpenHøyremeny={åpenHøyremeny}>
             {historikk.map((steg, index) => {
@@ -140,21 +147,26 @@ export const Tidslinje: React.FC<{
                         {index + 1 < historikk.length && (
                             <LinjeSort synlig={true} åpenHøyremeny={åpenHøyremeny} />
                         )}
-                        {måManueltOppretteRevurdering && index + 1 === historikk.length && (
+                        {harFåttMedhold && index + 1 === historikk.length && (
                             <LinjeStiplet åpenHøyremeny={åpenHøyremeny} />
                         )}
                     </HistorikkInnslag>
                 );
             })}
-            {måManueltOppretteRevurdering && (
+            {harFåttMedhold && (
                 <RevurderingAlertContainer åpenHøyremeny={åpenHøyremeny}>
                     <LinjeStiplet åpenHøyremeny={åpenHøyremeny} />
-                    <Alert variant={'info'}>
-                        <Heading spacing size="small" level="3">
+                    <NodeContainer>
+                        <Tittel
+                            level="1"
+                            size="xsmall"
+                            tittelErToLinjer={false}
+                            åpenHøyremeny={åpenHøyremeny}
+                        >
                             Revurdering
-                        </Heading>
-                        Det må manuelt opprettes en revurdering for å fatte nytt vedtak.
-                    </Alert>
+                        </Tittel>
+                        <MedholdRevurdering behandling={behandling} />
+                    </NodeContainer>
                 </RevurderingAlertContainer>
             )}
         </Flexbox>
@@ -187,4 +199,60 @@ const Node: React.FC<{
             </Label>
         </NodeContainer>
     );
+};
+
+export const MedholdRevurdering: React.FC<{
+    behandling: Behandling;
+}> = ({ behandling }) => {
+    const { appEnv } = useApp();
+    const { fagsystemRevurdering } = behandling;
+    if (fagsystemRevurdering?.opprettetBehandling) {
+        const { eksternBehandlingId, opprettetTid } = fagsystemRevurdering.opprettet;
+        return (
+            <>
+                <InformationColored width={36} height={36} />
+                <Detail size="small">{formaterIsoDato(opprettetTid)}</Detail>
+                <Detail size="small">{formaterIsoKlokke(opprettetTid)}</Detail>
+                <Label size={'small'}>Automatisk opprettet</Label>
+                <KnappMedLuftOver
+                    variant={'secondary'}
+                    size={'small'}
+                    onClick={() => {
+                        const eksternBehandlingLenke = utledEksternBehandlingLenke(
+                            behandling,
+                            eksternBehandlingId,
+                            appEnv.eksternlenker
+                        );
+                        //@ts-ignore
+                        window.location = eksternBehandlingLenke;
+                    }}
+                >
+                    Åpne revurdering
+                </KnappMedLuftOver>
+            </>
+        );
+    } else {
+        return (
+            <>
+                <WarningColored width={36} height={36} />
+                {fagsystemRevurdering && (
+                    <Detail size="small">
+                        Årsak:{' '}
+                        {revurderingIkkeOpprettetÅrsak[fagsystemRevurdering.ikkeOpprettet.årsak]}
+                    </Detail>
+                )}
+                <Label size={'small'}>Må manuellt opprettes</Label>
+                <KnappMedLuftOver
+                    variant={'secondary'}
+                    size={'small'}
+                    onClick={() => {
+                        //@ts-ignore
+                        window.location = utledSaksoversiktLenke(behandling, appEnv.eksternlenker);
+                    }}
+                >
+                    Gå til behandlingsoversikt
+                </KnappMedLuftOver>
+            </>
+        );
+    }
 };
