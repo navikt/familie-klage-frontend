@@ -104,10 +104,6 @@ const Suksess = styled(SuccessColored)`
     margin-bottom: 0.5rem;
 `;
 
-const KnappMedLuftOver = styled(Button)`
-    margin-top: 0.5rem;
-`;
-
 /**
  * Hvis resultat = HENLAGT, vis kun opprettet og ferdigstilt
  * Hvis Resultat = IKKE_MEDHOLD_FORMKRAV_AVVIST, ikke vis vurdering, for å unngå at man først oppfylt krav, lagt inn vurdering, ikke oppfylt krav, ferdigstilt
@@ -214,21 +210,18 @@ export const MedholdRevurdering: React.FC<{
                 <Detail size="small">{formaterIsoDato(opprettetTid)}</Detail>
                 <Detail size="small">{formaterIsoKlokke(opprettetTid)}</Detail>
                 <Label size={'small'}>Automatisk opprettet</Label>
-                <KnappMedLuftOver
+                <Button
+                    as={'a'}
                     variant={'secondary'}
                     size={'small'}
-                    onClick={() => {
-                        const eksternBehandlingLenke = utledEksternBehandlingLenke(
-                            behandling,
-                            eksternBehandlingId,
-                            appEnv.eksternlenker
-                        );
-                        //@ts-ignore
-                        window.location = eksternBehandlingLenke;
-                    }}
+                    href={utledEksternBehandlingLenke(
+                        behandling,
+                        eksternBehandlingId,
+                        appEnv.eksternlenker
+                    )}
                 >
-                    Åpne revurdering
-                </KnappMedLuftOver>
+                    Gå til behandlingsoversikt
+                </Button>
             </>
         );
     } else {
@@ -242,16 +235,14 @@ export const MedholdRevurdering: React.FC<{
                     </Detail>
                 )}
                 <Label size={'small'}>Må manuellt opprettes</Label>
-                <KnappMedLuftOver
+                <Button
+                    as={'a'}
                     variant={'secondary'}
                     size={'small'}
-                    onClick={() => {
-                        //@ts-ignore
-                        window.location = utledSaksoversiktLenke(behandling, appEnv.eksternlenker);
-                    }}
+                    href={utledSaksoversiktLenke(behandling, appEnv.eksternlenker)}
                 >
                     Gå til behandlingsoversikt
-                </KnappMedLuftOver>
+                </Button>
             </>
         );
     }
