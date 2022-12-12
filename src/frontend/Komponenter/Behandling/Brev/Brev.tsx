@@ -192,8 +192,8 @@ export const Brev: React.FC<IBrev> = ({ behandlingId }) => {
                     <AlertContainer>
                         <Alert variant={'info'}>
                             Resultatet av klagebehandlingen er at påklaget vedtak skal omgjøres. Du
-                            kan nå ferdigstille klagebehandlingen og opprette en revurdering for å
-                            fatte nytt vedtak.
+                            kan nå ferdigstille klagebehandlingen og en revurderingsbehandling for å
+                            fatte nytt vedtak blir automatisk opprettet.
                         </Alert>
                         <StyledKnapp onClick={() => settVisModal(true)}>Ferdigstill</StyledKnapp>
                     </AlertContainer>

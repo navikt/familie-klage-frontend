@@ -63,6 +63,7 @@ export interface Behandling {
     eksternFagsystemFagsakId: string;
     fagsystem: Fagsystem;
     klageMottatt: string;
+    fagsystemRevurdering?: FagsystemRevurdering;
 }
 
 export interface PåklagetVedtak {
@@ -143,4 +144,24 @@ export const utfallTilTekst: Record<KlageinstansUtfall, string> = {
     STADFESTELSE: 'Stadfestelse KA',
     UGUNST: 'Ugunst (Ugyldig) KA',
     AVVIST: 'Avvist KA',
+};
+
+export type FagsystemRevurdering =
+    | {
+          opprettetBehandling: true;
+          opprettet: { eksternBehandlingId: string; opprettetTid: string };
+      }
+    | {
+          opprettetBehandling: false;
+          ikkeOpprettet: { årsak: RevurderingIkkeOpprettetÅrsak; detaljer: string };
+      };
+
+export enum RevurderingIkkeOpprettetÅrsak {
+    ÅPEN_BEHANDLING = 'ÅPEN_BEHANDLING',
+    FEIL = 'FEIL',
+}
+
+export const revurderingIkkeOpprettetÅrsak: Record<RevurderingIkkeOpprettetÅrsak, string> = {
+    ÅPEN_BEHANDLING: 'Åpen behandling',
+    FEIL: 'Uventet feil',
 };
