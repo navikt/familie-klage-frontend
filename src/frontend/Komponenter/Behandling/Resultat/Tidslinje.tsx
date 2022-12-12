@@ -220,7 +220,7 @@ export const MedholdRevurdering: React.FC<{
                         appEnv.eksternlenker
                     )}
                 >
-                    Gå til behandlingsoversikt
+                    Åpne revurdering
                 </Button>
             </>
         );
