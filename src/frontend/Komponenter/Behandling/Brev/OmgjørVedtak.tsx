@@ -11,6 +11,8 @@ import { byggTomRessurs, Ressurs } from '../../../App/typer/ressurs';
 import DataViewer from '../../../Felles/DataViewer/DataViewer';
 import { ModalWrapper } from '../../../Felles/Modal/ModalWrapper';
 import styled from 'styled-components';
+import { useToggles } from '../../../App/context/TogglesContext';
+import { ToggleName } from '../../../App/context/toggles';
 
 const AlertContainer = styled.div`
     padding: 2rem;
@@ -60,6 +62,7 @@ export const OmgjørVedtak: React.FC<{
     senderInn: boolean;
 }> = ({ behandlingId, ferdigstill, senderInn }) => {
     const { axiosRequest } = useApp();
+    const { toggles } = useToggles();
     const { behandlingErRedigerbar } = useBehandling();
     const [visModal, settVisModal] = useState<boolean>(false);
     const [feilmelding, settFeilmelding] = useState('');
@@ -86,6 +89,14 @@ export const OmgjørVedtak: React.FC<{
             <AlertContainer>
                 <Alert variant={'info'}>Brev finnes ikke fordi klagen er tatt til følge.</Alert>
             </AlertContainer>
+        );
+    }
+    if (!toggles[ToggleName.skalViseOpprettRevurdering]) {
+        return (
+            <Alert variant={'info'}>
+                Resultatet av klagebehandlingen er at påklaget vedtak skal omgjøres. Du kan nå
+                ferdigstille klagebehandlingen og opprette en revurdering for å fatte nytt vedtak.
+            </Alert>
         );
     }
     return (
