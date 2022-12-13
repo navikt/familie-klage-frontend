@@ -81,6 +81,13 @@ export const OmgjørVedtak: React.FC<{
         }
     }, [axiosRequest, behandlingErRedigerbar, behandlingId]);
 
+    if (!behandlingErRedigerbar) {
+        return (
+            <AlertContainer>
+                <Alert variant={'info'}>Brev finnes ikke fordi klagen er tatt til følge.</Alert>
+            </AlertContainer>
+        );
+    }
     return (
         <DataViewer response={{ kanOppretteRevurdering }}>
             {({ kanOppretteRevurdering }) => (
@@ -93,13 +100,6 @@ export const OmgjørVedtak: React.FC<{
                             <StyledKnapp onClick={() => settVisModal(true)}>
                                 Ferdigstill
                             </StyledKnapp>
-                        </AlertContainer>
-                    )}
-                    {!behandlingErRedigerbar && (
-                        <AlertContainer>
-                            <Alert variant={'info'}>
-                                Brev finnes ikke fordi klagen er tatt til følge.
-                            </Alert>
                         </AlertContainer>
                     )}
                     <ModalWrapper
