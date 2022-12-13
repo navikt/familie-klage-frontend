@@ -17,6 +17,11 @@ import PdfVisning from './PdfVisning';
 import { ModalWrapper } from '../../../Felles/Modal/ModalWrapper';
 import SystemetLaster from '../../../Felles/SystemetLaster/SystemetLaster';
 import BrevMottakere from '../Brevmottakere/BrevMottakere';
+import {
+    KanIkkeOppretteRevurderingÅrsak,
+    KanOppretteRevurdering,
+} from '../../../App/typer/kanOppretteRevurdering';
+import DataViewer from '../../../Felles/DataViewer/DataViewer';
 
 const Brevside = styled.div`
     background-color: var(--navds-semantic-color-canvas-background);
@@ -54,6 +59,106 @@ type Utfall = 'IKKE_SATT' | 'LAG_BREV' | 'OMGJØR_VEDTAK';
 interface IBrev {
     behandlingId: string;
 }
+
+const KanOppretteRevurderingTekst: React.FC<{ kanOppretteRevurdering: KanOppretteRevurdering }> = ({
+    kanOppretteRevurdering,
+}) => {
+    if (kanOppretteRevurdering.kanOpprettes) {
+        return (
+            <Alert variant={'info'}>
+                Resultatet av klagebehandlingen er at påklaget vedtak skal omgjøres. Du kan nå
+                ferdigstille klagebehandlingen og en revurderingsbehandling for å fatte nytt vedtak
+                blir automatisk opprettet.
+            </Alert>
+        );
+    } else if (kanOppretteRevurdering.årsak === KanIkkeOppretteRevurderingÅrsak.ÅPEN_BEHANDLING) {
+        return (
+            <Alert variant={'warning'}>
+                Resultatet av klagebehandlingen er at påklaget vedtak skal omgjøres. En
+                revurderingsbehandling for å fatte nytt vedtak blir ikke automatisk opprettet da
+                bruker allerede har en åpen behandling.
+            </Alert>
+        );
+    } else {
+        return (
+            <Alert variant={'warning'}>
+                Resultatet av klagebehandlingen er at påklaget vedtak skal omgjøres. En
+                revurderingsbehandling for å fatte nytt vedtak blir ikke automatisk opprettet.
+            </Alert>
+        );
+    }
+};
+
+export const OmgjørVedtak: React.FC<{
+    behandlingId: string;
+    ferdigstill: () => void;
+    senderInn: boolean;
+}> = ({ behandlingId, ferdigstill, senderInn }) => {
+    const { axiosRequest } = useApp();
+    const { behandlingErRedigerbar } = useBehandling();
+    const [visModal, settVisModal] = useState<boolean>(false);
+    const [feilmelding, settFeilmelding] = useState('');
+    const [kanOppretteRevurdering, settKanOppretteRevurdering] = useState<
+        Ressurs<KanOppretteRevurdering>
+    >(byggTomRessurs());
+
+    const lukkModal = () => {
+        settVisModal(false);
+        settFeilmelding('');
+    };
+
+    useEffect(() => {
+        if (behandlingErRedigerbar) {
+            axiosRequest<KanOppretteRevurdering, null>({
+                method: 'GET',
+                url: `/familie-klage/api/behandling/${behandlingId}/kan-opprette-revurdering`,
+            }).then(settKanOppretteRevurdering);
+        }
+    }, [axiosRequest, behandlingErRedigerbar, behandlingId]);
+
+    return (
+        <DataViewer response={{ kanOppretteRevurdering }}>
+            {({ kanOppretteRevurdering }) => (
+                <>
+                    {behandlingErRedigerbar && (
+                        <AlertContainer>
+                            <KanOppretteRevurderingTekst
+                                kanOppretteRevurdering={kanOppretteRevurdering}
+                            />
+                            <StyledKnapp onClick={() => settVisModal(true)}>
+                                Ferdigstill
+                            </StyledKnapp>
+                        </AlertContainer>
+                    )}
+                    {!behandlingErRedigerbar && (
+                        <AlertContainer>
+                            <Alert variant={'info'}>
+                                Brev finnes ikke fordi klagen er tatt til følge.
+                            </Alert>
+                        </AlertContainer>
+                    )}
+                    <ModalWrapper
+                        tittel={'Bekreft ferdigstillelse av klagebehandling'}
+                        visModal={visModal}
+                        onClose={() => lukkModal()}
+                        aksjonsknapper={{
+                            hovedKnapp: {
+                                onClick: ferdigstill,
+                                tekst: 'Ferdigstill',
+                                disabled: senderInn,
+                            },
+                            lukkKnapp: { onClick: lukkModal, tekst: 'Avbryt' },
+                            marginTop: 4,
+                        }}
+                    >
+                        {feilmelding && <AlertStripe variant={'error'}>{feilmelding}</AlertStripe>}
+                    </ModalWrapper>
+                </>
+            )}
+        </DataViewer>
+    );
+};
+
 export const Brev: React.FC<IBrev> = ({ behandlingId }) => {
     const [brevRessurs, settBrevRessurs] = useState<Ressurs<string>>(byggTomRessurs());
 
@@ -187,41 +292,11 @@ export const Brev: React.FC<IBrev> = ({ behandlingId }) => {
         );
     } else if (utfall === 'OMGJØR_VEDTAK') {
         return (
-            <>
-                {behandlingErRedigerbar && (
-                    <AlertContainer>
-                        <Alert variant={'info'}>
-                            Resultatet av klagebehandlingen er at påklaget vedtak skal omgjøres. Du
-                            kan nå ferdigstille klagebehandlingen og en revurderingsbehandling for å
-                            fatte nytt vedtak blir automatisk opprettet.
-                        </Alert>
-                        <StyledKnapp onClick={() => settVisModal(true)}>Ferdigstill</StyledKnapp>
-                    </AlertContainer>
-                )}
-                {!behandlingErRedigerbar && (
-                    <AlertContainer>
-                        <Alert variant={'info'}>
-                            Brev finnes ikke fordi klagen er tatt til følge.
-                        </Alert>
-                    </AlertContainer>
-                )}
-                <ModalWrapper
-                    tittel={'Bekreft ferdigstillelse av klagebehandling'}
-                    visModal={visModal}
-                    onClose={() => lukkModal()}
-                    aksjonsknapper={{
-                        hovedKnapp: {
-                            onClick: ferdigstill,
-                            tekst: 'Ferdigstill',
-                            disabled: senderInn,
-                        },
-                        lukkKnapp: { onClick: lukkModal, tekst: 'Avbryt' },
-                        marginTop: 4,
-                    }}
-                >
-                    {feilmelding && <AlertStripe variant={'error'}>{feilmelding}</AlertStripe>}
-                </ModalWrapper>
-            </>
+            <OmgjørVedtak
+                behandlingId={behandlingId}
+                ferdigstill={ferdigstill}
+                senderInn={senderInn}
+            />
         );
     } else {
         return <div>{feilmelding || <SystemetLaster />}</div>;
