@@ -79,7 +79,7 @@ const BehandlingOverbygg: FC = () => {
     const { personopplysningerResponse, behandling } = useBehandling();
 
     useEffect(() => {
-        document.title = 'Behandling';
+        document.title = 'Klagebehandling';
     }, []);
 
     return (
