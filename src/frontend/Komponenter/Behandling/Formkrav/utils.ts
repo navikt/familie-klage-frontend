@@ -1,15 +1,16 @@
 import {
     EFormalKravType,
     FagsystemType,
-    IFormkravVilkår,
-    IFormalkrav,
-    VilkårStatus,
     FormkravFristUnntak,
+    IFormalkrav,
+    IFormkravVilkår,
+    VilkårStatus,
 } from './typer';
 import { PåklagetVedtak, PåklagetVedtakstype } from '../../../App/typer/fagsak';
 import { compareDesc } from 'date-fns';
 import { formaterIsoDato, formaterIsoDatoTid } from '../../../App/utils/formatter';
 import { FagsystemVedtak } from '../../../App/typer/fagsystemVedtak';
+import { alleVilkårOppfylt } from './validerFormkravUtils';
 
 export const utledRadioKnapper = (vurderinger: IFormkravVilkår): IFormalkrav[] => {
     const { klagePart, klageKonkret, klagefristOverholdt, klageSignert } = vurderinger;
@@ -80,13 +81,24 @@ export const skalViseKlagefristUnntak = (vilkår: IFormalkrav) => {
     return svar === VilkårStatus.IKKE_OPPFYLT && type === EFormalKravType.KLAGEFRIST_OVERHOLDT;
 };
 
-export const evaluerOmFelterSkalTilbakestilles = (
-    vurderinger: IFormkravVilkår,
-    alleVilkårOppfylt: boolean
-) => {
-    const tilbakestillFritekstfelter = alleVilkårOppfylt
-        ? { ...vurderinger, saksbehandlerBegrunnelse: '', brevtekst: undefined }
-        : vurderinger;
+export const evaluerOmFelterSkalTilbakestilles = (vurderinger: IFormkravVilkår) => {
+    const tilbakestillFormkrav =
+        vurderinger.påklagetVedtak.påklagetVedtakstype === PåklagetVedtakstype.UTEN_VEDTAK
+            ? {
+                  ...vurderinger,
+                  klagePart: VilkårStatus.IKKE_SATT,
+                  klageKonkret: VilkårStatus.IKKE_SATT,
+                  klageSignert: VilkårStatus.IKKE_SATT,
+                  klagefristOverholdt: VilkårStatus.IKKE_SATT,
+                  klagefristOverholdtUnntak: FormkravFristUnntak.IKKE_SATT,
+              }
+            : vurderinger;
+
+    const alleVilkårErOppfylt = alleVilkårOppfylt(tilbakestillFormkrav);
+
+    const tilbakestillFritekstfelter = alleVilkårErOppfylt
+        ? { ...tilbakestillFormkrav, saksbehandlerBegrunnelse: '', brevtekst: undefined }
+        : tilbakestillFormkrav;
 
     const tilbakestillUnntak =
         vurderinger.klagefristOverholdt === VilkårStatus.OPPFYLT

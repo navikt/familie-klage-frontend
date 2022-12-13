@@ -3,12 +3,12 @@ import styled from 'styled-components';
 import { NavdsGlobalColorPurple500 } from '@navikt/ds-tokens/dist/tokens';
 import BrukerMedBlyant from '../../../Felles/Ikoner/BrukerMedBlyant';
 import {
+    formkravFristUnntakTilTekst,
     IFormalkrav,
     IFormkravVilkår,
     Redigeringsmodus,
     VilkårStatus,
     vilkårStatusTilTekst,
-    formkravFristUnntakTilTekst,
 } from './typer';
 import { useBehandling } from '../../../App/context/BehandlingContext';
 import { Alert, BodyShort, Button, Heading, Label } from '@navikt/ds-react';
@@ -27,9 +27,9 @@ import {
     alleVilkårOppfylt,
     begrunnelseUtfylt,
     brevtekstUtfylt,
+    klagefristUnntakTattStillingTil,
     påKlagetVedtakValgt,
     utledIkkeUtfylteVilkår,
-    klagefristUnntakTattStillingTil,
 } from './validerFormkravUtils';
 import { FagsystemVedtak } from '../../../App/typer/fagsystemVedtak';
 
@@ -161,12 +161,22 @@ export const VisFormkravVurderinger: React.FC<IProps> = ({
     const manglerFritekster = !harBrevtekst || !harBegrunnelse;
     const ikkeUtfylteVilkår = utledIkkeUtfylteVilkår(vurderinger);
     const unntakFormalkravTattStillingTil = klagefristUnntakTattStillingTil(vurderinger);
+    const ikkePåklagetVedtak =
+        vurderinger.påklagetVedtak.påklagetVedtakstype === PåklagetVedtakstype.UTEN_VEDTAK;
 
-    const manglerUtfylling =
-        ikkeUtfylteVilkår.length > 0 ||
-        !unntakFormalkravTattStillingTil ||
-        !påKlagetVedtakErValgt ||
-        (!alleVilkårErOppfylt && manglerFritekster);
+    const utledManglerUtfylling = () => {
+        if (ikkePåklagetVedtak) {
+            return manglerFritekster;
+        }
+        return (
+            ikkeUtfylteVilkår.length > 0 ||
+            !unntakFormalkravTattStillingTil ||
+            !påKlagetVedtakErValgt ||
+            (!alleVilkårErOppfylt && manglerFritekster)
+        );
+    };
+
+    const manglerUtfylling = utledManglerUtfylling();
 
     const utledUrlSuffiks = (): string => {
         if (!behandlingErRedigerbar) {
@@ -185,6 +195,8 @@ export const VisFormkravVurderinger: React.FC<IProps> = ({
     const gjelderInfotrygd = påklagetVedtakstype === PåklagetVedtakstype.INFOTRYGD_TILBAKEKREVING;
 
     const urlSuffiks = utledUrlSuffiks();
+
+    const skalViseBegrunnelseOgBrevtekst = !alleVilkårErOppfylt || ikkePåklagetVedtak;
 
     return (
         <VisFormkravContainer>
@@ -241,27 +253,31 @@ export const VisFormkravVurderinger: React.FC<IProps> = ({
                         )}
                     </Svar>
                 </SvarElement>
-                {radioKnapper.map((knapp: IFormalkrav, index) => (
+                {!ikkePåklagetVedtak && (
                     <>
-                        <SvarElement key={index}>
-                            <Spørsmål>{knapp.spørsmål}</Spørsmål>
-                            <Svar>{vilkårStatusTilTekst[knapp.svar]}</Svar>
-                        </SvarElement>
-                        {skalViseKlagefristUnntak(knapp) && (
-                            <SvarElement key={'unntaksvilkår'}>
-                                <Spørsmål>Er unntak for klagefristen oppfylt?</Spørsmål>
-                                <Svar>
-                                    {
-                                        formkravFristUnntakTilTekst[
-                                            vurderinger.klagefristOverholdtUnntak
-                                        ]
-                                    }
-                                </Svar>
-                            </SvarElement>
-                        )}
+                        {radioKnapper.map((knapp: IFormalkrav, index) => (
+                            <>
+                                <SvarElement key={index}>
+                                    <Spørsmål>{knapp.spørsmål}</Spørsmål>
+                                    <Svar>{vilkårStatusTilTekst[knapp.svar]}</Svar>
+                                </SvarElement>
+                                {skalViseKlagefristUnntak(knapp) && (
+                                    <SvarElement key={'unntaksvilkår'}>
+                                        <Spørsmål>Er unntak for klagefristen oppfylt?</Spørsmål>
+                                        <Svar>
+                                            {
+                                                formkravFristUnntakTilTekst[
+                                                    vurderinger.klagefristOverholdtUnntak
+                                                ]
+                                            }
+                                        </Svar>
+                                    </SvarElement>
+                                )}
+                            </>
+                        ))}
                     </>
-                ))}
-                {!alleVilkårErOppfylt && (
+                )}
+                {skalViseBegrunnelseOgBrevtekst && (
                     <>
                         <SvarElement>
                             <Spørsmål>Begrunnelse (intern)</Spørsmål>
