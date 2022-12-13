@@ -17,6 +17,8 @@ import PdfVisning from './PdfVisning';
 import { ModalWrapper } from '../../../Felles/Modal/ModalWrapper';
 import SystemetLaster from '../../../Felles/SystemetLaster/SystemetLaster';
 import BrevMottakere from '../Brevmottakere/BrevMottakere';
+import { useToggles } from '../../../App/context/TogglesContext';
+import { ToggleName } from '../../../App/context/toggles';
 
 const Brevside = styled.div`
     background-color: var(--navds-semantic-color-canvas-background);
@@ -61,6 +63,7 @@ export const Brev: React.FC<IBrev> = ({ behandlingId }) => {
     const navigate = useNavigate();
 
     const { axiosRequest } = useApp();
+    const { toggles } = useToggles();
     const [senderInn, settSenderInn] = useState<boolean>(false);
     const [visModal, settVisModal] = useState<boolean>(false);
     const [feilmelding, settFeilmelding] = useState('');
@@ -190,11 +193,20 @@ export const Brev: React.FC<IBrev> = ({ behandlingId }) => {
             <>
                 {behandlingErRedigerbar && (
                     <AlertContainer>
-                        <Alert variant={'info'}>
-                            Resultatet av klagebehandlingen er at påklaget vedtak skal omgjøres. Du
-                            kan nå ferdigstille klagebehandlingen og en revurderingsbehandling for å
-                            fatte nytt vedtak blir automatisk opprettet.
-                        </Alert>
+                        {toggles[ToggleName.skalViseOpprettRevurdering] ? (
+                            <Alert variant={'info'}>
+                                Resultatet av klagebehandlingen er at påklaget vedtak skal omgjøres.
+                                Du kan nå ferdigstille klagebehandlingen og en
+                                revurderingsbehandling for å fatte nytt vedtak blir automatisk
+                                opprettet.
+                            </Alert>
+                        ) : (
+                            <Alert variant={'info'}>
+                                Resultatet av klagebehandlingen er at påklaget vedtak skal omgjøres.
+                                Du kan nå ferdigstille klagebehandlingen og opprette en revurdering
+                                for å fatte nytt vedtak.
+                            </Alert>
+                        )}
                         <StyledKnapp onClick={() => settVisModal(true)}>Ferdigstill</StyledKnapp>
                     </AlertContainer>
                 )}
