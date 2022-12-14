@@ -312,19 +312,25 @@ export const VisFormkravVurderinger: React.FC<IProps> = ({
                     <Label>Følgende vilkår er ikke utfylt:</Label>
                     <ul>
                         {!påKlagetVedtakErValgt && <li>Ikke valgt påklaget vedtak</li>}
-                        {ikkeUtfylteVilkår.map((vilkår) => {
-                            return (
-                                <li>
-                                    <BodyShort key={vilkår.navn}>{vilkår.spørsmål}</BodyShort>
-                                </li>
-                            );
-                        })}
-                        {!unntakFormalkravTattStillingTil && (
-                            <li>
-                                <BodyShort key="unntakFrist">
-                                    Unntak for ikke overholdt frist ikke utfylt
-                                </BodyShort>
-                            </li>
+                        {!ikkePåklagetVedtak && (
+                            <>
+                                {ikkeUtfylteVilkår.map((vilkår) => {
+                                    return (
+                                        <li>
+                                            <BodyShort key={vilkår.navn}>
+                                                {vilkår.spørsmål}
+                                            </BodyShort>
+                                        </li>
+                                    );
+                                })}
+                                {!unntakFormalkravTattStillingTil && (
+                                    <li>
+                                        <BodyShort key="unntakFrist">
+                                            Unntak for ikke overholdt frist ikke utfylt
+                                        </BodyShort>
+                                    </li>
+                                )}
+                            </>
                         )}
                         {!harBegrunnelse && <li>Begrunnelse er ikke utfylt</li>}
                         {!harBrevtekst && <li>Fritekst til brev er ikke utfylt</li>}
