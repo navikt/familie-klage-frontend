@@ -33,17 +33,17 @@ const KanOppretteRevurderingTekst: React.FC<{ kanOppretteRevurdering: KanOpprett
     if (kanOppretteRevurdering.kanOpprettes) {
         return (
             <Alert variant={'info'}>
-                Resultatet av klagebehandlingen er at påklaget vedtak skal omgjøres. Du kan nå
-                ferdigstille klagebehandlingen og en revurderingsbehandling for å fatte nytt vedtak
-                blir automatisk opprettet.
+                Resultatet av klagebehandlingen er at påklaget vedtak skal omgjøres. Når du
+                ferdigstiller klagebehandlingen vil det automatisk bli opprettet en
+                revurderingsbehandling.
             </Alert>
         );
     } else if (kanOppretteRevurdering.årsak === KanIkkeOppretteRevurderingÅrsak.ÅPEN_BEHANDLING) {
         return (
             <Alert variant={'warning'}>
-                Resultatet av klagebehandlingen er at påklaget vedtak skal omgjøres. En
-                revurderingsbehandling for å fatte nytt vedtak blir ikke automatisk opprettet da
-                bruker allerede har en åpen behandling.
+                Resultatet av klagebehandlingen er at påklaget vedtak skal omgjøres. Det vil ikke
+                bli opprettet en revurderingsbehandling automatisk fordi det allerede finnes en åpen
+                behandling på bruker.
             </Alert>
         );
     } else {
