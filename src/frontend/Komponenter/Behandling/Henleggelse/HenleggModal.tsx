@@ -15,7 +15,8 @@ const AlertStripe = styled(Alert)`
 `;
 
 export const HenleggModal: FC<{ behandling: Behandling }> = ({ behandling }) => {
-    const { visHenleggModal, settVisHenleggModal } = useBehandling();
+    const { visHenleggModal, settVisHenleggModal, hentBehandling, hentBehandlingshistorikk } =
+        useBehandling();
 
     const { axiosRequest, settToast } = useApp();
     const navigate = useNavigate();
@@ -42,6 +43,8 @@ export const HenleggModal: FC<{ behandling: Behandling }> = ({ behandling }) => 
             .then((respons: RessursSuksess<string> | RessursFeilet) => {
                 if (respons.status === RessursStatus.SUKSESS) {
                     lukkModal();
+                    hentBehandling.rerun();
+                    hentBehandlingshistorikk.rerun();
                     navigate(`/behandling/${behandling.id}/resultat`);
                     settToast(EToast.BEHANDLING_HENLAGT);
                 } else {
