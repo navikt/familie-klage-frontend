@@ -228,13 +228,13 @@ export const MedholdRevurdering: React.FC<{
         return (
             <>
                 <WarningColored width={36} height={36} />
+                <Label size={'small'}>Må manuelt opprettes</Label>
                 {fagsystemRevurdering && (
                     <Detail size="small">
                         Årsak:{' '}
                         {revurderingIkkeOpprettetÅrsak[fagsystemRevurdering.ikkeOpprettet.årsak]}
                     </Detail>
                 )}
-                <Label size={'small'}>Må manuellt opprettes</Label>
                 <Button
                     as={'a'}
                     variant={'secondary'}

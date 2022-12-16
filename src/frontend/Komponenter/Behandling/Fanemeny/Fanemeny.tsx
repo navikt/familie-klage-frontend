@@ -4,7 +4,12 @@ import styled from 'styled-components';
 import { alleSider, ISide, SideNavn } from './sider';
 import { Sticky } from '../../../Felles/Visningskomponenter/Sticky';
 import Fane from './Fane';
-import { Behandling, behandlingStegTilRekkefølge, StegType } from '../../../App/typer/fagsak';
+import {
+    Behandling,
+    BehandlingResultat,
+    behandlingStegTilRekkefølge,
+    StegType,
+} from '../../../App/typer/fagsak';
 import { useBehandling } from '../../../App/context/BehandlingContext';
 import { NavdsGlobalColorWhite, NavdsSemanticColorBorder } from '@navikt/ds-tokens/dist/tokens';
 
@@ -31,6 +36,9 @@ const Fanemeny: FC<Props> = ({ behandling }) => {
     const faneErLåst = (side: ISide, steg: StegType): boolean => {
         if (side.navn === SideNavn.VURDERING) {
             return !formkravOppfylt;
+        }
+        if (side.navn === SideNavn.BREV && behandling.resultat === BehandlingResultat.HENLAGT) {
+            return true;
         }
         return side.rekkefølge > behandlingStegTilRekkefølge[steg];
     };

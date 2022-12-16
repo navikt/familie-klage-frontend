@@ -66,7 +66,7 @@ export const harNoenRessursMedStatus = (
     ...status: RessursStatus[]
 ): boolean => ressurser.some((ressurs) => status.includes(ressurs.status));
 
-export const erAvTypeFeil = <T>(data: Ressurs<T>): boolean =>
+export const erAvTypeFeil = <T>(data: Ressurs<T>): data is RessursFeilet =>
     [RessursStatus.FEILET, RessursStatus.FUNKSJONELL_FEIL, RessursStatus.IKKE_TILGANG].includes(
         data.status
     );
