@@ -33,6 +33,7 @@ import {
 } from './utils';
 import KlagefristUnntak from './KlagefristUnntak';
 import { FagsystemVedtak } from '../../../App/typer/fagsystemVedtak';
+import { PåklagetVedtakstype } from '../../../App/typer/fagsak';
 
 const RadioGrupperContainer = styled.div`
     display: flex;
@@ -110,10 +111,7 @@ export const EndreFormkravVurderinger: React.FC<IProps> = ({
         }
         settOppdatererVurderinger(true);
 
-        const vurderingerSomSkalLagres = evaluerOmFelterSkalTilbakestilles(
-            vurderinger,
-            alleVilkårErOppfylt
-        );
+        const vurderingerSomSkalLagres = evaluerOmFelterSkalTilbakestilles(vurderinger);
 
         lagreVurderinger(vurderingerSomSkalLagres).then((res: Ressurs<IFormkravVilkår>) => {
             settOppdatererVurderinger(false);
@@ -133,6 +131,10 @@ export const EndreFormkravVurderinger: React.FC<IProps> = ({
         return type != EFormalKravType.KLAGEFRIST_OVERHOLDT;
     };
 
+    const skalViseBegrunnelseOgBrevtekst =
+        (!alleVilkårErOppfylt && alleVilkårUtfylt) ||
+        vurderinger.påklagetVedtak.påklagetVedtakstype === PåklagetVedtakstype.UTEN_VEDTAK;
+
     return (
         <form
             onSubmit={(event) => {
@@ -150,51 +152,56 @@ export const EndreFormkravVurderinger: React.FC<IProps> = ({
             </VedtakSelectContainer>
             {påKlagetVedtakValgt(vurderinger) && (
                 <>
-                    <RadioGrupperContainer>
-                        {radioKnapper.map((item: IFormalkrav, index) => (
-                            <>
-                                <FlexRow key={index}>
-                                    <RadioGruppe
-                                        legend={item.spørsmål}
-                                        size="medium"
-                                        onChange={(val: VilkårStatus) => {
-                                            settOppdaterteVurderinger(
-                                                (prevState: IFormkravVilkår) => {
-                                                    return {
-                                                        ...prevState,
-                                                        [item.navn]: val,
-                                                    } as IFormkravVilkår;
-                                                }
-                                            );
-                                            settIkkePersistertKomponent('formkravVilkår');
-                                        }}
-                                        value={item.svar}
-                                        key={index}
-                                    >
-                                        <RadioButton value={VilkårStatus.OPPFYLT}>Ja</RadioButton>
-                                        <RadioButton value={VilkårStatus.IKKE_OPPFYLT}>
-                                            Nei
-                                        </RadioButton>
-                                    </RadioGruppe>
+                    {vurderinger.påklagetVedtak.påklagetVedtakstype !==
+                        PåklagetVedtakstype.UTEN_VEDTAK && (
+                        <RadioGrupperContainer>
+                            {radioKnapper.map((item: IFormalkrav, index) => (
+                                <>
+                                    <FlexRow key={index}>
+                                        <RadioGruppe
+                                            legend={item.spørsmål}
+                                            size="medium"
+                                            onChange={(val: VilkårStatus) => {
+                                                settOppdaterteVurderinger(
+                                                    (prevState: IFormkravVilkår) => {
+                                                        return {
+                                                            ...prevState,
+                                                            [item.navn]: val,
+                                                        } as IFormkravVilkår;
+                                                    }
+                                                );
+                                                settIkkePersistertKomponent('formkravVilkår');
+                                            }}
+                                            value={item.svar}
+                                            key={index}
+                                        >
+                                            <RadioButton value={VilkårStatus.OPPFYLT}>
+                                                Ja
+                                            </RadioButton>
+                                            <RadioButton value={VilkårStatus.IKKE_OPPFYLT}>
+                                                Nei
+                                            </RadioButton>
+                                        </RadioGruppe>
 
-                                    {skalViseHjelpetekst(item.type) && (
-                                        <HelpTextContainer>
-                                            <HjelpeTekst>
-                                                <HelpTextInnhold formkrav={item.type} />
-                                            </HjelpeTekst>
-                                        </HelpTextContainer>
+                                        {skalViseHjelpetekst(item.type) && (
+                                            <HelpTextContainer>
+                                                <HjelpeTekst>
+                                                    <HelpTextInnhold formkrav={item.type} />
+                                                </HjelpeTekst>
+                                            </HelpTextContainer>
+                                        )}
+                                    </FlexRow>
+                                    {skalViseKlagefristUnntak(item) && (
+                                        <KlagefristUnntak
+                                            settOppdaterteVurderinger={settOppdaterteVurderinger}
+                                            unntakVurdering={vurderinger.klagefristOverholdtUnntak}
+                                        />
                                     )}
-                                </FlexRow>
-                                {skalViseKlagefristUnntak(item) && (
-                                    <KlagefristUnntak
-                                        settOppdaterteVurderinger={settOppdaterteVurderinger}
-                                        unntakVurdering={vurderinger.klagefristOverholdtUnntak}
-                                    />
-                                )}
-                            </>
-                        ))}
-                    </RadioGrupperContainer>
-                    {!alleVilkårErOppfylt && alleVilkårUtfylt && (
+                                </>
+                            ))}
+                        </RadioGrupperContainer>
+                    )}
+                    {skalViseBegrunnelseOgBrevtekst && (
                         <>
                             <Textarea
                                 label={'Begrunnelse (intern)'}
