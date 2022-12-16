@@ -81,15 +81,19 @@ export const skalViseKlagefristUnntak = (vilkår: IFormalkrav) => {
     return svar === VilkårStatus.IKKE_OPPFYLT && type === EFormalKravType.KLAGEFRIST_OVERHOLDT;
 };
 
+const tilbakestilteVilkår = {
+    klagePart: VilkårStatus.IKKE_SATT,
+    klageKonkret: VilkårStatus.IKKE_SATT,
+    klageSignert: VilkårStatus.IKKE_SATT,
+    klagefristOverholdt: VilkårStatus.IKKE_SATT,
+    klagefristOverholdtUnntak: FormkravFristUnntak.IKKE_SATT,
+};
+
 export const evaluerOmFelterSkalTilbakestilles = (vurderinger: IFormkravVilkår) => {
     if (vurderinger.påklagetVedtak.påklagetVedtakstype === PåklagetVedtakstype.IKKE_VALGT) {
         return {
             ...vurderinger,
-            klagePart: VilkårStatus.IKKE_SATT,
-            klageKonkret: VilkårStatus.IKKE_SATT,
-            klageSignert: VilkårStatus.IKKE_SATT,
-            klagefristOverholdt: VilkårStatus.IKKE_SATT,
-            klagefristOverholdtUnntak: FormkravFristUnntak.IKKE_SATT,
+            ...tilbakestilteVilkår,
             saksbehandlerBegrunnelse: undefined,
             brevtekst: undefined,
         };
@@ -99,11 +103,7 @@ export const evaluerOmFelterSkalTilbakestilles = (vurderinger: IFormkravVilkår)
         vurderinger.påklagetVedtak.påklagetVedtakstype === PåklagetVedtakstype.UTEN_VEDTAK
             ? {
                   ...vurderinger,
-                  klagePart: VilkårStatus.IKKE_SATT,
-                  klageKonkret: VilkårStatus.IKKE_SATT,
-                  klageSignert: VilkårStatus.IKKE_SATT,
-                  klagefristOverholdt: VilkårStatus.IKKE_SATT,
-                  klagefristOverholdtUnntak: FormkravFristUnntak.IKKE_SATT,
+                  ...tilbakestilteVilkår,
               }
             : vurderinger;
 
