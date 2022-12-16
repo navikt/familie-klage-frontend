@@ -69,3 +69,9 @@ export enum FagsystemType {
     ORDNIÆR = 'ORDNIÆR',
     TILBAKEKREVING = 'TILBAKEKREVING',
 }
+
+export enum VedtakType {
+    ORDINÆR = 'ORDINÆR',
+    TILBAKEKREVING = 'TILBAKEKREVING',
+    SANKSJON_1_MND = 'SANKSJON_1_MND',
+}

@@ -1,6 +1,6 @@
 import {
     EFormalKravType,
-    FagsystemType,
+    VedtakType,
     FormkravFristUnntak,
     IFormalkrav,
     IFormkravVilkår,
@@ -64,7 +64,7 @@ export const fagsystemVedtakTilVisningstekst = (vedtak: FagsystemVedtak) =>
     `${vedtak.behandlingstype} - ${vedtak.resultat} - ${vedtakstidspunktTilVisningstekst(vedtak)}`;
 
 export const vedtakstidspunktTilVisningstekst = (vedtak: FagsystemVedtak) =>
-    vedtak.fagsystemType === FagsystemType.TILBAKEKREVING
+    vedtak.vedtakType === VedtakType.TILBAKEKREVING
         ? formaterIsoDato(vedtak.vedtakstidspunkt)
         : formaterIsoDatoTid(vedtak.vedtakstidspunkt);
 
