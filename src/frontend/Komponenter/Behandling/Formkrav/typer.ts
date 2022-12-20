@@ -68,4 +68,5 @@ export enum Redigeringsmodus {
 export enum FagsystemType {
     ORDNIÆR = 'ORDNIÆR',
     TILBAKEKREVING = 'TILBAKEKREVING',
+    SANKSJON_1_MND = 'SANKSJON_1_MND',
 }
