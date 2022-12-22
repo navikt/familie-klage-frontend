@@ -52,6 +52,10 @@ export const VedtakSelect: React.FC<IProps> = ({
         }
     };
 
+    const skalViseDatovelger =
+        vurderinger.påklagetVedtak.påklagetVedtakstype ===
+            PåklagetVedtakstype.INFOTRYGD_TILBAKEKREVING ||
+        vurderinger.påklagetVedtak.påklagetVedtakstype === PåklagetVedtakstype.UTESTENGELSE;
     return (
         <SelectWrapper>
             <FamilieSelect
@@ -77,24 +81,26 @@ export const VedtakSelect: React.FC<IProps> = ({
                         {påklagetVedtakstypeTilTekst[PåklagetVedtakstype.INFOTRYGD_TILBAKEKREVING]}
                     </option>
                 )}
+                <option value={PåklagetVedtakstype.UTESTENGELSE}>
+                    {påklagetVedtakstypeTilTekst[PåklagetVedtakstype.UTESTENGELSE]}
+                </option>
                 <option value={PåklagetVedtakstype.UTEN_VEDTAK}>
                     {påklagetVedtakstypeTilTekst[PåklagetVedtakstype.UTEN_VEDTAK]}
                 </option>
             </FamilieSelect>
-            {vurderinger.påklagetVedtak.påklagetVedtakstype ===
-                PåklagetVedtakstype.INFOTRYGD_TILBAKEKREVING && (
+            {skalViseDatovelger && (
                 <DatoWrapper>
                     <Label htmlFor={'vedtaksdato'}>Vedtaksdato</Label>
                     <FamilieDatovelger
                         label={null}
                         id={'vedtaksdato'}
-                        valgtDato={vurderinger.påklagetVedtak.vedtaksdatoInfotrygd}
+                        valgtDato={vurderinger.påklagetVedtak.manuellVedtaksdato}
                         onChange={(dato) => {
                             settOppdaterteVurderinger((prevState) => ({
                                 ...prevState,
                                 påklagetVedtak: {
                                     ...prevState.påklagetVedtak,
-                                    vedtaksdatoInfotrygd: dato as string,
+                                    manuellVedtaksdato: dato as string,
                                 },
                             }));
                         }}

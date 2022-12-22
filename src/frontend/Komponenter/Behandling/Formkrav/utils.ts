@@ -4,9 +4,10 @@ import {
     FormkravFristUnntak,
     IFormalkrav,
     IFormkravVilkår,
+    PåklagetVedtak,
     VilkårStatus,
 } from './typer';
-import { PåklagetVedtak, PåklagetVedtakstype } from '../../../App/typer/fagsak';
+import { PåklagetVedtakstype } from '../../../App/typer/fagsak';
 import { compareDesc } from 'date-fns';
 import { formaterIsoDato, formaterIsoDatoTid } from '../../../App/utils/formatter';
 import { FagsystemVedtak } from '../../../App/typer/fagsystemVedtak';
@@ -72,7 +73,8 @@ export const erVedtakFraFagsystemet = (valgtElement: string) => {
     return !(
         valgtElement === PåklagetVedtakstype.UTEN_VEDTAK ||
         valgtElement === PåklagetVedtakstype.IKKE_VALGT ||
-        valgtElement === PåklagetVedtakstype.INFOTRYGD_TILBAKEKREVING
+        valgtElement === PåklagetVedtakstype.INFOTRYGD_TILBAKEKREVING ||
+        valgtElement === PåklagetVedtakstype.UTESTENGELSE
     );
 };
 

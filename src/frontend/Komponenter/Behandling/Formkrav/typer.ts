@@ -1,4 +1,5 @@
 import { PåklagetVedtakstype } from '../../../App/typer/fagsak';
+import { FagsystemVedtak } from '../../../App/typer/fagsystemVedtak';
 
 export enum VilkårStatus {
     OPPFYLT = 'OPPFYLT',
@@ -56,7 +57,9 @@ export interface IFormkravVilkår {
 export interface PåklagetVedtak {
     eksternFagsystemBehandlingId?: string;
     påklagetVedtakstype: PåklagetVedtakstype;
+    fagsystemVedtak?: FagsystemVedtak;
     vedtaksdatoInfotrygd?: string;
+    manuellVedtaksdato?: string;
 }
 
 export enum Redigeringsmodus {

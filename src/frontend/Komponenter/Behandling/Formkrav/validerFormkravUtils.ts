@@ -18,8 +18,11 @@ export const alleVurderingerErStatus = (
 
 export const påKlagetVedtakValgt = (vurderinger: IFormkravVilkår) => {
     const valgtVedtakstype = vurderinger.påklagetVedtak.påklagetVedtakstype;
-    if (valgtVedtakstype === PåklagetVedtakstype.INFOTRYGD_TILBAKEKREVING) {
-        return harVerdi(vurderinger.påklagetVedtak.vedtaksdatoInfotrygd);
+    if (
+        valgtVedtakstype === PåklagetVedtakstype.INFOTRYGD_TILBAKEKREVING ||
+        valgtVedtakstype === PåklagetVedtakstype.UTESTENGELSE
+    ) {
+        return harVerdi(vurderinger.påklagetVedtak.manuellVedtaksdato);
     }
     return valgtVedtakstype !== PåklagetVedtakstype.IKKE_VALGT;
 };
