@@ -41,13 +41,13 @@ const rollerProd: Roller = {
 const lenkerDev: Eksternlenker = {
     efSakUrl: 'https://ensligmorellerfar.dev.intern.nav.no/ekstern',
     baSakUrl: 'https://barnetrygd.dev.intern.nav.no',
-    ksSakUrl: 'https://ks.dev.intern.nav.no',
+    ksSakUrl: 'https://kontantstotte.dev.intern.nav.no',
 };
 
 const lenkerProd: Eksternlenker = {
     efSakUrl: 'https://ensligmorellerfar.intern.nav.no/ekstern',
     baSakUrl: 'https://barnetrygd.intern.nav.no',
-    ksSakUrl: 'https://ks.intern.nav.no',
+    ksSakUrl: 'https://kontantstotte.intern.nav.no',
 };
 
 const lenkerLocal: Eksternlenker = {
