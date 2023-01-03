@@ -58,7 +58,6 @@ export interface PåklagetVedtak {
     eksternFagsystemBehandlingId?: string;
     påklagetVedtakstype: PåklagetVedtakstype;
     fagsystemVedtak?: FagsystemVedtak;
-    vedtaksdatoInfotrygd?: string;
     manuellVedtaksdato?: string;
 }
 

@@ -192,7 +192,7 @@ export const VisFormkravVurderinger: React.FC<IProps> = ({
         fagsystemVedtak,
         vurderinger.påklagetVedtak
     );
-    const gjelderInfotrygdEllerUtestengelse =
+    const harInntastetVedtaksdato =
         påklagetVedtakstype === PåklagetVedtakstype.INFOTRYGD_TILBAKEKREVING ||
         påklagetVedtakstype === PåklagetVedtakstype.UTESTENGELSE;
 
@@ -247,7 +247,7 @@ export const VisFormkravVurderinger: React.FC<IProps> = ({
                             <div>
                                 <div>{påklagetVedtakstypeTilTekst[påklagetVedtakstype]}</div>
                                 <div>
-                                    {gjelderInfotrygdEllerUtestengelse
+                                    {harInntastetVedtaksdato
                                         ? formaterNullableIsoDato(manuellVedtaksdato)
                                         : ''}
                                 </div>

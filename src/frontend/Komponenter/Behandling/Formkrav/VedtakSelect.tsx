@@ -52,7 +52,7 @@ export const VedtakSelect: React.FC<IProps> = ({
         }
     };
 
-    const skalViseDatovelger =
+    const saksbehandlerSkalSetteDato =
         vurderinger.påklagetVedtak.påklagetVedtakstype ===
             PåklagetVedtakstype.INFOTRYGD_TILBAKEKREVING ||
         vurderinger.påklagetVedtak.påklagetVedtakstype === PåklagetVedtakstype.UTESTENGELSE;
@@ -88,7 +88,7 @@ export const VedtakSelect: React.FC<IProps> = ({
                     {påklagetVedtakstypeTilTekst[PåklagetVedtakstype.UTEN_VEDTAK]}
                 </option>
             </FamilieSelect>
-            {skalViseDatovelger && (
+            {saksbehandlerSkalSetteDato && (
                 <DatoWrapper>
                     <Label htmlFor={'vedtaksdato'}>Vedtaksdato</Label>
                     <FamilieDatovelger
