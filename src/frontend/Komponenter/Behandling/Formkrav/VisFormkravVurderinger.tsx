@@ -119,7 +119,7 @@ export const VisFormkravVurderinger: React.FC<IProps> = ({
     vurderinger,
 }) => {
     const { behandlingErRedigerbar, hentBehandling, hentBehandlingshistorikk } = useBehandling();
-    const { påklagetVedtakstype, vedtaksdatoInfotrygd } = vurderinger.påklagetVedtak;
+    const { påklagetVedtakstype, manuellVedtaksdato } = vurderinger.påklagetVedtak;
     const navigate = useNavigate();
     const [nullstillerVurderinger, settNullstillerVurderinger] = useState<boolean>(false);
 
@@ -192,7 +192,9 @@ export const VisFormkravVurderinger: React.FC<IProps> = ({
         fagsystemVedtak,
         vurderinger.påklagetVedtak
     );
-    const gjelderInfotrygd = påklagetVedtakstype === PåklagetVedtakstype.INFOTRYGD_TILBAKEKREVING;
+    const harInntastetVedtaksdato =
+        påklagetVedtakstype === PåklagetVedtakstype.INFOTRYGD_TILBAKEKREVING ||
+        påklagetVedtakstype === PåklagetVedtakstype.UTESTENGELSE;
 
     const urlSuffiks = utledUrlSuffiks();
 
@@ -245,8 +247,8 @@ export const VisFormkravVurderinger: React.FC<IProps> = ({
                             <div>
                                 <div>{påklagetVedtakstypeTilTekst[påklagetVedtakstype]}</div>
                                 <div>
-                                    {gjelderInfotrygd
-                                        ? formaterNullableIsoDato(vedtaksdatoInfotrygd)
+                                    {harInntastetVedtaksdato
+                                        ? formaterNullableIsoDato(manuellVedtaksdato)
                                         : ''}
                                 </div>
                             </div>

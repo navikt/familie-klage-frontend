@@ -1,6 +1,6 @@
 import { Stønadstype } from './behandlingstema';
 import { BehandlingStatus } from './behandlingstatus';
-import { FagsystemVedtak } from './fagsystemVedtak';
+import { PåklagetVedtak } from '../../Komponenter/Behandling/Formkrav/typer';
 
 export enum Fagsystem {
     EF = 'EF',
@@ -66,18 +66,12 @@ export interface Behandling {
     fagsystemRevurdering?: FagsystemRevurdering;
 }
 
-export interface PåklagetVedtak {
-    eksternFagsystemBehandlingId?: string;
-    påklagetVedtakstype: PåklagetVedtakstype;
-    fagsystemVedtak?: FagsystemVedtak;
-    vedtaksdatoInfotrygd?: string;
-}
-
 export enum PåklagetVedtakstype {
     VEDTAK = 'VEDTAK',
     INFOTRYGD_TILBAKEKREVING = 'INFOTRYGD_TILBAKEKREVING',
     UTEN_VEDTAK = 'UTEN_VEDTAK',
     IKKE_VALGT = 'IKKE_VALGT',
+    UTESTENGELSE = 'UTESTENGELSE',
 }
 
 export const påklagetVedtakstypeTilTekst: Record<PåklagetVedtakstype, string> = {
@@ -85,6 +79,7 @@ export const påklagetVedtakstypeTilTekst: Record<PåklagetVedtakstype, string> 
     INFOTRYGD_TILBAKEKREVING: 'Tilbakekreving i Infotrygd',
     UTEN_VEDTAK: 'Har ikke klaget på et vedtak',
     VEDTAK: 'Vedtak',
+    UTESTENGELSE: 'Utestengelse',
 };
 
 export enum BehandlingResultat {
