@@ -6,9 +6,16 @@ import {
     isAfter,
     isBefore,
     isEqual,
+    isValid,
     parse,
     parseISO,
 } from 'date-fns';
+
+const REGEX_YYYYMMDD = /^\d{4}-\d{2}-\d{2}$/;
+const erGyldigFormat = (verdi: string): boolean => REGEX_YYYYMMDD.test(verdi);
+
+export const erGyldigDato = (dato: string | Date): boolean =>
+    typeof dato === 'string' ? erGyldigFormat(dato) && isValid(tilDato(dato)) : isValid(dato);
 
 export const plusMåneder = (date: Date, antall: number): Date => addMonths(date, antall);
 
