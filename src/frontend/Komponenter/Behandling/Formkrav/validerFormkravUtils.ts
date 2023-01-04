@@ -2,6 +2,7 @@ import { FormkravFristUnntak, IFormkravVilkår, Redigeringsmodus, VilkårStatus 
 import { PåklagetVedtakstype } from '../../../App/typer/fagsak';
 import { harVerdi } from '../../../App/utils/utils';
 import { utledRadioKnapper } from './utils';
+import { erGyldigDato } from '../../../App/utils/dato';
 
 export const alleVurderingerErStatus = (
     formkravVurdering: IFormkravVilkår,
@@ -22,7 +23,8 @@ export const påKlagetVedtakValgt = (vurderinger: IFormkravVilkår) => {
         valgtVedtakstype === PåklagetVedtakstype.INFOTRYGD_TILBAKEKREVING ||
         valgtVedtakstype === PåklagetVedtakstype.UTESTENGELSE
     ) {
-        return harVerdi(vurderinger.påklagetVedtak.manuellVedtaksdato);
+        const manuellVedtaksdato = vurderinger.påklagetVedtak.manuellVedtaksdato;
+        return manuellVedtaksdato && erGyldigDato(manuellVedtaksdato);
     }
     return valgtVedtakstype !== PåklagetVedtakstype.IKKE_VALGT;
 };
