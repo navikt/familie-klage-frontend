@@ -3,7 +3,7 @@ import { FC, useEffect } from 'react';
 import Høyremeny from './Høyremeny/Høyremeny';
 import styled from 'styled-components';
 import Fanemeny from './Fanemeny/Fanemeny';
-import { NavdsSemanticColorBorder } from '@navikt/ds-tokens/dist/tokens';
+import { ABorderStrong } from '@navikt/ds-tokens/dist/tokens';
 import BehandlingRoutes from './BehandlingRoutes';
 import { BehandlingProvider, useBehandling } from '../../App/context/BehandlingContext';
 import VisittkortComponent from '../../Felles/Visittkort/Visittkort';
@@ -27,7 +27,7 @@ interface HøyreMenyWrapperProps {
 }
 
 const HøyreMenyWrapper = styled.div<HøyreMenyWrapperProps>`
-    border-left: 2px solid ${NavdsSemanticColorBorder};
+    border-left: 2px solid ${ABorderStrong};
     flex-shrink: 1;
     flex-grow: 0;
     width: ${(p) => (p.åpenHøyremeny ? '20rem' : '1.5rem')};
