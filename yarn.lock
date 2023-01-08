@@ -2876,6 +2876,11 @@
   resolved "https://npm.pkg.github.com/download/@navikt/familie-typer/5.0.1/0562e4bd7600a44dd6ba997605519621f0c0905d#0562e4bd7600a44dd6ba997605519621f0c0905d"
   integrity sha512-8wyYpZN2R+MI7Z1lXNm00yGF2HLtgnZBf0LmA6IlEWqOc/LPYrzFbyHguNarTVLOpOzuzqGJ/gfY4E9Si0Y/9g==
 
+"@navikt/familie-typer@^8.0.0":
+  version "8.0.0"
+  resolved "https://npm.pkg.github.com/download/@navikt/familie-typer/8.0.0/f950131d30a4561cba4e35e262d5b71874d7abe0#f950131d30a4561cba4e35e262d5b71874d7abe0"
+  integrity sha512-+Lt3+u8CNvCaNN3pnaodWq+NE8sHWyJ/bXWYj1fgKHLY9/WnJCQDrhHiHy3xAwJM1HSkfrmApwRZnwOqywG5MA==
+
 "@navikt/familie-validering@^2.0.3":
   version "2.0.3"
   resolved "https://npm.pkg.github.com/download/@navikt/familie-validering/2.0.3/b3132696def41cea02fd71d79d97194bdeccc753#b3132696def41cea02fd71d79d97194bdeccc753"
