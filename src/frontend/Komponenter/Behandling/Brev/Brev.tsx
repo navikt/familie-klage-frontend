@@ -20,7 +20,7 @@ import BrevMottakere from '../Brevmottakere/BrevMottakere';
 import { OmgjørVedtak } from './OmgjørVedtak';
 
 const Brevside = styled.div`
-    background-color: var(--navds-semantic-color-canvas-background);
+    background-color: var(--a-bg-subtle);
     padding: 2rem 2rem 0 2rem;
 `;
 

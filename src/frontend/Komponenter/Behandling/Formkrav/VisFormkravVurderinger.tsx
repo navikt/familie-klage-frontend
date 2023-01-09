@@ -1,6 +1,6 @@
 import React, { Dispatch, SetStateAction, useState } from 'react';
 import styled from 'styled-components';
-import { NavdsGlobalColorPurple500 } from '@navikt/ds-tokens/dist/tokens';
+import { APurple500 } from '@navikt/ds-tokens/dist/tokens';
 import BrukerMedBlyant from '../../../Felles/Ikoner/BrukerMedBlyant';
 import {
     formkravFristUnntakTilTekst,
@@ -56,7 +56,7 @@ const SpørsmålContainer = styled.div`
     display: flex;
     flex-direction: column;
     width: 100%;
-    border-left: 0.4rem solid ${NavdsGlobalColorPurple500};
+    border-left: 0.4rem solid ${APurple500};
     padding-left: 2rem;
 `;
 

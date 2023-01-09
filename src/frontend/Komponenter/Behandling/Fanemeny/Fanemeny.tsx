@@ -11,7 +11,7 @@ import {
     StegType,
 } from '../../../App/typer/fagsak';
 import { useBehandling } from '../../../App/context/BehandlingContext';
-import { NavdsGlobalColorWhite, NavdsSemanticColorBorder } from '@navikt/ds-tokens/dist/tokens';
+import { AWhite, ABorderStrong } from '@navikt/ds-tokens/dist/tokens';
 
 const StickyMedBoxShadow = styled(Sticky)`
     box-shadow: 0 2px 5px rgba(0, 0, 0, 0.4);
@@ -23,8 +23,8 @@ const StyledFanemeny = styled.div`
     display: flex;
     justify-content: space-evenly;
     align-items: center;
-    border-bottom: ${NavdsSemanticColorBorder} solid 2px;
-    background-color: ${NavdsGlobalColorWhite};
+    border-bottom: ${ABorderStrong} solid 2px;
+    background-color: ${AWhite};
 `;
 
 interface Props {

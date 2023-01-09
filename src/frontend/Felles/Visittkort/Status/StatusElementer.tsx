@@ -6,7 +6,7 @@ import { behandlingStatusTilTekst } from '../../../App/typer/behandlingstatus';
 import { formaterIsoDatoTid } from '../../../App/utils/formatter';
 import styled from 'styled-components';
 import { stønadstypeTilTekst } from '../../../App/typer/behandlingstema';
-import { NavdsSemanticColorText, NavdsSemanticColorTextMuted } from '@navikt/ds-tokens/dist/tokens';
+import { ATextDefault, ATextSubtle } from '@navikt/ds-tokens/dist/tokens';
 import { utledBehandlingLenke, utledSaksoversiktLenke } from '../../../App/utils/utils';
 import { useApp } from '../../../App/context/AppContext';
 import { utledTekstForBehandlingsresultat } from '../../../Komponenter/Behandling/Resultat/utils';
@@ -20,7 +20,7 @@ interface StatusProps {
 }
 
 export const GråTekst = styled(BodyShort)`
-    color: ${NavdsSemanticColorTextMuted};
+    color: ${ATextSubtle};
 `;
 
 const StatusMenyInnhold = styled.div`
@@ -54,7 +54,7 @@ const StatusMenyInnhold = styled.div`
 `;
 
 const VisStatuserKnapp = styled(Button)`
-    color: ${NavdsSemanticColorText};
+    color: ${ATextDefault};
 `;
 
 const VisStønadOgBehandlingstypePåLitenSkjerm = styled.div`

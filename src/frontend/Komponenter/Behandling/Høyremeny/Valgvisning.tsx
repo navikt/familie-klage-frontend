@@ -1,11 +1,11 @@
 import * as React from 'react';
 import styled from 'styled-components';
 import {
-    NavdsGlobalColorBlue400,
-    NavdsGlobalColorGray100,
-    NavdsSemanticColorBorder,
-    NavdsSemanticColorFeedbackInfoIcon,
-    NavdsSemanticColorLink,
+    ABlue400,
+    AGray100,
+    ABorderStrong,
+    AIconInfo,
+    ATextAction,
 } from '@navikt/ds-tokens/dist/tokens';
 import { Høyremenyvalg } from './Høyremeny';
 import { Folder, ClockFilled } from '@navikt/ds-icons';
@@ -16,7 +16,7 @@ const StyledIkonWrapper = styled.div`
     display: flex;
     justify-content: space-evenly;
     align-items: center;
-    border-bottom: ${NavdsSemanticColorBorder} solid 2px;
+    border-bottom: ${ABorderStrong} solid 2px;
     text-align: center;
     .typo-normal {
         font-size: 12px;
@@ -32,17 +32,17 @@ const StyledIkon = styled.div<IkonProps>`
     flex: 1;
     padding-top: 1rem;
     padding-bottom: 0.62rem;
-    background-color: ${NavdsSemanticColorFeedbackInfoIcon};
-    color: ${NavdsSemanticColorLink};
+    background-color: ${AIconInfo};
+    color: ${ATextAction};
     :hover {
         cursor: pointer;
         svg {
-            fill: ${NavdsGlobalColorBlue400};
+            fill: ${ABlue400};
         }
-        border-bottom: 5px solid ${NavdsGlobalColorBlue400};
+        border-bottom: 5px solid ${ABlue400};
     }
-    background-color: ${(props) => (props.erAktiv ? NavdsGlobalColorGray100 : 'white')};
-    border-bottom: 5px solid ${(props) => (props.erAktiv ? NavdsGlobalColorBlue400 : 'white')};
+    background-color: ${(props) => (props.erAktiv ? AGray100 : 'white')};
+    border-bottom: 5px solid ${(props) => (props.erAktiv ? ABlue400 : 'white')};
 `;
 
 interface ValgvisningProps {
