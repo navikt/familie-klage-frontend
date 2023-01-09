@@ -96,7 +96,7 @@ export const VedtakSelect: React.FC<IProps> = ({
                     <FamilieDatovelger
                         label={null}
                         id={'vedtaksdato'}
-                        valgtDato={manuellVedtaksdato}
+                        value={manuellVedtaksdato}
                         onChange={(dato) => {
                             settOppdaterteVurderinger((prevState) => ({
                                 ...prevState,
