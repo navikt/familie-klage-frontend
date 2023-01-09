@@ -1,12 +1,7 @@
 import * as React from 'react';
 import styled from 'styled-components';
 import { NavLink } from 'react-router-dom';
-import {
-    NavdsGlobalColorBlue400,
-    NavdsGlobalColorGray100,
-    NavdsGlobalColorGray400,
-    NavdsSemanticColorLink,
-} from '@navikt/ds-tokens/dist/tokens';
+import { ABlue400, AGray100, AGray400, ATextAction } from '@navikt/ds-tokens/dist/tokens';
 import { ISide } from './sider';
 import { useApp } from '../../../App/context/AppContext';
 import { BodyShort } from '@navikt/ds-react';
@@ -25,14 +20,14 @@ const StyledNavLink = styled(NavLink)`
     padding-left: 5px;
     padding-right: 5px;
     :hover {
-        border-bottom: 5px solid ${NavdsGlobalColorBlue400};
+        border-bottom: 5px solid ${ABlue400};
         p {
-            color: ${NavdsSemanticColorLink};
+            color: ${ATextAction};
         }
     }
     &.active {
-        background-color: ${NavdsGlobalColorGray100};
-        border-bottom: 5px solid ${NavdsSemanticColorLink};
+        background-color: ${AGray100};
+        border-bottom: 5px solid ${ATextAction};
 
         .typo-normal {
             font-weight: bold;
@@ -48,7 +43,7 @@ const StyledLenketekst = styled(BodyShort)`
 
 const StyledTekst = styled(BodyShort)`
     border-bottom: 5px solid white;
-    color: ${NavdsGlobalColorGray400};
+    color: ${AGray400};
     text-align: center;
     text-decoration: none;
     width: 100%;

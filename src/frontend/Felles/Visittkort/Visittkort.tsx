@@ -3,7 +3,7 @@ import { IPersonopplysninger } from '../../App/typer/personopplysninger';
 import Visittkort from '@navikt/familie-visittkort';
 import styled from 'styled-components';
 import { Behandling } from '../../App/typer/fagsak';
-import { NavdsSemanticColorBorder } from '@navikt/ds-tokens/dist/tokens';
+import { ABorderStrong } from '@navikt/ds-tokens/dist/tokens';
 import { Sticky } from '../Visningskomponenter/Sticky';
 import { Hamburgermeny } from './Hamburgermeny';
 import { erBehandlingRedigerbar } from '../../App/typer/behandlingstatus';
@@ -24,7 +24,7 @@ const Visningsnavn = styled.div`
 export const VisittkortWrapper = styled(Sticky)`
     display: flex;
 
-    border-bottom: 1px solid ${NavdsSemanticColorBorder};
+    border-bottom: 1px solid ${ABorderStrong};
     z-index: 22;
     top: 47px;
 

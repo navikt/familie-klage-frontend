@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { NavdsSemanticColorBorder } from '@navikt/ds-tokens/dist/tokens';
+import { ABorderStrong } from '@navikt/ds-tokens/dist/tokens';
 import { BodyShort, Detail, Label } from '@navikt/ds-react';
 import styled from 'styled-components';
 import { formaterIsoDatoTid } from '../../../App/utils/formatter';
@@ -17,7 +17,7 @@ const Ikon = styled.div`
 `;
 
 const StipletLinje = styled.div`
-    border-left: 0.15rem dotted ${NavdsSemanticColorBorder};
+    border-left: 0.15rem dotted ${ABorderStrong};
     margin-top: 0.5rem;
     margin-left: 0.75rem;
     height: 1.5rem;
