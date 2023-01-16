@@ -2,7 +2,7 @@ import * as React from 'react';
 import styled from 'styled-components';
 import { BodyLong, BodyShort, Heading } from '@navikt/ds-react';
 import {
-    hjemmelTilTekst,
+    alleHjemlerTilVisningstekst,
     IVurdering,
     VedtakValg,
     vedtakValgTilTekst,
@@ -83,7 +83,7 @@ const OpprettholdVedtak: React.FC<{ vurdering: IVurdering }> = ({ vurdering }) =
                     <Heading level="1" size="medium">
                         Årsak
                     </Heading>
-                    <BodyShort>{hjemmelTilTekst[hjemmel]}</BodyShort>
+                    <BodyShort>{alleHjemlerTilVisningstekst[hjemmel]}</BodyShort>
                 </Avsnitt>
             )}
             {innstillingKlageinstans && (
