@@ -12,7 +12,7 @@ import {
 } from './hjemmel';
 import { useBehandling } from '../../../App/context/BehandlingContext';
 import { RessursStatus } from '../../../App/typer/ressurs';
-import { Stønadstype } from '../../../App/typer/behandlingstema';
+import { Stønadstype } from '../../../App/typer/stønadstype';
 
 const HjemmelStyled = styled.div`
     margin: 2rem 4rem 2rem 4rem;
