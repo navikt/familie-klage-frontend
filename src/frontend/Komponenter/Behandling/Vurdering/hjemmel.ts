@@ -83,8 +83,8 @@ const kontantstøttelovenVisningstekster: Record<KontantstøttelovenHjemmel, str
 
 const utlandsavtalerHjemmelVisningstekster: Record<UtlandsavtalerHjemmel, string> = {
     UTLAND_EØS: 'EØS-avtalen',
-    UTLAND_EØS_FORORDNINGEN_FEM: 'EØS art. 5',
-    UTLAND_EØS_FORORDNINGEN_SEKS: 'EØS art. 6',
+    UTLAND_EØS_FORORDNINGEN_FEM: 'EØS-forordningen art. 5',
+    UTLAND_EØS_FORORDNINGEN_SEKS: 'EØS-forordningen art. 6',
     UTLAND_NORDISK: 'Nordisk konvensjon',
     UTLAND_TRYGDEAVTALER: 'Trygdeavtaler',
 };
