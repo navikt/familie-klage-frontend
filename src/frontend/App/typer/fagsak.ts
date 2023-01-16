@@ -1,4 +1,4 @@
-import { Stønadstype } from './behandlingstema';
+import { Stønadstype } from './stønadstype';
 import { BehandlingStatus } from './behandlingstatus';
 import { PåklagetVedtak } from '../../Komponenter/Behandling/Formkrav/typer';
 

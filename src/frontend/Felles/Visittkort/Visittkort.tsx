@@ -13,7 +13,7 @@ import PersonStatusVarsel from '../Varsel/PersonStatusVarsel';
 import AdressebeskyttelseVarsel from '../Varsel/AdressebeskyttelseVarsel';
 import { EtikettFokus, EtikettSuksess } from '../Varsel/Etikett';
 import { erEtterDagensDato } from '../../App/utils/dato';
-import { stønadstypeTilTekstKort } from '../../App/typer/behandlingstema';
+import { stønadstypeTilTekstKort } from '../../App/typer/stønadstype';
 
 const Visningsnavn = styled.div`
     text-overflow: ellipsis;
