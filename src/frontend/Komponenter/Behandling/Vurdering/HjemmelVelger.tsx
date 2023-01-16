@@ -2,14 +2,14 @@ import * as React from 'react';
 import { Heading, Select } from '@navikt/ds-react';
 import styled from 'styled-components';
 import { Dispatch, SetStateAction } from 'react';
+import { IVurdering } from './vurderingValg';
 import {
     Hjemmel,
-    IVurdering,
     alleHjemlerTilVisningstekst,
     folketrygdHjemmelTilVisningstekst,
     baHjemlerTilVisningstekst,
     ksHjemlerTilVisningstekst,
-} from './vurderingValg';
+} from './hjemmel';
 import { useBehandling } from '../../../App/context/BehandlingContext';
 import { RessursStatus } from '../../../App/typer/ressurs';
 import { Stønadstype } from '../../../App/typer/behandlingstema';

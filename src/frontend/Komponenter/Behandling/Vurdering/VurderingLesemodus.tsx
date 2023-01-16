@@ -1,13 +1,8 @@
 import * as React from 'react';
 import styled from 'styled-components';
 import { BodyLong, BodyShort, Heading } from '@navikt/ds-react';
-import {
-    alleHjemlerTilVisningstekst,
-    IVurdering,
-    VedtakValg,
-    vedtakValgTilTekst,
-    årsakValgTilTekst,
-} from './vurderingValg';
+import { IVurdering, VedtakValg, vedtakValgTilTekst, årsakValgTilTekst } from './vurderingValg';
+import { alleHjemlerTilVisningstekst } from './hjemmel';
 
 const Container = styled.div`
     display: flex;
