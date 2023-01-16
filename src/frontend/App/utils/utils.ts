@@ -3,7 +3,7 @@ import { OrNothing } from '../hooks/felles/useSorteringState';
 import { isAfter, isBefore } from 'date-fns';
 import { validate } from 'uuid';
 import { Behandling, Fagsystem } from '../typer/fagsak';
-import { Eksternlenker } from '../typer/Eksternlenker';
+import { Eksternlenker } from '../typer/eksternlenker';
 
 export const datoFeil = (valgtDatoFra?: string, valgtDatoTil?: string): OrNothing<string> => {
     if (!valgtDatoFra || !valgtDatoTil) {
