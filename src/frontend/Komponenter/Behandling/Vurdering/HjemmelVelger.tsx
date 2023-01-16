@@ -2,8 +2,17 @@ import * as React from 'react';
 import { Heading, Select } from '@navikt/ds-react';
 import styled from 'styled-components';
 import { Dispatch, SetStateAction } from 'react';
-import { Hjemmel, IVurdering } from './vurderingValg';
+import { IVurdering } from './vurderingValg';
+import {
+    Hjemmel,
+    alleHjemlerTilVisningstekst,
+    folketrygdHjemmelTilVisningstekst,
+    baHjemlerTilVisningstekst,
+    ksHjemlerTilVisningstekst,
+} from './hjemmel';
 import { useBehandling } from '../../../App/context/BehandlingContext';
+import { RessursStatus } from '../../../App/typer/ressurs';
+import { Stønadstype } from '../../../App/typer/stønadstype';
 
 const HjemmelStyled = styled.div`
     margin: 2rem 4rem 2rem 4rem;
@@ -16,18 +25,29 @@ const HjemmelInnholdStyled = styled.div`
 
 interface IHjemmel {
     settHjemmel: Dispatch<SetStateAction<IVurdering>>;
-    hjemmelValgmuligheter: Record<string, string>;
     hjemmelValgt?: Hjemmel;
     endring: (komponentId: string) => void;
 }
 
-export const HjemmelVelger: React.FC<IHjemmel> = ({
-    settHjemmel,
-    hjemmelValgmuligheter,
-    hjemmelValgt,
-    endring,
-}) => {
-    const { settVurderingEndret } = useBehandling();
+export const HjemmelVelger: React.FC<IHjemmel> = ({ settHjemmel, hjemmelValgt, endring }) => {
+    const { behandling, settVurderingEndret } = useBehandling();
+    const hjemmelValgmuligheter: Record<string, string> = React.useMemo(() => {
+        if (behandling.status === RessursStatus.SUKSESS) {
+            switch (behandling.data.stønadstype) {
+                case Stønadstype.BARNETRYGD:
+                    return baHjemlerTilVisningstekst;
+                case Stønadstype.KONTANTSTØTTE:
+                    return ksHjemlerTilVisningstekst;
+                case Stønadstype.BARNETILSYN:
+                case Stønadstype.OVERGANGSSTØNAD:
+                case Stønadstype.SKOLEPENGER:
+                    return folketrygdHjemmelTilVisningstekst;
+                default:
+                    return alleHjemlerTilVisningstekst;
+            }
+        }
+        return alleHjemlerTilVisningstekst;
+    }, [behandling]);
     return (
         <HjemmelStyled>
             <Heading spacing size="medium" level="5">
@@ -52,9 +72,9 @@ export const HjemmelVelger: React.FC<IHjemmel> = ({
                     hideLabel
                 >
                     <option value={''}>Velg</option>
-                    {Object.keys(hjemmelValgmuligheter).map((valg, index) => (
-                        <option value={valg} key={index}>
-                            {hjemmelValgmuligheter[valg]}
+                    {Object.keys(hjemmelValgmuligheter).map((nøkkel, index) => (
+                        <option value={nøkkel} key={index}>
+                            {hjemmelValgmuligheter[nøkkel]}
                         </option>
                     ))}
                 </Select>

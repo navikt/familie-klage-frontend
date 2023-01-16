@@ -6,13 +6,7 @@ import { Alert, Button, ReadMore } from '@navikt/ds-react';
 import { Vedtak } from './Vedtak';
 import { Årsak } from './Årsak';
 import { HjemmelVelger } from './HjemmelVelger';
-import {
-    hjemmelTilTekst,
-    IVurdering,
-    VedtakValg,
-    vedtakValgTilTekst,
-    årsakValgTilTekst,
-} from './vurderingValg';
+import { IVurdering, VedtakValg, vedtakValgTilTekst, årsakValgTilTekst } from './vurderingValg';
 import {
     byggTomRessurs,
     Ressurs,
@@ -205,7 +199,6 @@ export const Vurdering: React.FC<{ behandlingId: string }> = ({ behandlingId }) 
                                         <HjemmelVelger
                                             settHjemmel={settOppdatertVurdering}
                                             hjemmelValgt={oppdatertVurdering.hjemmel}
-                                            hjemmelValgmuligheter={hjemmelTilTekst}
                                             endring={settIkkePersistertKomponent}
                                         />
                                         <FritekstFeltWrapper>
