@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import styled from 'styled-components';
 import { Alert, BodyShort, Button } from '@navikt/ds-react';
 import { useApp } from '../../App/context/AppContext';
-import { Stønadstype } from '../../App/typer/behandlingstema';
+import { Stønadstype } from '../../App/typer/stønadstype';
 import { RessursStatus } from '../../App/typer/ressurs';
 import { useNavigate } from 'react-router-dom';
 

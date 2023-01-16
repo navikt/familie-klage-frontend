@@ -5,7 +5,7 @@ import { BodyShort, Button, Link } from '@navikt/ds-react';
 import { behandlingStatusTilTekst } from '../../../App/typer/behandlingstatus';
 import { formaterIsoDatoTid } from '../../../App/utils/formatter';
 import styled from 'styled-components';
-import { stønadstypeTilTekst } from '../../../App/typer/behandlingstema';
+import { stønadstypeTilTekst } from '../../../App/typer/stønadstype';
 import { ATextDefault, ATextSubtle } from '@navikt/ds-tokens/dist/tokens';
 import { utledBehandlingLenke, utledSaksoversiktLenke } from '../../../App/utils/utils';
 import { useApp } from '../../../App/context/AppContext';
