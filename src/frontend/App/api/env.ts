@@ -1,6 +1,6 @@
 import { preferredAxios } from './axios';
 import { Roller } from '../utils/roller';
-import { Eksternlenker } from '../typer/Eksternlenker';
+import { Eksternlenker } from '../typer/eksternlenker';
 
 export interface AppEnv {
     roller: Roller;
