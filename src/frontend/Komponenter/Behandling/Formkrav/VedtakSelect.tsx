@@ -53,10 +53,12 @@ export const VedtakSelect: React.FC<IProps> = ({
         }
     };
 
-    const saksbehandlerSkalSetteDato =
-        vurderinger.påklagetVedtak.påklagetVedtakstype ===
-            PåklagetVedtakstype.INFOTRYGD_TILBAKEKREVING ||
-        vurderinger.påklagetVedtak.påklagetVedtakstype === PåklagetVedtakstype.UTESTENGELSE;
+    const saksbehandlerSkalSetteDato = [
+        PåklagetVedtakstype.INFOTRYGD_TILBAKEKREVING,
+        PåklagetVedtakstype.UTESTENGELSE,
+        PåklagetVedtakstype.INFOTRYGD_ORDINÆRT_VEDTAK,
+    ].includes(vurderinger.påklagetVedtak.påklagetVedtakstype);
+
     const manuellVedtaksdato = vurderinger.påklagetVedtak.manuellVedtaksdato;
     return (
         <SelectWrapper>

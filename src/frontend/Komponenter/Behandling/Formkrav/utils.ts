@@ -74,7 +74,8 @@ export const erVedtakFraFagsystemet = (valgtElement: string) => {
         valgtElement === PåklagetVedtakstype.UTEN_VEDTAK ||
         valgtElement === PåklagetVedtakstype.IKKE_VALGT ||
         valgtElement === PåklagetVedtakstype.INFOTRYGD_TILBAKEKREVING ||
-        valgtElement === PåklagetVedtakstype.UTESTENGELSE
+        valgtElement === PåklagetVedtakstype.UTESTENGELSE ||
+        valgtElement === PåklagetVedtakstype.INFOTRYGD_ORDINÆRT_VEDTAK
     );
 };
 

@@ -21,7 +21,8 @@ export const påKlagetVedtakValgt = (vurderinger: IFormkravVilkår) => {
     const valgtVedtakstype = vurderinger.påklagetVedtak.påklagetVedtakstype;
     if (
         valgtVedtakstype === PåklagetVedtakstype.INFOTRYGD_TILBAKEKREVING ||
-        valgtVedtakstype === PåklagetVedtakstype.UTESTENGELSE
+        valgtVedtakstype === PåklagetVedtakstype.UTESTENGELSE ||
+        valgtVedtakstype === PåklagetVedtakstype.INFOTRYGD_ORDINÆRT_VEDTAK
     ) {
         const manuellVedtaksdato = vurderinger.påklagetVedtak.manuellVedtaksdato;
         return manuellVedtaksdato && erGyldigDato(manuellVedtaksdato);
