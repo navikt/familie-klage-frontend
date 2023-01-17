@@ -83,6 +83,9 @@ export const VedtakSelect: React.FC<IProps> = ({
                         {påklagetVedtakstypeTilTekst[PåklagetVedtakstype.INFOTRYGD_TILBAKEKREVING]}
                     </option>
                 )}
+                <option value={PåklagetVedtakstype.INFOTRYGD_ORDINÆRT_VEDTAK}>
+                    {påklagetVedtakstypeTilTekst[PåklagetVedtakstype.INFOTRYGD_ORDINÆRT_VEDTAK]}
+                </option>
                 <option value={PåklagetVedtakstype.UTESTENGELSE}>
                     {påklagetVedtakstypeTilTekst[PåklagetVedtakstype.UTESTENGELSE]}
                 </option>
