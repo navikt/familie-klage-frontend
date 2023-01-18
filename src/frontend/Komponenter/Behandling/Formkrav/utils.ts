@@ -74,7 +74,8 @@ export const erVedtakFraFagsystemet = (valgtElement: string) => {
         valgtElement === PåklagetVedtakstype.UTEN_VEDTAK ||
         valgtElement === PåklagetVedtakstype.IKKE_VALGT ||
         valgtElement === PåklagetVedtakstype.INFOTRYGD_TILBAKEKREVING ||
-        valgtElement === PåklagetVedtakstype.UTESTENGELSE
+        valgtElement === PåklagetVedtakstype.UTESTENGELSE ||
+        valgtElement === PåklagetVedtakstype.INFOTRYGD_ORDINÆRT_VEDTAK
     );
 };
 
@@ -125,3 +126,10 @@ export const evaluerOmFelterSkalTilbakestilles = (vurderinger: IFormkravVilkår)
 
     return tilbakestillUnntak;
 };
+
+export const harManuellVedtaksdato = (påklagetVedtakstype: PåklagetVedtakstype): boolean =>
+    [
+        PåklagetVedtakstype.INFOTRYGD_TILBAKEKREVING,
+        PåklagetVedtakstype.UTESTENGELSE,
+        PåklagetVedtakstype.INFOTRYGD_ORDINÆRT_VEDTAK,
+    ].includes(påklagetVedtakstype);

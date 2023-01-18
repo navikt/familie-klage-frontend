@@ -72,6 +72,7 @@ export enum PåklagetVedtakstype {
     UTEN_VEDTAK = 'UTEN_VEDTAK',
     IKKE_VALGT = 'IKKE_VALGT',
     UTESTENGELSE = 'UTESTENGELSE',
+    INFOTRYGD_ORDINÆRT_VEDTAK = 'INFOTRYGD_ORDINÆRT_VEDTAK',
 }
 
 export const påklagetVedtakstypeTilTekst: Record<PåklagetVedtakstype, string> = {
@@ -80,6 +81,7 @@ export const påklagetVedtakstypeTilTekst: Record<PåklagetVedtakstype, string> 
     UTEN_VEDTAK: 'Har ikke klaget på et vedtak',
     VEDTAK: 'Vedtak',
     UTESTENGELSE: 'Utestengelse',
+    INFOTRYGD_ORDINÆRT_VEDTAK: 'Ordinært stønadsvedtak i Infotrygd',
 };
 
 export enum BehandlingResultat {
