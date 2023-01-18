@@ -1,7 +1,7 @@
 import { FormkravFristUnntak, IFormkravVilkår, Redigeringsmodus, VilkårStatus } from './typer';
 import { PåklagetVedtakstype } from '../../../App/typer/fagsak';
 import { harVerdi } from '../../../App/utils/utils';
-import { utledRadioKnapper } from './utils';
+import { harManuellVedtaksdato, utledRadioKnapper } from './utils';
 import { erGyldigDato } from '../../../App/utils/dato';
 
 export const alleVurderingerErStatus = (
@@ -19,11 +19,7 @@ export const alleVurderingerErStatus = (
 
 export const påKlagetVedtakValgt = (vurderinger: IFormkravVilkår) => {
     const valgtVedtakstype = vurderinger.påklagetVedtak.påklagetVedtakstype;
-    if (
-        valgtVedtakstype === PåklagetVedtakstype.INFOTRYGD_TILBAKEKREVING ||
-        valgtVedtakstype === PåklagetVedtakstype.UTESTENGELSE ||
-        valgtVedtakstype === PåklagetVedtakstype.INFOTRYGD_ORDINÆRT_VEDTAK
-    ) {
+    if (harManuellVedtaksdato(valgtVedtakstype)) {
         const manuellVedtaksdato = vurderinger.påklagetVedtak.manuellVedtaksdato;
         return manuellVedtaksdato && erGyldigDato(manuellVedtaksdato);
     }

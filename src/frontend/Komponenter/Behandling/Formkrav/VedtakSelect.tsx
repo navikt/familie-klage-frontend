@@ -6,6 +6,7 @@ import { FamilieDatovelger, FamilieSelect } from '@navikt/familie-form-elements'
 import {
     erVedtakFraFagsystemet,
     fagsystemVedtakTilVisningstekst,
+    harManuellVedtaksdato,
     sorterVedtakstidspunktDesc,
 } from './utils';
 import { FagsystemVedtak } from '../../../App/typer/fagsystemVedtak';
@@ -53,12 +54,6 @@ export const VedtakSelect: React.FC<IProps> = ({
         }
     };
 
-    const saksbehandlerSkalSetteDato = [
-        PåklagetVedtakstype.INFOTRYGD_TILBAKEKREVING,
-        PåklagetVedtakstype.UTESTENGELSE,
-        PåklagetVedtakstype.INFOTRYGD_ORDINÆRT_VEDTAK,
-    ].includes(vurderinger.påklagetVedtak.påklagetVedtakstype);
-
     const manuellVedtaksdato = vurderinger.påklagetVedtak.manuellVedtaksdato;
     return (
         <SelectWrapper>
@@ -95,7 +90,7 @@ export const VedtakSelect: React.FC<IProps> = ({
                     {påklagetVedtakstypeTilTekst[PåklagetVedtakstype.UTEN_VEDTAK]}
                 </option>
             </FamilieSelect>
-            {saksbehandlerSkalSetteDato && (
+            {harManuellVedtaksdato(vurderinger.påklagetVedtak.påklagetVedtakstype) && (
                 <DatoWrapper>
                     <Label htmlFor={'vedtaksdato'}>Vedtaksdato</Label>
                     <FamilieDatovelger

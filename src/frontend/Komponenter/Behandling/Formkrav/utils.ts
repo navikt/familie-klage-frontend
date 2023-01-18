@@ -126,3 +126,10 @@ export const evaluerOmFelterSkalTilbakestilles = (vurderinger: IFormkravVilkår)
 
     return tilbakestillUnntak;
 };
+
+export const harManuellVedtaksdato = (påklagetVedtakstype: PåklagetVedtakstype): boolean =>
+    [
+        PåklagetVedtakstype.INFOTRYGD_TILBAKEKREVING,
+        PåklagetVedtakstype.UTESTENGELSE,
+        PåklagetVedtakstype.INFOTRYGD_ORDINÆRT_VEDTAK,
+    ].includes(påklagetVedtakstype);
