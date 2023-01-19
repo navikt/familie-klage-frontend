@@ -57,6 +57,16 @@ const Knapp = styled.button`
     text-align: left;
 `;
 
+export interface MenyItem {
+    tekst: string;
+    onClick: () => void;
+}
+
+export interface Props {
+    type?: 'hamburger' | 'ellipsisV';
+    items: MenyItem[];
+}
+
 export const Hamburgermeny = () => {
     const ref = useRef(null);
     const { settVisHenleggModal } = useBehandling();
