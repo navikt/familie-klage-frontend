@@ -5,10 +5,10 @@ import { useApp } from '../../App/context/AppContext';
 import './headermedsøk.less';
 import { Sticky } from '../Visningskomponenter/Sticky';
 import { AppEnv } from '../../App/api/env';
-import { lagAInntektLink } from '../Lenker/Lenker';
+import { lagAInntektLink, lagGosysLink, lagModiaLink } from '../Lenker/Lenker';
 import { AxiosRequestCallback } from '../../App/typer/axiosRequest';
 
-export interface IHeaderMedSøkProps {
+export interface IProps {
     innloggetSaksbehandler: ISaksbehandler;
 }
 
@@ -18,7 +18,7 @@ const lagAInntekt = (
     fagsakId: string | undefined
 ): PopoverItem => {
     if (!fagsakId) {
-        return { name: 'A-inntekt', href: appEnv.aInntekt, isExternal: true };
+        return { name: 'A-inntekt', href: appEnv.eksternlenker.aInntekt, isExternal: true };
     }
 
     return {
@@ -30,10 +30,10 @@ const lagAInntekt = (
         },
     };
 };
-/*
+
 const lagGosys = (appEnv: AppEnv, personIdent: string | undefined): PopoverItem => {
     if (!personIdent) {
-        return { name: 'Gosys', href: appEnv.gosys, isExternal: true };
+        return { name: 'Gosys', href: appEnv.eksternlenker.gosys, isExternal: true };
     }
 
     return {
@@ -45,27 +45,39 @@ const lagGosys = (appEnv: AppEnv, personIdent: string | undefined): PopoverItem 
         },
     };
 };
-*/
+
+const lagModia = (appEnv: AppEnv, personIdent: string | undefined): PopoverItem => {
+    if (!personIdent) {
+        return { name: 'Modia', href: appEnv.eksternlenker.modia, isExternal: true };
+    }
+
+    return {
+        name: 'Modia',
+        href: '#/modia',
+        onClick: async (e: React.SyntheticEvent) => {
+            e.preventDefault();
+            window.open(lagModiaLink(appEnv, personIdent));
+        },
+    };
+};
+
 const lagEksterneLenker = (
     axiosRequest: AxiosRequestCallback,
     appEnv: AppEnv,
-    fagsakId: string | undefined
-): PopoverItem[] => {
-    const eksterneLenker = [
-        lagAInntekt(axiosRequest, appEnv, fagsakId),
-        //lagGosys(appEnv, personIdent),
-    ];
-    return eksterneLenker;
-};
+    fagsakId: string | undefined,
+    personIdent: string | undefined
+): PopoverItem[] => [
+    lagAInntekt(axiosRequest, appEnv, fagsakId),
+    lagGosys(appEnv, personIdent),
+    lagModia(appEnv, personIdent),
+];
 
-export const HeaderMedSøk: React.FunctionComponent<IHeaderMedSøkProps> = ({
-    innloggetSaksbehandler,
-}) => {
-    const { axiosRequest, gåTilUrl, appEnv, valgtFagsakId } = useApp();
+export const HeaderMedSøk: React.FunctionComponent<IProps> = ({ innloggetSaksbehandler }) => {
+    const { axiosRequest, gåTilUrl, appEnv, valgtFagsakId, personIdent } = useApp();
 
     const eksterneLenker = useMemo(
-        () => lagEksterneLenker(axiosRequest, appEnv, valgtFagsakId),
-        [axiosRequest, appEnv, valgtFagsakId]
+        () => lagEksterneLenker(axiosRequest, appEnv, valgtFagsakId, personIdent),
+        [axiosRequest, appEnv, valgtFagsakId, personIdent]
     );
     return (
         <Sticky>

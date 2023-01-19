@@ -12,6 +12,7 @@ import { IPersonopplysninger } from '../../App/typer/personopplysninger';
 import DataViewer from '../../Felles/DataViewer/DataViewer';
 import { HenleggModal } from './Henleggelse/HenleggModal';
 import ScrollToTop from '../../Felles/ScrollToTop/ScrollToTop';
+import { useSetPersonIdent } from '../../App/hooks/useSetPersonIdent';
 
 const Container = styled.div`
     display: flex;
@@ -41,6 +42,7 @@ const InnholdWrapper = styled.div<InnholdWrapperProps>`
     flex-basis: 0px;
     min-width: 0px;
     max-width: ${(p) => (p.åpenHøyremeny ? 'calc(100% - 20rem)' : '100%')};
+    z-index: 9;
 `;
 
 const BehandlingContainer: FC = () => {
@@ -55,6 +57,7 @@ const BehandlingContent: FC<{
     behandling: Behandling;
     personopplysninger: IPersonopplysninger;
 }> = ({ behandling, personopplysninger }) => {
+    useSetPersonIdent(personopplysninger.personIdent);
     const { åpenHøyremeny } = useBehandling();
 
     return (

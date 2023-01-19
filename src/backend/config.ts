@@ -3,7 +3,7 @@
 import { appConfig, IApi, ISessionKonfigurasjon } from '@navikt/familie-backend';
 
 type Rolle = 'veileder' | 'saksbehandler' | 'beslutter' | 'kode6' | 'kode7';
-type EksternlenkeKey = 'efSakUrl' | 'baSakUrl' | 'ksSakUrl';
+type EksternlenkeKey = 'efSakUrl' | 'baSakUrl' | 'ksSakUrl' | 'aInntekt' | 'gosys' | 'modia';
 
 type Roller = {
     [key in Rolle]: string;
@@ -42,18 +42,27 @@ const lenkerDev: Eksternlenker = {
     efSakUrl: 'https://ensligmorellerfar.dev.intern.nav.no/ekstern',
     baSakUrl: 'https://barnetrygd.dev.intern.nav.no',
     ksSakUrl: 'https://kontantstotte.dev.intern.nav.no',
+    aInntekt: 'https://arbeid-og-inntekt.dev.adeo.no',
+    gosys: 'https://gosys-q1.dev.intern.nav.no/gosys',
+    modia: 'https://app-q1.adeo.no/modiapersonoversikt',
 };
 
 const lenkerProd: Eksternlenker = {
     efSakUrl: 'https://ensligmorellerfar.intern.nav.no/ekstern',
     baSakUrl: 'https://barnetrygd.intern.nav.no',
     ksSakUrl: 'https://kontantstotte.intern.nav.no',
+    aInntekt: 'https://arbeid-og-inntekt.nais.adeo.no',
+    gosys: 'https://gosys.intern.nav.no/gosys',
+    modia: 'https://app.adeo.no/modiapersonoversikt',
 };
 
 const lenkerLocal: Eksternlenker = {
     efSakUrl: 'http://localhost:8000/ekstern',
     baSakUrl: 'http://localhost:8000',
     ksSakUrl: 'http://localhost:8000',
+    aInntekt: 'https://arbeid-og-inntekt.dev.adeo.no',
+    gosys: 'https://gosys-q1.dev.intern.nav.no/gosys',
+    modia: 'https://app-q1.adeo.no/modiapersonoversikt',
 };
 
 const Environment = (): IEnvironment => {

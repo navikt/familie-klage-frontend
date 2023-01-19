@@ -14,14 +14,20 @@ export const lagAInntektLink = async (
         url: url,
     })
         .then((response: Ressurs<string>) => {
-            return response.status === RessursStatus.SUKSESS ? response.data : appEnv.aInntekt;
+            return response.status === RessursStatus.SUKSESS
+                ? response.data
+                : appEnv.eksternlenker.aInntekt;
         })
         // eslint-disable-next-line @typescript-eslint/no-unused-vars
         .catch((_: AxiosError<string>) => {
-            return appEnv.aInntekt;
+            return appEnv.eksternlenker.aInntekt;
         });
 };
 
-export const lagGosysLink = (appEnv: AppEnv, personIdent: string): string => {
-    return `${appEnv.gosys}/personoversikt/fnr=${personIdent}`;
+export const lagGosysLink = (appEnv: AppEnv, personIdent: string) => {
+    return `${appEnv.eksternlenker.gosys}/personoversikt/fnr=${personIdent}`;
+};
+
+export const lagModiaLink = (appEnv: AppEnv, personIdent: string): string => {
+    return `${appEnv.eksternlenker.modia}/person/${personIdent}`;
 };
