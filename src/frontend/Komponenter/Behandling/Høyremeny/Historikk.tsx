@@ -3,7 +3,7 @@ import HistorikkInnslag from './HistorikkInnslag';
 import { useBehandling } from '../../../App/context/BehandlingContext';
 import DataViewer from '../../../Felles/DataViewer/DataViewer';
 import hiddenIf from '../../../Felles/HiddenIf/hiddenIf';
-import { IBehandlingshistorikk } from './Behandlingshistorikk';
+import { IBehandlingshistorikk } from './behandlingshistorikk';
 import { Behandling } from '../../../App/typer/fagsak';
 
 const Historikk: React.FC = () => {

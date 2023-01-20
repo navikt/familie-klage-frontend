@@ -1,19 +1,19 @@
 import { byggTomRessurs, Ressurs } from '../typer/ressurs';
 import { useApp } from '../context/AppContext';
 import { useCallback, useState } from 'react';
-import { IBehandlingshistorikk as Behandlingshistorikk } from '../../Komponenter/Behandling/Høyremeny/BehandlingsHistorikk';
+import { IBehandlingshistorikk } from '../../Komponenter/Behandling/Høyremeny/behandlingshistorikk';
 import { AxiosRequestConfig } from 'axios';
 
 export const useHentBehandlingHistorikk = (
     behandlingId: string
 ): {
     hentBehandlingshistorikkCallback: () => void;
-    behandlingHistorikk: Ressurs<Behandlingshistorikk[]>;
+    behandlingHistorikk: Ressurs<IBehandlingshistorikk[]>;
 } => {
     const { axiosRequest } = useApp();
 
     const [behandlingHistorikk, settBehandlingHistorikk] = useState<
-        Ressurs<Behandlingshistorikk[]>
+        Ressurs<IBehandlingshistorikk[]>
     >(byggTomRessurs());
 
     const hentBehandlingshistorikkCallback = useCallback(() => {
@@ -21,8 +21,8 @@ export const useHentBehandlingHistorikk = (
             method: 'GET',
             url: `/familie-klage/api/behandlingshistorikk/${behandlingId}`,
         };
-        axiosRequest<Behandlingshistorikk[], null>(behandlingConfig).then(
-            (res: Ressurs<Behandlingshistorikk[]>) => settBehandlingHistorikk(res)
+        axiosRequest<IBehandlingshistorikk[], null>(behandlingConfig).then(
+            (res: Ressurs<IBehandlingshistorikk[]>) => settBehandlingHistorikk(res)
         );
         // eslint-disable-next-line
     }, [behandlingId]);
