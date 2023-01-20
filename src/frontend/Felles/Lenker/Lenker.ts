@@ -8,10 +8,9 @@ export const lagAInntektLink = async (
     appEnv: AppEnv,
     fagsakId: string
 ): Promise<string> => {
-    const url = `/familie-klage/api/inntekt/fagsak/${fagsakId}/generer-url`;
     return await axiosRequest<string, null>({
         method: 'GET',
-        url: url,
+        url: `/familie-klage/api/inntekt/fagsak/${fagsakId}/generer-url`,
     })
         .then((response: Ressurs<string>) => {
             return response.status === RessursStatus.SUKSESS

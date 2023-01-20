@@ -13,6 +13,7 @@ import DataViewer from '../../Felles/DataViewer/DataViewer';
 import { HenleggModal } from './Henleggelse/HenleggModal';
 import ScrollToTop from '../../Felles/ScrollToTop/ScrollToTop';
 import { useSetPersonIdent } from '../../App/hooks/useSetPersonIdent';
+import { useSetValgtFagsakId } from '../../App/hooks/useSetValgtFagsakId';
 
 const Container = styled.div`
     display: flex;
@@ -57,6 +58,7 @@ const BehandlingContent: FC<{
     behandling: Behandling;
     personopplysninger: IPersonopplysninger;
 }> = ({ behandling, personopplysninger }) => {
+    useSetValgtFagsakId(behandling.fagsakId);
     useSetPersonIdent(personopplysninger.personIdent);
     const { åpenHøyremeny } = useBehandling();
 
