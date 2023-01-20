@@ -8,9 +8,8 @@
   "type": "module",
   "scripts": {
     "start": "NODE_ENV=production node --es-module-specifier-resolution=node node_dist/backend/server.js",
-    "start:mock": "NODE_ENV=development node --es-module-specifier-resolution=node dev-server/mock-server.js",
     "start:dev": "tsc && NODE_ENV=development node --es-module-specifier-resolution=node --trace-deprecation node_dist/backend/server.js",
-    "build": "yarn build:prod",
+    "build": "yarn lint && yarn build:prod",
     "build:dev": "tsc & NODE_ENV=development webpack --config ./build_n_deploy/webpack/webpack.dev.js",
     "build:prod": "tsc & NODE_ENV=production webpack --config ./build_n_deploy/webpack/webpack.prod.js",
     "snyk-protect": "snyk protect",
@@ -146,6 +145,9 @@
     "webpack-dev-middleware": "^5.3.3",
     "webpack-hot-middleware": "^2.25.2",
     "webpack-merge": "^5.8.0"
+  },
+  "resolutions": {
+    "@types/react": "^18.x"
   },
   "snyk": true
 }
