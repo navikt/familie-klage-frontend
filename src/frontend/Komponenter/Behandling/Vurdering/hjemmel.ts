@@ -10,6 +10,8 @@ enum FolketrygdHjemmel {
     FT_FEMTEN_ELLEVE = 'FT_FEMTEN_ELLEVE',
     FT_FEMTEN_TOLV = 'FT_FEMTEN_TOLV',
     FT_FEMTEN_TRETTEN = 'FT_FEMTEN_TRETTEN',
+    FT_TJUETO_TOLV = 'FT_TJUETO_TOLV',
+    FT_TJUETO_TRETTEN = 'FT_TJUETO_TRETTEN',
     FT_TJUETO_FEMTEN = 'FT_TJUETO_FEMTEN',
 }
 
@@ -101,6 +103,10 @@ export const folketrygdHjemmelTilVisningstekst: Record<FolketrygdHjemmel, string
     FT_FEMTEN_ELLEVE: '§ 15-11 Stønad til skolepenger',
     FT_FEMTEN_TOLV: '§ 15-12 Sanksjon',
     FT_FEMTEN_TRETTEN: '§ 15-13 Forholdet til andre folketrygdytelser',
+    FT_TJUETO_TOLV:
+        '§ 22-12 Tidspunkt for utbetaling når rett til en ytelse oppstår eller opphører',
+    FT_TJUETO_TRETTEN:
+        '§ 22-13 Frister for framsetting av krav, virkningstidspunkt og etterbetaling',
     FT_TJUETO_FEMTEN: '§ 22-15 Tilbakekreving',
 };
 
