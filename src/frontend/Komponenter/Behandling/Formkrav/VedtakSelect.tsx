@@ -11,8 +11,6 @@ import {
 } from './utils';
 import { FagsystemVedtak } from '../../../App/typer/fagsystemVedtak';
 import { Label } from '@navikt/ds-react';
-import { useToggles } from '../../../App/context/TogglesContext';
-import { ToggleName } from '../../../App/context/toggles';
 import { erGyldigDato } from '../../../App/utils/dato';
 
 interface IProps {
@@ -34,7 +32,6 @@ export const VedtakSelect: React.FC<IProps> = ({
     vedtak,
     vurderinger,
 }) => {
-    const { toggles } = useToggles();
     const handleChange = (valgtElement: string) => {
         if (erVedtakFraFagsystemet(valgtElement)) {
             settOppdaterteVurderinger((prevState) => ({
@@ -75,11 +72,10 @@ export const VedtakSelect: React.FC<IProps> = ({
                         {fagsystemVedtakTilVisningstekst(valg)}
                     </option>
                 ))}
-                {toggles[ToggleName.skalKunneVelgePåklagetVedtakFraInfotrygd] && (
-                    <option value={PåklagetVedtakstype.INFOTRYGD_TILBAKEKREVING}>
-                        {påklagetVedtakstypeTilTekst[PåklagetVedtakstype.INFOTRYGD_TILBAKEKREVING]}
-                    </option>
-                )}
+
+                <option value={PåklagetVedtakstype.INFOTRYGD_TILBAKEKREVING}>
+                    {påklagetVedtakstypeTilTekst[PåklagetVedtakstype.INFOTRYGD_TILBAKEKREVING]}
+                </option>
                 <option value={PåklagetVedtakstype.INFOTRYGD_ORDINÆRT_VEDTAK}>
                     {påklagetVedtakstypeTilTekst[PåklagetVedtakstype.INFOTRYGD_ORDINÆRT_VEDTAK]}
                 </option>
