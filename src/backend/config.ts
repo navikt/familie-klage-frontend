@@ -43,7 +43,7 @@ const lenkerDev: Eksternlenker = {
     baSakUrl: 'https://barnetrygd.intern.dev.nav.no',
     ksSakUrl: 'https://kontantstotte.intern.dev.nav.no',
     aInntekt: 'https://arbeid-og-inntekt.dev.adeo.no',
-    gosys: 'https://gosys-q1.intern.dev.nav.no/gosys',
+    gosys: 'https://gosys-q1.dev.intern.nav.no/gosys',
     modia: 'https://app-q1.adeo.no/modiapersonoversikt',
 };
 
@@ -61,7 +61,7 @@ const lenkerLocal: Eksternlenker = {
     baSakUrl: 'http://localhost:8000',
     ksSakUrl: 'http://localhost:8000',
     aInntekt: 'https://arbeid-og-inntekt.dev.adeo.no',
-    gosys: 'https://gosys-q1.intern.dev.nav.no/gosys',
+    gosys: 'https://gosys-q1.dev.intern.nav.no/gosys',
     modia: 'https://app-q1.adeo.no/modiapersonoversikt',
 };
 
