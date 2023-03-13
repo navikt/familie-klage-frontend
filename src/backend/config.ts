@@ -39,9 +39,9 @@ const rollerProd: Roller = {
 };
 
 const lenkerDev: Eksternlenker = {
-    efSakUrl: 'https://ensligmorellerfar.dev.intern.nav.no/ekstern',
-    baSakUrl: 'https://barnetrygd.dev.intern.nav.no',
-    ksSakUrl: 'https://kontantstotte.dev.intern.nav.no',
+    efSakUrl: 'https://ensligmorellerfar.intern.dev.nav.no/ekstern',
+    baSakUrl: 'https://barnetrygd.intern.dev.nav.no',
+    ksSakUrl: 'https://kontantstotte.intern.dev.nav.no',
     aInntekt: 'https://arbeid-og-inntekt.dev.adeo.no',
     gosys: 'https://gosys-q1.dev.intern.nav.no/gosys',
     modia: 'https://app-q1.adeo.no/modiapersonoversikt',
