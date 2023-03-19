@@ -71,7 +71,7 @@
     "loglevel": "^1.8.0",
     "namecase": "^1.1.2",
     "nav-datovelger": "^12.6.0",
-    "node-fetch": "^3.2.10",
+    "node-fetch": "^3.3.1",
     "paginering": "^1.1.2",
     "passport": "^0.6.0",
     "passport-azure-ad": "^4.3.4",
