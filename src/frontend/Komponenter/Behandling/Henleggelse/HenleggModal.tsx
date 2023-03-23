@@ -30,6 +30,7 @@ export const HenleggModal: FC<{ behandling: Behandling }> = ({ behandling }) => 
         }
         if (!henlagtårsak) {
             settFeilmelding('Du må velge en henleggelsesårsak');
+            return;
         }
         settHenleggerBehandling(true);
 
