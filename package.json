@@ -24,7 +24,7 @@
     ]
   },
   "dependencies": {
-    "@navikt/ds-css": "2.0.x",
+    "@navikt/ds-css": "3.1.x",
     "@navikt/ds-icons": "2.0.x",
     "@navikt/ds-react": "2.0.x",
     "@navikt/ds-react-internal": "2.0.x",
