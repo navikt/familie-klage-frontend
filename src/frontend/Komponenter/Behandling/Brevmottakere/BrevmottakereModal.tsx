@@ -120,6 +120,7 @@ export const BrevmottakereModal: FC<{
                         settValgtePersonMottakere={settValgtePersonMottakere}
                         valgteOrganisasjonMottakere={valgteOrganisasjonMottakere}
                         settValgteOrganisasjonMottakere={settValgteOrganisasjonMottakere}
+                        behandlingId={behandlingId}
                     />
                     <HorisontalLinje />
                     <SkalBrukerHaBrev

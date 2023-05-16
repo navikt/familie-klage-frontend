@@ -6,34 +6,36 @@ import { EBrevmottakerRolle, IBrevmottaker } from './typer';
 import { BodyShort, Button } from '@navikt/ds-react';
 import { Søkefelt, Søkeresultat } from './brevmottakereStyling';
 import { VertikalSentrering } from '../../../App/utils/styling';
-
 interface Props {
     settValgteMottakere: Dispatch<SetStateAction<IBrevmottaker[]>>;
+    behandlingId: string;
 }
 
 interface PersonSøk {
     personIdent: string;
+    behandlingId: string;
     navn: string;
 }
 
-export const SøkPerson: React.FC<Props> = ({ settValgteMottakere }) => {
+export const SøkPerson: React.FC<Props> = ({ settValgteMottakere, behandlingId }) => {
     const { axiosRequest } = useApp();
     const [søkIdent, settSøkIdent] = useState('');
     const [søkRessurs, settSøkRessurs] = useState(byggTomRessurs<PersonSøk>());
 
     useEffect(() => {
         if (søkIdent && søkIdent.length === 11) {
-            axiosRequest<PersonSøk, { personIdent: string }>({
+            axiosRequest<PersonSøk, { personIdent: string; behandlingId: string }>({
                 method: 'POST',
                 url: 'familie-klage/api/sok/person',
                 data: {
                     personIdent: søkIdent,
+                    behandlingId: behandlingId,
                 },
             }).then((resp: Ressurs<PersonSøk>) => {
                 settSøkRessurs(resp);
             });
         }
-    }, [axiosRequest, søkIdent]);
+    }, [axiosRequest, søkIdent, behandlingId]);
 
     const leggTilBrevmottaker = (personIdent: string, navn: string) => () => {
         settValgteMottakere((prevState) => [
