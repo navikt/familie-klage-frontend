@@ -20,8 +20,12 @@ const Container = styled.div`
 `;
 
 export const AnkeVisning: React.FC<{ behandling: Behandling }> = ({ behandling }) => {
-    const ankeResultater = behandling.klageinstansResultat.filter(
-        (resultat) => resultat.type != KlageinstansEventType.KLAGEBEHANDLING_AVSLUTTET
+    const ankeResultater = behandling.klageinstansResultat.filter((resultat) =>
+        [
+            KlageinstansEventType.ANKE_I_TRYGDERETTENBEHANDLING_OPPRETTET,
+            KlageinstansEventType.ANKEBEHANDLING_OPPRETTET,
+            KlageinstansEventType.ANKEBEHANDLING_AVSLUTTET,
+        ].includes(resultat.type)
     );
 
     return (
