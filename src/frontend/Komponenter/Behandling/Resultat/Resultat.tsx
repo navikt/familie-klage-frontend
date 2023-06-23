@@ -6,6 +6,7 @@ import DataViewer from '../../../Felles/DataViewer/DataViewer';
 import { Heading } from '@navikt/ds-react';
 import { useBehandling } from '../../../App/context/BehandlingContext';
 import { AnkeVisning } from './AnkeVisning';
+import { FeilregistrertVisning } from './FeilregistrertVisning';
 
 const HeadingContainer = styled.div`
     margin: 2rem 5rem 0rem 5rem;
@@ -36,6 +37,7 @@ export const Resultat: React.FC = () => {
                         <Heading spacing size="large" level="5">
                             Resultat
                         </Heading>
+                        <FeilregistrertVisning behandling={behandling} />
                     </HeadingContainer>
                     <TidslinjeContainer åpenHøyremeny={åpenHøyremeny}>
                         <Tidslinje

@@ -1,7 +1,12 @@
 import { IBehandlingshistorikk } from '../Høyremeny/behandlingshistorikk';
 import { ensure } from '../../../App/utils/utils';
-import { KlageinstansEventType, utfallTilTekst } from '../../../App/typer/fagsak';
-import { Behandling, behandlingResultatTilTekst, StegType } from '../../../App/typer/fagsak';
+import {
+    Behandling,
+    behandlingResultatTilTekst,
+    KlageinstansEventType,
+    StegType,
+    utfallTilTekst,
+} from '../../../App/typer/fagsak';
 
 export const fjernDuplikatStegFraHistorikk = (steg: IBehandlingshistorikk[]) => {
     const visning = [
@@ -24,6 +29,14 @@ export const fjernDuplikatStegFraHistorikk = (steg: IBehandlingshistorikk[]) => 
 };
 
 export const utledTekstForEksternutfall = (behandling: Behandling) => {
+    const erFeilregistrert = behandling.klageinstansResultat.some(
+        (resultat) => resultat.type === KlageinstansEventType.BEHANDLING_FEILREGISTRERT
+    );
+
+    if (erFeilregistrert) {
+        return 'Behandling feilregistrert';
+    }
+
     const klageResultatMedUtfall = behandling.klageinstansResultat.filter(
         (resultat) =>
             resultat.utfall && resultat.type == KlageinstansEventType.KLAGEBEHANDLING_AVSLUTTET

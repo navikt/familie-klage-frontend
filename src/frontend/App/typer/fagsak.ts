@@ -105,6 +105,7 @@ export interface KlageinstansResultat {
     utfall?: KlageinstansUtfall;
     mottattEllerAvsluttetTidspunkt: string;
     journalpostReferanser: string[];
+    årsakFeilregistrert?: string;
 }
 
 export enum KlageinstansEventType {
@@ -112,6 +113,7 @@ export enum KlageinstansEventType {
     ANKEBEHANDLING_OPPRETTET = 'ANKEBEHANDLING_OPPRETTET',
     ANKEBEHANDLING_AVSLUTTET = 'ANKEBEHANDLING_AVSLUTTET',
     ANKE_I_TRYGDERETTENBEHANDLING_OPPRETTET = 'ANKE_I_TRYGDERETTENBEHANDLING_OPPRETTET',
+    BEHANDLING_FEILREGISTRERT = 'BEHANDLING_FEILREGISTRERT',
 }
 
 export const klagehendelseTypeTilTekst: Record<KlageinstansEventType, string> = {
@@ -119,6 +121,7 @@ export const klagehendelseTypeTilTekst: Record<KlageinstansEventType, string> = 
     ANKEBEHANDLING_OPPRETTET: 'Ankebehandling opprettet',
     ANKEBEHANDLING_AVSLUTTET: 'Ankebehandling avsluttet',
     ANKE_I_TRYGDERETTENBEHANDLING_OPPRETTET: 'Anke i trygderettenbehandling opprettet',
+    BEHANDLING_FEILREGISTRERT: 'Behandling feilregistrert',
 };
 
 export enum KlageinstansUtfall {
