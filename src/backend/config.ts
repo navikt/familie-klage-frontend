@@ -92,6 +92,14 @@ const Environment = (): IEnvironment => {
             roller: rollerDev,
             eksternlenker: lenkerDev,
         };
+    } else if (process.env.ENV === 'lokalt-mot-preprod') {
+        return {
+            buildPath: 'frontend_development',
+            miljø: 'local',
+            klageProxyUrl: 'https://familie-klage-backend.intern.dev.nav.no',
+            roller: rollerDev,
+            eksternlenker: lenkerDev,
+        };
     }
 
     return {
@@ -110,7 +118,11 @@ export const sessionConfig: ISessionKonfigurasjon = {
     navn: 'familie-klage-v1',
     redisPassord: process.env.REDIS_PASSWORD,
     redisUrl: env.redisUrl,
-    secureCookie: !(process.env.ENV === 'local' || process.env.ENV === 'e2e'),
+    secureCookie: !(
+        process.env.ENV === 'local' ||
+        process.env.ENV === 'e2e' ||
+        process.env.ENV === 'lokalt-mot-preprod'
+    ),
     sessionMaxAgeSekunder: 12 * 60 * 60,
 };
 
