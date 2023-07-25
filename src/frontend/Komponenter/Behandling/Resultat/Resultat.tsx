@@ -38,6 +38,7 @@ export const Resultat: React.FC = () => {
                             Resultat
                         </Heading>
                         <FeilregistrertVisning behandling={behandling} />
+                        <AnkeVisning behandling={behandling} />
                     </HeadingContainer>
                     <TidslinjeContainer åpenHøyremeny={åpenHøyremeny}>
                         <Tidslinje
@@ -45,7 +46,6 @@ export const Resultat: React.FC = () => {
                             behandlingHistorikk={behandlingHistorikk}
                             åpenHøyremeny={åpenHøyremeny}
                         />
-                        <AnkeVisning behandling={behandling} />
                     </TidslinjeContainer>
                 </>
             )}
