@@ -9,7 +9,7 @@ import { Alert, BodyShort, Heading, Label } from '@navikt/ds-react';
 import styled from 'styled-components';
 import { formaterIsoDatoTid } from '../../../App/utils/formatter';
 
-const AlerMedMaxbredde = styled(Alert)`
+const AlertMedMaxbredde = styled(Alert)`
     max-width: 60rem;
 `;
 
@@ -23,7 +23,7 @@ export const AnkeVisning: React.FC<{ behandling: Behandling }> = ({ behandling }
     );
 
     return ankeResultater.length > 0 ? (
-        <AlerMedMaxbredde variant={'warning'}>
+        <AlertMedMaxbredde variant={'warning'}>
             <Heading spacing size="small" level="3">
                 Merk at det finnes informasjon om anke på denne klagen
             </Heading>
@@ -38,6 +38,6 @@ export const AnkeVisning: React.FC<{ behandling: Behandling }> = ({ behandling }
                     )}
                 </div>
             ))}
-        </AlerMedMaxbredde>
+        </AlertMedMaxbredde>
     ) : null;
 };
