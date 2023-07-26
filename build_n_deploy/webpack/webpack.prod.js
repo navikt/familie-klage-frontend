@@ -37,7 +37,7 @@ const config = mergeWithCustomize({
                         },
                     },
                     {
-                        loader: 'postcss-loader' ,
+                        loader: 'postcss-loader',
                         options: {
                             postcssOptions: {
                                 plugins: [['autoprefixer']],
