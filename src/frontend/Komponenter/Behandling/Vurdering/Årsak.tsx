@@ -45,7 +45,7 @@ export const Årsak: React.FC<IÅrsak> = ({
                                 ({
                                     ...tidligereTilstand,
                                     årsak: e.target.value,
-                                } as IVurdering)
+                                }) as IVurdering
                         );
                         settVurderingEndret(true);
                     }}

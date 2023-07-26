@@ -65,7 +65,7 @@ export const HjemmelVelger: React.FC<IHjemmel> = ({ settHjemmel, hjemmelValgt, e
                                 ({
                                     ...tidligereTilstand,
                                     hjemmel: e.target.value,
-                                } as IVurdering)
+                                }) as IVurdering
                         );
                         settVurderingEndret(true);
                     }}
