@@ -2,7 +2,7 @@ import React, { Dispatch, SetStateAction } from 'react';
 import styled from 'styled-components';
 import { IFormkravVilkår } from './typer';
 import { PåklagetVedtakstype, påklagetVedtakstypeTilTekst } from '../../../App/typer/fagsak';
-import { FamilieDatovelger, FamilieSelect } from '@navikt/familie-form-elements';
+import { FamilieSelect } from '@navikt/familie-form-elements';
 import {
     erVedtakFraFagsystemet,
     fagsystemVedtakTilVisningstekst,
@@ -12,6 +12,7 @@ import {
 import { FagsystemVedtak } from '../../../App/typer/fagsystemVedtak';
 import { Label } from '@navikt/ds-react';
 import { erGyldigDato } from '../../../App/utils/dato';
+import { FamilieDatovelger } from '@navikt/familie-datovelger';
 
 interface IProps {
     settOppdaterteVurderinger: Dispatch<SetStateAction<IFormkravVilkår>>;
