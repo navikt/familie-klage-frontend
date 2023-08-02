@@ -2,9 +2,10 @@ import React, { useState } from 'react';
 import { Ressurs } from '../../../App/typer/ressurs';
 import styled from 'styled-components';
 import { Document, Page, pdfjs } from 'react-pdf';
-import Pagination from 'paginering';
 import DataViewer from '../../../Felles/DataViewer/DataViewer';
-import { Alert, Loader } from '@navikt/ds-react';
+import { Alert, Loader, Pagination } from '@navikt/ds-react';
+import 'react-pdf/dist/Page/TextLayer.css';
+import 'react-pdf/dist/Page/AnnotationLayer.css';
 
 // eslint-disable-next-line
 const pdfjsWorker = require('pdfjs-dist/build/pdf.worker.entry');
@@ -56,10 +57,11 @@ const PdfVisning: React.FC<PdfVisningProps> = ({ pdfFilInnhold }) => {
             {({ pdfFilInnhold }) => (
                 <DokumentWrapper>
                     <StyledPagination
-                        numberOfItems={numPages}
-                        onChange={setPageNumber}
-                        itemsPerPage={1}
-                        currentPage={pageNumber}
+                        page={pageNumber}
+                        count={numPages}
+                        onPageChange={setPageNumber}
+                        size={'xsmall'}
+                        hidden={numPages < 2}
                     />
                     <StyledDokument
                         file={`data:application/pdf;base64,${pdfFilInnhold}`}
@@ -70,13 +72,14 @@ const PdfVisning: React.FC<PdfVisningProps> = ({ pdfFilInnhold }) => {
                         noData={<Alert variant={'error'}>'Dokumentet er tomt.</Alert>}
                         loading={<Loader />}
                     >
-                        <Page pageNumber={pageNumber} />
+                        <Page pageNumber={pageNumber} renderTextLayer />
                     </StyledDokument>
                     <StyledPagination
-                        numberOfItems={numPages}
-                        onChange={setPageNumber}
-                        itemsPerPage={1}
-                        currentPage={pageNumber}
+                        page={pageNumber}
+                        count={numPages}
+                        onPageChange={setPageNumber}
+                        size={'xsmall'}
+                        hidden={numPages < 2}
                     />
                 </DokumentWrapper>
             )}
