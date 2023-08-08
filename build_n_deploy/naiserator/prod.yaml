@@ -11,7 +11,6 @@ spec:
   replicas:
     min: 2
     max: 2
-    cpuThresholdPercentage: 50
   port: 8020
   liveness:
     path: /isAlive
@@ -42,7 +41,6 @@ spec:
           - id: 5fcc0e1d-a4c2-49f0-93dc-27c9fea41e54 # 0000-GA-Enslig-Forsorger-Beslutter
   resources:
     limits:
-      cpu: 2000m
       memory: 1024Mi
     requests:
       memory: 512Mi
