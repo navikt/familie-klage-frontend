@@ -1588,10 +1588,10 @@
     "@navikt/familie-ikoner" "^7.0.0"
     "@navikt/familie-typer" "^8.0.0"
 
-"@navikt/familie-endringslogg@^8.1.1":
-  version "8.1.1"
-  resolved "https://npm.pkg.github.com/download/@navikt/familie-endringslogg/8.1.1/e2e3f73951dde3c1d26e28bc03aac05c4a92dd4a#e2e3f73951dde3c1d26e28bc03aac05c4a92dd4a"
-  integrity sha512-ihesWk+6XKN+fHh2tQJMkqAoEv5R/Ryq+zag6wkGIsYRNWGO9eHfJmkPHhRSIi0705RaMswUmtq8yubmv5vGGA==
+"@navikt/familie-endringslogg@^9.0.0":
+  version "9.0.0"
+  resolved "https://npm.pkg.github.com/download/@navikt/familie-endringslogg/9.0.0/03ad3e83b12555248e2af987ea3f24a707ec1cd9#03ad3e83b12555248e2af987ea3f24a707ec1cd9"
+  integrity sha512-ZZjlzZYXTfeG45pHtdYTbcbm8mee2B2xW2XL23VtSM/R4yq6r3aFnxOrUJwd0v6zl72EtBAYfV8CDll29Wq61Q==
   dependencies:
     "@portabletext/react" "^1.0.6"
     classnames "^2.3.2"
@@ -6164,11 +6164,6 @@ nav-frontend-typografi@^4.0.x:
   resolved "https://registry.yarnpkg.com/nav-frontend-typografi/-/nav-frontend-typografi-4.0.2.tgz#470cc95f4b4ff3a94363dd86eeea45bd9dc6014a"
   integrity sha512-WUlhb9hXp1Z0CIqULGTYnD7EBPW5dTpBq0qlv+CcjiE4ooqWaRjvhDycj/rR9sjaB4EciF8uViUpIZk4YATqlw==
 
-nav-hoykontrast@^2.1.2:
-  version "2.1.2"
-  resolved "https://registry.yarnpkg.com/nav-hoykontrast/-/nav-hoykontrast-2.1.2.tgz#4e6b686fa67af8b4381f7c33271612b89230a6c2"
-  integrity sha512-2mwwbiSImWdLh4m2Jhr1YKf0Ew/+C3bUCyVDbUCWXo8n3N2fZdweH2NSIdI6Zpk3fyp3T/E74vArOHkMSVcG9Q==
-
 ncp@~2.0.0:
   version "2.0.0"
   resolved "https://registry.yarnpkg.com/ncp/-/ncp-2.0.0.tgz#195a21d6c46e361d2fb1281ba38b91e9df7bdbb3"
@@ -6515,11 +6510,6 @@ p-try@^2.0.0:
   version "2.2.0"
   resolved "https://registry.yarnpkg.com/p-try/-/p-try-2.2.0.tgz#cb2868540e313d61de58fafbe35ce9004d5540e6"
   integrity sha512-R4nPAVTAU0B9D35/Gk3uJf/7XYbQcyohSKdvAxIRSNghFl4e71hVoGnBNQz9cWaXxO2I10KTC+3jMdvvoKw6dQ==
-
-paginering@^2.1.1:
-  version "2.1.1"
-  resolved "https://registry.yarnpkg.com/paginering/-/paginering-2.1.1.tgz#c288a858db87b3044193301366f296e868dc22c5"
-  integrity sha512-IUsfFpIlBBT//bQ69UqxSqHkl2pxbqdQjv0Ypsr4jAByTnRFSJhLhVcmP645aOIomVwiC6ujDPHeU1yEpgshtg==
 
 pako@^2.0.4:
   version "2.1.0"
