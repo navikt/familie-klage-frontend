@@ -1561,12 +1561,12 @@
     framer-motion "^6.3.16"
     react-tooltip "^4.2.21"
 
-"@navikt/familie-datovelger@^0.1.0":
-  version "0.1.0"
-  resolved "https://npm.pkg.github.com/download/@navikt/familie-datovelger/0.1.0/642ad88c4313a260e9bba34906db7d04f9608fae#642ad88c4313a260e9bba34906db7d04f9608fae"
-  integrity sha512-hKJRfS7wXzNFDNo8zveqL5XGQ32fHFgyYWfQaPQrInOsCthZtU23RW8URupN8atGxaVezphDYBVjE5mqltv+YA==
+"@navikt/familie-datovelger@^0.2.0":
+  version "0.2.0"
+  resolved "https://npm.pkg.github.com/download/@navikt/familie-datovelger/0.2.0/c4cf1dc4a479a449d1bfae0bebcdd7a2d8cf5c41#c4cf1dc4a479a449d1bfae0bebcdd7a2d8cf5c41"
+  integrity sha512-cIdNf5t7G9dAElLs8+f0MzpQzFd2TsfCgm+GR2muQ3a6f8XxWSpRUIH3QLDlksAxQWaI29UoVQ7or7eSs5V7oA==
   dependencies:
-    "@navikt/familie-form-elements" "^11.0.0"
+    "@navikt/familie-form-elements" "^12.0.0"
     "@types/classnames" "^2.3.1"
     classnames "^2.3.2"
     dayjs "^1.11.3"
@@ -1601,6 +1601,15 @@
   version "11.0.0"
   resolved "https://npm.pkg.github.com/download/@navikt/familie-form-elements/11.0.0/977146a92620e3d476a4e32c149468fde37e0296#977146a92620e3d476a4e32c149468fde37e0296"
   integrity sha512-w0JZLJkDwKyqeyxlp+rEaKQkx7zVNHwx0yT+hoZRWaeD4675b94TNrPuCNPeqgX3o9oArOjdcDNyEf9bTkL54g==
+  dependencies:
+    "@types/classnames" "^2.3.1"
+    classnames "^2.3.2"
+    react-select "^5.7.0"
+
+"@navikt/familie-form-elements@^12.0.0":
+  version "12.0.0"
+  resolved "https://npm.pkg.github.com/download/@navikt/familie-form-elements/12.0.0/a333e46e08a5bff4d30c92f1ce990a2b58fe1cb7#a333e46e08a5bff4d30c92f1ce990a2b58fe1cb7"
+  integrity sha512-6k8XoBzgAEfOIaACVDSyWvYEYgXqOskUc1VvY41o8zpDKqgbQ636fw0H1kFaVN2Qq+yKjZUxTRIH5ryhSlcgSA==
   dependencies:
     "@types/classnames" "^2.3.1"
     classnames "^2.3.2"
@@ -6164,11 +6173,6 @@ nav-frontend-typografi@^4.0.x:
   resolved "https://registry.yarnpkg.com/nav-frontend-typografi/-/nav-frontend-typografi-4.0.2.tgz#470cc95f4b4ff3a94363dd86eeea45bd9dc6014a"
   integrity sha512-WUlhb9hXp1Z0CIqULGTYnD7EBPW5dTpBq0qlv+CcjiE4ooqWaRjvhDycj/rR9sjaB4EciF8uViUpIZk4YATqlw==
 
-nav-hoykontrast@^2.1.2:
-  version "2.1.2"
-  resolved "https://registry.yarnpkg.com/nav-hoykontrast/-/nav-hoykontrast-2.1.2.tgz#4e6b686fa67af8b4381f7c33271612b89230a6c2"
-  integrity sha512-2mwwbiSImWdLh4m2Jhr1YKf0Ew/+C3bUCyVDbUCWXo8n3N2fZdweH2NSIdI6Zpk3fyp3T/E74vArOHkMSVcG9Q==
-
 ncp@~2.0.0:
   version "2.0.0"
   resolved "https://registry.yarnpkg.com/ncp/-/ncp-2.0.0.tgz#195a21d6c46e361d2fb1281ba38b91e9df7bdbb3"
@@ -6515,11 +6519,6 @@ p-try@^2.0.0:
   version "2.2.0"
   resolved "https://registry.yarnpkg.com/p-try/-/p-try-2.2.0.tgz#cb2868540e313d61de58fafbe35ce9004d5540e6"
   integrity sha512-R4nPAVTAU0B9D35/Gk3uJf/7XYbQcyohSKdvAxIRSNghFl4e71hVoGnBNQz9cWaXxO2I10KTC+3jMdvvoKw6dQ==
-
-paginering@^2.1.1:
-  version "2.1.1"
-  resolved "https://registry.yarnpkg.com/paginering/-/paginering-2.1.1.tgz#c288a858db87b3044193301366f296e868dc22c5"
-  integrity sha512-IUsfFpIlBBT//bQ69UqxSqHkl2pxbqdQjv0Ypsr4jAByTnRFSJhLhVcmP645aOIomVwiC6ujDPHeU1yEpgshtg==
 
 pako@^2.0.4:
   version "2.1.0"
