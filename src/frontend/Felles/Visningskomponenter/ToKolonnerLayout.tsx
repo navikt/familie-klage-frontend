@@ -1,7 +1,7 @@
 import React from 'react';
 import styled from 'styled-components';
 
-const Container = styled.div`
+const Container = styled.div<{ skillelinje: boolean }>`
     display: flex;
     margin: 2rem;
     border-bottom: ${(props: { skillelinje: boolean }) =>
