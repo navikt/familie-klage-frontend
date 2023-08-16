@@ -87,7 +87,7 @@
     "react-router-dom": "^6.15.0",
     "react-select": "^5.7.4",
     "request-promise": "^4.2.6",
-    "snyk": "^1.1201.0",
+    "snyk": "^1.1202.0",
     "styled-components": "^6.0.7",
     "svg-inline-loader": "^0.8.2",
     "use-debounce": "^9.0.4",
