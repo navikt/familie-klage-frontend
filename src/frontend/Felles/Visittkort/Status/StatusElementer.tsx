@@ -19,11 +19,12 @@ interface StatusProps {
     kunEttElement?: boolean;
 }
 
+// @ts-ignore
 export const GråTekst = styled(BodyShort)`
     color: ${ATextSubtle};
 `;
 
-const StatusMenyInnhold = styled.div`
+const StatusMenyInnhold = styled.div<{ åpen: boolean }>`
     display: ${(props: StatusMenyInnholdProps) => (props.åpen ? 'block' : 'none')};
 
     position: absolute;

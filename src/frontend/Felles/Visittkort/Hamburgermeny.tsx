@@ -16,7 +16,7 @@ const HamburgerMenyIkon = styled(Hamburger)`
     }
 `;
 
-const HamburgerMenyInnhold = styled.div`
+const HamburgerMenyInnhold = styled.div<{ åpen: boolean }>`
     display: ${(props: HamburgerMenyInnholdProps) => (props.åpen ? 'block' : 'none')};
 
     position: absolute;
