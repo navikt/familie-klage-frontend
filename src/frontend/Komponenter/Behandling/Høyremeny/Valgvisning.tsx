@@ -58,7 +58,7 @@ const Valgvisning: React.FC<ValgvisningProps> = ({ aktiv, settAktiv }) => {
                 erAktiv={aktiv === Høyremenyvalg.Historikk}
                 onClick={() => settAktiv(Høyremenyvalg.Historikk)}
             >
-                <ClockFillIcon aria-label="Historikk" />
+                <ClockFillIcon aria-label="Historikk" fontSize="1.5rem" />
                 <BodyShort size={'small'}>Historikk</BodyShort>
             </StyledIkon>
             <StyledIkon
@@ -66,7 +66,7 @@ const Valgvisning: React.FC<ValgvisningProps> = ({ aktiv, settAktiv }) => {
                 erAktiv={aktiv === Høyremenyvalg.Dokumenter}
                 onClick={() => settAktiv(Høyremenyvalg.Dokumenter)}
             >
-                <FolderIcon aria-label="Dokumentoversikt" />
+                <FolderIcon aria-label="Dokumentoversikt" fontSize="1.5rem" />
                 <BodyShort size={'small'}>Dokumenter</BodyShort>
             </StyledIkon>
         </StyledIkonWrapper>

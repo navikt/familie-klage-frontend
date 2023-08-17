@@ -4,7 +4,7 @@ import { BodyShort, Detail, Label } from '@navikt/ds-react';
 import styled from 'styled-components';
 import { formaterIsoDatoTid } from '../../../App/utils/formatter';
 import { Behandling, behandlingStegFullførtTilTekst, StegType } from '../../../App/typer/fagsak';
-import { PeopleInCircle } from '@navikt/ds-icons';
+import { PersonCircleIcon } from '@navikt/aksel-icons';
 import { utledStegutfallForFerdigstiltBehandling } from '../utils';
 
 const Innslag = styled.div`
@@ -43,7 +43,7 @@ const HistorikkInnslag: React.FunctionComponent<IHistorikkOppdatering> = ({
     return (
         <Innslag>
             <Ikon>
-                <PeopleInCircle width={26} height={26} />
+                <PersonCircleIcon fontSize="1.5rem" />
                 <StipletLinje />
             </Ikon>
             <Tekst>

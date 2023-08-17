@@ -4,7 +4,7 @@ import Valgvisning from './Valgvisning';
 import Historikk from './Historikk';
 import Dokumenter from './Dokumenter';
 import styled from 'styled-components';
-import { Back, Next } from '@navikt/ds-icons';
+import { ChevronLeftIcon, ChevronRightIcon } from '@navikt/aksel-icons';
 import { AIconInfo } from '@navikt/ds-tokens/dist/tokens';
 import { useBehandling } from '../../../App/context/BehandlingContext';
 import { Behandling } from '../../../App/typer/fagsak';
@@ -14,14 +14,14 @@ interface IHøyremenyProps {
     åpenHøyremeny: boolean;
 }
 
-const PilVenstreIkon = styled(Back)`
+const PilVenstreIkon = styled(ChevronLeftIcon)`
     border-radius: 0;
     margin-top: 3px;
     margin-right: 2px;
     color: white;
 `;
 
-const PilHøyreIkon = styled(Next)`
+const PilHøyreIkon = styled(ChevronRightIcon)`
     border-radius: 0;
     margin-top: 3px;
     color: white;
@@ -68,7 +68,7 @@ const Høyremeny: React.FC<IHøyremenyProps> = ({ åpenHøyremeny, behandling })
                                 settÅpenHøyremeny(!åpenHøyremeny);
                             }}
                         >
-                            <PilHøyreIkon />
+                            <PilHøyreIkon fontSize="1.5rem" />
                         </ÅpneLukkeKnapp>
                         <Valgvisning aktiv={aktivtValg} settAktiv={settAktivtvalg} />
                         <Dokumenter hidden={aktivtValg !== Høyremenyvalg.Dokumenter} />
@@ -81,7 +81,7 @@ const Høyremeny: React.FC<IHøyremenyProps> = ({ åpenHøyremeny, behandling })
                         settÅpenHøyremeny(!åpenHøyremeny);
                     }}
                 >
-                    <PilVenstreIkon />
+                    <PilVenstreIkon fontSize="1.5rem" />
                 </ÅpneLukkeKnapp>
             )}
         </>

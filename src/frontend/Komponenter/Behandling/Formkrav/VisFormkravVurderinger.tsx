@@ -22,7 +22,7 @@ import {
     utledRadioKnapper,
     vedtakstidspunktTilVisningstekst,
 } from './utils';
-import { Delete, Edit } from '@navikt/ds-icons';
+import { PencilIcon, TrashIcon } from '@navikt/aksel-icons';
 import { PåklagetVedtakstype, påklagetVedtakstypeTilTekst } from '../../../App/typer/fagsak';
 import {
     alleVilkårOppfylt,
@@ -213,7 +213,7 @@ export const VisFormkravVurderinger: React.FC<IProps> = ({
                     <div>
                         <Button
                             variant={'tertiary'}
-                            icon={<Edit />}
+                            icon={<PencilIcon fontSize="1.5rem" />}
                             onClick={() => settRedigeringsmodus(Redigeringsmodus.REDIGERING)}
                         >
                             <span>Rediger</span>
@@ -221,7 +221,7 @@ export const VisFormkravVurderinger: React.FC<IProps> = ({
                         <Button
                             onClick={() => nullstillVurderinger()}
                             variant={'tertiary'}
-                            icon={<Delete />}
+                            icon={<TrashIcon fontSize="1.5rem" />}
                         >
                             <span>Slett</span>
                         </Button>

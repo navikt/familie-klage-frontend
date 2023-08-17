@@ -1,5 +1,5 @@
 import { Button } from '@navikt/ds-react';
-import { AddCircle, Delete } from '@navikt/ds-icons';
+import { PlusCircleIcon, TrashIcon } from '@navikt/aksel-icons';
 import { EnsligTextArea } from '../../../Felles/Input/EnsligTextArea';
 import * as React from 'react';
 import { useState } from 'react';
@@ -31,12 +31,19 @@ export const InterntNotat: React.FC<{
         settSkalViseFritekstFelt(!skalViseFritekstFelt);
     };
 
+    const utledIkon = (skalViseFritekstFelt: boolean) =>
+        skalViseFritekstFelt ? (
+            <TrashIcon fontSize="1.5rem" />
+        ) : (
+            <PlusCircleIcon fontSize="1.5rem" />
+        );
+
     return (
         <>
             <KnappWrapper>
                 <Button
                     variant={'tertiary'}
-                    icon={skalViseFritekstFelt ? <Delete /> : <AddCircle />}
+                    icon={utledIkon(skalViseFritekstFelt)}
                     onClick={handleClick}
                 >
                     {skalViseFritekstFelt ? 'Fjern internt notat' : 'Skriv internt notat'}
