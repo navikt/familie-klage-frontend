@@ -1,7 +1,7 @@
 import * as React from 'react';
 import styled from 'styled-components';
 import { NavLink } from 'react-router-dom';
-import { ABlue400, AGray100, AGray400, ATextAction } from '@navikt/ds-tokens/dist/tokens';
+import { AGray100, AGray400, ATextAction } from '@navikt/ds-tokens/dist/tokens';
 import { ISide } from './sider';
 import { useApp } from '../../../App/context/AppContext';
 import { BodyShort } from '@navikt/ds-react';
@@ -20,7 +20,6 @@ const StyledNavLink = styled(NavLink)`
     padding-left: 5px;
     padding-right: 5px;
     :hover {
-        border-bottom: 5px solid ${ABlue400};
         p {
             color: ${ATextAction};
         }
