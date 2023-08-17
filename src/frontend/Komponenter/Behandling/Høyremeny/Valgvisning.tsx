@@ -8,7 +8,7 @@ import {
     ATextAction,
 } from '@navikt/ds-tokens/dist/tokens';
 import { Høyremenyvalg } from './Høyremeny';
-import { Folder, ClockFilled } from '@navikt/ds-icons';
+import { ClockFillIcon, FolderIcon } from '@navikt/aksel-icons';
 import { BodyShort } from '@navikt/ds-react';
 
 const StyledIkonWrapper = styled.div`
@@ -34,7 +34,7 @@ const StyledIkon = styled.div<IkonProps>`
     padding-bottom: 0.62rem;
     background-color: ${AIconInfo};
     color: ${ATextAction};
-    :hover {
+    &:hover {
         cursor: pointer;
         svg {
             fill: ${ABlue400};
@@ -58,7 +58,7 @@ const Valgvisning: React.FC<ValgvisningProps> = ({ aktiv, settAktiv }) => {
                 erAktiv={aktiv === Høyremenyvalg.Historikk}
                 onClick={() => settAktiv(Høyremenyvalg.Historikk)}
             >
-                <ClockFilled aria-label="Historikk" />
+                <ClockFillIcon aria-label="Historikk" />
                 <BodyShort size={'small'}>Historikk</BodyShort>
             </StyledIkon>
             <StyledIkon
@@ -66,7 +66,7 @@ const Valgvisning: React.FC<ValgvisningProps> = ({ aktiv, settAktiv }) => {
                 erAktiv={aktiv === Høyremenyvalg.Dokumenter}
                 onClick={() => settAktiv(Høyremenyvalg.Dokumenter)}
             >
-                <Folder />
+                <FolderIcon aria-label="Dokumentoversikt" />
                 <BodyShort size={'small'}>Dokumenter</BodyShort>
             </StyledIkon>
         </StyledIkonWrapper>
