@@ -1,5 +1,4 @@
 import * as React from 'react';
-import hiddenIf from '../../../Felles/HiddenIf/hiddenIf';
 import { AxiosRequestConfig } from 'axios';
 import { useMemo } from 'react';
 import { useParams } from 'react-router-dom';
@@ -17,7 +16,7 @@ const OverSkrift = styled(Heading)`
     margin-top: 0.5rem;
     margin-left: 1rem;
 `;
-const Dokumenter: React.FC = () => {
+const Dokumenter: React.FC<{ hidden: boolean }> = ({ hidden }) => {
     const { behandlingId } = useParams<IBehandlingParams>();
 
     const dokumentConfig: AxiosRequestConfig = useMemo(
@@ -52,6 +51,10 @@ const Dokumenter: React.FC = () => {
         );
     };
 
+    if (hidden) {
+        return <></>;
+    }
+
     return (
         <DataViewer response={{ dokumentResponse }}>
             {({ dokumentResponse }) => {
@@ -70,4 +73,4 @@ const Dokumenter: React.FC = () => {
     );
 };
 
-export default hiddenIf(Dokumenter);
+export default Dokumenter;
