@@ -2,12 +2,15 @@ import * as React from 'react';
 import HistorikkInnslag from './HistorikkInnslag';
 import { useBehandling } from '../../../App/context/BehandlingContext';
 import DataViewer from '../../../Felles/DataViewer/DataViewer';
-import hiddenIf from '../../../Felles/HiddenIf/hiddenIf';
 import { IBehandlingshistorikk } from './behandlingshistorikk';
 import { Behandling } from '../../../App/typer/fagsak';
 
-const Historikk: React.FC = () => {
+const Historikk: React.FC<{ hidden: boolean }> = ({ hidden }) => {
     const { behandling, behandlingHistorikk } = useBehandling();
+
+    if (hidden) {
+        return <></>;
+    }
 
     return (
         <DataViewer response={{ behandling, behandlingHistorikk }}>
@@ -42,4 +45,4 @@ const HistorikkContainer: React.FC<{
     );
 };
 
-export default hiddenIf(Historikk);
+export default Historikk;
