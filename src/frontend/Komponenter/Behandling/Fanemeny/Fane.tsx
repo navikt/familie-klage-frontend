@@ -19,7 +19,7 @@ const StyledNavLink = styled(NavLink)`
     white-space: nowrap;
     padding-left: 5px;
     padding-right: 5px;
-    :hover {
+    &:hover {
         border-bottom: 5px solid ${ABlue400};
         p {
             color: ${ATextAction};

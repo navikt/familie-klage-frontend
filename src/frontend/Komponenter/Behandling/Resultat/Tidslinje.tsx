@@ -10,11 +10,14 @@ import {
 import styled from 'styled-components';
 import { Button, Detail, Heading, Label } from '@navikt/ds-react';
 import { formaterIsoDato, formaterIsoKlokke } from '../../../App/utils/formatter';
-import { Clock, InformationColored, SuccessColored, WarningColored } from '@navikt/ds-icons';
+import { ClockIcon } from '@navikt/aksel-icons';
 import { utledStegutfallForFerdigstiltBehandling } from '../utils';
 import { fjernDuplikatStegFraHistorikk } from './utils';
 import { useApp } from '../../../App/context/AppContext';
 import { utledEksternBehandlingLenke, utledSaksoversiktLenke } from '../../../App/utils/utils';
+import Oppfylt from '../../../Felles/Ikoner/Oppfylt';
+import Advarsel from '../../../Felles/Ikoner/Advarsel';
+import Info from '../../../Felles/Ikoner/Info';
 
 const Flexbox = styled.div<{ åpenHøyremeny: boolean }>`
     display: flex;
@@ -99,7 +102,7 @@ const Tittel = styled(Heading)<{ tittelErToLinjer: boolean; åpenHøyremeny: boo
     }
 `;
 
-const Suksess = styled(SuccessColored)`
+const Suksess = styled(Oppfylt)`
     margin: auto;
     margin-bottom: 0.5rem;
 `;
@@ -187,7 +190,7 @@ const Node: React.FC<{
             >
                 {behandlingStegTilTekst[steg.steg]}
             </Tittel>
-            {steg.endretTid ? <Suksess width={36} height={36} /> : <Clock width={36} height={36} />}
+            {steg.endretTid ? <Suksess width={36} height={36} /> : <ClockIcon fontSize="2.25rem" />}
             <Detail size="small">{steg.endretTid && formaterIsoDato(steg.endretTid)}</Detail>
             <Detail size="small">{steg.endretTid && formaterIsoKlokke(steg.endretTid)}</Detail>
             <Label size={'small'}>
@@ -206,7 +209,7 @@ export const MedholdRevurdering: React.FC<{
         const { eksternBehandlingId, opprettetTid } = fagsystemRevurdering.opprettet;
         return (
             <>
-                <InformationColored width={36} height={36} />
+                <Info width={36} height={36} />
                 <Detail size="small">{formaterIsoDato(opprettetTid)}</Detail>
                 <Detail size="small">{formaterIsoKlokke(opprettetTid)}</Detail>
                 <Label size={'small'}>Automatisk opprettet</Label>
@@ -227,7 +230,7 @@ export const MedholdRevurdering: React.FC<{
     } else {
         return (
             <>
-                <WarningColored width={36} height={36} />
+                <Advarsel width={36} height={36} />
                 <Label size={'small'}>Må manuelt opprettes</Label>
                 {fagsystemRevurdering && (
                     <Detail size="small">

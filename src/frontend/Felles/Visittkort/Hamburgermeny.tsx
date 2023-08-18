@@ -1,5 +1,5 @@
 import React, { useEffect, useRef, useState } from 'react';
-import { Hamburger } from '@navikt/ds-icons';
+import { MenuHamburgerIcon } from '@navikt/aksel-icons';
 import styled from 'styled-components';
 import { useBehandling } from '../../App/context/BehandlingContext';
 import { BodyShort } from '@navikt/ds-react';
@@ -8,7 +8,7 @@ interface HamburgerMenyInnholdProps {
     åpen: boolean;
 }
 
-const HamburgerMenyIkon = styled(Hamburger)`
+const HamburgerMenyIkon = styled(MenuHamburgerIcon)`
     margin: 1rem 1rem 0 1rem;
 
     &:hover {
@@ -92,6 +92,7 @@ export const Hamburgermeny = () => {
     return (
         <div ref={ref}>
             <HamburgerMenyIkon
+                fontSize="1.5rem"
                 onClick={() => {
                     settÅpenHamburgerMeny(!åpenHamburgerMeny);
                 }}

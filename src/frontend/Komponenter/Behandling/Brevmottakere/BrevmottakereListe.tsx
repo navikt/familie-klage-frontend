@@ -56,10 +56,7 @@ export const BrevmottakereListe: FC<Props> = ({
                             <KopierbartNullableFødselsnummer fødselsnummer={mottaker.personIdent} />
                         </BodyShort>
                     </Flexboks>
-                    <SlettKnapp
-                        onClick={fjernPersonMottaker(mottaker.personIdent)}
-                        knappetekst={''}
-                    />
+                    <SlettKnapp onClick={fjernPersonMottaker(mottaker.personIdent)} tekst={''} />
                 </StyledMottakerBoks>
             ))}
             {valgteOrganisasjonMottakere.map((mottaker, index) => (
@@ -72,7 +69,7 @@ export const BrevmottakereListe: FC<Props> = ({
                     </div>
                     <SlettKnapp
                         onClick={fjernOrganisasjonMottaker(mottaker.organisasjonsnummer)}
-                        knappetekst={''}
+                        tekst={''}
                     />
                 </StyledMottakerBoks>
             ))}

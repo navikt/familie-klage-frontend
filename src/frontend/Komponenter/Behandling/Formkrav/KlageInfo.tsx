@@ -3,30 +3,28 @@ import styled from 'styled-components';
 import { BodyLong, Heading } from '@navikt/ds-react';
 import { IFormkravVilkår, Redigeringsmodus } from './typer';
 import { Behandling } from '../../../App/typer/fagsak';
-import {
-    ErrorColored,
-    FileContent,
-    InformationColored,
-    SuccessColored,
-    WarningColored,
-} from '@navikt/ds-icons';
+import { FileTextIcon } from '@navikt/aksel-icons';
 import { formaterIsoDato } from '../../../App/utils/formatter';
 import { alleVilkårOppfylt, påKlagetVedtakValgt } from './validerFormkravUtils';
 import { useBehandling } from '../../../App/context/BehandlingContext';
+import Oppfylt from '../../../Felles/Ikoner/Oppfylt';
+import IkkeOppfylt from '../../../Felles/Ikoner/IkkeOppfylt';
+import Advarsel from '../../../Felles/Ikoner/Advarsel';
+import Info from '../../../Felles/Ikoner/Info';
 
-const OppfyltIkon = styled(SuccessColored)`
+const OppfyltIkon = styled(Oppfylt)`
     margin-top: 0.25rem;
 `;
 
-const ErrorIkon = styled(ErrorColored)`
+const ErrorIkon = styled(IkkeOppfylt)`
     margin-top: 0.25rem;
 `;
 
-const Advarsel = styled(WarningColored)`
+const AdvarselIkon = styled(Advarsel)`
     margin-top: 0.2rem;
 `;
 
-const InfoIkon = styled(InformationColored)`
+const InfoIkon = styled(Info)`
     margin-top: 0.25rem;
 `;
 
@@ -48,7 +46,7 @@ export const KlageInfo: React.FC<IProps> = ({ behandling, vurderinger, redigerin
     const { formkravOppfylt } = useBehandling();
     const utledetIkon = () => {
         if (redigeringsmodus === Redigeringsmodus.IKKE_PÅSTARTET) {
-            return <Advarsel height={26} width={26} />;
+            return <AdvarselIkon height={26} width={26} />;
         } else if (formkravOppfylt) {
             return <OppfyltIkon height={23} width={23} />;
         } else if (påKlagetVedtakValgt(vurderinger) && alleVilkårOppfylt(vurderinger)) {
@@ -66,7 +64,7 @@ export const KlageInfo: React.FC<IProps> = ({ behandling, vurderinger, redigerin
                 </Heading>
             </TabellRad>
             <TabellRad>
-                <FileContent />
+                <FileTextIcon fontSize="1.5rem" />
                 <BodyLong size="small">Klage mottatt</BodyLong>
                 <BodyLong size="small">{formaterIsoDato(behandling.klageMottatt)}</BodyLong>
             </TabellRad>

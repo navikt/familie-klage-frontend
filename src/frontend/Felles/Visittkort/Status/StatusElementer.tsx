@@ -1,6 +1,6 @@
 import React, { FC, useState } from 'react';
 import { Behandling, behandlingResultatTilTekst } from '../../../App/typer/fagsak';
-import { Expand, ExternalLink } from '@navikt/ds-icons';
+import { ChevronDownIcon, ExternalLinkIcon } from '@navikt/aksel-icons';
 import { BodyShort, Button, Link } from '@navikt/ds-react';
 import { behandlingStatusTilTekst } from '../../../App/typer/behandlingstatus';
 import { formaterIsoDatoTid } from '../../../App/utils/formatter';
@@ -111,7 +111,7 @@ export const StatusMeny: FC<{ behandling: Behandling }> = ({ behandling }) => {
                     settÅpenStatusMeny(!åpenStatusMeny);
                 }}
             >
-                <Expand />
+                <ChevronDownIcon fontSize="1.5rem" />
             </VisStatuserKnapp>
             <StatusMenyInnhold åpen={åpenStatusMeny}>
                 <ul>
@@ -155,7 +155,10 @@ export const StatusMeny: FC<{ behandling: Behandling }> = ({ behandling }) => {
                                     target="_blank"
                                 >
                                     Gå til behandling
-                                    <ExternalLink aria-label="Gå til behandling" />
+                                    <ExternalLinkIcon
+                                        aria-label="Gå til behandling"
+                                        fontSize="1.5rem"
+                                    />
                                 </Link>
                             </Status>
                         </li>
@@ -167,7 +170,10 @@ export const StatusMeny: FC<{ behandling: Behandling }> = ({ behandling }) => {
                                 target="_blank"
                             >
                                 Gå til saksoversikt
-                                <ExternalLink aria-label="Gå til saksoversikt" />
+                                <ExternalLinkIcon
+                                    aria-label="Gå til saksoversikt"
+                                    fontSize="1.5rem"
+                                />
                             </Link>
                         </Status>
                     </li>
@@ -204,7 +210,7 @@ export const AlleStatuser: FC<{ behandling: Behandling }> = ({ behandling }) => 
                         target="_blank"
                     >
                         Gå til behandling
-                        <ExternalLink aria-label="Gå til behandling" />
+                        <ExternalLinkIcon aria-label="Gå til behandling" fontSize="1.5rem" />
                     </Link>
                 </Status>
             )}
@@ -214,7 +220,7 @@ export const AlleStatuser: FC<{ behandling: Behandling }> = ({ behandling }) => 
                     target="_blank"
                 >
                     Gå til saksoversikt
-                    <ExternalLink aria-label="Gå til saksoversikt" />
+                    <ExternalLinkIcon aria-label="Gå til saksoversikt" fontSize="1.5rem" />
                 </Link>
             </Status>
         </Statuser>
