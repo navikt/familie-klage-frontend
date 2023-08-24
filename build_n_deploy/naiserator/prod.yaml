@@ -48,12 +48,10 @@ spec:
     outbound:
       rules:
         - application: familie-ef-sak
-        - application: familie-klage-frontend-redis
         - application: familie-brev
         - application: familie-klage
   envFrom:
     - secret: familie                       # Henter ut FAMILIE-KLAGE
-    - secret: familie-klage-frontend-redis  # Henter ut REDIS_PASSWORD
     - secret: familie-klage-frontend        # Ulike secrets
   env:
     - name: APP_VERSION
