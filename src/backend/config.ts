@@ -17,7 +17,6 @@ interface IEnvironment {
     buildPath: string;
     miljø: string;
     klageProxyUrl: string;
-    redisUrl?: string;
     roller: Roller;
     eksternlenker: Eksternlenker;
 }
@@ -88,7 +87,6 @@ const Environment = (): IEnvironment => {
             buildPath: 'frontend_production',
             miljø: 'preprod',
             klageProxyUrl: 'http://familie-klage',
-            redisUrl: 'familie-klage-frontend-redis',
             roller: rollerDev,
             eksternlenker: lenkerDev,
         };
@@ -106,7 +104,6 @@ const Environment = (): IEnvironment => {
         buildPath: 'frontend_production',
         miljø: 'production',
         klageProxyUrl: 'http://familie-klage',
-        redisUrl: 'familie-klage-frontend-redis',
         roller: rollerProd,
         eksternlenker: lenkerProd,
     };
