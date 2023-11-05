@@ -27,7 +27,7 @@
     "@navikt/ds-css": "4.11.x",
     "@navikt/ds-css-internal": "3.4.x",
     "@navikt/ds-icons": "3.4.x",
-    "@navikt/ds-react": "4.11.x",
+    "@navikt/ds-react": "4.12.x",
     "@navikt/ds-react-internal": "3.4.x",
     "@navikt/ds-tokens": "4.11.x",
     "@navikt/familie-backend": "10.0.7",
