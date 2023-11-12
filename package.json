@@ -88,7 +88,7 @@
     "react-select": "^5.7.4",
     "request-promise": "^4.2.6",
     "snyk": "^1.1203.0",
-    "styled-components": "^6.0.7",
+    "styled-components": "^6.1.1",
     "svg-inline-loader": "^0.8.2",
     "use-debounce": "^9.0.4",
     "uuid": "^9.0.0"
