@@ -2266,7 +2266,7 @@
     "@sentry/utils" "7.60.0"
     tslib "^2.4.1 || ^1.9.3"
 
-"@sentry/core@7.64.0", "@sentry/core@^7.64.0":
+"@sentry/core@7.64.0":
   version "7.64.0"
   resolved "https://registry.yarnpkg.com/@sentry/core/-/core-7.64.0.tgz#9d61cdc29ba299dedbdcbe01cfadf94bd0b7df48"
   integrity sha512-IzmEyl5sNG7NyEFiyFHEHC+sizsZp9MEw1+RJRLX6U5RITvcsEgcajSkHQFafaBPzRrcxZMdm47Cwhl212LXcw==
@@ -2274,6 +2274,14 @@
     "@sentry/types" "7.64.0"
     "@sentry/utils" "7.64.0"
     tslib "^2.4.1 || ^1.9.3"
+
+"@sentry/core@^7.81.1":
+  version "7.81.1"
+  resolved "https://registry.yarnpkg.com/@sentry/core/-/core-7.81.1.tgz#082fd9122bf9a488c8e05b1754724ddbc2d5cf30"
+  integrity sha512-tU37yAmckOGCw/moWKSwekSCWWJP15O6luIq+u7wal22hE88F3Vc5Avo8SeF3upnPR+4ejaOFH+BJTr6bgrs6Q==
+  dependencies:
+    "@sentry/types" "7.81.1"
+    "@sentry/utils" "7.81.1"
 
 "@sentry/node@^7.36.0":
   version "7.60.0"
@@ -2308,6 +2316,11 @@
   resolved "https://registry.yarnpkg.com/@sentry/types/-/types-7.64.0.tgz#21fc545ea05c3c8c4c3e518583eca1a8c5429506"
   integrity sha512-LqjQprWXjUFRmzIlUjyA+KL+38elgIYmAeoDrdyNVh8MK5IC1W2Lh1Q87b4yOiZeMiIhIVNBd7Ecoh2rodGrGA==
 
+"@sentry/types@7.81.1":
+  version "7.81.1"
+  resolved "https://registry.yarnpkg.com/@sentry/types/-/types-7.81.1.tgz#2b2551fc291e1089651fd574a68f7c4175878bd5"
+  integrity sha512-dvJvGyctiaPMIQqa46k56Re5IODWMDxiHJ1UjBs/WYDLrmWFPGrEbyJ8w8CYLhYA+7qqrCyIZmHbWSTRIxstHw==
+
 "@sentry/utils@7.60.0":
   version "7.60.0"
   resolved "https://registry.yarnpkg.com/@sentry/utils/-/utils-7.60.0.tgz#a96d772dcc2d007f73a5bcf67dcc66f6a7085736"
@@ -2323,6 +2336,13 @@
   dependencies:
     "@sentry/types" "7.64.0"
     tslib "^2.4.1 || ^1.9.3"
+
+"@sentry/utils@7.81.1":
+  version "7.81.1"
+  resolved "https://registry.yarnpkg.com/@sentry/utils/-/utils-7.81.1.tgz#42f3e77baf90205cec1f8599eb8445a6918030bd"
+  integrity sha512-gq+MDXIirHKxNZ+c9/lVvCXd6y2zaZANujwlFggRH2u9SRiPaIXVilLpvMm4uJqmqBMEcY81ArujExtHvkbCqg==
+  dependencies:
+    "@sentry/types" "7.81.1"
 
 "@sinclair/typebox@^0.27.8":
   version "0.27.8"
