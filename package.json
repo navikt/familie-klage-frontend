@@ -24,11 +24,7 @@
   },
   "dependencies": {
     "@navikt/ds-css": "5.10.x",
-    "@navikt/ds-css-internal": "3.4.x",
-    "@navikt/ds-icons": "3.4.x",
     "@navikt/ds-react": "5.10.x",
-    "@navikt/ds-react-internal": "3.4.x",
-    "@navikt/ds-tokens": "5.10.x",
     "@navikt/familie-backend": "10.0.11",
     "@navikt/familie-dokumentliste": "^9.0.1",
     "@navikt/familie-endringslogg": "^10.0.0",
