@@ -1,4 +1,4 @@
-import { format, parseISO } from 'date-fns';
+import { format, formatISO, parseISO } from 'date-fns';
 import { harTallverdi } from './utils';
 
 export const datoFormat = {
@@ -17,6 +17,8 @@ export const datoTidFormat = {
 export const datoMånedÅrFormat = { month: 'short', year: 'numeric' } as const;
 export const datoMånedÅrFormatFull = { month: 'long', year: 'numeric' } as const;
 export const månedFormat = { month: 'short' } as const;
+
+export const tilLocaleDateString = (dato: Date) => formatISO(dato, { representation: 'date' });
 
 export const formaterNullableIsoDato = (dato?: string): string | undefined =>
     dato && formaterIsoDato(dato);

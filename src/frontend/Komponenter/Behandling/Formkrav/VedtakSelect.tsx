@@ -12,7 +12,7 @@ import {
 import { FagsystemVedtak } from '../../../App/typer/fagsystemVedtak';
 import { Label } from '@navikt/ds-react';
 import { erGyldigDato } from '../../../App/utils/dato';
-import { FamilieDatovelger } from '@navikt/familie-datovelger';
+import { Datovelger } from '../../../Felles/Datovelger/Datovelger';
 
 interface IProps {
     settOppdaterteVurderinger: Dispatch<SetStateAction<IFormkravVilkår>>;
@@ -90,11 +90,11 @@ export const VedtakSelect: React.FC<IProps> = ({
             {harManuellVedtaksdato(vurderinger.påklagetVedtak.påklagetVedtakstype) && (
                 <DatoWrapper>
                     <Label htmlFor={'vedtaksdato'}>Vedtaksdato</Label>
-                    <FamilieDatovelger
-                        label={null}
+                    <Datovelger
+                        label={''}
                         id={'vedtaksdato'}
-                        value={manuellVedtaksdato}
-                        onChange={(dato) => {
+                        verdi={manuellVedtaksdato}
+                        settVerdi={(dato) => {
                             settOppdaterteVurderinger((prevState) => ({
                                 ...prevState,
                                 påklagetVedtak: {
@@ -108,7 +108,7 @@ export const VedtakSelect: React.FC<IProps> = ({
                                 ? 'Ugyldig dato'
                                 : undefined
                         }
-                        limitations={{ maxDate: new Date().toISOString() }}
+                        maksDato={new Date()}
                     />
                 </DatoWrapper>
             )}
