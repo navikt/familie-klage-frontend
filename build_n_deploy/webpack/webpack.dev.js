@@ -29,7 +29,6 @@ const config = mergeWithCustomize({
                 exclude: /node_modules/,
                 loader: 'babel-loader',
                 options: {
-                    presets: ['react-app'],
                     plugins: ['react-refresh/babel'],
                 },
             },
