@@ -11,13 +11,10 @@ import BehandlingContainer from './Komponenter/Behandling/BehandlingContainer';
 import { AppEnv, hentEnv } from './App/api/env';
 import { Toast } from './Felles/Toast/Toast';
 import { TestSide } from './Komponenter/test/TestSide';
-import { BodyLong, Modal } from '@navikt/ds-react';
+import { BodyLong } from '@navikt/ds-react';
 import { ModalWrapper } from './Felles/Modal/ModalWrapper';
 import styled from 'styled-components';
 import UlagretDataModal from './Felles/Modal/UlagretDataModal';
-
-// @ts-ignore
-Modal.setAppElement(document.getElementById('modal-a11y-wrapper'));
 
 const Innhold = styled(BodyLong)`
     margin-top: 2rem;

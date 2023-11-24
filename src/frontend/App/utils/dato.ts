@@ -72,6 +72,14 @@ export const nullableDatoTilAlder = (dato?: string | Date): number | undefined =
     return dato ? datoTilAlder(dato) : undefined;
 };
 
+export const nullableTilDato = (dato: string | Date | undefined): Date | undefined => {
+    if (typeof dato === 'string') {
+        return dato !== '' ? parseISO(dato) : undefined;
+    } else {
+        return dato;
+    }
+};
+
 export const datoTilAlder = (dato: string | Date): number => {
     return differenceInYears(new Date(), tilDato(dato));
 };

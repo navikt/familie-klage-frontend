@@ -63,9 +63,8 @@ export const OmgjørVedtak: React.FC<{
     const { behandlingErRedigerbar } = useBehandling();
     const [visModal, settVisModal] = useState<boolean>(false);
     const [feilmelding, settFeilmelding] = useState('');
-    const [kanOppretteRevurdering, settKanOppretteRevurdering] = useState<
-        Ressurs<KanOppretteRevurdering>
-    >(byggTomRessurs());
+    const [kanOppretteRevurdering, settKanOppretteRevurdering] =
+        useState<Ressurs<KanOppretteRevurdering>>(byggTomRessurs());
 
     const lukkModal = () => {
         settVisModal(false);
