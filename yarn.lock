@@ -1405,34 +1405,34 @@
     semver "^7.3.5"
     tar "^6.1.11"
 
-"@navikt/aksel-icons@^5.10.4":
-  version "5.10.4"
-  resolved "https://npm.pkg.github.com/download/@navikt/aksel-icons/5.10.4/d8843356f6ab6acddd194f4aebfda47455ab904c#d8843356f6ab6acddd194f4aebfda47455ab904c"
-  integrity sha512-F/QteO1hQ5vncdg80/wB5j0t+uUrPbzGtn9DmBQg5g1zBvqfGsZ20YbKOsCUJWXJ8w995M6ZP+TMKatSg0j+LA==
+"@navikt/aksel-icons@^5.11.2":
+  version "5.11.2"
+  resolved "https://npm.pkg.github.com/download/@navikt/aksel-icons/5.11.2/3e531b20a48f93dd539493516c9083fd6816b90e#3e531b20a48f93dd539493516c9083fd6816b90e"
+  integrity sha512-93a9BLss+jNgfGALolprdrNSp+2yAY15oupuNGP1Zmy6jtUZd6086Tpr9dZ36U7oRiwvCv+c7dnj9aoGSJAsDg==
 
-"@navikt/ds-css@5.10.x":
-  version "5.10.4"
-  resolved "https://npm.pkg.github.com/download/@navikt/ds-css/5.10.4/4d5063bde80a8eba8c09f66b7f9905341a382412#4d5063bde80a8eba8c09f66b7f9905341a382412"
-  integrity sha512-LuhZwAXgwxmlww+lvufkdG2fKLsYYjmFAaKpGDSzobTGhnQQ/nz5J+R5iGq4s/GK1lZcSXHGNaAPotG0T5yd+A==
+"@navikt/ds-css@5.11.x":
+  version "5.11.2"
+  resolved "https://npm.pkg.github.com/download/@navikt/ds-css/5.11.2/42b0d0aa14fa32035e3fedc3569e47ca7faf30e8#42b0d0aa14fa32035e3fedc3569e47ca7faf30e8"
+  integrity sha512-HlkMOwk5MdtPBoVVHzV2DYecmO2cvmEfa8xg8OtZntYjQ5l4gc2P9/fmAlPcRkcDowmFKTfTszG7hzoHvxoJzg==
 
-"@navikt/ds-react@5.10.x":
-  version "5.10.4"
-  resolved "https://npm.pkg.github.com/download/@navikt/ds-react/5.10.4/70389583bd8d07b3adfe3a7a74213364a0cafd7f#70389583bd8d07b3adfe3a7a74213364a0cafd7f"
-  integrity sha512-xQzeiYNo+cauKfcS6OG8RIk+hjM9STnHfFKE8q8aCla6I1EKNnhLlX1Pzmvnk3TVII4s5d+g8fatJ79K2FLj0g==
+"@navikt/ds-react@5.11.x":
+  version "5.11.2"
+  resolved "https://npm.pkg.github.com/download/@navikt/ds-react/5.11.2/716fea09397199ad7e5fba13e1e8c64ee26356bc#716fea09397199ad7e5fba13e1e8c64ee26356bc"
+  integrity sha512-0fcnvi+g+C96YlFDjlTJvUaY6b03nj/VvuUO2+rE30lwgrl6ozeP44LOE1FoLrZOX3lcj+aAFbT7h3AuvabFzg==
   dependencies:
     "@floating-ui/react" "0.25.4"
-    "@navikt/aksel-icons" "^5.10.4"
-    "@navikt/ds-tokens" "^5.10.4"
+    "@navikt/aksel-icons" "^5.11.2"
+    "@navikt/ds-tokens" "^5.11.2"
     "@radix-ui/react-tabs" "1.0.0"
     "@radix-ui/react-toggle-group" "1.0.0"
     clsx "^1.2.1"
-    date-fns "2.29.3"
+    date-fns "^2.30.0"
     react-day-picker "8.3.4"
 
-"@navikt/ds-tokens@^5.10.4":
-  version "5.10.4"
-  resolved "https://npm.pkg.github.com/download/@navikt/ds-tokens/5.10.4/0bb84c7cbbcf1d775ad2733cccef3a45a8c51a09#0bb84c7cbbcf1d775ad2733cccef3a45a8c51a09"
-  integrity sha512-DFSiKThyBx9OmhEIZ6g/Ii10ScaMmaJiKWdhUVXdL0Y3e9+yUhpBtR6wvJR3JGP4HRRFgujr3lJoK2Y+vYYY6g==
+"@navikt/ds-tokens@^5.11.2":
+  version "5.11.2"
+  resolved "https://npm.pkg.github.com/download/@navikt/ds-tokens/5.11.2/d94c53904f6bf382464b4c4188399187efd8059e#d94c53904f6bf382464b4c4188399187efd8059e"
+  integrity sha512-3w6rwhPtPwKjmcjOhoCksIhzrLQybJFoNX5AYtSdFvBxQJSRoQsqgc97e4/MN4+TXbJgBfXO+FGKPI6SAe/kug==
 
 "@navikt/familie-backend@10.0.11":
   version "10.0.11"
@@ -1781,10 +1781,10 @@
   resolved "https://registry.yarnpkg.com/@redis/time-series/-/time-series-1.0.5.tgz#a6d70ef7a0e71e083ea09b967df0a0ed742bc6ad"
   integrity sha512-IFjIgTusQym2B5IZJG3XKr5llka7ey84fw/NOYqESP5WUfQs9zz1ww/9+qoz4ka/S6KcGBodzlCeZ5UImKbscg==
 
-"@remix-run/router@1.12.0":
-  version "1.12.0"
-  resolved "https://registry.yarnpkg.com/@remix-run/router/-/router-1.12.0.tgz#e89b64b6fa97a8a5b740a4c38c2904b80f1f229a"
-  integrity sha512-2hXv036Bux90e1GXTWSMfNzfDDK8LA8JYEWfyHxzvwdp6GyoWEovKc9cotb3KCKmkdwsIBuFGX7ScTWyiHv7Eg==
+"@remix-run/router@1.13.0":
+  version "1.13.0"
+  resolved "https://registry.yarnpkg.com/@remix-run/router/-/router-1.13.0.tgz#7e29c4ee85176d9c08cb0f4456bff74d092c5065"
+  integrity sha512-5dMOnVnefRsl4uRnAdoWjtVTdh8e6aZqgM4puy9nmEADH72ck+uXwzpJLEKE9Q6F8ZljNewLgmTfkxUrBdv4WA==
 
 "@sentry-internal/tracing@7.81.1":
   version "7.81.1"
@@ -2143,10 +2143,10 @@
     "@types/mime" "*"
     "@types/node" "*"
 
-"@types/styled-components@^5.1.26":
-  version "5.1.26"
-  resolved "https://registry.yarnpkg.com/@types/styled-components/-/styled-components-5.1.26.tgz#5627e6812ee96d755028a98dae61d28e57c233af"
-  integrity sha512-KuKJ9Z6xb93uJiIyxo/+ksS7yLjS1KzG6iv5i78dhVg/X3u5t1H7juRWqVmodIdz6wGVaIApo1u01kmFRdJHVw==
+"@types/styled-components@^5.1.32":
+  version "5.1.32"
+  resolved "https://registry.yarnpkg.com/@types/styled-components/-/styled-components-5.1.32.tgz#58718971519c4562229ba85face98e8530d21bfd"
+  integrity sha512-DqVpl8R0vbhVSop4120UHtGrFmHuPeoDwF4hDT0kPJTY8ty0SI38RV3VhCMsWigMUXG+kCXu7vMRqMFNy6eQgA==
   dependencies:
     "@types/hoist-non-react-statics" "*"
     "@types/react" "*"
@@ -3440,11 +3440,6 @@ data-uri-to-buffer@^4.0.0:
   version "4.0.1"
   resolved "https://registry.yarnpkg.com/data-uri-to-buffer/-/data-uri-to-buffer-4.0.1.tgz#d8feb2b2881e6a4f58c2e08acfd0e2834e26222e"
   integrity sha512-0R9ikRb668HB7QDxT1vkpuUBtqc53YyAwMwGeUFKRojY/NWKvdZ+9UYtRfGmhqNbRkTSVpMbmyhXipFFv2cb/A==
-
-date-fns@2.29.3:
-  version "2.29.3"
-  resolved "https://registry.yarnpkg.com/date-fns/-/date-fns-2.29.3.tgz#27402d2fc67eb442b511b70bbdf98e6411cd68a8"
-  integrity sha512-dDCnyH2WnnKusqvZZ6+jA1O51Ibt8ZMRNkDZdyAyK4YfbDwa/cEmuztzG5pk6hqlp9aSBPYcjOlktquahGwGeA==
 
 date-fns@^2.30.0:
   version "2.30.0"
@@ -6577,20 +6572,20 @@ react-refresh@^0.14.0:
   resolved "https://registry.yarnpkg.com/react-refresh/-/react-refresh-0.14.0.tgz#4e02825378a5f227079554d4284889354e5f553e"
   integrity sha512-wViHqhAd8OHeLS/IRMJjTSDHF3U9eWi62F/MledQGPdJGDhodXJ9PBLNGr6WWL7qlH12Mt3TyTpbS+hGXMjCzQ==
 
-react-router-dom@^6.19.0:
-  version "6.19.0"
-  resolved "https://registry.yarnpkg.com/react-router-dom/-/react-router-dom-6.19.0.tgz#ee807e36ae7dd954db7a3f770e38b7cc026c66a8"
-  integrity sha512-N6dWlcgL2w0U5HZUUqU2wlmOrSb3ighJmtQ438SWbhB1yuLTXQ8yyTBMK3BSvVjp7gBtKurT554nCtMOgxCZmQ==
+react-router-dom@^6.20.0:
+  version "6.20.0"
+  resolved "https://registry.yarnpkg.com/react-router-dom/-/react-router-dom-6.20.0.tgz#7b9527a1e29c7fb90736a5f89d54ca01f40e264b"
+  integrity sha512-CbcKjEyiSVpA6UtCHOIYLUYn/UJfwzp55va4yEfpk7JBN3GPqWfHrdLkAvNCcpXr8QoihcDMuk0dzWZxtlB/mQ==
   dependencies:
-    "@remix-run/router" "1.12.0"
-    react-router "6.19.0"
+    "@remix-run/router" "1.13.0"
+    react-router "6.20.0"
 
-react-router@6.19.0:
-  version "6.19.0"
-  resolved "https://registry.yarnpkg.com/react-router/-/react-router-6.19.0.tgz#6d5062fa33495859daca98d86292ab03b037a9ca"
-  integrity sha512-0W63PKCZ7+OuQd7Tm+RbkI8kCLmn4GPjDbX61tWljPxWgqTKlEpeQUwPkT1DRjYhF8KSihK0hQpmhU4uxVMcdw==
+react-router@6.20.0:
+  version "6.20.0"
+  resolved "https://registry.yarnpkg.com/react-router/-/react-router-6.20.0.tgz#4275a3567ecc55f7703073158048db10096bb539"
+  integrity sha512-pVvzsSsgUxxtuNfTHC4IxjATs10UaAtvLGVSA1tbUE4GDaOSU1Esu2xF5nWLz7KPiMuW8BJWuPFdlGYJ7/rW0w==
   dependencies:
-    "@remix-run/router" "1.12.0"
+    "@remix-run/router" "1.13.0"
 
 react-select@*, react-select@^5.7.0, react-select@^5.8.0:
   version "5.8.0"
