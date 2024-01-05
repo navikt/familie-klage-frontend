@@ -68,7 +68,7 @@ const Høyremeny: React.FC<IHøyremenyProps> = ({ åpenHøyremeny, behandling })
                                 settÅpenHøyremeny(!åpenHøyremeny);
                             }}
                         >
-                            <PilHøyreIkon fontSize="1.5rem" />
+                            <PilHøyreIkon />
                         </ÅpneLukkeKnapp>
                         <Valgvisning aktiv={aktivtValg} settAktiv={settAktivtvalg} />
                         <Dokumenter hidden={aktivtValg !== Høyremenyvalg.Dokumenter} />
@@ -81,7 +81,7 @@ const Høyremeny: React.FC<IHøyremenyProps> = ({ åpenHøyremeny, behandling })
                         settÅpenHøyremeny(!åpenHøyremeny);
                     }}
                 >
-                    <PilVenstreIkon fontSize="1.5rem" />
+                    <PilVenstreIkon />
                 </ÅpneLukkeKnapp>
             )}
         </>
