@@ -42,7 +42,8 @@ spec:
     limits:
       memory: 1024Mi
     requests:
-      memory: 512Mi
+      memory: 256Mi
+      cpu: 100m
   accessPolicy:
     outbound:
       rules:
