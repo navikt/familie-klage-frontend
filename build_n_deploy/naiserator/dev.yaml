@@ -41,9 +41,10 @@ spec:
           - id: 928636f4-fd0d-4149-978e-a6fb68bb19de # 0000-GA-STDAPPS - tilgang til prosessering
   resources:
     limits:
-      memory: 1024Mi
+      memory: 768Mi
     requests:
-      memory: 512Mi
+      memory: 256Mi
+      cpu: 20m
   accessPolicy:
     outbound:
       rules:
