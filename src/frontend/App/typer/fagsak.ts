@@ -158,10 +158,12 @@ export type FagsystemRevurdering =
 
 export enum RevurderingIkkeOpprettetÅrsak {
     ÅPEN_BEHANDLING = 'ÅPEN_BEHANDLING',
+    INGEN_BEHANDLING = 'INGEN_BEHANDLING',
     FEIL = 'FEIL',
 }
 
 export const revurderingIkkeOpprettetÅrsak: Record<RevurderingIkkeOpprettetÅrsak, string> = {
     ÅPEN_BEHANDLING: 'Åpen behandling',
+    INGEN_BEHANDLING: 'Ingen behandling',
     FEIL: 'Uventet feil',
 };
