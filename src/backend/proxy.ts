@@ -4,7 +4,7 @@ import { ClientRequest, IncomingMessage } from 'http';
 import { createProxyMiddleware } from 'http-proxy-middleware';
 import { v4 as uuidv4 } from 'uuid';
 import { oboConfig } from './config';
-import { logError, logInfo } from '@navikt/familie-logging';
+import { logError, logInfo, stdoutLogger } from '@navikt/familie-logging';
 
 const restream = (proxyReq: ClientRequest, req: IncomingMessage) => {
     const requestBody = (req as Request).body;
@@ -16,18 +16,13 @@ const restream = (proxyReq: ClientRequest, req: IncomingMessage) => {
     }
 };
 
-export const doProxy = (
-    context: string,
-    targetUrl: string,
-    pathPrefix = '/api'
-): RequestHandler => {
-    return createProxyMiddleware(context, {
+export const doProxy = (targetUrl: string, pathPrefix = '/api'): RequestHandler => {
+    return createProxyMiddleware({
         changeOrigin: true,
-        logLevel: 'info',
-        onProxyReq: restream,
+        logger: stdoutLogger,
+        on: { proxyReq: restream },
         pathRewrite: (path: string) => {
-            const newPath = path.replace(context, '');
-            return `${pathPrefix}${newPath}`;
+            return `${pathPrefix}${path}`;
         },
         secure: true,
         target: `${targetUrl}`,
