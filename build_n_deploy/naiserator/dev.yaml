@@ -22,11 +22,12 @@ spec:
     path: /metrics
   ingresses:
     - https://familie-klage.intern.dev.nav.no
+    - https://familie-klage.ansatt.dev.nav.no
   azure:
     application:
       enabled: true
       replyURLs:
-        - https://familie-klage.intern.dev.nav.no/auth/openid/callback
+        - https://familie-klage.ansatt.dev.nav.no/auth/openid/callback
       claims:
         groups:
           - id: d21e00a4-969d-4b28-8782-dc818abfae65 # 0000-GA-Barnetrygd
