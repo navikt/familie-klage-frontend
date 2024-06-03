@@ -1,4 +1,4 @@
-import { captureException, configureScope, withScope } from '@sentry/core';
+import { captureException, getCurrentScope, withScope } from '@sentry/core';
 import axios, { AxiosError, AxiosRequestHeaders, AxiosResponse } from 'axios';
 import { Ressurs, RessursFeilet, RessursStatus, RessursSuksess } from '../typer/ressurs';
 import { ISaksbehandler } from '../typer/saksbehandler';
@@ -113,12 +113,8 @@ export const loggFeil = (
     isWarning = false
 ): void => {
     if (process.env.NODE_ENV === 'production') {
-        configureScope((scope) => {
-            scope.setUser({
-                username: innloggetSaksbehandler
-                    ? innloggetSaksbehandler.displayName
-                    : 'Ukjent bruker',
-            });
+        getCurrentScope().setUser({
+            username: innloggetSaksbehandler ? innloggetSaksbehandler.displayName : 'Ukjent bruker',
         });
 
         const response: AxiosResponse | undefined = error ? error.response : undefined;

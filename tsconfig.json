@@ -5,10 +5,10 @@
         "baseUrl": "./src",
         "rootDir": "./src",
         "resolveJsonModule": true,
-        "module": "ES6",
+        "module": "es2022",
         "esModuleInterop": true
     },
     "include": ["./src/backend", "./src/mock-server", "./src/mock-server/**/*.json"],
     "exclude": ["./src/frontend"],
-    "lib": ["es2015"]
+    "lib": ["es2022"]
 }

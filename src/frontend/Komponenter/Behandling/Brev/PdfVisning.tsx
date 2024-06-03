@@ -7,9 +7,10 @@ import { Alert, Loader, Pagination } from '@navikt/ds-react';
 import 'react-pdf/dist/Page/TextLayer.css';
 import 'react-pdf/dist/Page/AnnotationLayer.css';
 
-// eslint-disable-next-line
-const pdfjsWorker = require('pdfjs-dist/build/pdf.worker.entry');
-pdfjs.GlobalWorkerOptions.workerSrc = pdfjsWorker;
+pdfjs.GlobalWorkerOptions.workerSrc = new URL(
+    'pdfjs-dist/build/pdf.worker.min.mjs',
+    import.meta.url
+).toString();
 
 interface PdfVisningProps {
     pdfFilInnhold: Ressurs<string>;
