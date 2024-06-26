@@ -12,9 +12,6 @@ const config = mergeWithCustomize({
     'module.rules': 'append',
 })(common, {
     mode: 'production',
-    entry: {
-        'familie-klage': ['babel-polyfill'],
-    },
     output: {
         path: path.join(process.cwd(), 'frontend_production'),
         filename: '[name].[contenthash].js',

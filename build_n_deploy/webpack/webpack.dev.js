@@ -12,7 +12,6 @@ const config = mergeWithCustomize({
     mode: 'development',
     entry: {
         'familie-klage': [
-            'babel-polyfill',
             'webpack-hot-middleware/client?reload=true&overlay=false',
         ],
     },
