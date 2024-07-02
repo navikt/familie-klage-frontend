@@ -53,7 +53,7 @@ export const InterntNotat: React.FC<{
                 <FritekstWrapper>
                     <EnsligTextArea
                         label={'Internt notat'}
-                        erLesevisning={!behandlingErRedigerbar}
+                        readOnly={!behandlingErRedigerbar}
                         onChange={(e) => oppdaterTekst(e.target.value)}
                         value={tekst}
                     />

@@ -189,7 +189,7 @@ export const Vurdering: React.FC<{ behandlingId: string }> = ({ behandlingId }) 
                                                     settVurderingEndret(true);
                                                 }}
                                                 size="medium"
-                                                erLesevisning={false}
+                                                readOnly={false}
                                             />
                                         </FritekstFeltWrapper>
                                     </>
@@ -214,7 +214,7 @@ export const Vurdering: React.FC<{ behandlingId: string }> = ({ behandlingId }) 
                                                     settVurderingEndret(true);
                                                 }}
                                                 size="medium"
-                                                erLesevisning={false}
+                                                readOnly={false}
                                             />
                                             <LesMerTekstInnstilling />
                                         </FritekstFeltWrapper>
