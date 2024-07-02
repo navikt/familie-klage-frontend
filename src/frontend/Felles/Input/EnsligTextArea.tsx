@@ -1,36 +1,20 @@
+import { ErrorMessage, Textarea, TextareaProps } from '@navikt/ds-react';
 import React from 'react';
 import styled from 'styled-components';
-import { FamilieTextarea, IFamilieTextareaProps } from '@navikt/familie-form-elements';
-import { ErrorMessage } from '@navikt/ds-react';
 
-const StyledFamilieTextArea: React.FC<IFamilieTextareaProps> = styled(FamilieTextarea)`
+const StyledTextArea = styled(Textarea)`
     white-space: pre-wrap;
     word-wrap: break-word;
-    .typo-element {
-        padding-bottom: 0.5rem;
-    }
+    max-width: 60rem;
 `;
 
-type Props = { feilmelding?: string } & IFamilieTextareaProps;
+type Props = TextareaProps & { feilmelding?: string };
 
-export const EnsligTextArea: React.FC<Props> = ({
-    value,
-    onChange,
-    label,
-    maxLength,
-    erLesevisning,
-    feilmelding,
-}) => {
+export const EnsligTextArea: React.FC<Props> = ({ feilmelding, ...props }) => {
     return (
-        <>
-            <StyledFamilieTextArea
-                value={value}
-                onChange={(e: React.ChangeEvent<HTMLTextAreaElement>) => onChange && onChange(e)}
-                label={label}
-                maxLength={maxLength}
-                erLesevisning={erLesevisning}
-            />
+        <div>
+            <StyledTextArea {...props} />
             <ErrorMessage>{feilmelding}</ErrorMessage>
-        </>
+        </div>
     );
 };
