@@ -4,13 +4,13 @@ import { useMemo } from 'react';
 import { useParams } from 'react-router-dom';
 import { IBehandlingParams } from '../../../App/typer/routing';
 import { useDataHenter } from '../../../App/hooks/felles/useDataHenter';
-import { Dokumentliste, DokumentProps } from '@navikt/familie-dokumentliste';
 import DataViewer from '../../../Felles/DataViewer/DataViewer';
 import { compareDesc } from 'date-fns';
 import { formaterNullableIsoDatoTid } from '../../../App/utils/formatter';
 import { Heading } from '@navikt/ds-react';
 import { åpneFilIEgenTab } from '../../../App/utils/utils';
 import styled from 'styled-components';
+import Dokumentliste, { DokumentProps } from './Dokumentliste';
 
 const OverSkrift = styled(Heading)`
     margin-top: 0.5rem;

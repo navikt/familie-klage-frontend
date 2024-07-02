@@ -26,7 +26,6 @@
     "@navikt/ds-css": "6.11.x",
     "@navikt/ds-react": "6.11.x",
     "@navikt/familie-backend": "^10.0.20",
-    "@navikt/familie-dokumentliste": "^12.0.0",
     "@navikt/familie-endringslogg": "^12.0.2",
     "@navikt/familie-form-elements": "^15.0.0",
     "@navikt/familie-header": "^14.0.3",
