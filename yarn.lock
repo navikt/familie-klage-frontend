@@ -1539,23 +1539,6 @@
     prom-client "^15.1.0"
     redis "^4.6.13"
 
-"@navikt/familie-endringslogg@^12.0.2":
-  version "12.0.2"
-  resolved "https://npm.pkg.github.com/download/@navikt/familie-endringslogg/12.0.2/4036173993d27265340ae9febbc0a4205b992b73#4036173993d27265340ae9febbc0a4205b992b73"
-  integrity sha512-MvBl6MlFwfGmzmEaE3fOF/14nonsAJYakwofG1ahYt7obj/5WUtdf1DKNYd60DoBMSwIFUkwXedAOzXhnqvgcw==
-  dependencies:
-    "@portabletext/react" "^3.1.0"
-    classnames "^2.5.1"
-    react-transition-group "^4.4.5"
-
-"@navikt/familie-form-elements@^15.0.0":
-  version "15.0.0"
-  resolved "https://npm.pkg.github.com/download/@navikt/familie-form-elements/15.0.0/e57b16e473f85e3bddaf809644c1412be886ed6e#e57b16e473f85e3bddaf809644c1412be886ed6e"
-  integrity sha512-NGcIgqJL4/mARhHMUI2VENh9xyPzJfzzw8gP/7t85I7kAFaWbREZYqIOWXdCb4tr630Jo7Lp0f+HP+qkzI10DQ==
-  dependencies:
-    classnames "^2.5.1"
-    react-select "^5.8.0"
-
 "@navikt/familie-header@^14.0.3":
   version "14.0.3"
   resolved "https://npm.pkg.github.com/download/@navikt/familie-header/14.0.3/05b5fa80ad7ae85b9502d8647f5f5e993e10c044#05b5fa80ad7ae85b9502d8647f5f5e993e10c044"
@@ -1641,26 +1624,6 @@
     loader-utils "^2.0.4"
     schema-utils "^4.2.0"
     source-map "^0.7.3"
-
-"@portabletext/react@^3.1.0":
-  version "3.1.0"
-  resolved "https://registry.yarnpkg.com/@portabletext/react/-/react-3.1.0.tgz#95d08b67e74d380705726db6762321bf926796a6"
-  integrity sha512-ZGHlvS+NvId9RSqnflN8xF2KVZgAgD399dK1GaycurnGNZGZYTd5nZmc8by1yL76Ar8n/dbVtouUDJIkO4Tupw==
-  dependencies:
-    "@portabletext/toolkit" "^2.0.15"
-    "@portabletext/types" "^2.0.13"
-
-"@portabletext/toolkit@^2.0.15":
-  version "2.0.15"
-  resolved "https://registry.yarnpkg.com/@portabletext/toolkit/-/toolkit-2.0.15.tgz#f13764efeebfcc92bcb792b1c3724fa0456703fe"
-  integrity sha512-KRNEUAd6eOxE9y591qC0sE24ZG2q27OHXe0dsPclj4IoEzf8aEuDcHR64wfFtB0aHq9Wdx3pIinmhZZcl35/vg==
-  dependencies:
-    "@portabletext/types" "^2.0.13"
-
-"@portabletext/types@^2.0.13":
-  version "2.0.13"
-  resolved "https://registry.yarnpkg.com/@portabletext/types/-/types-2.0.13.tgz#7a4bf6dac30713fbe1b4bc01dc572af0af72955d"
-  integrity sha512-5xk5MSyQU9CrDho3Rsguj38jhijhD36Mk8S6mZo3huv6PM+t4M/5kJN2KFIxgvt4ONpvOEs1pVIZAV0cL0Vi+Q==
 
 "@redis/bloom@1.2.0":
   version "1.2.0"
@@ -6798,7 +6761,7 @@ react-select@*, react-select@^5.8.0:
     react-transition-group "^4.3.0"
     use-isomorphic-layout-effect "^1.1.2"
 
-react-transition-group@^4.3.0, react-transition-group@^4.4.5:
+react-transition-group@^4.3.0:
   version "4.4.5"
   resolved "https://registry.yarnpkg.com/react-transition-group/-/react-transition-group-4.4.5.tgz#e53d4e3f3344da8521489fbef8f2581d42becdd1"
   integrity sha512-pZcd1MCJoiKiBR2NRxeCRg13uCXbydPnmB4EOeRrY7480qNWO8IIgQG6zlDkm6uRMsURXPuKq0GWtiM59a5Q6g==
