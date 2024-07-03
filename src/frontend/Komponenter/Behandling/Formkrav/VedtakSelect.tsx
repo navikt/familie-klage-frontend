@@ -90,7 +90,6 @@ export const VedtakSelect: React.FC<IProps> = ({
                 <DatoWrapper>
                     <Label htmlFor={'vedtaksdato'}>Vedtaksdato</Label>
                     <Datovelger
-                        label={''}
                         id={'vedtaksdato'}
                         verdi={manuellVedtaksdato}
                         settVerdi={(dato) => {
