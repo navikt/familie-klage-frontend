@@ -2,7 +2,6 @@ import React, { Dispatch, SetStateAction } from 'react';
 import styled from 'styled-components';
 import { IFormkravVilkår } from './typer';
 import { PåklagetVedtakstype, påklagetVedtakstypeTilTekst } from '../../../App/typer/fagsak';
-import { FamilieSelect } from '@navikt/familie-form-elements';
 import {
     erVedtakFraFagsystemet,
     fagsystemVedtakTilVisningstekst,
@@ -10,7 +9,7 @@ import {
     sorterVedtakstidspunktDesc,
 } from './utils';
 import { FagsystemVedtak } from '../../../App/typer/fagsystemVedtak';
-import { Label } from '@navikt/ds-react';
+import { Label, Select } from '@navikt/ds-react';
 import { erGyldigDato } from '../../../App/utils/dato';
 import { Datovelger } from '../../../Felles/Datovelger/Datovelger';
 
@@ -55,7 +54,7 @@ export const VedtakSelect: React.FC<IProps> = ({
     const manuellVedtaksdato = vurderinger.påklagetVedtak.manuellVedtaksdato;
     return (
         <SelectWrapper>
-            <FamilieSelect
+            <Select
                 label={'Vedtak som er påklaget'}
                 onChange={(e) => {
                     handleChange(e.target.value);
@@ -86,12 +85,11 @@ export const VedtakSelect: React.FC<IProps> = ({
                 <option value={PåklagetVedtakstype.UTEN_VEDTAK}>
                     {påklagetVedtakstypeTilTekst[PåklagetVedtakstype.UTEN_VEDTAK]}
                 </option>
-            </FamilieSelect>
+            </Select>
             {harManuellVedtaksdato(vurderinger.påklagetVedtak.påklagetVedtakstype) && (
                 <DatoWrapper>
                     <Label htmlFor={'vedtaksdato'}>Vedtaksdato</Label>
                     <Datovelger
-                        label={''}
                         id={'vedtaksdato'}
                         verdi={manuellVedtaksdato}
                         settVerdi={(dato) => {
