@@ -1,8 +1,8 @@
 import * as React from 'react';
 import styled from 'styled-components';
-import { ILogiskVedlegg, Journalposttype } from '@navikt/familie-typer';
 import { BodyShort, Button, Tag } from '@navikt/ds-react';
 import { LogiskeVedlegg } from './LogiskeVedlegg';
+import { Journalposttype, LogiskVedlegg } from '../../../App/typer/dokument';
 
 const StyledDokumentListe = styled.ul`
     padding: 0;
@@ -60,7 +60,7 @@ export interface DokumentProps {
     journalposttype: Journalposttype;
     dokumentinfoId: string;
     filnavn?: string;
-    logiskeVedlegg?: ILogiskVedlegg[];
+    logiskeVedlegg?: LogiskVedlegg[];
 }
 
 export interface DokumentElementProps {

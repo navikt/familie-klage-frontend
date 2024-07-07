@@ -5,7 +5,7 @@ import { useApp } from '../../App/context/AppContext';
 import './headermedsøk.less';
 import { Sticky } from '../Visningskomponenter/Sticky';
 import { AppEnv } from '../../App/api/env';
-import { lagAInntektLink, lagGosysLink, lagModiaLink } from '../Lenker/Lenker';
+import { lagAInntektLink, lagGosysLink, lagModiaLink } from '../Lenker/lenker';
 import { AxiosRequestCallback } from '../../App/typer/axiosRequest';
 
 export interface IProps {

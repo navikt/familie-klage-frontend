@@ -1,11 +1,7 @@
-// Interface
-
-import { kjønnType } from '@navikt/familie-typer';
-
 export interface IPersonopplysninger {
     personIdent: string;
     navn: string;
-    kjønn: kjønnType;
+    kjønn: Kjønn;
     adressebeskyttelse?: Adressebeskyttelse;
     folkeregisterpersonstatus?: Folkeregisterpersonstatus;
     dødsdato?: string;
@@ -14,6 +10,12 @@ export interface IPersonopplysninger {
     fullmakt: IFullmakt[];
     navEnhet: string;
     vergemål: IVergemål[];
+}
+
+export enum Kjønn {
+    KVINNE = 'KVINNE',
+    MANN = 'MANN',
+    UKJENT = 'UKJENT',
 }
 
 export interface IFullmakt {

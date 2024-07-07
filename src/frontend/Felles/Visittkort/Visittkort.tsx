@@ -71,7 +71,7 @@ const VisittkortComponent: FC<{
             <Visittkort
                 alder={20}
                 ident={personIdent}
-                kjønn={kjønn}
+                kjønn={kjønn} // TODO: How to fix?
                 navn={
                     <Visningsnavn>
                         <Label size={'small'} as={'p'}>

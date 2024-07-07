@@ -28,7 +28,6 @@
     "@navikt/familie-backend": "^10.0.20",
     "@navikt/familie-header": "^14.0.3",
     "@navikt/familie-logging": "^7.0.1",
-    "@navikt/familie-typer": "^8.0.2",
     "@navikt/familie-visittkort": "^15.0.1",
     "@sentry/browser": "^8.11.0",
     "@sentry/core": "^8.7.0",
