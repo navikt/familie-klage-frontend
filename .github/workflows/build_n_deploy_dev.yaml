@@ -1,13 +1,10 @@
 name: Build, push, and deploy app to dev
 
 on: [workflow_dispatch]
-env:
-  IMAGE: ghcr.io/navikt/familie-klage-frontend:${{ github.sha }}
 
 permissions:
-  packages: write
-  id-token: write
   contents: read
+  id-token: write
 
 jobs:
   build:
@@ -26,13 +23,15 @@ jobs:
           NODE_AUTH_TOKEN: ${{ secrets.READER_TOKEN }}
       - name: Yarn build
         run: yarn build
-      - name: Build and publish Docker image
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        run: |
-          docker build . -t ${IMAGE}
-          echo ${GITHUB_TOKEN} | docker login ghcr.io --username ${GITHUB_REPOSITORY} --password-stdin
-          docker push ${IMAGE}
+      - name: Push docker image to GAR and sign image
+        uses: nais/docker-build-push@v0
+        id: docker-build-push
+        with:
+          team: teamfamilie
+          identity_provider: ${{ secrets.NAIS_WORKLOAD_IDENTITY_PROVIDER }}
+          project_id: ${{ vars.NAIS_MANAGEMENT_PROJECT_ID }}
+    outputs:
+      image: ${{ steps.docker-build-push.outputs.image }}
   deploy:
     name: Deploy to NAIS
     needs: build
@@ -43,3 +42,4 @@ jobs:
         env:
           CLUSTER: dev-gcp
           RESOURCE: build_n_deploy/naiserator/dev.yaml
+          IMAGE: ${{ needs.build.outputs.image }}
