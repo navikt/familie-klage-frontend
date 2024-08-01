@@ -31,7 +31,7 @@ Appen krever en del miljøvariabler og legges til i .env fila i root på prosjek
     CLIENT_SECRET='<AZURE_APP_CLIENT_SECRET fra secret>'
 ```
 
-Secrets kan bli lagt inn automatisk dersom man kjører `sh hent-og-lagre-miljøvariabler.sh`. Scriptet krever at du har `jq`, er pålogget naisdevice og er logget inn på google `gcloud auth login`)
+Secrets kan bli lagt inn automatisk dersom man kjører `sh hent-og-lagre-miljøvariabler.sh`. Scriptet krever at du har `jq`, er pålogget naisdevice og er logget inn på google `gcloud auth login`
 
 Secrets kan også hentes selv fra cluster med
 `kubectl -n teamfamilie get secret azuread-familie-klage-frontend-lokal -o json | jq '.data | map_values(@base64d)'`
