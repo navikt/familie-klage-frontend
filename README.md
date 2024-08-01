@@ -14,10 +14,6 @@ username er det samme på github og passordet er utvikler-tokenet som er generer
 Dersom tokenet allerede er generert, finnes det typisk i m2-settings/gradle.properties fil.
 
 ## Client id & client secret
-secret kan hentes fra cluster med
-`kubectl -n teamfamilie get secret azuread-familie-klage-frontend-lokal -o json | jq '.data | map_values(@base64d)'`
-`kubectl -n teamfamilie get secret azuread-familie-klage-lokal -o json | jq '.data | map_values(@base64d)'`
-
 Appen krever en del miljøvariabler og legges til i .env fila i root på prosjektet.
 ```
     ENV=local
@@ -35,6 +31,23 @@ Appen krever en del miljøvariabler og legges til i .env fila i root på prosjek
     CLIENT_SECRET='<AZURE_APP_CLIENT_SECRET fra secret>'
 ```
 
+Secrets kan bli lagt inn automatisk dersom man kjører `sh hent-og-lagre-miljøvariabler.sh`. Scriptet krever at du har `jq`, er pålogget naisdevice og er logget inn på google `gcloud auth login`
+
+Secrets kan også hentes selv fra cluster med
+`kubectl -n teamfamilie get secret azuread-familie-klage-frontend-lokal -o json | jq '.data | map_values(@base64d)'`
+`kubectl -n teamfamilie get secret azuread-familie-klage-lokal -o json | jq '.data | map_values(@base64d)'`
+
+Dersom det skal kjøres mot backend lokalt må følgende være satt:
+```
+ENV=local
+EF_SAK_SCOPE=api://dev-gcp.teamfamilie.familie-ef-sak-lokal/.default
+```
+Dersom det skal kjøres mot preprod må følgende være satt:
+```
+ENV=lokalt-mot-preprod
+EF_SAK_SCOPE=api://dev-gcp.teamfamilie.familie-ef-sak/.default
+```
+
 For å bygge prodversjon kjør `yarn build`. Prodversjonen vil ikke kjøre lokalt med mindre det gjøres en del endringer i forbindelse med uthenting av environment variabler og URLer for uthenting av informasjon.
 
 ---------
@@ -49,7 +62,7 @@ Ta gjerne en titt på Team Familie sin (readme)[https://github.com/navikt/famili
 
 
 # Bygg og deploy
-Appen bygges på github actions, og gir beskjed til nais deploy om å deployere appen i gcp området. Alle pull requester går til dev miljøet og master går til produksjon og dev-miljøet.
+Appen bygges og deployes til GCP med github actions.
 
 ---
 
