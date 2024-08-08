@@ -314,9 +314,9 @@ export const VisFormkravVurderinger: React.FC<IProps> = ({
                         {!påKlagetVedtakErValgt && <li>Ikke valgt påklaget vedtak</li>}
                         {!ikkePåklagetVedtak && (
                             <>
-                                {ikkeUtfylteVilkår.map((vilkår) => {
+                                {ikkeUtfylteVilkår.map((vilkår, index) => {
                                     return (
-                                        <li>
+                                        <li key={index}>
                                             <BodyShort key={vilkår.navn}>
                                                 {vilkår.spørsmål}
                                             </BodyShort>

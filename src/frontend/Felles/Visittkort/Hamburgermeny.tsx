@@ -74,17 +74,17 @@ export const Hamburgermeny = () => {
 
     useEffect(() => {
         const håndterKlikkUtenforKomponent = (event: { target: never }) => {
-            // @ts-ignore
+            // @ts-expect-error ref.current
             if (åpenHamburgerMeny && ref.current && !ref.current.contains(event.target)) {
                 settÅpenHamburgerMeny(false);
             }
         };
 
-        // @ts-ignore
+        // @ts-expect-error Feil event
         document.addEventListener('click', håndterKlikkUtenforKomponent, true);
 
         return () => {
-            // @ts-ignore
+            // @ts-expect-error Feil event
             document.removeEventListener('click', håndterKlikkUtenforKomponent, true);
         };
     }, [åpenHamburgerMeny]);

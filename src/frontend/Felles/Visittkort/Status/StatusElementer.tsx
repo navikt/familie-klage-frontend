@@ -19,7 +19,6 @@ interface StatusProps {
     kunEttElement?: boolean;
 }
 
-// @ts-ignore
 export const GråTekst = styled(BodyShort)`
     color: ${ATextSubtle};
 `;

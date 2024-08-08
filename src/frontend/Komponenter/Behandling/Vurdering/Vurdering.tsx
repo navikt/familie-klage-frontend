@@ -108,19 +108,18 @@ export const Vurdering: React.FC<{ behandlingId: string }> = ({ behandlingId }) 
             oppdatertVurdering.vedtak === VedtakValg.OPPRETTHOLD_VEDTAK
                 ? {
                       ...oppdatertVurdering,
-                      årsak: null,
-                      begrunnelseOmgjøring: null,
+                      årsak: undefined,
+                      begrunnelseOmgjøring: undefined,
                   }
                 : {
                       ...oppdatertVurdering,
-                      hjemmel: null,
-                      innstillingKlageinstans: null,
-                      interntNotat: null,
+                      hjemmel: undefined,
+                      innstillingKlageinstans: undefined,
+                      interntNotat: undefined,
                   };
 
         settSenderInn(true);
         settMelding(undefined);
-        // @ts-ignore
         lagreVurdering(vurderingSomSkalLagres).then(
             (res: RessursSuksess<IVurdering> | RessursFeilet) => {
                 if (res.status === RessursStatus.SUKSESS) {

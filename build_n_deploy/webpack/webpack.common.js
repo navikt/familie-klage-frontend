@@ -57,6 +57,7 @@ const common = {
         }),
         new TypeScriptTypeChecker(),
         new ESLintPlugin({
+            configType: 'flat',
             extensions: [`ts`, `tsx`],
         }),
     ],
