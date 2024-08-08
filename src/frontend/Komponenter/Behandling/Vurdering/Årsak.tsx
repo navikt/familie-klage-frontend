@@ -27,6 +27,7 @@ export const Årsak: React.FC<IÅrsak> = ({
     årsakValgmuligheter,
     endring,
 }) => {
+    // eslint-disable-next-line react-hooks/rules-of-hooks
     const { settVurderingEndret } = useBehandling();
     return (
         <ÅrsakStyled>

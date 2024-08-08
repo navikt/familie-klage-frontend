@@ -13,7 +13,7 @@ import { addCallId, attachToken, doProxy } from './proxy.js';
 import setupRouter from './router.js';
 import expressStaticGzip from 'express-static-gzip';
 import { logError, logInfo } from '@navikt/familie-logging';
-// @ts-ignore
+// @ts-expect-error Spesialimport
 import config from '../../build_n_deploy/webpack/webpack.dev.js';
 
 const port = 8020;
@@ -26,14 +26,12 @@ backend(sessionConfig, prometheusTellere).then(({ app, azureAuthClient, router }
 
     if (process.env.NODE_ENV === 'development') {
         const compiler = webpack(config);
-        // @ts-ignore
         middleware = webpackDevMiddleware(compiler, {
             publicPath: config.output.publicPath,
             writeToDisk: true,
         });
 
         app.use(middleware);
-        // @ts-ignore
         app.use(webpackHotMiddleware(compiler));
     } else {
         app.use('/assets', expressStaticGzip(path.join(process.cwd(), 'frontend_production'), {}));
