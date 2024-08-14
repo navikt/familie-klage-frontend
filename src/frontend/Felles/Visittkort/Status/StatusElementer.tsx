@@ -187,11 +187,11 @@ export const AlleStatuser: FC<{ behandling: Behandling }> = ({ behandling }) => 
     return (
         <Statuser>
             <Status>
-                <GråTekst>Behandlingsstatus</GråTekst>
+                <GråTekst>Status</GråTekst>
                 <BodyShort>{behandlingStatusTilTekst[behandling.status]}</BodyShort>
             </Status>
             <Status>
-                <GråTekst>Behandlingsresultat</GråTekst>
+                <GråTekst>Resultat</GråTekst>
                 <BodyShort>{utledTekstForBehandlingsresultat(behandling)}</BodyShort>
             </Status>
             <Status>

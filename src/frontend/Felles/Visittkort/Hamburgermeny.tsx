@@ -25,8 +25,6 @@ const HamburgerMenyInnhold = styled.div<{ åpen: boolean }>`
 
     right: 1rem;
 
-    border: 1px solid grey;
-
     box-shadow: 5px 5px 5px rgba(0, 0, 0, 0.4);
     -webkit-box-shadow: 5px 5px 5px rgba(0, 0, 0, 0.4);
     -moz-box-shadow: 5px 5px 5px rgba(0, 0, 0, 0.4);
