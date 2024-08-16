@@ -8,7 +8,7 @@ import { Sticky } from '../Visningskomponenter/Sticky';
 import { Hamburgermeny } from './Hamburgermeny';
 import { erBehandlingRedigerbar } from '../../App/typer/behandlingstatus';
 import { AlleStatuser, StatuserLitenSkjerm, StatusMeny } from './Status/StatusElementer';
-import { Label } from '@navikt/ds-react';
+import { HStack, Label } from '@navikt/ds-react';
 import PersonStatusVarsel from '../Varsel/PersonStatusVarsel';
 import AdressebeskyttelseVarsel from '../Varsel/AdressebeskyttelseVarsel';
 import { EtikettFokus, EtikettSuksess } from '../Varsel/Etikett';
@@ -23,15 +23,11 @@ const Visningsnavn = styled.div`
 
 export const VisittkortWrapper = styled(Sticky)`
     display: flex;
-
+    justify-content: space-between;
     border-bottom: 1px solid ${ABorderStrong};
+    align-items: center;
     z-index: 22;
     top: 47px;
-
-    .visittkort {
-        padding: 0 1.5rem;
-        border-bottom: none;
-    }
 `;
 
 const ElementWrapper = styled.div`
@@ -69,6 +65,7 @@ const VisittkortComponent: FC<{
     return (
         <VisittkortWrapper>
             <Visittkort
+                borderBottom={false}
                 alder={20}
                 ident={personIdent}
                 kjønn={kjønn}
@@ -114,15 +111,17 @@ const VisittkortComponent: FC<{
                 </TagsKnyttetTilBehandling>
             </Visittkort>
 
-            {behandling && (
-                <>
-                    <AlleStatuser behandling={behandling} />
-                    <StatuserLitenSkjerm>
-                        <StatusMeny behandling={behandling} />
-                    </StatuserLitenSkjerm>
-                </>
-            )}
-            {behandling && erBehandlingRedigerbar(behandling) && <StyledHamburgermeny />}
+            <>
+                {behandling && (
+                    <HStack justify={'end'}>
+                        <AlleStatuser behandling={behandling} />
+                        <StatuserLitenSkjerm>
+                            <StatusMeny behandling={behandling} />
+                        </StatuserLitenSkjerm>
+                        {erBehandlingRedigerbar(behandling) && <StyledHamburgermeny />}
+                    </HStack>
+                )}
+            </>
         </VisittkortWrapper>
     );
 };
