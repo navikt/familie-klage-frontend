@@ -32,7 +32,6 @@ backend(sessionConfig, prometheusTellere).then(({ app, azureAuthClient, router }
         });
 
         app.use(middleware);
-        // @ts-expect-error TypeScript-feil
         app.use(webpackHotMiddleware(compiler));
     } else {
         app.use('/assets', expressStaticGzip(path.join(process.cwd(), 'frontend_production'), {}));
