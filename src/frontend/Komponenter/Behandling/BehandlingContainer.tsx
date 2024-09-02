@@ -3,7 +3,7 @@ import { FC, useEffect } from 'react';
 import Høyremeny from './Høyremeny/Høyremeny';
 import styled from 'styled-components';
 import Fanemeny from './Fanemeny/Fanemeny';
-import { ABorderStrong } from '@navikt/ds-tokens/dist/tokens';
+import { ABorderDefault } from '@navikt/ds-tokens/dist/tokens';
 import BehandlingRoutes from './BehandlingRoutes';
 import { BehandlingProvider, useBehandling } from '../../App/context/BehandlingContext';
 import VisittkortComponent from '../../Felles/Visittkort/Visittkort';
@@ -18,6 +18,7 @@ import { useSetValgtFagsakId } from '../../App/hooks/useSetValgtFagsakId';
 const Container = styled.div`
     display: flex;
     flex-shrink: 2;
+    height: calc(100vh - ${97}px); // Magisk tall som er høyden på Header + PersonHeaderComponent
 `;
 
 interface InnholdWrapperProps {
@@ -29,7 +30,8 @@ interface HøyreMenyWrapperProps {
 }
 
 const HøyreMenyWrapper = styled.div<HøyreMenyWrapperProps>`
-    border-left: 2px solid ${ABorderStrong};
+    overflow-y: auto;
+    border-left: 2px solid ${ABorderDefault};
     flex-shrink: 1;
     flex-grow: 0;
     width: ${(p) => (p.åpenHøyremeny ? '20rem' : '1.5rem')};
@@ -38,6 +40,7 @@ const HøyreMenyWrapper = styled.div<HøyreMenyWrapperProps>`
 `;
 
 const InnholdWrapper = styled.div<InnholdWrapperProps>`
+    overflow-y: auto;
     flex-shrink: 0;
     flex-grow: 1;
     flex-basis: 0px;
