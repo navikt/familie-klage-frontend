@@ -92,7 +92,9 @@ const VisittkortComponent: FC<{
                         <EtikettFokus>Egen ansatt</EtikettFokus>
                     </ElementWrapper>
                 )}
-                {fullmakt.some((f) => erEtterDagensDato(f.gyldigTilOgMed)) && (
+                {fullmakt.some(
+                    (f) => f.gyldigTilOgMed === null || erEtterDagensDato(f.gyldigTilOgMed)
+                ) && (
                     <ElementWrapper>
                         <EtikettFokus>Fullmakt</EtikettFokus>
                     </ElementWrapper>
