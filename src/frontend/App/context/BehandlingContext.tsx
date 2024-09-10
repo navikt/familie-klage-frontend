@@ -7,10 +7,7 @@ import { useHentPersonopplysninger } from '../hooks/useHentPersonopplysninger';
 import { useHentBehandling } from '../hooks/useHentBehandling';
 import { useHentBehandlingHistorikk } from '../hooks/useHentBehandlingHistorikk';
 import { RessursStatus } from '../typer/ressurs';
-import {
-    erBehandlingRedigerbar,
-    innloggetSaksbehandlerKanRedigereBehandling,
-} from '../typer/behandlingstatus';
+import { erBehandlingRedigerbar } from '../typer/behandlingstatus';
 import { IVurdering } from '../../Komponenter/Behandling/Vurdering/vurderingValg';
 import { useHentFormkravVilkår } from '../hooks/useHentFormkravVilkår';
 import {
@@ -46,10 +43,7 @@ const [BehandlingProvider, useBehandling] = constate(() => {
 
     useEffect(() => {
         settBehandlingErRedigerbar(
-            behandling.status === RessursStatus.SUKSESS &&
-                erBehandlingRedigerbar(behandling.data) &&
-                ansvarligSaksbehandler.status === RessursStatus.SUKSESS &&
-                innloggetSaksbehandlerKanRedigereBehandling(ansvarligSaksbehandler.data)
+            behandling.status === RessursStatus.SUKSESS && erBehandlingRedigerbar(behandling.data)
         );
         hentVilkårsvurderinger(behandlingId);
     }, [ansvarligSaksbehandler, behandling, behandlingId, hentVilkårsvurderinger]);
