@@ -5,15 +5,14 @@ import styled from 'styled-components';
 import { Behandling } from '../../App/typer/fagsak';
 import { ABorderStrong } from '@navikt/ds-tokens/dist/tokens';
 import { Sticky } from '../Visningskomponenter/Sticky';
-import { Hamburgermeny } from './Hamburgermeny';
+import { Henlegg } from './HenleggKnapp';
 import { erBehandlingRedigerbar } from '../../App/typer/behandlingstatus';
-import { AlleStatuser, StatuserLitenSkjerm, StatusMeny } from './Status/StatusElementer';
-import { HStack, Label } from '@navikt/ds-react';
+import { Label } from '@navikt/ds-react';
 import PersonStatusVarsel from '../Varsel/PersonStatusVarsel';
 import AdressebeskyttelseVarsel from '../Varsel/AdressebeskyttelseVarsel';
 import { EtikettFokus, EtikettSuksess } from '../Varsel/Etikett';
 import { erEtterDagensDato } from '../../App/utils/dato';
-import { stønadstypeTilTekstKort } from '../../App/typer/stønadstype';
+import { stønadstypeTilTekst } from '../../App/typer/stønadstype';
 
 const Visningsnavn = styled.div`
     text-overflow: ellipsis;
@@ -21,13 +20,15 @@ const Visningsnavn = styled.div`
     white-space: nowrap;
 `;
 
-export const VisittkortWrapper = styled(Sticky)`
+export const Container = styled(Sticky)`
     display: flex;
     justify-content: space-between;
-    border-bottom: 1px solid ${ABorderStrong};
     align-items: center;
-    z-index: 22;
-    top: 47px;
+    gap: 1rem;
+    padding: 0 1rem 0 1rem;
+    border-bottom: 1px solid ${ABorderStrong};
+    z-index: 23;
+    top: 48px; // Høyden på headeren
 `;
 
 const ElementWrapper = styled.div`
@@ -38,14 +39,6 @@ const TagsKnyttetTilBehandling = styled.div`
     display: flex;
     justify-content: flex-end;
     flex-grow: 1;
-`;
-
-const StyledHamburgermeny = styled(Hamburgermeny)`
-    margin-left: auto;
-    display: block;
-    position: sticky;
-
-    z-index: 9999;
 `;
 
 const VisittkortComponent: FC<{
@@ -63,7 +56,7 @@ const VisittkortComponent: FC<{
         vergemål,
     } = personopplysninger;
     return (
-        <VisittkortWrapper>
+        <Container>
             <Visittkort
                 borderBottom={false}
                 alder={20}
@@ -105,26 +98,20 @@ const VisittkortComponent: FC<{
                         <EtikettFokus>Verge</EtikettFokus>
                     </ElementWrapper>
                 )}
-
-                <TagsKnyttetTilBehandling>
-                    <EtikettSuksess>
-                        {stønadstypeTilTekstKort[behandling.stønadstype]}
-                    </EtikettSuksess>
-                </TagsKnyttetTilBehandling>
             </Visittkort>
 
-            <>
-                {behandling && (
-                    <HStack justify={'end'}>
-                        <AlleStatuser behandling={behandling} />
-                        <StatuserLitenSkjerm>
-                            <StatusMeny behandling={behandling} />
-                        </StatuserLitenSkjerm>
-                        {erBehandlingRedigerbar(behandling) && <StyledHamburgermeny />}
-                    </HStack>
-                )}
-            </>
-        </VisittkortWrapper>
+            {behandling && (
+                <>
+                    <TagsKnyttetTilBehandling>
+                        <EtikettSuksess>
+                            {stønadstypeTilTekst[behandling.stønadstype]}
+                        </EtikettSuksess>
+                    </TagsKnyttetTilBehandling>
+
+                    {erBehandlingRedigerbar(behandling) && <Henlegg />}
+                </>
+            )}
+        </Container>
     );
 };
 

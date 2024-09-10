@@ -139,6 +139,10 @@ export const Brev: React.FC<IBrev> = ({ behandlingId }) => {
         settFeilmelding('');
     };
 
+    if (!behandlingErRedigerbar) {
+        return <></>;
+    }
+
     if (utfall === 'LAG_BREV') {
         return (
             <Brevside>

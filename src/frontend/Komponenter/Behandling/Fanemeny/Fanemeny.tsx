@@ -11,11 +11,10 @@ import {
     StegType,
 } from '../../../App/typer/fagsak';
 import { useBehandling } from '../../../App/context/BehandlingContext';
-import { AWhite, ABorderStrong } from '@navikt/ds-tokens/dist/tokens';
+import { AWhite, ABorderDefault } from '@navikt/ds-tokens/dist/tokens';
 
 const StickyMedBoxShadow = styled(Sticky)`
     box-shadow: 0 2px 5px rgba(0, 0, 0, 0.4);
-    top: 6rem;
 `;
 
 const StyledFanemeny = styled.div`
@@ -23,7 +22,7 @@ const StyledFanemeny = styled.div`
     display: flex;
     justify-content: space-evenly;
     align-items: center;
-    border-bottom: ${ABorderStrong} solid 2px;
+    border-bottom: ${ABorderDefault} solid 2px;
     background-color: ${AWhite};
 `;
 

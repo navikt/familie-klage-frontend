@@ -7,15 +7,9 @@ import { useDataHenter } from '../../../App/hooks/felles/useDataHenter';
 import DataViewer from '../../../Felles/DataViewer/DataViewer';
 import { compareDesc } from 'date-fns';
 import { formaterNullableIsoDatoTid } from '../../../App/utils/formatter';
-import { Heading } from '@navikt/ds-react';
 import { åpneFilIEgenTab } from '../../../App/utils/utils';
-import styled from 'styled-components';
 import Dokumentliste, { DokumentProps } from './Dokumentliste';
 
-const OverSkrift = styled(Heading)`
-    margin-top: 0.5rem;
-    margin-left: 1rem;
-`;
 const Dokumenter: React.FC<{ hidden: boolean }> = ({ hidden }) => {
     const { behandlingId } = useParams<IBehandlingParams>();
 
@@ -60,13 +54,7 @@ const Dokumenter: React.FC<{ hidden: boolean }> = ({ hidden }) => {
             {({ dokumentResponse }) => {
                 const sortertDokumentliste = sorterDokumentlisten(dokumentResponse);
                 return (
-                    <>
-                        <OverSkrift size={'small'}>Dokumentoversikt</OverSkrift>
-                        <Dokumentliste
-                            dokumenter={sortertDokumentliste}
-                            onClick={lastNedDokument}
-                        />
-                    </>
+                    <Dokumentliste dokumenter={sortertDokumentliste} onClick={lastNedDokument} />
                 );
             }}
         </DataViewer>
