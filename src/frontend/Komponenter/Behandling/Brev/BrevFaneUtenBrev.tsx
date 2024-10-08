@@ -21,7 +21,7 @@ interface Props {
 
 export const BrevFaneUtenBrev: React.FC<Props> = ({ behandlingId }) => {
     const { axiosRequest } = useApp();
-    const { hentBehandling, hentBehandlingshistorikk } = useBehandling();
+    const { hentBehandling, hentBehandlingshistorikk, behandlingErRedigerbar } = useBehandling();
     const navigate = useNavigate();
 
     const [senderInn, settSenderInn] = useState<boolean>(false);
@@ -54,21 +54,25 @@ export const BrevFaneUtenBrev: React.FC<Props> = ({ behandlingId }) => {
         });
     };
 
+    const alertStripeTekst = behandlingErRedigerbar
+        ? 'Klagebehandlingen er opprettet med årsak henvendelse fra kabal og skal derfor\n' +
+          '                ferdigstilles uten utsendelse av brev.'
+        : 'Klagebehandlingen ble opprettet med årsak henvendelse fra kabal. Det ble derfor ikke utsendt brev til bruker.';
+
     return (
         <Container gap="4">
-            <Alert variant="info">
-                Klagebehandlingen er opprettet med årsak henvendelse fra kabal og skal derfor
-                ferdigstilles uten utsendelse av brev.
-            </Alert>
-            <BekreftKnapp
-                variant="primary"
-                size="medium"
-                onClick={() => {
-                    settVisModal(true);
-                }}
-            >
-                Ferdigstill behandling
-            </BekreftKnapp>
+            <Alert variant="info">{alertStripeTekst}</Alert>
+            {behandlingErRedigerbar && (
+                <BekreftKnapp
+                    variant="primary"
+                    size="medium"
+                    onClick={() => {
+                        settVisModal(true);
+                    }}
+                >
+                    Ferdigstill behandling
+                </BekreftKnapp>
+            )}
             <ModalWrapper
                 tittel={'Bekreft ferdigstillelse av behandling'}
                 visModal={visModal}
