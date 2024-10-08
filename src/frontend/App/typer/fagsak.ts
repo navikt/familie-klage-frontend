@@ -72,6 +72,11 @@ export enum Klagebehandlingsårsak {
     HENVENDELSE_FRA_KABAL = 'HENVENDELSE_FRA_KABAL',
 }
 
+export const klagebehandlingsårsakTilTekst: Record<Klagebehandlingsårsak, string> = {
+    ORDINÆR: 'Ordinær',
+    HENVENDELSE_FRA_KABAL: 'Henvendelse fra KA (uten brev)',
+};
+
 export enum PåklagetVedtakstype {
     VEDTAK = 'VEDTAK',
     INFOTRYGD_TILBAKEKREVING = 'INFOTRYGD_TILBAKEKREVING',
