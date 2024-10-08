@@ -55,9 +55,8 @@ export const BrevFaneUtenBrev: React.FC<Props> = ({ behandlingId }) => {
     };
 
     const alertStripeTekst = behandlingErRedigerbar
-        ? 'Klagebehandlingen er opprettet med årsak henvendelse fra kabal og skal derfor\n' +
-          '                ferdigstilles uten utsendelse av brev.'
-        : 'Klagebehandlingen ble opprettet med årsak henvendelse fra kabal. Det ble derfor ikke utsendt brev til bruker.';
+        ? 'Klagebehandlingen er opprettet med årsak "Henvendelse fra KA (uten brev)" og skal derfor ferdigstilles uten utsendelse av brev.'
+        : 'Klagebehandlingen ble opprettet med årsak "Henvendelse fra KA (uten brev)". Det ble derfor ikke utsendt brev til bruker.';
 
     return (
         <Container gap="4">
