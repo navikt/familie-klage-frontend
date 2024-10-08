@@ -2,7 +2,11 @@ import React, { FC } from 'react';
 import { IPersonopplysninger } from '../../App/typer/personopplysninger';
 import Visittkort from '@navikt/familie-visittkort';
 import styled from 'styled-components';
-import { Behandling } from '../../App/typer/fagsak';
+import {
+    Behandling,
+    Klagebehandlingsårsak,
+    klagebehandlingsårsakTilTekst,
+} from '../../App/typer/fagsak';
 import { ABorderStrong } from '@navikt/ds-tokens/dist/tokens';
 import { Sticky } from '../Visningskomponenter/Sticky';
 import { Henlegg } from './HenleggKnapp';
@@ -10,7 +14,7 @@ import { erBehandlingRedigerbar } from '../../App/typer/behandlingstatus';
 import { Label } from '@navikt/ds-react';
 import PersonStatusVarsel from '../Varsel/PersonStatusVarsel';
 import AdressebeskyttelseVarsel from '../Varsel/AdressebeskyttelseVarsel';
-import { EtikettFokus, EtikettSuksess } from '../Varsel/Etikett';
+import { EtikettFokus, EtikettInfo, EtikettSuksess } from '../Varsel/Etikett';
 import { erEtterDagensDato } from '../../App/utils/dato';
 import { stønadstypeTilTekst } from '../../App/typer/stønadstype';
 
@@ -39,6 +43,7 @@ const TagsKnyttetTilBehandling = styled.div`
     display: flex;
     justify-content: flex-end;
     flex-grow: 1;
+    gap: 1rem;
 `;
 
 const VisittkortComponent: FC<{
@@ -106,6 +111,11 @@ const VisittkortComponent: FC<{
                         <EtikettSuksess>
                             {stønadstypeTilTekst[behandling.stønadstype]}
                         </EtikettSuksess>
+                        {behandling.årsak === Klagebehandlingsårsak.HENVENDELSE_FRA_KABAL && (
+                            <EtikettInfo>
+                                {klagebehandlingsårsakTilTekst[behandling.årsak]}
+                            </EtikettInfo>
+                        )}
                     </TagsKnyttetTilBehandling>
 
                     {erBehandlingRedigerbar(behandling) && <Henlegg />}
