@@ -4,7 +4,7 @@ import Høyremeny from './Høyremeny/Høyremeny';
 import styled from 'styled-components';
 import Fanemeny from './Fanemeny/Fanemeny';
 import { ABorderDefault } from '@navikt/ds-tokens/dist/tokens';
-import BehandlingRoutes from './BehandlingRoutes';
+import { BehandlingRoutes } from './BehandlingRoutes';
 import { BehandlingProvider, useBehandling } from '../../App/context/BehandlingContext';
 import VisittkortComponent from '../../Felles/Visittkort/Visittkort';
 import { Behandling } from '../../App/typer/fagsak';
