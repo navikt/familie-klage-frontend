@@ -83,6 +83,7 @@ export const Brev: React.FC<IBrev> = ({ behandlingId }) => {
         },
         [axiosRequest]
     );
+
     useEffect(() => {
         hentVurdering(behandlingId);
     }, [behandlingId, hentVurdering]);

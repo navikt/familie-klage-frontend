@@ -64,6 +64,12 @@ export interface Behandling {
     fagsystem: Fagsystem;
     klageMottatt: string;
     fagsystemRevurdering?: FagsystemRevurdering;
+    årsak: Klagebehandlingsårsak;
+}
+
+export enum Klagebehandlingsårsak {
+    ORDINÆR = 'ORDINÆR',
+    HENVENDELSE_FRA_KABAL = 'HENVENDELSE_FRA_KABAL',
 }
 
 export enum PåklagetVedtakstype {
