@@ -24,8 +24,8 @@
     ]
   },
   "dependencies": {
-    "@navikt/ds-css": "6.16.x",
-    "@navikt/ds-react": "6.16.x",
+    "@navikt/ds-css": "7.2.x",
+    "@navikt/ds-react": "7.2.x",
     "@navikt/familie-backend": "^10.0.24",
     "@navikt/familie-header": "^14.0.7",
     "@navikt/familie-logging": "^7.0.1",
@@ -50,7 +50,7 @@
     "classnames": "^2.5.1",
     "color-string": "^1.9.1",
     "constate": "^3.3.2",
-    "date-fns": "^3.6.0",
+    "date-fns": "^4.1.0",
     "dotenv": "^16.4.5",
     "express": "^4.19.2",
     "file-loader": "^6.2.0",
