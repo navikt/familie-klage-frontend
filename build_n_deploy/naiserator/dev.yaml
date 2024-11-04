@@ -56,8 +56,6 @@ spec:
         - application: familie-ef-sak
         - application: familie-brev
         - application: familie-klage
-      external:
-        - host: telemetry.ekstern.dev.nav.no
   envFrom:
     - secret: familie                       # Henter ut FAMILIE_KLAGE
     - secret: familie-klage-frontend        # Ulike secrets

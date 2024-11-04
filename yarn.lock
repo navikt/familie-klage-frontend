@@ -1437,10 +1437,10 @@
   resolved "https://npm.pkg.github.com/download/@navikt/ds-tokens/7.3.0/7b08f7cb6ecc23773ded1d655d8e75af80316c3a#7b08f7cb6ecc23773ded1d655d8e75af80316c3a"
   integrity sha512-2VeG4C6D6yF4BGKlL9RuSi2scbFVZjXnEOjUYiFeePywS4c56xVvoFTFSWDxn5bHSg59QAuHdnxp7MUwsucYJQ==
 
-"@navikt/familie-backend@^10.0.24":
-  version "10.0.24"
-  resolved "https://npm.pkg.github.com/download/@navikt/familie-backend/10.0.24/bb9a96c11e546c119ee7654391c48e860a4465aa#bb9a96c11e546c119ee7654391c48e860a4465aa"
-  integrity sha512-gsyuyfVnHWLAJmd0jz1btjUVpTFSKmqYVKulBLvs4qutgLKX/XjnIf/R26Me10gg2fv4WVRjy3tQfiTgEdGSIw==
+"@navikt/familie-backend@^10.1.0":
+  version "10.1.0"
+  resolved "https://npm.pkg.github.com/download/@navikt/familie-backend/10.1.0/65e90bb02f8372039dec0344b8a7c372d2303160#65e90bb02f8372039dec0344b8a7c372d2303160"
+  integrity sha512-rg5aVUrYubfRdrS4QlzZOQQ92e8DK/+Af9mJk9Tu3c64TNaFGBvWZ4GEjjhGtscAL+/9XbepmJeQmUxcv51alg==
   dependencies:
     "@navikt/familie-logging" "^7.0.2"
     "@types/cookie-parser" "^1.4.7"

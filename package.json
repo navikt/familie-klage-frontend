@@ -27,7 +27,7 @@
     "@grafana/faro-web-sdk": "^1.11.0",
     "@navikt/ds-css": "^7.3.0",
     "@navikt/ds-react": "^7.3.0",
-    "@navikt/familie-backend": "^10.0.24",
+    "@navikt/familie-backend": "^10.1.0",
     "@navikt/familie-header": "^14.1.1",
     "@navikt/familie-logging": "^7.0.2",
     "@navikt/familie-visittkort": "^15.1.2",
