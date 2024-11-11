@@ -15,6 +15,7 @@ import { BodyLong } from '@navikt/ds-react';
 import { ModalWrapper } from './Felles/Modal/ModalWrapper';
 import styled from 'styled-components';
 import UlagretDataModal from './Felles/Modal/UlagretDataModal';
+import { initGrafanaFaro } from './App/utils/grafanaFaro';
 
 const Innhold = styled(BodyLong)`
     margin-top: 2rem;
@@ -26,6 +27,7 @@ const App: React.FC = () => {
     const [appEnv, settAppEnv] = useState<AppEnv>();
 
     React.useEffect(() => {
+        initGrafanaFaro();
         hentInnloggetBruker().then((innhentetInnloggetSaksbehandler: ISaksbehandler) => {
             settInnloggetSaksbehandler(innhentetInnloggetSaksbehandler);
         });
