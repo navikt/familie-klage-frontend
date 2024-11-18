@@ -11,12 +11,15 @@ import { ABorderStrong } from '@navikt/ds-tokens/dist/tokens';
 import { Sticky } from '../Visningskomponenter/Sticky';
 import { Henlegg } from './HenleggKnapp';
 import { erBehandlingRedigerbar } from '../../App/typer/behandlingstatus';
-import { Label } from '@navikt/ds-react';
+import { Label, Link } from '@navikt/ds-react';
 import PersonStatusVarsel from '../Varsel/PersonStatusVarsel';
 import AdressebeskyttelseVarsel from '../Varsel/AdressebeskyttelseVarsel';
 import { EtikettFokus, EtikettInfo, EtikettSuksess } from '../Varsel/Etikett';
 import { erEtterDagensDato } from '../../App/utils/dato';
 import { stønadstypeTilTekst } from '../../App/typer/stønadstype';
+import { ExternalLinkIcon } from '@navikt/aksel-icons';
+import { utledSaksoversiktLenke } from '../../App/utils/utils';
+import { useApp } from '../../App/context/AppContext';
 
 const Visningsnavn = styled.div`
     text-overflow: ellipsis;
@@ -50,6 +53,7 @@ const VisittkortComponent: FC<{
     personopplysninger: IPersonopplysninger;
     behandling: Behandling;
 }> = ({ personopplysninger, behandling }) => {
+    const { appEnv } = useApp();
     const {
         personIdent,
         kjønn,
@@ -104,7 +108,10 @@ const VisittkortComponent: FC<{
                     </ElementWrapper>
                 )}
             </Visittkort>
-
+            <Link href={utledSaksoversiktLenke(behandling, appEnv.eksternlenker)} target="_blank">
+                Gå til saksoversikt
+                <ExternalLinkIcon aria-label="Gå til saksoversikt" fontSize={'1.375rem'} />
+            </Link>
             {behandling && (
                 <>
                     <TagsKnyttetTilBehandling>
