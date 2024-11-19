@@ -6,6 +6,7 @@ import {
     Behandling,
     Klagebehandlingsårsak,
     klagebehandlingsårsakTilTekst,
+    PåklagetVedtakstype,
 } from '../../App/typer/fagsak';
 import { ABorderStrong } from '@navikt/ds-tokens/dist/tokens';
 import { Sticky } from '../Visningskomponenter/Sticky';
@@ -18,8 +19,9 @@ import { EtikettFokus, EtikettInfo, EtikettSuksess } from '../Varsel/Etikett';
 import { erEtterDagensDato } from '../../App/utils/dato';
 import { stønadstypeTilTekst } from '../../App/typer/stønadstype';
 import { ExternalLinkIcon } from '@navikt/aksel-icons';
-import { utledSaksoversiktLenke } from '../../App/utils/utils';
+import { utledBehandlingLenke, utledSaksoversiktLenke } from '../../App/utils/utils';
 import { useApp } from '../../App/context/AppContext';
+import { FagsystemType } from '../../Komponenter/Behandling/Formkrav/typer';
 
 const Visningsnavn = styled.div`
     text-overflow: ellipsis;
@@ -42,10 +44,15 @@ const ElementWrapper = styled.div`
     margin-left: 1rem;
 `;
 
+const HøyreWrapper = styled.div`
+    display: flex;
+    justify-content: flex-end;
+    gap: 1rem;
+`;
+
 const TagsKnyttetTilBehandling = styled.div`
     display: flex;
     justify-content: flex-end;
-    flex-grow: 1;
     gap: 1rem;
 `;
 
@@ -64,6 +71,13 @@ const VisittkortComponent: FC<{
         fullmakt,
         vergemål,
     } = personopplysninger;
+    const skalLenkeTilBehandling =
+        behandling.påklagetVedtak.påklagetVedtakstype === PåklagetVedtakstype.VEDTAK &&
+        behandling.påklagetVedtak.fagsystemVedtak?.fagsystemType === FagsystemType.ORDNIÆR;
+    const behandlingLenke = utledBehandlingLenke(behandling, appEnv.eksternlenker);
+    const saksoversiktLenke = utledSaksoversiktLenke(behandling, appEnv.eksternlenker);
+    const behandlingErRedigerbar = erBehandlingRedigerbar(behandling);
+
     return (
         <Container>
             <Visittkort
@@ -108,26 +122,34 @@ const VisittkortComponent: FC<{
                     </ElementWrapper>
                 )}
             </Visittkort>
-            <Link href={utledSaksoversiktLenke(behandling, appEnv.eksternlenker)} target="_blank">
-                Gå til saksoversikt
-                <ExternalLinkIcon aria-label="Gå til saksoversikt" fontSize={'1.375rem'} />
-            </Link>
-            {behandling && (
-                <>
-                    <TagsKnyttetTilBehandling>
-                        <EtikettSuksess>
-                            {stønadstypeTilTekst[behandling.stønadstype]}
-                        </EtikettSuksess>
-                        {behandling.årsak === Klagebehandlingsårsak.HENVENDELSE_FRA_KABAL && (
-                            <EtikettInfo>
-                                {klagebehandlingsårsakTilTekst[behandling.årsak]}
-                            </EtikettInfo>
-                        )}
-                    </TagsKnyttetTilBehandling>
+            <HøyreWrapper>
+                {skalLenkeTilBehandling && (
+                    <Link href={behandlingLenke} target="_blank">
+                        Gå til behandling
+                        <ExternalLinkIcon aria-label="Gå til behandling" fontSize={'1.375rem'} />
+                    </Link>
+                )}
+                <Link href={saksoversiktLenke} target="_blank">
+                    Gå til saksoversikt
+                    <ExternalLinkIcon aria-label="Gå til saksoversikt" fontSize={'1.375rem'} />
+                </Link>
+                {behandling && (
+                    <>
+                        <TagsKnyttetTilBehandling>
+                            <EtikettSuksess>
+                                {stønadstypeTilTekst[behandling.stønadstype]}
+                            </EtikettSuksess>
+                            {behandling.årsak === Klagebehandlingsårsak.HENVENDELSE_FRA_KABAL && (
+                                <EtikettInfo>
+                                    {klagebehandlingsårsakTilTekst[behandling.årsak]}
+                                </EtikettInfo>
+                            )}
+                        </TagsKnyttetTilBehandling>
 
-                    {erBehandlingRedigerbar(behandling) && <Henlegg />}
-                </>
-            )}
+                        {behandlingErRedigerbar && <Henlegg />}
+                    </>
+                )}
+            </HøyreWrapper>
         </Container>
     );
 };
