@@ -5,9 +5,7 @@ type EksternlenkeKey =
     | 'aInntekt'
     | 'gosys'
     | 'modia'
-    | 'efTilbakekrevingUrl'
-    | 'baTilbakekrevingUrl'
-    | 'ksTilbakekrevingUrl';
+    | 'tilbakekrevingUrl';
 export type Eksternlenker = {
     [key in EksternlenkeKey]: string;
 };

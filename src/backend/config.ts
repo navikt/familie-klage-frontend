@@ -10,9 +10,7 @@ type EksternlenkeKey =
     | 'aInntekt'
     | 'gosys'
     | 'modia'
-    | 'efTilbakekrevingUrl'
-    | 'baTilbakekrevingUrl'
-    | 'ksTilbakekrevingUrl';
+    | 'tilbakekrevingUrl';
 
 type Roller = {
     [key in Rolle]: string;
@@ -53,9 +51,7 @@ const lenkerDev: Eksternlenker = {
     aInntekt: 'https://arbeid-og-inntekt.dev.adeo.no',
     gosys: 'https://gosys-q1.dev.intern.nav.no/gosys',
     modia: 'https://app-q1.adeo.no/modiapersonoversikt',
-    efTilbakekrevingUrl: 'https://familie-tilbake-frontend.ansatt.dev.nav.no/fagsystem/EF',
-    baTilbakekrevingUrl: 'https://familie-tilbake-frontend.ansatt.dev.nav.no/fagsystem/BA',
-    ksTilbakekrevingUrl: 'https://familie-tilbake-frontend.ansatt.dev.nav.no/fagsystem/KS',
+    tilbakekrevingUrl: 'https://familie-tilbake-frontend.ansatt.dev.nav.no/fagsystem',
 };
 
 const lenkerProd: Eksternlenker = {
@@ -65,9 +61,7 @@ const lenkerProd: Eksternlenker = {
     aInntekt: 'https://arbeid-og-inntekt.nais.adeo.no',
     gosys: 'https://gosys.intern.nav.no/gosys',
     modia: 'https://app.adeo.no/modiapersonoversikt',
-    efTilbakekrevingUrl: 'https://familietilbakekreving.intern.nav.no/fagsystem/EF',
-    baTilbakekrevingUrl: 'https://familietilbakekreving.intern.nav.no/fagsystem/BA',
-    ksTilbakekrevingUrl: 'https://familietilbakekreving.intern.nav.no/fagsystem/KS',
+    tilbakekrevingUrl: 'https://familietilbakekreving.intern.nav.no/fagsystem',
 };
 
 const lenkerLocal: Eksternlenker = {
@@ -77,9 +71,7 @@ const lenkerLocal: Eksternlenker = {
     aInntekt: 'https://arbeid-og-inntekt.dev.adeo.no',
     gosys: 'https://gosys-q1.dev.intern.nav.no/gosys',
     modia: 'https://app-q1.adeo.no/modiapersonoversikt',
-    efTilbakekrevingUrl: 'http://localhost:8000',
-    baTilbakekrevingUrl: 'http://localhost:8000',
-    ksTilbakekrevingUrl: 'http://localhost:8000',
+    tilbakekrevingUrl: 'http://localhost:8000',
 };
 
 const Environment = (): IEnvironment => {
