@@ -66,6 +66,17 @@ export const utledBehandlingLenke = (
     );
 };
 
+export const utledTilbakekrevingLenke = (
+    behandling: Behandling,
+    eksternLenker: Eksternlenker
+): string => {
+    return utledEksternTilbakekrevingLenke(
+        behandling,
+        behandling.påklagetVedtak?.eksternFagsystemBehandlingId,
+        eksternLenker
+    );
+};
+
 export const utledEksternBehandlingLenke = (
     behandling: Behandling,
     eksternBehandlingId: string | undefined,
@@ -74,6 +85,16 @@ export const utledEksternBehandlingLenke = (
     return `${utledFagsystemUrl(behandling.fagsystem, eksternLenker)}/fagsak/${
         behandling.eksternFagsystemFagsakId
     }/${eksternBehandlingId}`;
+};
+
+export const utledEksternTilbakekrevingLenke = (
+    behandling: Behandling,
+    eksternBehandlingId: string | undefined,
+    eksternLenker: Eksternlenker
+): string => {
+    return `${utledFagsystemUrlTilbakekreving(behandling.fagsystem, eksternLenker)}/fagsak/${
+        behandling.eksternFagsystemFagsakId
+    }/behandling/${eksternBehandlingId}`;
 };
 
 export const utledSaksoversiktLenke = (
@@ -93,6 +114,20 @@ export const utledFagsystemUrl = (fagsystem: Fagsystem, eksternLenker: Eksternle
             return eksternLenker.baSakUrl;
         case Fagsystem.KS:
             return eksternLenker.ksSakUrl;
+    }
+};
+
+export const utledFagsystemUrlTilbakekreving = (
+    fagsystem: Fagsystem,
+    eksternLenker: Eksternlenker
+): string => {
+    switch (fagsystem) {
+        case Fagsystem.EF:
+            return eksternLenker.efTilbakekrevingUrl;
+        case Fagsystem.BA:
+            return eksternLenker.baTilbakekrevingUrl;
+        case Fagsystem.KS:
+            return eksternLenker.ksTilbakekrevingUrl;
     }
 };
 
