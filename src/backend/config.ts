@@ -3,7 +3,14 @@
 import { appConfig, IApi, ISessionKonfigurasjon } from '@navikt/familie-backend';
 
 type Rolle = 'veileder' | 'saksbehandler' | 'beslutter' | 'kode6' | 'kode7';
-type EksternlenkeKey = 'efSakUrl' | 'baSakUrl' | 'ksSakUrl' | 'aInntekt' | 'gosys' | 'modia';
+type EksternlenkeKey =
+    | 'efSakUrl'
+    | 'baSakUrl'
+    | 'ksSakUrl'
+    | 'aInntekt'
+    | 'gosys'
+    | 'modia'
+    | 'tilbakekrevingUrl';
 
 type Roller = {
     [key in Rolle]: string;
@@ -44,6 +51,7 @@ const lenkerDev: Eksternlenker = {
     aInntekt: 'https://arbeid-og-inntekt.dev.adeo.no',
     gosys: 'https://gosys-q1.dev.intern.nav.no/gosys',
     modia: 'https://app-q1.adeo.no/modiapersonoversikt',
+    tilbakekrevingUrl: 'https://familie-tilbake-frontend.ansatt.dev.nav.no/fagsystem',
 };
 
 const lenkerProd: Eksternlenker = {
@@ -53,6 +61,7 @@ const lenkerProd: Eksternlenker = {
     aInntekt: 'https://arbeid-og-inntekt.nais.adeo.no',
     gosys: 'https://gosys.intern.nav.no/gosys',
     modia: 'https://app.adeo.no/modiapersonoversikt',
+    tilbakekrevingUrl: 'https://familietilbakekreving.intern.nav.no/fagsystem',
 };
 
 const lenkerLocal: Eksternlenker = {
@@ -62,6 +71,7 @@ const lenkerLocal: Eksternlenker = {
     aInntekt: 'https://arbeid-og-inntekt.dev.adeo.no',
     gosys: 'https://gosys-q1.dev.intern.nav.no/gosys',
     modia: 'https://app-q1.adeo.no/modiapersonoversikt',
+    tilbakekrevingUrl: 'http://localhost:8000',
 };
 
 const Environment = (): IEnvironment => {

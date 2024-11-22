@@ -76,6 +76,15 @@ export const utledEksternBehandlingLenke = (
     }/${eksternBehandlingId}`;
 };
 
+export const utledTilbakekrevingLenke = (
+    behandling: Behandling,
+    eksternLenker: Eksternlenker
+): string => {
+    return `${eksternLenker.tilbakekrevingUrl}/${behandling.fagsystem}/fagsak/${
+        behandling.eksternFagsystemFagsakId
+    }/behandling/${behandling.påklagetVedtak?.eksternFagsystemBehandlingId}`;
+};
+
 export const utledSaksoversiktLenke = (
     behandling: Behandling,
     eksternLenker: Eksternlenker

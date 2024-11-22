@@ -6,17 +6,26 @@ import {
     Behandling,
     Klagebehandlingsårsak,
     klagebehandlingsårsakTilTekst,
+    PåklagetVedtakstype,
 } from '../../App/typer/fagsak';
 import { ABorderStrong } from '@navikt/ds-tokens/dist/tokens';
 import { Sticky } from '../Visningskomponenter/Sticky';
 import { Henlegg } from './HenleggKnapp';
 import { erBehandlingRedigerbar } from '../../App/typer/behandlingstatus';
-import { Label } from '@navikt/ds-react';
+import { Label, Link } from '@navikt/ds-react';
 import PersonStatusVarsel from '../Varsel/PersonStatusVarsel';
 import AdressebeskyttelseVarsel from '../Varsel/AdressebeskyttelseVarsel';
 import { EtikettFokus, EtikettInfo, EtikettSuksess } from '../Varsel/Etikett';
 import { erEtterDagensDato } from '../../App/utils/dato';
 import { stønadstypeTilTekst } from '../../App/typer/stønadstype';
+import { ExternalLinkIcon } from '@navikt/aksel-icons';
+import {
+    utledBehandlingLenke,
+    utledSaksoversiktLenke,
+    utledTilbakekrevingLenke,
+} from '../../App/utils/utils';
+import { useApp } from '../../App/context/AppContext';
+import { FagsystemType } from '../../Komponenter/Behandling/Formkrav/typer';
 
 const Visningsnavn = styled.div`
     text-overflow: ellipsis;
@@ -39,10 +48,15 @@ const ElementWrapper = styled.div`
     margin-left: 1rem;
 `;
 
+const HøyreWrapper = styled.div`
+    display: flex;
+    justify-content: flex-end;
+    gap: 1rem;
+`;
+
 const TagsKnyttetTilBehandling = styled.div`
     display: flex;
     justify-content: flex-end;
-    flex-grow: 1;
     gap: 1rem;
 `;
 
@@ -50,6 +64,7 @@ const VisittkortComponent: FC<{
     personopplysninger: IPersonopplysninger;
     behandling: Behandling;
 }> = ({ personopplysninger, behandling }) => {
+    const { appEnv } = useApp();
     const {
         personIdent,
         kjønn,
@@ -60,6 +75,17 @@ const VisittkortComponent: FC<{
         fullmakt,
         vergemål,
     } = personopplysninger;
+    const skalLenkeTilFagsystemBehandling =
+        behandling.påklagetVedtak.påklagetVedtakstype === PåklagetVedtakstype.VEDTAK &&
+        behandling.påklagetVedtak.fagsystemVedtak?.fagsystemType === FagsystemType.ORDNIÆR;
+    const skalLenkeTilTilbakekreving =
+        behandling.påklagetVedtak.påklagetVedtakstype === PåklagetVedtakstype.VEDTAK &&
+        behandling.påklagetVedtak.fagsystemVedtak?.fagsystemType === FagsystemType.TILBAKEKREVING;
+    const behandlingLenke = utledBehandlingLenke(behandling, appEnv.eksternlenker);
+    const saksoversiktLenke = utledSaksoversiktLenke(behandling, appEnv.eksternlenker);
+    const tilbakekrevingLenke = utledTilbakekrevingLenke(behandling, appEnv.eksternlenker);
+    const behandlingErRedigerbar = erBehandlingRedigerbar(behandling);
+
     return (
         <Container>
             <Visittkort
@@ -104,23 +130,43 @@ const VisittkortComponent: FC<{
                     </ElementWrapper>
                 )}
             </Visittkort>
+            <HøyreWrapper>
+                {skalLenkeTilFagsystemBehandling && (
+                    <Link href={behandlingLenke} target="_blank">
+                        Gå til behandling
+                        <ExternalLinkIcon aria-label="Gå til behandling" fontSize={'1.375rem'} />
+                    </Link>
+                )}
+                {skalLenkeTilTilbakekreving && (
+                    <Link href={tilbakekrevingLenke} target="_blank">
+                        Gå til tilbakekreving
+                        <ExternalLinkIcon
+                            aria-label="Gå til tilbakekreving"
+                            fontSize={'1.375rem'}
+                        />
+                    </Link>
+                )}
+                <Link href={saksoversiktLenke} target="_blank">
+                    Gå til saksoversikt
+                    <ExternalLinkIcon aria-label="Gå til saksoversikt" fontSize={'1.375rem'} />
+                </Link>
+                {behandling && (
+                    <>
+                        <TagsKnyttetTilBehandling>
+                            <EtikettSuksess>
+                                {stønadstypeTilTekst[behandling.stønadstype]}
+                            </EtikettSuksess>
+                            {behandling.årsak === Klagebehandlingsårsak.HENVENDELSE_FRA_KABAL && (
+                                <EtikettInfo>
+                                    {klagebehandlingsårsakTilTekst[behandling.årsak]}
+                                </EtikettInfo>
+                            )}
+                        </TagsKnyttetTilBehandling>
 
-            {behandling && (
-                <>
-                    <TagsKnyttetTilBehandling>
-                        <EtikettSuksess>
-                            {stønadstypeTilTekst[behandling.stønadstype]}
-                        </EtikettSuksess>
-                        {behandling.årsak === Klagebehandlingsårsak.HENVENDELSE_FRA_KABAL && (
-                            <EtikettInfo>
-                                {klagebehandlingsårsakTilTekst[behandling.årsak]}
-                            </EtikettInfo>
-                        )}
-                    </TagsKnyttetTilBehandling>
-
-                    {erBehandlingRedigerbar(behandling) && <Henlegg />}
-                </>
-            )}
+                        {behandlingErRedigerbar && <Henlegg />}
+                    </>
+                )}
+            </HøyreWrapper>
         </Container>
     );
 };
