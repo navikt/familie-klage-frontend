@@ -75,7 +75,7 @@ const VisittkortComponent: FC<{
         fullmakt,
         vergemål,
     } = personopplysninger;
-    const skalLenkeTilBehandling =
+    const skalLenkeTilFagsystemBehandling =
         behandling.påklagetVedtak.påklagetVedtakstype === PåklagetVedtakstype.VEDTAK &&
         behandling.påklagetVedtak.fagsystemVedtak?.fagsystemType === FagsystemType.ORDNIÆR;
     const skalLenkeTilTilbakekreving =
@@ -131,7 +131,7 @@ const VisittkortComponent: FC<{
                 )}
             </Visittkort>
             <HøyreWrapper>
-                {skalLenkeTilBehandling && (
+                {skalLenkeTilFagsystemBehandling && (
                     <Link href={behandlingLenke} target="_blank">
                         Gå til behandling
                         <ExternalLinkIcon aria-label="Gå til behandling" fontSize={'1.375rem'} />
