@@ -30,7 +30,7 @@ export const BehandlingRoutes: React.FC<Props> = ({ behandling }) => {
         <Routes>
             <Route path="/" element={<Navigate to={redirectUrl} replace={true} />} />
             <Route path="/formkrav" element={<Formkrav behandling={behandling} />} />
-            <Route path="/vurdering" element={<Vurdering behandlingId={behandling.id} />} />
+            <Route path="/vurdering" element={<Vurdering behandling={behandling} />} />
             <Route path="/brev" element={<BrevFane behandling={behandling} />} />
             <Route path="/resultat" element={<Resultat />} />
         </Routes>

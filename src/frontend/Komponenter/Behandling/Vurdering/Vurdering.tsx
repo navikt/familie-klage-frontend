@@ -24,6 +24,7 @@ import { harVerdi } from '../../../App/utils/utils';
 import { alleVilkårOppfylt, påKlagetVedtakValgt } from '../Formkrav/validerFormkravUtils';
 import { InterntNotat } from './InterntNotat';
 import { useHentVurderinger } from '../../../App/hooks/useHentVurderinger';
+import { Behandling, Fagsystem } from '../../../App/typer/fagsak';
 
 const FritekstFeltWrapper = styled.div`
     margin: 2rem 4rem 2rem 4rem;
@@ -57,9 +58,10 @@ const erAlleFelterUtfylt = (vurderingData: IVurdering): boolean => {
         return false;
     }
 };
-export const Vurdering: React.FC<{ behandlingId: string }> = ({ behandlingId }) => {
+export const Vurdering: React.FC<{ behandling: Behandling }> = ({ behandling }) => {
     const [formkrav, settFormkrav] = useState<Ressurs<IFormkravVilkår>>(byggTomRessurs());
     const [senderInn, settSenderInn] = useState<boolean>(false);
+    const behandlingId = behandling.id;
 
     const navigate = useNavigate();
 
@@ -215,7 +217,9 @@ export const Vurdering: React.FC<{ behandlingId: string }> = ({ behandlingId }) 
                                                 size="medium"
                                                 readOnly={false}
                                             />
-                                            <LesMerTekstInnstilling />
+                                            <LesMerTekstInnstilling
+                                                fagsystem={behandling.fagsystem}
+                                            />
                                         </FritekstFeltWrapper>
                                         <InterntNotat
                                             behandlingErRedigerbar={behandlingErRedigerbar}
@@ -259,7 +263,18 @@ export const Vurdering: React.FC<{ behandlingId: string }> = ({ behandlingId }) 
     );
 };
 
-const LesMerTekstInnstilling: React.FC = () => {
+const hentEksempelForFagsystem = (fagsystem: Fagsystem): string => {
+    switch (fagsystem) {
+        case Fagsystem.BA:
+            return 'Klagers søknad om utvidet barnetrygd ble avslått fordi hun har fått barn med samboer.';
+        case Fagsystem.KS:
+            return 'Klagers søknad om kontantstøtte ble avslått fordi barnet er tildelt full barnehageplass.';
+        case Fagsystem.EF:
+            return 'Klagers søknad om overgangsstønad ble avslått fordi hun har fått nytt barn med samme partner.';
+    }
+};
+
+const LesMerTekstInnstilling: React.FC<{ fagsystem: Fagsystem }> = ({ fagsystem }) => {
     return (
         <LesMerTekst size="small" header="Dette skal innstillingen inneholde">
             <ol>
@@ -267,9 +282,8 @@ const LesMerTekstInnstilling: React.FC = () => {
                     Hva klagesaken gjelder
                     <ol type="a">
                         <li>
-                            Skriv kort om resultatet i vedtaket. Eksempel: Klagers søknad om
-                            overgangsstønad ble avslått fordi hun har fått nytt barn med samme
-                            partner.
+                            Skriv kort om resultatet i vedtaket. Eksempel:{' '}
+                            {hentEksempelForFagsystem(fagsystem)}
                         </li>
                     </ol>
                 </li>
