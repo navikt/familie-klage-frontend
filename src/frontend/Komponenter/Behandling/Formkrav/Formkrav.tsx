@@ -82,6 +82,7 @@ const FormkravKomponent: React.FC<{
                         settRedigeringsmodus={settRedigeringsmodus}
                         feilmelding={feilmelding}
                         fagsystemVedtak={fagsystemVedtak}
+                        fagsystem={behandling.fagsystem}
                     />
                 ),
             }}

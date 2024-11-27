@@ -4,6 +4,7 @@ import { IFormkravVilkår, Redigeringsmodus } from './typer';
 import { EndreFormkravVurderinger } from './EndreFormkravVurderinger';
 import { RessursFeilet, RessursSuksess } from '../../../App/typer/ressurs';
 import { FagsystemVedtak } from '../../../App/typer/fagsystemVedtak';
+import { Fagsystem } from '../../../App/typer/fagsak';
 
 export interface IProps {
     vurderinger: IFormkravVilkår;
@@ -15,6 +16,7 @@ export interface IProps {
     settRedigeringsmodus: (redigeringsmodus: Redigeringsmodus) => void;
     feilmelding: string;
     fagsystemVedtak: FagsystemVedtak[];
+    fagsystem: Fagsystem;
 }
 
 export const VisEllerEndreFormkravVurderinger: React.FC<IProps> = ({
@@ -25,6 +27,7 @@ export const VisEllerEndreFormkravVurderinger: React.FC<IProps> = ({
     settOppdaterteVurderinger,
     feilmelding,
     fagsystemVedtak,
+    fagsystem,
 }) => {
     switch (redigeringsmodus) {
         case Redigeringsmodus.IKKE_PÅSTARTET:
@@ -37,6 +40,7 @@ export const VisEllerEndreFormkravVurderinger: React.FC<IProps> = ({
                     settOppdaterteVurderinger={settOppdaterteVurderinger}
                     settRedigeringsmodus={settRedigeringsmodus}
                     vurderinger={vurderinger}
+                    fagsystem={fagsystem}
                 />
             );
         case Redigeringsmodus.VISNING:

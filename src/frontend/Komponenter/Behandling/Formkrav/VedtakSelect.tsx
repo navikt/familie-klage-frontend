@@ -1,7 +1,11 @@
 import React, { Dispatch, SetStateAction } from 'react';
 import styled from 'styled-components';
 import { IFormkravVilkår } from './typer';
-import { PåklagetVedtakstype, påklagetVedtakstypeTilTekst } from '../../../App/typer/fagsak';
+import {
+    Fagsystem,
+    PåklagetVedtakstype,
+    påklagetVedtakstypeTilTekst,
+} from '../../../App/typer/fagsak';
 import {
     erVedtakFraFagsystemet,
     fagsystemVedtakTilVisningstekst,
@@ -17,6 +21,7 @@ interface IProps {
     settOppdaterteVurderinger: Dispatch<SetStateAction<IFormkravVilkår>>;
     vedtak: FagsystemVedtak[];
     vurderinger: IFormkravVilkår;
+    fagsystem: Fagsystem;
 }
 
 const SelectWrapper = styled.div`
@@ -31,6 +36,7 @@ export const VedtakSelect: React.FC<IProps> = ({
     settOppdaterteVurderinger,
     vedtak,
     vurderinger,
+    fagsystem,
 }) => {
     const handleChange = (valgtElement: string) => {
         if (erVedtakFraFagsystemet(valgtElement)) {
@@ -48,6 +54,25 @@ export const VedtakSelect: React.FC<IProps> = ({
                     påklagetVedtakstype: valgtElement as PåklagetVedtakstype,
                 },
             }));
+        }
+    };
+
+    const hentValgForFagsystem = (fagsystem: Fagsystem): PåklagetVedtakstype[] => {
+        switch (fagsystem) {
+            case Fagsystem.EF:
+                return [
+                    PåklagetVedtakstype.INFOTRYGD_TILBAKEKREVING,
+                    PåklagetVedtakstype.INFOTRYGD_ORDINÆRT_VEDTAK,
+                    PåklagetVedtakstype.UTESTENGELSE,
+                    PåklagetVedtakstype.UTEN_VEDTAK,
+                ];
+            case Fagsystem.KS:
+            case Fagsystem.BA:
+                return [
+                    PåklagetVedtakstype.INFOTRYGD_TILBAKEKREVING,
+                    PåklagetVedtakstype.INFOTRYGD_ORDINÆRT_VEDTAK,
+                    PåklagetVedtakstype.UTEN_VEDTAK,
+                ];
         }
     };
 
@@ -72,19 +97,11 @@ export const VedtakSelect: React.FC<IProps> = ({
                         {fagsystemVedtakTilVisningstekst(valg)}
                     </option>
                 ))}
-
-                <option value={PåklagetVedtakstype.INFOTRYGD_TILBAKEKREVING}>
-                    {påklagetVedtakstypeTilTekst[PåklagetVedtakstype.INFOTRYGD_TILBAKEKREVING]}
-                </option>
-                <option value={PåklagetVedtakstype.INFOTRYGD_ORDINÆRT_VEDTAK}>
-                    {påklagetVedtakstypeTilTekst[PåklagetVedtakstype.INFOTRYGD_ORDINÆRT_VEDTAK]}
-                </option>
-                <option value={PåklagetVedtakstype.UTESTENGELSE}>
-                    {påklagetVedtakstypeTilTekst[PåklagetVedtakstype.UTESTENGELSE]}
-                </option>
-                <option value={PåklagetVedtakstype.UTEN_VEDTAK}>
-                    {påklagetVedtakstypeTilTekst[PåklagetVedtakstype.UTEN_VEDTAK]}
-                </option>
+                {hentValgForFagsystem(fagsystem).map((valg) => (
+                    <option value={valg} key={valg}>
+                        {påklagetVedtakstypeTilTekst[valg]}
+                    </option>
+                ))}
             </Select>
             {harManuellVedtaksdato(vurderinger.påklagetVedtak.påklagetVedtakstype) && (
                 <DatoWrapper>
