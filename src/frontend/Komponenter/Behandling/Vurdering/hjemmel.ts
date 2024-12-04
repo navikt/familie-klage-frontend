@@ -44,8 +44,6 @@ enum KontantstøttelovenHjemmel {
 
 enum UtlandsavtalerHjemmel {
     UTLAND_EØS = 'UTLAND_EØS',
-    UTLAND_EØS_FORORDNINGEN_FEM = 'UTLAND_EØS_FORORDNINGEN_FEM',
-    UTLAND_EØS_FORORDNINGEN_SEKS = 'UTLAND_EØS_FORORDNINGEN_SEKS',
     UTLAND_NORDISK = 'UTLAND_NORDISK',
     UTLAND_TRYGDEAVTALER = 'UTLAND_TRYGDEAVTALER',
 }
@@ -84,9 +82,7 @@ const kontantstøttelovenVisningstekster: Record<KontantstøttelovenHjemmel, str
 };
 
 const utlandsavtalerHjemmelVisningstekster: Record<UtlandsavtalerHjemmel, string> = {
-    UTLAND_EØS: 'EØS-avtalen',
-    UTLAND_EØS_FORORDNINGEN_FEM: 'EØS-forordningen art. 5',
-    UTLAND_EØS_FORORDNINGEN_SEKS: 'EØS-forordningen art. 6',
+    UTLAND_EØS: 'EØS-regelverket',
     UTLAND_NORDISK: 'Nordisk konvensjon',
     UTLAND_TRYGDEAVTALER: 'Trygdeavtaler',
 };
