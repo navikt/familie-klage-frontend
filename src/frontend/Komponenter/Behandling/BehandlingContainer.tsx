@@ -58,6 +58,8 @@ const BehandlingContainer: FC = () => {
     );
 };
 
+// Hei! Jeg tester med S-flag
+
 const BehandlingContent: FC<{
     behandling: Behandling;
     personopplysninger: IPersonopplysninger;
