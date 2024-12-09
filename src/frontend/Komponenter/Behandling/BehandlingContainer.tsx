@@ -58,9 +58,6 @@ const BehandlingContainer: FC = () => {
     );
 };
 
-// Hei! Jeg tester med S-flag.
-// Ny commit med host greier.
-
 const BehandlingContent: FC<{
     behandling: Behandling;
     personopplysninger: IPersonopplysninger;
