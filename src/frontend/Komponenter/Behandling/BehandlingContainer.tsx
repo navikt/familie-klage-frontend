@@ -85,6 +85,8 @@ const BehandlingContent: FC<{
     );
 };
 
+// Hei! Jeg er en kommentar!
+
 const BehandlingOverbygg: FC = () => {
     const { personopplysningerResponse, behandling } = useBehandling();
 
