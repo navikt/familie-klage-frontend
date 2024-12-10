@@ -26,6 +26,7 @@ import {
 } from '../../App/utils/utils';
 import { useApp } from '../../App/context/AppContext';
 import { FagsystemType } from '../../Komponenter/Behandling/Formkrav/typer';
+import { SettPåVentKnapp } from './SettPåVentKnapp';
 
 const Visningsnavn = styled.div`
     text-overflow: ellipsis;
@@ -162,7 +163,7 @@ const VisittkortComponent: FC<{
                                 </EtikettInfo>
                             )}
                         </TagsKnyttetTilBehandling>
-
+                        <SettPåVentKnapp />
                         {behandlingErRedigerbar && <Henlegg />}
                     </>
                 )}

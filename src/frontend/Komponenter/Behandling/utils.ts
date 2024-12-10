@@ -5,7 +5,6 @@ import {
     StegType,
 } from '../../App/typer/fagsak';
 import { utledTekstForEksternutfall } from './Resultat/utils';
-
 /**
  * Forenklet utledning av stegutfall
  * Denne skal ikke brukes for formkrav eller vurdering hvis resultat = Henlagt

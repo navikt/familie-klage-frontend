@@ -7,7 +7,7 @@ import { useHentPersonopplysninger } from '../hooks/useHentPersonopplysninger';
 import { useHentBehandling } from '../hooks/useHentBehandling';
 import { useHentBehandlingHistorikk } from '../hooks/useHentBehandlingHistorikk';
 import { RessursStatus } from '../typer/ressurs';
-import { erBehandlingRedigerbar } from '../typer/behandlingstatus';
+import { BehandlingStatus, erBehandlingRedigerbar } from '../typer/behandlingstatus';
 import { IVurdering } from '../../Komponenter/Behandling/Vurdering/vurderingValg';
 import { useHentFormkravVilkår } from '../hooks/useHentFormkravVilkår';
 import {
@@ -38,8 +38,13 @@ const [BehandlingProvider, useBehandling] = constate(() => {
         behandlingId,
     ]);
 
-    // eslint-disable-next-line
-    useEffect(() => hentPersonopplysninger(behandlingId), [behandlingId]);
+    useEffect(() => hentPersonopplysninger(behandlingId), [behandlingId, hentPersonopplysninger]);
+
+    useEffect(() => {
+        if (behandling.status === RessursStatus.SUKSESS) {
+            settVisSettPåVent(behandling.data.status === BehandlingStatus.SATT_PÅ_VENT);
+        }
+    }, [behandling]);
 
     useEffect(() => {
         settBehandlingErRedigerbar(
@@ -58,6 +63,7 @@ const [BehandlingProvider, useBehandling] = constate(() => {
 
     const [visBrevmottakereModal, settVisBrevmottakereModal] = useState(false);
     const [visHenleggModal, settVisHenleggModal] = useState(false);
+    const [visSettPåVent, settVisSettPåVent] = useState(false);
     const [åpenHøyremeny, settÅpenHøyremeny] = useState(true);
     const [vurderingEndret, settVurderingEndret] = useState(false);
 
@@ -78,6 +84,8 @@ const [BehandlingProvider, useBehandling] = constate(() => {
         visHenleggModal,
         settVisHenleggModal,
         åpenHøyremeny,
+        visSettPåVent,
+        settVisSettPåVent,
         settÅpenHøyremeny,
         vurderingEndret,
         settVurderingEndret,
