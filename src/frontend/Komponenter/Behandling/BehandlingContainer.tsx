@@ -14,7 +14,7 @@ import { HenleggModal } from './Henleggelse/HenleggModal';
 import ScrollToTop from '../../Felles/ScrollToTop/ScrollToTop';
 import { useSetPersonIdent } from '../../App/hooks/useSetPersonIdent';
 import { useSetValgtFagsakId } from '../../App/hooks/useSetValgtFagsakId';
-import SettPåVent from './SettPåVent/SettPåVent';
+import { SettPåVentEnkel } from './SettPåVent/SettPåVentEnkel';
 
 const Container = styled.div`
     display: flex;
@@ -73,7 +73,7 @@ const BehandlingContent: FC<{
             <Container>
                 <InnholdWrapper åpenHøyremeny={åpenHøyremeny}>
                     <Fanemeny behandling={behandling} />
-                    <SettPåVent />
+                    <SettPåVentEnkel behandling={behandling}></SettPåVentEnkel>
                     <BehandlingRoutes behandling={behandling} />
                     <HenleggModal behandling={behandling} />
                 </InnholdWrapper>
@@ -84,8 +84,6 @@ const BehandlingContent: FC<{
         </>
     );
 };
-
-// Hei! Jeg er en kommentar!
 
 const BehandlingOverbygg: FC = () => {
     const { personopplysningerResponse, behandling } = useBehandling();
