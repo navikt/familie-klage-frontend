@@ -3,7 +3,13 @@ import { Behandling } from '../../../App/typer/fagsak';
 import { styled } from 'styled-components';
 import { Button, Heading, HStack, VStack } from '@navikt/ds-react';
 import { SaksbehandlerVelger } from './SaksbehandlerVelger';
-import { byggTomRessurs, Ressurs, RessursStatus } from '../../../App/typer/ressurs';
+import {
+    byggTomRessurs,
+    Ressurs,
+    RessursFeilet,
+    RessursStatus,
+    RessursSuksess,
+} from '../../../App/typer/ressurs';
 import { IOppgave, Prioritet } from './IOppgave';
 import { useApp } from '../../../App/context/AppContext';
 import DataViewer from '../../../Felles/DataViewer/DataViewer';
@@ -17,12 +23,19 @@ const StyledVStack = styled(VStack)`
     padding: 2rem;
 `;
 
+type SettPåVentRequest = {
+    oppgaveId: number;
+    saksbehandler: string;
+    prioritet: Prioritet;
+    frist: string;
+    beskrivelse: string;
+};
+
 export const SettPåVentEnkel: FC<{ behandling: Behandling }> = ({ behandling }) => {
     const [oppgave, settOppgave] = useState<Ressurs<IOppgave>>(byggTomRessurs<IOppgave>());
     const [saksbehandler, settSaksbehandler] = useState<string>('');
     const [prioritet, settPrioritet] = useState<Prioritet | undefined>();
     const [frist, settFrist] = useState<string | undefined>();
-    frist;
 
     const erBehandlingPåVent = behandling.status === BehandlingStatus.SATT_PÅ_VENT;
 
@@ -50,6 +63,48 @@ export const SettPåVentEnkel: FC<{ behandling: Behandling }> = ({ behandling })
             hentOppgaveForBehandling();
         }
     }, [visSettPåVent, hentOppgaveForBehandling]);
+
+    const settPåVent = () => {
+        const kanSettePåVent = prioritet && frist;
+
+        if (!kanSettePåVent) {
+            console.log('HEI 1');
+            return;
+        }
+
+        if (oppgave.status !== RessursStatus.SUKSESS) {
+            // TODO: Noe feilmelding og error håndtering.
+            console.log('HEI 2');
+            return;
+        } else {
+            axiosRequest<string, SettPåVentRequest>({
+                method: 'POST',
+                url: `/familie-klage/api/behandling/${behandling.id}/vent`,
+                data: {
+                    oppgaveId: oppgave.data.id,
+                    saksbehandler: saksbehandler,
+                    prioritet: prioritet,
+                    frist: frist,
+                    beskrivelse: 'Hei på deg!',
+                },
+            })
+                .then((respons: RessursFeilet | RessursSuksess<string>) => {
+                    if (respons.status === RessursStatus.SUKSESS) {
+                        console.log('HEI! Det funket, woohoo!');
+                        settVisSettPåVent(false);
+                    } else {
+                        console.log('HEI 3');
+                        // TODO: Noe feilet, gjør noe med feilen.
+                        console.log(respons.frontendFeilmelding);
+                        console.log(respons.errorMelding);
+                    }
+                })
+                .finally(() => {
+                    console.log('HEI 4');
+                    // TODO: Noe låsknapp greier.
+                });
+        }
+    };
 
     return visSettPåVent ? (
         <DataViewer response={{ oppgave }}>
@@ -85,7 +140,7 @@ export const SettPåVentEnkel: FC<{ behandling: Behandling }> = ({ behandling })
                             >
                                 Avbryt
                             </Button>
-                            <Button variant="primary" size="small">
+                            <Button onClick={settPåVent} variant="primary" size="small">
                                 Sett på vent
                             </Button>
                         </HStack>
