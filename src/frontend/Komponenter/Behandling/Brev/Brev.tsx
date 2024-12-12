@@ -16,8 +16,9 @@ import { IVurdering, VedtakValg } from '../Vurdering/vurderingValg';
 import PdfVisning from './PdfVisning';
 import { ModalWrapper } from '../../../Felles/Modal/ModalWrapper';
 import SystemetLaster from '../../../Felles/SystemetLaster/SystemetLaster';
-import BrevMottakere from '../Brevmottakere/BrevMottakere';
 import { OmgjørVedtak } from './OmgjørVedtak';
+import { Behandling } from '../../../App/typer/fagsak';
+import BrevmottakereBAKS from '../Brevmottakere/BrevmottakereBAKS/BrevmottakereBAKS';
 
 const Brevside = styled.div`
     background-color: var(--a-bg-subtle);
@@ -48,10 +49,10 @@ const StyledKnapp = styled(Button)`
 type Utfall = 'IKKE_SATT' | 'LAG_BREV' | 'OMGJØR_VEDTAK';
 
 interface IBrev {
-    behandlingId: string;
+    behandling: Behandling;
 }
 
-export const Brev: React.FC<IBrev> = ({ behandlingId }) => {
+export const Brev: React.FC<IBrev> = ({ behandling }) => {
     const [brevRessurs, settBrevRessurs] = useState<Ressurs<string>>(byggTomRessurs());
 
     const { hentBehandling, hentBehandlingshistorikk, behandlingErRedigerbar } = useBehandling();
@@ -63,6 +64,8 @@ export const Brev: React.FC<IBrev> = ({ behandlingId }) => {
     const [feilmelding, settFeilmelding] = useState('');
 
     const [utfall, settUtfall] = useState<Utfall>('IKKE_SATT');
+
+    const behandlingId = behandling.id;
 
     const hentVurdering = useCallback(
         (behandlingId: string) => {
@@ -150,7 +153,12 @@ export const Brev: React.FC<IBrev> = ({ behandlingId }) => {
                 <BrevContainer>
                     <div>
                         {brevRessurs.status === RessursStatus.SUKSESS && (
-                            <BrevMottakere behandlingId={behandlingId} />
+                            // behandling.fagsystem === Fagsystem.EF ? (
+                            //     <BrevMottakere behandlingId={behandling.id} />
+                            // ) : (
+                            //     <BrevmottakereBAKS behandling={behandling} />
+                            // )
+                            <BrevmottakereBAKS behandling={behandling} />
                         )}
                         {behandlingErRedigerbar && brevRessurs.status === RessursStatus.SUKSESS && (
                             <StyledKnapp
