@@ -6,9 +6,10 @@ import { TextField } from '@navikt/ds-react';
 type Props = {
     name: keyof BrevmottakerFormState;
     label: string;
+    erLesevisning: boolean;
 };
 
-export function NavnFelt({ name, label }: Props) {
+export function NavnFelt({ name, label, erLesevisning }: Props) {
     const { control } = useFormContext();
 
     return (
@@ -30,6 +31,7 @@ export function NavnFelt({ name, label }: Props) {
                         onBlur={field.onBlur}
                         onChange={field.onChange}
                         error={fieldState.error?.message}
+                        readOnly={erLesevisning}
                     />
                 );
             }}

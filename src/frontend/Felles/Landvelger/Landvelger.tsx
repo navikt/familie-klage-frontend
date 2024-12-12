@@ -51,6 +51,7 @@ const Landvelger = forwardRef((props: Props, ref: LegacyRef<HTMLInputElement>) =
             options={countries}
             onToggleSelected={onToggleSelected}
             error={error}
+            shouldAutocomplete={true}
         />
     );
 });

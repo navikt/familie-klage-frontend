@@ -6,9 +6,10 @@ import { TextField } from '@navikt/ds-react';
 type Props = {
     name: keyof BrevmottakerFormState;
     label: string;
+    erLesevisning: boolean;
 };
 
-export function PostnummerFelt({ name, label }: Props) {
+export function PostnummerFelt({ name, label, erLesevisning }: Props) {
     const { control, getValues } = useFormContext();
     return (
         <Controller
@@ -26,6 +27,7 @@ export function PostnummerFelt({ name, label }: Props) {
                         onBlur={field.onBlur}
                         onChange={field.onChange}
                         error={fieldState.error?.message}
+                        readOnly={erLesevisning}
                     />
                 );
             }}

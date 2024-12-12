@@ -7,9 +7,10 @@ import { Mottaker } from '../BrevmottakereBAKS';
 type Props = {
     name: keyof BrevmottakerFormState;
     label: string;
+    erLesevisning: boolean;
 };
 
-export function LandvelgerFelt({ name, label }: Props) {
+export function LandvelgerFelt({ name, label, erLesevisning }: Props) {
     const { control, trigger, getValues } = useFormContext();
     return (
         <Controller
@@ -36,6 +37,7 @@ export function LandvelgerFelt({ name, label }: Props) {
                             field.onChange(isSelected ? option : undefined);
                         }}
                         error={fieldState.error?.message}
+                        readOnly={erLesevisning}
                     />
                 );
             }}

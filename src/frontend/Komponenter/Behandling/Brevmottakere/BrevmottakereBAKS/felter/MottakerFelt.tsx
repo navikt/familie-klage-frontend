@@ -7,9 +7,10 @@ import { BrevmottakerFormState } from '../BrevmottakerForm';
 type Props = {
     name: keyof BrevmottakerFormState;
     label: string;
+    erLesevisning: boolean;
 };
 
-export function MottakerFelt({ name, label }: Props) {
+export function MottakerFelt({ name, label, erLesevisning }: Props) {
     const { control, trigger } = useFormContext();
     return (
         <Controller
@@ -19,7 +20,6 @@ export function MottakerFelt({ name, label }: Props) {
                 required: 'Du må velge et mottaker.',
                 validate: () => trigger('land'),
             }}
-            //defaultValue={defaultValues ? defaultValues[formKey] : undefined}
             render={({ field, fieldState }) => {
                 return (
                     <Select
@@ -27,6 +27,7 @@ export function MottakerFelt({ name, label }: Props) {
                         value={field.value}
                         onChange={field.onChange}
                         error={fieldState.error?.message}
+                        readOnly={erLesevisning}
                     >
                         {Object.values(Mottaker).map((mottaker) => (
                             <option key={mottaker} value={mottaker}>

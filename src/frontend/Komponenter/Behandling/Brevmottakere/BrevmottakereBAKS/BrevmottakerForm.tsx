@@ -54,21 +54,39 @@ const BrevmottakerForm = ({ erLesevisning }: Props) => {
         <FormProvider {...form}>
             <form onSubmit={handleSubmit(onSubmit, onSubmitError)}>
                 <VStack gap={'4'}>
-                    <MottakerFelt name={'mottaker'} label={'Mottaker'} />
-                    <LandvelgerFelt name={'land'} label={'Landvelger'} />
-                    <NavnFelt name={'navn'} label={'Navn'} />
+                    <MottakerFelt
+                        name={'mottaker'}
+                        label={'Mottaker'}
+                        erLesevisning={erLesevisning}
+                    />
+                    <LandvelgerFelt
+                        name={'land'}
+                        label={'Landvelger'}
+                        erLesevisning={erLesevisning}
+                    />
+                    <NavnFelt name={'navn'} label={'Navn'} erLesevisning={erLesevisning} />
                     <AdresselinjeFelt
                         name={'adresselinje1'}
                         label={'Adresselinje 1'}
+                        erLesevisning={erLesevisning}
                         required={true}
                     />
                     <AdresselinjeFelt
                         name={'adresselinje2'}
                         label={'Adresselinje 2 (valgfri)'}
+                        erLesevisning={erLesevisning}
                         required={false}
                     />
-                    <PostnummerFelt name={'postnummer'} label={'Postnummer'} />
-                    <PoststedFelt name={'poststed'} label={'poststed'} />
+                    <PostnummerFelt
+                        name={'postnummer'}
+                        label={'Postnummer'}
+                        erLesevisning={erLesevisning}
+                    />
+                    <PoststedFelt
+                        name={'poststed'}
+                        label={'poststed'}
+                        erLesevisning={erLesevisning}
+                    />
                     <Submit erLesevisning={erLesevisning} />
                     <FormDebugger />
                 </VStack>

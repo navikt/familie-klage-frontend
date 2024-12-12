@@ -6,10 +6,11 @@ import { TextField } from '@navikt/ds-react';
 type Props = {
     name: keyof BrevmottakerFormState;
     label: string;
-    required: boolean;
+    erLesevisning: boolean;
+    required?: boolean;
 };
 
-export function AdresselinjeFelt({ name, label, required }: Props) {
+export function AdresselinjeFelt({ name, label, erLesevisning, required = true }: Props) {
     const { control } = useFormContext();
 
     return (
@@ -28,6 +29,7 @@ export function AdresselinjeFelt({ name, label, required }: Props) {
                         onBlur={field.onBlur}
                         onChange={field.onChange}
                         error={fieldState.error?.message}
+                        readOnly={erLesevisning}
                     />
                 );
             }}
