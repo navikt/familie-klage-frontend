@@ -64,5 +64,5 @@ export const useBrevmottakerSkjema = () => {
         poststed,
     };
 
-    return { felter, errors, handleSubmit };
+    return { felter, errors, handleSubmit, watch };
 };

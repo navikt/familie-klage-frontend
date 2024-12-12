@@ -1,124 +1,60 @@
-import * as React from 'react';
+import React, { forwardRef, LegacyRef } from 'react';
 
-import classNames from 'classnames';
-import styled from 'styled-components';
+import { ComboboxProps, UNSAFE_Combobox } from '@navikt/ds-react';
 
-import { Label } from '@navikt/ds-react';
-import { ASpacing2 } from '@navikt/ds-tokens/dist/tokens';
-import { CountryFilter } from '@navikt/land-verktoy';
-import type { Country } from '@navikt/land-verktoy';
-import type { CountrySelectProps } from '@navikt/landvelger';
-import CountrySelect from '@navikt/landvelger';
+import { ComboboxOption } from '@navikt/ds-react/cjs/form/combobox/types';
 
-const Landvelger = styled(CountrySelect)`
-    display: grid;
-    gap: ${ASpacing2};
-    margin-bottom: ${(props) => (props.utenMargin ? '0rem' : '1rem')};
-`;
+type Props = {
+    label: React.ReactNode;
+} & Omit<ComboboxProps, 'options'>;
 
-interface IBaseLandvelgerProps {
-    countrySelectProps: CountrySelectProps<Country>;
-    label: string | JSX.Element;
-    className?: string;
-    utenMargin: boolean;
-    kanNullstilles: boolean;
-    feil?: string;
-    size?: 'small' | 'medium';
-}
+const countries: ComboboxOption[] = [
+    { value: 'BE', label: 'Belgia' },
+    { value: 'BG', label: 'Bulgaria' },
+    { value: 'DK', label: 'Danmark' },
+    { value: 'EE', label: 'Estland' },
+    { value: 'FI', label: 'Finland' },
+    { value: 'FR', label: 'Frankrike' },
+    { value: 'GR', label: 'Hellas' },
+    { value: 'IE', label: 'Irland' },
+    { value: 'IS', label: 'Island' },
+    { value: 'IT', label: 'Italia' },
+    { value: 'HR', label: 'Kroatia' },
+    { value: 'CY', label: 'Kypros' },
+    { value: 'LV', label: 'Latvia' },
+    { value: 'LI', label: 'Liechtenstein' },
+    { value: 'LT', label: 'Litauen' },
+    { value: 'LU', label: 'Luxembourg' },
+    { value: 'MT', label: 'Malta' },
+    { value: 'NL', label: 'Nederland' },
+    { value: 'NO', label: 'Norge' },
+    { value: 'PL', label: 'Polen' },
+    { value: 'PT', label: 'Portugal' },
+    { value: 'RO', label: 'Romania' },
+    { value: 'SK', label: 'Slovakia' },
+    { value: 'SI', label: 'Slovenia' },
+    { value: 'ES', label: 'Spania' },
+    { value: 'CH', label: 'Sveits' },
+    { value: 'SE', label: 'Sverige' },
+    { value: 'CZ', label: 'Tsjekkia' },
+    { value: 'DE', label: 'Tyskland' },
+    { value: 'HU', label: 'Ungarn' },
+    { value: 'AT', label: 'Østerrike' },
+];
 
-const BaseFamilieLandvelger: React.FC<IBaseLandvelgerProps> = ({
-    countrySelectProps,
-    label,
-    className,
-    utenMargin,
-    kanNullstilles,
-    feil,
-    size,
-}) => {
+const Landvelger = forwardRef((props: Props, ref: LegacyRef<HTMLInputElement>) => {
+    const { label, onToggleSelected, error } = props;
     return (
-        <div className={classNames('skjemaelement', className)}>
-            <Landvelger
-                utenMargin={utenMargin}
-                kanNullstilles={kanNullstilles}
-                feil={feil}
-                {...countrySelectProps}
-                place
-                label={<Label size={size}>{label}</Label>}
-            />
-        </div>
-    );
-};
-
-interface IBaseFamilieLandvelgerProps {
-    id: string;
-    className?: string;
-    value?: string | string[] | undefined;
-    feil?: string;
-    label: string | JSX.Element;
-    placeholder?: string | undefined;
-    kunEøs?: boolean;
-    medFlag?: boolean;
-    medWave?: boolean;
-    sirkulær?: boolean;
-    size?: 'small' | 'medium';
-    erLesevisning?: boolean;
-    utenMargin?: boolean;
-    kanNullstilles?: boolean;
-}
-
-interface IFamilieLandvelgerProps extends IBaseFamilieLandvelgerProps {
-    onChange: (value: Country) => void;
-    eksluderLand?: string[];
-}
-
-const FamilieLandvelger: React.FC<IFamilieLandvelgerProps> = ({
-    className,
-    value,
-    feil,
-    label,
-    placeholder,
-    kunEøs = false,
-    sirkulær = false,
-    size = 'small',
-    medFlag = false,
-    medWave = false,
-    erLesevisning = false,
-    onChange,
-    utenMargin = false,
-    kanNullstilles = false,
-    eksluderLand = undefined,
-}) => {
-    const id = `country-select-${label}`;
-
-    const landvelgerProps: CountrySelectProps<Country> = {
-        id,
-        values: value,
-        placeholder,
-        error: feil ? feil : undefined,
-        isMulti: false,
-        type: 'country',
-        flags: medFlag,
-        flagWave: medFlag && medWave,
-        flagType: sirkulær ? 'circle' : 'original',
-        closeMenuOnSelect: true,
-        size,
-        isDisabled: erLesevisning,
-        onOptionSelected: onChange,
-        isClearable: kanNullstilles,
-        includeList: kunEøs ? CountryFilter.EEA({}) : undefined,
-        excludeList: eksluderLand,
-    };
-    return (
-        <BaseFamilieLandvelger
-            countrySelectProps={landvelgerProps}
+        <UNSAFE_Combobox
+            ref={ref}
             label={label}
-            className={className}
-            utenMargin={utenMargin}
-            kanNullstilles={kanNullstilles}
-            feil={feil}
-            size={size}
+            options={countries}
+            onToggleSelected={onToggleSelected}
+            error={error}
         />
     );
-};
+});
 
-export { FamilieLandvelger };
+Landvelger.displayName = 'Landvelger';
+
+export default Landvelger;

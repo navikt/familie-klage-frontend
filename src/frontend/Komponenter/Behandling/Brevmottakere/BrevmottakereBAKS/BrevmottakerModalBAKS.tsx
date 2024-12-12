@@ -6,7 +6,7 @@ import styled from 'styled-components';
 import { PlusCircleIcon } from '@navikt/aksel-icons';
 import { Alert, Button, Heading, Modal } from '@navikt/ds-react';
 
-import BrevmottakerSkjema from './BrevmottakerSkjema';
+import BrevmottakerForm from './BrevmottakerForm';
 import BrevmottakerTabell from './BrevmottakerTabell';
 import { BrevmottakerMedAdresse } from './BrevmottakereBAKS';
 import { useApp } from '../../../../App/context/AppContext';
@@ -47,7 +47,7 @@ export const BrevmottakerModalBAKS = <T extends BrevmottakerMedAdresse>({
     fjernMottaker,
     erLesevisning,
 }: Props<T>) => {
-    const { settVisBrevmottakereModal } = useApp();
+    const { settVisBrevmottakereModal, visBrevmottakereModal } = useApp();
     const heading = utledHeading(brevmottakere.length, erLesevisning);
 
     const [visSkjemaNårDetErÉnBrevmottaker, settVisSkjemaNårDetErÉnBrevmottaker] = useState(false);
@@ -65,7 +65,7 @@ export const BrevmottakerModalBAKS = <T extends BrevmottakerMedAdresse>({
 
     return (
         <Modal
-            open
+            open={visBrevmottakereModal}
             onClose={lukkModalOgSkjema}
             header={{ heading: heading, size: 'medium' }}
             width={'35rem'}
@@ -90,7 +90,7 @@ export const BrevmottakerModalBAKS = <T extends BrevmottakerMedAdresse>({
                         {brevmottakere.length === 1 && (
                             <StyledHeading size="medium">Ny mottaker</StyledHeading>
                         )}
-                        <BrevmottakerSkjema erLesevisning={false} />
+                        <BrevmottakerForm erLesevisning={false} />
                     </>
                 ) : (
                     <>
