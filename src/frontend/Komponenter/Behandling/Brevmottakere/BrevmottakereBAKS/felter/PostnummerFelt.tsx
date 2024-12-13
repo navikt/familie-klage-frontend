@@ -1,7 +1,7 @@
 import { Controller, useFormContext } from 'react-hook-form';
 import { BrevmottakerFeltnavn, BrevmottakerFormState } from '../BrevmottakerForm';
 import React from 'react';
-import { TextField } from '@navikt/ds-react';
+import { Alert, TextField } from '@navikt/ds-react';
 
 type Props = {
     name: keyof BrevmottakerFormState;
@@ -20,11 +20,17 @@ export function PostnummerFelt({ name, label, erLesevisning }: Props) {
                     getValues()[BrevmottakerFeltnavn.LAND] === 'NO'
                         ? 'Postnummer er påkrevd om landet er Norge.'
                         : false,
-                maxLength: { value: 10, message: 'Feltet kan ikke inneholde mer enn 10 tegn.' },
+                maxLength: { value: 4, message: 'Feltet må inneholde 4 tegn.' },
+                minLength: { value: 4, message: 'Feltet må inneholde 4 tegn.' },
             }}
             render={({ field, fieldState }) => {
+                const land = getValues()[BrevmottakerFeltnavn.LAND];
+                const erAktiv = erLesevisning || (land !== 'NO' && land !== '');
                 return (
                     <TextField
+                        htmlSize={4}
+                        maxLength={4}
+                        type={'number'}
                         label={label}
                         value={field.value}
                         onBlur={field.onBlur}
@@ -33,7 +39,15 @@ export function PostnummerFelt({ name, label, erLesevisning }: Props) {
                             (fieldState.isDirty || fieldState.isTouched || formState.isSubmitted) &&
                             fieldState.error?.message
                         }
-                        readOnly={erLesevisning}
+                        description={
+                            erAktiv && (
+                                <Alert size={'small'} inline={true} variant={'info'}>
+                                    Ved utenlandsk adresse skal postnummer skrives direkte i
+                                    adressefeltet.
+                                </Alert>
+                            )
+                        }
+                        readOnly={erAktiv}
                     />
                 );
             }}
