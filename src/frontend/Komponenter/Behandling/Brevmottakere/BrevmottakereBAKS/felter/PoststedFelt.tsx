@@ -21,7 +21,7 @@ export function PoststedFelt({ name, label, erLesevisning }: Props) {
                     getValues()[BrevmottakerFeltnavn.LANDKODE] === EøsLandkode.NO
                         ? 'Poststed er påkrevd om landet er Norge.'
                         : false,
-                maxLength: { value: 50, message: 'Maks 50 tegn.' },
+                maxLength: { value: 50, message: 'Poststed kan inneholde maks 50 tegn.' },
             }}
             render={({ field, fieldState }) => {
                 const visFeilmelding = fieldState.isTouched || formState.isSubmitted;

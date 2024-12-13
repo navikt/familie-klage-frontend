@@ -25,7 +25,10 @@ export function AdresselinjeFelt({
             name={name}
             rules={{
                 required: required ? 'Addresselinje 1 er påkrevd.' : undefined,
-                maxLength: { value: 80, message: 'Feltet kan ikke inneholde mer enn 80 tegn.' },
+                maxLength: {
+                    value: 80,
+                    message: 'Addresselinje 1 kan ikke inneholde mer enn 80 tegn.',
+                },
             }}
             render={({ field, fieldState }) => {
                 const visFeilmelding = fieldState.isTouched || formState.isSubmitted;

@@ -17,7 +17,11 @@ export function NavnFelt({ name, label, erLesevisning }: Props) {
             name={name}
             rules={{
                 required: 'Navn på person eller organisasjon er påkrevd.',
-                maxLength: { value: 80, message: 'Feltet kan ikke inneholde mer enn 80 tegn.' },
+                maxLength: {
+                    value: 80,
+                    message:
+                        'Navn på personen eller organisasjon kan ikke inneholde mer enn 80 tegn.',
+                },
             }}
             render={({ field, fieldState }) => {
                 const visFeilmelding = fieldState.isTouched || formState.isSubmitted;
