@@ -2,6 +2,7 @@ import { Controller, useFormContext } from 'react-hook-form';
 import { BrevmottakerFeltnavn, BrevmottakerFormState } from '../BrevmottakerForm';
 import React from 'react';
 import { Alert, TextField } from '@navikt/ds-react';
+import { Landkoder } from '../../../../../Felles/Landvelger/Landvelger';
 
 type Props = {
     name: keyof BrevmottakerFormState;
@@ -17,14 +18,14 @@ export function PoststedFelt({ name, label, erLesevisning }: Props) {
             name={name}
             rules={{
                 required:
-                    getValues()[BrevmottakerFeltnavn.LAND] === 'NO'
+                    getValues()[BrevmottakerFeltnavn.LAND] === Landkoder.NO
                         ? 'Poststed er påkrevd om landet er Norge.'
                         : false,
                 maxLength: { value: 50, message: 'Maks 50 tegn.' },
             }}
             render={({ field, fieldState }) => {
                 const land = getValues()[BrevmottakerFeltnavn.LAND];
-                const erAktiv = !erLesevisning && (land === 'NO' || land === '');
+                const erAktiv = !erLesevisning && (land === Landkoder.NO || land === '');
                 return (
                     <TextField
                         label={label}

@@ -1,4 +1,4 @@
-import Landvelger from '../../../../../Felles/Landvelger/Landvelger';
+import Landvelger, { Landkoder } from '../../../../../Felles/Landvelger/Landvelger';
 import { Controller, useFormContext } from 'react-hook-form';
 import React from 'react';
 import { BrevmottakerFeltnavn, BrevmottakerFormState } from '../BrevmottakerForm';
@@ -19,7 +19,10 @@ export function LandvelgerFelt({ name, label, erLesevisning }: Props) {
                 required: 'Land er påkrevd.',
                 validate: (landkode) => {
                     const mottaker = getValues()['mottaker'];
-                    if (landkode === 'NO' && mottaker === Mottaker.BRUKER_MED_UTENLANDSK_ADRESSE) {
+                    if (
+                        landkode === Landkoder.NO &&
+                        mottaker === Mottaker.BRUKER_MED_UTENLANDSK_ADRESSE
+                    ) {
                         return 'Norge kan ikke være satt for bruker med utenlandsk adresse.';
                     }
                     return undefined;
@@ -34,7 +37,7 @@ export function LandvelgerFelt({ name, label, erLesevisning }: Props) {
                         ref={field.ref}
                         onBlur={field.onBlur}
                         onToggleSelected={(option, isSelected) => {
-                            if (option !== 'NO') {
+                            if (option !== Landkoder.NO) {
                                 setValue(BrevmottakerFeltnavn.POSTNUMMER, '');
                                 setValue(BrevmottakerFeltnavn.POSTSTED, '');
                             }
