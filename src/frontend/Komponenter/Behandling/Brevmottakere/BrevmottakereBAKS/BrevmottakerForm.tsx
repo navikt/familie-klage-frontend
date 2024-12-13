@@ -38,6 +38,7 @@ type Props = {
 
 const BrevmottakerForm = ({ erLesevisning }: Props) => {
     const onSubmit: SubmitHandler<BrevmottakerFormState> = (data) => {
+        // TODO : Renvask innsendt data
         console.log(data);
     };
 
@@ -61,8 +62,8 @@ const BrevmottakerForm = ({ erLesevisning }: Props) => {
     const { handleSubmit, getValues } = form;
 
     const land = getValues()[BrevmottakerFeltnavn.LAND];
-    const landErValgt = land !== '';
-    const utenlandskAdresseErValgt = land !== Landkoder.NO && landErValgt;
+    const erLandValgt = land !== '';
+    const erUtenlandskAdresseValgt = land !== Landkoder.NO && erLandValgt;
 
     return (
         <FormProvider {...form}>
@@ -78,43 +79,47 @@ const BrevmottakerForm = ({ erLesevisning }: Props) => {
                         label={'Landvelger'}
                         erLesevisning={erLesevisning}
                     />
-                    <NavnFelt
-                        name={BrevmottakerFeltnavn.NAVN}
-                        label={'Navn'}
-                        erLesevisning={erLesevisning}
-                    />
-                    <AdresselinjeFelt
-                        name={BrevmottakerFeltnavn.ADRESSELINJE1}
-                        label={'Adresselinje 1'}
-                        erLesevisning={erLesevisning}
-                        required={true}
-                        description={
-                            utenlandskAdresseErValgt && (
-                                <Alert size={'small'} inline={true} variant={'info'}>
-                                    Ved utenlandsk adresse skal postnummer og poststed skrives
-                                    direkte i adressefeltet.
-                                </Alert>
-                            )
-                        }
-                    />
-                    <AdresselinjeFelt
-                        name={BrevmottakerFeltnavn.ADRESSELINJE2}
-                        label={'Adresselinje 2 (valgfri)'}
-                        erLesevisning={erLesevisning}
-                        required={false}
-                    />
-                    {!utenlandskAdresseErValgt && (
+                    {erLandValgt && (
                         <>
-                            <PostnummerFelt
-                                name={BrevmottakerFeltnavn.POSTNUMMER}
-                                label={'Postnummer'}
+                            <NavnFelt
+                                name={BrevmottakerFeltnavn.NAVN}
+                                label={'Navn'}
                                 erLesevisning={erLesevisning}
                             />
-                            <PoststedFelt
-                                name={BrevmottakerFeltnavn.POSTSTED}
-                                label={'Poststed'}
+                            <AdresselinjeFelt
+                                name={BrevmottakerFeltnavn.ADRESSELINJE1}
+                                label={'Adresselinje 1'}
                                 erLesevisning={erLesevisning}
+                                required={true}
+                                description={
+                                    erUtenlandskAdresseValgt && (
+                                        <Alert size={'small'} inline={true} variant={'info'}>
+                                            Ved utenlandsk adresse skal postnummer og poststed
+                                            skrives direkte i adressefeltet.
+                                        </Alert>
+                                    )
+                                }
                             />
+                            <AdresselinjeFelt
+                                name={BrevmottakerFeltnavn.ADRESSELINJE2}
+                                label={'Adresselinje 2 (valgfri)'}
+                                erLesevisning={erLesevisning}
+                                required={false}
+                            />
+                            {!erUtenlandskAdresseValgt && (
+                                <>
+                                    <PostnummerFelt
+                                        name={BrevmottakerFeltnavn.POSTNUMMER}
+                                        label={'Postnummer'}
+                                        erLesevisning={erLesevisning}
+                                    />
+                                    <PoststedFelt
+                                        name={BrevmottakerFeltnavn.POSTSTED}
+                                        label={'Poststed'}
+                                        erLesevisning={erLesevisning}
+                                    />
+                                </>
+                            )}
                         </>
                     )}
                     <Submit erLesevisning={erLesevisning} />

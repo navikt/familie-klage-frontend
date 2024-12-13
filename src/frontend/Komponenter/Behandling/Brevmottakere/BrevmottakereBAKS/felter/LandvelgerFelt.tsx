@@ -11,7 +11,7 @@ type Props = {
 };
 
 export function LandvelgerFelt({ name, label, erLesevisning }: Props) {
-    const { control, getValues, formState, setValue } = useFormContext();
+    const { control, getValues, formState } = useFormContext();
     return (
         <Controller
             control={control}
@@ -38,10 +38,6 @@ export function LandvelgerFelt({ name, label, erLesevisning }: Props) {
                         onBlur={field.onBlur}
                         value={field.value}
                         onToggleSelected={(option, isSelected) => {
-                            if (option !== Landkoder.NO) {
-                                setValue(BrevmottakerFeltnavn.POSTNUMMER, '');
-                                setValue(BrevmottakerFeltnavn.POSTSTED, '');
-                            }
                             field.onChange(isSelected ? option : '');
                         }}
                         error={
