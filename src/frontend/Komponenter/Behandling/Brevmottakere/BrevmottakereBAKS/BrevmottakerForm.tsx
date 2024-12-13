@@ -98,7 +98,7 @@ const BrevmottakerForm = ({ erLesevisning }: Props) => {
                     />
                     <PoststedFelt
                         name={BrevmottakerFeltnavn.POSTSTED}
-                        label={'poststed'}
+                        label={'Poststed'}
                         erLesevisning={erLesevisning}
                     />
                     <Submit erLesevisning={erLesevisning} />
