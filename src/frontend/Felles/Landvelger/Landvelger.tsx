@@ -1,4 +1,4 @@
-import React, { forwardRef, LegacyRef } from 'react';
+import React, { forwardRef, LegacyRef, useState } from 'react';
 
 import { ComboboxProps, UNSAFE_Combobox } from '@navikt/ds-react';
 
@@ -78,16 +78,28 @@ const land: ComboboxOption[] = [
 
 const Landvelger = forwardRef((props: Props, ref: LegacyRef<HTMLInputElement>) => {
     const { label, value, onToggleSelected, error, onBlur } = props;
-    const selectedOptionLabel = land.find((opt) => opt.value === value)?.label;
-    const selectedOptions = selectedOptionLabel ? [selectedOptionLabel] : [];
+    const [selectedOption, setSelectedOption] = useState<ComboboxOption | undefined>(
+        land.find((opt) => opt.value === value)
+    );
     return (
         <UNSAFE_Combobox
             ref={ref}
             label={label}
             options={land}
             onBlur={onBlur}
-            selectedOptions={selectedOptions}
-            onToggleSelected={onToggleSelected}
+            isMultiSelect={false}
+            selectedOptions={selectedOption ? [selectedOption] : []}
+            onToggleSelected={(option, isSelected) => {
+                const newOption = land.find((opt) => opt.value === option);
+                if (newOption === selectedOption || newOption == undefined) {
+                    setSelectedOption(undefined);
+                } else {
+                    setSelectedOption(newOption);
+                }
+                if (onToggleSelected) {
+                    onToggleSelected(option, isSelected, false);
+                }
+            }}
             error={error}
             shouldAutocomplete={true}
         />
