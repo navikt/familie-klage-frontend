@@ -39,7 +39,7 @@ export const SettPåVentEnkel: FC<{ behandling: Behandling }> = ({ behandling })
 
     const erBehandlingPåVent = behandling.status === BehandlingStatus.SATT_PÅ_VENT;
 
-    const { visSettPåVent, settVisSettPåVent } = useBehandling();
+    const { visSettPåVent, settVisSettPåVent, hentBehandling } = useBehandling();
 
     const { axiosRequest } = useApp();
 
@@ -72,7 +72,7 @@ export const SettPåVentEnkel: FC<{ behandling: Behandling }> = ({ behandling })
             return;
         }
 
-        if (oppgave.status !== RessursStatus.SUKSESS) {
+        if (oppgave.status !== RessursStatus.SUKSESS || !oppgave.data.oppgaveId) {
             // TODO: Noe feilmelding og error håndtering.
             console.log('HEI 2');
             return;
@@ -81,7 +81,7 @@ export const SettPåVentEnkel: FC<{ behandling: Behandling }> = ({ behandling })
                 method: 'POST',
                 url: `/familie-klage/api/behandling/${behandling.id}/vent`,
                 data: {
-                    oppgaveId: oppgave.data.id,
+                    oppgaveId: oppgave.data.oppgaveId,
                     saksbehandler: saksbehandler,
                     prioritet: prioritet,
                     frist: frist,
@@ -91,6 +91,7 @@ export const SettPåVentEnkel: FC<{ behandling: Behandling }> = ({ behandling })
                 .then((respons: RessursFeilet | RessursSuksess<string>) => {
                     if (respons.status === RessursStatus.SUKSESS) {
                         console.log('HEI! Det funket, woohoo!');
+                        hentBehandling.rerun();
                         settVisSettPåVent(false);
                     } else {
                         console.log('HEI 3');
@@ -103,6 +104,21 @@ export const SettPåVentEnkel: FC<{ behandling: Behandling }> = ({ behandling })
                     console.log('HEI 4');
                     // TODO: Noe låsknapp greier.
                 });
+        }
+    };
+
+    const taAvVent = () => {
+        if (oppgave.status !== RessursStatus.SUKSESS) {
+            return;
+        } else {
+            axiosRequest<string, SettPåVentRequest>({
+                method: 'POST',
+                url: `/familie-klage/api/behandling/${behandling.id}/ta-av-vent`,
+            }).then((respons: RessursFeilet | RessursSuksess<string>) => {
+                if (respons.status === RessursStatus.SUKSESS) {
+                    hentBehandling.rerun();
+                }
+            });
         }
     };
 
@@ -140,9 +156,15 @@ export const SettPåVentEnkel: FC<{ behandling: Behandling }> = ({ behandling })
                             >
                                 Avbryt
                             </Button>
-                            <Button onClick={settPåVent} variant="primary" size="small">
-                                Sett på vent
-                            </Button>
+                            {erBehandlingPåVent ? (
+                                <Button onClick={taAvVent} variant="primary" size="small">
+                                    Ta av vent
+                                </Button>
+                            ) : (
+                                <Button onClick={settPåVent} variant="primary" size="small">
+                                    Sett på vent
+                                </Button>
+                            )}
                         </HStack>
                     </StyledVStack>
                 );
