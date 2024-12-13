@@ -10,18 +10,14 @@ type Props = {
 };
 
 export function NavnFelt({ name, label, erLesevisning }: Props) {
-    const { control } = useFormContext();
-
+    const { control, formState } = useFormContext();
     return (
         <Controller
             control={control}
             name={name}
             rules={{
-                required: 'Navn på person eller organisasjon er påkrevd',
-                maxLength: {
-                    value: 80,
-                    message: 'Feltet kan ikke inneholde mer enn 80 tegn',
-                },
+                required: 'Navn på person eller organisasjon er påkrevd.',
+                maxLength: { value: 80, message: 'Feltet kan ikke inneholde mer enn 80 tegn.' },
             }}
             render={({ field, fieldState }) => {
                 return (
@@ -30,7 +26,10 @@ export function NavnFelt({ name, label, erLesevisning }: Props) {
                         value={field.value}
                         onBlur={field.onBlur}
                         onChange={field.onChange}
-                        error={fieldState.error?.message}
+                        error={
+                            (fieldState.isDirty || fieldState.isTouched || formState.isSubmitted) &&
+                            fieldState.error?.message
+                        }
                         readOnly={erLesevisning}
                     />
                 );

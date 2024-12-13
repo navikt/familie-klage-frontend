@@ -11,14 +11,14 @@ type Props = {
 };
 
 export function MottakerFelt({ name, label, erLesevisning }: Props) {
-    const { control, trigger } = useFormContext();
+    const { control, formState } = useFormContext();
     return (
         <Controller
             control={control}
             name={name}
             rules={{
-                required: 'Du må velge et mottaker.',
-                validate: () => trigger('land'),
+                required: 'Mottaker er påkrevd.',
+                deps: ['land'],
             }}
             render={({ field, fieldState }) => {
                 return (
@@ -26,7 +26,10 @@ export function MottakerFelt({ name, label, erLesevisning }: Props) {
                         label={label}
                         value={field.value}
                         onChange={field.onChange}
-                        error={fieldState.error?.message}
+                        error={
+                            (fieldState.isDirty || fieldState.isTouched || formState.isSubmitted) &&
+                            fieldState.error?.message
+                        }
                         readOnly={erLesevisning}
                     >
                         {Object.values(Mottaker).map((mottaker) => (

@@ -10,14 +10,17 @@ type Props = {
 };
 
 export function PostnummerFelt({ name, label, erLesevisning }: Props) {
-    const { control, getValues } = useFormContext();
+    const { control, getValues, formState } = useFormContext();
     return (
         <Controller
             control={control}
             name={name}
             rules={{
-                required: getValues()['land'] === 'NO' ? 'Dette feltet er påkrevd' : false,
-                maxLength: { value: 10, message: 'Feltet kan ikke inneholde mer enn 10 tegn' },
+                required:
+                    getValues()['land'] === 'NO'
+                        ? 'Postnummer er påkrevd om landet er Norge.'
+                        : false,
+                maxLength: { value: 10, message: 'Feltet kan ikke inneholde mer enn 10 tegn.' },
             }}
             render={({ field, fieldState }) => {
                 return (
@@ -26,7 +29,10 @@ export function PostnummerFelt({ name, label, erLesevisning }: Props) {
                         value={field.value}
                         onBlur={field.onBlur}
                         onChange={field.onChange}
-                        error={fieldState.error?.message}
+                        error={
+                            (fieldState.isDirty || fieldState.isTouched || formState.isSubmitted) &&
+                            fieldState.error?.message
+                        }
                         readOnly={erLesevisning}
                     />
                 );

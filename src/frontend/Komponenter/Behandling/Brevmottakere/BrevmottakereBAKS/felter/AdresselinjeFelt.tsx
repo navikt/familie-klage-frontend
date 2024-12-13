@@ -11,15 +11,14 @@ type Props = {
 };
 
 export function AdresselinjeFelt({ name, label, erLesevisning, required = true }: Props) {
-    const { control } = useFormContext();
-
+    const { control, formState } = useFormContext();
     return (
         <Controller
             control={control}
             name={name}
             rules={{
-                required: required ? 'Dette feltet er påkrevd' : undefined,
-                maxLength: { value: 80, message: 'Feltet kan ikke inneholde mer enn 80 tegn' },
+                required: required ? 'Addresselinje er påkrevd.' : undefined,
+                maxLength: { value: 80, message: 'Feltet kan ikke inneholde mer enn 80 tegn.' },
             }}
             render={({ field, fieldState }) => {
                 return (
@@ -28,7 +27,10 @@ export function AdresselinjeFelt({ name, label, erLesevisning, required = true }
                         value={field.value}
                         onBlur={field.onBlur}
                         onChange={field.onChange}
-                        error={fieldState.error?.message}
+                        error={
+                            (fieldState.isDirty || fieldState.isTouched || formState.isSubmitted) &&
+                            fieldState.error?.message
+                        }
                         readOnly={erLesevisning}
                     />
                 );

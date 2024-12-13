@@ -11,20 +11,20 @@ type Props = {
 };
 
 export function LandvelgerFelt({ name, label, erLesevisning }: Props) {
-    const { control, trigger, getValues } = useFormContext();
+    const { control, getValues, formState } = useFormContext();
     return (
         <Controller
             control={control}
             rules={{
-                required: 'Du må velge et land.',
+                required: 'Land er påkrevd.',
                 validate: (landkode) => {
-                    trigger('postnummer');
                     const mottaker = getValues()['mottaker'];
-                    if (mottaker === Mottaker.BRUKER_MED_UTENLANDSK_ADRESSE && landkode === 'NO') {
+                    if (landkode === 'NO' && mottaker === Mottaker.BRUKER_MED_UTENLANDSK_ADRESSE) {
                         return 'Norge kan ikke være satt for bruker med utenlandsk adresse.';
                     }
                     return undefined;
                 },
+                deps: ['postnummer', 'poststed'],
             }}
             name={name}
             render={({ field, fieldState }) => {
@@ -36,7 +36,10 @@ export function LandvelgerFelt({ name, label, erLesevisning }: Props) {
                         onToggleSelected={(option, isSelected) => {
                             field.onChange(isSelected ? option : undefined);
                         }}
-                        error={fieldState.error?.message}
+                        error={
+                            (fieldState.isDirty || fieldState.isTouched || formState.isSubmitted) &&
+                            fieldState.error?.message
+                        }
                         readOnly={erLesevisning}
                     />
                 );

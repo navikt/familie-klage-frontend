@@ -11,6 +11,16 @@ import { PostnummerFelt } from './felter/PostnummerFelt';
 import { PoststedFelt } from './felter/PoststedFelt';
 import { VStack } from '@navikt/ds-react';
 
+export enum BrevmottakerFeltnavn {
+    MOTTAKER = 'mottaker',
+    LAND = 'land',
+    NAVN = 'navn',
+    ADRESSELINJE1 = 'adresselinje1',
+    ADRESSELINJE2 = 'adresselinje2',
+    POSTNUMMER = 'postnummer',
+    POSTSTED = 'poststed',
+}
+
 export type BrevmottakerFormState = {
     mottaker: Mottaker;
     land: string;
