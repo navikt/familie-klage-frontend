@@ -7,7 +7,7 @@ import { useHentPersonopplysninger } from '../hooks/useHentPersonopplysninger';
 import { useHentBehandling } from '../hooks/useHentBehandling';
 import { useHentBehandlingHistorikk } from '../hooks/useHentBehandlingHistorikk';
 import { RessursStatus } from '../typer/ressurs';
-import { BehandlingStatus, erBehandlingRedigerbar } from '../typer/behandlingstatus';
+import { BehandlingStatus } from '../typer/behandlingstatus';
 import { IVurdering } from '../../Komponenter/Behandling/Vurdering/vurderingValg';
 import { useHentFormkravVilkår } from '../hooks/useHentFormkravVilkår';
 import {
@@ -15,6 +15,7 @@ import {
     påKlagetVedtakValgt,
 } from '../../Komponenter/Behandling/Formkrav/validerFormkravUtils';
 import { useHentAnsvarligSaksbehandler } from '../hooks/useHentAnsvarligSaksbehandler';
+import { Behandling, StegType } from '../typer/fagsak';
 
 const [BehandlingProvider, useBehandling] = constate(() => {
     const behandlingId = useParams<IBehandlingParams>().behandlingId as string;
@@ -48,7 +49,9 @@ const [BehandlingProvider, useBehandling] = constate(() => {
 
     useEffect(() => {
         settBehandlingErRedigerbar(
-            behandling.status === RessursStatus.SUKSESS && erBehandlingRedigerbar(behandling.data)
+            behandling.status === RessursStatus.SUKSESS &&
+                behandling.data.status !== BehandlingStatus.SATT_PÅ_VENT &&
+                erBehandlingRedigerbar(behandling.data)
         );
         hentVilkårsvurderinger(behandlingId);
     }, [ansvarligSaksbehandler, behandling, behandlingId, hentVilkårsvurderinger]);
@@ -60,6 +63,9 @@ const [BehandlingProvider, useBehandling] = constate(() => {
                 alleVilkårOppfylt(vilkårsvurderinger.data)
         );
     }, [vilkårsvurderinger]);
+
+    const erBehandlingRedigerbar = (behandling: Behandling): boolean =>
+        [StegType.FORMKRAV, StegType.VURDERING, StegType.BREV].includes(behandling.steg);
 
     const [visBrevmottakereModal, settVisBrevmottakereModal] = useState(false);
     const [visHenleggModal, settVisHenleggModal] = useState(false);

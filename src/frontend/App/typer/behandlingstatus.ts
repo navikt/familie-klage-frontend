@@ -1,4 +1,4 @@
-import { Behandling, StegType } from './fagsak';
+import { Behandling } from './fagsak';
 import { AnsvarligSaksbehandler, AnsvarligSaksbehandlerRolle } from './saksbehandler';
 
 export enum BehandlingStatus {
@@ -18,9 +18,6 @@ export const behandlingStatusTilTekst: Record<BehandlingStatus, string> = {
     FATTER_VEDTAK: 'Fatter vedtak',
     SATT_PÅ_VENT: 'Satt på vent',
 };
-
-export const erBehandlingRedigerbar = (behandling: Behandling): boolean =>
-    [StegType.FORMKRAV, StegType.VURDERING, StegType.BREV].includes(behandling.steg);
 
 export const innloggetSaksbehandlerKanRedigereBehandling = (
     ansvarligSaksbehandler: AnsvarligSaksbehandler
