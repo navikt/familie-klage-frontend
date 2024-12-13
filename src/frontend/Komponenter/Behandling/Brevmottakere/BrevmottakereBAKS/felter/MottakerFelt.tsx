@@ -21,16 +21,14 @@ export function MottakerFelt({ name, label, erLesevisning }: Props) {
                 deps: [BrevmottakerFeltnavn.LANDKODE],
             }}
             render={({ field, fieldState }) => {
+                const visFeilmelding = fieldState.isTouched || formState.isSubmitted;
                 return (
                     <Select
                         label={label}
                         value={field.value}
                         onBlur={field.onBlur}
                         onChange={field.onChange}
-                        error={
-                            (fieldState.isTouched || formState.isSubmitted) &&
-                            fieldState.error?.message
-                        }
+                        error={visFeilmelding && fieldState.error?.message}
                         readOnly={erLesevisning}
                     >
                         {Object.values(Mottaker).map((mottaker) => (

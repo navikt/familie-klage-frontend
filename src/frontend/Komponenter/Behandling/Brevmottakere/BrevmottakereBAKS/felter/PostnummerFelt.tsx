@@ -25,6 +25,7 @@ export function PostnummerFelt({ name, label, erLesevisning }: Props) {
                 minLength: { value: 4, message: 'Feltet må inneholde 4 tegn.' },
             }}
             render={({ field, fieldState }) => {
+                const visFeilmelding = fieldState.isTouched || formState.isSubmitted;
                 return (
                     <TextField
                         htmlSize={4}
@@ -34,10 +35,7 @@ export function PostnummerFelt({ name, label, erLesevisning }: Props) {
                         value={field.value}
                         onBlur={field.onBlur}
                         onChange={field.onChange}
-                        error={
-                            (fieldState.isTouched || formState.isSubmitted) &&
-                            fieldState.error?.message
-                        }
+                        error={visFeilmelding && fieldState.error?.message}
                         readOnly={erLesevisning}
                     />
                 );

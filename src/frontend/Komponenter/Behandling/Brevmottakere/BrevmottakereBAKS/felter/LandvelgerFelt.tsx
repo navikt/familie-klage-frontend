@@ -32,6 +32,7 @@ export function LandvelgerFelt({ name, label, erLesevisning }: Props) {
             }}
             name={name}
             render={({ field, fieldState }) => {
+                const visFeilmelding = fieldState.isTouched || formState.isSubmitted;
                 return (
                     <Landvelger
                         label={label}
@@ -41,10 +42,7 @@ export function LandvelgerFelt({ name, label, erLesevisning }: Props) {
                         onToggleSelected={(option, isSelected) => {
                             field.onChange(isSelected ? option : '');
                         }}
-                        error={
-                            (fieldState.isTouched || formState.isSubmitted) &&
-                            fieldState.error?.message
-                        }
+                        error={visFeilmelding && fieldState.error?.message}
                         readOnly={erLesevisning}
                     />
                 );

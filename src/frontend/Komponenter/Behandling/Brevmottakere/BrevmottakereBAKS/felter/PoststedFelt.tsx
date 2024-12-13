@@ -24,16 +24,14 @@ export function PoststedFelt({ name, label, erLesevisning }: Props) {
                 maxLength: { value: 50, message: 'Maks 50 tegn.' },
             }}
             render={({ field, fieldState }) => {
+                const visFeilmelding = fieldState.isTouched || formState.isSubmitted;
                 return (
                     <TextField
                         label={label}
                         value={field.value}
                         onBlur={field.onBlur}
                         onChange={field.onChange}
-                        error={
-                            (fieldState.isTouched || formState.isSubmitted) &&
-                            fieldState.error?.message
-                        }
+                        error={visFeilmelding && fieldState.error?.message}
                         readOnly={erLesevisning}
                     />
                 );

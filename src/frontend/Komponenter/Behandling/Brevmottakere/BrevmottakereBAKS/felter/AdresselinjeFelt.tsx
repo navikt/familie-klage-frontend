@@ -28,16 +28,14 @@ export function AdresselinjeFelt({
                 maxLength: { value: 80, message: 'Feltet kan ikke inneholde mer enn 80 tegn.' },
             }}
             render={({ field, fieldState }) => {
+                const visFeilmelding = fieldState.isTouched || formState.isSubmitted;
                 return (
                     <TextField
                         label={label}
                         value={field.value}
                         onBlur={field.onBlur}
                         onChange={field.onChange}
-                        error={
-                            (fieldState.isTouched || formState.isSubmitted) &&
-                            fieldState.error?.message
-                        }
+                        error={visFeilmelding && fieldState.error?.message}
                         description={description}
                         readOnly={erLesevisning}
                     />
