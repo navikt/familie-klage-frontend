@@ -25,9 +25,10 @@ export function MottakerFelt({ name, label, erLesevisning }: Props) {
                     <Select
                         label={label}
                         value={field.value}
+                        onBlur={field.onBlur}
                         onChange={field.onChange}
                         error={
-                            (fieldState.isDirty || fieldState.isTouched || formState.isSubmitted) &&
+                            (fieldState.isTouched || formState.isSubmitted) &&
                             fieldState.error?.message
                         }
                         readOnly={erLesevisning}

@@ -43,12 +43,13 @@ const countries: ComboboxOption[] = [
 ];
 
 const Landvelger = forwardRef((props: Props, ref: LegacyRef<HTMLInputElement>) => {
-    const { label, onToggleSelected, error } = props;
+    const { label, onToggleSelected, error, onBlur } = props;
     return (
         <UNSAFE_Combobox
             ref={ref}
             label={label}
             options={countries}
+            onBlur={onBlur}
             onToggleSelected={onToggleSelected}
             error={error}
             shouldAutocomplete={true}

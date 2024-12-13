@@ -11,6 +11,11 @@ const style = {
  * Brukt for å debugge form state. Skal ikke brukes i produksjon.
  */
 export function FormDebugger() {
-    const { watch } = useFormContext();
-    return <pre style={style}>{JSON.stringify(watch(), null, 2)}</pre>;
+    const { watch, formState } = useFormContext();
+    return (
+        <>
+            <pre style={style}>{JSON.stringify(watch(), null, 2)}</pre>
+            <pre style={style}>{JSON.stringify(formState.touchedFields, null, 2)}</pre>
+        </>
+    );
 }

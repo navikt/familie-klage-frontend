@@ -55,7 +55,6 @@ const BrevmottakerForm = ({ erLesevisning }: Props) => {
             [BrevmottakerFeltnavn.POSTNUMMER]: '',
             [BrevmottakerFeltnavn.POSTSTED]: '',
         },
-        // TODO : Legg til yup for validering?
     });
 
     const { handleSubmit } = form;

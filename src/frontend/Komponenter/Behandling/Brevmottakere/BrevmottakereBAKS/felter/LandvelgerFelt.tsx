@@ -11,7 +11,7 @@ type Props = {
 };
 
 export function LandvelgerFelt({ name, label, erLesevisning }: Props) {
-    const { control, getValues, formState, resetField } = useFormContext();
+    const { control, getValues, formState, setValue } = useFormContext();
     return (
         <Controller
             control={control}
@@ -35,13 +35,13 @@ export function LandvelgerFelt({ name, label, erLesevisning }: Props) {
                         onBlur={field.onBlur}
                         onToggleSelected={(option, isSelected) => {
                             if (option !== 'NO') {
-                                resetField(BrevmottakerFeltnavn.POSTNUMMER);
-                                resetField(BrevmottakerFeltnavn.POSTSTED);
+                                setValue(BrevmottakerFeltnavn.POSTNUMMER, '');
+                                setValue(BrevmottakerFeltnavn.POSTSTED, '');
                             }
-                            field.onChange(isSelected ? option : undefined);
+                            field.onChange(isSelected ? option : '');
                         }}
                         error={
-                            (fieldState.isDirty || fieldState.isTouched || formState.isSubmitted) &&
+                            (fieldState.isTouched || formState.isSubmitted) &&
                             fieldState.error?.message
                         }
                         readOnly={erLesevisning}

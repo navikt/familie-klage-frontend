@@ -24,7 +24,7 @@ export function PoststedFelt({ name, label, erLesevisning }: Props) {
             }}
             render={({ field, fieldState }) => {
                 const land = getValues()[BrevmottakerFeltnavn.LAND];
-                const erAktiv = erLesevisning || (land !== 'NO' && land !== '');
+                const erAktiv = !erLesevisning && (land === 'NO' || land === '');
                 return (
                     <TextField
                         label={label}
@@ -32,18 +32,18 @@ export function PoststedFelt({ name, label, erLesevisning }: Props) {
                         onBlur={field.onBlur}
                         onChange={field.onChange}
                         error={
-                            (fieldState.isDirty || fieldState.isTouched || formState.isSubmitted) &&
+                            (fieldState.isTouched || formState.isSubmitted) &&
                             fieldState.error?.message
                         }
                         description={
-                            erAktiv && (
+                            !erAktiv && (
                                 <Alert size={'small'} inline={true} variant={'info'}>
                                     Ved utenlandsk adresse skal postnummer skrives direkte i
                                     adressefeltet.
                                 </Alert>
                             )
                         }
-                        readOnly={erAktiv}
+                        readOnly={!erAktiv}
                     />
                 );
             }}

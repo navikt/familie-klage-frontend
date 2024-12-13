@@ -27,7 +27,7 @@ export function NavnFelt({ name, label, erLesevisning }: Props) {
                         onBlur={field.onBlur}
                         onChange={field.onChange}
                         error={
-                            (fieldState.isDirty || fieldState.isTouched || formState.isSubmitted) &&
+                            (fieldState.isTouched || formState.isSubmitted) &&
                             fieldState.error?.message
                         }
                         readOnly={erLesevisning}

@@ -28,7 +28,7 @@ export function AdresselinjeFelt({ name, label, erLesevisning, required = true }
                         onBlur={field.onBlur}
                         onChange={field.onChange}
                         error={
-                            (fieldState.isDirty || fieldState.isTouched || formState.isSubmitted) &&
+                            (fieldState.isTouched || formState.isSubmitted) &&
                             fieldState.error?.message
                         }
                         readOnly={erLesevisning}
