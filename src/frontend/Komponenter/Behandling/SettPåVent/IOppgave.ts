@@ -1,5 +1,5 @@
 export interface IOppgave {
-    id: number;
+    oppgaveId: number;
     tilordnetRessurs?: string;
     mappeId?: number;
     fristFerdigstillelse?: string;
