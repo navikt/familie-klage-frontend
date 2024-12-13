@@ -2,7 +2,7 @@ import { Controller, useFormContext } from 'react-hook-form';
 import { BrevmottakerFeltnavn, BrevmottakerFormState } from '../BrevmottakerForm';
 import React from 'react';
 import { TextField } from '@navikt/ds-react';
-import { Landkoder } from '../../../../../Felles/Landvelger/Landvelger';
+import { EøsLandkode } from '../../../../../Felles/Landvelger/landkode';
 
 type Props = {
     name: keyof BrevmottakerFormState;
@@ -18,7 +18,7 @@ export function PostnummerFelt({ name, label, erLesevisning }: Props) {
             name={name}
             rules={{
                 required:
-                    getValues()[BrevmottakerFeltnavn.LAND] === Landkoder.NO
+                    getValues()[BrevmottakerFeltnavn.LANDKODE] === EøsLandkode.NO
                         ? 'Postnummer er påkrevd om landet er Norge.'
                         : false,
                 maxLength: { value: 4, message: 'Feltet må inneholde 4 tegn.' },

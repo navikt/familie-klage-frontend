@@ -18,7 +18,7 @@ export function MottakerFelt({ name, label, erLesevisning }: Props) {
             name={name}
             rules={{
                 required: 'Mottaker er påkrevd.',
-                deps: [BrevmottakerFeltnavn.LAND],
+                deps: [BrevmottakerFeltnavn.LANDKODE],
             }}
             render={({ field, fieldState }) => {
                 return (

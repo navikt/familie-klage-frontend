@@ -3,80 +3,47 @@ import React, { forwardRef, LegacyRef, useState } from 'react';
 import { ComboboxProps, UNSAFE_Combobox } from '@navikt/ds-react';
 
 import { ComboboxOption } from '@navikt/ds-react/cjs/form/combobox/types';
+import { EøsLandkode } from './landkode';
 
 type Props = {
     label: React.ReactNode;
 } & Omit<ComboboxProps, 'options'>;
 
-export enum Landkoder {
-    BE = 'BE',
-    BG = 'BG',
-    DK = 'DK',
-    EE = 'EE',
-    FI = 'FI',
-    FR = 'FR',
-    GR = 'GR',
-    IE = 'IE',
-    IS = 'IS',
-    IT = 'IT',
-    HR = 'HR',
-    CY = 'CY',
-    LV = 'LV',
-    LI = 'LI',
-    LT = 'LT',
-    LU = 'LU',
-    MT = 'MT',
-    NL = 'NL',
-    NO = 'NO',
-    PL = 'PL',
-    PT = 'PT',
-    RO = 'RO',
-    SK = 'SK',
-    SI = 'SI',
-    ES = 'ES',
-    CH = 'CH',
-    SE = 'SE',
-    CZ = 'CZ',
-    DE = 'DE',
-    HU = 'HU',
-    AT = 'AT',
-}
-
 const land: ComboboxOption[] = [
-    { value: Landkoder.BE, label: 'Belgia' },
-    { value: Landkoder.BG, label: 'Bulgaria' },
-    { value: Landkoder.DK, label: 'Danmark' },
-    { value: Landkoder.EE, label: 'Estland' },
-    { value: Landkoder.FI, label: 'Finland' },
-    { value: Landkoder.FR, label: 'Frankrike' },
-    { value: Landkoder.GR, label: 'Hellas' },
-    { value: Landkoder.IE, label: 'Irland' },
-    { value: Landkoder.IS, label: 'Island' },
-    { value: Landkoder.IT, label: 'Italia' },
-    { value: Landkoder.HR, label: 'Kroatia' },
-    { value: Landkoder.CY, label: 'Kypros' },
-    { value: Landkoder.LV, label: 'Latvia' },
-    { value: Landkoder.LI, label: 'Liechtenstein' },
-    { value: Landkoder.LT, label: 'Litauen' },
-    { value: Landkoder.LU, label: 'Luxembourg' },
-    { value: Landkoder.MT, label: 'Malta' },
-    { value: Landkoder.NL, label: 'Nederland' },
-    { value: Landkoder.NO, label: 'Norge' },
-    { value: Landkoder.PL, label: 'Polen' },
-    { value: Landkoder.PT, label: 'Portugal' },
-    { value: Landkoder.RO, label: 'Romania' },
-    { value: Landkoder.SK, label: 'Slovakia' },
-    { value: Landkoder.SI, label: 'Slovenia' },
-    { value: Landkoder.ES, label: 'Spania' },
-    { value: Landkoder.CH, label: 'Sveits' },
-    { value: Landkoder.SE, label: 'Sverige' },
-    { value: Landkoder.CZ, label: 'Tsjekkia' },
-    { value: Landkoder.DE, label: 'Tyskland' },
-    { value: Landkoder.HU, label: 'Ungarn' },
-    { value: Landkoder.AT, label: 'Østerrike' },
+    { value: EøsLandkode.BE, label: 'Belgia' },
+    { value: EøsLandkode.BG, label: 'Bulgaria' },
+    { value: EøsLandkode.DK, label: 'Danmark' },
+    { value: EøsLandkode.EE, label: 'Estland' },
+    { value: EøsLandkode.FI, label: 'Finland' },
+    { value: EøsLandkode.FR, label: 'Frankrike' },
+    { value: EøsLandkode.GR, label: 'Hellas' },
+    { value: EøsLandkode.IE, label: 'Irland' },
+    { value: EøsLandkode.IS, label: 'Island' },
+    { value: EøsLandkode.IT, label: 'Italia' },
+    { value: EøsLandkode.HR, label: 'Kroatia' },
+    { value: EøsLandkode.CY, label: 'Kypros' },
+    { value: EøsLandkode.LV, label: 'Latvia' },
+    { value: EøsLandkode.LI, label: 'Liechtenstein' },
+    { value: EøsLandkode.LT, label: 'Litauen' },
+    { value: EøsLandkode.LU, label: 'Luxembourg' },
+    { value: EøsLandkode.MT, label: 'Malta' },
+    { value: EøsLandkode.NL, label: 'Nederland' },
+    { value: EøsLandkode.NO, label: 'Norge' },
+    { value: EøsLandkode.PL, label: 'Polen' },
+    { value: EøsLandkode.PT, label: 'Portugal' },
+    { value: EøsLandkode.RO, label: 'Romania' },
+    { value: EøsLandkode.SK, label: 'Slovakia' },
+    { value: EøsLandkode.SI, label: 'Slovenia' },
+    { value: EøsLandkode.ES, label: 'Spania' },
+    { value: EøsLandkode.CH, label: 'Sveits' },
+    { value: EøsLandkode.SE, label: 'Sverige' },
+    { value: EøsLandkode.CZ, label: 'Tsjekkia' },
+    { value: EøsLandkode.DE, label: 'Tyskland' },
+    { value: EøsLandkode.HU, label: 'Ungarn' },
+    { value: EøsLandkode.AT, label: 'Østerrike' },
 ];
 
-const Landvelger = forwardRef((props: Props, ref: LegacyRef<HTMLInputElement>) => {
+export const Landvelger = forwardRef((props: Props, ref: LegacyRef<HTMLInputElement>) => {
     const { label, value, onToggleSelected, error, onBlur } = props;
     const [selectedOption, setSelectedOption] = useState<ComboboxOption | undefined>(
         land.find((opt) => opt.value === value)
@@ -107,5 +74,3 @@ const Landvelger = forwardRef((props: Props, ref: LegacyRef<HTMLInputElement>) =
 });
 
 Landvelger.displayName = 'Landvelger';
-
-export default Landvelger;

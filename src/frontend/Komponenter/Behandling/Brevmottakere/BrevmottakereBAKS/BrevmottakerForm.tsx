@@ -1,5 +1,5 @@
 import React from 'react';
-import { FormProvider, SubmitErrorHandler, SubmitHandler, useForm } from 'react-hook-form';
+import { FormProvider, SubmitHandler, useForm } from 'react-hook-form';
 import { LandvelgerFelt } from './felter/LandvelgerFelt';
 import { MottakerFelt } from './felter/MottakerFelt';
 import { Mottaker } from './BrevmottakereBAKS';
@@ -10,11 +10,11 @@ import { AdresselinjeFelt } from './felter/AdresselinjeFelt';
 import { PostnummerFelt } from './felter/PostnummerFelt';
 import { PoststedFelt } from './felter/PoststedFelt';
 import { Alert, VStack } from '@navikt/ds-react';
-import { Landkoder } from '../../../../Felles/Landvelger/Landvelger';
+import { EøsLandkode } from '../../../../Felles/Landvelger/landkode';
 
 export enum BrevmottakerFeltnavn {
     MOTTAKER = 'mottaker',
-    LAND = 'land',
+    LANDKODE = 'landkode',
     NAVN = 'navn',
     ADRESSELINJE1 = 'adresselinje1',
     ADRESSELINJE2 = 'adresselinje2',
@@ -24,7 +24,7 @@ export enum BrevmottakerFeltnavn {
 
 export type BrevmottakerFormState = {
     [BrevmottakerFeltnavn.MOTTAKER]: Mottaker;
-    [BrevmottakerFeltnavn.LAND]: string;
+    [BrevmottakerFeltnavn.LANDKODE]: EøsLandkode | '';
     [BrevmottakerFeltnavn.NAVN]: string;
     [BrevmottakerFeltnavn.ADRESSELINJE1]: string;
     [BrevmottakerFeltnavn.ADRESSELINJE2]: string;
@@ -33,24 +33,21 @@ export type BrevmottakerFormState = {
 };
 
 type Props = {
-    erLesevisning: boolean;
+    erLesevisning: boolean; // TODO : Flytt til context?
 };
 
 const BrevmottakerForm = ({ erLesevisning }: Props) => {
     const onSubmit: SubmitHandler<BrevmottakerFormState> = (data) => {
         // TODO : Renvask innsendt data
+        // TODO : Send renvasket data til backend
         console.log(data);
-    };
-
-    const onSubmitError: SubmitErrorHandler<BrevmottakerFormState> = (errors) => {
-        console.log(errors);
     };
 
     const form = useForm<BrevmottakerFormState>({
         mode: 'all',
         defaultValues: {
             [BrevmottakerFeltnavn.MOTTAKER]: Mottaker.BRUKER,
-            [BrevmottakerFeltnavn.LAND]: Landkoder.NO,
+            [BrevmottakerFeltnavn.LANDKODE]: EøsLandkode.NO,
             [BrevmottakerFeltnavn.NAVN]: '',
             [BrevmottakerFeltnavn.ADRESSELINJE1]: '',
             [BrevmottakerFeltnavn.ADRESSELINJE2]: '',
@@ -61,13 +58,13 @@ const BrevmottakerForm = ({ erLesevisning }: Props) => {
 
     const { handleSubmit, getValues } = form;
 
-    const land = getValues()[BrevmottakerFeltnavn.LAND];
-    const erLandValgt = land !== '';
-    const erUtenlandskAdresseValgt = land !== Landkoder.NO && erLandValgt;
+    const landkode = getValues()[BrevmottakerFeltnavn.LANDKODE];
+    const erLandValgt = landkode !== '';
+    const erUtenlandskAdresseValgt = erLandValgt && landkode !== EøsLandkode.NO;
 
     return (
         <FormProvider {...form}>
-            <form onSubmit={handleSubmit(onSubmit, onSubmitError)}>
+            <form onSubmit={handleSubmit(onSubmit)}>
                 <VStack gap={'4'}>
                     <MottakerFelt
                         name={BrevmottakerFeltnavn.MOTTAKER}
@@ -75,7 +72,7 @@ const BrevmottakerForm = ({ erLesevisning }: Props) => {
                         erLesevisning={erLesevisning}
                     />
                     <LandvelgerFelt
-                        name={BrevmottakerFeltnavn.LAND}
+                        name={BrevmottakerFeltnavn.LANDKODE}
                         label={'Landvelger'}
                         erLesevisning={erLesevisning}
                     />
