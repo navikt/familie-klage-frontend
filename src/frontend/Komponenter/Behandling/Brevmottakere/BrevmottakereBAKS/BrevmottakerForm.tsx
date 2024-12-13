@@ -22,13 +22,13 @@ export enum BrevmottakerFeltnavn {
 }
 
 export type BrevmottakerFormState = {
-    mottaker: Mottaker;
-    land: string;
-    navn: string;
-    adresselinje1: string;
-    adresselinje2: string;
-    postnummer: string;
-    poststed: string;
+    [BrevmottakerFeltnavn.MOTTAKER]: Mottaker;
+    [BrevmottakerFeltnavn.LAND]: string;
+    [BrevmottakerFeltnavn.NAVN]: string;
+    [BrevmottakerFeltnavn.ADRESSELINJE1]: string;
+    [BrevmottakerFeltnavn.ADRESSELINJE2]: string;
+    [BrevmottakerFeltnavn.POSTNUMMER]: string;
+    [BrevmottakerFeltnavn.POSTSTED]: string;
 };
 
 type Props = {
@@ -47,13 +47,13 @@ const BrevmottakerForm = ({ erLesevisning }: Props) => {
     const form = useForm<BrevmottakerFormState>({
         mode: 'all',
         defaultValues: {
-            mottaker: Mottaker.BRUKER,
-            land: '',
-            navn: '',
-            adresselinje1: '',
-            adresselinje2: '',
-            postnummer: '',
-            poststed: '',
+            [BrevmottakerFeltnavn.MOTTAKER]: Mottaker.BRUKER,
+            [BrevmottakerFeltnavn.LAND]: '',
+            [BrevmottakerFeltnavn.NAVN]: '',
+            [BrevmottakerFeltnavn.ADRESSELINJE1]: '',
+            [BrevmottakerFeltnavn.ADRESSELINJE2]: '',
+            [BrevmottakerFeltnavn.POSTNUMMER]: '',
+            [BrevmottakerFeltnavn.POSTSTED]: '',
         },
         // TODO : Legg til yup for validering?
     });
@@ -65,35 +65,39 @@ const BrevmottakerForm = ({ erLesevisning }: Props) => {
             <form onSubmit={handleSubmit(onSubmit, onSubmitError)}>
                 <VStack gap={'4'}>
                     <MottakerFelt
-                        name={'mottaker'}
+                        name={BrevmottakerFeltnavn.MOTTAKER}
                         label={'Mottaker'}
                         erLesevisning={erLesevisning}
                     />
                     <LandvelgerFelt
-                        name={'land'}
+                        name={BrevmottakerFeltnavn.LAND}
                         label={'Landvelger'}
                         erLesevisning={erLesevisning}
                     />
-                    <NavnFelt name={'navn'} label={'Navn'} erLesevisning={erLesevisning} />
+                    <NavnFelt
+                        name={BrevmottakerFeltnavn.NAVN}
+                        label={'Navn'}
+                        erLesevisning={erLesevisning}
+                    />
                     <AdresselinjeFelt
-                        name={'adresselinje1'}
+                        name={BrevmottakerFeltnavn.ADRESSELINJE1}
                         label={'Adresselinje 1'}
                         erLesevisning={erLesevisning}
                         required={true}
                     />
                     <AdresselinjeFelt
-                        name={'adresselinje2'}
+                        name={BrevmottakerFeltnavn.ADRESSELINJE2}
                         label={'Adresselinje 2 (valgfri)'}
                         erLesevisning={erLesevisning}
                         required={false}
                     />
                     <PostnummerFelt
-                        name={'postnummer'}
+                        name={BrevmottakerFeltnavn.POSTNUMMER}
                         label={'Postnummer'}
                         erLesevisning={erLesevisning}
                     />
                     <PoststedFelt
-                        name={'poststed'}
+                        name={BrevmottakerFeltnavn.POSTSTED}
                         label={'poststed'}
                         erLesevisning={erLesevisning}
                     />

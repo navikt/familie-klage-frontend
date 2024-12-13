@@ -1,5 +1,5 @@
 import { Controller, useFormContext } from 'react-hook-form';
-import { BrevmottakerFormState } from '../BrevmottakerForm';
+import { BrevmottakerFeltnavn, BrevmottakerFormState } from '../BrevmottakerForm';
 import React from 'react';
 import { TextField } from '@navikt/ds-react';
 
@@ -17,7 +17,7 @@ export function PoststedFelt({ name, label, erLesevisning }: Props) {
             name={name}
             rules={{
                 required:
-                    getValues()['land'] === 'NO'
+                    getValues()[BrevmottakerFeltnavn.LAND] === 'NO'
                         ? 'Poststed er påkrevd om landet er Norge.'
                         : false,
                 maxLength: { value: 50, message: 'Maks 50 tegn.' },

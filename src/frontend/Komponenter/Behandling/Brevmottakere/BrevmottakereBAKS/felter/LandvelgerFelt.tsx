@@ -1,7 +1,7 @@
 import Landvelger from '../../../../../Felles/Landvelger/Landvelger';
 import { Controller, useFormContext } from 'react-hook-form';
 import React from 'react';
-import { BrevmottakerFormState } from '../BrevmottakerForm';
+import { BrevmottakerFeltnavn, BrevmottakerFormState } from '../BrevmottakerForm';
 import { Mottaker } from '../BrevmottakereBAKS';
 
 type Props = {
@@ -24,7 +24,7 @@ export function LandvelgerFelt({ name, label, erLesevisning }: Props) {
                     }
                     return undefined;
                 },
-                deps: ['postnummer', 'poststed'],
+                deps: [BrevmottakerFeltnavn.POSTNUMMER, BrevmottakerFeltnavn.POSTSTED],
             }}
             name={name}
             render={({ field, fieldState }) => {

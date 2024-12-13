@@ -2,7 +2,7 @@ import React from 'react';
 import { Select } from '@navikt/ds-react';
 import { Controller, useFormContext } from 'react-hook-form';
 import { Mottaker, mottakerVisningsnavn } from '../BrevmottakereBAKS';
-import { BrevmottakerFormState } from '../BrevmottakerForm';
+import { BrevmottakerFeltnavn, BrevmottakerFormState } from '../BrevmottakerForm';
 
 type Props = {
     name: keyof BrevmottakerFormState;
@@ -18,7 +18,7 @@ export function MottakerFelt({ name, label, erLesevisning }: Props) {
             name={name}
             rules={{
                 required: 'Mottaker er påkrevd.',
-                deps: ['land'],
+                deps: [BrevmottakerFeltnavn.LAND],
             }}
             render={({ field, fieldState }) => {
                 return (
