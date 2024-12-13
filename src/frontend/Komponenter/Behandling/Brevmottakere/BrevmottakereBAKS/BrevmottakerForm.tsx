@@ -9,7 +9,8 @@ import { NavnFelt } from './felter/NavnFelt';
 import { AdresselinjeFelt } from './felter/AdresselinjeFelt';
 import { PostnummerFelt } from './felter/PostnummerFelt';
 import { PoststedFelt } from './felter/PoststedFelt';
-import { VStack } from '@navikt/ds-react';
+import { Alert, VStack } from '@navikt/ds-react';
+import { Landkoder } from '../../../../Felles/Landvelger/Landvelger';
 
 export enum BrevmottakerFeltnavn {
     MOTTAKER = 'mottaker',
@@ -48,7 +49,7 @@ const BrevmottakerForm = ({ erLesevisning }: Props) => {
         mode: 'all',
         defaultValues: {
             [BrevmottakerFeltnavn.MOTTAKER]: Mottaker.BRUKER,
-            [BrevmottakerFeltnavn.LAND]: '',
+            [BrevmottakerFeltnavn.LAND]: Landkoder.NO,
             [BrevmottakerFeltnavn.NAVN]: '',
             [BrevmottakerFeltnavn.ADRESSELINJE1]: '',
             [BrevmottakerFeltnavn.ADRESSELINJE2]: '',
@@ -57,7 +58,11 @@ const BrevmottakerForm = ({ erLesevisning }: Props) => {
         },
     });
 
-    const { handleSubmit } = form;
+    const { handleSubmit, getValues } = form;
+
+    const land = getValues()[BrevmottakerFeltnavn.LAND];
+    const landErValgt = land !== '';
+    const utenlandskAdresseErValgt = land !== Landkoder.NO && landErValgt;
 
     return (
         <FormProvider {...form}>
@@ -83,6 +88,14 @@ const BrevmottakerForm = ({ erLesevisning }: Props) => {
                         label={'Adresselinje 1'}
                         erLesevisning={erLesevisning}
                         required={true}
+                        description={
+                            utenlandskAdresseErValgt && (
+                                <Alert size={'small'} inline={true} variant={'info'}>
+                                    Ved utenlandsk adresse skal postnummer og poststed skrives
+                                    direkte i adressefeltet.
+                                </Alert>
+                            )
+                        }
                     />
                     <AdresselinjeFelt
                         name={BrevmottakerFeltnavn.ADRESSELINJE2}
@@ -90,16 +103,20 @@ const BrevmottakerForm = ({ erLesevisning }: Props) => {
                         erLesevisning={erLesevisning}
                         required={false}
                     />
-                    <PostnummerFelt
-                        name={BrevmottakerFeltnavn.POSTNUMMER}
-                        label={'Postnummer'}
-                        erLesevisning={erLesevisning}
-                    />
-                    <PoststedFelt
-                        name={BrevmottakerFeltnavn.POSTSTED}
-                        label={'Poststed'}
-                        erLesevisning={erLesevisning}
-                    />
+                    {!utenlandskAdresseErValgt && (
+                        <>
+                            <PostnummerFelt
+                                name={BrevmottakerFeltnavn.POSTNUMMER}
+                                label={'Postnummer'}
+                                erLesevisning={erLesevisning}
+                            />
+                            <PoststedFelt
+                                name={BrevmottakerFeltnavn.POSTSTED}
+                                label={'Poststed'}
+                                erLesevisning={erLesevisning}
+                            />
+                        </>
+                    )}
                     <Submit erLesevisning={erLesevisning} />
                     <FormDebugger />
                 </VStack>

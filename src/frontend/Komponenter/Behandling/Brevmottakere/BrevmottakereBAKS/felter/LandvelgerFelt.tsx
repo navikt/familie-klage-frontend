@@ -1,6 +1,6 @@
+import React from 'react';
 import Landvelger, { Landkoder } from '../../../../../Felles/Landvelger/Landvelger';
 import { Controller, useFormContext } from 'react-hook-form';
-import React from 'react';
 import { BrevmottakerFeltnavn, BrevmottakerFormState } from '../BrevmottakerForm';
 import { Mottaker } from '../BrevmottakereBAKS';
 
@@ -36,6 +36,7 @@ export function LandvelgerFelt({ name, label, erLesevisning }: Props) {
                         label={label}
                         ref={field.ref}
                         onBlur={field.onBlur}
+                        value={field.value}
                         onToggleSelected={(option, isSelected) => {
                             if (option !== Landkoder.NO) {
                                 setValue(BrevmottakerFeltnavn.POSTNUMMER, '');

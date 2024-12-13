@@ -1,7 +1,7 @@
 import { Controller, useFormContext } from 'react-hook-form';
 import { BrevmottakerFeltnavn, BrevmottakerFormState } from '../BrevmottakerForm';
 import React from 'react';
-import { Alert, TextField } from '@navikt/ds-react';
+import { TextField } from '@navikt/ds-react';
 import { Landkoder } from '../../../../../Felles/Landvelger/Landvelger';
 
 type Props = {
@@ -24,8 +24,6 @@ export function PoststedFelt({ name, label, erLesevisning }: Props) {
                 maxLength: { value: 50, message: 'Maks 50 tegn.' },
             }}
             render={({ field, fieldState }) => {
-                const land = getValues()[BrevmottakerFeltnavn.LAND];
-                const erAktiv = !erLesevisning && (land === Landkoder.NO || land === '');
                 return (
                     <TextField
                         label={label}
@@ -36,15 +34,7 @@ export function PoststedFelt({ name, label, erLesevisning }: Props) {
                             (fieldState.isTouched || formState.isSubmitted) &&
                             fieldState.error?.message
                         }
-                        description={
-                            !erAktiv && (
-                                <Alert size={'small'} inline={true} variant={'info'}>
-                                    Ved utenlandsk adresse skal postnummer skrives direkte i
-                                    adressefeltet.
-                                </Alert>
-                            )
-                        }
-                        readOnly={!erAktiv}
+                        readOnly={erLesevisning}
                     />
                 );
             }}

@@ -77,13 +77,16 @@ const land: ComboboxOption[] = [
 ];
 
 const Landvelger = forwardRef((props: Props, ref: LegacyRef<HTMLInputElement>) => {
-    const { label, onToggleSelected, error, onBlur } = props;
+    const { label, value, onToggleSelected, error, onBlur } = props;
+    const selectedOptionLabel = land.find((opt) => opt.value === value)?.label;
+    const selectedOptions = selectedOptionLabel ? [selectedOptionLabel] : [];
     return (
         <UNSAFE_Combobox
             ref={ref}
             label={label}
             options={land}
             onBlur={onBlur}
+            selectedOptions={selectedOptions}
             onToggleSelected={onToggleSelected}
             error={error}
             shouldAutocomplete={true}
