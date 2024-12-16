@@ -21,10 +21,10 @@ export function AdresselinjeFelt({
             control={control}
             name={feltnavn}
             rules={{
-                required: !valgfri ? 'Addresselinje 1 er påkrevd.' : undefined,
+                required: !valgfri ? `${visningsnavn} er påkrevd.` : undefined,
                 maxLength: {
                     value: 80,
-                    message: 'Addresselinje 1 kan ikke inneholde mer enn 80 tegn.',
+                    message: '${visningsnavn} kan ikke inneholde mer enn 80 tegn.',
                 },
             }}
             render={({ field, fieldState }) => {
