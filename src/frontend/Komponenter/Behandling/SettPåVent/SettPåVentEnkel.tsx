@@ -118,9 +118,17 @@ export const SettPåVentEnkel: FC<{ behandling: Behandling }> = ({ behandling })
             }).then((respons: RessursFeilet | RessursSuksess<string>) => {
                 if (respons.status === RessursStatus.SUKSESS) {
                     hentBehandling.rerun();
+                    nullstillOppgaveFelt();
                 }
             });
         }
+    };
+
+    const nullstillOppgaveFelt = () => {
+        settSaksbehandler('');
+        settPrioritet(undefined);
+        settFrist(undefined);
+        settBeskrivelse('');
     };
 
     return visSettPåVent ? (
