@@ -34,11 +34,11 @@ const DefinitionList = styled.dl`
 
 interface Props {
     mottaker: Brevmottaker;
-    fjernMottaker: (brevmottakerId: string) => void;
+    slettBrevmottaker: (brevmottakerId: string) => void;
     erLesevisning: boolean;
 }
 
-const BrevmottakerTabell = ({ mottaker, fjernMottaker, erLesevisning }: Props) => {
+const BrevmottakerTabell = ({ mottaker, slettBrevmottaker, erLesevisning }: Props) => {
     const land = CountryData.getCountryInstance('nb').findByValue(mottaker.land);
 
     return (
@@ -48,7 +48,7 @@ const BrevmottakerTabell = ({ mottaker, fjernMottaker, erLesevisning }: Props) =
                 {!erLesevisning && (
                     <Button
                         variant={'tertiary'}
-                        onClick={() => fjernMottaker(mottaker.id)}
+                        onClick={() => slettBrevmottaker(mottaker.id)}
                         loading={false}
                         disabled={false}
                         size={'small'}

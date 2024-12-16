@@ -117,7 +117,7 @@ const BrevmottakereContainer: React.FC<{
 };
 
 const BrevmottakereBAKS: React.FC<{ behandlingId: string }> = ({ behandlingId }) => {
-    // const { axiosRequest } = useApp();
+    const { axiosRequest } = useApp();
     const { personopplysningerResponse } = useBehandling();
     const [mottakere, settMottakere] = useState<Ressurs<Brevmottaker[]>>(byggTomRessurs());
 
@@ -142,6 +142,13 @@ const BrevmottakereBAKS: React.FC<{ behandlingId: string }> = ({ behandlingId })
         // }, [axiosRequest, behandlingId]);
     }, []);
 
+    const slettBrevmottakere = (brevmottakerId: string) => {
+        axiosRequest<Brevmottaker[], null>({
+            method: 'DELETE',
+            url: `/familie-klage/api/brevmottaker/${behandlingId}/${brevmottakerId}`,
+        }).then((res: Ressurs<Brevmottaker[]>) => settMottakere(res));
+    };
+
     useEffect(() => {
         hentBrevmottakere();
     }, [hentBrevmottakere]);
@@ -155,7 +162,7 @@ const BrevmottakereBAKS: React.FC<{ behandlingId: string }> = ({ behandlingId })
                         behandlingId={behandlingId}
                         personopplysninger={personopplysningerResponse}
                         brevmottakere={mottakere}
-                        fjernMottaker={() => {}}
+                        slettBrevmottaker={slettBrevmottakere}
                         erLesevisning={false}
                     />
                 </>

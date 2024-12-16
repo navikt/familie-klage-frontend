@@ -29,7 +29,7 @@ interface Props {
     behandlingId: string;
     personopplysninger: IPersonopplysninger;
     brevmottakere: Brevmottaker[];
-    fjernMottaker: (brevmottakerId: string) => void;
+    slettBrevmottaker: (brevmottakerId: string) => void;
     erLesevisning: boolean;
 }
 
@@ -49,7 +49,7 @@ export const BrevmottakerModalBAKS = ({
     behandlingId,
     personopplysninger,
     brevmottakere,
-    fjernMottaker,
+    slettBrevmottaker,
     erLesevisning,
 }: Props) => {
     const { settVisBrevmottakereModal, visBrevmottakereModal } = useApp();
@@ -90,7 +90,7 @@ export const BrevmottakerModalBAKS = ({
                     <BrevmottakerTabell
                         mottaker={mottaker}
                         key={`mottaker-${mottaker}`}
-                        fjernMottaker={fjernMottaker}
+                        slettBrevmottaker={slettBrevmottaker}
                         erLesevisning={erLesevisning}
                     />
                 ))}
