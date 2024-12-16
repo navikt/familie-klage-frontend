@@ -1,6 +1,6 @@
 import { BrevmottakerFeltnavn } from './brevmottakerFeltnavn';
-import { Mottakertype } from '../BrevmottakereBAKS';
-import { EøsLandkode } from '../../../../../Felles/Landvelger/landkode';
+import { Mottakertype } from '../../BrevmottakereBAKS';
+import { EøsLandkode } from '../../../../../../Felles/Landvelger/landkode';
 
 export type BrevmottakerFormState = {
     [BrevmottakerFeltnavn.MOTTAKERTYPE]: Mottakertype;

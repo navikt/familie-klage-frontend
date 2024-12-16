@@ -2,7 +2,7 @@ import React from 'react';
 import { FormProvider, SubmitHandler, useForm } from 'react-hook-form';
 import { LandvelgerFelt } from './felt/LandvelgerFelt';
 import { MottakerFelt } from './felt/MottakerFelt';
-import { Brevmottaker, Mottakertype } from '../BrevmottakereBAKS';
+import { Brevmottaker, Mottakertype } from '../../BrevmottakereBAKS';
 import { Submit } from './felt/Submit';
 import { FormDebugger } from './FormDebugger';
 import { NavnFelt } from './felt/NavnFelt';
@@ -10,11 +10,11 @@ import { AdresselinjeFelt } from './felt/AdresselinjeFelt';
 import { PostnummerFelt } from './felt/PostnummerFelt';
 import { PoststedFelt } from './felt/PoststedFelt';
 import { Alert, VStack } from '@navikt/ds-react';
-import { EøsLandkode } from '../../../../../Felles/Landvelger/landkode';
+import { EøsLandkode } from '../../../../../../Felles/Landvelger/landkode';
 import { BrevmottakerFeltnavn } from './brevmottakerFeltnavn';
 import { BrevmottakerFormState } from './brevmottakerFormState';
-import { useApp } from '../../../../../App/context/AppContext';
-import { IPersonopplysninger } from '../../../../../App/typer/personopplysninger';
+import { useApp } from '../../../../../../App/context/AppContext';
+import { IPersonopplysninger } from '../../../../../../App/typer/personopplysninger';
 
 type Props = {
     behandlingId: string;

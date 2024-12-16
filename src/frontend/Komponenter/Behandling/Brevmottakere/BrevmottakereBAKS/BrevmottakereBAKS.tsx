@@ -6,7 +6,7 @@ import DataViewer from '../../../../Felles/DataViewer/DataViewer';
 import { useBehandling } from '../../../../App/context/BehandlingContext';
 import { byggTomRessurs, Ressurs, RessursStatus } from '../../../../App/typer/ressurs';
 import CountryData from '@navikt/land-verktoy';
-import { BrevmottakerModalBAKS } from './BrevmottakerModalBAKS';
+import { BrevmottakerModalBAKS } from './modal/BrevmottakerModalBAKS';
 
 const Grid = styled.div`
     display: grid;

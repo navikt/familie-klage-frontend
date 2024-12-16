@@ -1,8 +1,8 @@
 import React from 'react';
 import { Controller, useFormContext } from 'react-hook-form';
-import { Mottakertype } from '../../BrevmottakereBAKS';
-import { EøsLandkode } from '../../../../../../Felles/Landvelger/landkode';
-import { Landvelger } from '../../../../../../Felles/Landvelger/Landvelger';
+import { Mottakertype } from '../../../BrevmottakereBAKS';
+import { EøsLandkode } from '../../../../../../../Felles/Landvelger/landkode';
+import { Landvelger } from '../../../../../../../Felles/Landvelger/Landvelger';
 import { BrevmottakerFeltnavn } from '../brevmottakerFeltnavn';
 import { BrevmottakerFeltProps } from '../brevmottakerFeltProps';
 
