@@ -2,7 +2,7 @@ import React from 'react';
 import { FormProvider, SubmitHandler, useForm } from 'react-hook-form';
 import { LandvelgerFelt } from './felter/LandvelgerFelt';
 import { MottakerFelt } from './felter/MottakerFelt';
-import { Mottaker } from './BrevmottakereBAKS';
+import { Mottaker } from '../BrevmottakereBAKS';
 import { Submit } from './felter/Submit';
 import { FormDebugger } from './felter/FormDebugger';
 import { NavnFelt } from './felter/NavnFelt';
@@ -10,39 +10,15 @@ import { AdresselinjeFelt } from './felter/AdresselinjeFelt';
 import { PostnummerFelt } from './felter/PostnummerFelt';
 import { PoststedFelt } from './felter/PoststedFelt';
 import { Alert, VStack } from '@navikt/ds-react';
-import { EøsLandkode } from '../../../../Felles/Landvelger/landkode';
-
-export enum BrevmottakerFeltnavn {
-    MOTTAKER = 'mottaker',
-    LANDKODE = 'landkode',
-    NAVN = 'navn',
-    ADRESSELINJE1 = 'adresselinje1',
-    ADRESSELINJE2 = 'adresselinje2',
-    POSTNUMMER = 'postnummer',
-    POSTSTED = 'poststed',
-}
-
-export type BrevmottakerFormState = {
-    [BrevmottakerFeltnavn.MOTTAKER]: Mottaker;
-    [BrevmottakerFeltnavn.LANDKODE]: EøsLandkode | '';
-    [BrevmottakerFeltnavn.NAVN]: string;
-    [BrevmottakerFeltnavn.ADRESSELINJE1]: string;
-    [BrevmottakerFeltnavn.ADRESSELINJE2]: string;
-    [BrevmottakerFeltnavn.POSTNUMMER]: string;
-    [BrevmottakerFeltnavn.POSTSTED]: string;
-};
-
-export type BrevmottakerFeltProps = {
-    feltnavn: keyof BrevmottakerFormState;
-    visningsnavn: string;
-    erLesevisning?: boolean;
-};
+import { EøsLandkode } from '../../../../../Felles/Landvelger/landkode';
+import { BrevmottakerFeltnavn } from './brevmottakerFeltnavn';
+import { BrevmottakerFormState } from './brevmottakerFormState';
 
 type Props = {
     erLesevisning: boolean; // TODO : Flytt til context?
 };
 
-const BrevmottakerForm = ({ erLesevisning }: Props) => {
+export function BrevmottakerForm({ erLesevisning }: Props) {
     const onSubmit: SubmitHandler<BrevmottakerFormState> = (data) => {
         // TODO : Renvask innsendt data
         // TODO : Send renvasket data til backend
@@ -131,6 +107,4 @@ const BrevmottakerForm = ({ erLesevisning }: Props) => {
             </form>
         </FormProvider>
     );
-};
-
-export default BrevmottakerForm;
+}

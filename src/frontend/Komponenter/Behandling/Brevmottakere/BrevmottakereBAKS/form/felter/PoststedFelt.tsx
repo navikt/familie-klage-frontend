@@ -1,8 +1,9 @@
 import { Controller, useFormContext } from 'react-hook-form';
-import { BrevmottakerFeltnavn, BrevmottakerFeltProps } from '../BrevmottakerForm';
 import React from 'react';
 import { TextField } from '@navikt/ds-react';
-import { EøsLandkode } from '../../../../../Felles/Landvelger/landkode';
+import { EøsLandkode } from '../../../../../../Felles/Landvelger/landkode';
+import { BrevmottakerFeltProps } from '../brevmottakerFeltProps';
+import { BrevmottakerFeltnavn } from '../brevmottakerFeltnavn';
 
 type Props = BrevmottakerFeltProps;
 

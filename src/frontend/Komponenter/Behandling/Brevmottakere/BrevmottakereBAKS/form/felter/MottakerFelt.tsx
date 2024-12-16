@@ -1,8 +1,9 @@
 import React from 'react';
 import { Select } from '@navikt/ds-react';
 import { Controller, useFormContext } from 'react-hook-form';
-import { Mottaker, mottakerVisningsnavn } from '../BrevmottakereBAKS';
-import { BrevmottakerFeltnavn, BrevmottakerFeltProps } from '../BrevmottakerForm';
+import { Mottaker, mottakerVisningsnavn } from '../../BrevmottakereBAKS';
+import { BrevmottakerFeltProps } from '../brevmottakerFeltProps';
+import { BrevmottakerFeltnavn } from '../brevmottakerFeltnavn';
 
 type Props = BrevmottakerFeltProps;
 

@@ -6,10 +6,10 @@ import styled from 'styled-components';
 import { PlusCircleIcon } from '@navikt/aksel-icons';
 import { Alert, Button, Heading, Modal } from '@navikt/ds-react';
 
-import BrevmottakerForm from './BrevmottakerForm';
 import BrevmottakerTabell from './BrevmottakerTabell';
 import { BrevmottakerMedAdresse } from './BrevmottakereBAKS';
 import { useApp } from '../../../../App/context/AppContext';
+import { BrevmottakerForm } from './form/BrevmottakerForm';
 
 const StyledAlert = styled(Alert)`
     margin: 1rem 0 2.5rem;
