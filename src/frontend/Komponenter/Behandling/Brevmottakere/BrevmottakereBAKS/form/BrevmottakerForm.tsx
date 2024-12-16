@@ -4,7 +4,7 @@ import { LandvelgerFelt } from './felter/LandvelgerFelt';
 import { MottakerFelt } from './felter/MottakerFelt';
 import { Mottaker } from '../BrevmottakereBAKS';
 import { Submit } from './felter/Submit';
-import { FormDebugger } from './felter/FormDebugger';
+import { FormDebugger } from './FormDebugger';
 import { NavnFelt } from './felter/NavnFelt';
 import { AdresselinjeFelt } from './felter/AdresselinjeFelt';
 import { PostnummerFelt } from './felter/PostnummerFelt';
