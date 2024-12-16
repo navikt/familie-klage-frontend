@@ -48,12 +48,21 @@ const BrevmottakereWrapper: React.FC<{ behandlingId: string }> = ({ behandlingId
             status: RessursStatus.SUKSESS,
             data: [
                 {
-                    id: '9c1c2fce-2949-48e8-92ad-61edcec8f7a1',
-                    mottakertype: Mottakertype.DØDSBO,
+                    id: '1c1c2fce-2949-48e8-92ad-61edcec8f7a1',
+                    mottakertype: Mottakertype.VERGE,
                     navn: 'Kari Nordmann',
                     adresselinje1: 'Danskeveien 123, 1337, København',
                     land: 'DK',
                 },
+                /*
+                {
+                    id: '2c1c2fce-2949-48e8-92ad-61edcec8f7a1',
+                    mottakertype: Mottakertype.VERGE,
+                    navn: 'Ola Nordmann',
+                    adresselinje1: 'Danskeveien 123, 1337, København',
+                    land: 'NO',
+                },
+                 */
             ],
         });
         // }, [axiosRequest, behandlingId]);

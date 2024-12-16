@@ -43,6 +43,7 @@ export function BrevmottakerForm({
             data;
         const erUtenlandskLandkode = landkode !== EøsLandkode.NO;
         kallSettBrevmottakere({
+            id: '', // TODO : Fix me
             mottakertype: mottakertype,
             navn: navn,
             land: landkode,

@@ -28,7 +28,7 @@ export function MottakerFelt({
             control={control}
             name={feltnavn}
             rules={{
-                required: 'Mottaker er påkrevd.',
+                required: `${visningsnavn} er påkrevd.`,
                 deps: [BrevmottakerFeltnavn.LANDKODE],
             }}
             render={({ field, fieldState }) => {
@@ -65,8 +65,8 @@ export function MottakerFelt({
                     >
                         {Object.values(Mottakertype)
                             .filter(
-                                (mottaker) =>
-                                    !alleredeValgteMottakertype.some((m) => m === mottaker)
+                                (mottakertype) =>
+                                    !alleredeValgteMottakertype.some((m) => m === mottakertype)
                             )
                             .filter(
                                 (mottaker) =>

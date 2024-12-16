@@ -24,7 +24,7 @@ export function AdresselinjeFelt({
                 required: !valgfri ? `${visningsnavn} er påkrevd.` : undefined,
                 maxLength: {
                     value: 80,
-                    message: '${visningsnavn} kan ikke inneholde mer enn 80 tegn.',
+                    message: `${visningsnavn} kan ikke inneholde mer enn 80 tegn.`,
                 },
             }}
             render={({ field, fieldState }) => {

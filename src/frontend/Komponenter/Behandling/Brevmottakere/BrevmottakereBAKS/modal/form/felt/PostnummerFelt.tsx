@@ -16,10 +16,10 @@ export function PostnummerFelt({ feltnavn, visningsnavn, erLesevisning }: Props)
             rules={{
                 required:
                     getValues(BrevmottakerFeltnavn.LANDKODE) === EøsLandkode.NO
-                        ? 'Postnummer er påkrevd om landet er Norge.'
+                        ? `${visningsnavn} er påkrevd om landet er Norge.`
                         : false,
-                maxLength: { value: 4, message: 'Postnummer må inneholde 4 tegn.' },
-                minLength: { value: 4, message: 'Postnummer må inneholde 4 tegn.' },
+                maxLength: { value: 4, message: `${visningsnavn} må inneholde 4 tegn.` },
+                minLength: { value: 4, message: `${visningsnavn} må inneholde 4 tegn.` },
             }}
             render={({ field, fieldState }) => {
                 const visFeilmelding = fieldState.isTouched || formState.isSubmitted;
