@@ -39,7 +39,7 @@ interface Props {
 }
 
 const BrevmottakerTabell = ({ mottaker, slettBrevmottaker, erLesevisning }: Props) => {
-    const land = CountryData.getCountryInstance('nb').findByValue(mottaker.land);
+    const land = CountryData.getCountryInstance('nb').findByValue(mottaker.landkode);
 
     return (
         <StyledDiv>
@@ -73,7 +73,7 @@ const BrevmottakerTabell = ({ mottaker, slettBrevmottaker, erLesevisning }: Prop
                 <dd>{mottaker.poststed || '-'}</dd>
             </DefinitionList>
 
-            {mottaker.land !== 'NO' && (
+            {mottaker.landkode !== 'NO' && (
                 <Alert variant="info" inline>
                     Ved utenlandsk adresse skal postnummer og poststed legges i adresselinjene.
                 </Alert>

@@ -31,10 +31,12 @@ export function BrevmottakereOppsumering({ brevmottakere }: Props) {
     const utledNavnPåMottakere = (brevMottakere: Brevmottaker[]) => {
         return [
             ...brevMottakere.map((person) => {
-                const land = CountryData.getCountryInstance('nb').findByValue(person.land).label;
+                const land = CountryData.getCountryInstance('nb').findByValue(
+                    person.landkode
+                ).label;
                 return (
                     `${person.navn} (${mottakerVisningsnavn[person.mottakertype]}): ${person.adresselinje1}, ` +
-                    (person.land === 'NO'
+                    (person.landkode === 'NO'
                         ? `${person.postnummer}, ${person.poststed}, ${land}`
                         : `${land}`)
                 );

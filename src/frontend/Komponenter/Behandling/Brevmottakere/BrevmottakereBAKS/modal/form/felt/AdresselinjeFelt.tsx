@@ -1,7 +1,7 @@
 import { Controller, useFormContext } from 'react-hook-form';
 import React from 'react';
 import { TextField } from '@navikt/ds-react';
-import { BrevmottakerFeltProps } from '../brevmottakerFeltProps';
+import { BrevmottakerFeltProps } from './felttyper';
 
 type Props = BrevmottakerFeltProps & {
     valgfri?: boolean;

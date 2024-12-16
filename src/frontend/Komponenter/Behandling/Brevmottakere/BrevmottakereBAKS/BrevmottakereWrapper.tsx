@@ -26,7 +26,7 @@ export interface Brevmottaker {
     id: string;
     mottakertype: Mottakertype;
     navn: string;
-    land: string;
+    landkode: string;
     adresselinje1: string;
     adresselinje2?: string | null;
     postnummer?: string | null;
@@ -52,7 +52,7 @@ const BrevmottakereWrapper: React.FC<{ behandlingId: string }> = ({ behandlingId
                     mottakertype: Mottakertype.VERGE,
                     navn: 'Kari Nordmann',
                     adresselinje1: 'Danskeveien 123, 1337, København',
-                    land: 'DK',
+                    landkode: 'DK',
                 },
                 /*
                 {

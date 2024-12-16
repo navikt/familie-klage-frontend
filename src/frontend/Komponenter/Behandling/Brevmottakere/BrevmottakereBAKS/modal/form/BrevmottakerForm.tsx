@@ -11,10 +11,19 @@ import { PostnummerFelt } from './felt/PostnummerFelt';
 import { PoststedFelt } from './felt/PoststedFelt';
 import { Alert, VStack } from '@navikt/ds-react';
 import { EøsLandkode } from '../../../../../../Felles/Landvelger/landkode';
-import { BrevmottakerFeltnavn } from './brevmottakerFeltnavn';
-import { BrevmottakerFormState } from './brevmottakerFormState';
 import { useApp } from '../../../../../../App/context/AppContext';
 import { IPersonopplysninger } from '../../../../../../App/typer/personopplysninger';
+import { BrevmottakerFeltnavn } from './felt/felttyper';
+
+type FormValues = {
+    [BrevmottakerFeltnavn.MOTTAKERTYPE]: Mottakertype;
+    [BrevmottakerFeltnavn.LANDKODE]: EøsLandkode | '';
+    [BrevmottakerFeltnavn.NAVN]: string;
+    [BrevmottakerFeltnavn.ADRESSELINJE1]: string;
+    [BrevmottakerFeltnavn.ADRESSELINJE2]: string;
+    [BrevmottakerFeltnavn.POSTNUMMER]: string;
+    [BrevmottakerFeltnavn.POSTSTED]: string;
+};
 
 type Props = {
     behandlingId: string;
@@ -38,7 +47,7 @@ export function BrevmottakerForm({
             data: brevmottaker,
         });
 
-    const onSubmit: SubmitHandler<BrevmottakerFormState> = (data) => {
+    const onSubmit: SubmitHandler<FormValues> = (data) => {
         const { mottakertype, navn, landkode, adresselinje1, adresselinje2, postnummer, poststed } =
             data;
         const erUtenlandskLandkode = landkode !== EøsLandkode.NO;
@@ -46,7 +55,7 @@ export function BrevmottakerForm({
             id: '', // TODO : Fix me
             mottakertype: mottakertype,
             navn: navn,
-            land: landkode,
+            landkode: landkode,
             adresselinje1: adresselinje1,
             adresselinje2: adresselinje2,
             postnummer: erUtenlandskLandkode ? null : postnummer,
@@ -54,7 +63,7 @@ export function BrevmottakerForm({
         });
     };
 
-    const form = useForm<BrevmottakerFormState>({
+    const form = useForm<FormValues>({
         mode: 'all',
         defaultValues: {
             [BrevmottakerFeltnavn.MOTTAKERTYPE]: Mottakertype.BRUKER,
