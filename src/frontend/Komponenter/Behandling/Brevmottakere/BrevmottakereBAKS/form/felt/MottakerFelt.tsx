@@ -30,13 +30,19 @@ export function MottakerFelt({ feltnavn, visningsnavn, personopplysninger, erLes
                         onBlur={field.onBlur}
                         onChange={(event) => {
                             const value = event.target.value;
-                            if (value === Mottaker.BRUKER_MED_UTENLANDSK_ADRESSE) {
+                            if (
+                                value === Mottaker.BRUKER_MED_UTENLANDSK_ADRESSE ||
+                                value === Mottaker.DØDSBO
+                            ) {
                                 setValue(BrevmottakerFeltnavn.NAVN, personopplysninger.navn);
                             }
                             if (
                                 mottaker === Mottaker.BRUKER_MED_UTENLANDSK_ADRESSE &&
                                 value !== Mottaker.BRUKER_MED_UTENLANDSK_ADRESSE
                             ) {
+                                setValue(BrevmottakerFeltnavn.NAVN, '');
+                            }
+                            if (mottaker === Mottaker.DØDSBO && value !== Mottaker.DØDSBO) {
                                 setValue(BrevmottakerFeltnavn.NAVN, '');
                             }
                             field.onChange(event);

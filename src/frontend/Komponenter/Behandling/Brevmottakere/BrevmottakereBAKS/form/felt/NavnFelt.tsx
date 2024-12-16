@@ -35,7 +35,9 @@ export function NavnFelt({ feltnavn, visningsnavn, erLesevisning }: Props) {
                         onChange={field.onChange}
                         error={visFeilmelding && fieldState.error?.message}
                         readOnly={
-                            erLesevisning || mottaker === Mottaker.BRUKER_MED_UTENLANDSK_ADRESSE
+                            erLesevisning ||
+                            mottaker === Mottaker.BRUKER_MED_UTENLANDSK_ADRESSE ||
+                            mottaker === Mottaker.DØDSBO
                         }
                     />
                 );
