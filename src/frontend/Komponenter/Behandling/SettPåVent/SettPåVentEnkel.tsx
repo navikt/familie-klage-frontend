@@ -1,7 +1,7 @@
 import React, { FC, useCallback, useEffect, useState } from 'react';
 import { Behandling } from '../../../App/typer/fagsak';
 import { styled } from 'styled-components';
-import { Button, Heading, HStack, VStack } from '@navikt/ds-react';
+import { Button, Heading, HStack, Textarea, VStack } from '@navikt/ds-react';
 import { SaksbehandlerVelger } from './SaksbehandlerVelger';
 import {
     byggTomRessurs,
@@ -17,10 +17,16 @@ import { useBehandling } from '../../../App/context/BehandlingContext';
 import { PrioritetVelger } from './PrioritetVelger';
 import { BehandlingStatus } from '../../../App/typer/behandlingstatus';
 import { FristVelger } from './FristVelger';
+import BeskrivelseHistorikk from './BeskrivelseHistorikk';
+import { splitBeskrivelser } from './utils';
 
 const StyledVStack = styled(VStack)`
     background-color: #e6f1f8;
     padding: 2rem;
+`;
+
+const Beskrivelse = styled(Textarea)`
+    max-width: 60rem;
 `;
 
 type SettPåVentRequest = {
@@ -36,6 +42,7 @@ export const SettPåVentEnkel: FC<{ behandling: Behandling }> = ({ behandling })
     const [saksbehandler, settSaksbehandler] = useState<string>('');
     const [prioritet, settPrioritet] = useState<Prioritet | undefined>();
     const [frist, settFrist] = useState<string | undefined>();
+    const [beskrivelse, settBeskrivelse] = useState('');
 
     const erBehandlingPåVent = behandling.status === BehandlingStatus.SATT_PÅ_VENT;
 
@@ -68,13 +75,11 @@ export const SettPåVentEnkel: FC<{ behandling: Behandling }> = ({ behandling })
         const kanSettePåVent = prioritet && frist;
 
         if (!kanSettePåVent) {
-            console.log('HEI 1');
             return;
         }
 
         if (oppgave.status !== RessursStatus.SUKSESS || !oppgave.data.oppgaveId) {
             // TODO: Noe feilmelding og error håndtering.
-            console.log('HEI 2');
             return;
         } else {
             axiosRequest<string, SettPåVentRequest>({
@@ -85,7 +90,7 @@ export const SettPåVentEnkel: FC<{ behandling: Behandling }> = ({ behandling })
                     saksbehandler: saksbehandler,
                     prioritet: prioritet,
                     frist: frist,
-                    beskrivelse: 'Hei på deg!',
+                    beskrivelse: beskrivelse,
                 },
             })
                 .then((respons: RessursFeilet | RessursSuksess<string>) => {
@@ -94,14 +99,10 @@ export const SettPåVentEnkel: FC<{ behandling: Behandling }> = ({ behandling })
                         hentBehandling.rerun();
                         settVisSettPåVent(false);
                     } else {
-                        console.log('HEI 3');
                         // TODO: Noe feilet, gjør noe med feilen.
-                        console.log(respons.frontendFeilmelding);
-                        console.log(respons.errorMelding);
                     }
                 })
                 .finally(() => {
-                    console.log('HEI 4');
                     // TODO: Noe låsknapp greier.
                 });
         }
@@ -148,6 +149,21 @@ export const SettPåVentEnkel: FC<{ behandling: Behandling }> = ({ behandling })
                                 erLesevisning={erBehandlingPåVent}
                             />
                         </HStack>
+                        <BeskrivelseHistorikk
+                            beskrivelser={
+                                oppgave.beskrivelse ? splitBeskrivelser(oppgave?.beskrivelse) : [] // TODO: Kanskje fikse dette idk.
+                            }
+                        />
+                        {!erBehandlingPåVent && (
+                            <Beskrivelse
+                                label={'Beskrivelse'}
+                                size={'small'}
+                                value={beskrivelse}
+                                onChange={(e) => settBeskrivelse(e.target.value)}
+                            />
+                        )}
+
+                        {/*TODO: Flytt inn, kanskje lag komponent.*/}
                         <HStack justify="end" gap="4">
                             <Button
                                 onClick={() => settVisSettPåVent(false)}
