@@ -23,7 +23,7 @@ const KompaktButton = styled(Button)`
     justify-content: right;
 `;
 
-export enum Mottaker {
+export enum Mottakertype {
     BRUKER = 'BRUKER',
     BRUKER_MED_UTENLANDSK_ADRESSE = 'BRUKER_MED_UTENLANDSK_ADRESSE',
     FULLMEKTIG = 'FULLMEKTIG',
@@ -31,7 +31,7 @@ export enum Mottaker {
     DØDSBO = 'DØDSBO',
 }
 
-export const mottakerVisningsnavn: Record<Mottaker, string> = {
+export const mottakerVisningsnavn: Record<Mottakertype, string> = {
     BRUKER: 'Bruker',
     BRUKER_MED_UTENLANDSK_ADRESSE: 'Bruker med utenlandsk adresse',
     FULLMEKTIG: 'Fullmektig',
@@ -40,7 +40,7 @@ export const mottakerVisningsnavn: Record<Mottaker, string> = {
 };
 
 export interface BrevmottakerMedAdresse {
-    mottakerRolle: Mottaker;
+    mottakertype: Mottakertype;
     navn: string;
     land: string;
     adresselinje1: string;
@@ -63,7 +63,7 @@ const BrevmottakereContainer: React.FC<{
             ...brevMottakere.map((person) => {
                 const land = CountryData.getCountryInstance('nb').findByValue(person.land).label;
                 return (
-                    `${person.navn} (${mottakerVisningsnavn[person.mottakerRolle]}): ${person.adresselinje1}, ` +
+                    `${person.navn} (${mottakerVisningsnavn[person.mottakertype]}): ${person.adresselinje1}, ` +
                     (person.land === 'NO'
                         ? `${person.postnummer}, ${person.poststed}, ${land}`
                         : `${land}`)
@@ -74,11 +74,11 @@ const BrevmottakereContainer: React.FC<{
 
     const navn = utledNavnPåMottakere(mottakere);
     const flereBrevmottakereErValgt = navn.length > 1;
-    const brukerErBrevmottaker = mottakere.find(
-        (person) => person.mottakerRolle === Mottaker.BRUKER
+    const erBrevmottakerAvTypeBruker = mottakere.find(
+        (person) => person.mottakertype === Mottakertype.BRUKER
     );
 
-    return flereBrevmottakereErValgt || !brukerErBrevmottaker ? (
+    return flereBrevmottakereErValgt || !erBrevmottakerAvTypeBruker ? (
         <Alert variant={'info'}>
             <InfoHeader>
                 <Label>Brevmottakere:</Label>
@@ -135,7 +135,7 @@ const BrevmottakereBAKS: React.FC<{ behandlingId: string }> = ({ behandlingId })
             status: RessursStatus.SUKSESS,
             data: [
                 {
-                    mottakerRolle: Mottaker.DØDSBO,
+                    mottakertype: Mottakertype.DØDSBO,
                     navn: 'Kari Nordmann',
                     adresselinje1: 'Danskeveien 123, 1337, København',
                     land: 'DK',

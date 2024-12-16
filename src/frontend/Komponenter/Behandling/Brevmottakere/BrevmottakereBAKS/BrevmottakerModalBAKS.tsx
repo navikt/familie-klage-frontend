@@ -7,7 +7,7 @@ import { PlusCircleIcon } from '@navikt/aksel-icons';
 import { Alert, Button, Heading, Modal } from '@navikt/ds-react';
 
 import BrevmottakerTabell from './BrevmottakerTabell';
-import { BrevmottakerMedAdresse, Mottaker } from './BrevmottakereBAKS';
+import { BrevmottakerMedAdresse, Mottakertype } from './BrevmottakereBAKS';
 import { useApp } from '../../../../App/context/AppContext';
 import { BrevmottakerForm } from './form/BrevmottakerForm';
 import { IPersonopplysninger } from '../../../../App/typer/personopplysninger';
@@ -69,8 +69,8 @@ export const BrevmottakerModalBAKS = ({
     };
 
     const erBrevmottakerMedDødsbo = brevmottakere
-        .map((brevmottaker) => brevmottaker.mottakerRolle)
-        .some((mottakerRolle) => Mottaker.DØDSBO === mottakerRolle);
+        .map((brevmottaker) => brevmottaker.mottakertype)
+        .some((mottakertype) => Mottakertype.DØDSBO === mottakertype);
 
     return (
         <Modal

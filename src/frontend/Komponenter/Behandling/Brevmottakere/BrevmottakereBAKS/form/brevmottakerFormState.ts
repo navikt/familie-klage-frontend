@@ -1,9 +1,9 @@
 import { BrevmottakerFeltnavn } from './brevmottakerFeltnavn';
-import { Mottaker } from '../BrevmottakereBAKS';
+import { Mottakertype } from '../BrevmottakereBAKS';
 import { EøsLandkode } from '../../../../../Felles/Landvelger/landkode';
 
 export type BrevmottakerFormState = {
-    [BrevmottakerFeltnavn.MOTTAKER]: Mottaker;
+    [BrevmottakerFeltnavn.MOTTAKERTYPE]: Mottakertype;
     [BrevmottakerFeltnavn.LANDKODE]: EøsLandkode | '';
     [BrevmottakerFeltnavn.NAVN]: string;
     [BrevmottakerFeltnavn.ADRESSELINJE1]: string;

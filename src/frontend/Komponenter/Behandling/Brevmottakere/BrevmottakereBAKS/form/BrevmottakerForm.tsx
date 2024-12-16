@@ -2,7 +2,7 @@ import React from 'react';
 import { FormProvider, SubmitHandler, useForm } from 'react-hook-form';
 import { LandvelgerFelt } from './felt/LandvelgerFelt';
 import { MottakerFelt } from './felt/MottakerFelt';
-import { BrevmottakerMedAdresse, Mottaker } from '../BrevmottakereBAKS';
+import { BrevmottakerMedAdresse, Mottakertype } from '../BrevmottakereBAKS';
 import { Submit } from './felt/Submit';
 import { FormDebugger } from './FormDebugger';
 import { NavnFelt } from './felt/NavnFelt';
@@ -39,11 +39,11 @@ export function BrevmottakerForm({
         });
 
     const onSubmit: SubmitHandler<BrevmottakerFormState> = (data) => {
-        const { mottaker, navn, landkode, adresselinje1, adresselinje2, postnummer, poststed } =
+        const { mottakertype, navn, landkode, adresselinje1, adresselinje2, postnummer, poststed } =
             data;
         const erUtenlandskLandkode = landkode !== EøsLandkode.NO;
         kallSettBrevmottakere({
-            mottakerRolle: mottaker,
+            mottakertype: mottakertype,
             navn: navn,
             land: landkode,
             adresselinje1: adresselinje1,
@@ -56,7 +56,7 @@ export function BrevmottakerForm({
     const form = useForm<BrevmottakerFormState>({
         mode: 'all',
         defaultValues: {
-            [BrevmottakerFeltnavn.MOTTAKER]: Mottaker.BRUKER,
+            [BrevmottakerFeltnavn.MOTTAKERTYPE]: Mottakertype.BRUKER,
             [BrevmottakerFeltnavn.LANDKODE]: EøsLandkode.NO,
             [BrevmottakerFeltnavn.NAVN]: '',
             [BrevmottakerFeltnavn.ADRESSELINJE1]: '',
@@ -77,7 +77,7 @@ export function BrevmottakerForm({
             <form onSubmit={handleSubmit(onSubmit)}>
                 <VStack gap={'4'}>
                     <MottakerFelt
-                        feltnavn={BrevmottakerFeltnavn.MOTTAKER}
+                        feltnavn={BrevmottakerFeltnavn.MOTTAKERTYPE}
                         visningsnavn={'Mottaker'}
                         personopplysninger={personopplysninger}
                         brevmottakere={brevmottakere}

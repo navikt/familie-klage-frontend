@@ -4,7 +4,7 @@ import { TextField } from '@navikt/ds-react';
 import { BrevmottakerFeltProps } from '../brevmottakerFeltProps';
 import { IPersonopplysninger } from '../../../../../../App/typer/personopplysninger';
 import { BrevmottakerFeltnavn } from '../brevmottakerFeltnavn';
-import { Mottaker } from '../../BrevmottakereBAKS';
+import { Mottakertype } from '../../BrevmottakereBAKS';
 
 type Props = BrevmottakerFeltProps & {
     personopplysninger: IPersonopplysninger;
@@ -12,7 +12,7 @@ type Props = BrevmottakerFeltProps & {
 
 export function NavnFelt({ feltnavn, visningsnavn, erLesevisning }: Props) {
     const { control, formState, getValues } = useFormContext();
-    const mottaker = getValues(BrevmottakerFeltnavn.MOTTAKER);
+    const mottakertype = getValues(BrevmottakerFeltnavn.MOTTAKERTYPE);
     return (
         <Controller
             control={control}
@@ -36,8 +36,8 @@ export function NavnFelt({ feltnavn, visningsnavn, erLesevisning }: Props) {
                         error={visFeilmelding && fieldState.error?.message}
                         readOnly={
                             erLesevisning ||
-                            mottaker === Mottaker.BRUKER_MED_UTENLANDSK_ADRESSE ||
-                            mottaker === Mottaker.DØDSBO
+                            mottakertype === Mottakertype.BRUKER_MED_UTENLANDSK_ADRESSE ||
+                            mottakertype === Mottakertype.DØDSBO
                         }
                     />
                 );

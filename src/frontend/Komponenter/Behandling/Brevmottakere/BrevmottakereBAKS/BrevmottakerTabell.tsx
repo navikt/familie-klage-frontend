@@ -52,7 +52,7 @@ const BrevmottakerTabell = <T extends BrevmottakerMedAdresse | RestBrevmottakerM
     return (
         <StyledDiv>
             <FlexDiv>
-                <Heading size="medium">{mottakerVisningsnavn[mottaker.mottakerRolle]}</Heading>
+                <Heading size="medium">{mottakerVisningsnavn[mottaker.mottakertype]}</Heading>
                 {!erLesevisning && (
                     <Button
                         variant={'tertiary'}

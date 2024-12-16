@@ -1,5 +1,5 @@
 export enum BrevmottakerFeltnavn {
-    MOTTAKER = 'mottaker',
+    MOTTAKERTYPE = 'mottakertype',
     LANDKODE = 'landkode',
     NAVN = 'navn',
     ADRESSELINJE1 = 'adresselinje1',
