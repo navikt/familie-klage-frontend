@@ -15,6 +15,7 @@ export const FristVelger: FC<{
     });
 
     const formatertFristDato = formaterNullableIsoDato(oppgave.fristFerdigstillelse);
+    const dagensDato = new Date();
 
     return (
         <div>
@@ -24,7 +25,7 @@ export const FristVelger: FC<{
                     <BodyShort size="small">{formatertFristDato}</BodyShort>
                 </div>
             ) : (
-                <DatePicker {...datepickerProps}>
+                <DatePicker {...datepickerProps} fromDate={dagensDato}>
                     <DatePicker.Input label={'Frist'} {...inputProps} size={'small'} />
                 </DatePicker>
             )}

@@ -18,11 +18,13 @@ const BeskrivelseHistorikk: FC<{ beskrivelser: string[] }> = ({ beskrivelser }) 
 
     return (
         <>
-            <List as="ul" title="Beskrivelsehistorikk">
-                {visteBeskrivelser.map((beskrivelse, index) => (
-                    <List.Item key={index}>{beskrivelse}</List.Item>
-                ))}
-            </List>
+            {beskrivelser.length > 0 && (
+                <List as="ul" title="Beskrivelsehistorikk">
+                    {visteBeskrivelser.map((beskrivelse, index) => (
+                        <List.Item key={index}>{beskrivelse}</List.Item>
+                    ))}
+                </List>
+            )}
             {beskrivelser.length > 4 && (
                 <StyledButton
                     icon={visAlleBeskrivelser ? <ChevronUpIcon /> : <ChevronDownIcon />}
