@@ -2,20 +2,16 @@ import React from 'react';
 import { Select } from '@navikt/ds-react';
 import { Controller, useFormContext } from 'react-hook-form';
 import { Mottaker, mottakerVisningsnavn } from '../BrevmottakereBAKS';
-import { BrevmottakerFeltnavn, BrevmottakerFormState } from '../BrevmottakerForm';
+import { BrevmottakerFeltnavn, BrevmottakerFeltProps } from '../BrevmottakerForm';
 
-type Props = {
-    name: keyof BrevmottakerFormState;
-    label: string;
-    erLesevisning: boolean;
-};
+type Props = BrevmottakerFeltProps;
 
-export function MottakerFelt({ name, label, erLesevisning }: Props) {
+export function MottakerFelt({ feltnavn, visningsnavn, erLesevisning }: Props) {
     const { control, formState } = useFormContext();
     return (
         <Controller
             control={control}
-            name={name}
+            name={feltnavn}
             rules={{
                 required: 'Mottaker er påkrevd.',
                 deps: [BrevmottakerFeltnavn.LANDKODE],
@@ -24,7 +20,7 @@ export function MottakerFelt({ name, label, erLesevisning }: Props) {
                 const visFeilmelding = fieldState.isTouched || formState.isSubmitted;
                 return (
                     <Select
-                        label={label}
+                        label={visningsnavn}
                         value={field.value}
                         onBlur={field.onBlur}
                         onChange={field.onChange}

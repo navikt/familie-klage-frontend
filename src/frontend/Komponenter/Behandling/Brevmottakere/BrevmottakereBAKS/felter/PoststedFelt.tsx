@@ -1,21 +1,17 @@
 import { Controller, useFormContext } from 'react-hook-form';
-import { BrevmottakerFeltnavn, BrevmottakerFormState } from '../BrevmottakerForm';
+import { BrevmottakerFeltnavn, BrevmottakerFeltProps } from '../BrevmottakerForm';
 import React from 'react';
 import { TextField } from '@navikt/ds-react';
 import { EøsLandkode } from '../../../../../Felles/Landvelger/landkode';
 
-type Props = {
-    name: keyof BrevmottakerFormState;
-    label: string;
-    erLesevisning: boolean;
-};
+type Props = BrevmottakerFeltProps;
 
-export function PoststedFelt({ name, label, erLesevisning }: Props) {
+export function PoststedFelt({ feltnavn, visningsnavn, erLesevisning }: Props) {
     const { control, getValues, formState } = useFormContext();
     return (
         <Controller
             control={control}
-            name={name}
+            name={feltnavn}
             rules={{
                 required:
                     getValues()[BrevmottakerFeltnavn.LANDKODE] === EøsLandkode.NO
@@ -27,7 +23,7 @@ export function PoststedFelt({ name, label, erLesevisning }: Props) {
                 const visFeilmelding = fieldState.isTouched || formState.isSubmitted;
                 return (
                     <TextField
-                        label={label}
+                        label={visningsnavn}
                         value={field.value}
                         onBlur={field.onBlur}
                         onChange={field.onChange}

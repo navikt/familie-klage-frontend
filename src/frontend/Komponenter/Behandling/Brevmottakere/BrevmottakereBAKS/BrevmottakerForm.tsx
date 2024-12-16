@@ -32,6 +32,12 @@ export type BrevmottakerFormState = {
     [BrevmottakerFeltnavn.POSTSTED]: string;
 };
 
+export type BrevmottakerFeltProps = {
+    feltnavn: keyof BrevmottakerFormState;
+    visningsnavn: string;
+    erLesevisning?: boolean;
+};
+
 type Props = {
     erLesevisning: boolean; // TODO : Flytt til context?
 };
@@ -67,28 +73,28 @@ const BrevmottakerForm = ({ erLesevisning }: Props) => {
             <form onSubmit={handleSubmit(onSubmit)}>
                 <VStack gap={'4'}>
                     <MottakerFelt
-                        name={BrevmottakerFeltnavn.MOTTAKER}
-                        label={'Mottaker'}
+                        feltnavn={BrevmottakerFeltnavn.MOTTAKER}
+                        visningsnavn={'Mottaker'}
                         erLesevisning={erLesevisning}
                     />
                     <LandvelgerFelt
-                        name={BrevmottakerFeltnavn.LANDKODE}
-                        label={'Landvelger'}
+                        feltnavn={BrevmottakerFeltnavn.LANDKODE}
+                        visningsnavn={'Landvelger'}
                         erLesevisning={erLesevisning}
                     />
                     {erLandValgt && (
                         <>
                             <NavnFelt
-                                name={BrevmottakerFeltnavn.NAVN}
-                                label={'Navn'}
+                                feltnavn={BrevmottakerFeltnavn.NAVN}
+                                visningsnavn={'Navn'}
                                 erLesevisning={erLesevisning}
                             />
                             <AdresselinjeFelt
-                                name={BrevmottakerFeltnavn.ADRESSELINJE1}
-                                label={'Adresselinje 1'}
+                                feltnavn={BrevmottakerFeltnavn.ADRESSELINJE1}
+                                visningsnavn={'Adresselinje 1'}
                                 erLesevisning={erLesevisning}
-                                required={true}
-                                description={
+                                valgfri={false}
+                                beskrivelse={
                                     erUtenlandskAdresseValgt && (
                                         <Alert size={'small'} inline={true} variant={'info'}>
                                             Ved utenlandsk adresse skal postnummer og poststed
@@ -98,21 +104,21 @@ const BrevmottakerForm = ({ erLesevisning }: Props) => {
                                 }
                             />
                             <AdresselinjeFelt
-                                name={BrevmottakerFeltnavn.ADRESSELINJE2}
-                                label={'Adresselinje 2 (valgfri)'}
+                                feltnavn={BrevmottakerFeltnavn.ADRESSELINJE2}
+                                visningsnavn={'Adresselinje 2 (valgfri)'}
                                 erLesevisning={erLesevisning}
-                                required={false}
+                                valgfri={true}
                             />
                             {!erUtenlandskAdresseValgt && (
                                 <>
                                     <PostnummerFelt
-                                        name={BrevmottakerFeltnavn.POSTNUMMER}
-                                        label={'Postnummer'}
+                                        feltnavn={BrevmottakerFeltnavn.POSTNUMMER}
+                                        visningsnavn={'Postnummer'}
                                         erLesevisning={erLesevisning}
                                     />
                                     <PoststedFelt
-                                        name={BrevmottakerFeltnavn.POSTSTED}
-                                        label={'Poststed'}
+                                        feltnavn={BrevmottakerFeltnavn.POSTSTED}
+                                        visningsnavn={'Poststed'}
                                         erLesevisning={erLesevisning}
                                     />
                                 </>

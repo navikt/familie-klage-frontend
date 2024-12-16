@@ -1,21 +1,17 @@
 import { Controller, useFormContext } from 'react-hook-form';
-import { BrevmottakerFeltnavn, BrevmottakerFormState } from '../BrevmottakerForm';
+import { BrevmottakerFeltnavn, BrevmottakerFeltProps } from '../BrevmottakerForm';
 import React from 'react';
 import { TextField } from '@navikt/ds-react';
 import { EøsLandkode } from '../../../../../Felles/Landvelger/landkode';
 
-type Props = {
-    name: keyof BrevmottakerFormState;
-    label: string;
-    erLesevisning: boolean;
-};
+type Props = BrevmottakerFeltProps;
 
-export function PostnummerFelt({ name, label, erLesevisning }: Props) {
+export function PostnummerFelt({ feltnavn, visningsnavn, erLesevisning }: Props) {
     const { control, getValues, formState } = useFormContext();
     return (
         <Controller
             control={control}
-            name={name}
+            name={feltnavn}
             rules={{
                 required:
                     getValues()[BrevmottakerFeltnavn.LANDKODE] === EøsLandkode.NO
@@ -31,7 +27,7 @@ export function PostnummerFelt({ name, label, erLesevisning }: Props) {
                         htmlSize={4}
                         maxLength={4}
                         type={'number'}
-                        label={label}
+                        label={visningsnavn}
                         value={field.value}
                         onBlur={field.onBlur}
                         onChange={field.onChange}

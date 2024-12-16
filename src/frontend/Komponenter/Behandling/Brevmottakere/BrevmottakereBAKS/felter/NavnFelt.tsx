@@ -1,20 +1,16 @@
 import { Controller, useFormContext } from 'react-hook-form';
-import { BrevmottakerFormState } from '../BrevmottakerForm';
+import { BrevmottakerFeltProps } from '../BrevmottakerForm';
 import React from 'react';
 import { TextField } from '@navikt/ds-react';
 
-type Props = {
-    name: keyof BrevmottakerFormState;
-    label: string;
-    erLesevisning: boolean;
-};
+type Props = BrevmottakerFeltProps;
 
-export function NavnFelt({ name, label, erLesevisning }: Props) {
+export function NavnFelt({ feltnavn, visningsnavn, erLesevisning }: Props) {
     const { control, formState } = useFormContext();
     return (
         <Controller
             control={control}
-            name={name}
+            name={feltnavn}
             rules={{
                 required: 'Navn på person eller organisasjon er påkrevd.',
                 maxLength: {
@@ -27,7 +23,7 @@ export function NavnFelt({ name, label, erLesevisning }: Props) {
                 const visFeilmelding = fieldState.isTouched || formState.isSubmitted;
                 return (
                     <TextField
-                        label={label}
+                        label={visningsnavn}
                         value={field.value}
                         onBlur={field.onBlur}
                         onChange={field.onChange}

@@ -1,17 +1,13 @@
 import React from 'react';
 import { Controller, useFormContext } from 'react-hook-form';
-import { BrevmottakerFeltnavn, BrevmottakerFormState } from '../BrevmottakerForm';
+import { BrevmottakerFeltnavn, BrevmottakerFeltProps } from '../BrevmottakerForm';
 import { Mottaker } from '../BrevmottakereBAKS';
 import { EøsLandkode } from '../../../../../Felles/Landvelger/landkode';
 import { Landvelger } from '../../../../../Felles/Landvelger/Landvelger';
 
-type Props = {
-    name: keyof BrevmottakerFormState;
-    label: string;
-    erLesevisning: boolean;
-};
+type Props = BrevmottakerFeltProps;
 
-export function LandvelgerFelt({ name, label, erLesevisning }: Props) {
+export function LandvelgerFelt({ feltnavn, visningsnavn, erLesevisning }: Props) {
     const { control, getValues, formState } = useFormContext();
     return (
         <Controller
@@ -30,12 +26,12 @@ export function LandvelgerFelt({ name, label, erLesevisning }: Props) {
                 },
                 deps: [BrevmottakerFeltnavn.POSTNUMMER, BrevmottakerFeltnavn.POSTSTED],
             }}
-            name={name}
+            name={feltnavn}
             render={({ field, fieldState }) => {
                 const visFeilmelding = fieldState.isTouched || formState.isSubmitted;
                 return (
                     <Landvelger
-                        label={label}
+                        label={visningsnavn}
                         ref={field.ref}
                         onBlur={field.onBlur}
                         value={field.value}
