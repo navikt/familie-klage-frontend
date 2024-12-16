@@ -40,6 +40,7 @@ export const mottakerVisningsnavn: Record<Mottakertype, string> = {
 };
 
 export interface Brevmottaker {
+    id: string;
     mottakertype: Mottakertype;
     navn: string;
     land: string;
@@ -47,10 +48,6 @@ export interface Brevmottaker {
     adresselinje2?: string | null;
     postnummer?: string | null;
     poststed?: string | null;
-}
-
-export interface BrevmottakerDto extends Brevmottaker {
-    id: number;
 }
 
 const BrevmottakereContainer: React.FC<{
@@ -134,6 +131,7 @@ const BrevmottakereBAKS: React.FC<{ behandlingId: string }> = ({ behandlingId })
             status: RessursStatus.SUKSESS,
             data: [
                 {
+                    id: '9c1c2fce-2949-48e8-92ad-61edcec8f7a1',
                     mottakertype: Mottakertype.DØDSBO,
                     navn: 'Kari Nordmann',
                     adresselinje1: 'Danskeveien 123, 1337, København',
