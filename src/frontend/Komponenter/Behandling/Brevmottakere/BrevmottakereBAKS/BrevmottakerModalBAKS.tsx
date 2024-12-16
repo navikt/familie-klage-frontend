@@ -25,11 +25,11 @@ const LukkKnapp = styled(Button)`
     margin-top: 2.5rem;
 `;
 
-interface Props<T extends BrevmottakerMedAdresse> {
+interface Props {
     behandlingId: string;
     personopplysninger: IPersonopplysninger;
-    brevmottakere: T[];
-    fjernMottaker: (mottaker: T) => void;
+    brevmottakere: BrevmottakerMedAdresse[];
+    fjernMottaker: (mottaker: BrevmottakerMedAdresse) => void;
     erLesevisning: boolean;
 }
 
@@ -45,13 +45,13 @@ const utledHeading = (antallMottakere: number, erLesevisning: boolean) => {
     }
 };
 
-export const BrevmottakerModalBAKS = <T extends BrevmottakerMedAdresse>({
+export const BrevmottakerModalBAKS = ({
     behandlingId,
     personopplysninger,
     brevmottakere,
     fjernMottaker,
     erLesevisning,
-}: Props<T>) => {
+}: Props) => {
     const { settVisBrevmottakereModal, visBrevmottakereModal } = useApp();
     const heading = utledHeading(brevmottakere.length, erLesevisning);
 
@@ -98,6 +98,7 @@ export const BrevmottakerModalBAKS = <T extends BrevmottakerMedAdresse>({
                         <BrevmottakerForm
                             behandlingId={behandlingId}
                             personopplysninger={personopplysninger}
+                            brevmottakere={brevmottakere}
                             erLesevisning={false}
                         />
                     </>

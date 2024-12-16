@@ -19,10 +19,16 @@ import { IPersonopplysninger } from '../../../../../App/typer/personopplysninger
 type Props = {
     behandlingId: string;
     personopplysninger: IPersonopplysninger;
+    brevmottakere: BrevmottakerMedAdresse[];
     erLesevisning: boolean; // TODO : Flytt til context?
 };
 
-export function BrevmottakerForm({ behandlingId, personopplysninger, erLesevisning }: Props) {
+export function BrevmottakerForm({
+    behandlingId,
+    personopplysninger,
+    brevmottakere,
+    erLesevisning,
+}: Props) {
     const { axiosRequest } = useApp();
 
     const kallSettBrevmottakere = (brevmottaker: BrevmottakerMedAdresse) =>
@@ -74,6 +80,7 @@ export function BrevmottakerForm({ behandlingId, personopplysninger, erLesevisni
                         feltnavn={BrevmottakerFeltnavn.MOTTAKER}
                         visningsnavn={'Mottaker'}
                         personopplysninger={personopplysninger}
+                        brevmottakere={brevmottakere}
                         erLesevisning={erLesevisning}
                     />
                     <LandvelgerFelt

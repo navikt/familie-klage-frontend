@@ -134,20 +134,12 @@ const BrevmottakereBAKS: React.FC<{ behandlingId: string }> = ({ behandlingId })
         settMottakere({
             status: RessursStatus.SUKSESS,
             data: [
-                // {
-                //     type: Mottaker.BRUKER,
-                //     navn: 'Ola Nordmann',
-                //     adresselinje1: 'Osloveien 82',
-                //     postnummer: '0270',
-                //     poststed: 'Oslo',
-                //     landkode: 'NO',
-                // },
-                // {
-                //     type: Mottaker.VERGE,
-                //     navn: 'Kari Nordmann',
-                //     adresselinje1: 'Danskeveien 123, 1337, København',
-                //     landkode: 'DK',
-                // },
+                {
+                    mottakerRolle: Mottaker.VERGE,
+                    navn: 'Kari Nordmann',
+                    adresselinje1: 'Danskeveien 123, 1337, København',
+                    land: 'DK',
+                },
             ],
         });
         // }, [axiosRequest, behandlingId]);

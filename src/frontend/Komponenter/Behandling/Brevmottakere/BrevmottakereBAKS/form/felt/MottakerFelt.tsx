@@ -1,18 +1,28 @@
 import React from 'react';
 import { Select } from '@navikt/ds-react';
 import { Controller, useFormContext } from 'react-hook-form';
-import { Mottaker, mottakerVisningsnavn } from '../../BrevmottakereBAKS';
+import { BrevmottakerMedAdresse, Mottaker, mottakerVisningsnavn } from '../../BrevmottakereBAKS';
 import { BrevmottakerFeltProps } from '../brevmottakerFeltProps';
 import { BrevmottakerFeltnavn } from '../brevmottakerFeltnavn';
 import { IPersonopplysninger } from '../../../../../../App/typer/personopplysninger';
 
 type Props = BrevmottakerFeltProps & {
     personopplysninger: IPersonopplysninger;
+    brevmottakere: BrevmottakerMedAdresse[];
 };
 
-export function MottakerFelt({ feltnavn, visningsnavn, personopplysninger, erLesevisning }: Props) {
+export function MottakerFelt({
+    feltnavn,
+    visningsnavn,
+    personopplysninger,
+    brevmottakere,
+    erLesevisning,
+}: Props) {
     const { control, formState, setValue, getValues } = useFormContext();
     const mottaker = getValues(BrevmottakerFeltnavn.MOTTAKER);
+    const alleredeValgteMottakerRoller = brevmottakere.map(
+        (brevmottaker) => brevmottaker.mottakerRolle
+    );
     return (
         <Controller
             control={control}
@@ -50,11 +60,16 @@ export function MottakerFelt({ feltnavn, visningsnavn, personopplysninger, erLes
                         error={visFeilmelding && fieldState.error?.message}
                         readOnly={erLesevisning}
                     >
-                        {Object.values(Mottaker).map((mottaker) => (
-                            <option key={mottaker} value={mottaker}>
-                                {mottakerVisningsnavn[mottaker]}
-                            </option>
-                        ))}
+                        {Object.values(Mottaker)
+                            .filter(
+                                (mottaker) =>
+                                    !alleredeValgteMottakerRoller.some((m) => m === mottaker)
+                            )
+                            .map((mottaker) => (
+                                <option key={mottaker} value={mottaker}>
+                                    {mottakerVisningsnavn[mottaker]}
+                                </option>
+                            ))}
                     </Select>
                 );
             }}
