@@ -4,11 +4,15 @@ import { Controller, useFormContext } from 'react-hook-form';
 import { Mottaker, mottakerVisningsnavn } from '../../BrevmottakereBAKS';
 import { BrevmottakerFeltProps } from '../brevmottakerFeltProps';
 import { BrevmottakerFeltnavn } from '../brevmottakerFeltnavn';
+import { IPersonopplysninger } from '../../../../../../App/typer/personopplysninger';
 
-type Props = BrevmottakerFeltProps;
+type Props = BrevmottakerFeltProps & {
+    personopplysninger: IPersonopplysninger;
+};
 
-export function MottakerFelt({ feltnavn, visningsnavn, erLesevisning }: Props) {
-    const { control, formState } = useFormContext();
+export function MottakerFelt({ feltnavn, visningsnavn, personopplysninger, erLesevisning }: Props) {
+    const { control, formState, setValue, getValues } = useFormContext();
+    const mottaker = getValues(BrevmottakerFeltnavn.MOTTAKER);
     return (
         <Controller
             control={control}
@@ -24,7 +28,19 @@ export function MottakerFelt({ feltnavn, visningsnavn, erLesevisning }: Props) {
                         label={visningsnavn}
                         value={field.value}
                         onBlur={field.onBlur}
-                        onChange={field.onChange}
+                        onChange={(event) => {
+                            const value = event.target.value;
+                            if (value === Mottaker.BRUKER_MED_UTENLANDSK_ADRESSE) {
+                                setValue(BrevmottakerFeltnavn.NAVN, personopplysninger.navn);
+                            }
+                            if (
+                                mottaker === Mottaker.BRUKER_MED_UTENLANDSK_ADRESSE &&
+                                value !== Mottaker.BRUKER_MED_UTENLANDSK_ADRESSE
+                            ) {
+                                setValue(BrevmottakerFeltnavn.NAVN, '');
+                            }
+                            field.onChange(event);
+                        }}
                         error={visFeilmelding && fieldState.error?.message}
                         readOnly={erLesevisning}
                     >

@@ -2,11 +2,17 @@ import { Controller, useFormContext } from 'react-hook-form';
 import React from 'react';
 import { TextField } from '@navikt/ds-react';
 import { BrevmottakerFeltProps } from '../brevmottakerFeltProps';
+import { IPersonopplysninger } from '../../../../../../App/typer/personopplysninger';
+import { BrevmottakerFeltnavn } from '../brevmottakerFeltnavn';
+import { Mottaker } from '../../BrevmottakereBAKS';
 
-type Props = BrevmottakerFeltProps;
+type Props = BrevmottakerFeltProps & {
+    personopplysninger: IPersonopplysninger;
+};
 
 export function NavnFelt({ feltnavn, visningsnavn, erLesevisning }: Props) {
-    const { control, formState } = useFormContext();
+    const { control, formState, getValues } = useFormContext();
+    const mottaker = getValues(BrevmottakerFeltnavn.MOTTAKER);
     return (
         <Controller
             control={control}
@@ -28,7 +34,9 @@ export function NavnFelt({ feltnavn, visningsnavn, erLesevisning }: Props) {
                         onBlur={field.onBlur}
                         onChange={field.onChange}
                         error={visFeilmelding && fieldState.error?.message}
-                        readOnly={erLesevisning}
+                        readOnly={
+                            erLesevisning || mottaker === Mottaker.BRUKER_MED_UTENLANDSK_ADRESSE
+                        }
                     />
                 );
             }}

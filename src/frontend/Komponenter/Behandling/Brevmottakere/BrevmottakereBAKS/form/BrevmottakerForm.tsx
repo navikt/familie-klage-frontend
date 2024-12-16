@@ -14,13 +14,15 @@ import { EøsLandkode } from '../../../../../Felles/Landvelger/landkode';
 import { BrevmottakerFeltnavn } from './brevmottakerFeltnavn';
 import { BrevmottakerFormState } from './brevmottakerFormState';
 import { useApp } from '../../../../../App/context/AppContext';
+import { IPersonopplysninger } from '../../../../../App/typer/personopplysninger';
 
 type Props = {
     behandlingId: string;
+    personopplysninger: IPersonopplysninger;
     erLesevisning: boolean; // TODO : Flytt til context?
 };
 
-export function BrevmottakerForm({ behandlingId, erLesevisning }: Props) {
+export function BrevmottakerForm({ behandlingId, personopplysninger, erLesevisning }: Props) {
     const { axiosRequest } = useApp();
 
     const kallSettBrevmottakere = (brevmottaker: BrevmottakerMedAdresse) =>
@@ -71,6 +73,7 @@ export function BrevmottakerForm({ behandlingId, erLesevisning }: Props) {
                     <MottakerFelt
                         feltnavn={BrevmottakerFeltnavn.MOTTAKER}
                         visningsnavn={'Mottaker'}
+                        personopplysninger={personopplysninger}
                         erLesevisning={erLesevisning}
                     />
                     <LandvelgerFelt
@@ -83,6 +86,7 @@ export function BrevmottakerForm({ behandlingId, erLesevisning }: Props) {
                             <NavnFelt
                                 feltnavn={BrevmottakerFeltnavn.NAVN}
                                 visningsnavn={'Navn'}
+                                personopplysninger={personopplysninger}
                                 erLesevisning={erLesevisning}
                             />
                             <AdresselinjeFelt

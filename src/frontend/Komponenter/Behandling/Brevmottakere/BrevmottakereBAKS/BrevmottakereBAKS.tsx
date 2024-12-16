@@ -159,11 +159,12 @@ const BrevmottakereBAKS: React.FC<{ behandlingId: string }> = ({ behandlingId })
 
     return (
         <DataViewer response={{ mottakere, personopplysningerResponse }}>
-            {({ mottakere }) => (
+            {({ mottakere, personopplysningerResponse }) => (
                 <>
                     <BrevmottakereContainer mottakere={mottakere} />
                     <BrevmottakerModalBAKS
                         behandlingId={behandlingId}
+                        personopplysninger={personopplysningerResponse}
                         brevmottakere={mottakere}
                         fjernMottaker={() => {}}
                         erLesevisning={false}

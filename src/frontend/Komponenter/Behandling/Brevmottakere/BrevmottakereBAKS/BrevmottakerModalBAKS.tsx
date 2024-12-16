@@ -10,6 +10,7 @@ import BrevmottakerTabell from './BrevmottakerTabell';
 import { BrevmottakerMedAdresse } from './BrevmottakereBAKS';
 import { useApp } from '../../../../App/context/AppContext';
 import { BrevmottakerForm } from './form/BrevmottakerForm';
+import { IPersonopplysninger } from '../../../../App/typer/personopplysninger';
 
 const StyledAlert = styled(Alert)`
     margin: 1rem 0 2.5rem;
@@ -26,6 +27,7 @@ const LukkKnapp = styled(Button)`
 
 interface Props<T extends BrevmottakerMedAdresse> {
     behandlingId: string;
+    personopplysninger: IPersonopplysninger;
     brevmottakere: T[];
     fjernMottaker: (mottaker: T) => void;
     erLesevisning: boolean;
@@ -45,6 +47,7 @@ const utledHeading = (antallMottakere: number, erLesevisning: boolean) => {
 
 export const BrevmottakerModalBAKS = <T extends BrevmottakerMedAdresse>({
     behandlingId,
+    personopplysninger,
     brevmottakere,
     fjernMottaker,
     erLesevisning,
@@ -92,7 +95,11 @@ export const BrevmottakerModalBAKS = <T extends BrevmottakerMedAdresse>({
                         {brevmottakere.length === 1 && (
                             <StyledHeading size="medium">Ny mottaker</StyledHeading>
                         )}
-                        <BrevmottakerForm behandlingId={behandlingId} erLesevisning={false} />
+                        <BrevmottakerForm
+                            behandlingId={behandlingId}
+                            personopplysninger={personopplysninger}
+                            erLesevisning={false}
+                        />
                     </>
                 ) : (
                     <>
