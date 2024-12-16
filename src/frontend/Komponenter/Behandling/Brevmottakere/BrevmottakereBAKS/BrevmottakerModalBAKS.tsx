@@ -29,7 +29,7 @@ interface Props {
     behandlingId: string;
     personopplysninger: IPersonopplysninger;
     brevmottakere: Brevmottaker[];
-    fjernMottaker: (mottaker: Brevmottaker) => void;
+    fjernMottaker: (brevmottakerId: string) => void;
     erLesevisning: boolean;
 }
 

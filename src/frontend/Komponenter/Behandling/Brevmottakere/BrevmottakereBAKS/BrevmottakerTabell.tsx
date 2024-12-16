@@ -6,7 +6,7 @@ import { TrashIcon } from '@navikt/aksel-icons';
 import { Alert, Button, Heading } from '@navikt/ds-react';
 import { AFontWeightBold } from '@navikt/ds-tokens/dist/tokens';
 import CountryData from '@navikt/land-verktoy';
-import { Brevmottaker, mottakerVisningsnavn, BrevmottakerDto } from './BrevmottakereBAKS';
+import { Brevmottaker, mottakerVisningsnavn } from './BrevmottakereBAKS';
 
 const FlexDiv = styled.div`
     display: flex;
@@ -32,17 +32,13 @@ const DefinitionList = styled.dl`
     }
 `;
 
-interface Props<T extends Brevmottaker | BrevmottakerDto> {
-    mottaker: T;
-    fjernMottaker: (mottaker: T) => void;
+interface Props {
+    mottaker: Brevmottaker;
+    fjernMottaker: (brevmottakerId: string) => void;
     erLesevisning: boolean;
 }
 
-const BrevmottakerTabell = <T extends Brevmottaker | BrevmottakerDto>({
-    mottaker,
-    fjernMottaker,
-    erLesevisning,
-}: Props<T>) => {
+const BrevmottakerTabell = ({ mottaker, fjernMottaker, erLesevisning }: Props) => {
     const land = CountryData.getCountryInstance('nb').findByValue(mottaker.land);
 
     return (
@@ -52,7 +48,7 @@ const BrevmottakerTabell = <T extends Brevmottaker | BrevmottakerDto>({
                 {!erLesevisning && (
                     <Button
                         variant={'tertiary'}
-                        onClick={() => fjernMottaker(mottaker)}
+                        onClick={() => fjernMottaker(mottaker.id)}
                         loading={false}
                         disabled={false}
                         size={'small'}
