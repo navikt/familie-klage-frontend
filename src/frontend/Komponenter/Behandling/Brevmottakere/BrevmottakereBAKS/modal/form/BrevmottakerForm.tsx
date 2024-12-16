@@ -2,7 +2,7 @@ import React from 'react';
 import { FormProvider, SubmitHandler, useForm } from 'react-hook-form';
 import { LandvelgerFelt } from './felt/LandvelgerFelt';
 import { MottakerFelt } from './felt/MottakerFelt';
-import { Brevmottaker, Mottakertype } from '../../BrevmottakereBAKS';
+import { Brevmottaker, Mottakertype } from '../../BrevmottakereWrapper';
 import { Submit } from './felt/Submit';
 import { FormDebugger } from './FormDebugger';
 import { NavnFelt } from './felt/NavnFelt';

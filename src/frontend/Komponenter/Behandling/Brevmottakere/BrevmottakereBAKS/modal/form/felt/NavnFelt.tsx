@@ -4,7 +4,7 @@ import { TextField } from '@navikt/ds-react';
 import { BrevmottakerFeltProps } from '../brevmottakerFeltProps';
 import { IPersonopplysninger } from '../../../../../../../App/typer/personopplysninger';
 import { BrevmottakerFeltnavn } from '../brevmottakerFeltnavn';
-import { Mottakertype } from '../../../BrevmottakereBAKS';
+import { Mottakertype } from '../../../BrevmottakereWrapper';
 
 type Props = BrevmottakerFeltProps & {
     personopplysninger: IPersonopplysninger;

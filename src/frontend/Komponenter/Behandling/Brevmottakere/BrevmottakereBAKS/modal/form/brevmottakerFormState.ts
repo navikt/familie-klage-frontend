@@ -1,5 +1,5 @@
 import { BrevmottakerFeltnavn } from './brevmottakerFeltnavn';
-import { Mottakertype } from '../../BrevmottakereBAKS';
+import { Mottakertype } from '../../BrevmottakereWrapper';
 import { EøsLandkode } from '../../../../../../Felles/Landvelger/landkode';
 
 export type BrevmottakerFormState = {
