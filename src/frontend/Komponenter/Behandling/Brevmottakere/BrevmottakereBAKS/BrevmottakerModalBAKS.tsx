@@ -7,7 +7,7 @@ import { PlusCircleIcon } from '@navikt/aksel-icons';
 import { Alert, Button, Heading, Modal } from '@navikt/ds-react';
 
 import BrevmottakerTabell from './BrevmottakerTabell';
-import { BrevmottakerMedAdresse, Mottakertype } from './BrevmottakereBAKS';
+import { Brevmottaker, Mottakertype } from './BrevmottakereBAKS';
 import { useApp } from '../../../../App/context/AppContext';
 import { BrevmottakerForm } from './form/BrevmottakerForm';
 import { IPersonopplysninger } from '../../../../App/typer/personopplysninger';
@@ -28,8 +28,8 @@ const LukkKnapp = styled(Button)`
 interface Props {
     behandlingId: string;
     personopplysninger: IPersonopplysninger;
-    brevmottakere: BrevmottakerMedAdresse[];
-    fjernMottaker: (mottaker: BrevmottakerMedAdresse) => void;
+    brevmottakere: Brevmottaker[];
+    fjernMottaker: (mottaker: Brevmottaker) => void;
     erLesevisning: boolean;
 }
 

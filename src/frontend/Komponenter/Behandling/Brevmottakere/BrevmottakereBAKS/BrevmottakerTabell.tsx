@@ -6,11 +6,7 @@ import { TrashIcon } from '@navikt/aksel-icons';
 import { Alert, Button, Heading } from '@navikt/ds-react';
 import { AFontWeightBold } from '@navikt/ds-tokens/dist/tokens';
 import CountryData from '@navikt/land-verktoy';
-import {
-    BrevmottakerMedAdresse,
-    mottakerVisningsnavn,
-    RestBrevmottakerMedAdresse,
-} from './BrevmottakereBAKS';
+import { Brevmottaker, mottakerVisningsnavn, BrevmottakerDto } from './BrevmottakereBAKS';
 
 const FlexDiv = styled.div`
     display: flex;
@@ -36,13 +32,13 @@ const DefinitionList = styled.dl`
     }
 `;
 
-interface Props<T extends BrevmottakerMedAdresse | RestBrevmottakerMedAdresse> {
+interface Props<T extends Brevmottaker | BrevmottakerDto> {
     mottaker: T;
     fjernMottaker: (mottaker: T) => void;
     erLesevisning: boolean;
 }
 
-const BrevmottakerTabell = <T extends BrevmottakerMedAdresse | RestBrevmottakerMedAdresse>({
+const BrevmottakerTabell = <T extends Brevmottaker | BrevmottakerDto>({
     mottaker,
     fjernMottaker,
     erLesevisning,

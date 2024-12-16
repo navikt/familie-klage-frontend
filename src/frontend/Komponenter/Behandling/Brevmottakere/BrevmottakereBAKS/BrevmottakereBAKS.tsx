@@ -39,7 +39,7 @@ export const mottakerVisningsnavn: Record<Mottakertype, string> = {
     DØDSBO: 'Dødsbo',
 };
 
-export interface BrevmottakerMedAdresse {
+export interface Brevmottaker {
     mottakertype: Mottakertype;
     navn: string;
     land: string;
@@ -49,16 +49,16 @@ export interface BrevmottakerMedAdresse {
     poststed?: string | null;
 }
 
-export interface RestBrevmottakerMedAdresse extends BrevmottakerMedAdresse {
+export interface BrevmottakerDto extends Brevmottaker {
     id: number;
 }
 
 const BrevmottakereContainer: React.FC<{
-    mottakere: BrevmottakerMedAdresse[];
+    mottakere: Brevmottaker[];
 }> = ({ mottakere }) => {
     const { settVisBrevmottakereModal } = useApp();
     const { behandlingErRedigerbar } = useBehandling();
-    const utledNavnPåMottakere = (brevMottakere: BrevmottakerMedAdresse[]) => {
+    const utledNavnPåMottakere = (brevMottakere: Brevmottaker[]) => {
         return [
             ...brevMottakere.map((person) => {
                 const land = CountryData.getCountryInstance('nb').findByValue(person.land).label;
@@ -122,14 +122,13 @@ const BrevmottakereContainer: React.FC<{
 const BrevmottakereBAKS: React.FC<{ behandlingId: string }> = ({ behandlingId }) => {
     // const { axiosRequest } = useApp();
     const { personopplysningerResponse } = useBehandling();
-    const [mottakere, settMottakere] =
-        useState<Ressurs<BrevmottakerMedAdresse[]>>(byggTomRessurs());
+    const [mottakere, settMottakere] = useState<Ressurs<Brevmottaker[]>>(byggTomRessurs());
 
     const hentBrevmottakere = useCallback(() => {
-        // axiosRequest<BrevmottakerMedAdresse[], null>({
+        // axiosRequest<Brevmottaker[], null>({
         //     method: 'GET',
         //     url: `/familie-klage/api/brev/${behandlingId}/mottakere`,
-        // }).then((res: Ressurs<BrevmottakerMedAdresse[]>) => settMottakere(res));
+        // }).then((res: Ressurs<Brevmottaker[]>) => settMottakere(res));
 
         settMottakere({
             status: RessursStatus.SUKSESS,

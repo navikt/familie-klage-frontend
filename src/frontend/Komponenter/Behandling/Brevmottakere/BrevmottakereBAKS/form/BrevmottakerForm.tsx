@@ -2,7 +2,7 @@ import React from 'react';
 import { FormProvider, SubmitHandler, useForm } from 'react-hook-form';
 import { LandvelgerFelt } from './felt/LandvelgerFelt';
 import { MottakerFelt } from './felt/MottakerFelt';
-import { BrevmottakerMedAdresse, Mottakertype } from '../BrevmottakereBAKS';
+import { Brevmottaker, Mottakertype } from '../BrevmottakereBAKS';
 import { Submit } from './felt/Submit';
 import { FormDebugger } from './FormDebugger';
 import { NavnFelt } from './felt/NavnFelt';
@@ -19,7 +19,7 @@ import { IPersonopplysninger } from '../../../../../App/typer/personopplysninger
 type Props = {
     behandlingId: string;
     personopplysninger: IPersonopplysninger;
-    brevmottakere: BrevmottakerMedAdresse[];
+    brevmottakere: Brevmottaker[];
     erLesevisning: boolean; // TODO : Flytt til context?
 };
 
@@ -31,8 +31,8 @@ export function BrevmottakerForm({
 }: Props) {
     const { axiosRequest } = useApp();
 
-    const kallSettBrevmottakere = (brevmottaker: BrevmottakerMedAdresse) =>
-        axiosRequest<BrevmottakerMedAdresse, BrevmottakerMedAdresse>({
+    const kallSettBrevmottakere = (brevmottaker: Brevmottaker) =>
+        axiosRequest<Brevmottaker, Brevmottaker>({
             url: `familie-klage/api/brevmottaker-med-adresse/${behandlingId}/mottakere`,
             method: 'POST',
             data: brevmottaker,
