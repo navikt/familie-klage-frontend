@@ -65,6 +65,11 @@ export function MottakerFelt({
                                 (mottaker) =>
                                     !alleredeValgteMottakerRoller.some((m) => m === mottaker)
                             )
+                            .filter(
+                                (mottaker) =>
+                                    mottaker !== Mottaker.DØDSBO ||
+                                    alleredeValgteMottakerRoller.length === 0
+                            )
                             .map((mottaker) => (
                                 <option key={mottaker} value={mottaker}>
                                     {mottakerVisningsnavn[mottaker]}
