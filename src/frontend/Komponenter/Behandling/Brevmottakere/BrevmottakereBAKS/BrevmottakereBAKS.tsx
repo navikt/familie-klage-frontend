@@ -5,7 +5,6 @@ import { Alert, BodyShort, Button, Label, Tooltip } from '@navikt/ds-react';
 import DataViewer from '../../../../Felles/DataViewer/DataViewer';
 import { useBehandling } from '../../../../App/context/BehandlingContext';
 import { byggTomRessurs, Ressurs, RessursStatus } from '../../../../App/typer/ressurs';
-import { Behandling } from '../../../../App/typer/fagsak';
 import CountryData from '@navikt/land-verktoy';
 import { BrevmottakerModalBAKS } from './BrevmottakerModalBAKS';
 
@@ -45,9 +44,9 @@ export interface BrevmottakerMedAdresse {
     navn: string;
     land: string;
     adresselinje1: string;
-    adresselinje2?: string;
-    postnummer?: string;
-    poststed?: string;
+    adresselinje2?: string | null;
+    postnummer?: string | null;
+    poststed?: string | null;
 }
 
 export interface RestBrevmottakerMedAdresse extends BrevmottakerMedAdresse {
@@ -120,8 +119,8 @@ const BrevmottakereContainer: React.FC<{
     );
 };
 
-const BrevmottakereBAKS: React.FC<{ behandling: Behandling }> = ({ behandling }) => {
-    const { axiosRequest } = useApp();
+const BrevmottakereBAKS: React.FC<{ behandlingId: string }> = ({ behandlingId }) => {
+    // const { axiosRequest } = useApp();
     const { personopplysningerResponse } = useBehandling();
     const [mottakere, settMottakere] =
         useState<Ressurs<BrevmottakerMedAdresse[]>>(byggTomRessurs());
@@ -129,7 +128,7 @@ const BrevmottakereBAKS: React.FC<{ behandling: Behandling }> = ({ behandling })
     const hentBrevmottakere = useCallback(() => {
         // axiosRequest<BrevmottakerMedAdresse[], null>({
         //     method: 'GET',
-        //     url: `/familie-klage/api/brev/${behandling.id}/mottakere`,
+        //     url: `/familie-klage/api/brev/${behandlingId}/mottakere`,
         // }).then((res: Ressurs<BrevmottakerMedAdresse[]>) => settMottakere(res));
 
         settMottakere({
@@ -151,7 +150,8 @@ const BrevmottakereBAKS: React.FC<{ behandling: Behandling }> = ({ behandling })
                 // },
             ],
         });
-    }, [axiosRequest, behandling]);
+        // }, [axiosRequest, behandlingId]);
+    }, []);
 
     useEffect(() => {
         hentBrevmottakere();
@@ -163,6 +163,7 @@ const BrevmottakereBAKS: React.FC<{ behandling: Behandling }> = ({ behandling })
                 <>
                     <BrevmottakereContainer mottakere={mottakere} />
                     <BrevmottakerModalBAKS
+                        behandlingId={behandlingId}
                         brevmottakere={mottakere}
                         fjernMottaker={() => {}}
                         erLesevisning={false}

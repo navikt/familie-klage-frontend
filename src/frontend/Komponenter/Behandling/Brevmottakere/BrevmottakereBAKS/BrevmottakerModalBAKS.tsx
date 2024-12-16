@@ -25,6 +25,7 @@ const LukkKnapp = styled(Button)`
 `;
 
 interface Props<T extends BrevmottakerMedAdresse> {
+    behandlingId: string;
     brevmottakere: T[];
     fjernMottaker: (mottaker: T) => void;
     erLesevisning: boolean;
@@ -43,6 +44,7 @@ const utledHeading = (antallMottakere: number, erLesevisning: boolean) => {
 };
 
 export const BrevmottakerModalBAKS = <T extends BrevmottakerMedAdresse>({
+    behandlingId,
     brevmottakere,
     fjernMottaker,
     erLesevisning,
@@ -90,7 +92,7 @@ export const BrevmottakerModalBAKS = <T extends BrevmottakerMedAdresse>({
                         {brevmottakere.length === 1 && (
                             <StyledHeading size="medium">Ny mottaker</StyledHeading>
                         )}
-                        <BrevmottakerForm erLesevisning={false} />
+                        <BrevmottakerForm behandlingId={behandlingId} erLesevisning={false} />
                     </>
                 ) : (
                     <>

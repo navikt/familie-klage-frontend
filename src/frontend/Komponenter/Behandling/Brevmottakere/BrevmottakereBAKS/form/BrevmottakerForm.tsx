@@ -2,7 +2,7 @@ import React from 'react';
 import { FormProvider, SubmitHandler, useForm } from 'react-hook-form';
 import { LandvelgerFelt } from './felt/LandvelgerFelt';
 import { MottakerFelt } from './felt/MottakerFelt';
-import { Mottaker } from '../BrevmottakereBAKS';
+import { BrevmottakerMedAdresse, Mottaker } from '../BrevmottakereBAKS';
 import { Submit } from './felt/Submit';
 import { FormDebugger } from './FormDebugger';
 import { NavnFelt } from './felt/NavnFelt';
@@ -13,16 +13,36 @@ import { Alert, VStack } from '@navikt/ds-react';
 import { EøsLandkode } from '../../../../../Felles/Landvelger/landkode';
 import { BrevmottakerFeltnavn } from './brevmottakerFeltnavn';
 import { BrevmottakerFormState } from './brevmottakerFormState';
+import { useApp } from '../../../../../App/context/AppContext';
 
 type Props = {
+    behandlingId: string;
     erLesevisning: boolean; // TODO : Flytt til context?
 };
 
-export function BrevmottakerForm({ erLesevisning }: Props) {
+export function BrevmottakerForm({ behandlingId, erLesevisning }: Props) {
+    const { axiosRequest } = useApp();
+
+    const kallSettBrevmottakere = (brevmottaker: BrevmottakerMedAdresse) =>
+        axiosRequest<BrevmottakerMedAdresse, BrevmottakerMedAdresse>({
+            url: `familie-klage/api/brevmottaker-med-adresse/${behandlingId}/mottakere`,
+            method: 'POST',
+            data: brevmottaker,
+        });
+
     const onSubmit: SubmitHandler<BrevmottakerFormState> = (data) => {
-        // TODO : Renvask innsendt data
-        // TODO : Send renvasket data til backend
-        console.log(data);
+        const { mottaker, navn, landkode, adresselinje1, adresselinje2, postnummer, poststed } =
+            data;
+        const erUtenlandskLandkode = landkode !== EøsLandkode.NO;
+        kallSettBrevmottakere({
+            mottakerRolle: mottaker,
+            navn: navn,
+            land: landkode,
+            adresselinje1: adresselinje1,
+            adresselinje2: adresselinje2,
+            postnummer: erUtenlandskLandkode ? null : postnummer,
+            poststed: erUtenlandskLandkode ? null : poststed,
+        });
     };
 
     const form = useForm<BrevmottakerFormState>({

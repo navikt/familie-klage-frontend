@@ -158,7 +158,7 @@ export const Brev: React.FC<IBrev> = ({ behandling }) => {
                             // ) : (
                             //     <BrevmottakereBAKS behandling={behandling} />
                             // )
-                            <BrevmottakereBAKS behandling={behandling} />
+                            <BrevmottakereBAKS behandlingId={behandlingId} />
                         )}
                         {behandlingErRedigerbar && brevRessurs.status === RessursStatus.SUKSESS && (
                             <StyledKnapp
