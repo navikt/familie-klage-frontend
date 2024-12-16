@@ -135,7 +135,7 @@ const BrevmottakereBAKS: React.FC<{ behandlingId: string }> = ({ behandlingId })
             status: RessursStatus.SUKSESS,
             data: [
                 {
-                    mottakerRolle: Mottaker.VERGE,
+                    mottakerRolle: Mottaker.DØDSBO,
                     navn: 'Kari Nordmann',
                     adresselinje1: 'Danskeveien 123, 1337, København',
                     land: 'DK',

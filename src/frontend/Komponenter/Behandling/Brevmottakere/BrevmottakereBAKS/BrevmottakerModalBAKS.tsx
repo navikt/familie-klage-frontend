@@ -7,7 +7,7 @@ import { PlusCircleIcon } from '@navikt/aksel-icons';
 import { Alert, Button, Heading, Modal } from '@navikt/ds-react';
 
 import BrevmottakerTabell from './BrevmottakerTabell';
-import { BrevmottakerMedAdresse } from './BrevmottakereBAKS';
+import { BrevmottakerMedAdresse, Mottaker } from './BrevmottakereBAKS';
 import { useApp } from '../../../../App/context/AppContext';
 import { BrevmottakerForm } from './form/BrevmottakerForm';
 import { IPersonopplysninger } from '../../../../App/typer/personopplysninger';
@@ -68,6 +68,10 @@ export const BrevmottakerModalBAKS = ({
         settVisSkjemaNårDetErÉnBrevmottaker(false);
     };
 
+    const erBrevmottakerMedDødsbo = brevmottakere
+        .map((brevmottaker) => brevmottaker.mottakerRolle)
+        .some((mottakerRolle) => Mottaker.DØDSBO === mottakerRolle);
+
     return (
         <Modal
             open={visBrevmottakereModal}
@@ -104,16 +108,23 @@ export const BrevmottakerModalBAKS = ({
                     </>
                 ) : (
                     <>
-                        {brevmottakere.length === 1 && !erLesevisning && (
-                            <LeggTilKnapp
-                                variant="tertiary"
-                                size="small"
-                                icon={<PlusCircleIcon />}
-                                onClick={() => settVisSkjemaNårDetErÉnBrevmottaker(true)}
-                            >
-                                Legg til ny mottaker
-                            </LeggTilKnapp>
+                        {erBrevmottakerMedDødsbo && (
+                            <Alert variant={'info'} inline={true}>
+                                Ved dødsbo kan kun en brevmottaker legges til.
+                            </Alert>
                         )}
+                        {!erBrevmottakerMedDødsbo &&
+                            brevmottakere.length === 1 &&
+                            !erLesevisning && (
+                                <LeggTilKnapp
+                                    variant="tertiary"
+                                    size="small"
+                                    icon={<PlusCircleIcon />}
+                                    onClick={() => settVisSkjemaNårDetErÉnBrevmottaker(true)}
+                                >
+                                    Legg til ny mottaker
+                                </LeggTilKnapp>
+                            )}
                         <div>
                             <LukkKnapp onClick={lukkModalOgSkjema}>Lukk vindu</LukkKnapp>
                         </div>
