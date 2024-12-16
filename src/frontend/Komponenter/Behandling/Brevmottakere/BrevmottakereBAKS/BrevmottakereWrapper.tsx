@@ -35,7 +35,7 @@ export interface Brevmottaker {
 
 const BrevmottakereWrapper: React.FC<{ behandlingId: string }> = ({ behandlingId }) => {
     const { axiosRequest } = useApp();
-    const { personopplysningerResponse } = useBehandling();
+    const { personopplysningerResponse: personopplysninger } = useBehandling();
     const [mottakere, settMottakere] = useState<Ressurs<Brevmottaker[]>>(byggTomRessurs());
 
     const hentBrevmottakere = useCallback(() => {
@@ -80,13 +80,13 @@ const BrevmottakereWrapper: React.FC<{ behandlingId: string }> = ({ behandlingId
     }, [hentBrevmottakere]);
 
     return (
-        <DataViewer response={{ mottakere, personopplysningerResponse }}>
-            {({ mottakere, personopplysningerResponse }) => (
+        <DataViewer response={{ mottakere, personopplysninger }}>
+            {({ mottakere, personopplysninger }) => (
                 <>
                     <BrevmottakereOppsumering brevmottakere={mottakere} />
                     <BrevmottakerModalBAKS
                         behandlingId={behandlingId}
-                        personopplysninger={personopplysningerResponse}
+                        personopplysninger={personopplysninger}
                         brevmottakere={mottakere}
                         slettBrevmottaker={slettBrevmottakere}
                         erLesevisning={false}
