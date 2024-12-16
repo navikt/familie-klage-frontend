@@ -16,7 +16,7 @@ export function LandvelgerFelt({ feltnavn, visningsnavn, erLesevisning }: Props)
             rules={{
                 required: 'Land er påkrevd.',
                 validate: (landkode) => {
-                    const mottaker = getValues()[BrevmottakerFeltnavn.MOTTAKER];
+                    const mottaker = getValues(BrevmottakerFeltnavn.MOTTAKER);
                     if (
                         landkode === EøsLandkode.NO &&
                         mottaker === Mottaker.BRUKER_MED_UTENLANDSK_ADRESSE

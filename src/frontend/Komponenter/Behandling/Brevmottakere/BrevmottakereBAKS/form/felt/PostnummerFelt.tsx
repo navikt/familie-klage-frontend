@@ -15,7 +15,7 @@ export function PostnummerFelt({ feltnavn, visningsnavn, erLesevisning }: Props)
             name={feltnavn}
             rules={{
                 required:
-                    getValues()[BrevmottakerFeltnavn.LANDKODE] === EøsLandkode.NO
+                    getValues(BrevmottakerFeltnavn.LANDKODE) === EøsLandkode.NO
                         ? 'Postnummer er påkrevd om landet er Norge.'
                         : false,
                 maxLength: { value: 4, message: 'Postnummer må inneholde 4 tegn.' },

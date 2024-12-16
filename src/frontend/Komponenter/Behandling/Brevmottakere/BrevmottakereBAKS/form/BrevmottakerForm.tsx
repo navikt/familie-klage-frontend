@@ -60,7 +60,7 @@ export function BrevmottakerForm({ behandlingId, erLesevisning }: Props) {
 
     const { handleSubmit, getValues } = form;
 
-    const landkode = getValues()[BrevmottakerFeltnavn.LANDKODE];
+    const landkode = getValues(BrevmottakerFeltnavn.LANDKODE);
     const erLandValgt = landkode !== '';
     const erUtenlandskAdresseValgt = erLandValgt && landkode !== EøsLandkode.NO;
 
