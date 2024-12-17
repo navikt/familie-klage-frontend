@@ -3,12 +3,7 @@ import { Select } from '@navikt/ds-react';
 import { Controller, useFormContext } from 'react-hook-form';
 import { IPersonopplysninger } from '../../../../../../../App/typer/personopplysninger';
 import { BrevmottakerFeltnavn, BrevmottakerFeltProps } from './felttyper';
-import {
-    Brevmottaker,
-    Mottakertype,
-    mottakerVisningsnavn,
-    utledNavnVedDødsbo,
-} from '../../../brevmottaker';
+import { Brevmottaker, Mottakertype, mottakerVisningsnavn, utledNavn } from '../../../brevmottaker';
 
 type Props = BrevmottakerFeltProps & {
     personopplysninger: IPersonopplysninger;
@@ -23,7 +18,6 @@ export function MottakerFelt({
     erLesevisning,
 }: Props) {
     const { control, formState, setValue, getValues } = useFormContext();
-    const mottakertype = getValues(BrevmottakerFeltnavn.MOTTAKERTYPE);
     const alleredeValgteMottakertype = brevmottakere.map(
         (brevmottaker) => brevmottaker.mottakertype
     );
@@ -45,28 +39,19 @@ export function MottakerFelt({
                         onBlur={field.onBlur}
                         onChange={(event) => {
                             const value = event.target.value;
-                            if (value === Mottakertype.DØDSBO) {
-                                const landkode = getValues(BrevmottakerFeltnavn.LANDKODE);
-                                setValue(
-                                    BrevmottakerFeltnavn.NAVN,
-                                    utledNavnVedDødsbo(personopplysninger.navn, landkode)
-                                );
-                            }
-                            if (value === Mottakertype.BRUKER_MED_UTENLANDSK_ADRESSE) {
-                                setValue(BrevmottakerFeltnavn.NAVN, personopplysninger.navn);
-                            }
-                            if (
-                                mottakertype === Mottakertype.BRUKER_MED_UTENLANDSK_ADRESSE &&
-                                value !== Mottakertype.BRUKER_MED_UTENLANDSK_ADRESSE
-                            ) {
-                                setValue(BrevmottakerFeltnavn.NAVN, '');
-                            }
-                            if (
-                                mottakertype === Mottakertype.DØDSBO &&
-                                value !== Mottakertype.DØDSBO
-                            ) {
-                                setValue(BrevmottakerFeltnavn.NAVN, '');
-                            }
+                            const [landkode, utfyltNavn] = getValues([
+                                BrevmottakerFeltnavn.LANDKODE,
+                                BrevmottakerFeltnavn.NAVN,
+                            ]);
+                            setValue(
+                                BrevmottakerFeltnavn.NAVN,
+                                utledNavn(
+                                    utfyltNavn,
+                                    personopplysninger.navn,
+                                    landkode,
+                                    value as Mottakertype
+                                )
+                            );
                             field.onChange(event);
                         }}
                         error={visFeilmelding && fieldState.error?.message}

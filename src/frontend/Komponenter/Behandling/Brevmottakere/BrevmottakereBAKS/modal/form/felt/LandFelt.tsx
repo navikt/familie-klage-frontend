@@ -3,12 +3,15 @@ import { Controller, useFormContext } from 'react-hook-form';
 import { EøsLandkode } from '../../../../../../../Felles/Landvelger/landkode';
 import { Landvelger } from '../../../../../../../Felles/Landvelger/Landvelger';
 import { BrevmottakerFeltnavn, BrevmottakerFeltProps } from './felttyper';
-import { Mottakertype } from '../../../brevmottaker';
+import { Mottakertype, utledNavnVedDødsbo } from '../../../brevmottaker';
+import { IPersonopplysninger } from '../../../../../../../App/typer/personopplysninger';
 
-type Props = BrevmottakerFeltProps;
+type Props = BrevmottakerFeltProps & {
+    personopplysninger: IPersonopplysninger;
+};
 
-export function LandvelgerFelt({ feltnavn, visningsnavn, erLesevisning }: Props) {
-    const { control, getValues, formState } = useFormContext();
+export function LandFelt({ feltnavn, visningsnavn, erLesevisning, personopplysninger }: Props) {
+    const { control, getValues, setValue, formState } = useFormContext();
     return (
         <Controller
             control={control}
@@ -37,6 +40,13 @@ export function LandvelgerFelt({ feltnavn, visningsnavn, erLesevisning }: Props)
                         value={field.value}
                         onToggleSelected={(option, isSelected) => {
                             field.onChange(isSelected ? option : '');
+                            const mottakertype = getValues(BrevmottakerFeltnavn.MOTTAKERTYPE);
+                            if (isSelected && mottakertype === Mottakertype.DØDSBO) {
+                                setValue(
+                                    BrevmottakerFeltnavn.NAVN,
+                                    utledNavnVedDødsbo(personopplysninger.navn, option)
+                                );
+                            }
                         }}
                         error={visFeilmelding && fieldState.error?.message}
                         readOnly={erLesevisning}

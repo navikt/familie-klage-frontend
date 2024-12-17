@@ -1,8 +1,7 @@
 import React from 'react';
 import { FormProvider, SubmitHandler, useForm } from 'react-hook-form';
-import { LandvelgerFelt } from './felt/LandvelgerFelt';
+import { LandFelt } from './felt/LandFelt';
 import { MottakerFelt } from './felt/MottakerFelt';
-import { Brevmottaker, Mottakertype, OpprettBrevmottakerDto } from '../../BrevmottakereWrapper';
 import { Submit } from './felt/Submit';
 import { FormDebugger } from './FormDebugger';
 import { NavnFelt } from './felt/NavnFelt';
@@ -13,6 +12,7 @@ import { Alert, VStack } from '@navikt/ds-react';
 import { EøsLandkode } from '../../../../../../Felles/Landvelger/landkode';
 import { IPersonopplysninger } from '../../../../../../App/typer/personopplysninger';
 import { BrevmottakerFeltnavn } from './felt/felttyper';
+import { Brevmottaker, Mottakertype, OpprettBrevmottakerDto } from '../../brevmottaker';
 
 type FormValues = {
     [BrevmottakerFeltnavn.MOTTAKERTYPE]: Mottakertype | '';
@@ -88,9 +88,10 @@ export function BrevmottakerForm({
                         brevmottakere={brevmottakere}
                         erLesevisning={erLesevisning}
                     />
-                    <LandvelgerFelt
+                    <LandFelt
                         feltnavn={BrevmottakerFeltnavn.LANDKODE}
-                        visningsnavn={'Landvelger'}
+                        visningsnavn={'Land'}
+                        personopplysninger={personopplysninger}
                         erLesevisning={erLesevisning}
                     />
                     {erLandValgt && (

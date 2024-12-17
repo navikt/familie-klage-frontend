@@ -30,3 +30,19 @@ export const mottakerVisningsnavn: Record<Mottakertype, string> = {
 export const utledNavnVedDødsbo = (navn: string, landkode: string) => {
     return landkode === EøsLandkode.NO ? `${navn} v/dødsbo` : `Estate of ${navn}`;
 };
+
+export const utledNavn = (
+    utfyltNavn: string,
+    navn: string,
+    landkode: string,
+    mottakertype: Mottakertype
+) => {
+    switch (mottakertype) {
+        case Mottakertype.DØDSBO:
+            return utledNavnVedDødsbo(navn, landkode);
+        case Mottakertype.BRUKER_MED_UTENLANDSK_ADRESSE:
+            return navn;
+        default:
+            return utfyltNavn;
+    }
+};
