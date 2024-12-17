@@ -7,10 +7,10 @@ import { PlusCircleIcon } from '@navikt/aksel-icons';
 import { Alert, Button, Heading, Modal } from '@navikt/ds-react';
 
 import BrevmottakerTabell from './tabell/BrevmottakerTabell';
-import { Brevmottaker, Mottakertype, OpprettBrevmottakerDto } from '../BrevmottakereWrapper';
 import { useApp } from '../../../../../App/context/AppContext';
 import { BrevmottakerForm } from './form/BrevmottakerForm';
 import { IPersonopplysninger } from '../../../../../App/typer/personopplysninger';
+import { Brevmottaker, Mottakertype, OpprettBrevmottakerDto } from '../brevmottaker';
 
 const StyledAlert = styled(Alert)`
     margin: 1rem 0 2.5rem;

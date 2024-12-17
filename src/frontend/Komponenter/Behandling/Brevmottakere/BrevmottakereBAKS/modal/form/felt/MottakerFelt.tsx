@@ -1,9 +1,14 @@
 import React from 'react';
 import { Select } from '@navikt/ds-react';
 import { Controller, useFormContext } from 'react-hook-form';
-import { Brevmottaker, Mottakertype, mottakerVisningsnavn } from '../../../BrevmottakereWrapper';
 import { IPersonopplysninger } from '../../../../../../../App/typer/personopplysninger';
 import { BrevmottakerFeltnavn, BrevmottakerFeltProps } from './felttyper';
+import {
+    Brevmottaker,
+    Mottakertype,
+    mottakerVisningsnavn,
+    utledNavnVedDødsbo,
+} from '../../../brevmottaker';
 
 type Props = BrevmottakerFeltProps & {
     personopplysninger: IPersonopplysninger;
@@ -22,6 +27,7 @@ export function MottakerFelt({
     const alleredeValgteMottakertype = brevmottakere.map(
         (brevmottaker) => brevmottaker.mottakertype
     );
+
     return (
         <Controller
             control={control}
@@ -39,10 +45,14 @@ export function MottakerFelt({
                         onBlur={field.onBlur}
                         onChange={(event) => {
                             const value = event.target.value;
-                            if (
-                                value === Mottakertype.BRUKER_MED_UTENLANDSK_ADRESSE ||
-                                value === Mottakertype.DØDSBO
-                            ) {
+                            if (value === Mottakertype.DØDSBO) {
+                                const landkode = getValues(BrevmottakerFeltnavn.LANDKODE);
+                                setValue(
+                                    BrevmottakerFeltnavn.NAVN,
+                                    utledNavnVedDødsbo(personopplysninger.navn, landkode)
+                                );
+                            }
+                            if (value === Mottakertype.BRUKER_MED_UTENLANDSK_ADRESSE) {
                                 setValue(BrevmottakerFeltnavn.NAVN, personopplysninger.navn);
                             }
                             if (

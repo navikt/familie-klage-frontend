@@ -3,13 +3,8 @@ import { useApp } from '../../../../../App/context/AppContext';
 import { useBehandling } from '../../../../../App/context/BehandlingContext';
 import CountryData from '@navikt/land-verktoy';
 import { Alert, BodyShort, Button, Label, Tooltip } from '@navikt/ds-react';
-import { Brevmottaker, Mottakertype, mottakerVisningsnavn } from '../BrevmottakereWrapper';
 import styled from 'styled-components';
-
-const Grid = styled.div`
-    display: grid;
-    grid-template-columns: 9rem 23rem 16rem;
-`;
+import { Brevmottaker, mottakerVisningsnavn } from '../brevmottaker';
 
 const InfoHeader = styled.div`
     display: grid;
@@ -45,12 +40,8 @@ export function BrevmottakereOppsumering({ brevmottakere }: Props) {
     };
 
     const navn = utledNavnPåMottakere(brevmottakere);
-    const flereBrevmottakereErValgt = navn.length > 1;
-    const erBrevmottakerAvTypeBruker = brevmottakere.find(
-        (person) => person.mottakertype === Mottakertype.BRUKER
-    );
 
-    return flereBrevmottakereErValgt || !erBrevmottakerAvTypeBruker ? (
+    return (
         <Alert variant={'info'}>
             <InfoHeader>
                 <Label>Brevmottakere:</Label>
@@ -73,20 +64,5 @@ export function BrevmottakereOppsumering({ brevmottakere }: Props) {
                 ))}
             </ul>
         </Alert>
-    ) : (
-        <Grid>
-            <Label>Brevmottaker:</Label>
-            <BodyShort>{navn.map((navn) => navn)}</BodyShort>
-            {behandlingErRedigerbar && (
-                <Tooltip content={'Legg til verge eller fullmektige brevmottakere'}>
-                    <KompaktButton
-                        variant={'tertiary'}
-                        onClick={() => settVisBrevmottakereModal(true)}
-                    >
-                        Legg til/endre brevmottakere
-                    </KompaktButton>
-                </Tooltip>
-            )}
-        </Grid>
     );
 }

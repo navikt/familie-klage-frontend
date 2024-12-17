@@ -1,9 +1,9 @@
 import React from 'react';
 import { Controller, useFormContext } from 'react-hook-form';
-import { Mottakertype } from '../../../BrevmottakereWrapper';
 import { EøsLandkode } from '../../../../../../../Felles/Landvelger/landkode';
 import { Landvelger } from '../../../../../../../Felles/Landvelger/Landvelger';
 import { BrevmottakerFeltnavn, BrevmottakerFeltProps } from './felttyper';
+import { Mottakertype } from '../../../brevmottaker';
 
 type Props = BrevmottakerFeltProps;
 

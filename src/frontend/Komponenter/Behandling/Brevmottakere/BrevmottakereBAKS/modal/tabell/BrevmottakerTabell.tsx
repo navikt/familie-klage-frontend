@@ -6,7 +6,7 @@ import { TrashIcon } from '@navikt/aksel-icons';
 import { Alert, Button, Heading } from '@navikt/ds-react';
 import { AFontWeightBold } from '@navikt/ds-tokens/dist/tokens';
 import CountryData from '@navikt/land-verktoy';
-import { Brevmottaker, mottakerVisningsnavn } from '../../BrevmottakereWrapper';
+import { Brevmottaker, mottakerVisningsnavn } from '../../brevmottaker';
 
 const FlexDiv = styled.div`
     display: flex;

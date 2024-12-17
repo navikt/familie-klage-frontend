@@ -5,33 +5,7 @@ import { useBehandling } from '../../../../App/context/BehandlingContext';
 import { byggTomRessurs, Ressurs } from '../../../../App/typer/ressurs';
 import { BrevmottakerModalBAKS } from './modal/BrevmottakerModalBAKS';
 import { BrevmottakereOppsumering } from './oppsumering/BrevmottakerOppsumering';
-
-export enum Mottakertype {
-    BRUKER_MED_UTENLANDSK_ADRESSE = 'BRUKER_MED_UTENLANDSK_ADRESSE',
-    FULLMEKTIG = 'FULLMEKTIG',
-    VERGE = 'VERGE',
-    DØDSBO = 'DØDSBO',
-}
-
-export const mottakerVisningsnavn: Record<Mottakertype, string> = {
-    BRUKER_MED_UTENLANDSK_ADRESSE: 'Bruker med utenlandsk adresse',
-    FULLMEKTIG: 'Fullmektig',
-    VERGE: 'Verge',
-    DØDSBO: 'Dødsbo',
-};
-
-export type Brevmottaker = {
-    id: string;
-    mottakertype: Mottakertype;
-    navn: string;
-    landkode: string;
-    adresselinje1: string;
-    adresselinje2?: string | null;
-    postnummer?: string | null;
-    poststed?: string | null;
-};
-
-export type OpprettBrevmottakerDto = Omit<Brevmottaker, 'id'>;
+import { Brevmottaker, OpprettBrevmottakerDto } from './brevmottaker';
 
 const BrevmottakereWrapper: React.FC<{ behandlingId: string }> = ({ behandlingId }) => {
     const { axiosRequest } = useApp();

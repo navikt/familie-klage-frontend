@@ -2,8 +2,8 @@ import { Controller, useFormContext } from 'react-hook-form';
 import React from 'react';
 import { TextField } from '@navikt/ds-react';
 import { IPersonopplysninger } from '../../../../../../../App/typer/personopplysninger';
-import { Mottakertype } from '../../../BrevmottakereWrapper';
 import { BrevmottakerFeltnavn, BrevmottakerFeltProps } from './felttyper';
+import { Mottakertype } from '../../../brevmottaker';
 
 type Props = BrevmottakerFeltProps & {
     personopplysninger: IPersonopplysninger;
