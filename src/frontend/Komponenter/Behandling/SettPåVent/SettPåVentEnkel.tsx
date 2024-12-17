@@ -43,6 +43,7 @@ export const SettPåVentEnkel: FC<{ behandling: Behandling }> = ({ behandling })
     const [prioritet, settPrioritet] = useState<Prioritet | undefined>();
     const [frist, settFrist] = useState<string | undefined>();
     const [beskrivelse, settBeskrivelse] = useState('');
+    const [låsKnapp, settLåsKnapp] = useState<boolean>(false);
 
     const erBehandlingPåVent = behandling.status === BehandlingStatus.SATT_PÅ_VENT;
 
@@ -74,12 +75,15 @@ export const SettPåVentEnkel: FC<{ behandling: Behandling }> = ({ behandling })
     const settPåVent = () => {
         const kanSettePåVent = prioritet && frist;
 
-        if (!kanSettePåVent) {
+        if (låsKnapp || !kanSettePåVent) {
             return;
         }
 
+        settLåsKnapp(true);
+
         if (oppgave.status !== RessursStatus.SUKSESS || !oppgave.data.oppgaveId) {
             // TODO: Noe feilmelding og error håndtering.
+            settLåsKnapp(false);
             return;
         } else {
             axiosRequest<string, SettPåVentRequest>({
@@ -103,7 +107,7 @@ export const SettPåVentEnkel: FC<{ behandling: Behandling }> = ({ behandling })
                     }
                 })
                 .finally(() => {
-                    // TODO: Noe låsknapp greier.
+                    settLåsKnapp(false);
                 });
         }
     };
@@ -181,7 +185,12 @@ export const SettPåVentEnkel: FC<{ behandling: Behandling }> = ({ behandling })
                                 Avbryt
                             </Button>
                             {erBehandlingPåVent ? (
-                                <Button onClick={taAvVent} variant="primary" size="small">
+                                <Button
+                                    onClick={taAvVent}
+                                    variant="primary"
+                                    size="small"
+                                    disabled={låsKnapp}
+                                >
                                     Ta av vent
                                 </Button>
                             ) : (
