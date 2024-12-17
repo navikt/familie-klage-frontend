@@ -1,49 +1,59 @@
-import {
-    Button,
-    DatePicker,
-    Heading,
-    HStack,
-    Select,
-    Textarea,
-    useDatepicker,
-    VStack,
-} from '@navikt/ds-react';
 import React, { FC, useCallback, useEffect, useState } from 'react';
+import { Behandling } from '../../../App/typer/fagsak';
 import { styled } from 'styled-components';
+import { Alert, Heading, HStack, Textarea, VStack } from '@navikt/ds-react';
+import {
+    byggTomRessurs,
+    Ressurs,
+    RessursFeilet,
+    RessursStatus,
+    RessursSuksess,
+} from '../../../App/typer/ressurs';
+import { IOppgave, Prioritet } from './IOppgave';
+import { useApp } from '../../../App/context/AppContext';
+import DataViewer from '../../../Felles/DataViewer/DataViewer';
+import { useBehandling } from '../../../App/context/BehandlingContext';
+import { BehandlingStatus } from '../../../App/typer/behandlingstatus';
 import BeskrivelseHistorikk from './BeskrivelseHistorikk';
 import { splitBeskrivelser } from './utils';
-import { Behandling } from '../../../App/typer/fagsak';
-import { useApp } from '../../../App/context/AppContext';
-import { IOppgave } from './IOppgave';
-import { byggTomRessurs, Ressurs, RessursStatus } from '../../../App/typer/ressurs';
-import { useBehandling } from '../../../App/context/BehandlingContext';
+import SaksbehandlerVelger from './SaksbehandlerVelger';
+import PrioritetVelger from './PrioritetVelger';
+import FristVelger from './FristVelger';
+import SettPåVentKnappValg from './SettPåVentKnappValg';
 
 const StyledVStack = styled(VStack)`
     background-color: #e6f1f8;
     padding: 2rem;
 `;
 
-// TODO: Denne verdien må settes til dagens dato. Hentes gjennom state. Kan settes frem og tilbake i tid.
+const Beskrivelse = styled(Textarea)`
+    max-width: 60rem;
+`;
+
+type SettPåVentRequest = {
+    oppgaveId: number;
+    saksbehandler: string;
+    prioritet: Prioritet;
+    frist: string;
+    beskrivelse: string;
+};
+
 const SettPåVent: FC<{ behandling: Behandling }> = ({ behandling }) => {
+    const [oppgave, settOppgave] = useState<Ressurs<IOppgave>>(byggTomRessurs<IOppgave>());
     const [saksbehandler, settSaksbehandler] = useState<string>('');
-    saksbehandler;
+    const [prioritet, settPrioritet] = useState<Prioritet | undefined>();
+    const [frist, settFrist] = useState<string | undefined>();
+    const [beskrivelse, settBeskrivelse] = useState('');
 
-    const { datepickerProps, inputProps } = useDatepicker({
-        fromDate: new Date('Aug 23 2019'),
-        onDateChange: console.info,
-    });
+    const [låsKnapp, settLåsKnapp] = useState<boolean>(false);
+    const [visFeilmeldingAlert, settVisFeilmeldingAlert] = useState<boolean>(false);
+    const [feilmelding, settFeilmelding] = useState<string>();
 
-    // const erBehandlingPåVent = behandling.status === BehandlingStatus.SATT_PÅ_VENT;
+    const erBehandlingPåVent = behandling.status === BehandlingStatus.SATT_PÅ_VENT;
 
-    const beskrivelser = splitBeskrivelser(
-        '--- 06.12.2024 10:39 F_Z994431 E_Z994431 (Z994431) ---\nfghgh\n\n--- 06.12.2024 10:36 F_Z994431 E_Z994431 (Z994431) ---\nrtrrwwe\n\n--- 06.12.2024 10:30 F_Z994431 E_Z994431 (Z994431) ---\n4394320483203\n\n--- 06.12.2024 10:30 F_Z994431 E_Z994431 (Z994431) ---\n3494384302\n\n--- 04.12.2024 15:04 F_Z994431 E_Z994431 (Z994431) ---\nOppgave endret frist fra 2024-11-06 til 2024-08-01\n\n--- 04.12.2024 15:04 F_Z994431 E_Z994431 (Z994431) ---\njhhkk\n\n--- 04.12.2024 13:49 F_Z994431 E_Z994431 (Z994431) ---\nOppgave endret frist fra 2024-12-05 til 2024-11-06\n\n--- 04.12.2024 10:51 F_Z994431 E_Z994431 (Z994431) ---\n34344342343\n\n--- 04.12.2024 10:50 (familie-ef-sak) --- \nRevurdering i ny løsning'
-    );
+    const { visSettPåVent, settVisSettPåVent, hentBehandling } = useBehandling();
 
     const { axiosRequest } = useApp();
-
-    const [oppgave, settOppgave] = useState<Ressurs<IOppgave>>(byggTomRessurs<IOppgave>());
-
-    const { visSettPåVent } = useBehandling();
 
     const hentOppgaveForBehandling = useCallback(() => {
         axiosRequest<IOppgave, null>({
@@ -55,48 +65,136 @@ const SettPåVent: FC<{ behandling: Behandling }> = ({ behandling }) => {
     useEffect(() => {
         if (oppgave.status === RessursStatus.SUKSESS) {
             settSaksbehandler(oppgave.data.tilordnetRessurs || '');
+            settPrioritet(oppgave.data.prioritet || 'NORM');
+            settFrist(oppgave.data.fristFerdigstillelse);
         }
     }, [oppgave]);
 
     useEffect(() => {
-        hentOppgaveForBehandling();
+        if (visSettPåVent) {
+            hentOppgaveForBehandling();
+        }
     }, [visSettPåVent, hentOppgaveForBehandling]);
 
-    return (
-        <StyledVStack gap="4">
-            <Heading size="medium">Sett behandling på vent</Heading>
-            <HStack gap="4">
-                <Select label="" size="small">
-                    <option>Saksbehandler</option>
-                </Select>
-                <Select label="Prioritet" size="small">
-                    <option>Prioritet</option>
-                    <option value="høy">Høy</option>
-                    <option value="medium">Medium</option>
-                    <option value="lav">Lav</option>
-                </Select>
-                <DatePicker {...datepickerProps}>
-                    <DatePicker.Input {...inputProps} label="Velg dato" size="small" />
-                </DatePicker>
-                <Select label="Mappe" size="small">
-                    <option>Mappe</option>
-                    <option value="norge">Norge</option>
-                    <option value="sverige">Sverige</option>
-                    <option value="danmark">Danmark</option>
-                </Select>
-            </HStack>
-            {beskrivelser.length > 0 && <BeskrivelseHistorikk beskrivelser={beskrivelser} />}
-            <Textarea label="Beskrivelse" />
-            <HStack justify="end" gap="4">
-                <Button variant="tertiary" size="small">
-                    Avbryt
-                </Button>
-                <Button variant="primary" size="small">
-                    Sett på vent
-                </Button>
-            </HStack>
-        </StyledVStack>
-    );
+    const settPåVent = () => {
+        const kanSettePåVent = prioritet && frist;
+
+        if (låsKnapp || !kanSettePåVent) {
+            return;
+        }
+
+        settLåsKnapp(true);
+
+        if (oppgave.status !== RessursStatus.SUKSESS || !oppgave.data.oppgaveId) {
+            settLåsKnapp(false);
+            return;
+        } else {
+            axiosRequest<string, SettPåVentRequest>({
+                method: 'POST',
+                url: `/familie-klage/api/behandling/${behandling.id}/vent`,
+                data: {
+                    oppgaveId: oppgave.data.oppgaveId,
+                    saksbehandler: saksbehandler,
+                    prioritet: prioritet,
+                    frist: frist,
+                    beskrivelse: beskrivelse,
+                },
+            })
+                .then((respons: RessursFeilet | RessursSuksess<string>) => {
+                    if (respons.status === RessursStatus.SUKSESS) {
+                        hentBehandling.rerun();
+                        settVisSettPåVent(false);
+                    } else {
+                        settFeilmelding(respons.frontendFeilmelding);
+                        settVisFeilmeldingAlert(true);
+                    }
+                })
+                .finally(() => {
+                    settLåsKnapp(false);
+                });
+        }
+    };
+
+    const taAvVent = () => {
+        if (oppgave.status !== RessursStatus.SUKSESS) {
+            return;
+        } else {
+            axiosRequest<string, SettPåVentRequest>({
+                method: 'POST',
+                url: `/familie-klage/api/behandling/${behandling.id}/ta-av-vent`,
+            }).then((respons: RessursFeilet | RessursSuksess<string>) => {
+                if (respons.status === RessursStatus.SUKSESS) {
+                    hentBehandling.rerun();
+                    nullstillOppgaveFelt();
+                } else {
+                    settFeilmelding(respons.frontendFeilmelding);
+                    settVisFeilmeldingAlert(true);
+                }
+            });
+        }
+    };
+
+    const nullstillOppgaveFelt = () => {
+        settSaksbehandler('');
+        settPrioritet(undefined);
+        settFrist(undefined);
+        settBeskrivelse('');
+    };
+
+    return visSettPåVent ? (
+        <DataViewer response={{ oppgave }}>
+            {({ oppgave }) => {
+                return (
+                    <StyledVStack gap="4">
+                        {visFeilmeldingAlert && <Alert variant="error">{feilmelding}</Alert>}
+                        <Heading size={'medium'}>
+                            {erBehandlingPåVent
+                                ? 'Behandling er på vent'
+                                : 'Sett behandling på vent'}
+                        </Heading>
+                        <HStack gap="4">
+                            <SaksbehandlerVelger
+                                oppgave={oppgave}
+                                saksbehandler={saksbehandler}
+                                settSaksbehandler={settSaksbehandler}
+                                erLesevisning={erBehandlingPåVent}
+                            />
+                            <PrioritetVelger
+                                prioritet={prioritet}
+                                settPrioritet={settPrioritet}
+                                erLesevisning={erBehandlingPåVent}
+                            />
+                            <FristVelger
+                                oppgave={oppgave}
+                                settFrist={settFrist}
+                                erLesevisning={erBehandlingPåVent}
+                            />
+                        </HStack>
+                        <BeskrivelseHistorikk
+                            beskrivelser={
+                                oppgave.beskrivelse ? splitBeskrivelser(oppgave?.beskrivelse) : []
+                            }
+                        />
+                        {!erBehandlingPåVent && (
+                            <Beskrivelse
+                                label={'Beskrivelse'}
+                                size={'small'}
+                                value={beskrivelse}
+                                onChange={(e) => settBeskrivelse(e.target.value)}
+                            />
+                        )}
+                        <SettPåVentKnappValg
+                            settVisSettPåVent={settVisSettPåVent}
+                            erBehandlingPåVent={erBehandlingPåVent}
+                            taAvVent={taAvVent}
+                            settPåVent={settPåVent}
+                            låsKnapp={låsKnapp}
+                        />
+                    </StyledVStack>
+                );
+            }}
+        </DataViewer>
+    ) : null;
 };
 
 export default SettPåVent;

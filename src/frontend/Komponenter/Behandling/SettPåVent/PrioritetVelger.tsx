@@ -1,8 +1,8 @@
 import React, { FC } from 'react';
 import { Prioritet, prioritetTilTekst } from './IOppgave';
-import { FamilieSelect } from './FamilieSelect';
+import FamilieSelect from './FamilieSelect';
 
-export const PrioritetVelger: FC<{
+const PrioritetVelger: FC<{
     prioritet: Prioritet | undefined;
     settPrioritet: (prioritet: Prioritet) => void;
     erLesevisning: boolean;
@@ -28,3 +28,5 @@ export const PrioritetVelger: FC<{
         </FamilieSelect>
     </div>
 );
+
+export default PrioritetVelger;
