@@ -7,7 +7,7 @@ import { PlusCircleIcon } from '@navikt/aksel-icons';
 import { Alert, Button, Heading, Modal } from '@navikt/ds-react';
 
 import BrevmottakerTabell from './tabell/BrevmottakerTabell';
-import { Brevmottaker, Mottakertype } from '../BrevmottakereWrapper';
+import { Brevmottaker, Mottakertype, OpprettBrevmottakerDto } from '../BrevmottakereWrapper';
 import { useApp } from '../../../../../App/context/AppContext';
 import { BrevmottakerForm } from './form/BrevmottakerForm';
 import { IPersonopplysninger } from '../../../../../App/typer/personopplysninger';
@@ -29,6 +29,7 @@ interface Props {
     behandlingId: string;
     personopplysninger: IPersonopplysninger;
     brevmottakere: Brevmottaker[];
+    opprettBrevmottaker: (brevmottaker: OpprettBrevmottakerDto) => void;
     slettBrevmottaker: (brevmottakerId: string) => void;
     erLesevisning: boolean;
 }
@@ -49,6 +50,7 @@ export const BrevmottakerModalBAKS = ({
     behandlingId,
     personopplysninger,
     brevmottakere,
+    opprettBrevmottaker,
     slettBrevmottaker,
     erLesevisning,
 }: Props) => {
@@ -64,7 +66,7 @@ export const BrevmottakerModalBAKS = ({
 
     const erPåDokumentutsending = useLocation().pathname.includes('dokumentutsending');
 
-    const lukkModalOgSkjema = () => {
+    const lukkModal = () => {
         settVisBrevmottakereModal(false);
         settVisSkjemaNårDetErÉnBrevmottaker(false);
     };
@@ -76,7 +78,7 @@ export const BrevmottakerModalBAKS = ({
     return (
         <Modal
             open={visBrevmottakereModal}
-            onClose={lukkModalOgSkjema}
+            onClose={lukkModal}
             header={{ heading: heading, size: 'medium' }}
             width={'35rem'}
             portal
@@ -105,6 +107,8 @@ export const BrevmottakerModalBAKS = ({
                             personopplysninger={personopplysninger}
                             brevmottakere={brevmottakere}
                             erLesevisning={false}
+                            lukkModal={lukkModal}
+                            opprettBrevmottaker={opprettBrevmottaker}
                         />
                     </>
                 ) : (
@@ -127,7 +131,7 @@ export const BrevmottakerModalBAKS = ({
                                 </LeggTilKnapp>
                             )}
                         <div>
-                            <LukkKnapp onClick={lukkModalOgSkjema}>Lukk vindu</LukkKnapp>
+                            <LukkKnapp onClick={lukkModal}>Lukk vindu</LukkKnapp>
                         </div>
                     </>
                 )}

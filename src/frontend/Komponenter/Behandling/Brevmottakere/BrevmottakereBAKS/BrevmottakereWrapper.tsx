@@ -2,12 +2,11 @@ import React, { useCallback, useEffect, useState } from 'react';
 import { useApp } from '../../../../App/context/AppContext';
 import DataViewer from '../../../../Felles/DataViewer/DataViewer';
 import { useBehandling } from '../../../../App/context/BehandlingContext';
-import { byggTomRessurs, Ressurs, RessursStatus } from '../../../../App/typer/ressurs';
+import { byggTomRessurs, Ressurs } from '../../../../App/typer/ressurs';
 import { BrevmottakerModalBAKS } from './modal/BrevmottakerModalBAKS';
 import { BrevmottakereOppsumering } from './oppsumering/BrevmottakerOppsumering';
 
 export enum Mottakertype {
-    BRUKER = 'BRUKER',
     BRUKER_MED_UTENLANDSK_ADRESSE = 'BRUKER_MED_UTENLANDSK_ADRESSE',
     FULLMEKTIG = 'FULLMEKTIG',
     VERGE = 'VERGE',
@@ -15,14 +14,13 @@ export enum Mottakertype {
 }
 
 export const mottakerVisningsnavn: Record<Mottakertype, string> = {
-    BRUKER: 'Bruker',
     BRUKER_MED_UTENLANDSK_ADRESSE: 'Bruker med utenlandsk adresse',
     FULLMEKTIG: 'Fullmektig',
     VERGE: 'Verge',
     DØDSBO: 'Dødsbo',
 };
 
-export interface Brevmottaker {
+export type Brevmottaker = {
     id: string;
     mottakertype: Mottakertype;
     navn: string;
@@ -31,7 +29,9 @@ export interface Brevmottaker {
     adresselinje2?: string | null;
     postnummer?: string | null;
     poststed?: string | null;
-}
+};
+
+export type OpprettBrevmottakerDto = Omit<Brevmottaker, 'id'>;
 
 const BrevmottakereWrapper: React.FC<{ behandlingId: string }> = ({ behandlingId }) => {
     const { axiosRequest } = useApp();
@@ -39,34 +39,18 @@ const BrevmottakereWrapper: React.FC<{ behandlingId: string }> = ({ behandlingId
     const [mottakere, settMottakere] = useState<Ressurs<Brevmottaker[]>>(byggTomRessurs());
 
     const hentBrevmottakere = useCallback(() => {
-        // axiosRequest<Brevmottaker[], null>({
-        //     method: 'GET',
-        //     url: `/familie-klage/api/brev/${behandlingId}/mottakere`,
-        // }).then((res: Ressurs<Brevmottaker[]>) => settMottakere(res));
+        axiosRequest<Brevmottaker[], null>({
+            method: 'GET',
+            url: `/familie-klage/api/brevmottaker/${behandlingId}`,
+        }).then((res: Ressurs<Brevmottaker[]>) => settMottakere(res));
+    }, [axiosRequest, behandlingId]);
 
-        settMottakere({
-            status: RessursStatus.SUKSESS,
-            data: [
-                {
-                    id: '1c1c2fce-2949-48e8-92ad-61edcec8f7a1',
-                    mottakertype: Mottakertype.VERGE,
-                    navn: 'Kari Nordmann',
-                    adresselinje1: 'Danskeveien 123, 1337, København',
-                    landkode: 'DK',
-                },
-                /*
-                {
-                    id: '2c1c2fce-2949-48e8-92ad-61edcec8f7a1',
-                    mottakertype: Mottakertype.VERGE,
-                    navn: 'Ola Nordmann',
-                    adresselinje1: 'Danskeveien 123, 1337, København',
-                    land: 'NO',
-                },
-                 */
-            ],
-        });
-        // }, [axiosRequest, behandlingId]);
-    }, []);
+    const opprettBrevmottaker = (brevmottaker: OpprettBrevmottakerDto) =>
+        axiosRequest<Brevmottaker[], OpprettBrevmottakerDto>({
+            url: `familie-klage/api/brevmottaker/${behandlingId}`,
+            method: 'POST',
+            data: brevmottaker,
+        }).then((res: Ressurs<Brevmottaker[]>) => settMottakere(res));
 
     const slettBrevmottakere = (brevmottakerId: string) => {
         axiosRequest<Brevmottaker[], null>({
@@ -88,6 +72,7 @@ const BrevmottakereWrapper: React.FC<{ behandlingId: string }> = ({ behandlingId
                         behandlingId={behandlingId}
                         personopplysninger={personopplysninger}
                         brevmottakere={mottakere}
+                        opprettBrevmottaker={opprettBrevmottaker}
                         slettBrevmottaker={slettBrevmottakere}
                         erLesevisning={false}
                     />

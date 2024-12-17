@@ -2,7 +2,7 @@ import React from 'react';
 import { FormProvider, SubmitHandler, useForm } from 'react-hook-form';
 import { LandvelgerFelt } from './felt/LandvelgerFelt';
 import { MottakerFelt } from './felt/MottakerFelt';
-import { Brevmottaker, Mottakertype } from '../../BrevmottakereWrapper';
+import { Brevmottaker, Mottakertype, OpprettBrevmottakerDto } from '../../BrevmottakereWrapper';
 import { Submit } from './felt/Submit';
 import { FormDebugger } from './FormDebugger';
 import { NavnFelt } from './felt/NavnFelt';
@@ -11,7 +11,6 @@ import { PostnummerFelt } from './felt/PostnummerFelt';
 import { PoststedFelt } from './felt/PoststedFelt';
 import { Alert, VStack } from '@navikt/ds-react';
 import { EøsLandkode } from '../../../../../../Felles/Landvelger/landkode';
-import { useApp } from '../../../../../../App/context/AppContext';
 import { IPersonopplysninger } from '../../../../../../App/typer/personopplysninger';
 import { BrevmottakerFeltnavn } from './felt/felttyper';
 
@@ -30,29 +29,22 @@ type Props = {
     personopplysninger: IPersonopplysninger;
     brevmottakere: Brevmottaker[];
     erLesevisning: boolean; // TODO : Flytt til context?
+    lukkModal: () => void;
+    opprettBrevmottaker: (brevmottaker: OpprettBrevmottakerDto) => void;
 };
 
 export function BrevmottakerForm({
-    behandlingId,
     personopplysninger,
     brevmottakere,
     erLesevisning,
+    lukkModal,
+    opprettBrevmottaker,
 }: Props) {
-    const { axiosRequest } = useApp();
-
-    const kallSettBrevmottakere = (brevmottaker: Brevmottaker) =>
-        axiosRequest<Brevmottaker, Brevmottaker>({
-            url: `familie-klage/api/brevmottaker-med-adresse/${behandlingId}/mottakere`,
-            method: 'POST',
-            data: brevmottaker,
-        });
-
     const onSubmit: SubmitHandler<FormValues> = (data) => {
         const { mottakertype, navn, landkode, adresselinje1, adresselinje2, postnummer, poststed } =
             data;
         const erUtenlandskLandkode = landkode !== EøsLandkode.NO;
-        kallSettBrevmottakere({
-            id: '', // TODO : Fix me
+        opprettBrevmottaker({
             mottakertype: mottakertype,
             navn: navn,
             landkode: landkode,
@@ -66,7 +58,7 @@ export function BrevmottakerForm({
     const form = useForm<FormValues>({
         mode: 'all',
         defaultValues: {
-            [BrevmottakerFeltnavn.MOTTAKERTYPE]: Mottakertype.BRUKER,
+            [BrevmottakerFeltnavn.MOTTAKERTYPE]: Mottakertype.FULLMEKTIG,
             [BrevmottakerFeltnavn.LANDKODE]: EøsLandkode.NO,
             [BrevmottakerFeltnavn.NAVN]: '',
             [BrevmottakerFeltnavn.ADRESSELINJE1]: '',
@@ -142,7 +134,7 @@ export function BrevmottakerForm({
                             )}
                         </>
                     )}
-                    <Submit erLesevisning={erLesevisning} />
+                    <Submit erLesevisning={erLesevisning} lukkModal={lukkModal} />
                     <FormDebugger />
                 </VStack>
             </form>
