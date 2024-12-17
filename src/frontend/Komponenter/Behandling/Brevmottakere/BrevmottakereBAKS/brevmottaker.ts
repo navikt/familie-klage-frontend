@@ -46,3 +46,21 @@ export const utledNavn = (
             return utfyltNavn;
     }
 };
+
+export const finnGyldigeMottakertyper = (brevmottakere: Brevmottaker[]) => {
+    const valgteBrevmottakertyper = brevmottakere.map((brevmottaker) => brevmottaker.mottakertype);
+    if (valgteBrevmottakertyper.includes(Mottakertype.BRUKER_MED_UTENLANDSK_ADRESSE)) {
+        return [Mottakertype.VERGE, Mottakertype.FULLMEKTIG];
+    }
+
+    if (
+        valgteBrevmottakertyper.length > 0 &&
+        !valgteBrevmottakertyper.includes(Mottakertype.BRUKER_MED_UTENLANDSK_ADRESSE)
+    ) {
+        return [Mottakertype.BRUKER_MED_UTENLANDSK_ADRESSE];
+    }
+
+    return Object.values(Mottakertype).filter(
+        (mottakertype) => !valgteBrevmottakertyper.includes(mottakertype)
+    );
+};

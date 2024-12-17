@@ -3,7 +3,13 @@ import { Select } from '@navikt/ds-react';
 import { Controller, useFormContext } from 'react-hook-form';
 import { IPersonopplysninger } from '../../../../../../../App/typer/personopplysninger';
 import { BrevmottakerFeltnavn, BrevmottakerFeltProps } from './felttyper';
-import { Brevmottaker, Mottakertype, mottakerVisningsnavn, utledNavn } from '../../../brevmottaker';
+import {
+    Brevmottaker,
+    finnGyldigeMottakertyper,
+    Mottakertype,
+    mottakerVisningsnavn,
+    utledNavn,
+} from '../../../brevmottaker';
 
 type Props = BrevmottakerFeltProps & {
     personopplysninger: IPersonopplysninger;
@@ -18,9 +24,6 @@ export function MottakerFelt({
     erLesevisning,
 }: Props) {
     const { control, formState, setValue, getValues } = useFormContext();
-    const alleredeValgteMottakertype = brevmottakere.map(
-        (brevmottaker) => brevmottaker.mottakertype
-    );
 
     return (
         <Controller
@@ -58,21 +61,11 @@ export function MottakerFelt({
                         readOnly={erLesevisning}
                     >
                         <option value="">-- Velg mottaker --</option>
-                        {Object.values(Mottakertype)
-                            .filter(
-                                (mottakertype) =>
-                                    !alleredeValgteMottakertype.some((m) => m === mottakertype)
-                            )
-                            .filter(
-                                (mottaker) =>
-                                    mottaker !== Mottakertype.DØDSBO ||
-                                    alleredeValgteMottakertype.length === 0
-                            )
-                            .map((mottaker) => (
-                                <option key={mottaker} value={mottaker}>
-                                    {mottakerVisningsnavn[mottaker]}
-                                </option>
-                            ))}
+                        {finnGyldigeMottakertyper(brevmottakere).map((mottaker) => (
+                            <option key={mottaker} value={mottaker}>
+                                {mottakerVisningsnavn[mottaker]}
+                            </option>
+                        ))}
                     </Select>
                 );
             }}
