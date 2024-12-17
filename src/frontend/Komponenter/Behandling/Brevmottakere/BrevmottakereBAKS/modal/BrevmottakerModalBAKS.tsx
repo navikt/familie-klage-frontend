@@ -58,8 +58,9 @@ export const BrevmottakerModalBAKS = ({
     const [visSkjemaNårDetErÉnBrevmottaker, settVisSkjemaNårDetErÉnBrevmottaker] = useState(false);
 
     const erSkjemaSynlig =
-        (brevmottakere.length === 0 && !erLesevisning) ||
-        (brevmottakere.length === 1 && visSkjemaNårDetErÉnBrevmottaker);
+        visBrevmottakereModal &&
+        ((brevmottakere.length === 0 && !erLesevisning) ||
+            (brevmottakere.length === 1 && visSkjemaNårDetErÉnBrevmottaker));
 
     const erPåDokumentutsending = useLocation().pathname.includes('dokumentutsending');
 
