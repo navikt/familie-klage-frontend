@@ -7,6 +7,7 @@ import { Alert, Button, Heading } from '@navikt/ds-react';
 import { AFontWeightBold } from '@navikt/ds-tokens/dist/tokens';
 import CountryData from '@navikt/land-verktoy';
 import { Brevmottaker, mottakerVisningsnavn } from '../../brevmottaker';
+import { EøsLandkode } from '../../../../../../Felles/Landvelger/landkode';
 
 const FlexDiv = styled.div`
     display: flex;
@@ -33,53 +34,63 @@ const DefinitionList = styled.dl`
 `;
 
 interface Props {
-    mottaker: Brevmottaker;
+    brevmottakere: Brevmottaker[];
     slettBrevmottaker: (brevmottakerId: string) => void;
     erLesevisning: boolean;
 }
 
-const BrevmottakerTabell = ({ mottaker, slettBrevmottaker, erLesevisning }: Props) => {
-    const land = CountryData.getCountryInstance('nb').findByValue(mottaker.landkode);
+const BrevmottakerTabell = ({ brevmottakere, slettBrevmottaker, erLesevisning }: Props) => {
+    return brevmottakere.map((brevmottaker) => {
+        const land = CountryData.getCountryInstance('nb').findByValue(brevmottaker.landkode);
 
-    return (
-        <StyledDiv>
-            <FlexDiv>
-                <Heading size="medium">{mottakerVisningsnavn[mottaker.mottakertype]}</Heading>
-                {!erLesevisning && (
-                    <Button
-                        variant={'tertiary'}
-                        onClick={() => slettBrevmottaker(mottaker.id)}
-                        loading={false}
-                        disabled={false}
-                        size={'small'}
-                        icon={<TrashIcon />}
-                    >
-                        {'Fjern'}
-                    </Button>
+        return (
+            <StyledDiv key={brevmottaker.id}>
+                <FlexDiv>
+                    <Heading size="medium">
+                        {mottakerVisningsnavn[brevmottaker.mottakertype]}
+                    </Heading>
+                    {!erLesevisning && (
+                        <Button
+                            variant={'tertiary'}
+                            onClick={() => slettBrevmottaker(brevmottaker.id)}
+                            size={'small'}
+                            icon={<TrashIcon />}
+                        >
+                            Fjern
+                        </Button>
+                    )}
+                </FlexDiv>
+                <DefinitionList>
+                    <dt>Navn</dt>
+                    <dd>{brevmottaker.navn}</dd>
+                    <dt>Land</dt>
+                    <dd>{land.label}</dd>
+                    <dt>Adresselinje 1</dt>
+                    <dd>{brevmottaker.adresselinje1}</dd>
+                    <dt>Adresselinje 2</dt>
+                    <dd>{brevmottaker.adresselinje2 || '-'}</dd>
+                    {brevmottaker.postnummer && (
+                        <>
+                            <dt>Postnummer</dt>
+                            <dd>{brevmottaker.postnummer || '-'}</dd>
+                        </>
+                    )}
+                    {brevmottaker.poststed && (
+                        <>
+                            <dt>Poststed</dt>
+                            <dd>{brevmottaker.poststed || '-'}</dd>
+                        </>
+                    )}
+                </DefinitionList>
+
+                {brevmottaker.landkode !== EøsLandkode.NO && (
+                    <Alert variant="info" inline>
+                        Ved utenlandsk adresse skal postnummer og poststed legges i adresselinjene.
+                    </Alert>
                 )}
-            </FlexDiv>
-            <DefinitionList>
-                <dt>Navn</dt>
-                <dd>{mottaker.navn}</dd>
-                <dt>Land</dt>
-                <dd>{land.label}</dd>
-                <dt>Adresselinje 1</dt>
-                <dd>{mottaker.adresselinje1}</dd>
-                <dt>Adresselinje 2</dt>
-                <dd>{mottaker.adresselinje2 || '-'}</dd>
-                <dt>Postnummer</dt>
-                <dd>{mottaker.postnummer || '-'}</dd>
-                <dt>Poststed</dt>
-                <dd>{mottaker.poststed || '-'}</dd>
-            </DefinitionList>
-
-            {mottaker.landkode !== 'NO' && (
-                <Alert variant="info" inline>
-                    Ved utenlandsk adresse skal postnummer og poststed legges i adresselinjene.
-                </Alert>
-            )}
-        </StyledDiv>
-    );
+            </StyledDiv>
+        );
+    });
 };
 
 export default BrevmottakerTabell;

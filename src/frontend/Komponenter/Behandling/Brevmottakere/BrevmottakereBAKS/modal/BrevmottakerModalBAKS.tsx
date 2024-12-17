@@ -1,6 +1,5 @@
 import React, { useState } from 'react';
 
-import { useLocation } from 'react-router-dom';
 import styled from 'styled-components';
 
 import { PlusCircleIcon } from '@navikt/aksel-icons';
@@ -64,8 +63,6 @@ export const BrevmottakerModalBAKS = ({
         ((brevmottakere.length === 0 && !erLesevisning) ||
             (brevmottakere.length === 1 && visSkjemaNårDetErÉnBrevmottaker));
 
-    const erPåDokumentutsending = useLocation().pathname.includes('dokumentutsending');
-
     const lukkModal = () => {
         settVisBrevmottakereModal(false);
         settVisSkjemaNårDetErÉnBrevmottaker(false);
@@ -86,17 +83,14 @@ export const BrevmottakerModalBAKS = ({
             <Modal.Body>
                 <StyledAlert variant="info">
                     Brev sendes til brukers folkeregistrerte adresse eller annen foretrukken kanal.
-                    Legg til mottaker dersom brev skal sendes til utenlandsk adresse, fullmektig
-                    {erPåDokumentutsending ? ' eller verge' : ', verge eller dødsbo'}.
+                    Legg til mottaker dersom brev skal sendes til utenlandsk adresse, fullmektig,
+                    verge eller dødsbo.
                 </StyledAlert>
-                {brevmottakere.map((mottaker) => (
-                    <BrevmottakerTabell
-                        mottaker={mottaker}
-                        key={`mottaker-${mottaker}`}
-                        slettBrevmottaker={slettBrevmottaker}
-                        erLesevisning={erLesevisning}
-                    />
-                ))}
+                <BrevmottakerTabell
+                    brevmottakere={brevmottakere}
+                    slettBrevmottaker={slettBrevmottaker}
+                    erLesevisning={erLesevisning}
+                />
                 {erSkjemaSynlig ? (
                     <>
                         {brevmottakere.length === 1 && (
