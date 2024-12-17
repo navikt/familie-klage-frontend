@@ -6,7 +6,7 @@ export interface FamilieSelectProps extends SelectProps {
     lesevisningVerdi?: string;
 }
 
-export const FamilieSelect: React.FC<FamilieSelectProps> = ({
+const FamilieSelect: React.FC<FamilieSelectProps> = ({
     children,
     className,
     erLesevisning = false,
@@ -36,3 +36,5 @@ export const FamilieSelect: React.FC<FamilieSelectProps> = ({
         </Select>
     );
 };
+
+export default FamilieSelect;

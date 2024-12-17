@@ -7,7 +7,14 @@ const StyledButton = styled(Button)`
     width: fit-content;
 `;
 
-const BeskrivelseHistorikk: FC<{ beskrivelser: string[] }> = ({ beskrivelser }) => {
+export interface BeskrivelseHistorikkInnslag {
+    endringDato: string;
+    endringDetaljer: string[];
+}
+
+const BeskrivelseHistorikk: FC<{ beskrivelser: BeskrivelseHistorikkInnslag[] }> = ({
+    beskrivelser,
+}) => {
     const [visAlleBeskrivelser, setVisAlleBeskrivelser] = useState(false);
 
     const toggleVisAlleBeskrivelser = () => {
@@ -19,9 +26,16 @@ const BeskrivelseHistorikk: FC<{ beskrivelser: string[] }> = ({ beskrivelser }) 
     return (
         <>
             {beskrivelser.length > 0 && (
-                <List as="ul" title="Beskrivelsehistorikk">
+                <List as="ul" title="Beskrivelsehistorikk" size="small">
                     {visteBeskrivelser.map((beskrivelse, index) => (
-                        <List.Item key={index}>{beskrivelse}</List.Item>
+                        <List.Item key={index}>
+                            <strong>{beskrivelse.endringDato}</strong>
+                            <ul>
+                                {beskrivelse.endringDetaljer.map((detail, detailIndex) => (
+                                    <li key={detailIndex}>{detail}</li>
+                                ))}
+                            </ul>
+                        </List.Item>
                     ))}
                 </List>
             )}

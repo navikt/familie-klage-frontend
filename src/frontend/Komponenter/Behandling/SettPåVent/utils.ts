@@ -1,4 +1,11 @@
-// TODO: Kan dette renames?
-export const splitBeskrivelser = (beskrivelse: string): string[] => {
-    return beskrivelse.split('\n\n');
+import { BeskrivelseHistorikkInnslag } from './BeskrivelseHistorikk';
+
+export const splitBeskrivelser = (beskrivelse: string): BeskrivelseHistorikkInnslag[] => {
+    return beskrivelse.split('\n\n').map((entry) => {
+        const [header, ...details] = entry.split('\n');
+        return {
+            endringDato: header,
+            endringDetaljer: details,
+        };
+    });
 };
