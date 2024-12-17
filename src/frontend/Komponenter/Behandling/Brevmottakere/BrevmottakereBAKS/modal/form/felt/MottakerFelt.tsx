@@ -62,6 +62,7 @@ export function MottakerFelt({
                         error={visFeilmelding && fieldState.error?.message}
                         readOnly={erLesevisning}
                     >
+                        <option value="">-- Velg mottaker --</option>
                         {Object.values(Mottakertype)
                             .filter(
                                 (mottakertype) =>

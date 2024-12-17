@@ -15,7 +15,7 @@ import { IPersonopplysninger } from '../../../../../../App/typer/personopplysnin
 import { BrevmottakerFeltnavn } from './felt/felttyper';
 
 type FormValues = {
-    [BrevmottakerFeltnavn.MOTTAKERTYPE]: Mottakertype;
+    [BrevmottakerFeltnavn.MOTTAKERTYPE]: Mottakertype | '';
     [BrevmottakerFeltnavn.LANDKODE]: EøsLandkode | '';
     [BrevmottakerFeltnavn.NAVN]: string;
     [BrevmottakerFeltnavn.ADRESSELINJE1]: string;
@@ -44,6 +44,9 @@ export function BrevmottakerForm({
         const { mottakertype, navn, landkode, adresselinje1, adresselinje2, postnummer, poststed } =
             data;
         const erUtenlandskLandkode = landkode !== EøsLandkode.NO;
+        if (mottakertype === '') {
+            throw Error('Mottakertype er påkrevd.');
+        }
         opprettBrevmottaker({
             mottakertype: mottakertype,
             navn: navn,
@@ -58,7 +61,7 @@ export function BrevmottakerForm({
     const form = useForm<FormValues>({
         mode: 'all',
         defaultValues: {
-            [BrevmottakerFeltnavn.MOTTAKERTYPE]: Mottakertype.FULLMEKTIG,
+            [BrevmottakerFeltnavn.MOTTAKERTYPE]: '',
             [BrevmottakerFeltnavn.LANDKODE]: EøsLandkode.NO,
             [BrevmottakerFeltnavn.NAVN]: '',
             [BrevmottakerFeltnavn.ADRESSELINJE1]: '',
