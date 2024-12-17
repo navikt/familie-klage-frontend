@@ -1,7 +1,7 @@
 import React, { FC, useCallback, useEffect, useState } from 'react';
 import { Behandling } from '../../../App/typer/fagsak';
 import { styled } from 'styled-components';
-import { Button, Heading, HStack, Textarea, VStack } from '@navikt/ds-react';
+import { Alert, Button, Heading, HStack, Textarea, VStack } from '@navikt/ds-react';
 import { SaksbehandlerVelger } from './SaksbehandlerVelger';
 import {
     byggTomRessurs,
@@ -43,7 +43,10 @@ export const SettPåVentEnkel: FC<{ behandling: Behandling }> = ({ behandling })
     const [prioritet, settPrioritet] = useState<Prioritet | undefined>();
     const [frist, settFrist] = useState<string | undefined>();
     const [beskrivelse, settBeskrivelse] = useState('');
+
     const [låsKnapp, settLåsKnapp] = useState<boolean>(false);
+    const [visFeilmeldingAlert, settVisFeilmeldingAlert] = useState<boolean>(false);
+    const [feilmelding, settFeilmelding] = useState<string>();
 
     const erBehandlingPåVent = behandling.status === BehandlingStatus.SATT_PÅ_VENT;
 
@@ -82,7 +85,6 @@ export const SettPåVentEnkel: FC<{ behandling: Behandling }> = ({ behandling })
         settLåsKnapp(true);
 
         if (oppgave.status !== RessursStatus.SUKSESS || !oppgave.data.oppgaveId) {
-            // TODO: Noe feilmelding og error håndtering.
             settLåsKnapp(false);
             return;
         } else {
@@ -103,7 +105,8 @@ export const SettPåVentEnkel: FC<{ behandling: Behandling }> = ({ behandling })
                         hentBehandling.rerun();
                         settVisSettPåVent(false);
                     } else {
-                        // TODO: Noe feilet, gjør noe med feilen.
+                        settFeilmelding(respons.frontendFeilmelding);
+                        settVisFeilmeldingAlert(true);
                     }
                 })
                 .finally(() => {
@@ -123,6 +126,9 @@ export const SettPåVentEnkel: FC<{ behandling: Behandling }> = ({ behandling })
                 if (respons.status === RessursStatus.SUKSESS) {
                     hentBehandling.rerun();
                     nullstillOppgaveFelt();
+                } else {
+                    settFeilmelding(respons.frontendFeilmelding);
+                    settVisFeilmeldingAlert(true);
                 }
             });
         }
@@ -140,6 +146,7 @@ export const SettPåVentEnkel: FC<{ behandling: Behandling }> = ({ behandling })
             {({ oppgave }) => {
                 return (
                     <StyledVStack gap="4">
+                        {visFeilmeldingAlert && <Alert variant="error">{feilmelding}</Alert>}
                         <Heading size={'medium'}>
                             {erBehandlingPåVent ? 'Behandling på vent' : 'Sett behandling på vent'}
                         </Heading>
