@@ -8,11 +8,16 @@ import { NavnFelt } from './felt/NavnFelt';
 import { AdresselinjeFelt } from './felt/AdresselinjeFelt';
 import { PostnummerFelt } from './felt/PostnummerFelt';
 import { PoststedFelt } from './felt/PoststedFelt';
-import { Alert, VStack } from '@navikt/ds-react';
+import { Alert, Heading, VStack } from '@navikt/ds-react';
 import { EøsLandkode } from '../../../../../../Felles/Landvelger/landkode';
 import { IPersonopplysninger } from '../../../../../../App/typer/personopplysninger';
 import { BrevmottakerFeltnavn } from './felt/felttyper';
 import { Brevmottaker, Mottakertype, OpprettBrevmottakerDto } from '../../brevmottaker';
+import styled from 'styled-components';
+
+const StyledHeading = styled(Heading)`
+    margin: 1rem 0 0.75rem;
+`;
 
 type FormValues = {
     [BrevmottakerFeltnavn.MOTTAKERTYPE]: Mottakertype | '';
@@ -81,6 +86,7 @@ export function BrevmottakerForm({
         <FormProvider {...form}>
             <form onSubmit={handleSubmit(onSubmit)}>
                 <VStack gap={'4'}>
+                    <StyledHeading size="medium">Ny mottaker</StyledHeading>
                     <MottakerFelt
                         feltnavn={BrevmottakerFeltnavn.MOTTAKERTYPE}
                         visningsnavn={'Mottaker'}

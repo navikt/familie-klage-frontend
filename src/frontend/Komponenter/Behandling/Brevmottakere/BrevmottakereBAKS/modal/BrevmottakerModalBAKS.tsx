@@ -3,7 +3,7 @@ import React, { useState } from 'react';
 import styled from 'styled-components';
 
 import { PlusCircleIcon } from '@navikt/aksel-icons';
-import { Alert, Button, Heading, Modal } from '@navikt/ds-react';
+import { Alert, Button, Modal } from '@navikt/ds-react';
 
 import BrevmottakerTabell from './tabell/BrevmottakerTabell';
 import { useApp } from '../../../../../App/context/AppContext';
@@ -13,9 +13,6 @@ import { Brevmottaker, Mottakertype, OpprettBrevmottakerDto } from '../brevmotta
 
 const StyledAlert = styled(Alert)`
     margin: 1rem 0 2.5rem;
-`;
-const StyledHeading = styled(Heading)`
-    margin: 1rem 0 0.75rem;
 `;
 const LeggTilKnapp = styled(Button)`
     margin-top: 1rem;
@@ -56,21 +53,25 @@ export const BrevmottakerModalBAKS = ({
     const { settVisBrevmottakereModal, visBrevmottakereModal } = useApp();
     const heading = utledHeading(brevmottakere.length, erLesevisning);
 
-    const [visSkjemaNårDetErÉnBrevmottaker, settVisSkjemaNårDetErÉnBrevmottaker] = useState(false);
-
-    const erSkjemaSynlig =
-        visBrevmottakereModal &&
-        ((brevmottakere.length === 0 && !erLesevisning) ||
-            (brevmottakere.length === 1 && visSkjemaNårDetErÉnBrevmottaker));
-
-    const lukkModal = () => {
-        settVisBrevmottakereModal(false);
-        settVisSkjemaNårDetErÉnBrevmottaker(false);
-    };
+    const [visSkjema, settVisSkjema] = useState(false);
 
     const erBrevmottakerMedDødsbo = brevmottakere
         .map((brevmottaker) => brevmottaker.mottakertype)
         .some((mottakertype) => Mottakertype.DØDSBO === mottakertype);
+
+    const erSkjemaSynlig =
+        visBrevmottakereModal &&
+        !erBrevmottakerMedDødsbo &&
+        ((brevmottakere.length === 0 && !erLesevisning) ||
+            (brevmottakere.length === 1 && visSkjema));
+
+    const lukkModal = () => {
+        settVisBrevmottakereModal(false);
+        settVisSkjema(false);
+    };
+
+    const visLeggTilKnapp =
+        brevmottakere.length === 1 && !erLesevisning && !erBrevmottakerMedDødsbo;
 
     return (
         <Modal
@@ -92,19 +93,14 @@ export const BrevmottakerModalBAKS = ({
                     erLesevisning={erLesevisning}
                 />
                 {erSkjemaSynlig ? (
-                    <>
-                        {brevmottakere.length === 1 && (
-                            <StyledHeading size="medium">Ny mottaker</StyledHeading>
-                        )}
-                        <BrevmottakerForm
-                            behandlingId={behandlingId}
-                            personopplysninger={personopplysninger}
-                            brevmottakere={brevmottakere}
-                            erLesevisning={false}
-                            lukkModal={lukkModal}
-                            opprettBrevmottaker={opprettBrevmottaker}
-                        />
-                    </>
+                    <BrevmottakerForm
+                        behandlingId={behandlingId}
+                        personopplysninger={personopplysninger}
+                        brevmottakere={brevmottakere}
+                        erLesevisning={false}
+                        lukkModal={lukkModal}
+                        opprettBrevmottaker={opprettBrevmottaker}
+                    />
                 ) : (
                     <>
                         {erBrevmottakerMedDødsbo && (
@@ -112,18 +108,16 @@ export const BrevmottakerModalBAKS = ({
                                 Ved dødsbo kan kun en brevmottaker legges til.
                             </Alert>
                         )}
-                        {!erBrevmottakerMedDødsbo &&
-                            brevmottakere.length === 1 &&
-                            !erLesevisning && (
-                                <LeggTilKnapp
-                                    variant="tertiary"
-                                    size="small"
-                                    icon={<PlusCircleIcon />}
-                                    onClick={() => settVisSkjemaNårDetErÉnBrevmottaker(true)}
-                                >
-                                    Legg til ny mottaker
-                                </LeggTilKnapp>
-                            )}
+                        {visLeggTilKnapp && (
+                            <LeggTilKnapp
+                                variant="tertiary"
+                                size="small"
+                                icon={<PlusCircleIcon />}
+                                onClick={() => settVisSkjema(true)}
+                            >
+                                Legg til ny mottaker
+                            </LeggTilKnapp>
+                        )}
                         <div>
                             <LukkKnapp onClick={lukkModal}>Lukk vindu</LukkKnapp>
                         </div>
