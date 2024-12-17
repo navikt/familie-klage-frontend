@@ -15,7 +15,7 @@ import DataViewer from '../../../Felles/DataViewer/DataViewer';
 import { useBehandling } from '../../../App/context/BehandlingContext';
 import { BehandlingStatus } from '../../../App/typer/behandlingstatus';
 import BeskrivelseHistorikk from './BeskrivelseHistorikk';
-import { splitBeskrivelser } from './utils';
+import { splitBeskrivelser } from './SettPåVentUtils';
 import SaksbehandlerVelger from './SaksbehandlerVelger';
 import PrioritetVelger from './PrioritetVelger';
 import FristVelger from './FristVelger';
