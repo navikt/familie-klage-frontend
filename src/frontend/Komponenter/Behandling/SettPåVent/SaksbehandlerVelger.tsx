@@ -12,27 +12,25 @@ const SaksbehandlerVelger: FC<{
     const { innloggetSaksbehandler } = useApp();
 
     return (
-        <div>
-            <FamilieSelect
-                label={'Saksbehandler'}
-                size={'small'}
-                value={saksbehandler}
-                onChange={(e) => {
-                    settSaksbehandler(e.target.value);
-                }}
-                erLesevisning={erLesevisning}
-                lesevisningVerdi={saksbehandler || 'Ingen'}
-            >
-                {oppgave.tilordnetRessurs &&
-                    innloggetSaksbehandler.navIdent !== oppgave.tilordnetRessurs && (
-                        <option value={oppgave.tilordnetRessurs}>{oppgave.tilordnetRessurs}</option>
-                    )}
-                <option value={innloggetSaksbehandler.navIdent}>
-                    {innloggetSaksbehandler.displayName}
-                </option>
-                <option value={''}>Ingen</option>
-            </FamilieSelect>
-        </div>
+        <FamilieSelect
+            label={'Saksbehandler'}
+            size={'small'}
+            value={saksbehandler}
+            onChange={(e) => {
+                settSaksbehandler(e.target.value);
+            }}
+            erLesevisning={erLesevisning}
+            lesevisningVerdi={saksbehandler || 'Ingen'}
+        >
+            {oppgave.tilordnetRessurs &&
+                innloggetSaksbehandler.navIdent !== oppgave.tilordnetRessurs && (
+                    <option value={oppgave.tilordnetRessurs}>{oppgave.tilordnetRessurs}</option>
+                )}
+            <option value={innloggetSaksbehandler.navIdent}>
+                {innloggetSaksbehandler.displayName}
+            </option>
+            <option value={''}>Ingen</option>
+        </FamilieSelect>
     );
 };
 

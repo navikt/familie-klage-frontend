@@ -12,6 +12,8 @@ export interface BeskrivelseHistorikkInnslag {
     endringDetaljer: string[];
 }
 
+const MAX_SYNLIGE_BESKRIVELSER = 4;
+
 const BeskrivelseHistorikk: FC<{ beskrivelser: BeskrivelseHistorikkInnslag[] }> = ({
     beskrivelser,
 }) => {
@@ -21,7 +23,9 @@ const BeskrivelseHistorikk: FC<{ beskrivelser: BeskrivelseHistorikkInnslag[] }> 
         setVisAlleBeskrivelser(!visAlleBeskrivelser);
     };
 
-    const visteBeskrivelser = visAlleBeskrivelser ? beskrivelser : beskrivelser.slice(0, 4);
+    const visteBeskrivelser = visAlleBeskrivelser
+        ? beskrivelser
+        : beskrivelser.slice(0, MAX_SYNLIGE_BESKRIVELSER);
 
     return (
         <>
@@ -39,7 +43,7 @@ const BeskrivelseHistorikk: FC<{ beskrivelser: BeskrivelseHistorikkInnslag[] }> 
                     ))}
                 </List>
             )}
-            {beskrivelser.length > 4 && (
+            {beskrivelser.length > MAX_SYNLIGE_BESKRIVELSER && (
                 <StyledButton
                     icon={visAlleBeskrivelser ? <ChevronUpIcon /> : <ChevronDownIcon />}
                     variant="tertiary"
