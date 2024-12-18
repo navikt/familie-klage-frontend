@@ -4,7 +4,7 @@ import DataViewer from '../../../../Felles/DataViewer/DataViewer';
 import { useBehandling } from '../../../../App/context/BehandlingContext';
 import { byggTomRessurs, Ressurs } from '../../../../App/typer/ressurs';
 import { BrevmottakerModal } from './modal/BrevmottakerModal';
-import { BrevmottakereOppsumering } from './oppsumering/BrevmottakerOppsumering';
+import { BrevmottakerPanel } from './panel/BrevmottakerPanel';
 import { Brevmottaker, OpprettBrevmottakerDto } from './brevmottaker';
 
 type Props = {
@@ -46,7 +46,7 @@ export function BrevmottakereWrapper({ behandlingId }: Props) {
         <DataViewer response={{ mottakere, personopplysninger }}>
             {({ mottakere, personopplysninger }) => (
                 <>
-                    <BrevmottakereOppsumering brevmottakere={mottakere} />
+                    <BrevmottakerPanel brevmottakere={mottakere} />
                     <BrevmottakerModal
                         behandlingId={behandlingId}
                         personopplysninger={personopplysninger}

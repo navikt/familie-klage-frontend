@@ -14,7 +14,7 @@ type Props = {
     brevmottakere: Brevmottaker[];
 };
 
-export function BrevmottakereOppsumering({ brevmottakere }: Props) {
+export function BrevmottakerPanel({ brevmottakere }: Props) {
     const { settVisBrevmottakereModal } = useApp();
     const { behandlingErRedigerbar } = useBehandling();
 
