@@ -6,6 +6,7 @@ type Props = {
     vedAvbrytKlikk: () => void;
 };
 
+// TODO : Burde "Avbryt" knappen lukke hele modalen eller kun formen?
 export function Knapper({ erLesevisning, vedAvbrytKlikk }: Props) {
     if (erLesevisning) {
         return <Button onClick={vedAvbrytKlikk}>Lukk</Button>;

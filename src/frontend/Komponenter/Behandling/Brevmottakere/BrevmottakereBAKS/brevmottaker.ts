@@ -13,10 +13,12 @@ export type Brevmottaker = {
     poststed?: string | null;
 };
 
+// TODO : Kan denne erstattes med metoden under?
 export function utledBrevmottakernavnVedDødsbo(navn: string, landkode: string): string {
     return landkode === EøsLandkode.NO ? `${navn} v/dødsbo` : `Estate of ${navn}`;
 }
 
+// TODO : Navn blir ikke resatt, skal de det?
 export function utledBrevmottakernavn(
     navnFraFelt: string,
     navnFraPersonopplysninger: string,
