@@ -3,7 +3,7 @@ import React from 'react';
 import { TextField } from '@navikt/ds-react';
 import { IPersonopplysninger } from '../../../../../../../App/typer/personopplysninger';
 import { BrevmottakerFeltnavn, BrevmottakerFeltProps } from './felttyper';
-import { Mottakertype } from '../../../brevmottaker';
+import { Mottakertype } from '../../../mottakertype';
 
 type Props = BrevmottakerFeltProps & {
     personopplysninger: IPersonopplysninger;

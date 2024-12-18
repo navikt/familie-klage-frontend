@@ -6,8 +6,9 @@ import { TrashIcon } from '@navikt/aksel-icons';
 import { Alert, Button, Heading } from '@navikt/ds-react';
 import { AFontWeightBold } from '@navikt/ds-tokens/dist/tokens';
 import CountryData from '@navikt/land-verktoy';
-import { Brevmottaker, mottakerVisningsnavn } from '../../brevmottaker';
+import { Brevmottaker } from '../../brevmottaker';
 import { EøsLandkode } from '../../../../../../Felles/Landvelger/landkode';
+import { mottakertypeVisningsnavn } from '../../mottakertype';
 
 const FlexDiv = styled.div`
     display: flex;
@@ -47,7 +48,7 @@ export function BrevmottakerTabell({ brevmottakere, slettBrevmottaker, erLesevis
             <StyledDiv key={brevmottaker.id}>
                 <FlexDiv>
                     <Heading size="medium">
-                        {mottakerVisningsnavn[brevmottaker.mottakertype]}
+                        {mottakertypeVisningsnavn[brevmottaker.mottakertype]}
                     </Heading>
                     {!erLesevisning && (
                         <Button

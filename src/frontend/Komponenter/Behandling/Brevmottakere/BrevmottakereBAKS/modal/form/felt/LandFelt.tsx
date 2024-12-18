@@ -3,8 +3,9 @@ import { Controller, useFormContext } from 'react-hook-form';
 import { EøsLandkode } from '../../../../../../../Felles/Landvelger/landkode';
 import { Landvelger } from '../../../../../../../Felles/Landvelger/Landvelger';
 import { BrevmottakerFeltnavn, BrevmottakerFeltProps } from './felttyper';
-import { Mottakertype, utledNavnVedDødsbo } from '../../../brevmottaker';
+import { utledNavnVedDødsbo } from '../../../brevmottaker';
 import { IPersonopplysninger } from '../../../../../../../App/typer/personopplysninger';
+import { Mottakertype } from '../../../mottakertype';
 
 type Props = BrevmottakerFeltProps & {
     personopplysninger: IPersonopplysninger;

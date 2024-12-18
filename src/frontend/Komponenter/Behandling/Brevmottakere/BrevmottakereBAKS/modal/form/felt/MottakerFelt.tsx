@@ -3,12 +3,8 @@ import { Select } from '@navikt/ds-react';
 import { Controller, useFormContext } from 'react-hook-form';
 import { IPersonopplysninger } from '../../../../../../../App/typer/personopplysninger';
 import { BrevmottakerFeltnavn, BrevmottakerFeltProps } from './felttyper';
-import {
-    Brevmottaker,
-    utledGyldigeMottakertyper,
-    mottakerVisningsnavn,
-    utledNavn,
-} from '../../../brevmottaker';
+import { Brevmottaker, utledNavn } from '../../../brevmottaker';
+import { mottakertypeVisningsnavn, utledGyldigeMottakertyper } from '../../../mottakertype';
 
 type Props = BrevmottakerFeltProps & {
     personopplysninger: IPersonopplysninger;
@@ -56,7 +52,7 @@ export function MottakerFelt({
                         <option value="">-- Velg mottaker --</option>
                         {utledGyldigeMottakertyper(brevmottakere).map((mottaker) => (
                             <option key={mottaker} value={mottaker}>
-                                {mottakerVisningsnavn[mottaker]}
+                                {mottakertypeVisningsnavn[mottaker]}
                             </option>
                         ))}
                     </Select>

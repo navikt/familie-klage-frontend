@@ -12,8 +12,9 @@ import { Alert, Heading, VStack } from '@navikt/ds-react';
 import { EøsLandkode } from '../../../../../../Felles/Landvelger/landkode';
 import { IPersonopplysninger } from '../../../../../../App/typer/personopplysninger';
 import { BrevmottakerFeltnavn } from './felt/felttyper';
-import { Brevmottaker, Mottakertype, OpprettBrevmottakerDto } from '../../brevmottaker';
+import { Brevmottaker, OpprettBrevmottakerDto } from '../../brevmottaker';
 import styled from 'styled-components';
+import { Mottakertype } from '../../mottakertype';
 
 const StyledHeading = styled(Heading)`
     margin: 1rem 0 0.75rem;

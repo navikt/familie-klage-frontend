@@ -9,7 +9,8 @@ import { BrevmottakerTabell } from './tabell/BrevmottakerTabell';
 import { useApp } from '../../../../../App/context/AppContext';
 import { BrevmottakerForm } from './form/BrevmottakerForm';
 import { IPersonopplysninger } from '../../../../../App/typer/personopplysninger';
-import { Brevmottaker, Mottakertype, OpprettBrevmottakerDto, utledHeading } from '../brevmottaker';
+import { Brevmottaker, OpprettBrevmottakerDto, utledHeading } from '../brevmottaker';
+import { Mottakertype } from '../mottakertype';
 
 const StyledAlert = styled(Alert)`
     margin: 1rem 0 2.5rem;
