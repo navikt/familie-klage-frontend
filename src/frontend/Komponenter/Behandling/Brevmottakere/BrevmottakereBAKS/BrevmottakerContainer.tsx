@@ -8,6 +8,8 @@ import { BrevmottakerPanel } from './panel/BrevmottakerPanel';
 import { Brevmottaker } from './brevmottaker';
 import { OpprettBrevmottakerDto } from './opprettBrevmottakerDto';
 
+const API_BASE_URL = `/familie-klage/api/brevmottaker`;
+
 type Props = {
     behandlingId: string;
 };
@@ -20,13 +22,13 @@ export function BrevmottakerContainer({ behandlingId }: Props) {
     const hentBrevmottakere = useCallback(() => {
         axiosRequest<Brevmottaker[], null>({
             method: 'GET',
-            url: `/familie-klage/api/brevmottaker/${behandlingId}`,
+            url: `${API_BASE_URL}/${behandlingId}`,
         }).then((ressurs: Ressurs<Brevmottaker[]>) => settBrevmottakere(ressurs));
     }, [axiosRequest, behandlingId]);
 
     function opprettBrevmottaker(opprettBrevmottakerDto: OpprettBrevmottakerDto) {
         axiosRequest<Brevmottaker[], OpprettBrevmottakerDto>({
-            url: `familie-klage/api/brevmottaker/${behandlingId}`,
+            url: `${API_BASE_URL}/${behandlingId}`,
             method: 'POST',
             data: opprettBrevmottakerDto,
         }).then((ressurs: Ressurs<Brevmottaker[]>) => settBrevmottakere(ressurs));
@@ -35,7 +37,7 @@ export function BrevmottakerContainer({ behandlingId }: Props) {
     function slettBrevmottakere(brevmottakerId: string) {
         axiosRequest<Brevmottaker[], null>({
             method: 'DELETE',
-            url: `/familie-klage/api/brevmottaker/${behandlingId}/${brevmottakerId}`,
+            url: `${API_BASE_URL}/${behandlingId}/${brevmottakerId}`,
         }).then((ressurs: Ressurs<Brevmottaker[]>) => settBrevmottakere(ressurs));
     }
 
