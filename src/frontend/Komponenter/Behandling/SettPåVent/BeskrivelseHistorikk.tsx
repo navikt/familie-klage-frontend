@@ -1,58 +1,58 @@
-import React, { FC, useState } from 'react';
-import { Button, List } from '@navikt/ds-react';
+import React, { FC, useCallback, useState } from 'react';
+import { BodyShort, Button, Label } from '@navikt/ds-react';
 import { ChevronDownIcon, ChevronUpIcon } from '@navikt/aksel-icons';
 import { styled } from 'styled-components';
+import { ABlue300 } from '@navikt/ds-tokens/dist/tokens';
 
-const StyledButton = styled(Button)`
-    width: fit-content;
+const EkspanderbarContainer = styled(BodyShort)<{ $ekspandert: boolean }>`
+    max-height: ${(props) => (props.$ekspandert ? 'none' : '15rem')};
+    overflow: hidden;
+    white-space: pre-wrap;
+    max-width: 50rem;
 `;
 
-export interface BeskrivelseHistorikkInnslag {
-    endringDato: string;
-    endringDetaljer: string[];
-}
+const VenstreSkillelinje = styled.div`
+    border-left: 2px solid ${ABlue300};
+    padding-left: 1.5rem;
+`;
 
-const MAX_SYNLIGE_BESKRIVELSER = 4;
+const BeskrivelseContainer = styled.div`
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+`;
 
-export const BeskrivelseHistorikk: FC<{ beskrivelser: BeskrivelseHistorikkInnslag[] }> = ({
-    beskrivelser,
-}) => {
-    const [visAlleBeskrivelser, setVisAlleBeskrivelser] = useState(false);
+export const BeskrivelseHistorikk: FC<{ beskrivelse?: string }> = ({ beskrivelse }) => {
+    const [harOverflow, settHarOverflow] = useState(false);
+    const [ekspandert, settEkspandert] = useState(false);
 
-    const toggleVisAlleBeskrivelser = () => {
-        setVisAlleBeskrivelser(!visAlleBeskrivelser);
-    };
-
-    const visteBeskrivelser = visAlleBeskrivelser
-        ? beskrivelser
-        : beskrivelser.slice(0, MAX_SYNLIGE_BESKRIVELSER);
+    const refCallback: React.RefCallback<HTMLElement> = useCallback((ref) => {
+        if (ref !== null) {
+            settHarOverflow(ref.scrollHeight > ref.clientHeight);
+        }
+    }, []);
 
     return (
-        <>
-            {beskrivelser.length > 0 && (
-                <List as="ul" title="Beskrivelsehistorikk" size="small">
-                    {visteBeskrivelser.map((beskrivelse, index) => (
-                        <List.Item key={index}>
-                            <strong>{beskrivelse.endringDato}</strong>
-                            <ul>
-                                {beskrivelse.endringDetaljer.map((detail, detailIndex) => (
-                                    <li key={detailIndex}>{detail}</li>
-                                ))}
-                            </ul>
-                        </List.Item>
-                    ))}
-                </List>
-            )}
-            {beskrivelser.length > MAX_SYNLIGE_BESKRIVELSER && (
-                <StyledButton
-                    icon={visAlleBeskrivelser ? <ChevronUpIcon /> : <ChevronDownIcon />}
-                    variant="tertiary"
-                    size="xsmall"
-                    onClick={toggleVisAlleBeskrivelser}
-                >
-                    {visAlleBeskrivelser ? 'Skjul beskrivelsen' : 'Se hele beskrivelsen'}
-                </StyledButton>
-            )}
-        </>
+        <section>
+            <BeskrivelseContainer>
+                <Label size={'small'}>Beskrivelseshistorikk</Label>
+                <VenstreSkillelinje>
+                    <EkspanderbarContainer ref={refCallback} $ekspandert={ekspandert} size="small">
+                        {beskrivelse}
+                    </EkspanderbarContainer>
+                    {(harOverflow || ekspandert) && (
+                        <Button
+                            variant={'tertiary'}
+                            icon={ekspandert ? <ChevronUpIcon /> : <ChevronDownIcon />}
+                            iconPosition={'right'}
+                            type={'button'}
+                            onClick={() => settEkspandert((prevstate) => !prevstate)}
+                        >
+                            {ekspandert ? 'Skjul beskrivelsen' : 'Se hele beskrivelsen'}
+                        </Button>
+                    )}
+                </VenstreSkillelinje>
+            </BeskrivelseContainer>
+        </section>
     );
 };

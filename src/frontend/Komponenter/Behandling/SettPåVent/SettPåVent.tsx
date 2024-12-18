@@ -14,7 +14,6 @@ import { useApp } from '../../../App/context/AppContext';
 import DataViewer from '../../../Felles/DataViewer/DataViewer';
 import { useBehandling } from '../../../App/context/BehandlingContext';
 import { BehandlingStatus } from '../../../App/typer/behandlingstatus';
-import { splitBeskrivelser } from './SettPåVentUtils';
 import { SaksbehandlerVelger } from './SaksbehandlerVelger';
 import { PrioritetVelger } from './PrioritetVelger';
 import { FristVelger } from './FristVelger';
@@ -170,11 +169,7 @@ export const SettPåVent: FC<{ behandling: Behandling }> = ({ behandling }) => {
                                 erLesevisning={erBehandlingPåVent}
                             />
                         </HStack>
-                        <BeskrivelseHistorikk
-                            beskrivelser={
-                                oppgave.beskrivelse ? splitBeskrivelser(oppgave?.beskrivelse) : []
-                            }
-                        />
+                        <BeskrivelseHistorikk beskrivelse={oppgave.beskrivelse} />
                         {!erBehandlingPåVent && (
                             <Beskrivelse
                                 label={'Beskrivelse'}
