@@ -23,19 +23,20 @@ export function BrevmottakereWrapper({ behandlingId }: Props) {
         }).then((res: Ressurs<Brevmottaker[]>) => settMottakere(res));
     }, [axiosRequest, behandlingId]);
 
-    const opprettBrevmottaker = (brevmottaker: OpprettBrevmottakerDto) =>
+    function opprettBrevmottaker(opprettBrevmottakerDto: OpprettBrevmottakerDto) {
         axiosRequest<Brevmottaker[], OpprettBrevmottakerDto>({
             url: `familie-klage/api/brevmottaker/${behandlingId}`,
             method: 'POST',
-            data: brevmottaker,
+            data: opprettBrevmottakerDto,
         }).then((res: Ressurs<Brevmottaker[]>) => settMottakere(res));
+    }
 
-    const slettBrevmottakere = (brevmottakerId: string) => {
+    function slettBrevmottakere(brevmottakerId: string) {
         axiosRequest<Brevmottaker[], null>({
             method: 'DELETE',
             url: `/familie-klage/api/brevmottaker/${behandlingId}/${brevmottakerId}`,
         }).then((res: Ressurs<Brevmottaker[]>) => settMottakere(res));
-    };
+    }
 
     useEffect(() => {
         hentBrevmottakere();
