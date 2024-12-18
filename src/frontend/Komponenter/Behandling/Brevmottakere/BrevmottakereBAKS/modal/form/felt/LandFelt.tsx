@@ -16,7 +16,7 @@ export function LandFelt({ feltnavn, visningsnavn, erLesevisning, personopplysni
         <Controller
             control={control}
             rules={{
-                required: 'Land er påkrevd.',
+                required: `${visningsnavn} er påkrevd.`,
                 validate: (landkode) => {
                     const mottakertype = getValues(BrevmottakerFeltnavn.MOTTAKERTYPE);
                     if (
