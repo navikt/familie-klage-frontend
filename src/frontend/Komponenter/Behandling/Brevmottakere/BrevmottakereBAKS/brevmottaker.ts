@@ -35,9 +35,9 @@ export function utledBrevmottakernavn(
     }
 }
 
-export function utledNavnPåBrevmottakere(brevMottakere: Brevmottaker[]) {
+export function utledOppsumeringsnavnPåBrevmottakere(brevmottakere: Brevmottaker[]) {
     return [
-        ...brevMottakere.map((person) => {
+        ...brevmottakere.map((person) => {
             const land = CountryData.getCountryInstance('nb').findByValue(person.landkode).label;
             return (
                 `${person.navn} (${mottakertypeVisningsnavn[person.mottakertype]}): ${person.adresselinje1}, ` +
@@ -47,4 +47,11 @@ export function utledNavnPåBrevmottakere(brevMottakere: Brevmottaker[]) {
             );
         }),
     ];
+}
+
+export function finnesBrevmottakerMedMottakertype(
+    brevmottakere: Brevmottaker[],
+    mottakertype: Mottakertype
+) {
+    return brevmottakere.some((brevmottaker) => mottakertype === brevmottaker.mottakertype);
 }

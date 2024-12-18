@@ -9,7 +9,11 @@ import { RegistrerteBrevmottakere } from './oversikt/RegistrerteBrevmottakere';
 import { useApp } from '../../../../../App/context/AppContext';
 import { BrevmottakerForm } from './form/BrevmottakerForm';
 import { IPersonopplysninger } from '../../../../../App/typer/personopplysninger';
-import { Brevmottaker, OpprettBrevmottakerDto } from '../brevmottaker';
+import {
+    Brevmottaker,
+    finnesBrevmottakerMedMottakertype,
+    OpprettBrevmottakerDto,
+} from '../brevmottaker';
 import { Mottakertype } from '../mottakertype';
 
 const LeggTilKnapp = styled(Button)`
@@ -50,13 +54,14 @@ export function BrevmottakerModalBAKS({
     const { settVisBrevmottakereModal, visBrevmottakereModal } = useApp();
     const [visSkjema, settVisSkjema] = useState(false);
 
-    const erBrevmottakerMedDødsbo = brevmottakere
-        .map((brevmottaker) => brevmottaker.mottakertype)
-        .some((mottakertype) => Mottakertype.DØDSBO === mottakertype);
+    const finnesBrevmottakerMedDødsbo = finnesBrevmottakerMedMottakertype(
+        brevmottakere,
+        Mottakertype.DØDSBO
+    );
 
     const erSkjemaSynlig =
         visBrevmottakereModal &&
-        !erBrevmottakerMedDødsbo &&
+        !finnesBrevmottakerMedDødsbo &&
         ((brevmottakere.length === 0 && !erLesevisning) ||
             (brevmottakere.length === 1 && visSkjema));
 
@@ -66,7 +71,7 @@ export function BrevmottakerModalBAKS({
     };
 
     const visLeggTilKnapp =
-        brevmottakere.length === 1 && !erLesevisning && !erBrevmottakerMedDødsbo;
+        brevmottakere.length === 1 && !erLesevisning && !finnesBrevmottakerMedDødsbo;
 
     return (
         <Modal
@@ -99,7 +104,7 @@ export function BrevmottakerModalBAKS({
                         />
                     ) : (
                         <>
-                            {erBrevmottakerMedDødsbo && (
+                            {finnesBrevmottakerMedDødsbo && (
                                 <Alert variant={'info'} inline={true}>
                                     Ved dødsbo kan kun en brevmottaker legges til.
                                 </Alert>

@@ -3,7 +3,7 @@ import { useApp } from '../../../../../App/context/AppContext';
 import { useBehandling } from '../../../../../App/context/BehandlingContext';
 import { Alert, BodyShort, Button, Label, Tooltip } from '@navikt/ds-react';
 import styled from 'styled-components';
-import { Brevmottaker, utledNavnPåBrevmottakere } from '../brevmottaker';
+import { Brevmottaker, utledOppsumeringsnavnPåBrevmottakere } from '../brevmottaker';
 
 const InfoHeader = styled.div`
     display: grid;
@@ -18,7 +18,7 @@ export function BrevmottakereOppsumering({ brevmottakere }: Props) {
     const { settVisBrevmottakereModal } = useApp();
     const { behandlingErRedigerbar } = useBehandling();
 
-    const navn = utledNavnPåBrevmottakere(brevmottakere);
+    const navn = utledOppsumeringsnavnPåBrevmottakere(brevmottakere);
 
     return (
         <Alert variant={'info'}>
