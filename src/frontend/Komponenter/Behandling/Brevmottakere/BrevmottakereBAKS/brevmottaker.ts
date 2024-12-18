@@ -18,7 +18,7 @@ export function utledBrevmottakernavnVedDødsbo(navn: string, landkode: string):
     return landkode === EøsLandkode.NO ? `${navn} v/dødsbo` : `Estate of ${navn}`;
 }
 
-// TODO : Navn blir ikke resatt, skal de det?
+// TODO : Navn blir ikke tilbakestilt, skal det det?
 export function utledBrevmottakernavn(
     navnFraFelt: string,
     navnFraPersonopplysninger: string,
