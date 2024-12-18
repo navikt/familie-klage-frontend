@@ -3,7 +3,7 @@ import { useApp } from '../../../../App/context/AppContext';
 import DataViewer from '../../../../Felles/DataViewer/DataViewer';
 import { useBehandling } from '../../../../App/context/BehandlingContext';
 import { byggTomRessurs, Ressurs } from '../../../../App/typer/ressurs';
-import { BrevmottakerModalBAKS } from './modal/BrevmottakerModalBAKS';
+import { BrevmottakerModal } from './modal/BrevmottakerModal';
 import { BrevmottakereOppsumering } from './oppsumering/BrevmottakerOppsumering';
 import { Brevmottaker, OpprettBrevmottakerDto } from './brevmottaker';
 
@@ -47,7 +47,7 @@ export function BrevmottakereWrapper({ behandlingId }: Props) {
             {({ mottakere, personopplysninger }) => (
                 <>
                     <BrevmottakereOppsumering brevmottakere={mottakere} />
-                    <BrevmottakerModalBAKS
+                    <BrevmottakerModal
                         behandlingId={behandlingId}
                         personopplysninger={personopplysninger}
                         brevmottakere={mottakere}

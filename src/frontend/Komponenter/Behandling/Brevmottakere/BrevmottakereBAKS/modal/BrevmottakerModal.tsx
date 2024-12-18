@@ -43,7 +43,7 @@ function utledHeading(antallMottakere: number, erLesevisning: boolean) {
     return antallMottakere === 1 ? 'Legg til eller fjern brevmottaker' : 'Brevmottakere';
 }
 
-export function BrevmottakerModalBAKS({
+export function BrevmottakerModal({
     behandlingId,
     personopplysninger,
     brevmottakere,
