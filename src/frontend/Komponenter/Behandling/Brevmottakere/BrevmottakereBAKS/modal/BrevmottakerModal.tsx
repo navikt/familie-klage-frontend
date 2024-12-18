@@ -80,7 +80,7 @@ export function BrevmottakerModal({
         >
             <Modal.Body>
                 <VStack gap={'4'}>
-                    <Alert variant="info">
+                    <Alert variant={'info'}>
                         Brev sendes til brukers folkeregistrerte adresse eller annen foretrukken
                         kanal. Legg til mottaker dersom brev skal sendes til utenlandsk adresse,
                         fullmektig, verge eller dødsbo.

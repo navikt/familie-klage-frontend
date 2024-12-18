@@ -1,5 +1,5 @@
 import React from 'react';
-import { FormProvider, useForm } from 'react-hook-form';
+import { DefaultValues, FormProvider, useForm } from 'react-hook-form';
 import { LandFelt } from './felt/LandFelt';
 import { MottakerFelt } from './felt/MottakerFelt';
 import { Knapper } from './felt/Knapper';
@@ -25,11 +25,21 @@ export type BrevmottakerFormValues = {
     [BrevmottakerFeltnavn.POSTSTED]: string;
 };
 
+const defaultValues: DefaultValues<BrevmottakerFormValues> = {
+    [BrevmottakerFeltnavn.MOTTAKERTYPE]: '',
+    [BrevmottakerFeltnavn.LANDKODE]: EøsLandkode.NO,
+    [BrevmottakerFeltnavn.NAVN]: '',
+    [BrevmottakerFeltnavn.ADRESSELINJE1]: '',
+    [BrevmottakerFeltnavn.ADRESSELINJE2]: '',
+    [BrevmottakerFeltnavn.POSTNUMMER]: '',
+    [BrevmottakerFeltnavn.POSTSTED]: '',
+};
+
 type Props = {
     behandlingId: string;
     personopplysninger: IPersonopplysninger;
     brevmottakere: Brevmottaker[];
-    erLesevisning: boolean; // TODO : Flytt til context?
+    erLesevisning: boolean;
     lukkModal: () => void;
     opprettBrevmottaker: (opprettBrevmottakerDto: OpprettBrevmottakerDto) => void;
 };
@@ -41,19 +51,7 @@ export function BrevmottakerForm({
     lukkModal,
     opprettBrevmottaker,
 }: Props) {
-    const form = useForm<BrevmottakerFormValues>({
-        mode: 'all',
-        defaultValues: {
-            [BrevmottakerFeltnavn.MOTTAKERTYPE]: '',
-            [BrevmottakerFeltnavn.LANDKODE]: EøsLandkode.NO,
-            [BrevmottakerFeltnavn.NAVN]: '',
-            [BrevmottakerFeltnavn.ADRESSELINJE1]: '',
-            [BrevmottakerFeltnavn.ADRESSELINJE2]: '',
-            [BrevmottakerFeltnavn.POSTNUMMER]: '',
-            [BrevmottakerFeltnavn.POSTSTED]: '',
-        },
-    });
-
+    const form = useForm<BrevmottakerFormValues>({ mode: 'all', defaultValues });
     const { handleSubmit, getValues } = form;
 
     const landkode = getValues(BrevmottakerFeltnavn.LANDKODE);
@@ -61,8 +59,8 @@ export function BrevmottakerForm({
     const erUtenlandskAdresseValgt = erLandValgt && landkode !== EøsLandkode.NO;
 
     function onSubmit(brevmottakerFormValues: BrevmottakerFormValues) {
-        const dto = lagOpprettBrevmottakerDto(brevmottakerFormValues);
-        opprettBrevmottaker(dto);
+        const opprettBrevmottakerDto = lagOpprettBrevmottakerDto(brevmottakerFormValues);
+        opprettBrevmottaker(opprettBrevmottakerDto);
     }
 
     return (

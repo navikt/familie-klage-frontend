@@ -4,9 +4,11 @@ import { EøsLandkode } from '../../../../Felles/Landvelger/landkode';
 
 export type OpprettBrevmottakerDto = Omit<Brevmottaker, 'id'>;
 
-export function lagOpprettBrevmottakerDto(brevmottakerFormValues: BrevmottakerFormValues) {
+export function lagOpprettBrevmottakerDto(
+    brevmottakerFormValues: BrevmottakerFormValues
+): OpprettBrevmottakerDto {
     if (brevmottakerFormValues.mottakertype === '') {
-        throw Error('Mottakertype er påkrevd.');
+        throw Error('Ugyldig tilstand. Mottakertype er påkrevd.');
     }
     const erUtenlandskLandkode = brevmottakerFormValues.landkode !== EøsLandkode.NO;
     return {
