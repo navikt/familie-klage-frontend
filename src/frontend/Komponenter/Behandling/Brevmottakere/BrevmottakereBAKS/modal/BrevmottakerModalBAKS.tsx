@@ -5,7 +5,7 @@ import styled from 'styled-components';
 import { PlusCircleIcon } from '@navikt/aksel-icons';
 import { Alert, Button, Modal } from '@navikt/ds-react';
 
-import BrevmottakerTabell from './tabell/BrevmottakerTabell';
+import { BrevmottakerTabell } from './tabell/BrevmottakerTabell';
 import { useApp } from '../../../../../App/context/AppContext';
 import { BrevmottakerForm } from './form/BrevmottakerForm';
 import { IPersonopplysninger } from '../../../../../App/typer/personopplysninger';
@@ -21,23 +21,23 @@ const LukkKnapp = styled(Button)`
     margin-top: 2.5rem;
 `;
 
-interface Props {
+type Props = {
     behandlingId: string;
     personopplysninger: IPersonopplysninger;
     brevmottakere: Brevmottaker[];
     opprettBrevmottaker: (brevmottaker: OpprettBrevmottakerDto) => void;
     slettBrevmottaker: (brevmottakerId: string) => void;
     erLesevisning: boolean;
-}
+};
 
-export const BrevmottakerModalBAKS = ({
+export function BrevmottakerModalBAKS({
     behandlingId,
     personopplysninger,
     brevmottakere,
     opprettBrevmottaker,
     slettBrevmottaker,
     erLesevisning,
-}: Props) => {
+}: Props) {
     const { settVisBrevmottakereModal, visBrevmottakereModal } = useApp();
     const [visSkjema, settVisSkjema] = useState(false);
 
@@ -112,4 +112,4 @@ export const BrevmottakerModalBAKS = ({
             </Modal.Body>
         </Modal>
     );
-};
+}

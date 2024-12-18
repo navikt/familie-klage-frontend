@@ -33,13 +33,13 @@ const DefinitionList = styled.dl`
     }
 `;
 
-interface Props {
+type Props = {
     brevmottakere: Brevmottaker[];
     slettBrevmottaker: (brevmottakerId: string) => void;
     erLesevisning: boolean;
-}
+};
 
-const BrevmottakerTabell = ({ brevmottakere, slettBrevmottaker, erLesevisning }: Props) => {
+export function BrevmottakerTabell({ brevmottakere, slettBrevmottaker, erLesevisning }: Props) {
     return brevmottakere.map((brevmottaker) => {
         const land = CountryData.getCountryInstance('nb').findByValue(brevmottaker.landkode);
 
@@ -91,6 +91,4 @@ const BrevmottakerTabell = ({ brevmottakere, slettBrevmottaker, erLesevisning }:
             </StyledDiv>
         );
     });
-};
-
-export default BrevmottakerTabell;
+}

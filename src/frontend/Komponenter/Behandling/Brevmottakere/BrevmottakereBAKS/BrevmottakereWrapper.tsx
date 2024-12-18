@@ -7,7 +7,11 @@ import { BrevmottakerModalBAKS } from './modal/BrevmottakerModalBAKS';
 import { BrevmottakereOppsumering } from './oppsumering/BrevmottakerOppsumering';
 import { Brevmottaker, OpprettBrevmottakerDto } from './brevmottaker';
 
-const BrevmottakereWrapper: React.FC<{ behandlingId: string }> = ({ behandlingId }) => {
+type Props = {
+    behandlingId: string;
+};
+
+export function BrevmottakereWrapper({ behandlingId }: Props) {
     const { axiosRequest } = useApp();
     const { personopplysningerResponse: personopplysninger } = useBehandling();
     const [mottakere, settMottakere] = useState<Ressurs<Brevmottaker[]>>(byggTomRessurs());
@@ -54,6 +58,4 @@ const BrevmottakereWrapper: React.FC<{ behandlingId: string }> = ({ behandlingId
             )}
         </DataViewer>
     );
-};
-
-export default BrevmottakereWrapper;
+}

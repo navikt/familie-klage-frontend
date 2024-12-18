@@ -18,7 +18,7 @@ import { ModalWrapper } from '../../../Felles/Modal/ModalWrapper';
 import SystemetLaster from '../../../Felles/SystemetLaster/SystemetLaster';
 import { OmgjørVedtak } from './OmgjørVedtak';
 import { Behandling } from '../../../App/typer/fagsak';
-import BrevmottakereWrapper from '../Brevmottakere/BrevmottakereBAKS/BrevmottakereWrapper';
+import { BrevmottakereWrapper } from '../Brevmottakere/BrevmottakereBAKS/BrevmottakereWrapper';
 
 const Brevside = styled.div`
     background-color: var(--a-bg-subtle);
