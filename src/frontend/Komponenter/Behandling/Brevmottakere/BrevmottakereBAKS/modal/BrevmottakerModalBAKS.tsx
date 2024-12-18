@@ -5,7 +5,7 @@ import styled from 'styled-components';
 import { PlusCircleIcon } from '@navikt/aksel-icons';
 import { Alert, Button, Modal, VStack } from '@navikt/ds-react';
 
-import { BrevmottakerTabell } from './tabell/BrevmottakerTabell';
+import { RegistrerteBrevmottakere } from './oversikt/RegistrerteBrevmottakere';
 import { useApp } from '../../../../../App/context/AppContext';
 import { BrevmottakerForm } from './form/BrevmottakerForm';
 import { IPersonopplysninger } from '../../../../../App/typer/personopplysninger';
@@ -73,7 +73,7 @@ export function BrevmottakerModalBAKS({
                         kanal. Legg til mottaker dersom brev skal sendes til utenlandsk adresse,
                         fullmektig, verge eller dødsbo.
                     </Alert>
-                    <BrevmottakerTabell
+                    <RegistrerteBrevmottakere
                         brevmottakere={brevmottakere}
                         slettBrevmottaker={slettBrevmottaker}
                         erLesevisning={erLesevisning}

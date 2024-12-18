@@ -31,7 +31,11 @@ type Props = {
     erLesevisning: boolean;
 };
 
-export function BrevmottakerTabell({ brevmottakere, slettBrevmottaker, erLesevisning }: Props) {
+export function RegistrerteBrevmottakere({
+    brevmottakere,
+    slettBrevmottaker,
+    erLesevisning,
+}: Props) {
     return brevmottakere.map((brevmottaker) => {
         const land = CountryData.getCountryInstance('nb').findByValue(brevmottaker.landkode);
         return (
