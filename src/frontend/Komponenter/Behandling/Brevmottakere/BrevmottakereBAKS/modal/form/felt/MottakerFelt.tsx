@@ -5,8 +5,7 @@ import { IPersonopplysninger } from '../../../../../../../App/typer/personopplys
 import { BrevmottakerFeltnavn, BrevmottakerFeltProps } from './felttyper';
 import {
     Brevmottaker,
-    finnGyldigeMottakertyper,
-    Mottakertype,
+    utledGyldigeMottakertyper,
     mottakerVisningsnavn,
     utledNavn,
 } from '../../../brevmottaker';
@@ -24,7 +23,6 @@ export function MottakerFelt({
     erLesevisning,
 }: Props) {
     const { control, formState, setValue, getValues } = useFormContext();
-
     return (
         <Controller
             control={control}
@@ -42,18 +40,13 @@ export function MottakerFelt({
                         onBlur={field.onBlur}
                         onChange={(event) => {
                             const value = event.target.value;
-                            const [landkode, utfyltNavn] = getValues([
+                            const [landkode, navn] = getValues([
                                 BrevmottakerFeltnavn.LANDKODE,
                                 BrevmottakerFeltnavn.NAVN,
                             ]);
                             setValue(
                                 BrevmottakerFeltnavn.NAVN,
-                                utledNavn(
-                                    utfyltNavn,
-                                    personopplysninger.navn,
-                                    landkode,
-                                    value as Mottakertype
-                                )
+                                utledNavn(navn, personopplysninger.navn, landkode, value)
                             );
                             field.onChange(event);
                         }}
@@ -61,7 +54,7 @@ export function MottakerFelt({
                         readOnly={erLesevisning}
                     >
                         <option value="">-- Velg mottaker --</option>
-                        {finnGyldigeMottakertyper(brevmottakere).map((mottaker) => (
+                        {utledGyldigeMottakertyper(brevmottakere).map((mottaker) => (
                             <option key={mottaker} value={mottaker}>
                                 {mottakerVisningsnavn[mottaker]}
                             </option>

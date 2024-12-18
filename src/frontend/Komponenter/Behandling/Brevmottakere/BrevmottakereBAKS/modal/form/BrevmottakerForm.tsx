@@ -2,7 +2,7 @@ import React from 'react';
 import { FormProvider, SubmitHandler, useForm } from 'react-hook-form';
 import { LandFelt } from './felt/LandFelt';
 import { MottakerFelt } from './felt/MottakerFelt';
-import { Submit } from './felt/Submit';
+import { Knapper } from './felt/Knapper';
 import { FormDebugger } from './FormDebugger';
 import { NavnFelt } from './felt/NavnFelt';
 import { AdresselinjeFelt } from './felt/AdresselinjeFelt';
@@ -144,7 +144,7 @@ export function BrevmottakerForm({
                             )}
                         </>
                     )}
-                    <Submit erLesevisning={erLesevisning} lukkModal={lukkModal} />
+                    <Knapper erLesevisning={erLesevisning} vedAvbrytKlikk={lukkModal} />
                     <FormDebugger />
                 </VStack>
             </form>

@@ -38,15 +38,15 @@ export function LandFelt({ feltnavn, visningsnavn, erLesevisning, personopplysni
                         ref={field.ref}
                         onBlur={field.onBlur}
                         value={field.value}
-                        onToggleSelected={(option, isSelected) => {
-                            field.onChange(isSelected ? option : '');
+                        onToggleSelected={(landkode, isSelected) => {
                             const mottakertype = getValues(BrevmottakerFeltnavn.MOTTAKERTYPE);
                             if (isSelected && mottakertype === Mottakertype.DØDSBO) {
                                 setValue(
                                     BrevmottakerFeltnavn.NAVN,
-                                    utledNavnVedDødsbo(personopplysninger.navn, option)
+                                    utledNavnVedDødsbo(personopplysninger.navn, landkode)
                                 );
                             }
+                            field.onChange(isSelected ? landkode : '');
                         }}
                         error={visFeilmelding && fieldState.error?.message}
                         readOnly={erLesevisning}

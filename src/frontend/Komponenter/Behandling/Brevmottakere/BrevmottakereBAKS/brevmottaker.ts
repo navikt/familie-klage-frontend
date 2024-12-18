@@ -32,22 +32,22 @@ export const utledNavnVedDødsbo = (navn: string, landkode: string) => {
 };
 
 export const utledNavn = (
-    utfyltNavn: string,
-    navn: string,
+    navnFraFelt: string,
+    navnFraPersonopplysninger: string,
     landkode: string,
-    mottakertype: Mottakertype
+    mottakertype: Mottakertype | string
 ) => {
     switch (mottakertype) {
         case Mottakertype.DØDSBO:
-            return utledNavnVedDødsbo(navn, landkode);
+            return utledNavnVedDødsbo(navnFraPersonopplysninger, landkode);
         case Mottakertype.BRUKER_MED_UTENLANDSK_ADRESSE:
-            return navn;
+            return navnFraPersonopplysninger;
         default:
-            return utfyltNavn;
+            return navnFraFelt;
     }
 };
 
-export const finnGyldigeMottakertyper = (brevmottakere: Brevmottaker[]) => {
+export const utledGyldigeMottakertyper = (brevmottakere: Brevmottaker[]) => {
     const valgteBrevmottakertyper = brevmottakere.map((brevmottaker) => brevmottaker.mottakertype);
     if (valgteBrevmottakertyper.includes(Mottakertype.BRUKER_MED_UTENLANDSK_ADRESSE)) {
         return [Mottakertype.VERGE, Mottakertype.FULLMEKTIG];

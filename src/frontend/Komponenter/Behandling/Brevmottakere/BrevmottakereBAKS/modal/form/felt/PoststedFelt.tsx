@@ -16,7 +16,7 @@ export function PoststedFelt({ feltnavn, visningsnavn, erLesevisning }: Props) {
                 required:
                     getValues(BrevmottakerFeltnavn.LANDKODE) === EøsLandkode.NO
                         ? `${visningsnavn} er påkrevd om landet er Norge.`
-                        : false,
+                        : undefined,
                 maxLength: { value: 50, message: `${visningsnavn} kan inneholde maks 50 tegn.` },
             }}
             render={({ field, fieldState }) => {
