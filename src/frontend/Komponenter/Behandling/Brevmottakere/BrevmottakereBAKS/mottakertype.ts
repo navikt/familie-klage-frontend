@@ -15,7 +15,7 @@ export const mottakertypeVisningsnavn: Record<Mottakertype, string> = {
     DØDSBO: 'Dødsbo',
 };
 
-export function utledGyldigeMottakertyper(brevmottakere: Brevmottaker[]) {
+export function utledGyldigeMottakertyper(brevmottakere: Brevmottaker[]): Mottakertype[] {
     const valgteBrevmottakertyper = brevmottakere.map((brevmottaker) => brevmottaker.mottakertype);
     if (valgteBrevmottakertyper.includes(Mottakertype.BRUKER_MED_UTENLANDSK_ADRESSE)) {
         return [Mottakertype.VERGE, Mottakertype.FULLMEKTIG];

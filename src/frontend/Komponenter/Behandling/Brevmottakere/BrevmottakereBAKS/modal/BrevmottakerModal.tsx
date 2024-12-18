@@ -30,7 +30,7 @@ type Props = {
     erLesevisning: boolean;
 };
 
-function utledHeading(antallMottakere: number, erLesevisning: boolean) {
+function utledHeading(antallMottakere: number, erLesevisning: boolean): string {
     if (erLesevisning) {
         return antallMottakere === 1 ? 'Brevmottaker' : 'Brevmottakere';
     }

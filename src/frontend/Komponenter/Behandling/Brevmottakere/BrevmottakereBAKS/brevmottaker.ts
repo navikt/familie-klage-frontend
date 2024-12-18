@@ -13,7 +13,7 @@ export type Brevmottaker = {
     poststed?: string | null;
 };
 
-export function utledBrevmottakernavnVedDødsbo(navn: string, landkode: string) {
+export function utledBrevmottakernavnVedDødsbo(navn: string, landkode: string): string {
     return landkode === EøsLandkode.NO ? `${navn} v/dødsbo` : `Estate of ${navn}`;
 }
 
@@ -22,7 +22,7 @@ export function utledBrevmottakernavn(
     navnFraPersonopplysninger: string,
     landkode: string,
     mottakertype: Mottakertype | string
-) {
+): string {
     switch (mottakertype) {
         case Mottakertype.DØDSBO:
             return utledBrevmottakernavnVedDødsbo(navnFraPersonopplysninger, landkode);
@@ -33,7 +33,7 @@ export function utledBrevmottakernavn(
     }
 }
 
-export function utledOppsumeringsnavnPåBrevmottakere(brevmottakere: Brevmottaker[]) {
+export function utledOppsumeringsnavnPåBrevmottakere(brevmottakere: Brevmottaker[]): string[] {
     return [
         ...brevmottakere.map((person) => {
             const land = CountryData.getCountryInstance('nb').findByValue(person.landkode).label;
@@ -50,6 +50,6 @@ export function utledOppsumeringsnavnPåBrevmottakere(brevmottakere: Brevmottake
 export function finnesBrevmottakerMedMottakertype(
     brevmottakere: Brevmottaker[],
     mottakertype: Mottakertype
-) {
+): boolean {
     return brevmottakere.some((brevmottaker) => mottakertype === brevmottaker.mottakertype);
 }
