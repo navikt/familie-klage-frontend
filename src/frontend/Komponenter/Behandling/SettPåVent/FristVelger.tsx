@@ -4,7 +4,7 @@ import { nullableTilDato, tilLocaleDateString } from '../../../App/utils/dato';
 import { formaterNullableIsoDato } from '../../../App/utils/formatter';
 import { IOppgave } from './IOppgave';
 
-const FristVelger: FC<{
+export const FristVelger: FC<{
     oppgave: IOppgave;
     settFrist: (frist: string | undefined) => void;
     erLesevisning: boolean;
@@ -32,5 +32,3 @@ const FristVelger: FC<{
         </div>
     );
 };
-
-export default FristVelger;

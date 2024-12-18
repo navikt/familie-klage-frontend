@@ -14,12 +14,12 @@ import { useApp } from '../../../App/context/AppContext';
 import DataViewer from '../../../Felles/DataViewer/DataViewer';
 import { useBehandling } from '../../../App/context/BehandlingContext';
 import { BehandlingStatus } from '../../../App/typer/behandlingstatus';
-import BeskrivelseHistorikk from './BeskrivelseHistorikk';
 import { splitBeskrivelser } from './SettPåVentUtils';
-import SaksbehandlerVelger from './SaksbehandlerVelger';
-import PrioritetVelger from './PrioritetVelger';
-import FristVelger from './FristVelger';
-import SettPåVentKnappValg from './SettPåVentKnappValg';
+import { SaksbehandlerVelger } from './SaksbehandlerVelger';
+import { PrioritetVelger } from './PrioritetVelger';
+import { FristVelger } from './FristVelger';
+import { BeskrivelseHistorikk } from './BeskrivelseHistorikk';
+import { SettPåVentKnappValg } from './SettPåVentKnappValg';
 
 const StyledVStack = styled(VStack)`
     background-color: #e6f1f8;
@@ -38,7 +38,7 @@ type SettPåVentRequest = {
     beskrivelse: string;
 };
 
-const SettPåVent: FC<{ behandling: Behandling }> = ({ behandling }) => {
+export const SettPåVent: FC<{ behandling: Behandling }> = ({ behandling }) => {
     const [oppgave, settOppgave] = useState<Ressurs<IOppgave>>(byggTomRessurs<IOppgave>());
     const [saksbehandler, settSaksbehandler] = useState<string>('');
     const [prioritet, settPrioritet] = useState<Prioritet | undefined>();
@@ -196,5 +196,3 @@ const SettPåVent: FC<{ behandling: Behandling }> = ({ behandling }) => {
         </DataViewer>
     ) : null;
 };
-
-export default SettPåVent;

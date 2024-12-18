@@ -14,7 +14,7 @@ import { HenleggModal } from './Henleggelse/HenleggModal';
 import ScrollToTop from '../../Felles/ScrollToTop/ScrollToTop';
 import { useSetPersonIdent } from '../../App/hooks/useSetPersonIdent';
 import { useSetValgtFagsakId } from '../../App/hooks/useSetValgtFagsakId';
-import SettPåVent from './SettPåVent/SettPåVent';
+import { SettPåVent } from './SettPåVent/SettPåVent';
 
 const Container = styled.div`
     display: flex;
