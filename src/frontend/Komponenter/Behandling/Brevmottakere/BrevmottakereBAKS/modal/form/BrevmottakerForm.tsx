@@ -2,12 +2,11 @@ import React from 'react';
 import { DefaultValues, FormProvider, useForm } from 'react-hook-form';
 import { LandFelt } from './felt/LandFelt';
 import { MottakerFelt } from './felt/MottakerFelt';
-import { Knapper } from './felt/Knapper';
 import { NavnFelt } from './felt/NavnFelt';
 import { AdresselinjeFelt } from './felt/AdresselinjeFelt';
 import { PostnummerFelt } from './felt/PostnummerFelt';
 import { PoststedFelt } from './felt/PoststedFelt';
-import { Alert, Heading, VStack } from '@navikt/ds-react';
+import { Alert, Button, Heading, HStack, VStack } from '@navikt/ds-react';
 import { EøsLandkode } from '../../../../../../Felles/Landvelger/landkode';
 import { IPersonopplysninger } from '../../../../../../App/typer/personopplysninger';
 import { BrevmottakerFeltnavn } from './felt/felttyper';
@@ -44,6 +43,7 @@ type Props = {
     opprettBrevmottaker: (opprettBrevmottakerDto: OpprettBrevmottakerDto) => void;
 };
 
+// TODO : Burde "Avbryt" knappen lukke hele modalen eller kun formen?
 export function BrevmottakerForm({
     personopplysninger,
     brevmottakere,
@@ -52,9 +52,9 @@ export function BrevmottakerForm({
     opprettBrevmottaker,
 }: Props) {
     const form = useForm<BrevmottakerFormValues>({ mode: 'all', defaultValues });
-    const { handleSubmit, getValues } = form;
+    const { handleSubmit, watch } = form;
 
-    const landkode = getValues(BrevmottakerFeltnavn.LANDKODE);
+    const landkode = watch(BrevmottakerFeltnavn.LANDKODE);
     const erLandValgt = landkode !== '';
     const erUtenlandskAdresseValgt = erLandValgt && landkode !== EøsLandkode.NO;
 
@@ -127,7 +127,16 @@ export function BrevmottakerForm({
                             )}
                         </>
                     )}
-                    <Knapper erLesevisning={erLesevisning} vedAvbrytKlikk={lukkModal} />
+                    <HStack gap={'4'}>
+                        {!erLesevisning && (
+                            <Button variant={'primary'} type={'submit'}>
+                                Legg til mottaker
+                            </Button>
+                        )}
+                        <Button variant={'tertiary'} onClick={lukkModal}>
+                            Avbryt
+                        </Button>
+                    </HStack>
                 </VStack>
             </form>
         </FormProvider>
