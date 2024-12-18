@@ -14,13 +14,13 @@ type Props = {
 export function BrevmottakereWrapper({ behandlingId }: Props) {
     const { axiosRequest } = useApp();
     const { personopplysningerResponse: personopplysninger } = useBehandling();
-    const [mottakere, settMottakere] = useState<Ressurs<Brevmottaker[]>>(byggTomRessurs());
+    const [brevmottakere, settBrevmottakere] = useState<Ressurs<Brevmottaker[]>>(byggTomRessurs());
 
     const hentBrevmottakere = useCallback(() => {
         axiosRequest<Brevmottaker[], null>({
             method: 'GET',
             url: `/familie-klage/api/brevmottaker/${behandlingId}`,
-        }).then((res: Ressurs<Brevmottaker[]>) => settMottakere(res));
+        }).then((ressurs: Ressurs<Brevmottaker[]>) => settBrevmottakere(ressurs));
     }, [axiosRequest, behandlingId]);
 
     function opprettBrevmottaker(opprettBrevmottakerDto: OpprettBrevmottakerDto) {
@@ -28,14 +28,14 @@ export function BrevmottakereWrapper({ behandlingId }: Props) {
             url: `familie-klage/api/brevmottaker/${behandlingId}`,
             method: 'POST',
             data: opprettBrevmottakerDto,
-        }).then((res: Ressurs<Brevmottaker[]>) => settMottakere(res));
+        }).then((ressurs: Ressurs<Brevmottaker[]>) => settBrevmottakere(ressurs));
     }
 
     function slettBrevmottakere(brevmottakerId: string) {
         axiosRequest<Brevmottaker[], null>({
             method: 'DELETE',
             url: `/familie-klage/api/brevmottaker/${behandlingId}/${brevmottakerId}`,
-        }).then((res: Ressurs<Brevmottaker[]>) => settMottakere(res));
+        }).then((ressurs: Ressurs<Brevmottaker[]>) => settBrevmottakere(ressurs));
     }
 
     useEffect(() => {
@@ -43,14 +43,14 @@ export function BrevmottakereWrapper({ behandlingId }: Props) {
     }, [hentBrevmottakere]);
 
     return (
-        <DataViewer response={{ mottakere, personopplysninger }}>
-            {({ mottakere, personopplysninger }) => (
+        <DataViewer response={{ brevmottakere, personopplysninger }}>
+            {({ brevmottakere, personopplysninger }) => (
                 <>
-                    <BrevmottakerPanel brevmottakere={mottakere} />
+                    <BrevmottakerPanel brevmottakere={brevmottakere} />
                     <BrevmottakerModal
                         behandlingId={behandlingId}
                         personopplysninger={personopplysninger}
-                        brevmottakere={mottakere}
+                        brevmottakere={brevmottakere}
                         opprettBrevmottaker={opprettBrevmottaker}
                         slettBrevmottaker={slettBrevmottakere}
                         erLesevisning={false}
