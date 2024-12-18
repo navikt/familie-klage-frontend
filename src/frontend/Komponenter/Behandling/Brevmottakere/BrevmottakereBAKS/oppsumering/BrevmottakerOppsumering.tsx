@@ -1,10 +1,9 @@
 import React from 'react';
 import { useApp } from '../../../../../App/context/AppContext';
 import { useBehandling } from '../../../../../App/context/BehandlingContext';
-import CountryData from '@navikt/land-verktoy';
 import { Alert, BodyShort, Button, Label, Tooltip } from '@navikt/ds-react';
 import styled from 'styled-components';
-import { Brevmottaker, mottakerVisningsnavn } from '../brevmottaker';
+import { Brevmottaker, utledNavnPåMottakere } from '../brevmottaker';
 
 const InfoHeader = styled.div`
     display: grid;
@@ -23,21 +22,6 @@ type Props = {
 export function BrevmottakereOppsumering({ brevmottakere }: Props) {
     const { settVisBrevmottakereModal } = useApp();
     const { behandlingErRedigerbar } = useBehandling();
-    const utledNavnPåMottakere = (brevMottakere: Brevmottaker[]) => {
-        return [
-            ...brevMottakere.map((person) => {
-                const land = CountryData.getCountryInstance('nb').findByValue(
-                    person.landkode
-                ).label;
-                return (
-                    `${person.navn} (${mottakerVisningsnavn[person.mottakertype]}): ${person.adresselinje1}, ` +
-                    (person.landkode === 'NO'
-                        ? `${person.postnummer}, ${person.poststed}, ${land}`
-                        : `${land}`)
-                );
-            }),
-        ];
-    };
 
     const navn = utledNavnPåMottakere(brevmottakere);
 

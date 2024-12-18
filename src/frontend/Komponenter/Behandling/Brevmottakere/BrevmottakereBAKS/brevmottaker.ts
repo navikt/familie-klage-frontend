@@ -1,4 +1,5 @@
 import { EøsLandkode } from '../../../../Felles/Landvelger/landkode';
+import CountryData from '@navikt/land-verktoy';
 
 export type Brevmottaker = {
     id: string;
@@ -73,4 +74,18 @@ export function utledHeading(antallMottakere: number, erLesevisning: boolean) {
         return 'Legg til brevmottaker';
     }
     return antallMottakere === 1 ? 'Legg til eller fjern brevmottaker' : 'Brevmottakere';
+}
+
+export function utledNavnPåMottakere(brevMottakere: Brevmottaker[]) {
+    return [
+        ...brevMottakere.map((person) => {
+            const land = CountryData.getCountryInstance('nb').findByValue(person.landkode).label;
+            return (
+                `${person.navn} (${mottakerVisningsnavn[person.mottakertype]}): ${person.adresselinje1}, ` +
+                (person.landkode === 'NO'
+                    ? `${person.postnummer}, ${person.poststed}, ${land}`
+                    : `${land}`)
+            );
+        }),
+    ];
 }
