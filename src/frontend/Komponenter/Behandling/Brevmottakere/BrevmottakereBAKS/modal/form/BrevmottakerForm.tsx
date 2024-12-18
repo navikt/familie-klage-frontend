@@ -13,12 +13,7 @@ import { EøsLandkode } from '../../../../../../Felles/Landvelger/landkode';
 import { IPersonopplysninger } from '../../../../../../App/typer/personopplysninger';
 import { BrevmottakerFeltnavn } from './felt/felttyper';
 import { Brevmottaker, OpprettBrevmottakerDto } from '../../brevmottaker';
-import styled from 'styled-components';
 import { Mottakertype } from '../../mottakertype';
-
-const StyledHeading = styled(Heading)`
-    margin: 1rem 0 0.75rem;
-`;
 
 type FormValues = {
     [BrevmottakerFeltnavn.MOTTAKERTYPE]: Mottakertype | '';
@@ -87,7 +82,9 @@ export function BrevmottakerForm({
         <FormProvider {...form}>
             <form onSubmit={handleSubmit(onSubmit)}>
                 <VStack gap={'4'}>
-                    <StyledHeading size="medium">Ny mottaker</StyledHeading>
+                    <Heading level={'2'} size={'medium'}>
+                        Ny mottaker
+                    </Heading>
                     <MottakerFelt
                         feltnavn={BrevmottakerFeltnavn.MOTTAKERTYPE}
                         visningsnavn={'Mottaker'}
