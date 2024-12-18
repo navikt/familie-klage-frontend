@@ -73,7 +73,7 @@ const BehandlingContent: FC<{
             <Container>
                 <InnholdWrapper åpenHøyremeny={åpenHøyremeny}>
                     <Fanemeny behandling={behandling} />
-                    <SettPåVent behandling={behandling}></SettPåVent>
+                    <SettPåVent behandling={behandling} />
                     <BehandlingRoutes behandling={behandling} />
                     <HenleggModal behandling={behandling} />
                 </InnholdWrapper>
