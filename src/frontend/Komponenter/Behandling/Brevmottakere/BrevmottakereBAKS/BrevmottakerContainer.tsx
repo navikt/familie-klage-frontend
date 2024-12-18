@@ -12,7 +12,7 @@ type Props = {
     behandlingId: string;
 };
 
-export function BrevmottakereWrapper({ behandlingId }: Props) {
+export function BrevmottakerContainer({ behandlingId }: Props) {
     const { axiosRequest } = useApp();
     const { personopplysningerResponse: personopplysninger } = useBehandling();
     const [brevmottakere, settBrevmottakere] = useState<Ressurs<Brevmottaker[]>>(byggTomRessurs());

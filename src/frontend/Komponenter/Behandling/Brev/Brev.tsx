@@ -18,7 +18,7 @@ import { ModalWrapper } from '../../../Felles/Modal/ModalWrapper';
 import SystemetLaster from '../../../Felles/SystemetLaster/SystemetLaster';
 import { OmgjørVedtak } from './OmgjørVedtak';
 import { Behandling } from '../../../App/typer/fagsak';
-import { BrevmottakereWrapper } from '../Brevmottakere/BrevmottakereBAKS/BrevmottakereWrapper';
+import { BrevmottakerContainer as BaksBrevmottakerContainer } from '../Brevmottakere/BrevmottakereBAKS/BrevmottakerContainer';
 
 const Brevside = styled.div`
     background-color: var(--a-bg-subtle);
@@ -158,7 +158,7 @@ export const Brev: React.FC<IBrev> = ({ behandling }) => {
                             // ) : (
                             //     <BrevmottakereBAKS behandling={behandling} />
                             // )
-                            <BrevmottakereWrapper behandlingId={behandlingId} />
+                            <BaksBrevmottakerContainer behandlingId={behandlingId} />
                         )}
                         {behandlingErRedigerbar && brevRessurs.status === RessursStatus.SUKSESS && (
                             <StyledKnapp
