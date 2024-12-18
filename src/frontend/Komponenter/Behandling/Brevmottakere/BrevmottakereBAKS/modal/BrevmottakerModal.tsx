@@ -65,13 +65,13 @@ export function BrevmottakerModal({
         ((brevmottakere.length === 0 && !erLesevisning) ||
             (brevmottakere.length === 1 && visSkjema));
 
-    const lukkModal = () => {
-        settVisBrevmottakereModal(false);
-        settVisSkjema(false);
-    };
-
     const visLeggTilKnapp =
         brevmottakere.length === 1 && !erLesevisning && !finnesBrevmottakerMedDødsbo;
+
+    function lukkModal() {
+        settVisBrevmottakereModal(false);
+        settVisSkjema(false);
+    }
 
     return (
         <Modal
