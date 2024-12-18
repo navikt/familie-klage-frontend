@@ -102,6 +102,7 @@ export const SettPåVent: FC<{ behandling: Behandling }> = ({ behandling }) => {
                 .then((respons: RessursFeilet | RessursSuksess<string>) => {
                     if (respons.status === RessursStatus.SUKSESS) {
                         hentBehandling.rerun();
+                        nullstillOppgaveFelt();
                         settVisSettPåVent(false);
                     } else {
                         settFeilmelding(respons.frontendFeilmelding);
@@ -124,7 +125,6 @@ export const SettPåVent: FC<{ behandling: Behandling }> = ({ behandling }) => {
             }).then((respons: RessursFeilet | RessursSuksess<string>) => {
                 if (respons.status === RessursStatus.SUKSESS) {
                     hentBehandling.rerun();
-                    nullstillOppgaveFelt();
                 } else {
                     settFeilmelding(respons.frontendFeilmelding);
                     settVisFeilmeldingAlert(true);
