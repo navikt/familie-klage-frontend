@@ -1,4 +1,5 @@
 import { Brevmottaker } from './brevmottaker';
+import { EøsLandkode } from '../../../../Felles/Landvelger/landkode';
 
 export enum Mottakertype {
     BRUKER_MED_UTENLANDSK_ADRESSE = 'BRUKER_MED_UTENLANDSK_ADRESSE',
@@ -30,4 +31,14 @@ export function utledGyldigeMottakertyper(brevmottakere: Brevmottaker[]) {
     return Object.values(Mottakertype).filter(
         (mottakertype) => !valgteBrevmottakertyper.includes(mottakertype)
     );
+}
+
+export function erGyldigMottakertypeForLandekode(
+    mottakertype: Mottakertype,
+    landkode: EøsLandkode | ''
+): boolean {
+    const landkodeErNO = landkode === EøsLandkode.NO;
+    const erBrukerMedUtenlandskAdresse =
+        mottakertype === Mottakertype.BRUKER_MED_UTENLANDSK_ADRESSE;
+    return !(landkodeErNO && erBrukerMedUtenlandskAdresse);
 }

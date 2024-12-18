@@ -1,11 +1,10 @@
 import React from 'react';
 import { Controller, useFormContext } from 'react-hook-form';
-import { EøsLandkode } from '../../../../../../../Felles/Landvelger/landkode';
 import { Landvelger } from '../../../../../../../Felles/Landvelger/Landvelger';
 import { BrevmottakerFeltnavn, BrevmottakerFeltProps } from './felttyper';
 import { utledNavnVedDødsbo } from '../../../brevmottaker';
 import { IPersonopplysninger } from '../../../../../../../App/typer/personopplysninger';
-import { Mottakertype } from '../../../mottakertype';
+import { erGyldigMottakertypeForLandekode, Mottakertype } from '../../../mottakertype';
 
 type Props = BrevmottakerFeltProps & {
     personopplysninger: IPersonopplysninger;
@@ -20,10 +19,7 @@ export function LandFelt({ feltnavn, visningsnavn, erLesevisning, personopplysni
                 required: `${visningsnavn} er påkrevd.`,
                 validate: (landkode) => {
                     const mottakertype = getValues(BrevmottakerFeltnavn.MOTTAKERTYPE);
-                    if (
-                        landkode === EøsLandkode.NO &&
-                        mottakertype === Mottakertype.BRUKER_MED_UTENLANDSK_ADRESSE
-                    ) {
+                    if (!erGyldigMottakertypeForLandekode(mottakertype, landkode)) {
                         return 'Norge kan ikke være satt for bruker med utenlandsk adresse.';
                     }
                     return undefined;
