@@ -1,7 +1,5 @@
 import React, { useState } from 'react';
 
-import styled from 'styled-components';
-
 import { PlusCircleIcon } from '@navikt/aksel-icons';
 import { Alert, Button, Modal, VStack } from '@navikt/ds-react';
 
@@ -12,14 +10,6 @@ import { IPersonopplysninger } from '../../../../../App/typer/personopplysninger
 import { Brevmottaker, finnesBrevmottakerMedMottakertype } from '../brevmottaker';
 import { Mottakertype } from '../mottakertype';
 import { OpprettBrevmottakerDto } from '../opprettBrevmottakerDto';
-
-const LeggTilKnapp = styled(Button)`
-    margin-top: 1rem;
-`;
-
-const LukkKnapp = styled(Button)`
-    margin-top: 2rem;
-`;
 
 type Props = {
     behandlingId: string;
@@ -100,7 +90,7 @@ export function BrevmottakerModal({
                             opprettBrevmottaker={opprettBrevmottaker}
                         />
                     ) : (
-                        <>
+                        <VStack gap={'6'} marginBlock={'2 4'}>
                             {finnesBrevmottakerMedDødsbo && (
                                 <Alert variant={'info'} inline={true}>
                                     Ved dødsbo kan kun en brevmottaker legges til.
@@ -108,20 +98,22 @@ export function BrevmottakerModal({
                             )}
                             {visLeggTilKnapp && (
                                 <div>
-                                    <LeggTilKnapp
+                                    <Button
                                         variant={'tertiary'}
                                         size={'small'}
                                         icon={<PlusCircleIcon />}
                                         onClick={() => settVisSkjema(true)}
                                     >
                                         Legg til ny mottaker
-                                    </LeggTilKnapp>
+                                    </Button>
                                 </div>
                             )}
                             <div>
-                                <LukkKnapp onClick={lukkModal}>Lukk vindu</LukkKnapp>
+                                <Button size={'medium'} onClick={lukkModal}>
+                                    Lukk vindu
+                                </Button>
                             </div>
-                        </>
+                        </VStack>
                     )}
                 </VStack>
             </Modal.Body>
