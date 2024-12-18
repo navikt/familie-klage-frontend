@@ -54,7 +54,7 @@ export function MottakerFelt({
                         error={visFeilmelding && fieldState.error?.message}
                         readOnly={erLesevisning}
                     >
-                        <option value="">-- Velg mottaker --</option>
+                        <option value={''}>-- Velg mottaker --</option>
                         {utledGyldigeMottakertyper(brevmottakere).map((mottaker) => (
                             <option key={mottaker} value={mottaker}>
                                 {mottakertypeVisningsnavn[mottaker]}

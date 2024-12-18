@@ -79,7 +79,7 @@ export function BrevmottakerModal({
             onClose={lukkModal}
             header={{ heading: utledHeading(brevmottakere.length, erLesevisning), size: 'medium' }}
             width={'35rem'}
-            portal
+            portal={true}
         >
             <Modal.Body>
                 <VStack gap={'4'}>

@@ -78,7 +78,7 @@ export function RegistrerteBrevmottakere({
                     )}
                 </DefinitionList>
                 {brevmottaker.landkode !== EøsLandkode.NO && (
-                    <Alert variant="info" inline>
+                    <Alert variant={'info'} inline={true}>
                         Ved utenlandsk adresse skal postnummer og poststed legges i adresselinjene.
                     </Alert>
                 )}
