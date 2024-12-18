@@ -35,16 +35,6 @@ export function utledBrevmottakernavn(
     }
 }
 
-export function utledHeading(antallMottakere: number, erLesevisning: boolean) {
-    if (erLesevisning) {
-        return antallMottakere === 1 ? 'Brevmottaker' : 'Brevmottakere';
-    }
-    if (antallMottakere === 0) {
-        return 'Legg til brevmottaker';
-    }
-    return antallMottakere === 1 ? 'Legg til eller fjern brevmottaker' : 'Brevmottakere';
-}
-
 export function utledNavnPåBrevmottakere(brevMottakere: Brevmottaker[]) {
     return [
         ...brevMottakere.map((person) => {

@@ -9,7 +9,7 @@ import { RegistrerteBrevmottakere } from './oversikt/RegistrerteBrevmottakere';
 import { useApp } from '../../../../../App/context/AppContext';
 import { BrevmottakerForm } from './form/BrevmottakerForm';
 import { IPersonopplysninger } from '../../../../../App/typer/personopplysninger';
-import { Brevmottaker, OpprettBrevmottakerDto, utledHeading } from '../brevmottaker';
+import { Brevmottaker, OpprettBrevmottakerDto } from '../brevmottaker';
 import { Mottakertype } from '../mottakertype';
 
 const LeggTilKnapp = styled(Button)`
@@ -28,6 +28,16 @@ type Props = {
     slettBrevmottaker: (brevmottakerId: string) => void;
     erLesevisning: boolean;
 };
+
+function utledHeading(antallMottakere: number, erLesevisning: boolean) {
+    if (erLesevisning) {
+        return antallMottakere === 1 ? 'Brevmottaker' : 'Brevmottakere';
+    }
+    if (antallMottakere === 0) {
+        return 'Legg til brevmottaker';
+    }
+    return antallMottakere === 1 ? 'Legg til eller fjern brevmottaker' : 'Brevmottakere';
+}
 
 export function BrevmottakerModalBAKS({
     behandlingId,
