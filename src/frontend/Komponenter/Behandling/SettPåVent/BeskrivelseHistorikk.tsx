@@ -14,7 +14,7 @@ export interface BeskrivelseHistorikkInnslag {
 
 const MAX_SYNLIGE_BESKRIVELSER = 4;
 
-const BeskrivelseHistorikk: FC<{ beskrivelser: BeskrivelseHistorikkInnslag[] }> = ({
+export const BeskrivelseHistorikk: FC<{ beskrivelser: BeskrivelseHistorikkInnslag[] }> = ({
     beskrivelser,
 }) => {
     const [visAlleBeskrivelser, setVisAlleBeskrivelser] = useState(false);
@@ -56,5 +56,3 @@ const BeskrivelseHistorikk: FC<{ beskrivelser: BeskrivelseHistorikkInnslag[] }> 
         </>
     );
 };
-
-export default BeskrivelseHistorikk;

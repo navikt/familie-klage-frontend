@@ -9,7 +9,7 @@ interface SettPåVentKnappValgProps {
     låsKnapp: boolean;
 }
 
-const SettPåVentKnappValg: React.FC<SettPåVentKnappValgProps> = ({
+export const SettPåVentKnappValg: React.FC<SettPåVentKnappValgProps> = ({
     settVisSettPåVent,
     erBehandlingPåVent,
     taAvVent,
@@ -33,5 +33,3 @@ const SettPåVentKnappValg: React.FC<SettPåVentKnappValgProps> = ({
         </HStack>
     );
 };
-
-export default SettPåVentKnappValg;

@@ -1,9 +1,9 @@
 import React, { FC } from 'react';
 import { IOppgave } from './IOppgave';
 import { useApp } from '../../../App/context/AppContext';
-import FamilieSelect from './FamilieSelect';
+import { FamilieSelect } from './FamilieSelect';
 
-const SaksbehandlerVelger: FC<{
+export const SaksbehandlerVelger: FC<{
     oppgave: IOppgave;
     saksbehandler: string | undefined;
     settSaksbehandler: (saksbehandler: string) => void;
@@ -33,5 +33,3 @@ const SaksbehandlerVelger: FC<{
         </FamilieSelect>
     );
 };
-
-export default SaksbehandlerVelger;
