@@ -12,14 +12,12 @@ import { IPersonopplysninger } from '../../../../../App/typer/personopplysninger
 import { Brevmottaker, OpprettBrevmottakerDto, utledHeading } from '../brevmottaker';
 import { Mottakertype } from '../mottakertype';
 
-const StyledAlert = styled(Alert)`
-    margin: 1rem 0 2.5rem;
-`;
 const LeggTilKnapp = styled(Button)`
     margin-top: 1rem;
 `;
+
 const LukkKnapp = styled(Button)`
-    margin-top: 2.5rem;
+    margin-top: 2rem;
 `;
 
 type Props = {
@@ -69,11 +67,11 @@ export function BrevmottakerModalBAKS({
             portal
         >
             <Modal.Body>
-                <StyledAlert variant="info">
+                <Alert variant="info">
                     Brev sendes til brukers folkeregistrerte adresse eller annen foretrukken kanal.
                     Legg til mottaker dersom brev skal sendes til utenlandsk adresse, fullmektig,
                     verge eller dødsbo.
-                </StyledAlert>
+                </Alert>
                 <BrevmottakerTabell
                     brevmottakere={brevmottakere}
                     slettBrevmottaker={slettBrevmottaker}
@@ -97,8 +95,8 @@ export function BrevmottakerModalBAKS({
                         )}
                         {visLeggTilKnapp && (
                             <LeggTilKnapp
-                                variant="tertiary"
-                                size="small"
+                                variant={'tertiary'}
+                                size={'small'}
                                 icon={<PlusCircleIcon />}
                                 onClick={() => settVisSkjema(true)}
                             >

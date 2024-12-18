@@ -10,11 +10,6 @@ const InfoHeader = styled.div`
     grid-template-columns: 26rem 12rem;
 `;
 
-const KompaktButton = styled(Button)`
-    padding: 0;
-    justify-content: right;
-`;
-
 type Props = {
     brevmottakere: Brevmottaker[];
 };
@@ -31,12 +26,12 @@ export function BrevmottakereOppsumering({ brevmottakere }: Props) {
                 <Label>Brevmottakere:</Label>
                 {behandlingErRedigerbar && (
                     <Tooltip content={'Legg til verge eller fullmektige brevmottakere'}>
-                        <KompaktButton
+                        <Button
                             variant={'tertiary'}
                             onClick={() => settVisBrevmottakereModal(true)}
                         >
                             Legg til/endre brevmottakere
-                        </KompaktButton>
+                        </Button>
                     </Tooltip>
                 )}
             </InfoHeader>
