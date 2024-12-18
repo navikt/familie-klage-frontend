@@ -9,12 +9,9 @@ import { RegistrerteBrevmottakere } from './oversikt/RegistrerteBrevmottakere';
 import { useApp } from '../../../../../App/context/AppContext';
 import { BrevmottakerForm } from './form/BrevmottakerForm';
 import { IPersonopplysninger } from '../../../../../App/typer/personopplysninger';
-import {
-    Brevmottaker,
-    finnesBrevmottakerMedMottakertype,
-    OpprettBrevmottakerDto,
-} from '../brevmottaker';
+import { Brevmottaker, finnesBrevmottakerMedMottakertype } from '../brevmottaker';
 import { Mottakertype } from '../mottakertype';
+import { OpprettBrevmottakerDto } from '../opprettBrevmottakerDto';
 
 const LeggTilKnapp = styled(Button)`
     margin-top: 1rem;
@@ -28,7 +25,7 @@ type Props = {
     behandlingId: string;
     personopplysninger: IPersonopplysninger;
     brevmottakere: Brevmottaker[];
-    opprettBrevmottaker: (brevmottaker: OpprettBrevmottakerDto) => void;
+    opprettBrevmottaker: (opprettBrevmottakerDto: OpprettBrevmottakerDto) => void;
     slettBrevmottaker: (brevmottakerId: string) => void;
     erLesevisning: boolean;
 };

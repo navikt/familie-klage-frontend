@@ -1,5 +1,5 @@
 import React from 'react';
-import { FormProvider, SubmitHandler, useForm } from 'react-hook-form';
+import { FormProvider, useForm } from 'react-hook-form';
 import { LandFelt } from './felt/LandFelt';
 import { MottakerFelt } from './felt/MottakerFelt';
 import { Knapper } from './felt/Knapper';
@@ -11,10 +11,11 @@ import { Alert, Heading, VStack } from '@navikt/ds-react';
 import { EøsLandkode } from '../../../../../../Felles/Landvelger/landkode';
 import { IPersonopplysninger } from '../../../../../../App/typer/personopplysninger';
 import { BrevmottakerFeltnavn } from './felt/felttyper';
-import { Brevmottaker, OpprettBrevmottakerDto } from '../../brevmottaker';
+import { Brevmottaker } from '../../brevmottaker';
 import { Mottakertype } from '../../mottakertype';
+import { lagOpprettBrevmottakerDto, OpprettBrevmottakerDto } from '../../opprettBrevmottakerDto';
 
-type FormValues = {
+export type BrevmottakerFormValues = {
     [BrevmottakerFeltnavn.MOTTAKERTYPE]: Mottakertype | '';
     [BrevmottakerFeltnavn.LANDKODE]: EøsLandkode | '';
     [BrevmottakerFeltnavn.NAVN]: string;
@@ -30,7 +31,7 @@ type Props = {
     brevmottakere: Brevmottaker[];
     erLesevisning: boolean; // TODO : Flytt til context?
     lukkModal: () => void;
-    opprettBrevmottaker: (brevmottaker: OpprettBrevmottakerDto) => void;
+    opprettBrevmottaker: (opprettBrevmottakerDto: OpprettBrevmottakerDto) => void;
 };
 
 export function BrevmottakerForm({
@@ -40,25 +41,7 @@ export function BrevmottakerForm({
     lukkModal,
     opprettBrevmottaker,
 }: Props) {
-    const onSubmit: SubmitHandler<FormValues> = (data) => {
-        const { mottakertype, navn, landkode, adresselinje1, adresselinje2, postnummer, poststed } =
-            data;
-        const erUtenlandskLandkode = landkode !== EøsLandkode.NO;
-        if (mottakertype === '') {
-            throw Error('Mottakertype er påkrevd.');
-        }
-        opprettBrevmottaker({
-            mottakertype: mottakertype,
-            navn: navn,
-            landkode: landkode,
-            adresselinje1: adresselinje1,
-            adresselinje2: adresselinje2,
-            postnummer: erUtenlandskLandkode ? null : postnummer,
-            poststed: erUtenlandskLandkode ? null : poststed,
-        });
-    };
-
-    const form = useForm<FormValues>({
+    const form = useForm<BrevmottakerFormValues>({
         mode: 'all',
         defaultValues: {
             [BrevmottakerFeltnavn.MOTTAKERTYPE]: '',
@@ -76,6 +59,11 @@ export function BrevmottakerForm({
     const landkode = getValues(BrevmottakerFeltnavn.LANDKODE);
     const erLandValgt = landkode !== '';
     const erUtenlandskAdresseValgt = erLandValgt && landkode !== EøsLandkode.NO;
+
+    function onSubmit(brevmottakerFormValues: BrevmottakerFormValues) {
+        const dto = lagOpprettBrevmottakerDto(brevmottakerFormValues);
+        opprettBrevmottaker(dto);
+    }
 
     return (
         <FormProvider {...form}>

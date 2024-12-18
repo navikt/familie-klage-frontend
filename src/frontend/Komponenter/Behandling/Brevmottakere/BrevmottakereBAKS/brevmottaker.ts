@@ -13,8 +13,6 @@ export type Brevmottaker = {
     poststed?: string | null;
 };
 
-export type OpprettBrevmottakerDto = Omit<Brevmottaker, 'id'>;
-
 export function utledBrevmottakernavnVedDødsbo(navn: string, landkode: string) {
     return landkode === EøsLandkode.NO ? `${navn} v/dødsbo` : `Estate of ${navn}`;
 }

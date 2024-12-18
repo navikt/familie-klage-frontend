@@ -5,7 +5,8 @@ import { useBehandling } from '../../../../App/context/BehandlingContext';
 import { byggTomRessurs, Ressurs } from '../../../../App/typer/ressurs';
 import { BrevmottakerModal } from './modal/BrevmottakerModal';
 import { BrevmottakerPanel } from './panel/BrevmottakerPanel';
-import { Brevmottaker, OpprettBrevmottakerDto } from './brevmottaker';
+import { Brevmottaker } from './brevmottaker';
+import { OpprettBrevmottakerDto } from './opprettBrevmottakerDto';
 
 type Props = {
     behandlingId: string;
