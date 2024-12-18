@@ -15,11 +15,11 @@ export type Brevmottaker = {
 
 export type OpprettBrevmottakerDto = Omit<Brevmottaker, 'id'>;
 
-export function utledNavnVedDødsbo(navn: string, landkode: string) {
+export function utledBrevmottakernavnVedDødsbo(navn: string, landkode: string) {
     return landkode === EøsLandkode.NO ? `${navn} v/dødsbo` : `Estate of ${navn}`;
 }
 
-export function utledNavn(
+export function utledBrevmottakernavn(
     navnFraFelt: string,
     navnFraPersonopplysninger: string,
     landkode: string,
@@ -27,7 +27,7 @@ export function utledNavn(
 ) {
     switch (mottakertype) {
         case Mottakertype.DØDSBO:
-            return utledNavnVedDødsbo(navnFraPersonopplysninger, landkode);
+            return utledBrevmottakernavnVedDødsbo(navnFraPersonopplysninger, landkode);
         case Mottakertype.BRUKER_MED_UTENLANDSK_ADRESSE:
             return navnFraPersonopplysninger;
         default:
@@ -45,7 +45,7 @@ export function utledHeading(antallMottakere: number, erLesevisning: boolean) {
     return antallMottakere === 1 ? 'Legg til eller fjern brevmottaker' : 'Brevmottakere';
 }
 
-export function utledNavnPåMottakere(brevMottakere: Brevmottaker[]) {
+export function utledNavnPåBrevmottakere(brevMottakere: Brevmottaker[]) {
     return [
         ...brevMottakere.map((person) => {
             const land = CountryData.getCountryInstance('nb').findByValue(person.landkode).label;

@@ -3,7 +3,7 @@ import { Select } from '@navikt/ds-react';
 import { Controller, useFormContext } from 'react-hook-form';
 import { IPersonopplysninger } from '../../../../../../../App/typer/personopplysninger';
 import { BrevmottakerFeltnavn, BrevmottakerFeltProps } from './felttyper';
-import { Brevmottaker, utledNavn } from '../../../brevmottaker';
+import { Brevmottaker, utledBrevmottakernavn } from '../../../brevmottaker';
 import { mottakertypeVisningsnavn, utledGyldigeMottakertyper } from '../../../mottakertype';
 
 type Props = BrevmottakerFeltProps & {
@@ -42,7 +42,12 @@ export function MottakerFelt({
                             ]);
                             setValue(
                                 BrevmottakerFeltnavn.NAVN,
-                                utledNavn(navn, personopplysninger.navn, landkode, value)
+                                utledBrevmottakernavn(
+                                    navn,
+                                    personopplysninger.navn,
+                                    landkode,
+                                    value
+                                )
                             );
                             field.onChange(event);
                         }}

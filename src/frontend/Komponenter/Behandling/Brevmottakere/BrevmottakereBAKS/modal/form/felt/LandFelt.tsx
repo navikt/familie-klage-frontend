@@ -2,7 +2,7 @@ import React from 'react';
 import { Controller, useFormContext } from 'react-hook-form';
 import { Landvelger } from '../../../../../../../Felles/Landvelger/Landvelger';
 import { BrevmottakerFeltnavn, BrevmottakerFeltProps } from './felttyper';
-import { utledNavnVedDødsbo } from '../../../brevmottaker';
+import { utledBrevmottakernavnVedDødsbo } from '../../../brevmottaker';
 import { IPersonopplysninger } from '../../../../../../../App/typer/personopplysninger';
 import { erGyldigMottakertypeForLandekode, Mottakertype } from '../../../mottakertype';
 
@@ -40,7 +40,10 @@ export function LandFelt({ feltnavn, visningsnavn, erLesevisning, personopplysni
                             if (isSelected && mottakertype === Mottakertype.DØDSBO) {
                                 setValue(
                                     BrevmottakerFeltnavn.NAVN,
-                                    utledNavnVedDødsbo(personopplysninger.navn, landkode)
+                                    utledBrevmottakernavnVedDødsbo(
+                                        personopplysninger.navn,
+                                        landkode
+                                    )
                                 );
                             }
                             field.onChange(isSelected ? landkode : '');
