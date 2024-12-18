@@ -3,21 +3,12 @@ import React from 'react';
 import styled from 'styled-components';
 
 import { TrashIcon } from '@navikt/aksel-icons';
-import { Alert, Button, Heading } from '@navikt/ds-react';
+import { Alert, Button, Heading, HStack, VStack } from '@navikt/ds-react';
 import { AFontWeightBold } from '@navikt/ds-tokens/dist/tokens';
 import CountryData from '@navikt/land-verktoy';
 import { Brevmottaker } from '../../brevmottaker';
 import { EøsLandkode } from '../../../../../../Felles/Landvelger/landkode';
 import { mottakertypeVisningsnavn } from '../../mottakertype';
-
-const FlexDiv = styled.div`
-    display: flex;
-    justify-content: space-between;
-`;
-
-const StyledDiv = styled.div`
-    margin-top: 2.5rem;
-`;
 
 const DefinitionList = styled.dl`
     display: grid;
@@ -43,11 +34,10 @@ type Props = {
 export function BrevmottakerTabell({ brevmottakere, slettBrevmottaker, erLesevisning }: Props) {
     return brevmottakere.map((brevmottaker) => {
         const land = CountryData.getCountryInstance('nb').findByValue(brevmottaker.landkode);
-
         return (
-            <StyledDiv key={brevmottaker.id}>
-                <FlexDiv>
-                    <Heading size="medium">
+            <VStack key={brevmottaker.id} marginBlock={'2 2'}>
+                <HStack justify={'space-between'}>
+                    <Heading level={'2'} size={'medium'}>
                         {mottakertypeVisningsnavn[brevmottaker.mottakertype]}
                     </Heading>
                     {!erLesevisning && (
@@ -60,7 +50,7 @@ export function BrevmottakerTabell({ brevmottakere, slettBrevmottaker, erLesevis
                             Fjern
                         </Button>
                     )}
-                </FlexDiv>
+                </HStack>
                 <DefinitionList>
                     <dt>Navn</dt>
                     <dd>{brevmottaker.navn}</dd>
@@ -83,13 +73,12 @@ export function BrevmottakerTabell({ brevmottakere, slettBrevmottaker, erLesevis
                         </>
                     )}
                 </DefinitionList>
-
                 {brevmottaker.landkode !== EøsLandkode.NO && (
                     <Alert variant="info" inline>
                         Ved utenlandsk adresse skal postnummer og poststed legges i adresselinjene.
                     </Alert>
                 )}
-            </StyledDiv>
+            </VStack>
         );
     });
 }
