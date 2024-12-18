@@ -3,7 +3,6 @@ import { FormProvider, SubmitHandler, useForm } from 'react-hook-form';
 import { LandFelt } from './felt/LandFelt';
 import { MottakerFelt } from './felt/MottakerFelt';
 import { Knapper } from './felt/Knapper';
-import { FormDebugger } from './FormDebugger';
 import { NavnFelt } from './felt/NavnFelt';
 import { AdresselinjeFelt } from './felt/AdresselinjeFelt';
 import { PostnummerFelt } from './felt/PostnummerFelt';
@@ -143,7 +142,6 @@ export function BrevmottakerForm({
                         </>
                     )}
                     <Knapper erLesevisning={erLesevisning} vedAvbrytKlikk={lukkModal} />
-                    <FormDebugger />
                 </VStack>
             </form>
         </FormProvider>
