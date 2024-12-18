@@ -11,7 +11,6 @@ type Props = BrevmottakerFeltProps & {
 
 export function NavnFelt({ feltnavn, visningsnavn, erLesevisning }: Props) {
     const { control, formState, getValues } = useFormContext();
-    const mottakertype = getValues(BrevmottakerFeltnavn.MOTTAKERTYPE);
     return (
         <Controller
             control={control}
@@ -25,6 +24,7 @@ export function NavnFelt({ feltnavn, visningsnavn, erLesevisning }: Props) {
                 },
             }}
             render={({ field, fieldState }) => {
+                const mottakertype = getValues(BrevmottakerFeltnavn.MOTTAKERTYPE);
                 const visFeilmelding = fieldState.isTouched || formState.isSubmitted;
                 return (
                     <TextField
