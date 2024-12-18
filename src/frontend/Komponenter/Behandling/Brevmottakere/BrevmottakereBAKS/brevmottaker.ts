@@ -27,16 +27,16 @@ export const mottakerVisningsnavn: Record<Mottakertype, string> = {
     DØDSBO: 'Dødsbo',
 };
 
-export const utledNavnVedDødsbo = (navn: string, landkode: string) => {
+export function utledNavnVedDødsbo(navn: string, landkode: string) {
     return landkode === EøsLandkode.NO ? `${navn} v/dødsbo` : `Estate of ${navn}`;
-};
+}
 
-export const utledNavn = (
+export function utledNavn(
     navnFraFelt: string,
     navnFraPersonopplysninger: string,
     landkode: string,
     mottakertype: Mottakertype | string
-) => {
+) {
     switch (mottakertype) {
         case Mottakertype.DØDSBO:
             return utledNavnVedDødsbo(navnFraPersonopplysninger, landkode);
@@ -45,9 +45,9 @@ export const utledNavn = (
         default:
             return navnFraFelt;
     }
-};
+}
 
-export const utledGyldigeMottakertyper = (brevmottakere: Brevmottaker[]) => {
+export function utledGyldigeMottakertyper(brevmottakere: Brevmottaker[]) {
     const valgteBrevmottakertyper = brevmottakere.map((brevmottaker) => brevmottaker.mottakertype);
     if (valgteBrevmottakertyper.includes(Mottakertype.BRUKER_MED_UTENLANDSK_ADRESSE)) {
         return [Mottakertype.VERGE, Mottakertype.FULLMEKTIG];
@@ -63,4 +63,14 @@ export const utledGyldigeMottakertyper = (brevmottakere: Brevmottaker[]) => {
     return Object.values(Mottakertype).filter(
         (mottakertype) => !valgteBrevmottakertyper.includes(mottakertype)
     );
-};
+}
+
+export function utledHeading(antallMottakere: number, erLesevisning: boolean) {
+    if (erLesevisning) {
+        return antallMottakere === 1 ? 'Brevmottaker' : 'Brevmottakere';
+    }
+    if (antallMottakere === 0) {
+        return 'Legg til brevmottaker';
+    }
+    return antallMottakere === 1 ? 'Legg til eller fjern brevmottaker' : 'Brevmottakere';
+}

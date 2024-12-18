@@ -9,7 +9,7 @@ import BrevmottakerTabell from './tabell/BrevmottakerTabell';
 import { useApp } from '../../../../../App/context/AppContext';
 import { BrevmottakerForm } from './form/BrevmottakerForm';
 import { IPersonopplysninger } from '../../../../../App/typer/personopplysninger';
-import { Brevmottaker, Mottakertype, OpprettBrevmottakerDto } from '../brevmottaker';
+import { Brevmottaker, Mottakertype, OpprettBrevmottakerDto, utledHeading } from '../brevmottaker';
 
 const StyledAlert = styled(Alert)`
     margin: 1rem 0 2.5rem;
@@ -30,18 +30,6 @@ interface Props {
     erLesevisning: boolean;
 }
 
-const utledHeading = (antallMottakere: number, erLesevisning: boolean) => {
-    if (erLesevisning) {
-        return antallMottakere === 1 ? 'Brevmottaker' : 'Brevmottakere';
-    } else {
-        return antallMottakere === 0
-            ? 'Legg til brevmottaker'
-            : antallMottakere === 1
-              ? 'Legg til eller fjern brevmottaker'
-              : 'Brevmottakere';
-    }
-};
-
 export const BrevmottakerModalBAKS = ({
     behandlingId,
     personopplysninger,
@@ -51,8 +39,6 @@ export const BrevmottakerModalBAKS = ({
     erLesevisning,
 }: Props) => {
     const { settVisBrevmottakereModal, visBrevmottakereModal } = useApp();
-    const heading = utledHeading(brevmottakere.length, erLesevisning);
-
     const [visSkjema, settVisSkjema] = useState(false);
 
     const erBrevmottakerMedDødsbo = brevmottakere
@@ -77,7 +63,7 @@ export const BrevmottakerModalBAKS = ({
         <Modal
             open={visBrevmottakereModal}
             onClose={lukkModal}
-            header={{ heading: heading, size: 'medium' }}
+            header={{ heading: utledHeading(brevmottakere.length, erLesevisning), size: 'medium' }}
             width={'35rem'}
             portal
         >
