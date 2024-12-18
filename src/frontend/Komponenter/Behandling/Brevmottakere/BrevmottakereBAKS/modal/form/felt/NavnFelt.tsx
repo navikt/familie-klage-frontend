@@ -24,8 +24,11 @@ export function NavnFelt({ feltnavn, visningsnavn, erLesevisning }: Props) {
                 },
             }}
             render={({ field, fieldState }) => {
-                const mottakertype = getValues(BrevmottakerFeltnavn.MOTTAKERTYPE);
                 const visFeilmelding = fieldState.isTouched || formState.isSubmitted;
+                const mottakertype = getValues(BrevmottakerFeltnavn.MOTTAKERTYPE);
+                const navnSkalVærePreutfylt =
+                    mottakertype === Mottakertype.BRUKER_MED_UTENLANDSK_ADRESSE ||
+                    mottakertype === Mottakertype.DØDSBO;
                 return (
                     <TextField
                         label={visningsnavn}
@@ -33,11 +36,7 @@ export function NavnFelt({ feltnavn, visningsnavn, erLesevisning }: Props) {
                         onBlur={field.onBlur}
                         onChange={field.onChange}
                         error={visFeilmelding && fieldState.error?.message}
-                        readOnly={
-                            erLesevisning ||
-                            mottakertype === Mottakertype.BRUKER_MED_UTENLANDSK_ADRESSE ||
-                            mottakertype === Mottakertype.DØDSBO
-                        }
+                        readOnly={erLesevisning || navnSkalVærePreutfylt}
                     />
                 );
             }}
