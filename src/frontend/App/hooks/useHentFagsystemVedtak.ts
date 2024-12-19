@@ -2,21 +2,22 @@ import { useCallback, useState } from 'react';
 import { byggSuksessRessurs, byggTomRessurs, Ressurs } from '../typer/ressurs';
 import { useApp } from '../context/AppContext';
 import { Behandling } from '../typer/fagsak';
-import { erBehandlingRedigerbar } from '../typer/behandlingstatus';
 import { FagsystemVedtak } from '../typer/fagsystemVedtak';
+import { useBehandling } from '../context/BehandlingContext';
 
 export const useHentFagsystemVedtak = (): {
     hentFagsystemVedtak: (behandling: Behandling) => void;
     fagsystemVedtak: Ressurs<FagsystemVedtak[]>;
 } => {
     const { axiosRequest } = useApp();
+    const { behandlingErRedigerbar } = useBehandling();
 
     const [fagsystemVedtak, settFagsystemVedtak] =
         useState<Ressurs<FagsystemVedtak[]>>(byggTomRessurs);
 
     const hentFagsystemVedtak = useCallback(
         (behandling: Behandling) => {
-            if (erBehandlingRedigerbar(behandling)) {
+            if (behandlingErRedigerbar) {
                 axiosRequest<FagsystemVedtak[], null>({
                     method: 'GET',
                     url: `/familie-klage/api/behandling/${behandling.id}/fagsystem-vedtak`,
@@ -26,7 +27,7 @@ export const useHentFagsystemVedtak = (): {
                 settFagsystemVedtak(byggSuksessRessurs(fagsystemVedtak ? [fagsystemVedtak] : []));
             }
         },
-        [axiosRequest]
+        [axiosRequest, behandlingErRedigerbar]
     );
 
     return {

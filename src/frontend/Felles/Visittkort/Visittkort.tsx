@@ -10,8 +10,7 @@ import {
 } from '../../App/typer/fagsak';
 import { ABorderStrong } from '@navikt/ds-tokens/dist/tokens';
 import { Sticky } from '../Visningskomponenter/Sticky';
-import { Henlegg } from './HenleggKnapp';
-import { erBehandlingRedigerbar } from '../../App/typer/behandlingstatus';
+import { HenleggKnapp } from './HenleggKnapp';
 import { Label, Link } from '@navikt/ds-react';
 import PersonStatusVarsel from '../Varsel/PersonStatusVarsel';
 import AdressebeskyttelseVarsel from '../Varsel/AdressebeskyttelseVarsel';
@@ -26,6 +25,7 @@ import {
 } from '../../App/utils/utils';
 import { useApp } from '../../App/context/AppContext';
 import { FagsystemType } from '../../Komponenter/Behandling/Formkrav/typer';
+import { SettPåVentKnapp } from './SettPåVentKnapp';
 
 const Visningsnavn = styled.div`
     text-overflow: ellipsis;
@@ -84,7 +84,6 @@ const VisittkortComponent: FC<{
     const behandlingLenke = utledBehandlingLenke(behandling, appEnv.eksternlenker);
     const saksoversiktLenke = utledSaksoversiktLenke(behandling, appEnv.eksternlenker);
     const tilbakekrevingLenke = utledTilbakekrevingLenke(behandling, appEnv.eksternlenker);
-    const behandlingErRedigerbar = erBehandlingRedigerbar(behandling);
 
     return (
         <Container>
@@ -162,8 +161,8 @@ const VisittkortComponent: FC<{
                                 </EtikettInfo>
                             )}
                         </TagsKnyttetTilBehandling>
-
-                        {behandlingErRedigerbar && <Henlegg />}
+                        <SettPåVentKnapp />
+                        <HenleggKnapp />
                     </>
                 )}
             </HøyreWrapper>

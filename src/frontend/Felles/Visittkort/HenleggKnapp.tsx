@@ -2,11 +2,16 @@ import React from 'react';
 import { useBehandling } from '../../App/context/BehandlingContext';
 import { Button } from '@navikt/ds-react';
 
-export const Henlegg = () => {
-    const { settVisHenleggModal } = useBehandling();
+export const HenleggKnapp = () => {
+    const { settVisHenleggModal, behandlingErRedigerbar } = useBehandling();
 
     return (
-        <Button onClick={() => settVisHenleggModal(true)} size="xsmall" variant="secondary">
+        <Button
+            disabled={!behandlingErRedigerbar}
+            onClick={() => settVisHenleggModal(true)}
+            size="xsmall"
+            variant="secondary"
+        >
             Henlegg
         </Button>
     );
