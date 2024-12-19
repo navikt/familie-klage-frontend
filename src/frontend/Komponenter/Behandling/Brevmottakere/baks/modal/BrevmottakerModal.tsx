@@ -47,7 +47,6 @@ export function BrevmottakerModal({
     );
 
     const erSkjemaSynlig =
-        visBrevmottakereModal &&
         !finnesBrevmottakerMedDødsbo &&
         ((brevmottakere.length === 0 && !erLesevisning) ||
             (brevmottakere.length === 1 && visSkjema));
@@ -69,53 +68,55 @@ export function BrevmottakerModal({
             portal={true}
         >
             <Modal.Body>
-                <VStack gap={'4'}>
-                    <Alert variant={'info'}>
-                        Brev sendes til brukers folkeregistrerte adresse eller annen foretrukken
-                        kanal. Legg til mottaker dersom brev skal sendes til utenlandsk adresse,
-                        fullmektig, verge eller dødsbo.
-                    </Alert>
-                    <RegistrerteBrevmottakere
-                        brevmottakere={brevmottakere}
-                        slettBrevmottaker={slettBrevmottaker}
-                        erLesevisning={erLesevisning}
-                    />
-                    {erSkjemaSynlig ? (
-                        <BrevmottakerForm
-                            behandlingId={behandlingId}
-                            personopplysninger={personopplysninger}
+                {visBrevmottakereModal && (
+                    <VStack gap={'4'}>
+                        <Alert variant={'info'}>
+                            Brev sendes til brukers folkeregistrerte adresse eller annen foretrukken
+                            kanal. Legg til mottaker dersom brev skal sendes til utenlandsk adresse,
+                            fullmektig, verge eller dødsbo.
+                        </Alert>
+                        <RegistrerteBrevmottakere
                             brevmottakere={brevmottakere}
-                            erLesevisning={false}
-                            lukkModal={lukkModal}
-                            opprettBrevmottaker={opprettBrevmottaker}
+                            slettBrevmottaker={slettBrevmottaker}
+                            erLesevisning={erLesevisning}
                         />
-                    ) : (
-                        <VStack gap={'6'} marginBlock={'2 4'}>
-                            {finnesBrevmottakerMedDødsbo && (
-                                <Alert variant={'info'} inline={true}>
-                                    Ved dødsbo kan kun en brevmottaker legges til.
-                                </Alert>
-                            )}
-                            {visLeggTilKnapp && (
+                        {erSkjemaSynlig ? (
+                            <BrevmottakerForm
+                                behandlingId={behandlingId}
+                                personopplysninger={personopplysninger}
+                                brevmottakere={brevmottakere}
+                                erLesevisning={false}
+                                lukkModal={lukkModal}
+                                opprettBrevmottaker={opprettBrevmottaker}
+                            />
+                        ) : (
+                            <VStack gap={'6'} marginBlock={'2 4'}>
+                                {finnesBrevmottakerMedDødsbo && (
+                                    <Alert variant={'info'} inline={true}>
+                                        Ved dødsbo kan kun en brevmottaker legges til.
+                                    </Alert>
+                                )}
+                                {visLeggTilKnapp && (
+                                    <div>
+                                        <Button
+                                            variant={'tertiary'}
+                                            size={'small'}
+                                            icon={<PlusCircleIcon />}
+                                            onClick={() => settVisSkjema(true)}
+                                        >
+                                            Legg til ny mottaker
+                                        </Button>
+                                    </div>
+                                )}
                                 <div>
-                                    <Button
-                                        variant={'tertiary'}
-                                        size={'small'}
-                                        icon={<PlusCircleIcon />}
-                                        onClick={() => settVisSkjema(true)}
-                                    >
-                                        Legg til ny mottaker
+                                    <Button size={'medium'} onClick={lukkModal}>
+                                        Lukk vindu
                                     </Button>
                                 </div>
-                            )}
-                            <div>
-                                <Button size={'medium'} onClick={lukkModal}>
-                                    Lukk vindu
-                                </Button>
-                            </div>
-                        </VStack>
-                    )}
-                </VStack>
+                            </VStack>
+                        )}
+                    </VStack>
+                )}
             </Modal.Body>
         </Modal>
     );
