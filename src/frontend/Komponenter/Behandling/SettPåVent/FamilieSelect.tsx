@@ -1,4 +1,4 @@
-import { BodyShort, Label, Select, SelectProps } from '@navikt/ds-react';
+import { Select, SelectProps } from '@navikt/ds-react';
 import React from 'react';
 
 export interface FamilieSelectProps extends SelectProps {
@@ -11,18 +11,12 @@ export const FamilieSelect: React.FC<FamilieSelectProps> = ({
     className,
     erLesevisning = false,
     label,
-    lesevisningVerdi,
     value,
     size,
     hideLabel,
     ...props
 }) => {
-    return erLesevisning ? (
-        <div className={className}>
-            {!hideLabel && label && <Label size={size}>{label}</Label>}
-            <BodyShort size={size}>{lesevisningVerdi ? lesevisningVerdi : value}</BodyShort>
-        </div>
-    ) : (
+    return (
         <Select
             className={className}
             label={label}
