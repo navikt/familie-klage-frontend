@@ -10,7 +10,7 @@ type Props = BrevmottakerFeltProps & {
 };
 
 export function NavnFelt({ feltnavn, visningsnavn, erLesevisning }: Props) {
-    const { control, formState, getValues } = useFormContext();
+    const { control, formState, watch } = useFormContext();
     return (
         <Controller
             control={control}
@@ -25,7 +25,7 @@ export function NavnFelt({ feltnavn, visningsnavn, erLesevisning }: Props) {
             }}
             render={({ field, fieldState }) => {
                 const visFeilmelding = fieldState.isTouched || formState.isSubmitted;
-                const mottakertype = getValues(BrevmottakerFeltnavn.MOTTAKERTYPE);
+                const mottakertype = watch(BrevmottakerFeltnavn.MOTTAKERTYPE);
                 const navnSkalVærePreutfylt =
                     mottakertype === Mottakertype.BRUKER_MED_UTENLANDSK_ADRESSE ||
                     mottakertype === Mottakertype.DØDSBO;
