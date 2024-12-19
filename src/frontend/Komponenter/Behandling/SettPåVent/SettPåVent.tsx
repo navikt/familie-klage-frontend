@@ -45,7 +45,6 @@ export const SettPåVent: FC<{ behandling: Behandling }> = ({ behandling }) => {
     const [beskrivelse, settBeskrivelse] = useState('');
 
     const [låsKnapp, settLåsKnapp] = useState<boolean>(false);
-    const [visFeilmeldingAlert, settVisFeilmeldingAlert] = useState<boolean>(false);
     const [feilmelding, settFeilmelding] = useState<string>();
 
     const erBehandlingPåVent = behandling.status === BehandlingStatus.SATT_PÅ_VENT;
@@ -88,6 +87,7 @@ export const SettPåVent: FC<{ behandling: Behandling }> = ({ behandling }) => {
             settLåsKnapp(false);
             return;
         } else {
+            settFeilmelding(undefined);
             axiosRequest<string, SettPåVentRequest>({
                 method: 'POST',
                 url: `/familie-klage/api/behandling/${behandling.id}/vent`,
@@ -106,7 +106,6 @@ export const SettPåVent: FC<{ behandling: Behandling }> = ({ behandling }) => {
                         settVisSettPåVent(false);
                     } else {
                         settFeilmelding(respons.frontendFeilmelding);
-                        settVisFeilmeldingAlert(true);
                     }
                 })
                 .finally(() => {
@@ -119,6 +118,7 @@ export const SettPåVent: FC<{ behandling: Behandling }> = ({ behandling }) => {
         if (oppgave.status !== RessursStatus.SUKSESS) {
             return;
         } else {
+            settFeilmelding(undefined);
             axiosRequest<string, SettPåVentRequest>({
                 method: 'POST',
                 url: `/familie-klage/api/behandling/${behandling.id}/ta-av-vent`,
@@ -127,7 +127,6 @@ export const SettPåVent: FC<{ behandling: Behandling }> = ({ behandling }) => {
                     hentBehandling.rerun();
                 } else {
                     settFeilmelding(respons.frontendFeilmelding);
-                    settVisFeilmeldingAlert(true);
                 }
             });
         }
@@ -145,7 +144,7 @@ export const SettPåVent: FC<{ behandling: Behandling }> = ({ behandling }) => {
             {({ oppgave }) => {
                 return (
                     <StyledVStack gap="4">
-                        {visFeilmeldingAlert && <Alert variant="error">{feilmelding}</Alert>}
+                        {feilmelding && <Alert variant="error">{feilmelding}</Alert>}
                         <Heading size={'medium'}>
                             {erBehandlingPåVent
                                 ? 'Behandling er på vent'
