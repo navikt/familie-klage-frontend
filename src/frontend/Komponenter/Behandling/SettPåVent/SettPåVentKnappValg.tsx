@@ -17,16 +17,16 @@ export const SettPåVentKnappValg: React.FC<SettPåVentKnappValgProps> = ({
     låsKnapp,
 }) => {
     return (
-        <HStack justify="end" gap="4">
-            <Button onClick={() => settVisSettPåVent(false)} variant="tertiary" size="small">
+        <HStack justify="end" gap="8">
+            <Button onClick={() => settVisSettPåVent(false)} variant="tertiary">
                 Avbryt
             </Button>
             {erBehandlingPåVent ? (
-                <Button onClick={taAvVent} variant="primary" size="small" disabled={låsKnapp}>
+                <Button onClick={taAvVent} variant="primary" disabled={låsKnapp}>
                     Ta av vent
                 </Button>
             ) : (
-                <Button onClick={settPåVent} variant="primary" size="small" disabled={låsKnapp}>
+                <Button onClick={settPåVent} variant="primary" disabled={låsKnapp}>
                     Sett på vent
                 </Button>
             )}
