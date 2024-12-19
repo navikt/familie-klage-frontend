@@ -1,6 +1,5 @@
 import { EøsLandkode } from '../../../../Felles/Landvelger/landkode';
-import CountryData from '@navikt/land-verktoy';
-import { Mottakertype, mottakertypeVisningsnavn } from './mottakertype';
+import { Mottakertype } from './mottakertype';
 
 export type Brevmottaker = {
     id: string;
@@ -33,22 +32,6 @@ export function utledBrevmottakernavn(
         default:
             return navnFraFelt;
     }
-}
-
-export function utledOppsumertBrevmottakereSomTekst(brevmottakere: Brevmottaker[]): string[] {
-    const oppsumertBrevmottakereSomTekst = brevmottakere.map((brevmottaker) => {
-        const land = CountryData.getCountryInstance('nb').findByValue(brevmottaker.landkode).label;
-        let tekst = `${brevmottaker.navn} (${mottakertypeVisningsnavn[brevmottaker.mottakertype]}): ${brevmottaker.adresselinje1}`;
-        if (brevmottaker.postnummer) {
-            tekst = tekst + `, ${brevmottaker.postnummer}`;
-        }
-        if (brevmottaker.poststed) {
-            tekst = tekst + `, ${brevmottaker.poststed}`;
-        }
-        tekst = tekst + `, ${land}`;
-        return tekst;
-    });
-    return [...oppsumertBrevmottakereSomTekst];
 }
 
 export function finnesBrevmottakerMedMottakertype(
