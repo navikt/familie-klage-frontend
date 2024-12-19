@@ -16,7 +16,7 @@ export function BrevmottakerPanel({ brevmottakere }: Props) {
     const oppsumertBrevmottakere = utledOppsumertBrevmottakere(brevmottakere);
 
     return (
-        <Box padding={'10'} background={'surface-info-subtle'}>
+        <Box background={'surface-info-subtle'} padding={'10'} width={'100%'} maxWidth={'1000px'}>
             <HStack justify={'space-between'} align={'center'}>
                 <Label htmlFor={'brevmottakere_liste'}>Brevmottakere</Label>
                 {behandlingErRedigerbar && (

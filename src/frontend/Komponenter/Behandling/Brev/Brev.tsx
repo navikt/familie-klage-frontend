@@ -10,7 +10,7 @@ import {
 import { useBehandling } from '../../../App/context/BehandlingContext';
 import styled from 'styled-components';
 import { useApp } from '../../../App/context/AppContext';
-import { Alert, Button } from '@navikt/ds-react';
+import { Alert, Button, HStack } from '@navikt/ds-react';
 import { useNavigate } from 'react-router-dom';
 import { IVurdering, VedtakValg } from '../Vurdering/vurderingValg';
 import PdfVisning from './PdfVisning';
@@ -39,10 +39,6 @@ const BrevContainer = styled.div`
 `;
 
 const AlertStripe = styled(Alert)`
-    margin-top: 2rem;
-`;
-
-const StyledKnapp = styled(Button)`
     margin-top: 2rem;
 `;
 
@@ -151,7 +147,7 @@ export const Brev: React.FC<IBrev> = ({ behandling }) => {
         return (
             <Brevside>
                 <BrevContainer>
-                    <div>
+                    <HStack gap={'6'}>
                         {brevRessurs.status === RessursStatus.SUKSESS && (
                             // behandling.fagsystem === Fagsystem.EF ? (
                             //     <BrevMottakere behandlingId={behandling.id} />
@@ -161,17 +157,11 @@ export const Brev: React.FC<IBrev> = ({ behandling }) => {
                             <BaksBrevmottakerContainer behandlingId={behandlingId} />
                         )}
                         {behandlingErRedigerbar && brevRessurs.status === RessursStatus.SUKSESS && (
-                            <StyledKnapp
-                                variant="primary"
-                                size="medium"
-                                onClick={() => {
-                                    settVisModal(true);
-                                }}
-                            >
+                            <Button onClick={() => settVisModal(true)}>
                                 Ferdigstill behandling og send brev
-                            </StyledKnapp>
+                            </Button>
                         )}
-                    </div>
+                    </HStack>
                     <PdfVisning pdfFilInnhold={brevRessurs} />
                 </BrevContainer>
                 <ModalWrapper
