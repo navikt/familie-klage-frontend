@@ -24,13 +24,18 @@ enum BarnetrygdlovenHjemmel {
     BT_ELLEVE = 'BT_ELLEVE',
     BT_TOLV = 'BT_TOLV',
     BT_TRETTEN = 'BT_TRETTEN',
+    BT_FJORTEN = 'BT_FJORTEN',
+    BT_FEMTEN = 'BT_FEMTEN',
     BT_SYTTEN = 'BT_SYTTEN',
     BT_ATTEN = 'BT_ATTEN',
 }
 
 enum KontantstøttelovenHjemmel {
+    KS_EN_A = 'KS_EN_A',
     KS_TO = 'KS_TO',
     KS_TRE = 'KS_TRE',
+    KS_TRE_A = 'KS_TRE_A',
+    KS_FIRE = 'KS_FIRE',
     KS_SEKS = 'KS_SEKS',
     KS_SYV = 'KS_SYV',
     KS_ÅTTE = 'KS_ÅTTE',
@@ -39,7 +44,23 @@ enum KontantstøttelovenHjemmel {
     KS_ELLEVE = 'KS_ELLEVE',
     KS_TOLV = 'KS_TOLV',
     KS_TRETTEN = 'KS_TRETTEN',
+    KS_FJORTEN = 'KS_FJORTEN',
     KS_SEKSTEN = 'KS_SEKSTEN',
+    KS_SYTTEN = 'KS_SYTTEN',
+    KS_NITTEN = 'KS_NITTEN',
+    KS_TJUETO = 'KS_TJUETO',
+}
+
+enum ForvaltningslovenHjemmel {
+    FV_TJUEÅTTE = 'FV_TJUEÅTTE',
+    FV_TJUENI = 'FV_TJUENI',
+    FV_TRETTI = 'FV_TRETTI',
+    FV_TRETTIEN = 'FV_TRETTIEN',
+    FV_TRETTITO = 'FV_TRETTITO',
+    FV_TRETTITRE = 'FV_TRETTITRE',
+    FV_TRETTIFIRE = 'FV_TRETTIFIRE',
+    FV_TRETTIFEM = 'FV_TRETTIFEM',
+    FV_TRETTISEKS = 'FV_TRETTISEKS',
 }
 
 enum UtlandsavtalerHjemmel {
@@ -63,13 +84,19 @@ const barnetrygdlovenVisningstekster: Record<BarnetrygdlovenHjemmel, string> = {
     BT_ELLEVE: '§ 11 Stønadsperiode',
     BT_TOLV: '§ 12 Utbetaling',
     BT_TRETTEN: '§ 13 Tilbakekreving',
+    BT_FJORTEN: '§ 14 Krav om barnetrygd',
+    BT_FEMTEN: '§ 15 Hvem avgjør søknad om barnetrygd. Klage og anke',
     BT_SYTTEN: '§ 17 Stønadsmottakers opplysningsplikt',
     BT_ATTEN: '§ 18 Uriktige opplysninger',
 };
 
 const kontantstøttelovenVisningstekster: Record<KontantstøttelovenHjemmel, string> = {
+    KS_EN_A: '§ 1a Forholdet til bestemmelser om internasjonal trygdekoordinering',
     KS_TO: '§ 2 Vilkår knyttet til barnet',
     KS_TRE: '§ 3 Vilkår knyttet til støttemottaker',
+    KS_TRE_A: '§ 3a Arbeidstakere på kontinentalsokkelen',
+    KS_FIRE:
+        '§ 4 Barn av tilsatt ved utenlandsk representasjon eller annen administrativ tjenestegren',
     KS_SEKS: '§ 6 Barn i fosterhjem eller institusjon',
     KS_SYV: '§ 7 Kontantstøttens størrelse',
     KS_ÅTTE: '§ 8 Stønadsperiode',
@@ -78,7 +105,23 @@ const kontantstøttelovenVisningstekster: Record<KontantstøttelovenHjemmel, str
     KS_ELLEVE: '§ 11 Tilbakekreving',
     KS_TOLV: '§ 12 Støttemottakerens opplysningsplikt',
     KS_TRETTEN: '§ 13 Avslag på søknad, stans i utbetalingen',
+    KS_FJORTEN: '§ 14 Søknad om kontantstøtte',
     KS_SEKSTEN: '§ 16 Opplysningsplikt',
+    KS_SYTTEN: '§ 17 Saksbehandling',
+    KS_NITTEN: '§ 19 Forholdet mellom Arbeids- og velferdsetaten og kommunene',
+    KS_TJUETO: '§ 22 Folkerettslige forpliktelser om trygdekoordinering',
+};
+
+const forvaltningslovenVisningstekster: Record<ForvaltningslovenHjemmel, string> = {
+    FV_TJUEÅTTE: '§ 28 Vedtak som kan påklages, klageinstans',
+    FV_TJUENI: '§ 29 Klagefrist',
+    FV_TRETTI: '§ 30 Når klagen må være fremsatt',
+    FV_TRETTIEN: '§ 31 Oversitting av klagefristen',
+    FV_TRETTITO: '§ 32 Klagens adressat, form og innhold',
+    FV_TRETTITRE: '§ 33 Saksforberedelsen i klagesak',
+    FV_TRETTIFIRE: '§ 34 Klageinstansens kompetanse',
+    FV_TRETTIFEM: '§ 35 Omgjøring av vedtak uten klage',
+    FV_TRETTISEKS: '§ 36 Sakskostnader',
 };
 
 const utlandsavtalerHjemmelVisningstekster: Record<UtlandsavtalerHjemmel, string> = {
@@ -107,18 +150,20 @@ export const folketrygdHjemmelTilVisningstekst: Record<FolketrygdHjemmel, string
 };
 
 export const baHjemlerTilVisningstekst: Record<
-    BarnetrygdlovenHjemmel | UtlandsavtalerHjemmel,
+    BarnetrygdlovenHjemmel | UtlandsavtalerHjemmel | ForvaltningslovenHjemmel.FV_TRETTIFEM,
     string
 > = {
     ...barnetrygdlovenVisningstekster,
     ...utlandsavtalerHjemmelVisningstekster,
+    FV_TRETTIFEM: forvaltningslovenVisningstekster.FV_TRETTIFEM,
 };
 
 export const ksHjemlerTilVisningstekst: Record<
-    KontantstøttelovenHjemmel | UtlandsavtalerHjemmel,
+    KontantstøttelovenHjemmel | UtlandsavtalerHjemmel | ForvaltningslovenHjemmel,
     string
 > = {
     ...kontantstøttelovenVisningstekster,
+    ...forvaltningslovenVisningstekster,
     ...utlandsavtalerHjemmelVisningstekster,
 };
 
