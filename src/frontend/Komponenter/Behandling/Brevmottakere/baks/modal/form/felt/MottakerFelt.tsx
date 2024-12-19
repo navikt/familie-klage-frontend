@@ -11,7 +11,6 @@ type Props = BrevmottakerFeltProps & {
     brevmottakere: Brevmottaker[];
 };
 
-// TODO : Skal man vise 'Bruker med utenlandsk adresse' når det allerede finnes en brevmottaker som er 'Bruker med utenlandsk adresse'?
 export function MottakerFelt({
     feltnavn,
     visningsnavn,
