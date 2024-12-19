@@ -49,9 +49,7 @@ const [BehandlingProvider, useBehandling] = constate(() => {
 
     useEffect(() => {
         settBehandlingErRedigerbar(
-            behandling.status === RessursStatus.SUKSESS &&
-                behandling.data.status !== BehandlingStatus.SATT_PÅ_VENT &&
-                erBehandlingRedigerbar(behandling.data)
+            behandling.status === RessursStatus.SUKSESS && erBehandlingRedigerbar(behandling.data)
         );
         hentVilkårsvurderinger(behandlingId);
     }, [ansvarligSaksbehandler, behandling, behandlingId, hentVilkårsvurderinger]);
@@ -65,6 +63,7 @@ const [BehandlingProvider, useBehandling] = constate(() => {
     }, [vilkårsvurderinger]);
 
     const erBehandlingRedigerbar = (behandling: Behandling): boolean =>
+        behandling.status !== BehandlingStatus.SATT_PÅ_VENT &&
         [StegType.FORMKRAV, StegType.VURDERING, StegType.BREV].includes(behandling.steg);
 
     const [visBrevmottakereModal, settVisBrevmottakereModal] = useState(false);

@@ -26,7 +26,7 @@ export const SettPåVentKnappValg: React.FC<SettPåVentKnappValgProps> = ({
                     Ta av vent
                 </Button>
             ) : (
-                <Button onClick={settPåVent} variant="primary" size="small">
+                <Button onClick={settPåVent} variant="primary" size="small" disabled={låsKnapp}>
                     Sett på vent
                 </Button>
             )}
