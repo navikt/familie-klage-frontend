@@ -2,7 +2,7 @@ import React from 'react';
 import { useApp } from '../../../../../App/context/AppContext';
 import { useBehandling } from '../../../../../App/context/BehandlingContext';
 import { BodyShort, Box, Button, HStack, Label, Tooltip } from '@navikt/ds-react';
-import { Brevmottaker, utledOppsumeringsnavnPåBrevmottakere } from '../brevmottaker';
+import { Brevmottaker, utledOppsumertBrevmottakereSomTekst } from '../brevmottaker';
 
 type Props = {
     brevmottakere: Brevmottaker[];
@@ -12,7 +12,7 @@ export function BrevmottakerPanel({ brevmottakere }: Props) {
     const { settVisBrevmottakereModal } = useApp();
     const { behandlingErRedigerbar } = useBehandling();
 
-    const navn = utledOppsumeringsnavnPåBrevmottakere(brevmottakere);
+    const oppsumertBrevmottakereSomTekst = utledOppsumertBrevmottakereSomTekst(brevmottakere);
 
     return (
         <Box padding={'10'} background={'surface-info-subtle'}>
@@ -30,9 +30,9 @@ export function BrevmottakerPanel({ brevmottakere }: Props) {
                 )}
             </HStack>
             <ul id={'brevmottakere_liste'}>
-                {navn.map((navn, index) => (
-                    <li key={navn + index}>
-                        <BodyShort key={navn + index}>{navn}</BodyShort>
+                {oppsumertBrevmottakereSomTekst.map((brevmottaker, index) => (
+                    <li key={brevmottaker + index}>
+                        <BodyShort key={brevmottaker + index}>{brevmottaker}</BodyShort>
                     </li>
                 ))}
             </ul>

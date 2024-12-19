@@ -35,18 +35,20 @@ export function utledBrevmottakernavn(
     }
 }
 
-export function utledOppsumeringsnavnPåBrevmottakere(brevmottakere: Brevmottaker[]): string[] {
-    return [
-        ...brevmottakere.map((person) => {
-            const land = CountryData.getCountryInstance('nb').findByValue(person.landkode).label;
-            return (
-                `${person.navn} (${mottakertypeVisningsnavn[person.mottakertype]}): ${person.adresselinje1}, ` +
-                (person.landkode === 'NO'
-                    ? `${person.postnummer}, ${person.poststed}, ${land}`
-                    : `${land}`)
-            );
-        }),
-    ];
+export function utledOppsumertBrevmottakereSomTekst(brevmottakere: Brevmottaker[]): string[] {
+    const oppsumertBrevmottakereSomTekst = brevmottakere.map((brevmottaker) => {
+        const land = CountryData.getCountryInstance('nb').findByValue(brevmottaker.landkode).label;
+        let tekst = `${brevmottaker.navn} (${mottakertypeVisningsnavn[brevmottaker.mottakertype]}): ${brevmottaker.adresselinje1}`;
+        if (brevmottaker.postnummer) {
+            tekst = tekst + `, ${brevmottaker.postnummer}`;
+        }
+        if (brevmottaker.poststed) {
+            tekst = tekst + `, ${brevmottaker.poststed}`;
+        }
+        tekst = tekst + `, ${land}`;
+        return tekst;
+    });
+    return [...oppsumertBrevmottakereSomTekst];
 }
 
 export function finnesBrevmottakerMedMottakertype(
