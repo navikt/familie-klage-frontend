@@ -1,7 +1,7 @@
 import React, { FC } from 'react';
 import { IOppgave } from './IOppgave';
 import { useApp } from '../../../App/context/AppContext';
-import { FamilieSelect } from './FamilieSelect';
+import { Select } from '@navikt/ds-react';
 
 export const SaksbehandlerVelger: FC<{
     oppgave: IOppgave;
@@ -12,15 +12,12 @@ export const SaksbehandlerVelger: FC<{
     const { innloggetSaksbehandler } = useApp();
 
     return (
-        <FamilieSelect
-            label={'Saksbehandler'}
-            size={'small'}
+        <Select
+            label="Saksbehandler"
+            size="small"
             value={saksbehandler}
-            onChange={(e) => {
-                settSaksbehandler(e.target.value);
-            }}
-            erLesevisning={erLesevisning}
-            lesevisningVerdi={saksbehandler || 'Ingen'}
+            onChange={(e) => settSaksbehandler(e.target.value)}
+            readOnly={erLesevisning}
         >
             {oppgave.tilordnetRessurs &&
                 innloggetSaksbehandler.navIdent !== oppgave.tilordnetRessurs && (
@@ -29,7 +26,7 @@ export const SaksbehandlerVelger: FC<{
             <option value={innloggetSaksbehandler.navIdent}>
                 {innloggetSaksbehandler.displayName}
             </option>
-            <option value={''}>Ingen</option>
-        </FamilieSelect>
+            <option value="">Ingen</option>
+        </Select>
     );
 };
