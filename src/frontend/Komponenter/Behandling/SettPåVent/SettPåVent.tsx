@@ -19,6 +19,7 @@ import { PrioritetVelger } from './PrioritetVelger';
 import { FristVelger } from './FristVelger';
 import { BeskrivelseHistorikk } from './BeskrivelseHistorikk';
 import { SettPåVentKnappValg } from './SettPåVentKnappValg';
+import { MappeVelger } from './MappeVelger';
 
 const StyledVStack = styled(VStack)`
     background-color: #e6f1f8;
@@ -43,6 +44,7 @@ export const SettPåVent: FC<{ behandling: Behandling }> = ({ behandling }) => {
     const [prioritet, settPrioritet] = useState<Prioritet | undefined>();
     const [frist, settFrist] = useState<string | undefined>();
     const [beskrivelse, settBeskrivelse] = useState('');
+    const [mappe, settMappe] = useState<number | undefined>();
 
     const [låsKnapp, settLåsKnapp] = useState<boolean>(false);
     const [feilmelding, settFeilmelding] = useState<string>();
@@ -165,6 +167,12 @@ export const SettPåVent: FC<{ behandling: Behandling }> = ({ behandling }) => {
                             <FristVelger
                                 oppgave={oppgave}
                                 settFrist={settFrist}
+                                erLesevisning={erBehandlingPåVent}
+                            />
+                            <MappeVelger
+                                oppgaveEnhet={oppgave.tildeltEnhetsnr}
+                                settMappe={settMappe}
+                                valgtMappe={mappe}
                                 erLesevisning={erBehandlingPåVent}
                             />
                         </HStack>

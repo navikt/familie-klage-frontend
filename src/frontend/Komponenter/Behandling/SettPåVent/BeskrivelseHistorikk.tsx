@@ -22,6 +22,7 @@ const BeskrivelseContainer = styled.div`
     gap: 0.5rem;
 `;
 
+// TODO: Rename denne slik at den matcher det som er satt i ef-sak. Den burde ikke hete BeskrivelseHistorikk da dette er annen komponent.
 export const BeskrivelseHistorikk: FC<{ beskrivelse?: string }> = ({ beskrivelse }) => {
     const [harOverflow, settHarOverflow] = useState(false);
     const [ekspandert, settEkspandert] = useState(false);
