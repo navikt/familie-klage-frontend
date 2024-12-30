@@ -1,7 +1,7 @@
 import React, { FC, useEffect, useState } from 'react';
 import { Select } from '@navikt/ds-react';
 import { byggTomRessurs, Ressurs } from '../../../App/typer/ressurs';
-import { IMappe } from './IMappe';
+import { Mappe } from '../Typer/Mappe';
 import { useApp } from '../../../App/context/AppContext';
 import DataViewer from '../../../Felles/DataViewer/DataViewer';
 
@@ -11,14 +11,14 @@ export const MappeVelger: FC<{
     settMappe: (mappe: number | undefined) => void;
     erLesevisning: boolean;
 }> = ({ oppgaveEnhet, valgtMappe, settMappe, erLesevisning }) => {
-    const [mapper, settMapper] = useState<Ressurs<IMappe[]>>(byggTomRessurs());
+    const [mapper, settMapper] = useState<Ressurs<Mappe[]>>(byggTomRessurs());
     const { axiosRequest } = useApp();
 
     useEffect(() => {
-        axiosRequest<IMappe[], null>({
+        axiosRequest<Mappe[], null>({
             method: 'GET',
             url: `/familie-klage/api/behandling/mapper`, // TODO: Endre denne slik den matcher ef-klage.
-        }).then((res: Ressurs<IMappe[]>) => {
+        }).then((res: Ressurs<Mappe[]>) => {
             settMapper(res);
         });
     }, [axiosRequest]);

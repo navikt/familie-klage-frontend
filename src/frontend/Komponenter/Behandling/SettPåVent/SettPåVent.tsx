@@ -9,7 +9,7 @@ import {
     RessursStatus,
     RessursSuksess,
 } from '../../../App/typer/ressurs';
-import { IOppgave, Prioritet } from './IOppgave';
+import { Oppgave, Prioritet } from '../Typer/Oppgave';
 import { useApp } from '../../../App/context/AppContext';
 import DataViewer from '../../../Felles/DataViewer/DataViewer';
 import { useBehandling } from '../../../App/context/BehandlingContext';
@@ -17,7 +17,7 @@ import { BehandlingStatus } from '../../../App/typer/behandlingstatus';
 import { SaksbehandlerVelger } from './SaksbehandlerVelger';
 import { PrioritetVelger } from './PrioritetVelger';
 import { FristVelger } from './FristVelger';
-import { BeskrivelseHistorikk } from './BeskrivelseHistorikk';
+import { EksisterendeBeskrivelse } from './EksisterendeBeskrivelse';
 import { SettPåVentKnappValg } from './SettPåVentKnappValg';
 import { MappeVelger } from './MappeVelger';
 
@@ -39,7 +39,7 @@ type SettPåVentRequest = {
 };
 
 export const SettPåVent: FC<{ behandling: Behandling }> = ({ behandling }) => {
-    const [oppgave, settOppgave] = useState<Ressurs<IOppgave>>(byggTomRessurs<IOppgave>());
+    const [oppgave, settOppgave] = useState<Ressurs<Oppgave>>(byggTomRessurs<Oppgave>());
     const [saksbehandler, settSaksbehandler] = useState<string>('');
     const [prioritet, settPrioritet] = useState<Prioritet | undefined>();
     const [frist, settFrist] = useState<string | undefined>();
@@ -56,7 +56,7 @@ export const SettPåVent: FC<{ behandling: Behandling }> = ({ behandling }) => {
     const { axiosRequest } = useApp();
 
     const hentOppgaveForBehandling = useCallback(() => {
-        axiosRequest<IOppgave, null>({
+        axiosRequest<Oppgave, null>({
             method: 'GET',
             url: `/familie-klage/api/behandling/${behandling.id}/oppgave`,
         }).then(settOppgave);
@@ -178,7 +178,7 @@ export const SettPåVent: FC<{ behandling: Behandling }> = ({ behandling }) => {
                                 erLesevisning={erBehandlingPåVent}
                             />
                         </HStack>
-                        <BeskrivelseHistorikk beskrivelse={oppgave.beskrivelse} />
+                        <EksisterendeBeskrivelse beskrivelse={oppgave.beskrivelse} />
                         {!erBehandlingPåVent && (
                             <Beskrivelse
                                 label={'Beskrivelse'}

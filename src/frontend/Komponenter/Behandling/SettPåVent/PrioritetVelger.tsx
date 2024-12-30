@@ -1,5 +1,5 @@
 import React, { FC } from 'react';
-import { Prioritet, prioritetTilTekst } from './IOppgave';
+import { Prioritet, prioritetTilTekst } from '../Typer/Oppgave';
 import { Select } from '@navikt/ds-react';
 
 export const PrioritetVelger: FC<{

@@ -1,5 +1,4 @@
-// TODO: Rename denne slik at den matcher det som er satt i ef-sak.
-export interface IOppgave {
+export interface Oppgave {
     oppgaveId: number;
     tildeltEnhetsnr?: string;
     tilordnetRessurs?: string;

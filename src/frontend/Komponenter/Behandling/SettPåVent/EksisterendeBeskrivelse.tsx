@@ -11,19 +11,18 @@ const EkspanderbarContainer = styled(BodyShort)<{ $ekspandert: boolean }>`
     max-width: 50rem;
 `;
 
-const VenstreSkillelinje = styled.div`
-    border-left: 2px solid ${ABlue300};
-    padding-left: 1.5rem;
-`;
-
 const BeskrivelseContainer = styled.div`
     display: flex;
     flex-direction: column;
     gap: 0.5rem;
 `;
 
-// TODO: Rename denne slik at den matcher det som er satt i ef-sak. Den burde ikke hete BeskrivelseHistorikk da dette er annen komponent.
-export const BeskrivelseHistorikk: FC<{ beskrivelse?: string }> = ({ beskrivelse }) => {
+const VenstreSkillelinje = styled.div`
+    border-left: 2px solid ${ABlue300};
+    padding-left: 1.5rem;
+`;
+
+export const EksisterendeBeskrivelse: FC<{ beskrivelse?: string }> = ({ beskrivelse }) => {
     const [harOverflow, settHarOverflow] = useState(false);
     const [ekspandert, settEkspandert] = useState(false);
 
