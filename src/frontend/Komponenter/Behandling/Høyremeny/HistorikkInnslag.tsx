@@ -6,6 +6,7 @@ import { formaterIsoDatoTid } from '../../../App/utils/formatter';
 import { Behandling, behandlingStegFullførtTilTekst, StegType } from '../../../App/typer/fagsak';
 import { PersonCircleIcon } from '@navikt/aksel-icons';
 import { utledStegutfallForFerdigstiltBehandling } from '../utils';
+import { BehandlingStatus, behandlingStatusTilTekst } from '../../../App/typer/behandlingstatus';
 
 const Innslag = styled.div`
     display: flex;
@@ -40,6 +41,23 @@ const HistorikkInnslag: React.FunctionComponent<IHistorikkOppdatering> = ({
     opprettetAv,
     endretTid,
 }) => {
+    // TODO: Denne er litt funky, må endres.
+    const labelTekst = () => {
+        if (
+            steg !== StegType.BEHANDLING_FERDIGSTILT &&
+            behandling.status === BehandlingStatus.SATT_PÅ_VENT
+        ) {
+            return behandlingStatusTilTekst[BehandlingStatus.SATT_PÅ_VENT];
+        }
+        if (
+            steg !== StegType.BEHANDLING_FERDIGSTILT &&
+            behandling.status === BehandlingStatus.UTREDES
+        ) {
+            return 'Tatt av vent';
+        }
+        return behandlingStegFullførtTilTekst[steg];
+    };
+
     return (
         <Innslag>
             <Ikon>
@@ -47,7 +65,7 @@ const HistorikkInnslag: React.FunctionComponent<IHistorikkOppdatering> = ({
                 <StipletLinje />
             </Ikon>
             <Tekst>
-                <Label size="small">{behandlingStegFullførtTilTekst[steg]}</Label>
+                <Label size="small">{labelTekst()}</Label>
                 {steg === StegType.BEHANDLING_FERDIGSTILT && (
                     <BodyShort>
                         {utledStegutfallForFerdigstiltBehandling(behandling, steg)}
