@@ -167,6 +167,7 @@ export const SettPåVent: FC<{ behandling: Behandling }> = ({ behandling }) => {
                             />
                             <FristVelger
                                 oppgave={oppgave}
+                                frist={frist}
                                 settFrist={settFrist}
                                 erLesevisning={erBehandlingPåVent}
                             />
