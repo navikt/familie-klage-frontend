@@ -67,6 +67,7 @@ export const SettPåVent: FC<{ behandling: Behandling }> = ({ behandling }) => {
             settSaksbehandler(oppgave.data.tilordnetRessurs || '');
             settPrioritet(oppgave.data.prioritet || 'NORM');
             settFrist(oppgave.data.fristFerdigstillelse);
+            settMappe(oppgave.data.mappeId);
         }
     }, [oppgave]);
 

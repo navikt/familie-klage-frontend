@@ -17,7 +17,7 @@ export const MappeVelger: FC<{
     useEffect(() => {
         axiosRequest<IMappe[], null>({
             method: 'GET',
-            url: `/familie-ef-sak/api/oppgave/mapper`, // TODO: Endre denne slik den matcher ef-klage.
+            url: `/familie-klage/api/behandling/mapper`, // TODO: Endre denne slik den matcher ef-klage.
         }).then((res: Ressurs<IMappe[]>) => {
             settMapper(res);
         });
