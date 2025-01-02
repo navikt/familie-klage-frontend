@@ -46,15 +46,16 @@ export function BrevmottakerModal({
         Mottakertype.DØDSBO
     );
 
-    const erSkjemaSynlig =
-        !finnesBrevmottakerMedDødsbo &&
-        ((brevmottakere.length === 0 && !erLesevisning) || (brevmottakere.length === 1 && visForm));
+    const erFormSynlig =
+        !erLesevisning &&
+        (brevmottakere.length === 0 ||
+            (brevmottakere.length === 1 && !finnesBrevmottakerMedDødsbo && visForm));
 
-    const visLeggTilKnapp =
-        brevmottakere.length === 1 &&
+    const erLeggTilNyMottakerKnappSynlig =
+        !erLesevisning &&
+        !erFormSynlig &&
         !finnesBrevmottakerMedDødsbo &&
-        !erSkjemaSynlig &&
-        !erLesevisning;
+        brevmottakere.length === 1;
 
     function lukkModal() {
         settVisBrevmottakereModal(false);
@@ -81,7 +82,7 @@ export function BrevmottakerModal({
                             slettBrevmottaker={slettBrevmottaker}
                             erLesevisning={erLesevisning}
                         />
-                        {erSkjemaSynlig && (
+                        {erFormSynlig && (
                             <BrevmottakerForm
                                 behandlingId={behandlingId}
                                 personopplysninger={personopplysninger}
@@ -96,7 +97,7 @@ export function BrevmottakerModal({
                                 Ved dødsbo kan kun en brevmottaker legges til.
                             </Alert>
                         )}
-                        {visLeggTilKnapp && (
+                        {erLeggTilNyMottakerKnappSynlig && (
                             <div>
                                 <Button
                                     variant={'tertiary'}
