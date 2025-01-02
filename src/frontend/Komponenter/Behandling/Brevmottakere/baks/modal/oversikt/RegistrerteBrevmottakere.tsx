@@ -1,29 +1,11 @@
 import React from 'react';
 
-import styled from 'styled-components';
-
 import { TrashIcon } from '@navikt/aksel-icons';
-import { Alert, Box, Button, Heading, HStack, VStack } from '@navikt/ds-react';
-import { AFontWeightBold } from '@navikt/ds-tokens/dist/tokens';
+import { Alert, Box, Button, Heading, HGrid, HStack, VStack } from '@navikt/ds-react';
 import CountryData from '@navikt/land-verktoy';
 import { Brevmottaker } from '../../brevmottaker';
 import { EøsLandkode } from '../../../../../../Felles/Landvelger/landkode';
 import { mottakertypeVisningsnavn } from '../../mottakertype';
-
-const DefinitionList = styled.dl`
-    display: grid;
-    grid-gap: 1rem;
-    grid-template-columns: 10rem 20rem;
-    margin-left: 1rem;
-
-    dt {
-        font-weight: ${AFontWeightBold};
-    }
-
-    dd {
-        margin-left: 0;
-    }
-`;
 
 type Props = {
     brevmottakere: Brevmottaker[];
@@ -42,7 +24,7 @@ export function RegistrerteBrevmottakere({
             {brevmottakere.map((brevmottaker) => {
                 const land = countryInstance.findByValue(brevmottaker.landkode).label;
                 return (
-                    <VStack key={brevmottaker.id} marginBlock={'2 2'}>
+                    <VStack key={brevmottaker.id} marginBlock={'2 2'} gap={'2'}>
                         <HStack justify={'space-between'}>
                             <Heading level={'2'} size={'small'}>
                                 {mottakertypeVisningsnavn[brevmottaker.mottakertype]}
@@ -58,28 +40,28 @@ export function RegistrerteBrevmottakere({
                                 </Button>
                             )}
                         </HStack>
-                        <DefinitionList>
-                            <dt>Navn</dt>
-                            <dd>{brevmottaker.navn}</dd>
-                            <dt>Land</dt>
-                            <dd>{land}</dd>
-                            <dt>Adresselinje 1</dt>
-                            <dd>{brevmottaker.adresselinje1}</dd>
-                            <dt>Adresselinje 2</dt>
-                            <dd>{brevmottaker.adresselinje2 || '-'}</dd>
+                        <HGrid gap={'2'} columns={'1fr 2fr'}>
+                            <div>Navn:</div>
+                            <div>{brevmottaker.navn}</div>
+                            <div>Land:</div>
+                            <div>{land}</div>
+                            <div>Adresselinje 1:</div>
+                            <div>{brevmottaker.adresselinje1}</div>
+                            <div>Adresselinje 2:</div>
+                            <div>{brevmottaker.adresselinje2 || '-'}</div>
                             {brevmottaker.postnummer && (
                                 <>
-                                    <dt>Postnummer</dt>
-                                    <dd>{brevmottaker.postnummer || '-'}</dd>
+                                    <div>Postnummer</div>
+                                    <div>{brevmottaker.postnummer || '-'}</div>
                                 </>
                             )}
                             {brevmottaker.poststed && (
                                 <>
-                                    <dt>Poststed</dt>
-                                    <dd>{brevmottaker.poststed || '-'}</dd>
+                                    <div>Poststed</div>
+                                    <div>{brevmottaker.poststed || '-'}</div>
                                 </>
                             )}
-                        </DefinitionList>
+                        </HGrid>
                         {brevmottaker.landkode !== EøsLandkode.NO && (
                             <Alert variant={'info'} inline={true}>
                                 Ved utenlandsk adresse skal postnummer og poststed legges i
