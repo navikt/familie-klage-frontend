@@ -13,14 +13,14 @@ type Props = {
     erLesevisning: boolean;
 };
 
+const countryInstance = CountryData.getCountryInstance('nb');
+
 export function RegistrerteBrevmottakere({
     brevmottakere,
     slettBrevmottaker,
     erLesevisning,
 }: Props) {
-    const countryInstance = CountryData.getCountryInstance('nb');
     return brevmottakere.map((brevmottaker) => {
-        const land = countryInstance.findByValue(brevmottaker.landkode).label;
         return (
             <Box key={brevmottaker.id} padding={'2'}>
                 <VStack marginBlock={'2 2'} gap={'2'}>
@@ -43,7 +43,7 @@ export function RegistrerteBrevmottakere({
                         <div>Navn:</div>
                         <div>{brevmottaker.navn}</div>
                         <div>Land:</div>
-                        <div>{land}</div>
+                        <div>{countryInstance.findByValue(brevmottaker.landkode).label}</div>
                         <div>Adresselinje 1:</div>
                         <div>{brevmottaker.adresselinje1}</div>
                         <div>Adresselinje 2:</div>
