@@ -38,8 +38,8 @@ export function BrevmottakerModal({
     slettBrevmottaker,
     erLesevisning,
 }: Props) {
-    const { settVisBrevmottakereModal, visBrevmottakereModal } = useApp();
-    const [visSkjema, settVisSkjema] = useState(false);
+    const { visBrevmottakereModal, settVisBrevmottakereModal } = useApp();
+    const [visForm, settVisForm] = useState(false);
 
     const finnesBrevmottakerMedDødsbo = finnesBrevmottakerMedMottakertype(
         brevmottakere,
@@ -48,8 +48,7 @@ export function BrevmottakerModal({
 
     const erSkjemaSynlig =
         !finnesBrevmottakerMedDødsbo &&
-        ((brevmottakere.length === 0 && !erLesevisning) ||
-            (brevmottakere.length === 1 && visSkjema));
+        ((brevmottakere.length === 0 && !erLesevisning) || (brevmottakere.length === 1 && visForm));
 
     const visLeggTilKnapp =
         brevmottakere.length === 1 &&
@@ -59,7 +58,6 @@ export function BrevmottakerModal({
 
     function lukkModal() {
         settVisBrevmottakereModal(false);
-        settVisSkjema(false);
     }
 
     return (
@@ -67,7 +65,7 @@ export function BrevmottakerModal({
             open={visBrevmottakereModal}
             onClose={lukkModal}
             header={{ heading: utledHeading(brevmottakere.length, erLesevisning), size: 'medium' }}
-            width={'35rem'}
+            width={'40rem'}
             portal={true}
         >
             <Modal.Body>
@@ -104,7 +102,7 @@ export function BrevmottakerModal({
                                     variant={'tertiary'}
                                     size={'small'}
                                     icon={<PlusCircleIcon />}
-                                    onClick={() => settVisSkjema(true)}
+                                    onClick={() => settVisForm(true)}
                                 >
                                     Legg til ny mottaker
                                 </Button>
