@@ -33,7 +33,7 @@ export function utledGyldigeMottakertyper(brevmottakere: Brevmottaker[]): Mottak
     );
 }
 
-export function erGyldigMottakertypeForLandekode(
+export function erGyldigMottakertypeForLandkode(
     mottakertype: Mottakertype,
     landkode: EøsLandkode | ''
 ): boolean {

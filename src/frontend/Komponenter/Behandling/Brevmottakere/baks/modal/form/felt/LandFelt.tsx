@@ -4,7 +4,7 @@ import { Landvelger } from '../../../../../../../Felles/Landvelger/Landvelger';
 import { BrevmottakerFeltnavn, BrevmottakerFeltProps } from './felttyper';
 import { utledBrevmottakernavnVedDødsbo } from '../../../brevmottaker';
 import { IPersonopplysninger } from '../../../../../../../App/typer/personopplysninger';
-import { erGyldigMottakertypeForLandekode, Mottakertype } from '../../../mottakertype';
+import { erGyldigMottakertypeForLandkode, Mottakertype } from '../../../mottakertype';
 
 type Props = BrevmottakerFeltProps & {
     personopplysninger: IPersonopplysninger;
@@ -19,7 +19,7 @@ export function LandFelt({ feltnavn, visningsnavn, erLesevisning, personopplysni
                 required: `${visningsnavn} er påkrevd.`,
                 validate: (landkode) => {
                     const mottakertype = getValues(BrevmottakerFeltnavn.MOTTAKERTYPE);
-                    if (!erGyldigMottakertypeForLandekode(mottakertype, landkode)) {
+                    if (!erGyldigMottakertypeForLandkode(mottakertype, landkode)) {
                         return 'Norge kan ikke være satt for bruker med utenlandsk adresse.';
                     }
                     return undefined;
