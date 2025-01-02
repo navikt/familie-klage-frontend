@@ -59,6 +59,7 @@ export function BrevmottakerModal({
 
     function lukkModal() {
         settVisBrevmottakereModal(false);
+        settVisForm(false);
     }
 
     return (
