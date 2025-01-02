@@ -92,11 +92,6 @@ export function BrevmottakerModal({
                                 opprettBrevmottaker={opprettBrevmottaker}
                             />
                         )}
-                        {finnesBrevmottakerMedDødsbo && (
-                            <Alert variant={'info'} inline={true}>
-                                Ved dødsbo kan kun en brevmottaker legges til.
-                            </Alert>
-                        )}
                         {erLeggTilNyMottakerKnappSynlig && (
                             <div>
                                 <Button
