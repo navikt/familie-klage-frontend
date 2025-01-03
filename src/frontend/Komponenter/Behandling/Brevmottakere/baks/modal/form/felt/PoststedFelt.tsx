@@ -28,7 +28,7 @@ export function PoststedFelt({ feltnavn, visningsnavn, erLesevisning }: Props) {
                         onBlur={field.onBlur}
                         onChange={field.onChange}
                         error={visFeilmelding && fieldState.error?.message}
-                        readOnly={erLesevisning}
+                        readOnly={erLesevisning || formState.isSubmitting}
                     />
                 );
             }}

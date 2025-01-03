@@ -37,7 +37,7 @@ export function AdresselinjeFelt({
                         onChange={field.onChange}
                         error={visFeilmelding && fieldState.error?.message}
                         description={beskrivelse}
-                        readOnly={erLesevisning}
+                        readOnly={erLesevisning || formState.isSubmitting}
                     />
                 );
             }}

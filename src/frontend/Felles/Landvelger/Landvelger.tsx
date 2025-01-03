@@ -44,7 +44,7 @@ const land: ComboboxOption[] = [
 ];
 
 export const Landvelger = forwardRef((props: Props, ref: LegacyRef<HTMLInputElement>) => {
-    const { label, value, onToggleSelected, error, onBlur } = props;
+    const { label, value, onToggleSelected, error, onBlur, readOnly } = props;
     const [selectedOption, setSelectedOption] = useState<ComboboxOption | undefined>(
         land.find((opt) => opt.value === value)
     );
@@ -69,6 +69,7 @@ export const Landvelger = forwardRef((props: Props, ref: LegacyRef<HTMLInputElem
             }}
             error={error}
             shouldAutocomplete={true}
+            readOnly={readOnly}
         />
     );
 });

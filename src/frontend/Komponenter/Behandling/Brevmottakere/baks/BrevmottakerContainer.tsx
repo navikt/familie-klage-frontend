@@ -20,23 +20,25 @@ export function BrevmottakerContainer({ behandlingId }: Props) {
     const { personopplysningerResponse: personopplysninger } = useBehandling();
     const [brevmottakere, settBrevmottakere] = useState<Ressurs<Brevmottaker[]>>(byggTomRessurs());
 
-    function hentBrevmottakere() {
-        axiosRequest<Brevmottaker[], null>({
+    async function hentBrevmottakere(): Promise<void> {
+        return await axiosRequest<Brevmottaker[], null>({
             method: 'GET',
             url: `${API_BASE_URL}/${behandlingId}`,
         }).then((ressurs: Ressurs<Brevmottaker[]>) => settBrevmottakere(ressurs));
     }
 
-    function opprettBrevmottaker(opprettBrevmottakerDto: OpprettBrevmottakerDto) {
-        axiosRequest<Brevmottaker[], OpprettBrevmottakerDto>({
+    async function opprettBrevmottaker(
+        opprettBrevmottakerDto: OpprettBrevmottakerDto
+    ): Promise<void> {
+        return await axiosRequest<Brevmottaker[], OpprettBrevmottakerDto>({
             url: `${API_BASE_URL}/${behandlingId}`,
             method: 'POST',
             data: opprettBrevmottakerDto,
         }).then((ressurs: Ressurs<Brevmottaker[]>) => settBrevmottakere(ressurs));
     }
 
-    function slettBrevmottakere(brevmottakerId: string) {
-        axiosRequest<Brevmottaker[], null>({
+    async function slettBrevmottakere(brevmottakerId: string): Promise<void> {
+        return await axiosRequest<Brevmottaker[], null>({
             method: 'DELETE',
             url: `${API_BASE_URL}/${behandlingId}/${brevmottakerId}`,
         }).then((ressurs: Ressurs<Brevmottaker[]>) => settBrevmottakere(ressurs));

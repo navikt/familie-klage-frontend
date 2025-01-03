@@ -49,7 +49,7 @@ export function LandFelt({ feltnavn, visningsnavn, erLesevisning, personopplysni
                             field.onChange(isSelected ? landkode : '');
                         }}
                         error={visFeilmelding && fieldState.error?.message}
-                        readOnly={erLesevisning}
+                        readOnly={erLesevisning || formState.isSubmitting}
                     />
                 );
             }}

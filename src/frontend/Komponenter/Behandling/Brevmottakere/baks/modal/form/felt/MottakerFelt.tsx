@@ -52,7 +52,7 @@ export function MottakerFelt({
                             field.onChange(event);
                         }}
                         error={visFeilmelding && fieldState.error?.message}
-                        readOnly={erLesevisning}
+                        readOnly={erLesevisning || formState.isSubmitting}
                     >
                         <option value={''}>-- Velg mottaker --</option>
                         {utledGyldigeMottakertyper(brevmottakere).map((mottaker) => (

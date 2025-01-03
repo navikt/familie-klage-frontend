@@ -36,7 +36,7 @@ export function NavnFelt({ feltnavn, visningsnavn, erLesevisning }: Props) {
                         onBlur={field.onBlur}
                         onChange={field.onChange}
                         error={visFeilmelding && fieldState.error?.message}
-                        readOnly={erLesevisning || navnSkalVærePreutfylt}
+                        readOnly={erLesevisning || navnSkalVærePreutfylt || formState.isSubmitting}
                     />
                 );
             }}

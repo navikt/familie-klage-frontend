@@ -40,7 +40,7 @@ type Props = {
     brevmottakere: Brevmottaker[];
     erLesevisning: boolean;
     lukkForm: () => void;
-    opprettBrevmottaker: (opprettBrevmottakerDto: OpprettBrevmottakerDto) => void;
+    opprettBrevmottaker: (opprettBrevmottakerDto: OpprettBrevmottakerDto) => Promise<void>;
 };
 
 export function BrevmottakerForm({
@@ -51,15 +51,15 @@ export function BrevmottakerForm({
     opprettBrevmottaker,
 }: Props) {
     const form = useForm<BrevmottakerFormValues>({ mode: 'all', defaultValues });
-    const { handleSubmit, watch } = form;
+    const { formState, handleSubmit, watch } = form;
 
     const landkode = watch(BrevmottakerFeltnavn.LANDKODE);
     const erLandValgt = landkode !== '';
     const erUtenlandskAdresseValgt = erLandValgt && landkode !== EøsLandkode.NO;
 
-    function onSubmit(brevmottakerFormValues: BrevmottakerFormValues) {
+    async function onSubmit(brevmottakerFormValues: BrevmottakerFormValues) {
         const opprettBrevmottakerDto = lagOpprettBrevmottakerDto(brevmottakerFormValues);
-        opprettBrevmottaker(opprettBrevmottakerDto);
+        await opprettBrevmottaker(opprettBrevmottakerDto);
         lukkForm();
     }
 
@@ -129,11 +129,15 @@ export function BrevmottakerForm({
                     )}
                     <HStack gap={'4'}>
                         {!erLesevisning && (
-                            <Button variant={'primary'} type={'submit'}>
+                            <Button
+                                variant={'primary'}
+                                type={'submit'}
+                                loading={formState.isSubmitting}
+                            >
                                 Legg til mottaker
                             </Button>
                         )}
-                        {!erLesevisning && brevmottakere.length > 0 && (
+                        {!erLesevisning && brevmottakere.length > 0 && !formState.isSubmitting && (
                             <Button variant={'tertiary'} onClick={lukkForm}>
                                 Avbryt legg til mottaker
                             </Button>
