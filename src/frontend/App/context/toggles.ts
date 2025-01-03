@@ -4,4 +4,7 @@ export interface Toggles {
 
 export enum ToggleName {
     skalKunneVelgePåklagetVedtakFraInfotrygd = 'familie.klage.infotrygd-vedtak',
+
+    // Release-toggles
+    visSettPåVent = 'familie.klage.sett-pa-vent',
 }

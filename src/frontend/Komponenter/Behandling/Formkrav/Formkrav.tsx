@@ -63,7 +63,6 @@ const FormkravKomponent: React.FC<{
         utledRedigeringsmodus(behandlingErRedigerbar, vilkårsvurderinger)
     );
 
-    // TODO: Finnes det andre måter å sette redigeringsmodus for denne?
     useEffect(() => {
         settRedigeringsmodus(utledRedigeringsmodus(behandlingErRedigerbar, vilkårsvurderinger));
     }, [behandlingErRedigerbar, vilkårsvurderinger]);
