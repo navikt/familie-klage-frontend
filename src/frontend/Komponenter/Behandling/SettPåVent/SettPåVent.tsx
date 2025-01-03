@@ -9,7 +9,7 @@ import {
     RessursStatus,
     RessursSuksess,
 } from '../../../App/typer/ressurs';
-import { IOppgave, Prioritet } from './IOppgave';
+import { IOppgave, Prioritet } from './Typer/IOppgave';
 import { useApp } from '../../../App/context/AppContext';
 import DataViewer from '../../../Felles/DataViewer/DataViewer';
 import { useBehandling } from '../../../App/context/BehandlingContext';
@@ -17,7 +17,7 @@ import { BehandlingStatus } from '../../../App/typer/behandlingstatus';
 import { SaksbehandlerVelger } from './SaksbehandlerVelger';
 import { PrioritetVelger } from './PrioritetVelger';
 import { FristVelger } from './FristVelger';
-import { BeskrivelseHistorikk } from './BeskrivelseHistorikk';
+import { EksisterendeBeskrivelse } from './EksisterendeBeskrivelse';
 import { SettPåVentKnappValg } from './SettPåVentKnappValg';
 
 const StyledVStack = styled(VStack)`
@@ -164,11 +164,12 @@ export const SettPåVent: FC<{ behandling: Behandling }> = ({ behandling }) => {
                             />
                             <FristVelger
                                 oppgave={oppgave}
+                                frist={frist}
                                 settFrist={settFrist}
                                 erLesevisning={erBehandlingPåVent}
                             />
                         </HStack>
-                        <BeskrivelseHistorikk beskrivelse={oppgave.beskrivelse} />
+                        <EksisterendeBeskrivelse beskrivelse={oppgave.beskrivelse} />
                         {!erBehandlingPåVent && (
                             <Beskrivelse
                                 label={'Beskrivelse'}

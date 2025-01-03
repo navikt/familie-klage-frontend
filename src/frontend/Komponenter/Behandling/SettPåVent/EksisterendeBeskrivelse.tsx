@@ -22,7 +22,7 @@ const BeskrivelseContainer = styled.div`
     gap: 0.5rem;
 `;
 
-export const BeskrivelseHistorikk: FC<{ beskrivelse?: string }> = ({ beskrivelse }) => {
+export const EksisterendeBeskrivelse: FC<{ beskrivelse?: string }> = ({ beskrivelse }) => {
     const [harOverflow, settHarOverflow] = useState(false);
     const [ekspandert, settEkspandert] = useState(false);
 
