@@ -4,13 +4,15 @@ import { byggTomRessurs, Ressurs } from '../../../App/typer/ressurs';
 import { Mappe } from '../Typer/Mappe';
 import { useApp } from '../../../App/context/AppContext';
 import DataViewer from '../../../Felles/DataViewer/DataViewer';
+import { Fagsystem } from '../../../App/typer/fagsak';
 
 export const MappeVelger: FC<{
     oppgaveEnhet: string | undefined;
+    fagsystem: Fagsystem;
     valgtMappe: number | undefined;
     settMappe: (mappe: number | undefined) => void;
     erLesevisning: boolean;
-}> = ({ oppgaveEnhet, valgtMappe, settMappe, erLesevisning }) => {
+}> = ({ oppgaveEnhet, fagsystem, valgtMappe, settMappe, erLesevisning }) => {
     const [mapper, settMapper] = useState<Ressurs<Mappe[]>>(byggTomRessurs());
     const { axiosRequest } = useApp();
 
@@ -29,11 +31,14 @@ export const MappeVelger: FC<{
                 const upplassertMappe = 'uplassert';
 
                 // TODO: Antar at backend sender sortert liste basert på navn, ellers må dette gjøres her slik det er i EF-SAK.
-                const aktuelleMapper = mapper.filter((mappe) => mappe.enhetsnr === oppgaveEnhet);
+                const aktuelleMapper =
+                    fagsystem === Fagsystem.EF
+                        ? mapper.filter((mappe) => mappe.enhetsnr === oppgaveEnhet)
+                        : [];
 
                 return (
                     <Select
-                        disabled={oppgaveEnhet === undefined}
+                        disabled={oppgaveEnhet === undefined || fagsystem !== Fagsystem.EF} // TODO: Fungerer, men er ikke maks chill.
                         value={valgtMappe}
                         label="Mappe"
                         size="small"

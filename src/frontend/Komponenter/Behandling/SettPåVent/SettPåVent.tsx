@@ -19,6 +19,7 @@ import { PrioritetVelger } from './PrioritetVelger';
 import { FristVelger } from './FristVelger';
 import { EksisterendeBeskrivelse } from './EksisterendeBeskrivelse';
 import { SettPåVentKnappValg } from './SettPåVentKnappValg';
+import { MappeVelger } from './MappeVelger';
 
 const StyledVStack = styled(VStack)`
     background-color: #e6f1f8;
@@ -43,6 +44,7 @@ export const SettPåVent: FC<{ behandling: Behandling }> = ({ behandling }) => {
     const [prioritet, settPrioritet] = useState<Prioritet | undefined>();
     const [frist, settFrist] = useState<string | undefined>();
     const [beskrivelse, settBeskrivelse] = useState('');
+    const [mappe, settMappe] = useState<number | undefined>();
 
     const [låsKnapp, settLåsKnapp] = useState<boolean>(false);
     const [feilmelding, settFeilmelding] = useState<string>();
@@ -65,6 +67,7 @@ export const SettPåVent: FC<{ behandling: Behandling }> = ({ behandling }) => {
             settSaksbehandler(oppgave.data.tilordnetRessurs || '');
             settPrioritet(oppgave.data.prioritet || 'NORM');
             settFrist(oppgave.data.fristFerdigstillelse);
+            settMappe(oppgave.data.mappeId);
         }
     }, [oppgave]);
 
@@ -166,6 +169,13 @@ export const SettPåVent: FC<{ behandling: Behandling }> = ({ behandling }) => {
                                 oppgave={oppgave}
                                 frist={frist}
                                 settFrist={settFrist}
+                                erLesevisning={erBehandlingPåVent}
+                            />
+                            <MappeVelger
+                                oppgaveEnhet={oppgave.tildeltEnhetsnr}
+                                fagsystem={behandling.fagsystem}
+                                settMappe={settMappe}
+                                valgtMappe={mappe}
                                 erLesevisning={erBehandlingPåVent}
                             />
                         </HStack>
