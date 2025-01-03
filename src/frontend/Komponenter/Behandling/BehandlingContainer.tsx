@@ -14,6 +14,7 @@ import { HenleggModal } from './Henleggelse/HenleggModal';
 import ScrollToTop from '../../Felles/ScrollToTop/ScrollToTop';
 import { useSetPersonIdent } from '../../App/hooks/useSetPersonIdent';
 import { useSetValgtFagsakId } from '../../App/hooks/useSetValgtFagsakId';
+import { SettPåVent } from './SettPåVent/SettPåVent';
 
 const Container = styled.div`
     display: flex;
@@ -72,6 +73,7 @@ const BehandlingContent: FC<{
             <Container>
                 <InnholdWrapper åpenHøyremeny={åpenHøyremeny}>
                     <Fanemeny behandling={behandling} />
+                    <SettPåVent behandling={behandling} />
                     <BehandlingRoutes behandling={behandling} />
                     <HenleggModal behandling={behandling} />
                 </InnholdWrapper>

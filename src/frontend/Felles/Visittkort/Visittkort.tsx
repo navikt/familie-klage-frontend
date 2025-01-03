@@ -65,6 +65,7 @@ const VisittkortComponent: FC<{
     behandling: Behandling;
 }> = ({ personopplysninger, behandling }) => {
     const { appEnv } = useApp();
+
     const {
         personIdent,
         kjønn,
