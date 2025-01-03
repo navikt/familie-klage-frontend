@@ -27,7 +27,7 @@ export function BrevmottakerModalBody({
     slettBrevmottaker,
     erLesevisning,
 }: Props) {
-    const [visForm, settVisForm] = useState(false);
+    const [visForm, settVisForm] = useState(brevmottakere.length === 0 && !erLesevisning);
 
     const finnesBrevmottakerMedDødsbo = finnesBrevmottakerMedMottakertype(
         brevmottakere,
@@ -44,10 +44,6 @@ export function BrevmottakerModalBody({
         !erFormSynlig &&
         !finnesBrevmottakerMedDødsbo &&
         brevmottakere.length === 1;
-
-    function lukkModal() {
-        settVisForm(false);
-    }
 
     return (
         <Modal.Body>
@@ -67,8 +63,8 @@ export function BrevmottakerModalBody({
                         behandlingId={behandlingId}
                         personopplysninger={personopplysninger}
                         brevmottakere={brevmottakere}
-                        erLesevisning={false}
-                        lukkModal={lukkModal}
+                        erLesevisning={erLesevisning}
+                        lukkForm={() => settVisForm(false)}
                         opprettBrevmottaker={opprettBrevmottaker}
                     />
                 )}

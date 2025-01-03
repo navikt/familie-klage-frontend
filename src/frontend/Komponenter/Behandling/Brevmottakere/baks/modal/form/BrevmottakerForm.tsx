@@ -39,16 +39,15 @@ type Props = {
     personopplysninger: IPersonopplysninger;
     brevmottakere: Brevmottaker[];
     erLesevisning: boolean;
-    lukkModal: () => void;
+    lukkForm: () => void;
     opprettBrevmottaker: (opprettBrevmottakerDto: OpprettBrevmottakerDto) => void;
 };
 
-// TODO : Burde "Avbryt" knappen lukke hele modalen eller kun formen?
 export function BrevmottakerForm({
     personopplysninger,
     brevmottakere,
     erLesevisning,
-    lukkModal,
+    lukkForm,
     opprettBrevmottaker,
 }: Props) {
     const form = useForm<BrevmottakerFormValues>({ mode: 'all', defaultValues });
@@ -61,6 +60,7 @@ export function BrevmottakerForm({
     function onSubmit(brevmottakerFormValues: BrevmottakerFormValues) {
         const opprettBrevmottakerDto = lagOpprettBrevmottakerDto(brevmottakerFormValues);
         opprettBrevmottaker(opprettBrevmottakerDto);
+        lukkForm();
     }
 
     return (
@@ -133,9 +133,11 @@ export function BrevmottakerForm({
                                 Legg til mottaker
                             </Button>
                         )}
-                        <Button variant={'tertiary'} onClick={lukkModal}>
-                            Avbryt
-                        </Button>
+                        {!erLesevisning && brevmottakere.length > 0 && (
+                            <Button variant={'tertiary'} onClick={lukkForm}>
+                                Avbryt legg til mottaker
+                            </Button>
+                        )}
                     </HStack>
                 </VStack>
             </form>
