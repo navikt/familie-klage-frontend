@@ -1,10 +1,10 @@
 import React, { FC } from 'react';
-import { Oppgave } from '../Typer/Oppgave';
+import { IOppgave } from './Typer/IOppgave';
 import { useApp } from '../../../App/context/AppContext';
 import { Select } from '@navikt/ds-react';
 
 export const SaksbehandlerVelger: FC<{
-    oppgave: Oppgave;
+    oppgave: IOppgave;
     saksbehandler: string | undefined;
     settSaksbehandler: (saksbehandler: string) => void;
     erLesevisning: boolean;

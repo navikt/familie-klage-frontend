@@ -9,7 +9,7 @@ import {
     RessursStatus,
     RessursSuksess,
 } from '../../../App/typer/ressurs';
-import { Oppgave, Prioritet } from '../Typer/Oppgave';
+import { IOppgave, Prioritet } from './Typer/IOppgave';
 import { useApp } from '../../../App/context/AppContext';
 import DataViewer from '../../../Felles/DataViewer/DataViewer';
 import { useBehandling } from '../../../App/context/BehandlingContext';
@@ -19,7 +19,6 @@ import { PrioritetVelger } from './PrioritetVelger';
 import { FristVelger } from './FristVelger';
 import { EksisterendeBeskrivelse } from './EksisterendeBeskrivelse';
 import { SettPåVentKnappValg } from './SettPåVentKnappValg';
-import { MappeVelger } from './MappeVelger';
 
 const StyledVStack = styled(VStack)`
     background-color: #e6f1f8;
@@ -39,12 +38,11 @@ type SettPåVentRequest = {
 };
 
 export const SettPåVent: FC<{ behandling: Behandling }> = ({ behandling }) => {
-    const [oppgave, settOppgave] = useState<Ressurs<Oppgave>>(byggTomRessurs<Oppgave>());
+    const [oppgave, settOppgave] = useState<Ressurs<IOppgave>>(byggTomRessurs<IOppgave>());
     const [saksbehandler, settSaksbehandler] = useState<string>('');
     const [prioritet, settPrioritet] = useState<Prioritet | undefined>();
     const [frist, settFrist] = useState<string | undefined>();
     const [beskrivelse, settBeskrivelse] = useState('');
-    const [mappe, settMappe] = useState<number | undefined>();
 
     const [låsKnapp, settLåsKnapp] = useState<boolean>(false);
     const [feilmelding, settFeilmelding] = useState<string>();
@@ -56,7 +54,7 @@ export const SettPåVent: FC<{ behandling: Behandling }> = ({ behandling }) => {
     const { axiosRequest } = useApp();
 
     const hentOppgaveForBehandling = useCallback(() => {
-        axiosRequest<Oppgave, null>({
+        axiosRequest<IOppgave, null>({
             method: 'GET',
             url: `/familie-klage/api/behandling/${behandling.id}/oppgave`,
         }).then(settOppgave);
@@ -67,7 +65,6 @@ export const SettPåVent: FC<{ behandling: Behandling }> = ({ behandling }) => {
             settSaksbehandler(oppgave.data.tilordnetRessurs || '');
             settPrioritet(oppgave.data.prioritet || 'NORM');
             settFrist(oppgave.data.fristFerdigstillelse);
-            settMappe(oppgave.data.mappeId);
         }
     }, [oppgave]);
 
@@ -169,12 +166,6 @@ export const SettPåVent: FC<{ behandling: Behandling }> = ({ behandling }) => {
                                 oppgave={oppgave}
                                 frist={frist}
                                 settFrist={settFrist}
-                                erLesevisning={erBehandlingPåVent}
-                            />
-                            <MappeVelger
-                                oppgaveEnhet={oppgave.tildeltEnhetsnr}
-                                settMappe={settMappe}
-                                valgtMappe={mappe}
                                 erLesevisning={erBehandlingPåVent}
                             />
                         </HStack>

@@ -11,15 +11,15 @@ const EkspanderbarContainer = styled(BodyShort)<{ $ekspandert: boolean }>`
     max-width: 50rem;
 `;
 
+const VenstreSkillelinje = styled.div`
+    border-left: 2px solid ${ABlue300};
+    padding-left: 1.5rem;
+`;
+
 const BeskrivelseContainer = styled.div`
     display: flex;
     flex-direction: column;
     gap: 0.5rem;
-`;
-
-const VenstreSkillelinje = styled.div`
-    border-left: 2px solid ${ABlue300};
-    padding-left: 1.5rem;
 `;
 
 export const EksisterendeBeskrivelse: FC<{ beskrivelse?: string }> = ({ beskrivelse }) => {
