@@ -172,7 +172,7 @@ export const SettPåVent: FC<{ behandling: Behandling }> = ({ behandling }) => {
                                 erLesevisning={erBehandlingPåVent}
                             />
                             <MappeVelger
-                                oppgaveId={oppgave.oppgaveId}
+                                behandlingId={behandling.id}
                                 oppgaveEnhet={oppgave.tildeltEnhetsnr}
                                 settMappe={settMappe}
                                 valgtMappe={mappe}

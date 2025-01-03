@@ -6,23 +6,23 @@ import { useApp } from '../../../App/context/AppContext';
 import DataViewer from '../../../Felles/DataViewer/DataViewer';
 
 export const MappeVelger: FC<{
-    oppgaveId: number;
+    behandlingId: string;
     oppgaveEnhet: string | undefined;
     valgtMappe: number | undefined;
     settMappe: (mappe: number | undefined) => void;
     erLesevisning: boolean;
-}> = ({ oppgaveId, oppgaveEnhet, valgtMappe, settMappe, erLesevisning }) => {
+}> = ({ behandlingId, oppgaveEnhet, valgtMappe, settMappe, erLesevisning }) => {
     const [mapper, settMapper] = useState<Ressurs<Mappe[]>>(byggTomRessurs());
     const { axiosRequest } = useApp();
 
     useEffect(() => {
         axiosRequest<Mappe[], null>({
             method: 'GET',
-            url: `/familie-klage/api/behandling/${oppgaveId}/mapper`,
+            url: `/familie-klage/api/behandling/${behandlingId}/mapper`,
         }).then((res: Ressurs<Mappe[]>) => {
             settMapper(res);
         });
-    }, [axiosRequest, oppgaveId]);
+    }, [axiosRequest, behandlingId]);
 
     return (
         <DataViewer response={{ mapper }}>
