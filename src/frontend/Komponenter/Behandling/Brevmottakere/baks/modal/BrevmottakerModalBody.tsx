@@ -5,8 +5,7 @@ import { Alert, Button, Modal, VStack } from '@navikt/ds-react';
 
 import { BrevmottakerForm } from './form/BrevmottakerForm';
 import { IPersonopplysninger } from '../../../../../App/typer/personopplysninger';
-import { Brevmottaker, finnesBrevmottakerMedMottakertype } from '../brevmottaker';
-import { Mottakertype } from '../mottakertype';
+import { Brevmottaker } from '../brevmottaker';
 import { OpprettBrevmottakerDto } from '../opprettBrevmottakerDto';
 import { BrevmottakerDetaljer } from './BrevmottakerDetaljer';
 
@@ -27,23 +26,15 @@ export function BrevmottakerModalBody({
     slettBrevmottaker,
     erLesevisning,
 }: Props) {
-    const [visForm, settVisForm] = useState(brevmottakere.length === 0 && !erLesevisning);
+    const [visForm, settVisForm] = useState(brevmottakere.length === 0);
 
-    const finnesBrevmottakerMedDødsbo = finnesBrevmottakerMedMottakertype(
-        brevmottakere,
-        Mottakertype.DØDSBO
-    );
-
-    const erFormSynlig =
-        !erLesevisning &&
-        !finnesBrevmottakerMedDødsbo &&
-        (brevmottakere.length === 0 || (brevmottakere.length === 1 && visForm));
-
-    const erLeggTilNyMottakerKnappSynlig =
-        !erLesevisning &&
-        !erFormSynlig &&
-        !finnesBrevmottakerMedDødsbo &&
-        brevmottakere.length === 1;
+    async function slettBrevmottakerOgVisFormHvisNødvendig(brevmottakerId: string): Promise<void> {
+        await slettBrevmottaker(brevmottakerId);
+        // TODO : Dette er litt hacky, burde egentlig sjekke om slettingen gikk OK før man gjør dette, kan fikses lett med react-query
+        if (brevmottakere.length === 1) {
+            settVisForm(true);
+        }
+    }
 
     return (
         <Modal.Body>
@@ -57,11 +48,11 @@ export function BrevmottakerModalBody({
                     <BrevmottakerDetaljer
                         key={brevmottaker.id}
                         brevmottaker={brevmottaker}
-                        slettBrevmottaker={slettBrevmottaker}
+                        slettBrevmottaker={slettBrevmottakerOgVisFormHvisNødvendig}
                         erLesevisning={erLesevisning}
                     />
                 ))}
-                {erFormSynlig && (
+                {visForm && (
                     <BrevmottakerForm
                         behandlingId={behandlingId}
                         personopplysninger={personopplysninger}
@@ -71,7 +62,7 @@ export function BrevmottakerModalBody({
                         opprettBrevmottaker={opprettBrevmottaker}
                     />
                 )}
-                {erLeggTilNyMottakerKnappSynlig && (
+                {!visForm && brevmottakere.length === 1 && (
                     <div>
                         <Button
                             variant={'tertiary'}

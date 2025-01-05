@@ -28,6 +28,7 @@ export function BrevmottakerDetaljer({ brevmottaker, slettBrevmottaker, erLesevi
                         <Button
                             variant={'tertiary'}
                             onClick={async () => {
+                                // TODO : Dette kan håndteres bedre i react-query
                                 setLaster(true);
                                 await slettBrevmottaker(brevmottaker.id);
                                 setLaster(false);
