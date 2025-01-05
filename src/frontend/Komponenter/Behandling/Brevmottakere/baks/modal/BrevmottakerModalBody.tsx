@@ -3,12 +3,12 @@ import React, { useState } from 'react';
 import { PlusCircleIcon } from '@navikt/aksel-icons';
 import { Alert, Button, Modal, VStack } from '@navikt/ds-react';
 
-import { RegistrerteBrevmottakere } from './oversikt/RegistrerteBrevmottakere';
 import { BrevmottakerForm } from './form/BrevmottakerForm';
 import { IPersonopplysninger } from '../../../../../App/typer/personopplysninger';
 import { Brevmottaker, finnesBrevmottakerMedMottakertype } from '../brevmottaker';
 import { Mottakertype } from '../mottakertype';
 import { OpprettBrevmottakerDto } from '../opprettBrevmottakerDto';
+import { BrevmottakerDetaljer } from './BrevmottakerDetaljer';
 
 type Props = {
     behandlingId: string;
@@ -53,11 +53,14 @@ export function BrevmottakerModalBody({
                     Legg til mottaker dersom brev skal sendes til utenlandsk adresse, fullmektig,
                     verge eller dødsbo.
                 </Alert>
-                <RegistrerteBrevmottakere
-                    brevmottakere={brevmottakere}
-                    slettBrevmottaker={slettBrevmottaker}
-                    erLesevisning={erLesevisning}
-                />
+                {brevmottakere.map((brevmottaker) => (
+                    <BrevmottakerDetaljer
+                        key={brevmottaker.id}
+                        brevmottaker={brevmottaker}
+                        slettBrevmottaker={slettBrevmottaker}
+                        erLesevisning={erLesevisning}
+                    />
+                ))}
                 {erFormSynlig && (
                     <BrevmottakerForm
                         behandlingId={behandlingId}

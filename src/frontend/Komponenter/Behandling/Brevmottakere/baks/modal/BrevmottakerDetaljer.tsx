@@ -3,9 +3,9 @@ import React, { useState } from 'react';
 import { TrashIcon } from '@navikt/aksel-icons';
 import { Alert, Box, Button, Heading, HGrid, HStack, VStack } from '@navikt/ds-react';
 import CountryData from '@navikt/land-verktoy';
-import { Brevmottaker } from '../../brevmottaker';
-import { EøsLandkode } from '../../../../../../Felles/Landvelger/landkode';
-import { Mottakertype, mottakertypeVisningsnavn } from '../../mottakertype';
+import { Brevmottaker } from '../brevmottaker';
+import { EøsLandkode } from '../../../../../Felles/Landvelger/landkode';
+import { Mottakertype, mottakertypeVisningsnavn } from '../mottakertype';
 
 type Props = {
     brevmottaker: Brevmottaker;
@@ -15,7 +15,7 @@ type Props = {
 
 const countryInstance = CountryData.getCountryInstance('nb');
 
-export function RegistrertBrevmottaker({ brevmottaker, slettBrevmottaker, erLesevisning }: Props) {
+export function BrevmottakerDetaljer({ brevmottaker, slettBrevmottaker, erLesevisning }: Props) {
     const [laster, setLaster] = useState(false);
     return (
         <Box padding={'2'}>
