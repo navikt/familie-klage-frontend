@@ -2,7 +2,15 @@ import React, { useState } from 'react';
 import { useApp } from '../../../../App/context/AppContext';
 import DataViewer from '../../../../Felles/DataViewer/DataViewer';
 import { useBehandling } from '../../../../App/context/BehandlingContext';
-import { byggTomRessurs, Ressurs } from '../../../../App/typer/ressurs';
+import {
+    byggFeiletRessurs,
+    byggHenterRessurs,
+    byggTomRessurs,
+    Ressurs,
+    RessursFeilet,
+    RessursStatus,
+    RessursSuksess,
+} from '../../../../App/typer/ressurs';
 import { BrevmottakerModal } from './modal/BrevmottakerModal';
 import { BrevmottakerPanel } from './panel/BrevmottakerPanel';
 import { Brevmottaker } from './brevmottaker';
@@ -20,28 +28,51 @@ export function BrevmottakerContainer({ behandlingId }: Props) {
     const { personopplysningerResponse: personopplysninger } = useBehandling();
     const [brevmottakere, settBrevmottakere] = useState<Ressurs<Brevmottaker[]>>(byggTomRessurs());
 
-    async function hentBrevmottakere(): Promise<void> {
+    async function hentBrevmottakere(): Promise<boolean> {
+        // TODO : Dette kan gjøres bedre med react-query
+        settBrevmottakere(byggHenterRessurs());
         return await axiosRequest<Brevmottaker[], null>({
             method: 'GET',
             url: `${API_BASE_URL}/${behandlingId}`,
-        }).then((ressurs: Ressurs<Brevmottaker[]>) => settBrevmottakere(ressurs));
+        }).then((ressurs: RessursFeilet | RessursSuksess<Brevmottaker[]>) => {
+            if (ressurs.status !== RessursStatus.SUKSESS) {
+                settBrevmottakere(byggFeiletRessurs('Feil oppstod ved henting av brevmottakere.'));
+                return Promise.resolve(false);
+            }
+            settBrevmottakere(ressurs);
+            return Promise.resolve(true);
+        });
     }
 
     async function opprettBrevmottaker(
         opprettBrevmottakerDto: OpprettBrevmottakerDto
-    ): Promise<void> {
+    ): Promise<boolean> {
+        // TODO : Dette kan gjøres bedre med react-query
         return await axiosRequest<Brevmottaker[], OpprettBrevmottakerDto>({
             url: `${API_BASE_URL}/${behandlingId}`,
             method: 'POST',
             data: opprettBrevmottakerDto,
-        }).then((ressurs: Ressurs<Brevmottaker[]>) => settBrevmottakere(ressurs));
+        }).then((ressurs: RessursFeilet | RessursSuksess<Brevmottaker[]>) => {
+            if (ressurs.status !== RessursStatus.SUKSESS) {
+                return Promise.resolve(false);
+            }
+            settBrevmottakere(ressurs);
+            return Promise.resolve(true);
+        });
     }
 
-    async function slettBrevmottakere(brevmottakerId: string): Promise<void> {
+    async function slettBrevmottakere(brevmottakerId: string): Promise<boolean> {
+        // TODO : Dette kan gjøres bedre med react-query
         return await axiosRequest<Brevmottaker[], null>({
             method: 'DELETE',
             url: `${API_BASE_URL}/${behandlingId}/${brevmottakerId}`,
-        }).then((ressurs: Ressurs<Brevmottaker[]>) => settBrevmottakere(ressurs));
+        }).then((ressurs: RessursFeilet | RessursSuksess<Brevmottaker[]>) => {
+            if (ressurs.status !== RessursStatus.SUKSESS) {
+                return Promise.resolve(false);
+            }
+            settBrevmottakere(ressurs);
+            return Promise.resolve(true);
+        });
     }
 
     useOnMount(() => hentBrevmottakere());

@@ -13,8 +13,8 @@ type Props = {
     behandlingId: string;
     personopplysninger: IPersonopplysninger;
     brevmottakere: Brevmottaker[];
-    opprettBrevmottaker: (opprettBrevmottakerDto: OpprettBrevmottakerDto) => Promise<void>;
-    slettBrevmottaker: (brevmottakerId: string) => Promise<void>;
+    opprettBrevmottaker: (opprettBrevmottakerDto: OpprettBrevmottakerDto) => Promise<boolean>;
+    slettBrevmottaker: (brevmottakerId: string) => Promise<boolean>;
     erLesevisning: boolean;
 };
 
@@ -28,12 +28,15 @@ export function BrevmottakerModalBody({
 }: Props) {
     const [visForm, settVisForm] = useState(brevmottakere.length === 0);
 
-    async function slettBrevmottakerOgVisFormHvisNødvendig(brevmottakerId: string): Promise<void> {
-        await slettBrevmottaker(brevmottakerId);
-        // TODO : Dette er litt hacky, burde egentlig sjekke om slettingen gikk OK før man gjør dette, kan fikses lett med react-query
-        if (brevmottakere.length === 1) {
+    async function slettBrevmottakerOgVisFormHvisNødvendig(
+        brevmottakerId: string
+    ): Promise<boolean> {
+        // TODO : Dette kan gjøres bedre med react-query
+        const erSuksess = await slettBrevmottaker(brevmottakerId);
+        if (erSuksess && brevmottakere.length === 1) {
             settVisForm(true);
         }
+        return Promise.resolve(erSuksess);
     }
 
     return (

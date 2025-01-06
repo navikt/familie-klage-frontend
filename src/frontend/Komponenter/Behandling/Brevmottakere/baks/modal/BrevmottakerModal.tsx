@@ -11,8 +11,8 @@ type Props = {
     behandlingId: string;
     personopplysninger: IPersonopplysninger;
     brevmottakere: Brevmottaker[];
-    opprettBrevmottaker: (opprettBrevmottakerDto: OpprettBrevmottakerDto) => Promise<void>;
-    slettBrevmottaker: (brevmottakerId: string) => Promise<void>;
+    opprettBrevmottaker: (opprettBrevmottakerDto: OpprettBrevmottakerDto) => Promise<boolean>;
+    slettBrevmottaker: (brevmottakerId: string) => Promise<boolean>;
     erLesevisning: boolean;
 };
 

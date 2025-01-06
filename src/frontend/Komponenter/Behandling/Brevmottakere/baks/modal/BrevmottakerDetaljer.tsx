@@ -9,17 +9,27 @@ import { Mottakertype, mottakertypeVisningsnavn } from '../mottakertype';
 
 type Props = {
     brevmottaker: Brevmottaker;
-    slettBrevmottaker: (brevmottakerId: string) => Promise<void>;
+    slettBrevmottaker: (brevmottakerId: string) => Promise<boolean>;
     erLesevisning: boolean;
 };
 
 const countryInstance = CountryData.getCountryInstance('nb');
 
 export function BrevmottakerDetaljer({ brevmottaker, slettBrevmottaker, erLesevisning }: Props) {
+    const [visSlettFeilmelding, setVisSlettFeilmelding] = useState(false);
     const [laster, setLaster] = useState(false);
     return (
         <Box padding={'2'}>
             <VStack marginBlock={'2 2'} gap={'2'}>
+                {visSlettFeilmelding && (
+                    <Alert
+                        variant={'error'}
+                        closeButton={true}
+                        onClose={() => setVisSlettFeilmelding(false)}
+                    >
+                        Noe gikk galt ved sletting.
+                    </Alert>
+                )}
                 <HStack justify={'space-between'}>
                     <Heading level={'2'} size={'small'}>
                         {mottakertypeVisningsnavn[brevmottaker.mottakertype]}
@@ -29,8 +39,12 @@ export function BrevmottakerDetaljer({ brevmottaker, slettBrevmottaker, erLesevi
                             variant={'tertiary'}
                             onClick={async () => {
                                 // TODO : Dette kan håndteres bedre i react-query
+                                setVisSlettFeilmelding(false);
                                 setLaster(true);
-                                await slettBrevmottaker(brevmottaker.id);
+                                const erSukkess = await slettBrevmottaker(brevmottaker.id);
+                                if (!erSukkess) {
+                                    setVisSlettFeilmelding(true);
+                                }
                                 setLaster(false);
                             }}
                             size={'small'}

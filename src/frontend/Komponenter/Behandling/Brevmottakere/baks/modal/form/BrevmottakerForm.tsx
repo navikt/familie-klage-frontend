@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { DefaultValues, FormProvider, useForm } from 'react-hook-form';
 import { LandFelt } from './felt/LandFelt';
 import { MottakerFelt } from './felt/MottakerFelt';
@@ -40,7 +40,7 @@ type Props = {
     brevmottakere: Brevmottaker[];
     erLesevisning: boolean;
     lukkForm: () => void;
-    opprettBrevmottaker: (opprettBrevmottakerDto: OpprettBrevmottakerDto) => Promise<void>;
+    opprettBrevmottaker: (opprettBrevmottakerDto: OpprettBrevmottakerDto) => Promise<boolean>;
 };
 
 export function BrevmottakerForm({
@@ -50,6 +50,7 @@ export function BrevmottakerForm({
     lukkForm,
     opprettBrevmottaker,
 }: Props) {
+    const [visSubmitError, setVisSubmitError] = useState<boolean>(false);
     const form = useForm<BrevmottakerFormValues>({ mode: 'all', defaultValues });
     const { formState, handleSubmit, watch } = form;
 
@@ -58,9 +59,15 @@ export function BrevmottakerForm({
     const erUtenlandskAdresseValgt = erLandValgt && landkode !== EøsLandkode.NO;
 
     async function onSubmit(brevmottakerFormValues: BrevmottakerFormValues) {
+        // TODO : Dette kan håndteres bedre av react-query
+        setVisSubmitError(false);
         const opprettBrevmottakerDto = lagOpprettBrevmottakerDto(brevmottakerFormValues);
-        await opprettBrevmottaker(opprettBrevmottakerDto);
-        lukkForm();
+        const erSuksess = await opprettBrevmottaker(opprettBrevmottakerDto);
+        if (erSuksess) {
+            lukkForm();
+        } else {
+            setVisSubmitError(true);
+        }
     }
 
     return (
@@ -126,6 +133,15 @@ export function BrevmottakerForm({
                                 </>
                             )}
                         </>
+                    )}
+                    {visSubmitError && (
+                        <Alert
+                            variant={'error'}
+                            closeButton={true}
+                            onClose={() => setVisSubmitError(false)}
+                        >
+                            Noe gikk galt ved lagringen.
+                        </Alert>
                     )}
                     <HStack gap={'4'}>
                         {!erLesevisning && (
