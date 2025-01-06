@@ -16,35 +16,45 @@ export const MappeVelger: FC<{
     const [mapper, settMapper] = useState<Ressurs<Mappe[]>>(byggTomRessurs());
     const { axiosRequest } = useApp();
 
+    const visMapper = (fagsystem: Fagsystem) => {
+        switch (fagsystem) {
+            case Fagsystem.EF:
+                return true;
+            default:
+                return false;
+        }
+    };
+
     useEffect(() => {
-        axiosRequest<Mappe[], null>({
-            method: 'GET',
-            url: `/familie-klage/api/behandling/mapper`, // TODO: Endre denne slik den matcher ef-klage.
-        }).then((res: Ressurs<Mappe[]>) => {
-            settMapper(res);
-        });
-    }, [axiosRequest]);
+        if (visMapper(fagsystem)) {
+            axiosRequest<Mappe[], null>({
+                method: 'GET',
+                url: `/familie-klage/api/behandling/mapper`,
+            }).then((res: Ressurs<Mappe[]>) => {
+                settMapper(res);
+            });
+        } else {
+            settMapper(byggTomRessurs());
+        }
+    }, [axiosRequest, fagsystem]);
 
     return (
         <DataViewer response={{ mapper }}>
             {({ mapper }) => {
                 const upplassertMappe = 'uplassert';
 
-                // TODO: Antar at backend sender sortert liste basert på navn, ellers må dette gjøres her slik det er i EF-SAK.
-                const aktuelleMapper =
-                    fagsystem === Fagsystem.EF
-                        ? mapper.filter((mappe) => mappe.enhetsnr === oppgaveEnhet)
-                        : [];
+                const aktuelleMapper = visMapper(fagsystem)
+                    ? mapper.filter((mappe) => mappe.enhetsnr === oppgaveEnhet)
+                    : [];
 
                 return (
                     <Select
-                        disabled={oppgaveEnhet === undefined || fagsystem !== Fagsystem.EF} // TODO: Fungerer, men er ikke maks chill.
+                        disabled={!oppgaveEnhet || !visMapper(fagsystem)}
                         value={valgtMappe}
                         label="Mappe"
                         size="small"
                         readOnly={erLesevisning}
                         onChange={(e) => {
-                            // TODO: Kan dette gjøres enklere?
                             const verdi = e.target.value;
                             settMappe(verdi === upplassertMappe ? undefined : parseInt(verdi));
                         }}
