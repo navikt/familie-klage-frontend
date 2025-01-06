@@ -3,8 +3,13 @@ import { Select } from '@navikt/ds-react';
 import { Controller, useFormContext } from 'react-hook-form';
 import { IPersonopplysninger } from '../../../../../../../App/typer/personopplysninger';
 import { BrevmottakerFeltnavn, BrevmottakerFeltProps } from './felttyper';
-import { Brevmottaker, utledBrevmottakernavn } from '../../../brevmottaker';
-import { mottakertypeVisningsnavn, utledGyldigeMottakertyper } from '../../../mottakertype';
+import { Brevmottaker, utledPreutfyltBrevmottakernavn } from '../../../brevmottaker';
+import {
+    Mottakertype,
+    mottakertypeVisningsnavn,
+    skalNavnVærePreutfyltForMottakertype,
+    utledGyldigeMottakertyper,
+} from '../../../mottakertype';
 
 type Props = BrevmottakerFeltProps & {
     personopplysninger: IPersonopplysninger;
@@ -19,6 +24,28 @@ export function MottakerFelt({
     erLesevisning,
 }: Props) {
     const { control, formState, setValue, getValues } = useFormContext();
+
+    function oppdatertNavnForMottakertypeHvisNødvendig(mottakertype: Mottakertype) {
+        const [landkode, forrigeMottakertype] = getValues([
+            BrevmottakerFeltnavn.LANDKODE,
+            BrevmottakerFeltnavn.MOTTAKERTYPE,
+        ]);
+
+        const varNavnPreutfylt = skalNavnVærePreutfyltForMottakertype(forrigeMottakertype);
+        const skalNavnPreutfylles = skalNavnVærePreutfyltForMottakertype(mottakertype);
+
+        if (varNavnPreutfylt && !skalNavnPreutfylles) {
+            setValue(BrevmottakerFeltnavn.NAVN, '');
+        }
+
+        if (skalNavnPreutfylles) {
+            setValue(
+                BrevmottakerFeltnavn.NAVN,
+                utledPreutfyltBrevmottakernavn(personopplysninger.navn, landkode, mottakertype)
+            );
+        }
+    }
+
     return (
         <Controller
             control={control}
@@ -35,19 +62,8 @@ export function MottakerFelt({
                         value={field.value}
                         onBlur={field.onBlur}
                         onChange={(event) => {
-                            const value = event.target.value;
-                            const [landkode, navn] = getValues([
-                                BrevmottakerFeltnavn.LANDKODE,
-                                BrevmottakerFeltnavn.NAVN,
-                            ]);
-                            setValue(
-                                BrevmottakerFeltnavn.NAVN,
-                                utledBrevmottakernavn(
-                                    navn,
-                                    personopplysninger.navn,
-                                    landkode,
-                                    value
-                                )
+                            oppdatertNavnForMottakertypeHvisNødvendig(
+                                Mottakertype[event.target.value as keyof typeof Mottakertype]
                             );
                             field.onChange(event);
                         }}

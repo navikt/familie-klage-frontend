@@ -12,14 +12,11 @@ export type Brevmottaker = {
     poststed?: string | null;
 };
 
-// TODO : Kan denne erstattes med metoden under?
 export function utledBrevmottakernavnVedDødsbo(navn: string, landkode: string): string {
     return landkode === EøsLandkode.NO ? `${navn} v/dødsbo` : `Estate of ${navn}`;
 }
 
-// TODO : Navn blir ikke tilbakestilt, skal det det?
-export function utledBrevmottakernavn(
-    navnFraFelt: string,
+export function utledPreutfyltBrevmottakernavn(
     navnFraPersonopplysninger: string,
     landkode: string,
     mottakertype: Mottakertype | string
@@ -30,7 +27,7 @@ export function utledBrevmottakernavn(
         case Mottakertype.BRUKER_MED_UTENLANDSK_ADRESSE:
             return navnFraPersonopplysninger;
         default:
-            return navnFraFelt;
+            throw Error('Unsupported mottakertype ' + mottakertype);
     }
 }
 

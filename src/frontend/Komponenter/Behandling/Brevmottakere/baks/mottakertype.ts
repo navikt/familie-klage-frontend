@@ -33,6 +33,13 @@ export function utledGyldigeMottakertyper(brevmottakere: Brevmottaker[]): Mottak
     );
 }
 
+export function skalNavnVærePreutfyltForMottakertype(mottakertype: Mottakertype): boolean {
+    return (
+        mottakertype === Mottakertype.DØDSBO ||
+        mottakertype === Mottakertype.BRUKER_MED_UTENLANDSK_ADRESSE
+    );
+}
+
 export function erGyldigMottakertypeForLandkode(
     mottakertype: Mottakertype,
     landkode: EøsLandkode | ''
