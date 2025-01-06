@@ -1,7 +1,6 @@
 import { init } from '@sentry/browser';
 import React from 'react';
 import App from './App';
-import './index.less';
 import '@navikt/ds-css';
 import { createRoot } from 'react-dom/client';
 

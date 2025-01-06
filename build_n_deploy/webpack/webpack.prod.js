@@ -41,9 +41,6 @@ const config = mergeWithCustomize({
                             },
                         },
                     },
-                    {
-                        loader: 'less-loader',
-                    },
                 ],
             },
         ],

@@ -2,7 +2,6 @@ import React, { useMemo } from 'react';
 import { Header, PopoverItem } from '@navikt/familie-header';
 import { ISaksbehandler } from '../../App/typer/saksbehandler';
 import { useApp } from '../../App/context/AppContext';
-import './headermedsøk.less';
 import { Sticky } from '../Visningskomponenter/Sticky';
 import { AppEnv } from '../../App/api/env';
 import { lagAInntektLink, lagGosysLink, lagModiaLink } from '../Lenker/lenker';
