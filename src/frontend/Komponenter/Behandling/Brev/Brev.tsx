@@ -10,7 +10,7 @@ import {
 import { useBehandling } from '../../../App/context/BehandlingContext';
 import styled from 'styled-components';
 import { useApp } from '../../../App/context/AppContext';
-import { Alert, Button, HStack } from '@navikt/ds-react';
+import { Alert, Button, VStack } from '@navikt/ds-react';
 import { useNavigate } from 'react-router-dom';
 import { IVurdering, VedtakValg } from '../Vurdering/vurderingValg';
 import PdfVisning from './PdfVisning';
@@ -23,19 +23,6 @@ import { BrevmottakerContainer as BaksBrevmottakerContainer } from '../Brevmotta
 const Brevside = styled.div`
     background-color: var(--a-bg-subtle);
     padding: 2rem 2rem 0 2rem;
-`;
-
-const BrevContainer = styled.div`
-    display: grid;
-    grid-template-columns: 1fr 4fr;
-    grid-gap: 1rem;
-    justify-content: space-between;
-
-    @media only screen and (max-width: 1800px) {
-        display: flex;
-        flex-wrap: wrap;
-        gap: 3rem;
-    }
 `;
 
 const AlertStripe = styled(Alert)`
@@ -146,24 +133,24 @@ export const Brev: React.FC<IBrev> = ({ behandling }) => {
     if (utfall === 'LAG_BREV') {
         return (
             <Brevside>
-                <BrevContainer>
-                    <HStack gap={'6'}>
-                        {brevRessurs.status === RessursStatus.SUKSESS && (
-                            // behandling.fagsystem === Fagsystem.EF ? (
-                            //     <BrevMottakere behandlingId={behandling.id} />
-                            // ) : (
-                            //     <BrevmottakereBAKS behandling={behandling} />
-                            // )
-                            <BaksBrevmottakerContainer behandlingId={behandlingId} />
-                        )}
-                        {behandlingErRedigerbar && brevRessurs.status === RessursStatus.SUKSESS && (
+                <VStack gap={'6'}>
+                    {brevRessurs.status === RessursStatus.SUKSESS && (
+                        // behandling.fagsystem === Fagsystem.EF ? (
+                        //     <BrevMottakere behandlingId={behandling.id} />
+                        // ) : (
+                        //     <BrevmottakereBAKS behandling={behandling} />
+                        // )
+                        <BaksBrevmottakerContainer behandlingId={behandlingId} />
+                    )}
+                    {behandlingErRedigerbar && brevRessurs.status === RessursStatus.SUKSESS && (
+                        <div>
                             <Button onClick={() => settVisModal(true)}>
                                 Ferdigstill behandling og send brev
                             </Button>
-                        )}
-                    </HStack>
+                        </div>
+                    )}
                     <PdfVisning pdfFilInnhold={brevRessurs} />
-                </BrevContainer>
+                </VStack>
                 <ModalWrapper
                     tittel={'Bekreft utsending av brev'}
                     visModal={visModal}

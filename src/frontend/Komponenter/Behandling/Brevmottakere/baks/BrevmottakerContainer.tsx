@@ -16,6 +16,7 @@ import { BrevmottakerPanel } from './panel/BrevmottakerPanel';
 import { Brevmottaker } from './brevmottaker';
 import { OpprettBrevmottakerDto } from './opprettBrevmottakerDto';
 import { useOnMount } from '../../../../App/hooks/useOnMount';
+import { Box, Skeleton } from '@navikt/ds-react';
 
 const API_BASE_URL = `/familie-klage/api/brevmottaker`;
 
@@ -76,6 +77,19 @@ export function BrevmottakerContainer({ behandlingId }: Props) {
     }
 
     useOnMount(() => hentBrevmottakere());
+
+    if (brevmottakere.status === RessursStatus.HENTER) {
+        return (
+            <Box background={'surface-info-subtle'} width={'100%'} maxWidth={'1000px'}>
+                <Skeleton
+                    width={'100%'}
+                    height={150}
+                    variant={'rectangle'}
+                    title={'Laster brevmottakere'}
+                />
+            </Box>
+        );
+    }
 
     return (
         <DataViewer response={{ brevmottakere, personopplysninger }}>
