@@ -1,7 +1,5 @@
 import { init } from '@sentry/browser';
 import React from 'react';
-import ReactDOM from 'react-dom';
-import axe from '@axe-core/react';
 import App from './App';
 import './index.less';
 import '@navikt/ds-css';
@@ -18,10 +16,6 @@ if (process.env.NODE_ENV !== 'development') {
         environment,
         release: packageConfig.version,
     });
-}
-
-if (process.env.NODE_ENV !== 'production') {
-    axe(React, ReactDOM, 1000);
 }
 
 // Oppdater denne ved endringer som krever å nullstille localStorage
