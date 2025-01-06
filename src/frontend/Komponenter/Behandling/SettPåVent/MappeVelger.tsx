@@ -41,11 +41,20 @@ export const MappeVelger: FC<{
     return (
         <DataViewer response={{ mapper }}>
             {({ mapper }) => {
-                const upplassertMappe = 'uplassert';
+                type SorterteMapper = {
+                    [key: string]: Mappe[];
+                };
 
-                const aktuelleMapper = visMapper(fagsystem)
-                    ? mapper.filter((mappe) => mappe.enhetsnr === oppgaveEnhet)
-                    : [];
+                const sorterteMapper: SorterteMapper = mapper.reduce(
+                    (acc: SorterteMapper, mappe: Mappe) => {
+                        if (!acc[mappe.enhetsnr]) {
+                            acc[mappe.enhetsnr] = [];
+                        }
+                        acc[mappe.enhetsnr].push(mappe);
+                        return acc;
+                    },
+                    {}
+                );
 
                 return (
                     <Select
@@ -56,14 +65,18 @@ export const MappeVelger: FC<{
                         readOnly={erLesevisning}
                         onChange={(e) => {
                             const verdi = e.target.value;
-                            settMappe(verdi === upplassertMappe ? undefined : parseInt(verdi));
+                            settMappe(verdi === 'uplassert' ? undefined : parseInt(verdi));
                         }}
                     >
-                        <option value={upplassertMappe}>Uplassert</option>
-                        {aktuelleMapper?.map((mappe) => (
-                            <option key={mappe.id} value={mappe.id}>
-                                {mappe.navn}
-                            </option>
+                        <option value="uplassert">Uplassert</option>
+                        {Object.keys(sorterteMapper).map((enhetsnr) => (
+                            <optgroup key={enhetsnr} label={`Enhetsnr: ${enhetsnr}`}>
+                                {sorterteMapper[enhetsnr].map((mappe) => (
+                                    <option key={mappe.id} value={mappe.id}>
+                                        {mappe.navn}
+                                    </option>
+                                ))}
+                            </optgroup>
                         ))}
                     </Select>
                 );
