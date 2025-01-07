@@ -34,12 +34,12 @@ export const MappeVelger: FC<{
     return (
         <DataViewer response={{ mapper }}>
             {({ mapper }) => {
-                type SorterteMapper = {
+                type GrupperteMapper = {
                     [key: string]: Mappe[];
                 };
 
-                const sorterteMapper: SorterteMapper = mapper.reduce(
-                    (acc: SorterteMapper, mappe: Mappe) => {
+                const grupperteMapper: GrupperteMapper = mapper.reduce(
+                    (acc: GrupperteMapper, mappe: Mappe) => {
                         if (!acc[mappe.enhetsnr]) {
                             acc[mappe.enhetsnr] = [];
                         }
@@ -62,9 +62,9 @@ export const MappeVelger: FC<{
                         }}
                     >
                         <option value="uplassert">Uplassert</option>
-                        {Object.keys(sorterteMapper).map((enhetsnr) => (
+                        {Object.keys(grupperteMapper).map((enhetsnr) => (
                             <optgroup key={enhetsnr} label={`Enhetsnr: ${enhetsnr}`}>
-                                {sorterteMapper[enhetsnr].map((mappe) => (
+                                {grupperteMapper[enhetsnr].map((mappe) => (
                                     <option key={mappe.id} value={mappe.id}>
                                         {mappe.navn}
                                     </option>
