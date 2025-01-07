@@ -30,7 +30,7 @@ const config = mergeWithCustomize({
                 },
             },
             {
-                test: /\.(less|css)$/,
+                test: /\.(css)$/,
                 use: [
                     { loader: 'style-loader' },
                     {

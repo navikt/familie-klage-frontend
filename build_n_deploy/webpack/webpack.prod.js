@@ -21,7 +21,7 @@ const config = mergeWithCustomize({
     module: {
         rules: [
             {
-                test: /\.(css|less)$/,
+                test: /\.(css)$/,
                 use: [
                     MiniCssExtractPlugin.loader,
                     {
