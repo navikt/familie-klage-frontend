@@ -18,7 +18,7 @@ import { OpprettBrevmottakerDto } from './opprettBrevmottakerDto';
 import { useOnMount } from '../../../../App/hooks/useOnMount';
 import { Box, Skeleton } from '@navikt/ds-react';
 
-const API_BASE_URL = `/familie-klage/api/manuellbrevmottaker`;
+const API_BASE_URL = `/familie-klage/api/brevmottaker`;
 
 type Props = {
     behandlingId: string;
