@@ -35,7 +35,7 @@ type SettPåVentRequest = {
     saksbehandler: string;
     prioritet: Prioritet;
     frist: string;
-    mappe: string | undefined;
+    mappe: number | undefined;
     beskrivelse: string;
 };
 
@@ -100,7 +100,7 @@ export const SettPåVent: FC<{ behandling: Behandling }> = ({ behandling }) => {
                     saksbehandler: saksbehandler,
                     prioritet: prioritet,
                     frist: frist,
-                    mappe: mappe?.toString(),
+                    mappe: mappe,
                     beskrivelse: beskrivelse,
                 },
             })
