@@ -16,14 +16,7 @@ export const MappeVelger: FC<{
     const [mapper, settMapper] = useState<Ressurs<Mappe[]>>(byggTomRessurs());
     const { axiosRequest } = useApp();
 
-    const visMapper = (fagsystem: Fagsystem) => {
-        switch (fagsystem) {
-            case Fagsystem.EF:
-                return true;
-            default:
-                return false;
-        }
-    };
+    const visMapper = (fagsystem: Fagsystem) => fagsystem === Fagsystem.EF;
 
     useEffect(() => {
         if (visMapper(fagsystem)) {
