@@ -38,7 +38,9 @@ export const MappeVelger: FC<{
                     [key: string]: Mappe[];
                 };
 
-                const grupperteMapper: GrupperteMapper = mapper.reduce(
+                const aktuelleMapper = mapper.filter((mappe) => mappe.enhetsnr === oppgaveEnhet);
+
+                const grupperteMapper: GrupperteMapper = aktuelleMapper.reduce(
                     (acc: GrupperteMapper, mappe: Mappe) => {
                         if (!acc[mappe.enhetsnr]) {
                             acc[mappe.enhetsnr] = [];
