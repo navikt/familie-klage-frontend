@@ -12,7 +12,7 @@ import { IPersonopplysninger } from '../../../../../../App/typer/personopplysnin
 import { BrevmottakerFeltnavn } from './felt/felttyper';
 import { Brevmottaker } from '../../brevmottaker';
 import { Mottakertype } from '../../mottakertype';
-import { lagOpprettBrevmottakerDto, OpprettBrevmottakerDto } from '../../opprettBrevmottakerDto';
+import { lagNyBrevmottaker, NyBrevmottaker } from '../../nyBrevmottaker';
 
 export type BrevmottakerFormValues = {
     [BrevmottakerFeltnavn.MOTTAKERTYPE]: Mottakertype | '';
@@ -40,7 +40,7 @@ type Props = {
     brevmottakere: Brevmottaker[];
     erLesevisning: boolean;
     lukkForm: () => void;
-    opprettBrevmottaker: (opprettBrevmottakerDto: OpprettBrevmottakerDto) => Promise<boolean>;
+    opprettBrevmottaker: (nyBrevmottaker: NyBrevmottaker) => Promise<boolean>;
 };
 
 export function BrevmottakerForm({
@@ -61,8 +61,8 @@ export function BrevmottakerForm({
     async function onSubmit(brevmottakerFormValues: BrevmottakerFormValues) {
         // TODO : Dette kan håndteres bedre av react-query
         setVisSubmitError(false);
-        const opprettBrevmottakerDto = lagOpprettBrevmottakerDto(brevmottakerFormValues);
-        const erSuksess = await opprettBrevmottaker(opprettBrevmottakerDto);
+        const nyBrevmottaker = lagNyBrevmottaker(brevmottakerFormValues);
+        const erSuksess = await opprettBrevmottaker(nyBrevmottaker);
         if (erSuksess) {
             lukkForm();
         } else {
@@ -75,7 +75,7 @@ export function BrevmottakerForm({
             <form onSubmit={handleSubmit(onSubmit)}>
                 <VStack gap={'4'}>
                     <Heading level={'2'} size={'medium'}>
-                        Ny mottaker
+                        Ny brevmottaker
                     </Heading>
                     <MottakerFelt
                         feltnavn={BrevmottakerFeltnavn.MOTTAKERTYPE}

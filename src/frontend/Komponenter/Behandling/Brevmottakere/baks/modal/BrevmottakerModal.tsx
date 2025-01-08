@@ -3,7 +3,7 @@ import { Modal } from '@navikt/ds-react';
 import { useApp } from '../../../../../App/context/AppContext';
 import { IPersonopplysninger } from '../../../../../App/typer/personopplysninger';
 import { Brevmottaker } from '../brevmottaker';
-import { OpprettBrevmottakerDto } from '../opprettBrevmottakerDto';
+import { NyBrevmottaker } from '../nyBrevmottaker';
 import { BrevmottakerModalBody } from './BrevmottakerModalBody';
 import { BrevmottakerModalFooter } from './BrevmottakerModalFooter';
 
@@ -11,7 +11,7 @@ type Props = {
     behandlingId: string;
     personopplysninger: IPersonopplysninger;
     brevmottakere: Brevmottaker[];
-    opprettBrevmottaker: (opprettBrevmottakerDto: OpprettBrevmottakerDto) => Promise<boolean>;
+    opprettBrevmottaker: (nyBrevmottaker: NyBrevmottaker) => Promise<boolean>;
     slettBrevmottaker: (brevmottakerId: string) => Promise<boolean>;
     erLesevisning: boolean;
 };

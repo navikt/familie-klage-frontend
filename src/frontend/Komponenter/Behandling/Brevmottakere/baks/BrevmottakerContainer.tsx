@@ -14,7 +14,7 @@ import {
 import { BrevmottakerModal } from './modal/BrevmottakerModal';
 import { BrevmottakerPanel } from './panel/BrevmottakerPanel';
 import { Brevmottaker } from './brevmottaker';
-import { OpprettBrevmottakerDto } from './opprettBrevmottakerDto';
+import { NyBrevmottaker } from './nyBrevmottaker';
 import { useOnMount } from '../../../../App/hooks/useOnMount';
 import { Box, Skeleton } from '@navikt/ds-react';
 
@@ -45,14 +45,12 @@ export function BrevmottakerContainer({ behandlingId }: Props) {
         });
     }
 
-    async function opprettBrevmottaker(
-        opprettBrevmottakerDto: OpprettBrevmottakerDto
-    ): Promise<boolean> {
+    async function opprettBrevmottaker(nyBrevmottaker: NyBrevmottaker): Promise<boolean> {
         // TODO : Dette kan gjøres bedre med react-query
-        return await axiosRequest<Brevmottaker[], OpprettBrevmottakerDto>({
+        return await axiosRequest<Brevmottaker[], NyBrevmottaker>({
             url: `${API_BASE_URL}/${behandlingId}`,
             method: 'POST',
-            data: opprettBrevmottakerDto,
+            data: nyBrevmottaker,
         }).then((ressurs: RessursFeilet | RessursSuksess<Brevmottaker[]>) => {
             if (ressurs.status !== RessursStatus.SUKSESS) {
                 return Promise.resolve(false);

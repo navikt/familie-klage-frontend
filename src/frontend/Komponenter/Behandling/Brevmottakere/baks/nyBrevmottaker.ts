@@ -2,11 +2,9 @@ import { Brevmottaker } from './brevmottaker';
 import { BrevmottakerFormValues } from './modal/form/BrevmottakerForm';
 import { EøsLandkode } from '../../../../Felles/Landvelger/landkode';
 
-export type OpprettBrevmottakerDto = Omit<Brevmottaker, 'id'>;
+export type NyBrevmottaker = Omit<Brevmottaker, 'id'>;
 
-export function lagOpprettBrevmottakerDto(
-    brevmottakerFormValues: BrevmottakerFormValues
-): OpprettBrevmottakerDto {
+export function lagNyBrevmottaker(brevmottakerFormValues: BrevmottakerFormValues): NyBrevmottaker {
     if (brevmottakerFormValues.mottakertype === '') {
         throw Error('Ugyldig tilstand. Mottakertype er påkrevd.');
     }

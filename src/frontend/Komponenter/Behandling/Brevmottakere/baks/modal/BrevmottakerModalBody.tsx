@@ -6,14 +6,14 @@ import { Alert, Button, Modal, VStack } from '@navikt/ds-react';
 import { BrevmottakerForm } from './form/BrevmottakerForm';
 import { IPersonopplysninger } from '../../../../../App/typer/personopplysninger';
 import { Brevmottaker } from '../brevmottaker';
-import { OpprettBrevmottakerDto } from '../opprettBrevmottakerDto';
+import { NyBrevmottaker } from '../nyBrevmottaker';
 import { BrevmottakerDetaljer } from './BrevmottakerDetaljer';
 
 type Props = {
     behandlingId: string;
     personopplysninger: IPersonopplysninger;
     brevmottakere: Brevmottaker[];
-    opprettBrevmottaker: (opprettBrevmottakerDto: OpprettBrevmottakerDto) => Promise<boolean>;
+    opprettBrevmottaker: (nyBrevmottaker: NyBrevmottaker) => Promise<boolean>;
     slettBrevmottaker: (brevmottakerId: string) => Promise<boolean>;
     erLesevisning: boolean;
 };
