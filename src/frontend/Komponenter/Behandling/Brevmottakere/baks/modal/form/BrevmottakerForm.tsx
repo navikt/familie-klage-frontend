@@ -51,7 +51,7 @@ export function BrevmottakerForm({
     opprettBrevmottaker,
 }: Props) {
     const [visSubmitError, setVisSubmitError] = useState<boolean>(false);
-    const form = useForm<BrevmottakerFormValues>({ mode: 'all', defaultValues });
+    const form = useForm<BrevmottakerFormValues>({ mode: 'onChange', defaultValues });
     const { formState, handleSubmit, watch } = form;
 
     const landkode = watch(BrevmottakerFeltnavn.LANDKODE);
