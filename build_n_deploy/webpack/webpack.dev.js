@@ -11,9 +11,7 @@ const config = mergeWithCustomize({
 })(common, {
     mode: 'development',
     entry: {
-        'familie-klage': [
-            'webpack-hot-middleware/client?reload=true&overlay=false',
-        ],
+        'familie-klage': ['webpack-hot-middleware/client?reload=true&overlay=false'],
     },
     output: {
         path: path.join(process.cwd(), 'frontend_development'),
@@ -32,7 +30,7 @@ const config = mergeWithCustomize({
                 },
             },
             {
-                test: /\.(less|css)$/,
+                test: /\.(css)$/,
                 use: [
                     { loader: 'style-loader' },
                     {
@@ -44,7 +42,6 @@ const config = mergeWithCustomize({
                             importLoaders: 2,
                         },
                     },
-                    { loader: 'less-loader' },
                 ],
             },
         ],
