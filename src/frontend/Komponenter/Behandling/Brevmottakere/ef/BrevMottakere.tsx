@@ -1,12 +1,12 @@
 import React, { useCallback, useEffect, useState } from 'react';
 import styled from 'styled-components';
-import { useApp } from '../../../App/context/AppContext';
+import { useApp } from '../../../../App/context/AppContext';
 import { Alert, BodyShort, Button, Label, Tooltip } from '@navikt/ds-react';
-import { EBrevmottakerRolle, IBrevmottakere } from '../Brevmottakere/typer';
-import DataViewer from '../../../Felles/DataViewer/DataViewer';
-import { useBehandling } from '../../../App/context/BehandlingContext';
+import { EBrevmottakerRolle, IBrevmottakere } from './typer';
+import DataViewer from '../../../../Felles/DataViewer/DataViewer';
+import { useBehandling } from '../../../../App/context/BehandlingContext';
 import { BrevmottakereModal } from './BrevmottakereModal';
-import { byggTomRessurs, Ressurs } from '../../../App/typer/ressurs';
+import { byggTomRessurs, Ressurs } from '../../../../App/typer/ressurs';
 import { AxiosRequestConfig } from 'axios';
 
 const Grid = styled.div`
