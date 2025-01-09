@@ -19,7 +19,7 @@ export function BrevmottakerDetaljer({ brevmottaker, slettBrevmottaker, erLesevi
     const [visSlettFeilmelding, setVisSlettFeilmelding] = useState(false);
     const [laster, setLaster] = useState(false);
     return (
-        <Box padding={'2'}>
+        <Box>
             <VStack marginBlock={'2 2'} gap={'2'}>
                 {visSlettFeilmelding && (
                     <Alert
