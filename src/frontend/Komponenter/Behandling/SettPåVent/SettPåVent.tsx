@@ -9,7 +9,7 @@ import {
     RessursStatus,
     RessursSuksess,
 } from '../../../App/typer/ressurs';
-import { IOppgave, Prioritet } from './Typer/IOppgave';
+import { IOppgave, Prioritet } from '../Typer/IOppgave';
 import { useApp } from '../../../App/context/AppContext';
 import DataViewer from '../../../Felles/DataViewer/DataViewer';
 import { useBehandling } from '../../../App/context/BehandlingContext';
@@ -19,6 +19,7 @@ import { PrioritetVelger } from './PrioritetVelger';
 import { FristVelger } from './FristVelger';
 import { EksisterendeBeskrivelse } from './EksisterendeBeskrivelse';
 import { SettPåVentKnappValg } from './SettPåVentKnappValg';
+import { MappeVelger } from './MappeVelger';
 
 const StyledVStack = styled(VStack)`
     background-color: #e6f1f8;
@@ -34,6 +35,7 @@ type SettPåVentRequest = {
     saksbehandler: string;
     prioritet: Prioritet;
     frist: string;
+    mappe: number | undefined;
     beskrivelse: string;
 };
 
@@ -43,6 +45,7 @@ export const SettPåVent: FC<{ behandling: Behandling }> = ({ behandling }) => {
     const [prioritet, settPrioritet] = useState<Prioritet | undefined>();
     const [frist, settFrist] = useState<string | undefined>();
     const [beskrivelse, settBeskrivelse] = useState('');
+    const [mappe, settMappe] = useState<number | undefined>();
 
     const [låsKnapp, settLåsKnapp] = useState<boolean>(false);
     const [feilmelding, settFeilmelding] = useState<string>();
@@ -65,6 +68,7 @@ export const SettPåVent: FC<{ behandling: Behandling }> = ({ behandling }) => {
             settSaksbehandler(oppgave.data.tilordnetRessurs || '');
             settPrioritet(oppgave.data.prioritet || 'NORM');
             settFrist(oppgave.data.fristFerdigstillelse);
+            settMappe(oppgave.data.mappeId);
         }
     }, [oppgave]);
 
@@ -96,6 +100,7 @@ export const SettPåVent: FC<{ behandling: Behandling }> = ({ behandling }) => {
                     saksbehandler: saksbehandler,
                     prioritet: prioritet,
                     frist: frist,
+                    mappe: mappe,
                     beskrivelse: beskrivelse,
                 },
             })
@@ -136,6 +141,7 @@ export const SettPåVent: FC<{ behandling: Behandling }> = ({ behandling }) => {
         settSaksbehandler('');
         settPrioritet(undefined);
         settFrist(undefined);
+        settMappe(undefined);
         settBeskrivelse('');
     };
 
@@ -166,6 +172,13 @@ export const SettPåVent: FC<{ behandling: Behandling }> = ({ behandling }) => {
                                 oppgave={oppgave}
                                 frist={frist}
                                 settFrist={settFrist}
+                                erLesevisning={erBehandlingPåVent}
+                            />
+                            <MappeVelger
+                                oppgaveEnhet={oppgave.tildeltEnhetsnr}
+                                fagsystem={behandling.fagsystem}
+                                settMappe={settMappe}
+                                valgtMappe={mappe}
                                 erLesevisning={erBehandlingPåVent}
                             />
                         </HStack>

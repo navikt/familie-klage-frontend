@@ -46,7 +46,7 @@ export const EksisterendeBeskrivelse: FC<{ beskrivelse?: string }> = ({ beskrive
                             icon={ekspandert ? <ChevronUpIcon /> : <ChevronDownIcon />}
                             iconPosition={'right'}
                             type={'button'}
-                            onClick={() => settEkspandert((prevstate) => !prevstate)}
+                            onClick={() => settEkspandert((ekspandert) => !ekspandert)}
                         >
                             {ekspandert ? 'Skjul beskrivelsen' : 'Se hele beskrivelsen'}
                         </Button>
