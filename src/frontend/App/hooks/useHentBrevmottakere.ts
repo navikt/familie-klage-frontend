@@ -2,7 +2,7 @@ import { byggTomRessurs, Ressurs } from '../typer/ressurs';
 import { useApp } from '../context/AppContext';
 import { useCallback, useState } from 'react';
 import { AxiosRequestConfig } from 'axios';
-import { IBrevmottakere } from '../../Komponenter/Behandling/Brevmottakere/typer';
+import { IBrevmottakere } from '../../Komponenter/Behandling/Brevmottakere/ef/typer';
 
 export const useHentBrevmottakere = (
     behandlingId: string

@@ -1,16 +1,16 @@
 import React, { FC, useCallback, useEffect, useState } from 'react';
-import { IPersonopplysninger } from '../../../App/typer/personopplysninger';
+import { IPersonopplysninger } from '../../../../App/typer/personopplysninger';
 import { VergerOgFullmektigeFraRegister } from './VergerOgFullmektigeFraRegister';
 import { SøkWrapper } from './SøkWrapper';
 import { SkalBrukerHaBrev } from './SkalBrukerHaBrev';
-import { useApp } from '../../../App/context/AppContext';
-import { RessursFeilet, RessursStatus, RessursSuksess } from '../../../App/typer/ressurs';
+import { useApp } from '../../../../App/context/AppContext';
+import { RessursFeilet, RessursStatus, RessursSuksess } from '../../../../App/typer/ressurs';
 import { BrevmottakereListe } from './BrevmottakereListe';
 import { IBrevmottaker, IBrevmottakere, IOrganisasjonMottaker } from './typer';
 import styled from 'styled-components';
 import { Alert, Button } from '@navikt/ds-react';
-import { EToast } from '../../../App/typer/toast';
-import { ModalWrapper } from '../../../Felles/Modal/ModalWrapper';
+import { EToast } from '../../../../App/typer/toast';
+import { ModalWrapper } from '../../../../Felles/Modal/ModalWrapper';
 
 const GridContainer = styled.div`
     display: grid;

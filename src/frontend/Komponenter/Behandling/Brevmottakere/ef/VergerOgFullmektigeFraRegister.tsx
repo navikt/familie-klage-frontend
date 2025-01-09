@@ -1,11 +1,11 @@
 import React, { Dispatch, FC, SetStateAction } from 'react';
-import { IFullmakt, IVergemål } from '../../../App/typer/personopplysninger';
+import { IFullmakt, IVergemål } from '../../../../App/typer/personopplysninger';
 import { IBrevmottaker } from './typer';
 import { fullmaktTilBrevMottaker, vergemålTilBrevmottaker } from './brevmottakerUtils';
 import styled from 'styled-components';
 import { Ingress, Button, BodyShort } from '@navikt/ds-react';
-import { VertikalSentrering } from '../../../App/utils/styling';
-import { KopierbartNullableFødselsnummer } from '../../../Fødselsnummer/KopierbartNullableFødselsnummer';
+import { VertikalSentrering } from '../../../../App/utils/styling';
+import { KopierbartNullableFødselsnummer } from '../../../../Fødselsnummer/KopierbartNullableFødselsnummer';
 
 interface Props {
     valgteMottakere: IBrevmottaker[];
