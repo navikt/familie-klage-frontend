@@ -1,4 +1,4 @@
-import React, { forwardRef, LegacyRef, useState } from 'react';
+import React, { useState } from 'react';
 
 import { ComboboxProps, UNSAFE_Combobox } from '@navikt/ds-react';
 
@@ -43,14 +43,13 @@ const eøsLand: ComboboxOption[] = [
     { value: EøsLandkode.AT, label: 'Østerrike' },
 ];
 
-export const EøsLandvelger = forwardRef((props: Props, ref: LegacyRef<HTMLInputElement>) => {
+export function EøsLandvelger(props: Props) {
     const { label, value, onToggleSelected, error, onBlur, readOnly } = props;
     const [selectedOption, setSelectedOption] = useState<ComboboxOption | undefined>(
         eøsLand.find((opt) => opt.value === value)
     );
     return (
         <UNSAFE_Combobox
-            ref={ref}
             label={label}
             options={eøsLand}
             onBlur={onBlur}
@@ -72,6 +71,6 @@ export const EøsLandvelger = forwardRef((props: Props, ref: LegacyRef<HTMLInput
             readOnly={readOnly}
         />
     );
-});
+}
 
 EøsLandvelger.displayName = 'Landvelger';
