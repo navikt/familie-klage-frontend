@@ -27,7 +27,7 @@ export function BrevmottakerDetaljer({ brevmottaker, slettBrevmottaker, erLesevi
                         closeButton={true}
                         onClose={() => setVisSlettFeilmelding(false)}
                     >
-                        Noe gikk galt ved sletting.
+                        Noe gikk galt ved sletting av brevmottaker.
                     </Alert>
                 )}
                 <HStack justify={'space-between'}>
