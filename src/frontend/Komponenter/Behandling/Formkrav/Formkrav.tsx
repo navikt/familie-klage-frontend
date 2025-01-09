@@ -63,6 +63,10 @@ const FormkravKomponent: React.FC<{
         utledRedigeringsmodus(behandlingErRedigerbar, vilkårsvurderinger)
     );
 
+    useEffect(() => {
+        settRedigeringsmodus(utledRedigeringsmodus(behandlingErRedigerbar, vilkårsvurderinger));
+    }, [behandlingErRedigerbar, vilkårsvurderinger]);
+
     return (
         <ToKolonnerLayout>
             {{

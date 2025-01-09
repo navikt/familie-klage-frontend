@@ -3,6 +3,7 @@ import {
     areIntervalsOverlapping,
     differenceInMonths,
     differenceInYears,
+    formatISO,
     isAfter,
     isBefore,
     isEqual,
@@ -67,6 +68,8 @@ export const gjelderÅr = (dato: string, år: number): boolean => {
 
 export const tilDato = (dato: string | Date): Date =>
     typeof dato === 'string' ? parseISO(dato) : dato;
+
+export const tilLocaleDateString = (dato: Date) => formatISO(dato, { representation: 'date' });
 
 export const nullableDatoTilAlder = (dato?: string | Date): number | undefined => {
     return dato ? datoTilAlder(dato) : undefined;

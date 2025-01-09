@@ -1,6 +1,5 @@
 .prettierignore
 *.json
-*.less
 *.yaml
 *.yml
 *.md

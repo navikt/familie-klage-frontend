@@ -1,4 +1,4 @@
-import { Behandling, StegType } from './fagsak';
+import { Behandling } from './fagsak';
 import { AnsvarligSaksbehandler, AnsvarligSaksbehandlerRolle } from './saksbehandler';
 
 export enum BehandlingStatus {
@@ -6,6 +6,8 @@ export enum BehandlingStatus {
     UTREDES = 'UTREDES',
     VENTER = 'VENTER',
     FERDIGSTILT = 'FERDIGSTILT',
+    FATTER_VEDTAK = 'FATTER_VEDTAK',
+    SATT_PÅ_VENT = 'SATT_PÅ_VENT',
 }
 
 export const behandlingStatusTilTekst: Record<BehandlingStatus, string> = {
@@ -13,10 +15,9 @@ export const behandlingStatusTilTekst: Record<BehandlingStatus, string> = {
     UTREDES: 'Utredes',
     VENTER: 'Venter',
     FERDIGSTILT: 'Ferdigstilt',
+    FATTER_VEDTAK: 'Fatter vedtak',
+    SATT_PÅ_VENT: 'Satt på vent',
 };
-
-export const erBehandlingRedigerbar = (behandling: Behandling): boolean =>
-    [StegType.FORMKRAV, StegType.VURDERING, StegType.BREV].includes(behandling.steg);
 
 export const innloggetSaksbehandlerKanRedigereBehandling = (
     ansvarligSaksbehandler: AnsvarligSaksbehandler
@@ -26,3 +27,6 @@ export const innloggetSaksbehandlerKanRedigereBehandling = (
         ansvarligSaksbehandler.rolle === AnsvarligSaksbehandlerRolle.OPPGAVE_FINNES_IKKE
     );
 };
+
+export const utredesEllerFatterVedtak = (behandling: Behandling): boolean =>
+    [BehandlingStatus.UTREDES, BehandlingStatus.FATTER_VEDTAK].includes(behandling.status);

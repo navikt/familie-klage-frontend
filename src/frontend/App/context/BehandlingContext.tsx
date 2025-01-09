@@ -7,7 +7,7 @@ import { useHentPersonopplysninger } from '../hooks/useHentPersonopplysninger';
 import { useHentBehandling } from '../hooks/useHentBehandling';
 import { useHentBehandlingHistorikk } from '../hooks/useHentBehandlingHistorikk';
 import { RessursStatus } from '../typer/ressurs';
-import { erBehandlingRedigerbar } from '../typer/behandlingstatus';
+import { BehandlingStatus } from '../typer/behandlingstatus';
 import { IVurdering } from '../../Komponenter/Behandling/Vurdering/vurderingValg';
 import { useHentFormkravVilkår } from '../hooks/useHentFormkravVilkår';
 import {
@@ -15,6 +15,7 @@ import {
     påKlagetVedtakValgt,
 } from '../../Komponenter/Behandling/Formkrav/validerFormkravUtils';
 import { useHentAnsvarligSaksbehandler } from '../hooks/useHentAnsvarligSaksbehandler';
+import { Behandling, StegType } from '../typer/fagsak';
 
 const [BehandlingProvider, useBehandling] = constate(() => {
     const behandlingId = useParams<IBehandlingParams>().behandlingId as string;
@@ -38,8 +39,13 @@ const [BehandlingProvider, useBehandling] = constate(() => {
         behandlingId,
     ]);
 
-    // eslint-disable-next-line
-    useEffect(() => hentPersonopplysninger(behandlingId), [behandlingId]);
+    useEffect(() => hentPersonopplysninger(behandlingId), [behandlingId, hentPersonopplysninger]);
+
+    useEffect(() => {
+        if (behandling.status === RessursStatus.SUKSESS) {
+            settVisSettPåVent(behandling.data.status === BehandlingStatus.SATT_PÅ_VENT);
+        }
+    }, [behandling]);
 
     useEffect(() => {
         settBehandlingErRedigerbar(
@@ -56,8 +62,13 @@ const [BehandlingProvider, useBehandling] = constate(() => {
         );
     }, [vilkårsvurderinger]);
 
+    const erBehandlingRedigerbar = (behandling: Behandling): boolean =>
+        behandling.status !== BehandlingStatus.SATT_PÅ_VENT &&
+        [StegType.FORMKRAV, StegType.VURDERING, StegType.BREV].includes(behandling.steg);
+
     const [visBrevmottakereModal, settVisBrevmottakereModal] = useState(false);
     const [visHenleggModal, settVisHenleggModal] = useState(false);
+    const [visSettPåVent, settVisSettPåVent] = useState(false);
     const [åpenHøyremeny, settÅpenHøyremeny] = useState(true);
     const [vurderingEndret, settVurderingEndret] = useState(false);
 
@@ -78,6 +89,8 @@ const [BehandlingProvider, useBehandling] = constate(() => {
         visHenleggModal,
         settVisHenleggModal,
         åpenHøyremeny,
+        visSettPåVent,
+        settVisSettPåVent,
         settÅpenHøyremeny,
         vurderingEndret,
         settVurderingEndret,
