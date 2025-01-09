@@ -1,5 +1,6 @@
 export interface IOppgave {
     oppgaveId: number;
+    tildeltEnhetsnr?: string;
     tilordnetRessurs?: string;
     mappeId?: number;
     fristFerdigstillelse?: string;

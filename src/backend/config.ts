@@ -2,7 +2,7 @@
 
 import { appConfig, IApi, ISessionKonfigurasjon } from '@navikt/familie-backend';
 
-type Rolle = 'veileder' | 'saksbehandler' | 'beslutter' | 'kode6' | 'kode7';
+type Rolle = 'veileder' | 'saksbehandler' | 'beslutter' | 'kode6' | 'kode7' | 'egenAnsatt';
 type EksternlenkeKey =
     | 'efSakUrl'
     | 'baSakUrl'
@@ -34,6 +34,7 @@ const rollerDev: Roller = {
     saksbehandler: 'ee5e0b5e-454c-4612-b931-1fe363df7c2c',
     kode6: '5ef775f2-61f8-4283-bf3d-8d03f428aa14', // 0000-GA-Strengt_Fortrolig_Adresse
     kode7: 'ea930b6b-9397-44d9-b9e6-f4cf527a632a', // 0000-GA-Fortrolig_Adresse
+    egenAnsatt: 'dbe4ad45-320b-4e9a-aaa1-73cca4ee124d', // 0000-GA-Egne_ansatte
 };
 
 const rollerProd: Roller = {
@@ -42,6 +43,7 @@ const rollerProd: Roller = {
     beslutter: '5fcc0e1d-a4c2-49f0-93dc-27c9fea41e54',
     kode6: 'ad7b87a6-9180-467c-affc-20a566b0fec0', // 0000-GA-Strengt_Fortrolig_Adresse
     kode7: '9ec6487d-f37a-4aad-a027-cd221c1ac32b', // 0000-GA-Fortrolig_Adresse
+    egenAnsatt: 'e750ceb5-b70b-4d94-b4fa-9d22467b786b', // 0000-GA-Egne_ansatte
 };
 
 const lenkerDev: Eksternlenker = {
