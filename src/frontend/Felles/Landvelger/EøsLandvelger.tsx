@@ -9,7 +9,7 @@ type Props = {
     label: React.ReactNode;
 } & Omit<ComboboxProps, 'options'>;
 
-const land: ComboboxOption[] = [
+const eøsLand: ComboboxOption[] = [
     { value: EøsLandkode.BE, label: 'Belgia' },
     { value: EøsLandkode.BG, label: 'Bulgaria' },
     { value: EøsLandkode.DK, label: 'Danmark' },
@@ -46,18 +46,18 @@ const land: ComboboxOption[] = [
 export const EøsLandvelger = forwardRef((props: Props, ref: LegacyRef<HTMLInputElement>) => {
     const { label, value, onToggleSelected, error, onBlur, readOnly } = props;
     const [selectedOption, setSelectedOption] = useState<ComboboxOption | undefined>(
-        land.find((opt) => opt.value === value)
+        eøsLand.find((opt) => opt.value === value)
     );
     return (
         <UNSAFE_Combobox
             ref={ref}
             label={label}
-            options={land}
+            options={eøsLand}
             onBlur={onBlur}
             isMultiSelect={false}
             selectedOptions={selectedOption ? [selectedOption] : []}
             onToggleSelected={(option, isSelected) => {
-                const newOption = land.find((opt) => opt.value === option);
+                const newOption = eøsLand.find((opt) => opt.value === option);
                 if (newOption === selectedOption || newOption == undefined) {
                     setSelectedOption(undefined);
                 } else {

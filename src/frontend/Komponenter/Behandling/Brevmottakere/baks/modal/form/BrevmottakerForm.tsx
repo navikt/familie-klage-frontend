@@ -59,7 +59,6 @@ export function BrevmottakerForm({
     const erUtenlandskAdresseValgt = erLandValgt && landkode !== EøsLandkode.NO;
 
     async function onSubmit(brevmottakerFormValues: BrevmottakerFormValues) {
-        // TODO : Dette kan håndteres bedre av react-query
         setVisSubmitError(false);
         const nyBrevmottaker = lagNyBrevmottaker(brevmottakerFormValues);
         const erSuksess = await opprettBrevmottaker(nyBrevmottaker);

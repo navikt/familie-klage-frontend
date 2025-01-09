@@ -30,7 +30,6 @@ export function BrevmottakerContainer({ behandlingId }: Props) {
     const [brevmottakere, settBrevmottakere] = useState<Ressurs<Brevmottaker[]>>(byggTomRessurs());
 
     async function hentBrevmottakere(): Promise<boolean> {
-        // TODO : Dette kan gjøres bedre med react-query
         settBrevmottakere(byggHenterRessurs());
         return await axiosRequest<Brevmottaker[], null>({
             method: 'GET',
@@ -46,7 +45,6 @@ export function BrevmottakerContainer({ behandlingId }: Props) {
     }
 
     async function opprettBrevmottaker(nyBrevmottaker: NyBrevmottaker): Promise<boolean> {
-        // TODO : Dette kan gjøres bedre med react-query
         return await axiosRequest<Brevmottaker[], NyBrevmottaker>({
             url: `${API_BASE_URL}/${behandlingId}`,
             method: 'POST',
@@ -61,7 +59,6 @@ export function BrevmottakerContainer({ behandlingId }: Props) {
     }
 
     async function slettBrevmottakere(brevmottakerId: string): Promise<boolean> {
-        // TODO : Dette kan gjøres bedre med react-query
         return await axiosRequest<Brevmottaker[], null>({
             method: 'DELETE',
             url: `${API_BASE_URL}/${behandlingId}/${brevmottakerId}`,

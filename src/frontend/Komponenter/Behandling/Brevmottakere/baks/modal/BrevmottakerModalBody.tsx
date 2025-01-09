@@ -31,7 +31,6 @@ export function BrevmottakerModalBody({
     async function slettBrevmottakerOgVisFormHvisNødvendig(
         brevmottakerId: string
     ): Promise<boolean> {
-        // TODO : Dette kan gjøres bedre med react-query
         const erSuksess = await slettBrevmottaker(brevmottakerId);
         if (erSuksess && brevmottakere.length === 1) {
             settVisForm(true);
