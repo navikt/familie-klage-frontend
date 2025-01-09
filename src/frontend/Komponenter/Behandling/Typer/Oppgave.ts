@@ -1,7 +1,7 @@
-export interface IOppgave {
+export interface Oppgave {
     oppgaveId: number;
-    tilordnetRessurs?: string;
     tildeltEnhetsnr?: string;
+    tilordnetRessurs?: string;
     mappeId?: number;
     fristFerdigstillelse?: string;
     prioritet?: Prioritet;
