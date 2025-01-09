@@ -21,7 +21,7 @@ const config = mergeWithCustomize({
     module: {
         rules: [
             {
-                test: /\.(css|less)$/,
+                test: /\.(css)$/,
                 use: [
                     MiniCssExtractPlugin.loader,
                     {
@@ -40,9 +40,6 @@ const config = mergeWithCustomize({
                                 plugins: [['autoprefixer']],
                             },
                         },
-                    },
-                    {
-                        loader: 'less-loader',
                     },
                 ],
             },
