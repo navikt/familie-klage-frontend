@@ -1,6 +1,6 @@
 import React from 'react';
 import { Controller, useFormContext } from 'react-hook-form';
-import { Landvelger } from '../../../../../../../Felles/Landvelger/Landvelger';
+import { EøsLandvelger } from '../../../../../../../Felles/Landvelger/EøsLandvelger';
 import { BrevmottakerFeltnavn, BrevmottakerFeltProps } from './felttyper';
 import { utledBrevmottakernavnVedDødsbo } from '../../../brevmottaker';
 import { IPersonopplysninger } from '../../../../../../../App/typer/personopplysninger';
@@ -30,7 +30,7 @@ export function LandFelt({ feltnavn, visningsnavn, erLesevisning, personopplysni
             render={({ field, fieldState }) => {
                 const visFeilmelding = fieldState.isTouched || formState.isSubmitted;
                 return (
-                    <Landvelger
+                    <EøsLandvelger
                         label={visningsnavn}
                         ref={field.ref}
                         onBlur={field.onBlur}

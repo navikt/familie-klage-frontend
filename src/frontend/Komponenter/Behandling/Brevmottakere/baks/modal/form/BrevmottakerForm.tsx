@@ -140,7 +140,7 @@ export function BrevmottakerForm({
                             closeButton={true}
                             onClose={() => setVisSubmitError(false)}
                         >
-                            Noe gikk galt ved lagringen.
+                            Noe gikk galt ved lagring av brevmottaker.
                         </Alert>
                     )}
                     <HStack gap={'4'}>
@@ -150,7 +150,7 @@ export function BrevmottakerForm({
                                 type={'submit'}
                                 loading={formState.isSubmitting}
                             >
-                                Legg til mottaker
+                                Legg til brevmottaker
                             </Button>
                         )}
                         {!erLesevisning && brevmottakere.length > 0 && !formState.isSubmitting && (
