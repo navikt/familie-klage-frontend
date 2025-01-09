@@ -9,7 +9,7 @@ import {
     RessursStatus,
     RessursSuksess,
 } from '../../../App/typer/ressurs';
-import { IOppgave, Prioritet } from './Typer/IOppgave';
+import { IOppgave, Prioritet } from '../Typer/IOppgave';
 import { useApp } from '../../../App/context/AppContext';
 import DataViewer from '../../../Felles/DataViewer/DataViewer';
 import { useBehandling } from '../../../App/context/BehandlingContext';

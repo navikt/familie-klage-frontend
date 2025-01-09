@@ -1,7 +1,7 @@
 import React, { FC, useEffect, useState } from 'react';
 import { Select } from '@navikt/ds-react';
 import { byggTomRessurs, Ressurs } from '../../../App/typer/ressurs';
-import { Mappe } from '../Typer/Mappe';
+import { IMappe } from '../Typer/IMappe';
 import { useApp } from '../../../App/context/AppContext';
 import DataViewer from '../../../Felles/DataViewer/DataViewer';
 import { Fagsystem } from '../../../App/typer/fagsak';
@@ -13,17 +13,17 @@ export const MappeVelger: FC<{
     settMappe: (mappe: number | undefined) => void;
     erLesevisning: boolean;
 }> = ({ oppgaveEnhet, fagsystem, valgtMappe, settMappe, erLesevisning }) => {
-    const [mapper, settMapper] = useState<Ressurs<Mappe[]>>(byggTomRessurs());
+    const [mapper, settMapper] = useState<Ressurs<IMappe[]>>(byggTomRessurs());
     const { axiosRequest } = useApp();
 
     const visMapper = (fagsystem: Fagsystem) => fagsystem === Fagsystem.EF;
 
     useEffect(() => {
         if (visMapper(fagsystem)) {
-            axiosRequest<Mappe[], null>({
+            axiosRequest<IMappe[], null>({
                 method: 'GET',
                 url: `/familie-klage/api/behandling/mapper`,
-            }).then((res: Ressurs<Mappe[]>) => {
+            }).then((res: Ressurs<IMappe[]>) => {
                 settMapper(res);
             });
         } else {
@@ -35,13 +35,13 @@ export const MappeVelger: FC<{
         <DataViewer response={{ mapper }}>
             {({ mapper }) => {
                 type GrupperteMapper = {
-                    [key: string]: Mappe[];
+                    [key: string]: IMappe[];
                 };
 
                 const aktuelleMapper = mapper.filter((mappe) => mappe.enhetsnr === oppgaveEnhet);
 
                 const grupperteMapper: GrupperteMapper = aktuelleMapper.reduce(
-                    (acc: GrupperteMapper, mappe: Mappe) => {
+                    (acc: GrupperteMapper, mappe: IMappe) => {
                         if (!acc[mappe.enhetsnr]) {
                             acc[mappe.enhetsnr] = [];
                         }
@@ -55,7 +55,7 @@ export const MappeVelger: FC<{
                     <Select
                         disabled={!oppgaveEnhet || !visMapper(fagsystem)}
                         value={valgtMappe}
-                        label="Mappe"
+                        label="IMappe"
                         size="small"
                         readOnly={erLesevisning}
                         onChange={(e) => {

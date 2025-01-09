@@ -1,4 +1,4 @@
-export interface Oppgave {
+export interface IOppgave {
     oppgaveId: number;
     tildeltEnhetsnr?: string;
     tilordnetRessurs?: string;
