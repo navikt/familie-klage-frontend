@@ -154,7 +154,7 @@ export function BrevmottakerForm({
                         )}
                         {!erLesevisning && brevmottakere.length > 0 && !formState.isSubmitting && (
                             <Button variant={'tertiary'} onClick={lukkForm}>
-                                Avbryt legg til mottaker
+                                Avbryt legg til brevmottaker
                             </Button>
                         )}
                     </HStack>
