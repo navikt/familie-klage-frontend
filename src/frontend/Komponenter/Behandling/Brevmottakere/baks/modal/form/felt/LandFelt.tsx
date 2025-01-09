@@ -32,7 +32,6 @@ export function LandFelt({ feltnavn, visningsnavn, erLesevisning, personopplysni
                 return (
                     <EøsLandvelger
                         label={visningsnavn}
-                        ref={field.ref}
                         onBlur={field.onBlur}
                         value={field.value}
                         onToggleSelected={(landkode, isSelected) => {
