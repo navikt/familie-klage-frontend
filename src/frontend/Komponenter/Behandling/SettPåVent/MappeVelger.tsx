@@ -55,7 +55,7 @@ export const MappeVelger: FC<{
                     <Select
                         disabled={!oppgaveEnhet || !visMapper(fagsystem)}
                         value={valgtMappe}
-                        label="IMappe"
+                        label="Mappe"
                         size="small"
                         readOnly={erLesevisning}
                         onChange={(e) => {

@@ -1,5 +1,5 @@
 import React, { Dispatch, FC, SetStateAction } from 'react';
-import { IPersonopplysninger } from '../../../App/typer/personopplysninger';
+import { IPersonopplysninger } from '../../../../App/typer/personopplysninger';
 import { EBrevmottakerRolle, IBrevmottaker } from './typer';
 import styled from 'styled-components';
 import { Ingress, Radio, RadioGroup } from '@navikt/ds-react';
