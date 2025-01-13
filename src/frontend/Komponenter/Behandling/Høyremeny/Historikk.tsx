@@ -35,6 +35,7 @@ const HistorikkContainer: React.FC<{
                     <HistorikkInnslag
                         behandling={behandling}
                         steg={historikk.steg}
+                        behandlingStatus={historikk.behandlingStatus}
                         opprettetAv={historikk.opprettetAv}
                         endretTid={historikk.endretTid}
                         key={index}
