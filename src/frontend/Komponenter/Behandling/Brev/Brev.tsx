@@ -10,7 +10,7 @@ import {
 import { useBehandling } from '../../../App/context/BehandlingContext';
 import styled from 'styled-components';
 import { useApp } from '../../../App/context/AppContext';
-import { Alert, Button } from '@navikt/ds-react';
+import { Alert, Button, HGrid, VStack } from '@navikt/ds-react';
 import { useNavigate } from 'react-router-dom';
 import { IVurdering, VedtakValg } from '../Vurdering/vurderingValg';
 import PdfVisning from './PdfVisning';
@@ -18,40 +18,25 @@ import { ModalWrapper } from '../../../Felles/Modal/ModalWrapper';
 import SystemetLaster from '../../../Felles/SystemetLaster/SystemetLaster';
 import BrevMottakere from '../Brevmottakere/ef/BrevMottakere';
 import { OmgjørVedtak } from './OmgjørVedtak';
+import { BrevmottakerContainer as BaksBrevmottakerContainer } from '../Brevmottakere/baks/BrevmottakerContainer';
+import { Behandling, Fagsystem } from '../../../App/typer/fagsak';
 
 const Brevside = styled.div`
     background-color: var(--a-bg-subtle);
     padding: 2rem 2rem 0 2rem;
 `;
 
-const BrevContainer = styled.div`
-    display: grid;
-    grid-template-columns: 1fr 4fr;
-    grid-gap: 1rem;
-    justify-content: space-between;
-
-    @media only screen and (max-width: 1800px) {
-        display: flex;
-        flex-wrap: wrap;
-        gap: 3rem;
-    }
-`;
-
 const AlertStripe = styled(Alert)`
-    margin-top: 2rem;
-`;
-
-const StyledKnapp = styled(Button)`
     margin-top: 2rem;
 `;
 
 type Utfall = 'IKKE_SATT' | 'LAG_BREV' | 'OMGJØR_VEDTAK';
 
-interface IBrev {
-    behandlingId: string;
-}
+type Props = {
+    behandling: Behandling;
+};
 
-export const Brev: React.FC<IBrev> = ({ behandlingId }) => {
+export const Brev: React.FC<Props> = ({ behandling }: Props) => {
     const [brevRessurs, settBrevRessurs] = useState<Ressurs<string>>(byggTomRessurs());
 
     const { hentBehandling, hentBehandlingshistorikk, behandlingErRedigerbar } = useBehandling();
@@ -63,6 +48,8 @@ export const Brev: React.FC<IBrev> = ({ behandlingId }) => {
     const [feilmelding, settFeilmelding] = useState('');
 
     const [utfall, settUtfall] = useState<Utfall>('IKKE_SATT');
+
+    const behandlingId = behandling.id;
 
     const hentVurdering = useCallback(
         (behandlingId: string) => {
@@ -147,25 +134,26 @@ export const Brev: React.FC<IBrev> = ({ behandlingId }) => {
     if (utfall === 'LAG_BREV') {
         return (
             <Brevside>
-                <BrevContainer>
-                    <div>
-                        {brevRessurs.status === RessursStatus.SUKSESS && (
-                            <BrevMottakere behandlingId={behandlingId} />
-                        )}
+                <HGrid gap={'6'} columns={{ xl: 1, '2xl': '1fr 1.2fr' }}>
+                    <VStack gap={'6'}>
+                        {brevRessurs.status === RessursStatus.SUKSESS &&
+                            (behandling.fagsystem === Fagsystem.EF ? (
+                                <BrevMottakere behandlingId={behandling.id} />
+                            ) : (
+                                <BaksBrevmottakerContainer behandlingId={behandling.id} />
+                            ))}
                         {behandlingErRedigerbar && brevRessurs.status === RessursStatus.SUKSESS && (
-                            <StyledKnapp
-                                variant="primary"
-                                size="medium"
-                                onClick={() => {
-                                    settVisModal(true);
-                                }}
+                            <Button
+                                variant={'primary'}
+                                size={'medium'}
+                                onClick={() => settVisModal(true)}
                             >
                                 Ferdigstill behandling og send brev
-                            </StyledKnapp>
+                            </Button>
                         )}
-                    </div>
+                    </VStack>
                     <PdfVisning pdfFilInnhold={brevRessurs} />
-                </BrevContainer>
+                </HGrid>
                 <ModalWrapper
                     tittel={'Bekreft utsending av brev'}
                     visModal={visModal}
