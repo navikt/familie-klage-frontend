@@ -59,6 +59,7 @@ export const utledTekstForBehandlingsresultat = (behandling: Behandling) => {
 const lagHistorikkInnslag = (steg: StegType): IBehandlingshistorikk => ({
     behandlingId: '',
     steg: steg,
+    behandlingStatus: undefined,
     opprettetAv: '',
     endretTid: '',
 });

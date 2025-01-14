@@ -31,7 +31,7 @@ const Tekst = styled.div`
 interface IHistorikkOppdatering {
     behandling: Behandling;
     steg: StegType;
-    behandlingStatus: BehandlingStatus;
+    behandlingStatus?: BehandlingStatus;
     opprettetAv: string;
     endretTid: string;
     tekst?: string;

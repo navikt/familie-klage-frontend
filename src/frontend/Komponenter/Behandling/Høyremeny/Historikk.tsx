@@ -4,7 +4,6 @@ import { useBehandling } from '../../../App/context/BehandlingContext';
 import DataViewer from '../../../Felles/DataViewer/DataViewer';
 import { IBehandlingshistorikk } from './behandlingshistorikk';
 import { Behandling } from '../../../App/typer/fagsak';
-import { HistorikkInnslagV2 } from './HistorikkInnslagV2';
 
 const Historikk: React.FC<{ hidden: boolean }> = ({ hidden }) => {
     const { behandling, behandlingHistorikk } = useBehandling();
@@ -43,12 +42,6 @@ const HistorikkContainer: React.FC<{
                     />
                 );
             })}
-            <HistorikkInnslagV2 tittelTekst="Tittel!" detaljTekst="01.01.2025 kl.09:00 | Z994175" />
-            <HistorikkInnslagV2
-                tittelTekst="Tittel!"
-                bodyTekst="Noe har skjedd"
-                detaljTekst="01.01.2025 kl.09:00 | Z994175"
-            />
         </>
     );
 };

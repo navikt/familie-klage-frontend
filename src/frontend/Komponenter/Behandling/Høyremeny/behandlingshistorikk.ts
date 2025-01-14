@@ -4,7 +4,7 @@ import { BehandlingStatus } from '../../../App/typer/behandlingstatus';
 export interface IBehandlingshistorikk {
     behandlingId: string;
     steg: StegType;
-    behandlingStatus: BehandlingStatus;
+    behandlingStatus?: BehandlingStatus;
     opprettetAv: string;
     endretTid: string;
 }
