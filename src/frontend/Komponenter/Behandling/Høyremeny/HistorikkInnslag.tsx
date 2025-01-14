@@ -45,8 +45,7 @@ const HistorikkInnslag: React.FunctionComponent<IHistorikkOppdatering> = ({
     endretTid,
 }) => {
     const labelTekst =
-        behandlingStatus == BehandlingStatus.SATT_PÅ_VENT ||
-        behandlingStatus === BehandlingStatus.UTREDES
+        behandlingStatus == BehandlingStatus.SATT_PÅ_VENT
             ? behandlingStatusTilTekst[behandlingStatus]
             : behandlingStegFullførtTilTekst[steg];
 
