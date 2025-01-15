@@ -6,16 +6,9 @@ import { AdresselinjeFelt } from './AdresselinjeFelt';
 import { BrevmottakerFeltnavn } from './felttyper';
 import { DefaultValues, FormProvider, useForm } from 'react-hook-form';
 import { BrevmottakerFormValues } from '../BrevmottakerForm';
-import { EøsLandkode } from '../../../../../../../Felles/Landvelger/landkode';
 
 const defaultValues: DefaultValues<BrevmottakerFormValues> = {
-    [BrevmottakerFeltnavn.MOTTAKERTYPE]: '',
-    [BrevmottakerFeltnavn.LANDKODE]: EøsLandkode.NO,
-    [BrevmottakerFeltnavn.NAVN]: '',
     [BrevmottakerFeltnavn.ADRESSELINJE1]: '',
-    [BrevmottakerFeltnavn.ADRESSELINJE2]: '',
-    [BrevmottakerFeltnavn.POSTNUMMER]: '',
-    [BrevmottakerFeltnavn.POSTSTED]: '',
 };
 
 function Wrapper({ children }: { children: React.ReactNode }) {
@@ -23,13 +16,14 @@ function Wrapper({ children }: { children: React.ReactNode }) {
     return <FormProvider {...form}>{children}</FormProvider>;
 }
 
-describe('mytest', () => {
+describe('AdresselinjeFelt', () => {
     test('skal rendre komponenten når det ikke er lesevisning', () => {
         render(
             <Wrapper>
                 <AdresselinjeFelt
-                    feltnavn={BrevmottakerFeltnavn.ADRESSELINJE2}
+                    feltnavn={BrevmottakerFeltnavn.ADRESSELINJE1}
                     visningsnavn={'visningsnavn'}
+                    erLesevisning={false}
                 />
             </Wrapper>
         );
