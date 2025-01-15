@@ -1,6 +1,6 @@
 name: Build, push, and deploy app to dev
 
-on: [workflow_dispatch]
+on: [ workflow_dispatch ]
 
 permissions:
   contents: read
@@ -23,6 +23,8 @@ jobs:
           NODE_AUTH_TOKEN: ${{ secrets.READER_TOKEN }}
       - name: Yarn build
         run: yarn build
+      - name: Yarn test
+        run: yarn test
       - name: Prune dev dependencies
         run: yarn --prod --prefer-offline --frozen-lockfile
         env:
