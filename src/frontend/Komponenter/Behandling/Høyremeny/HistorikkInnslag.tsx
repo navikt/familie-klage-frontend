@@ -34,7 +34,6 @@ interface IHistorikkOppdatering {
     behandlingStatus?: BehandlingStatus;
     opprettetAv: string;
     endretTid: string;
-    tekst?: string;
 }
 
 const HistorikkInnslag: React.FunctionComponent<IHistorikkOppdatering> = ({
