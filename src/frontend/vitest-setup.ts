@@ -6,5 +6,6 @@ import '@testing-library/jest-dom/vitest';
 expect.extend(matchers);
 
 afterEach(() => {
+    // TEST
     cleanup();
 });
