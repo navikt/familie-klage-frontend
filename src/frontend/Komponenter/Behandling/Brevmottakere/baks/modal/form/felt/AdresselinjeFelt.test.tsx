@@ -7,7 +7,6 @@ import { BrevmottakerFeltnavn } from './felttyper';
 import { DefaultValues, FormProvider, useForm } from 'react-hook-form';
 import { BrevmottakerFormValues } from '../BrevmottakerForm';
 import { EøsLandkode } from '../../../../../../../Felles/Landvelger/landkode';
-// import '@testing-library/jest-dom/vitest'; <--- Dette fungere, men ønsker egentlig ikke å gjøre det
 
 const defaultValues: DefaultValues<BrevmottakerFormValues> = {
     [BrevmottakerFeltnavn.MOTTAKERTYPE]: '',
