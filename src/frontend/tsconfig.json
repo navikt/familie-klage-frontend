@@ -1,14 +1,17 @@
 {
-    "extends": "../../tsconfig.base.json",
-    "compilerOptions": {
-        "rootDir": ".",
-        "typeRoots": [
-            "../../node_modules/@types",
-            "./@types"
-        ],
-        "resolveJsonModule": true
-    },
-    "exclude": [
-        "../../node_modules",
+  "extends": "../../tsconfig.base.json",
+  "compilerOptions": {
+    "rootDir": ".",
+    "resolveJsonModule": true,
+    "types": [
+      "vitest/globals",
+      "@testing-library/jest-dom"
     ]
+  },
+  "exclude": [
+    "../../node_modules"
+  ],
+  "include": [
+    "./vitest-setup.ts"
+  ]
 }
