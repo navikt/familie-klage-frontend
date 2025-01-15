@@ -37,6 +37,6 @@ describe('mytest', () => {
         console.log(textbox);
         console.log(screen.debug());
         expect(0).toBe(0);
-        //expect(textbox).toBeInTheDocument();
+        expect(textbox).toBeInTheDocument();
     });
 });
