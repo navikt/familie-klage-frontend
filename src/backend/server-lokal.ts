@@ -26,6 +26,7 @@ backend(sessionConfig, prometheusTellere).then((appConfig: IApp) => {
         });
 
         appConfig.app.use(middleware);
+        // @ts-expect-error feil i tsc sjekk
         appConfig.app.use(webpackHotMiddleware(compiler));
     } else {
         throw Error('Kan ikke kjøre lokal-versjon av server med produksjonsconfig');
