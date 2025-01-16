@@ -159,12 +159,16 @@ export const baHjemlerTilVisningstekst: Record<
 };
 
 export const ksHjemlerTilVisningstekst: Record<
-    KontantstøttelovenHjemmel | UtlandsavtalerHjemmel | ForvaltningslovenHjemmel,
+    | KontantstøttelovenHjemmel
+    | UtlandsavtalerHjemmel
+    | ForvaltningslovenHjemmel
+    | FolketrygdHjemmel.FT_TJUETO_FEMTEN,
     string
 > = {
     ...kontantstøttelovenVisningstekster,
     ...forvaltningslovenVisningstekster,
     ...utlandsavtalerHjemmelVisningstekster,
+    FT_TJUETO_FEMTEN: folketrygdHjemmelTilVisningstekst.FT_TJUETO_FEMTEN,
 };
 
 export const alleHjemlerTilVisningstekst: Record<Hjemmel, string> = {
