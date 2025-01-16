@@ -133,6 +133,7 @@ export const SettPåVent: FC<{ behandling: Behandling }> = ({ behandling }) => {
             }).then((respons: RessursFeilet | RessursSuksess<string>) => {
                 if (respons.status === RessursStatus.SUKSESS) {
                     hentBehandling.rerun();
+                    hentBehandlingshistorikk.rerun();
                 } else {
                     settFeilmelding(respons.frontendFeilmelding);
                 }

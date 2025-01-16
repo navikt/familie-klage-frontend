@@ -1,10 +1,9 @@
-import { StegType } from '../../../App/typer/fagsak';
-import { BehandlingStatus } from '../../../App/typer/behandlingstatus';
+import { HistorikkHendelse, StegType } from '../../../App/typer/fagsak';
 
 export interface IBehandlingshistorikk {
     behandlingId: string;
     steg: StegType;
-    behandlingStatus?: BehandlingStatus;
+    historikkHendelse?: HistorikkHendelse;
     opprettetAv: string;
     endretTid: string;
 }

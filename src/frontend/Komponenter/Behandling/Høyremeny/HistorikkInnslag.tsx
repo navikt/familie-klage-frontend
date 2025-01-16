@@ -3,10 +3,15 @@ import { ABorderStrong } from '@navikt/ds-tokens/dist/tokens';
 import { BodyShort, Detail, Label } from '@navikt/ds-react';
 import styled from 'styled-components';
 import { formaterIsoDatoTid } from '../../../App/utils/formatter';
-import { Behandling, behandlingStegFullførtTilTekst, StegType } from '../../../App/typer/fagsak';
+import {
+    Behandling,
+    behandlingStegFullførtTilTekst,
+    hendelseHistorikkTilTekst,
+    HistorikkHendelse,
+    StegType,
+} from '../../../App/typer/fagsak';
 import { PersonCircleIcon } from '@navikt/aksel-icons';
 import { utledStegutfallForFerdigstiltBehandling } from '../utils';
-import { BehandlingStatus, behandlingStatusTilTekst } from '../../../App/typer/behandlingstatus';
 
 const Innslag = styled.div`
     display: flex;
@@ -31,7 +36,7 @@ const Tekst = styled.div`
 interface IHistorikkOppdatering {
     behandling: Behandling;
     steg: StegType;
-    behandlingStatus?: BehandlingStatus;
+    historikkHendelse?: HistorikkHendelse;
     opprettetAv: string;
     endretTid: string;
 }
@@ -39,14 +44,13 @@ interface IHistorikkOppdatering {
 const HistorikkInnslag: React.FunctionComponent<IHistorikkOppdatering> = ({
     behandling,
     steg,
-    behandlingStatus,
+    historikkHendelse,
     opprettetAv,
     endretTid,
 }) => {
-    const labelTekst =
-        behandlingStatus == BehandlingStatus.SATT_PÅ_VENT
-            ? behandlingStatusTilTekst[behandlingStatus]
-            : behandlingStegFullførtTilTekst[steg];
+    const labelTekst = historikkHendelse
+        ? hendelseHistorikkTilTekst[historikkHendelse]
+        : behandlingStegFullførtTilTekst[steg];
 
     return (
         <Innslag>
