@@ -47,6 +47,8 @@ export const SettPåVent: FC<{ behandling: Behandling }> = ({ behandling }) => {
     const [beskrivelse, settBeskrivelse] = useState('');
     const [mappe, settMappe] = useState<number | undefined>();
 
+    const { hentBehandlingshistorikk } = useBehandling();
+
     const [låsKnapp, settLåsKnapp] = useState<boolean>(false);
     const [feilmelding, settFeilmelding] = useState<string>();
 
@@ -109,6 +111,7 @@ export const SettPåVent: FC<{ behandling: Behandling }> = ({ behandling }) => {
                         hentBehandling.rerun();
                         nullstillOppgaveFelt();
                         settVisSettPåVent(false);
+                        hentBehandlingshistorikk.rerun();
                     } else {
                         settFeilmelding(respons.frontendFeilmelding);
                     }
@@ -130,6 +133,7 @@ export const SettPåVent: FC<{ behandling: Behandling }> = ({ behandling }) => {
             }).then((respons: RessursFeilet | RessursSuksess<string>) => {
                 if (respons.status === RessursStatus.SUKSESS) {
                     hentBehandling.rerun();
+                    hentBehandlingshistorikk.rerun();
                 } else {
                     settFeilmelding(respons.frontendFeilmelding);
                 }

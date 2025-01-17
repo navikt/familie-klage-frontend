@@ -178,3 +178,13 @@ export const revurderingIkkeOpprettetÅrsak: Record<RevurderingIkkeOpprettetÅrs
     INGEN_BEHANDLING: 'Ingen behandling',
     FEIL: 'Uventet feil',
 };
+
+export enum HistorikkHendelse {
+    SATT_PÅ_VENT = 'SATT_PÅ_VENT',
+    TATT_AV_VENT = 'TATT_AV_VENT',
+}
+
+export const hendelseHistorikkTilTekst: Record<HistorikkHendelse, string> = {
+    SATT_PÅ_VENT: 'Satt på vent',
+    TATT_AV_VENT: 'Tatt av vent',
+};

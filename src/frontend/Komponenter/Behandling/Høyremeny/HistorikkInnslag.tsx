@@ -3,7 +3,13 @@ import { ABorderStrong } from '@navikt/ds-tokens/dist/tokens';
 import { BodyShort, Detail, Label } from '@navikt/ds-react';
 import styled from 'styled-components';
 import { formaterIsoDatoTid } from '../../../App/utils/formatter';
-import { Behandling, behandlingStegFullførtTilTekst, StegType } from '../../../App/typer/fagsak';
+import {
+    Behandling,
+    behandlingStegFullførtTilTekst,
+    hendelseHistorikkTilTekst,
+    HistorikkHendelse,
+    StegType,
+} from '../../../App/typer/fagsak';
 import { PersonCircleIcon } from '@navikt/aksel-icons';
 import { utledStegutfallForFerdigstiltBehandling } from '../utils';
 
@@ -30,6 +36,7 @@ const Tekst = styled.div`
 interface IHistorikkOppdatering {
     behandling: Behandling;
     steg: StegType;
+    historikkHendelse?: HistorikkHendelse;
     opprettetAv: string;
     endretTid: string;
 }
@@ -37,9 +44,14 @@ interface IHistorikkOppdatering {
 const HistorikkInnslag: React.FunctionComponent<IHistorikkOppdatering> = ({
     behandling,
     steg,
+    historikkHendelse,
     opprettetAv,
     endretTid,
 }) => {
+    const labelTekst = historikkHendelse
+        ? hendelseHistorikkTilTekst[historikkHendelse]
+        : behandlingStegFullførtTilTekst[steg];
+
     return (
         <Innslag>
             <Ikon>
@@ -47,7 +59,7 @@ const HistorikkInnslag: React.FunctionComponent<IHistorikkOppdatering> = ({
                 <StipletLinje />
             </Ikon>
             <Tekst>
-                <Label size="small">{behandlingStegFullførtTilTekst[steg]}</Label>
+                <Label size="small">{labelTekst}</Label>
                 {steg === StegType.BEHANDLING_FERDIGSTILT && (
                     <BodyShort>
                         {utledStegutfallForFerdigstiltBehandling(behandling, steg)}
