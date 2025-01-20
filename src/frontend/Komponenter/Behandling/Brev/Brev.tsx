@@ -49,7 +49,9 @@ export const Brev: React.FC<Props> = ({ behandling }: Props) => {
 
     const [utfall, settUtfall] = useState<Utfall>('IKKE_SATT');
 
-    const behandlingId = behandling.id;
+    const { id: behandlingId, fagsystem } = behandling;
+
+    const brevUrlParameterForFagsystem = fagsystem === Fagsystem.EF ? 'ef' : 'baks';
 
     const hentVurdering = useCallback(
         (behandlingId: string) => {
@@ -78,18 +80,18 @@ export const Brev: React.FC<Props> = ({ behandling }: Props) => {
     const hentBrev = useCallback(() => {
         axiosRequest<string, null>({
             method: 'GET',
-            url: `/familie-klage/api/brev/${behandlingId}/pdf`,
+            url: `/familie-klage/api/brev/${brevUrlParameterForFagsystem}/${behandlingId}/pdf`,
         }).then(settBrevRessurs);
-    }, [axiosRequest, behandlingId]);
+    }, [axiosRequest, behandlingId, brevUrlParameterForFagsystem]);
 
     const genererBrev = useCallback(() => {
         axiosRequest<string, null>({
             method: 'POST',
-            url: `/familie-klage/api/brev/${behandlingId}`,
+            url: `/familie-klage/api/brev/${brevUrlParameterForFagsystem}/${behandlingId}`,
         }).then((respons: Ressurs<string>) => {
             settBrevRessurs(respons);
         });
-    }, [axiosRequest, behandlingId]);
+    }, [axiosRequest, behandlingId, brevUrlParameterForFagsystem]);
 
     useEffect(() => {
         if (utfall === 'LAG_BREV') {
@@ -137,7 +139,7 @@ export const Brev: React.FC<Props> = ({ behandling }: Props) => {
                 <HGrid gap={'6'} columns={{ xl: 1, '2xl': '1fr 1.2fr' }}>
                     <VStack gap={'6'}>
                         {brevRessurs.status === RessursStatus.SUKSESS &&
-                            (behandling.fagsystem === Fagsystem.EF ? (
+                            (fagsystem === Fagsystem.EF ? (
                                 <BrevMottakere behandlingId={behandling.id} />
                             ) : (
                                 <BaksBrevmottakerContainer behandlingId={behandling.id} />
