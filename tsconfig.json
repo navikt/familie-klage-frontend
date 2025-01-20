@@ -1,14 +1,47 @@
 {
-    "extends": "./tsconfig.base.json",
-    "compilerOptions": {
-        "outDir": "node_dist",
-        "baseUrl": "./src",
-        "rootDir": "./src",
-        "resolveJsonModule": true,
-        "module": "es2022",
-        "esModuleInterop": true
-    },
-    "include": ["./src/backend", "./src/mock-server", "./src/mock-server/**/*.json"],
-    "exclude": ["./src/frontend"],
-    "lib": ["es2022"]
+  "compilerOptions": {
+    "target": "ES2022",
+    "lib": [
+      "dom",
+      "esnext",
+      "es6"
+    ],
+    "importHelpers": true,
+    "declaration": true,
+    "sourceMap": true,
+    "strict": true,
+    "noImplicitAny": true,
+    "strictNullChecks": true,
+    "strictFunctionTypes": true,
+    "strictPropertyInitialization": true,
+    "noImplicitThis": true,
+    "alwaysStrict": true,
+    "noUnusedLocals": true,
+    "noUnusedParameters": true,
+    "noImplicitReturns": false,
+    "noFallthroughCasesInSwitch": true,
+    "moduleResolution": "node",
+    "traceResolution": false,
+    "jsx": "react",
+    "skipLibCheck": true,
+    "outDir": "node_dist",
+    "baseUrl": "./src",
+    "rootDir": "./src",
+    "resolveJsonModule": true,
+    "module": "es2022",
+    "esModuleInterop": true,
+    "types": [
+      "vitest/globals",
+      "@testing-library/jest-dom"
+    ]
+  },
+  "include": [
+    "./src/vitest-setup.ts"
+  ],
+  "exclude": [
+    "../../node_modules"
+  ],
+  "lib": [
+    "es2022"
+  ]
 }
