@@ -37,6 +37,7 @@ type SettPåVentRequest = {
     frist: string;
     mappe: number | undefined;
     beskrivelse: string;
+    oppgaveVersjon?: number;
 };
 
 export const SettPåVent: FC<{ behandling: Behandling }> = ({ behandling }) => {
@@ -104,6 +105,7 @@ export const SettPåVent: FC<{ behandling: Behandling }> = ({ behandling }) => {
                     frist: frist,
                     mappe: mappe,
                     beskrivelse: beskrivelse,
+                    oppgaveVersjon: oppgave.data.versjon,
                 },
             })
                 .then((respons: RessursFeilet | RessursSuksess<string>) => {

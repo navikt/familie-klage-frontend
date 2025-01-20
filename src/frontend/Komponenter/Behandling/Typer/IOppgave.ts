@@ -6,6 +6,7 @@ export interface IOppgave {
     fristFerdigstillelse?: string;
     prioritet?: Prioritet;
     beskrivelse: string;
+    versjon?: number;
 }
 
 export type Prioritet = 'HOY' | 'NORM' | 'LAV';
