@@ -55,7 +55,8 @@ export const SettPåVent: FC<{ behandling: Behandling }> = ({ behandling }) => {
 
     const erBehandlingPåVent = behandling.status === BehandlingStatus.SATT_PÅ_VENT;
 
-    const { visSettPåVent, settVisSettPåVent, hentBehandling } = useBehandling();
+    const { visSettPåVent, settVisSettPåVent, hentBehandling, hentAnsvarligSaksbehandler } =
+        useBehandling();
 
     const { axiosRequest } = useApp();
 
@@ -136,6 +137,7 @@ export const SettPåVent: FC<{ behandling: Behandling }> = ({ behandling }) => {
                 if (respons.status === RessursStatus.SUKSESS) {
                     hentBehandling.rerun();
                     hentBehandlingshistorikk.rerun();
+                    hentAnsvarligSaksbehandler.rerun();
                 } else {
                     settFeilmelding(respons.frontendFeilmelding);
                 }
