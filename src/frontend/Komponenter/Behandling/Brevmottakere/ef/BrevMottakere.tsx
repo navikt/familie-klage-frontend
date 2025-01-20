@@ -101,7 +101,7 @@ const BrevMottakere: React.FC<{ behandlingId: string }> = ({ behandlingId }) => 
     const hentBrevmottakere = useCallback(() => {
         const behandlingConfig: AxiosRequestConfig = {
             method: 'GET',
-            url: `/familie-klage/api/brev/${behandlingId}/mottakere`,
+            url: `/familie-klage/api/brev/ef/${behandlingId}/mottakere`,
         };
         axiosRequest<IBrevmottakere, null>(behandlingConfig).then((res: Ressurs<IBrevmottakere>) =>
             settMottakere(res)
