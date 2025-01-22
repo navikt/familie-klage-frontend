@@ -8,11 +8,12 @@ export enum EToast {
 }
 
 export const toastTilTekst: Record<EToast, string> = {
-    VEDTAK_UNDERKJENT: 'Vedtak underkjent',
-    BEHANDLING_HENLAGT: 'Behandlingen er henlagt',
+    VEDTAK_UNDERKJENT: 'Vedtak underkjent.',
+    BEHANDLING_HENLAGT: 'Behandlingen er henlagt.',
     TILBAKEKREVING_OPPRETTET:
         'Tilbakekreving blir opprettet. NB! Det kan ta litt tid før du kan se den i behandlingsoversikten.',
-    BREVMOTTAKERE_SATT: 'Brevmottakere er satt',
-    BEHANDLING_SATT_PÅ_VENT: 'Oppgaven er oppdatert og behandlingen er satt på vent',
-    BEHANDLING_TATT_AV_VENT: 'Behandlingen er tatt av vent. Du er satt som ansvarlig saksbehandler',
+    BREVMOTTAKERE_SATT: 'Brevmottakere er satt.',
+    BEHANDLING_SATT_PÅ_VENT: 'Oppgaven er oppdatert og behandlingen er satt på vent.',
+    BEHANDLING_TATT_AV_VENT:
+        'Behandlingen er tatt av vent. Du er satt som ansvarlig saksbehandler.',
 };
