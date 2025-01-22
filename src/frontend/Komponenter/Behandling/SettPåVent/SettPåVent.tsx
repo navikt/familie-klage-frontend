@@ -20,6 +20,7 @@ import { FristVelger } from './FristVelger';
 import { EksisterendeBeskrivelse } from './EksisterendeBeskrivelse';
 import { SettPåVentKnappValg } from './SettPåVentKnappValg';
 import { MappeVelger } from './MappeVelger';
+import { EToast } from '../../../App/typer/toast';
 
 const StyledVStack = styled(VStack)`
     background-color: #e6f1f8;
@@ -37,6 +38,7 @@ type SettPåVentRequest = {
     frist: string;
     mappe: number | undefined;
     beskrivelse: string;
+    oppgaveVersjon?: number;
 };
 
 export const SettPåVent: FC<{ behandling: Behandling }> = ({ behandling }) => {
@@ -54,9 +56,10 @@ export const SettPåVent: FC<{ behandling: Behandling }> = ({ behandling }) => {
 
     const erBehandlingPåVent = behandling.status === BehandlingStatus.SATT_PÅ_VENT;
 
-    const { visSettPåVent, settVisSettPåVent, hentBehandling } = useBehandling();
+    const { visSettPåVent, settVisSettPåVent, hentBehandling, hentAnsvarligSaksbehandler } =
+        useBehandling();
 
-    const { axiosRequest } = useApp();
+    const { axiosRequest, settToast } = useApp();
 
     const hentOppgaveForBehandling = useCallback(() => {
         axiosRequest<IOppgave, null>({
@@ -104,6 +107,7 @@ export const SettPåVent: FC<{ behandling: Behandling }> = ({ behandling }) => {
                     frist: frist,
                     mappe: mappe,
                     beskrivelse: beskrivelse,
+                    oppgaveVersjon: oppgave.data.versjon,
                 },
             })
                 .then((respons: RessursFeilet | RessursSuksess<string>) => {
@@ -112,6 +116,7 @@ export const SettPåVent: FC<{ behandling: Behandling }> = ({ behandling }) => {
                         nullstillOppgaveFelt();
                         settVisSettPåVent(false);
                         hentBehandlingshistorikk.rerun();
+                        settToast(EToast.BEHANDLING_SATT_PÅ_VENT);
                     } else {
                         settFeilmelding(respons.frontendFeilmelding);
                     }
@@ -134,6 +139,8 @@ export const SettPåVent: FC<{ behandling: Behandling }> = ({ behandling }) => {
                 if (respons.status === RessursStatus.SUKSESS) {
                     hentBehandling.rerun();
                     hentBehandlingshistorikk.rerun();
+                    hentAnsvarligSaksbehandler.rerun();
+                    settToast(EToast.BEHANDLING_TATT_AV_VENT);
                 } else {
                     settFeilmelding(respons.frontendFeilmelding);
                 }
