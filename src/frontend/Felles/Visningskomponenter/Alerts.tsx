@@ -21,7 +21,7 @@ export const AlertWarning = forwardRef<HTMLDivElement, Omit<AlertProps, 'variant
     }
 );
 
-export const AlertMedLukkeknapp = ({
+export const AlertMedLukkeKnapp = ({
     variant,
     children,
     keyProp,
@@ -49,4 +49,4 @@ AlertError.displayName = 'AlertError';
 AlertSuccess.displayName = 'AlertSuccess';
 AlertInfo.displayName = 'AlertInfo';
 AlertWarning.displayName = 'AlertWarning';
-AlertMedLukkeknapp.displayName = 'AlertMedLukkeknapp';
+AlertMedLukkeKnapp.displayName = 'AlertMedLukkeknapp';

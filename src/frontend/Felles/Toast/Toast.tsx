@@ -4,7 +4,7 @@ import styled from 'styled-components';
 
 import { useApp } from '../../App/context/AppContext';
 import { EToast, toastTilTekst } from '../../App/typer/toast';
-import { AlertMedLukkeknapp } from '../Visningskomponenter/Alerts';
+import { AlertMedLukkeKnapp } from '../Visningskomponenter/Alerts';
 
 const Container = styled.div`
     z-index: 9999;
@@ -16,9 +16,9 @@ const Container = styled.div`
 const ToastAlert: React.FC<{ toast: EToast }> = ({ toast }) => {
     return (
         <Container>
-            <AlertMedLukkeknapp variant={'success'} keyProp={toast}>
+            <AlertMedLukkeKnapp variant={'success'} keyProp={toast}>
                 {toastTilTekst[toast]}
-            </AlertMedLukkeknapp>
+            </AlertMedLukkeKnapp>
         </Container>
     );
 };
