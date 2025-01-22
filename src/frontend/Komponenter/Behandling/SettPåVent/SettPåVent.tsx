@@ -20,6 +20,7 @@ import { FristVelger } from './FristVelger';
 import { EksisterendeBeskrivelse } from './EksisterendeBeskrivelse';
 import { SettPåVentKnappValg } from './SettPåVentKnappValg';
 import { MappeVelger } from './MappeVelger';
+import { EToast } from '../../../App/typer/toast';
 
 const StyledVStack = styled(VStack)`
     background-color: #e6f1f8;
@@ -58,7 +59,7 @@ export const SettPåVent: FC<{ behandling: Behandling }> = ({ behandling }) => {
     const { visSettPåVent, settVisSettPåVent, hentBehandling, hentAnsvarligSaksbehandler } =
         useBehandling();
 
-    const { axiosRequest } = useApp();
+    const { axiosRequest, settToast } = useApp();
 
     const hentOppgaveForBehandling = useCallback(() => {
         axiosRequest<IOppgave, null>({
@@ -115,6 +116,7 @@ export const SettPåVent: FC<{ behandling: Behandling }> = ({ behandling }) => {
                         nullstillOppgaveFelt();
                         settVisSettPåVent(false);
                         hentBehandlingshistorikk.rerun();
+                        settToast(EToast.BEHANDLING_SATT_PÅ_VENT);
                     } else {
                         settFeilmelding(respons.frontendFeilmelding);
                     }
@@ -138,6 +140,7 @@ export const SettPåVent: FC<{ behandling: Behandling }> = ({ behandling }) => {
                     hentBehandling.rerun();
                     hentBehandlingshistorikk.rerun();
                     hentAnsvarligSaksbehandler.rerun();
+                    settToast(EToast.BEHANDLING_TATT_AV_VENT);
                 } else {
                     settFeilmelding(respons.frontendFeilmelding);
                 }
