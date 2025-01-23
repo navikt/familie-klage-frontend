@@ -23,12 +23,13 @@ export function utledGyldigeMottakerRolle(
     const valgteBrevmottakerRoller = brevmottakere.map(
         (brevmottaker) => brevmottaker.mottakerRolle
     );
-    if (valgteBrevmottakerRoller.includes(MottakerRolle.BRUKER_MED_UTENLANDSK_ADRESSE)) {
-        return [MottakerRolle.VERGE, MottakerRolle.FULLMAKT];
-    }
 
     if (valgteBrevmottakerRoller.includes(MottakerRolle.DØDSBO)) {
         return [];
+    }
+
+    if (valgteBrevmottakerRoller.includes(MottakerRolle.BRUKER_MED_UTENLANDSK_ADRESSE)) {
+        return [MottakerRolle.VERGE, MottakerRolle.FULLMAKT];
     }
 
     if (

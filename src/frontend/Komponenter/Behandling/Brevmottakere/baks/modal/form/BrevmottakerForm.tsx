@@ -63,8 +63,9 @@ export function BrevmottakerForm({
 
     async function onSubmit(brevmottakerFormValues: BrevmottakerFormValues) {
         setVisSubmitError(false);
-        const nyBrevmottaker = lagNyBrevmottakerPersonUtenIdent(brevmottakerFormValues);
-        const erSuksess = await opprettBrevmottaker(nyBrevmottaker);
+        const erSuksess = await opprettBrevmottaker(
+            lagNyBrevmottakerPersonUtenIdent(brevmottakerFormValues)
+        );
         if (erSuksess) {
             lukkForm();
         } else {
