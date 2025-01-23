@@ -16,9 +16,9 @@ import { IVurdering, VedtakValg } from '../Vurdering/vurderingValg';
 import PdfVisning from './PdfVisning';
 import { ModalWrapper } from '../../../Felles/Modal/ModalWrapper';
 import SystemetLaster from '../../../Felles/SystemetLaster/SystemetLaster';
-import BrevMottakere from '../Brevmottakere/ef/BrevMottakere';
 import { OmgjørVedtak } from './OmgjørVedtak';
 import { Behandling } from '../../../App/typer/fagsak';
+import { BrevmottakerContainer } from '../Brevmottakere/baks/BrevmottakerContainer';
 
 const Brevside = styled.div`
     background-color: var(--a-bg-subtle);
@@ -136,7 +136,7 @@ export const Brev: React.FC<Props> = ({ behandling }: Props) => {
                 <HGrid gap={'6'} columns={{ xl: 1, '2xl': '1fr 1.2fr' }}>
                     <VStack gap={'6'}>
                         {brevRessurs.status === RessursStatus.SUKSESS && (
-                            <BrevMottakere behandlingId={behandling.id} />
+                            <BrevmottakerContainer behandlingId={behandling.id} />
                         )}
                         {behandlingErRedigerbar && brevRessurs.status === RessursStatus.SUKSESS && (
                             <Button

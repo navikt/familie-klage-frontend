@@ -2,11 +2,11 @@ import React from 'react';
 import { useApp } from '../../../../../App/context/AppContext';
 import { useBehandling } from '../../../../../App/context/BehandlingContext';
 import { BodyShort, Box, Button, HStack, Label, Tooltip } from '@navikt/ds-react';
-import { Brevmottaker } from '../brevmottaker';
 import { utledOppsumertBrevmottakere } from '../oppsumertBrevmottaker';
+import { Brevmottakere } from '../../brevmottakere';
 
 type Props = {
-    brevmottakere: Brevmottaker[];
+    brevmottakere: Brevmottakere;
 };
 
 export function BrevmottakerPanel({ brevmottakere }: Props) {

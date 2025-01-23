@@ -10,12 +10,15 @@ import { Alert, Button, Heading, HStack, VStack } from '@navikt/ds-react';
 import { EøsLandkode } from '../../../../../../Felles/Landvelger/landkode';
 import { IPersonopplysninger } from '../../../../../../App/typer/personopplysninger';
 import { BrevmottakerFeltnavn } from './felt/felttyper';
-import { Brevmottaker } from '../../brevmottaker';
-import { Mottakertype } from '../../mottakertype';
-import { lagNyBrevmottaker, NyBrevmottaker } from '../../nyBrevmottaker';
+import {
+    lagNyBrevmottakerPersonUtenIdent,
+    NyBrevmottakerPersonUtenIdent,
+} from '../../nyBrevmottakerPersonUtenIdent';
+import { MottakerRolle } from '../../../mottakerRolle';
+import { BrevmottakerPersonUtenIdent } from '../../brevmottakerPersonUtenIdent';
 
 export type BrevmottakerFormValues = {
-    [BrevmottakerFeltnavn.MOTTAKERTYPE]: Mottakertype | '';
+    [BrevmottakerFeltnavn.MOTTAKERROLLE]: MottakerRolle | '';
     [BrevmottakerFeltnavn.LANDKODE]: EøsLandkode | '';
     [BrevmottakerFeltnavn.NAVN]: string;
     [BrevmottakerFeltnavn.ADRESSELINJE1]: string;
@@ -25,7 +28,7 @@ export type BrevmottakerFormValues = {
 };
 
 const defaultValues: DefaultValues<BrevmottakerFormValues> = {
-    [BrevmottakerFeltnavn.MOTTAKERTYPE]: '',
+    [BrevmottakerFeltnavn.MOTTAKERROLLE]: '',
     [BrevmottakerFeltnavn.LANDKODE]: EøsLandkode.NO,
     [BrevmottakerFeltnavn.NAVN]: '',
     [BrevmottakerFeltnavn.ADRESSELINJE1]: '',
@@ -37,10 +40,10 @@ const defaultValues: DefaultValues<BrevmottakerFormValues> = {
 type Props = {
     behandlingId: string;
     personopplysninger: IPersonopplysninger;
-    brevmottakere: Brevmottaker[];
+    brevmottakere: BrevmottakerPersonUtenIdent[];
     erLesevisning: boolean;
     lukkForm: () => void;
-    opprettBrevmottaker: (nyBrevmottaker: NyBrevmottaker) => Promise<boolean>;
+    opprettBrevmottaker: (nyBrevmottaker: NyBrevmottakerPersonUtenIdent) => Promise<boolean>;
 };
 
 export function BrevmottakerForm({
@@ -60,7 +63,7 @@ export function BrevmottakerForm({
 
     async function onSubmit(brevmottakerFormValues: BrevmottakerFormValues) {
         setVisSubmitError(false);
-        const nyBrevmottaker = lagNyBrevmottaker(brevmottakerFormValues);
+        const nyBrevmottaker = lagNyBrevmottakerPersonUtenIdent(brevmottakerFormValues);
         const erSuksess = await opprettBrevmottaker(nyBrevmottaker);
         if (erSuksess) {
             lukkForm();
@@ -77,7 +80,7 @@ export function BrevmottakerForm({
                         Ny brevmottaker
                     </Heading>
                     <MottakerFelt
-                        feltnavn={BrevmottakerFeltnavn.MOTTAKERTYPE}
+                        feltnavn={BrevmottakerFeltnavn.MOTTAKERROLLE}
                         visningsnavn={'Mottaker'}
                         personopplysninger={personopplysninger}
                         brevmottakere={brevmottakere}

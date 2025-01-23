@@ -6,11 +6,13 @@ import { SkalBrukerHaBrev } from './SkalBrukerHaBrev';
 import { useApp } from '../../../../App/context/AppContext';
 import { RessursFeilet, RessursStatus, RessursSuksess } from '../../../../App/typer/ressurs';
 import { BrevmottakereListe } from './BrevmottakereListe';
-import { IBrevmottaker, IBrevmottakere, IOrganisasjonMottaker } from './typer';
+import { Brevmottakere } from '../brevmottakere';
 import styled from 'styled-components';
 import { Alert, Button } from '@navikt/ds-react';
 import { EToast } from '../../../../App/typer/toast';
 import { ModalWrapper } from '../../../../Felles/Modal/ModalWrapper';
+import { BrevmottakerPerson } from '../brevmottakerPerson';
+import { BrevmottakerOrganisasjon } from '../brevmottakerOrganisasjon';
 
 const GridContainer = styled.div`
     display: grid;
@@ -48,23 +50,23 @@ const VertikalLinje = styled.div`
 export const BrevmottakereModal: FC<{
     behandlingId: string;
     personopplysninger: IPersonopplysninger;
-    mottakere: IBrevmottakere;
+    mottakere: Brevmottakere;
     kallHentBrevmottakere: () => void;
 }> = ({ behandlingId, personopplysninger, mottakere, kallHentBrevmottakere }) => {
     const { visBrevmottakereModal, settVisBrevmottakereModal } = useApp();
 
-    const [valgtePersonMottakere, settValgtePersonMottakere] = useState<IBrevmottaker[]>([]);
+    const [valgtePersonMottakere, settValgtePersonMottakere] = useState<BrevmottakerPerson[]>([]);
 
     const [valgteOrganisasjonMottakere, settValgteOrganisasjonMottakere] = useState<
-        IOrganisasjonMottaker[]
+        BrevmottakerOrganisasjon[]
     >([]);
     const [feilmelding, settFeilmelding] = useState('');
     const [innsendingSuksess, settInnsendingSukksess] = useState(false);
     const { settToast, axiosRequest } = useApp();
 
     const kallSettBrevmottakere = useCallback(
-        (brevmottakere: IBrevmottakere) =>
-            axiosRequest<IBrevmottakere, IBrevmottakere>({
+        (brevmottakere: Brevmottakere) =>
+            axiosRequest<Brevmottakere, Brevmottakere>({
                 url: `familie-klage/api/brev/${behandlingId}/mottakere`,
                 method: 'POST',
                 data: brevmottakere,
@@ -83,7 +85,7 @@ export const BrevmottakereModal: FC<{
         kallSettBrevmottakere({
             personer: valgtePersonMottakere,
             organisasjoner: valgteOrganisasjonMottakere,
-        }).then((response: RessursSuksess<IBrevmottakere> | RessursFeilet) => {
+        }).then((response: RessursSuksess<Brevmottakere> | RessursFeilet) => {
             if (response.status === RessursStatus.SUKSESS) {
                 kallHentBrevmottakere();
                 settVisBrevmottakereModal(false);
