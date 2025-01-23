@@ -7,7 +7,10 @@ import { BrevmottakerForm } from './form/BrevmottakerForm';
 import { IPersonopplysninger } from '../../../../../App/typer/personopplysninger';
 import { NyBrevmottakerPersonUtenIdent } from '../nyBrevmottakerPersonUtenIdent';
 import { BrevmottakerDetaljer } from './BrevmottakerDetaljer';
-import { BrevmottakerPersonUtenIdent } from '../brevmottakerPersonUtenIdent';
+import {
+    BrevmottakerPersonUtenIdent,
+    erEnBrevmottakerPersonUtenIdentDødsbo,
+} from '../brevmottakerPersonUtenIdent';
 
 type Props = {
     behandlingId: string;
@@ -38,6 +41,11 @@ export function BrevmottakerModalBody({
         return Promise.resolve(erSuksess);
     }
 
+    const visLeggTilNyBrevmottakerKnapp =
+        !erEnBrevmottakerPersonUtenIdentDødsbo(brevmottakere) &&
+        !visForm &&
+        brevmottakere.length === 1;
+
     return (
         <Modal.Body>
             <VStack gap={'4'}>
@@ -64,7 +72,7 @@ export function BrevmottakerModalBody({
                         opprettBrevmottaker={opprettBrevmottaker}
                     />
                 )}
-                {!visForm && brevmottakere.length === 1 && (
+                {visLeggTilNyBrevmottakerKnapp && (
                     <div>
                         <Button
                             variant={'tertiary'}
@@ -72,7 +80,7 @@ export function BrevmottakerModalBody({
                             icon={<PlusCircleIcon />}
                             onClick={() => settVisForm(true)}
                         >
-                            Legg til ny mottaker
+                            Legg til ny brevmottaker
                         </Button>
                     </div>
                 )}

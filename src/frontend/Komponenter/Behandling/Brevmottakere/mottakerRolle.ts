@@ -27,6 +27,10 @@ export function utledGyldigeMottakerRolle(
         return [MottakerRolle.VERGE, MottakerRolle.FULLMAKT];
     }
 
+    if (valgteBrevmottakerRoller.includes(MottakerRolle.DØDSBO)) {
+        return [];
+    }
+
     if (
         valgteBrevmottakerRoller.length > 0 &&
         !valgteBrevmottakerRoller.includes(MottakerRolle.BRUKER_MED_UTENLANDSK_ADRESSE)

@@ -36,6 +36,14 @@ export function utledPreutfyltBrevmottakerPersonUtenIdentNavn(
     }
 }
 
+export function erEnBrevmottakerPersonUtenIdentDødsbo(
+    brevmottakere: BrevmottakerPersonUtenIdent[]
+) {
+    return brevmottakere.some(
+        (brevmottaker) => brevmottaker.mottakerRolle === MottakerRolle.DØDSBO
+    );
+}
+
 export function erBrevmottakerPersonUtenIdent(
     brevmottakerPerson: BrevmottakerPerson
 ): brevmottakerPerson is BrevmottakerPersonUtenIdent {
