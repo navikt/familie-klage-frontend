@@ -43,6 +43,7 @@ export const BrevmottakereListe: FC<Props> = ({
                 if (erBrevmottakerPersonMedIdent(mottaker)) {
                     return mottaker.personIdent !== personIdent;
                 }
+                return true;
             })
         );
     };
