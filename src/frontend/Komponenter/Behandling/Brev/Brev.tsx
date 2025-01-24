@@ -18,7 +18,7 @@ import { ModalWrapper } from '../../../Felles/Modal/ModalWrapper';
 import SystemetLaster from '../../../Felles/SystemetLaster/SystemetLaster';
 import { OmgjørVedtak } from './OmgjørVedtak';
 import { Behandling } from '../../../App/typer/fagsak';
-import { BrevmottakerContainer } from '../Brevmottakere/baks/BrevmottakerContainer';
+import BrevMottakere from '../Brevmottakere/ef/BrevMottakere';
 
 const Brevside = styled.div`
     background-color: var(--a-bg-subtle);
@@ -136,7 +136,7 @@ export const Brev: React.FC<Props> = ({ behandling }: Props) => {
                 <HGrid gap={'6'} columns={{ xl: 1, '2xl': '1fr 1.2fr' }}>
                     <VStack gap={'6'}>
                         {brevRessurs.status === RessursStatus.SUKSESS && (
-                            <BrevmottakerContainer behandlingId={behandling.id} />
+                            <BrevMottakere behandlingId={behandling.id} />
                         )}
                         {behandlingErRedigerbar && brevRessurs.status === RessursStatus.SUKSESS && (
                             <Button
