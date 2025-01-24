@@ -16,9 +16,9 @@ import { IVurdering, VedtakValg } from '../Vurdering/vurderingValg';
 import PdfVisning from './PdfVisning';
 import { ModalWrapper } from '../../../Felles/Modal/ModalWrapper';
 import SystemetLaster from '../../../Felles/SystemetLaster/SystemetLaster';
+import BrevMottakere from '../Brevmottakere/ef/BrevMottakere';
 import { OmgjørVedtak } from './OmgjørVedtak';
 import { Behandling } from '../../../App/typer/fagsak';
-import BrevMottakere from '../Brevmottakere/ef/BrevMottakere';
 
 const Brevside = styled.div`
     background-color: var(--a-bg-subtle);
