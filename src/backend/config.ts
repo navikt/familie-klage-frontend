@@ -53,7 +53,7 @@ const lenkerDev: Eksternlenker = {
     aInntekt: 'https://arbeid-og-inntekt.dev.adeo.no',
     gosys: 'https://gosys-q1.dev.intern.nav.no/gosys',
     modia: 'https://app-q1.adeo.no/modiapersonoversikt',
-    tilbakekrevingUrl: 'https://familie-tilbake-frontend.ansatt.dev.nav.no/fagsystem',
+    tilbakekrevingUrl: 'https://tilbakekreving.ansatt.dev.nav.no/fagsystem',
 };
 
 const lenkerProd: Eksternlenker = {
