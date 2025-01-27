@@ -2,17 +2,18 @@ import React from 'react';
 import { Modal } from '@navikt/ds-react';
 import { useApp } from '../../../../../App/context/AppContext';
 import { IPersonopplysninger } from '../../../../../App/typer/personopplysninger';
-import { Brevmottaker } from '../brevmottaker';
-import { NyBrevmottaker } from '../nyBrevmottaker';
 import { BrevmottakerModalBody } from './BrevmottakerModalBody';
 import { BrevmottakerModalFooter } from './BrevmottakerModalFooter';
+import { BrevmottakerPersonUtenIdent } from '../brevmottakerPersonUtenIdent';
+import { NyBrevmottaker } from '../../nyBrevmottaker';
+import { SlettbarBrevmottaker } from '../../slettbarBrevmottaker';
 
 type Props = {
     behandlingId: string;
     personopplysninger: IPersonopplysninger;
-    brevmottakere: Brevmottaker[];
+    brevmottakere: BrevmottakerPersonUtenIdent[];
     opprettBrevmottaker: (nyBrevmottaker: NyBrevmottaker) => Promise<boolean>;
-    slettBrevmottaker: (brevmottakerId: string) => Promise<boolean>;
+    slettBrevmottaker: (slettbarBrevmottaker: SlettbarBrevmottaker) => Promise<boolean>;
     erLesevisning: boolean;
 };
 

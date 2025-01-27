@@ -3,13 +3,17 @@ import React, { useState } from 'react';
 import { TrashIcon } from '@navikt/aksel-icons';
 import { Alert, Box, Button, Heading, HGrid, HStack, VStack } from '@navikt/ds-react';
 import CountryData from '@navikt/land-verktoy';
-import { Brevmottaker } from '../brevmottaker';
 import { EøsLandkode } from '../../../../../Felles/Landvelger/landkode';
-import { Mottakertype, mottakertypeVisningsnavn } from '../mottakertype';
+import { MottakerRolle, mottakerRolleVisningsnavn } from '../../mottakerRolle';
+import { BrevmottakerPersonUtenIdent } from '../brevmottakerPersonUtenIdent';
+import {
+    legSlettbarBrevmottakerPersonUtenIdent,
+    SlettbarBrevmottaker,
+} from '../../slettbarBrevmottaker';
 
 type Props = {
-    brevmottaker: Brevmottaker;
-    slettBrevmottaker: (brevmottakerId: string) => Promise<boolean>;
+    brevmottaker: BrevmottakerPersonUtenIdent;
+    slettBrevmottaker: (slettbarBrevmottaker: SlettbarBrevmottaker) => Promise<boolean>;
     erLesevisning: boolean;
 };
 
@@ -32,7 +36,7 @@ export function BrevmottakerDetaljer({ brevmottaker, slettBrevmottaker, erLesevi
                 )}
                 <HStack justify={'space-between'}>
                     <Heading level={'2'} size={'small'}>
-                        {mottakertypeVisningsnavn[brevmottaker.mottakertype]}
+                        {mottakerRolleVisningsnavn[brevmottaker.mottakerRolle]}
                     </Heading>
                     {!erLesevisning && (
                         <Button
@@ -40,7 +44,9 @@ export function BrevmottakerDetaljer({ brevmottaker, slettBrevmottaker, erLesevi
                             onClick={async () => {
                                 setVisSlettFeilmelding(false);
                                 setLaster(true);
-                                const erSukkess = await slettBrevmottaker(brevmottaker.id);
+                                const erSukkess = await slettBrevmottaker(
+                                    legSlettbarBrevmottakerPersonUtenIdent(brevmottaker.id)
+                                );
                                 if (!erSukkess) {
                                     setVisSlettFeilmelding(true);
                                 }
@@ -81,7 +87,7 @@ export function BrevmottakerDetaljer({ brevmottaker, slettBrevmottaker, erLesevi
                         Ved utenlandsk adresse skal postnummer og poststed legges i adresselinjene.
                     </Alert>
                 )}
-                {brevmottaker.mottakertype === Mottakertype.DØDSBO && (
+                {brevmottaker.mottakerRolle === MottakerRolle.DØDSBO && (
                     <Alert variant={'info'} inline={true}>
                         Ved dødsbo kan kun en brevmottaker legges til.
                     </Alert>

@@ -5,7 +5,7 @@ export type BrevmottakerFeltProps = {
 };
 
 export enum BrevmottakerFeltnavn {
-    MOTTAKERTYPE = 'mottakertype',
+    MOTTAKERROLLE = 'mottakerRolle',
     LANDKODE = 'landkode',
     NAVN = 'navn',
     ADRESSELINJE1 = 'adresselinje1',

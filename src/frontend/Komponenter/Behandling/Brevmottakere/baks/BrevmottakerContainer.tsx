@@ -13,10 +13,12 @@ import {
 } from '../../../../App/typer/ressurs';
 import { BrevmottakerModal } from './modal/BrevmottakerModal';
 import { BrevmottakerPanel } from './panel/BrevmottakerPanel';
-import { Brevmottaker } from './brevmottaker';
-import { NyBrevmottaker } from './nyBrevmottaker';
 import { useOnMount } from '../../../../App/hooks/useOnMount';
 import { Box, Skeleton } from '@navikt/ds-react';
+import { Brevmottakere } from '../brevmottakere';
+import { erBrevmottakerPersonUtenIdent } from './brevmottakerPersonUtenIdent';
+import { NyBrevmottaker } from '../nyBrevmottaker';
+import { SlettbarBrevmottaker } from '../slettbarBrevmottaker';
 
 const API_BASE_URL = `/familie-klage/api/brevmottaker`;
 
@@ -27,14 +29,14 @@ type Props = {
 export function BrevmottakerContainer({ behandlingId }: Props) {
     const { axiosRequest } = useApp();
     const { personopplysningerResponse: personopplysninger } = useBehandling();
-    const [brevmottakere, settBrevmottakere] = useState<Ressurs<Brevmottaker[]>>(byggTomRessurs());
+    const [brevmottakere, settBrevmottakere] = useState<Ressurs<Brevmottakere>>(byggTomRessurs());
 
     async function hentBrevmottakere(): Promise<boolean> {
         settBrevmottakere(byggHenterRessurs());
-        return await axiosRequest<Brevmottaker[], null>({
+        return await axiosRequest<Brevmottakere, null>({
             method: 'GET',
             url: `${API_BASE_URL}/${behandlingId}`,
-        }).then((ressurs: RessursFeilet | RessursSuksess<Brevmottaker[]>) => {
+        }).then((ressurs: RessursFeilet | RessursSuksess<Brevmottakere>) => {
             if (ressurs.status !== RessursStatus.SUKSESS) {
                 settBrevmottakere(byggFeiletRessurs('Feil oppstod ved henting av brevmottakere.'));
                 return Promise.resolve(false);
@@ -45,11 +47,11 @@ export function BrevmottakerContainer({ behandlingId }: Props) {
     }
 
     async function opprettBrevmottaker(nyBrevmottaker: NyBrevmottaker): Promise<boolean> {
-        return await axiosRequest<Brevmottaker[], NyBrevmottaker>({
+        return await axiosRequest<Brevmottakere, NyBrevmottaker>({
             url: `${API_BASE_URL}/${behandlingId}`,
             method: 'POST',
             data: nyBrevmottaker,
-        }).then((ressurs: RessursFeilet | RessursSuksess<Brevmottaker[]>) => {
+        }).then((ressurs: RessursFeilet | RessursSuksess<Brevmottakere>) => {
             if (ressurs.status !== RessursStatus.SUKSESS) {
                 return Promise.resolve(false);
             }
@@ -58,11 +60,14 @@ export function BrevmottakerContainer({ behandlingId }: Props) {
         });
     }
 
-    async function slettBrevmottakere(brevmottakerId: string): Promise<boolean> {
-        return await axiosRequest<Brevmottaker[], null>({
+    async function slettBrevmottakere(
+        slettbarBrevmottaker: SlettbarBrevmottaker
+    ): Promise<boolean> {
+        return await axiosRequest<Brevmottakere, SlettbarBrevmottaker>({
             method: 'DELETE',
-            url: `${API_BASE_URL}/${behandlingId}/${brevmottakerId}`,
-        }).then((ressurs: RessursFeilet | RessursSuksess<Brevmottaker[]>) => {
+            url: `${API_BASE_URL}/${behandlingId}`,
+            data: slettbarBrevmottaker,
+        }).then((ressurs: RessursFeilet | RessursSuksess<Brevmottakere>) => {
             if (ressurs.status !== RessursStatus.SUKSESS) {
                 return Promise.resolve(false);
             }
@@ -88,19 +93,24 @@ export function BrevmottakerContainer({ behandlingId }: Props) {
 
     return (
         <DataViewer response={{ brevmottakere, personopplysninger }}>
-            {({ brevmottakere, personopplysninger }) => (
-                <>
-                    <BrevmottakerPanel brevmottakere={brevmottakere} />
-                    <BrevmottakerModal
-                        behandlingId={behandlingId}
-                        personopplysninger={personopplysninger}
-                        brevmottakere={brevmottakere}
-                        opprettBrevmottaker={opprettBrevmottaker}
-                        slettBrevmottaker={slettBrevmottakere}
-                        erLesevisning={false}
-                    />
-                </>
-            )}
+            {({ brevmottakere, personopplysninger }) => {
+                const brevmottakerePersonUtenIdent = brevmottakere.personer.filter(
+                    (brevmottakerPerson) => erBrevmottakerPersonUtenIdent(brevmottakerPerson)
+                );
+                return (
+                    <>
+                        <BrevmottakerPanel brevmottakere={brevmottakere} />
+                        <BrevmottakerModal
+                            behandlingId={behandlingId}
+                            personopplysninger={personopplysninger}
+                            brevmottakere={brevmottakerePersonUtenIdent}
+                            opprettBrevmottaker={opprettBrevmottaker}
+                            slettBrevmottaker={slettBrevmottakere}
+                            erLesevisning={false}
+                        />
+                    </>
+                );
+            }}
         </DataViewer>
     );
 }

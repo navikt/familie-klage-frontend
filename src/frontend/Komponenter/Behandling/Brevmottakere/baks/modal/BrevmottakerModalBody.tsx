@@ -5,16 +5,20 @@ import { Alert, Button, Modal, VStack } from '@navikt/ds-react';
 
 import { BrevmottakerForm } from './form/BrevmottakerForm';
 import { IPersonopplysninger } from '../../../../../App/typer/personopplysninger';
-import { Brevmottaker } from '../brevmottaker';
-import { NyBrevmottaker } from '../nyBrevmottaker';
 import { BrevmottakerDetaljer } from './BrevmottakerDetaljer';
+import {
+    BrevmottakerPersonUtenIdent,
+    erEnBrevmottakerPersonUtenIdentDødsbo,
+} from '../brevmottakerPersonUtenIdent';
+import { NyBrevmottaker } from '../../nyBrevmottaker';
+import { SlettbarBrevmottaker } from '../../slettbarBrevmottaker';
 
 type Props = {
     behandlingId: string;
     personopplysninger: IPersonopplysninger;
-    brevmottakere: Brevmottaker[];
+    brevmottakere: BrevmottakerPersonUtenIdent[];
     opprettBrevmottaker: (nyBrevmottaker: NyBrevmottaker) => Promise<boolean>;
-    slettBrevmottaker: (brevmottakerId: string) => Promise<boolean>;
+    slettBrevmottaker: (slettbarBrevmottaker: SlettbarBrevmottaker) => Promise<boolean>;
     erLesevisning: boolean;
 };
 
@@ -29,14 +33,19 @@ export function BrevmottakerModalBody({
     const [visForm, settVisForm] = useState(brevmottakere.length === 0);
 
     async function slettBrevmottakerOgVisFormHvisNødvendig(
-        brevmottakerId: string
+        slettbarBrevmottaker: SlettbarBrevmottaker
     ): Promise<boolean> {
-        const erSuksess = await slettBrevmottaker(brevmottakerId);
+        const erSuksess = await slettBrevmottaker(slettbarBrevmottaker);
         if (erSuksess && brevmottakere.length === 1) {
             settVisForm(true);
         }
         return Promise.resolve(erSuksess);
     }
+
+    const visLeggTilNyBrevmottakerKnapp =
+        !erEnBrevmottakerPersonUtenIdentDødsbo(brevmottakere) &&
+        !visForm &&
+        brevmottakere.length === 1;
 
     return (
         <Modal.Body>
@@ -64,7 +73,7 @@ export function BrevmottakerModalBody({
                         opprettBrevmottaker={opprettBrevmottaker}
                     />
                 )}
-                {!visForm && brevmottakere.length === 1 && (
+                {visLeggTilNyBrevmottakerKnapp && (
                     <div>
                         <Button
                             variant={'tertiary'}
@@ -72,7 +81,7 @@ export function BrevmottakerModalBody({
                             icon={<PlusCircleIcon />}
                             onClick={() => settVisForm(true)}
                         >
-                            Legg til ny mottaker
+                            Legg til ny brevmottaker
                         </Button>
                     </div>
                 )}

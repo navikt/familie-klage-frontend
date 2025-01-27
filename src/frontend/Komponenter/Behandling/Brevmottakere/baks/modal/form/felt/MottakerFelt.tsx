@@ -3,17 +3,20 @@ import { Select } from '@navikt/ds-react';
 import { Controller, useFormContext } from 'react-hook-form';
 import { IPersonopplysninger } from '../../../../../../../App/typer/personopplysninger';
 import { BrevmottakerFeltnavn, BrevmottakerFeltProps } from './felttyper';
-import { Brevmottaker, utledPreutfyltBrevmottakernavn } from '../../../brevmottaker';
 import {
-    Mottakertype,
-    mottakertypeVisningsnavn,
-    skalNavnVærePreutfyltForMottakertype,
-    utledGyldigeMottakertyper,
-} from '../../../mottakertype';
+    MottakerRolle,
+    mottakerRolleVisningsnavn,
+    skalNavnVærePreutfyltForMottakerRolle,
+    utledGyldigeMottakerRolle,
+} from '../../../../mottakerRolle';
+import {
+    BrevmottakerPersonUtenIdent,
+    utledPreutfyltBrevmottakerPersonUtenIdentNavn,
+} from '../../../brevmottakerPersonUtenIdent';
 
 type Props = BrevmottakerFeltProps & {
     personopplysninger: IPersonopplysninger;
-    brevmottakere: Brevmottaker[];
+    brevmottakere: BrevmottakerPersonUtenIdent[];
 };
 
 export function MottakerFelt({
@@ -25,14 +28,14 @@ export function MottakerFelt({
 }: Props) {
     const { control, formState, setValue, getValues } = useFormContext();
 
-    function oppdatertNavnForMottakertypeHvisNødvendig(mottakertype: Mottakertype) {
-        const [landkode, forrigeMottakertype] = getValues([
+    function oppdatertNavnForMottakerRolleHvisNødvendig(mottakerRolle: MottakerRolle) {
+        const [landkode, forrigeMottakerRolle] = getValues([
             BrevmottakerFeltnavn.LANDKODE,
-            BrevmottakerFeltnavn.MOTTAKERTYPE,
+            BrevmottakerFeltnavn.MOTTAKERROLLE,
         ]);
 
-        const varNavnPreutfylt = skalNavnVærePreutfyltForMottakertype(forrigeMottakertype);
-        const skalNavnPreutfylles = skalNavnVærePreutfyltForMottakertype(mottakertype);
+        const varNavnPreutfylt = skalNavnVærePreutfyltForMottakerRolle(forrigeMottakerRolle);
+        const skalNavnPreutfylles = skalNavnVærePreutfyltForMottakerRolle(mottakerRolle);
 
         if (varNavnPreutfylt && !skalNavnPreutfylles) {
             setValue(BrevmottakerFeltnavn.NAVN, '');
@@ -41,7 +44,11 @@ export function MottakerFelt({
         if (skalNavnPreutfylles) {
             setValue(
                 BrevmottakerFeltnavn.NAVN,
-                utledPreutfyltBrevmottakernavn(personopplysninger.navn, landkode, mottakertype)
+                utledPreutfyltBrevmottakerPersonUtenIdentNavn(
+                    personopplysninger.navn,
+                    landkode,
+                    mottakerRolle
+                )
             );
         }
     }
@@ -62,18 +69,17 @@ export function MottakerFelt({
                         value={field.value}
                         onBlur={field.onBlur}
                         onChange={(event) => {
-                            oppdatertNavnForMottakertypeHvisNødvendig(
-                                Mottakertype[event.target.value as keyof typeof Mottakertype]
-                            );
+                            const value = event.target.value as keyof typeof MottakerRolle;
+                            oppdatertNavnForMottakerRolleHvisNødvendig(MottakerRolle[value]);
                             field.onChange(event);
                         }}
                         error={visFeilmelding && fieldState.error?.message}
                         readOnly={erLesevisning || formState.isSubmitting}
                     >
                         <option value={''}>-- Velg mottaker --</option>
-                        {utledGyldigeMottakertyper(brevmottakere).map((mottaker) => (
+                        {utledGyldigeMottakerRolle(brevmottakere).map((mottaker) => (
                             <option key={mottaker} value={mottaker}>
-                                {mottakertypeVisningsnavn[mottaker]}
+                                {mottakerRolleVisningsnavn[mottaker]}
                             </option>
                         ))}
                     </Select>
