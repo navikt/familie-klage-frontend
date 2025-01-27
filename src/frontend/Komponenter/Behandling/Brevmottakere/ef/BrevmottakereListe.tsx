@@ -1,15 +1,19 @@
 import React, { Dispatch, FC, SetStateAction } from 'react';
 import styled from 'styled-components';
-import { IBrevmottaker, IOrganisasjonMottaker } from './typer';
 import { BodyShort, Ingress } from '@navikt/ds-react';
 import { KopierbartNullableFødselsnummer } from '../../../../Fødselsnummer/KopierbartNullableFødselsnummer';
 import SlettKnapp from '../../../../Felles/Knapper/SlettKnapp';
+import {
+    BrevmottakerOrganisasjon,
+    BrevmottakerPerson,
+    erBrevmottakerPersonMedIdent,
+} from '../brevmottaker';
 
 interface Props {
-    valgtePersonMottakere: IBrevmottaker[];
-    settValgtePersonMottakere: Dispatch<SetStateAction<IBrevmottaker[]>>;
-    valgteOrganisasjonMottakere: IOrganisasjonMottaker[];
-    settValgteOrganisasjonMottakere: Dispatch<SetStateAction<IOrganisasjonMottaker[]>>;
+    valgtePersonMottakere: BrevmottakerPerson[];
+    settValgtePersonMottakere: Dispatch<SetStateAction<BrevmottakerPerson[]>>;
+    valgteOrganisasjonMottakere: BrevmottakerOrganisasjon[];
+    settValgteOrganisasjonMottakere: Dispatch<SetStateAction<BrevmottakerOrganisasjon[]>>;
 }
 
 const Undertittel = styled(Ingress)`
@@ -37,7 +41,12 @@ export const BrevmottakereListe: FC<Props> = ({
 }) => {
     const fjernPersonMottaker = (personIdent: string) => () => {
         settValgtePersonMottakere((prevState) =>
-            prevState.filter((mottaker) => mottaker.personIdent !== personIdent)
+            prevState.filter((mottaker) => {
+                if (erBrevmottakerPersonMedIdent(mottaker)) {
+                    return mottaker.personIdent !== personIdent;
+                }
+                return true;
+            })
         );
     };
     const fjernOrganisasjonMottaker = (organisasjonsnummer: string) => () => {
@@ -48,17 +57,24 @@ export const BrevmottakereListe: FC<Props> = ({
     return (
         <>
             <Undertittel>Brevmottakere</Undertittel>
-            {valgtePersonMottakere.map((mottaker, index) => (
-                <StyledMottakerBoks key={mottaker.navn + index}>
-                    <Flexboks>
-                        <BodyShort>
-                            {`${mottaker.navn} (${mottaker.mottakerRolle.toLowerCase()})`}
-                            <KopierbartNullableFødselsnummer fødselsnummer={mottaker.personIdent} />
-                        </BodyShort>
-                    </Flexboks>
-                    <SlettKnapp onClick={fjernPersonMottaker(mottaker.personIdent)} tekst={''} />
-                </StyledMottakerBoks>
-            ))}
+            {valgtePersonMottakere
+                .filter((mottaker) => erBrevmottakerPersonMedIdent(mottaker))
+                .map((mottaker, index) => (
+                    <StyledMottakerBoks key={mottaker.navn + index}>
+                        <Flexboks>
+                            <BodyShort>
+                                {`${mottaker.navn} (${mottaker.mottakerRolle.toLowerCase()})`}
+                                <KopierbartNullableFødselsnummer
+                                    fødselsnummer={mottaker.personIdent}
+                                />
+                            </BodyShort>
+                        </Flexboks>
+                        <SlettKnapp
+                            onClick={fjernPersonMottaker(mottaker.personIdent)}
+                            tekst={''}
+                        />
+                    </StyledMottakerBoks>
+                ))}
             {valgteOrganisasjonMottakere.map((mottaker, index) => (
                 <StyledMottakerBoks key={mottaker.navnHosOrganisasjon + index}>
                     <div>

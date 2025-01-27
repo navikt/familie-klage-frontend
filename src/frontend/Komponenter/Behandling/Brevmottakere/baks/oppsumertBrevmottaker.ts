@@ -1,6 +1,7 @@
 import CountryData from '@navikt/land-verktoy';
-import { mottakertypeVisningsnavn } from './mottakertype';
-import { Brevmottaker } from './brevmottaker';
+import { Brevmottakere } from '../brevmottakere';
+import { mottakerRolleVisningsnavn } from '../mottakerRolle';
+import { erBrevmottakerPersonMedIdent, erBrevmottakerPersonUtenIdent } from '../brevmottaker';
 
 export type OppsumertBrevmottaker = {
     id: string;
@@ -9,20 +10,24 @@ export type OppsumertBrevmottaker = {
 
 const countryInstance = CountryData.getCountryInstance('nb');
 
-export function utledOppsumertBrevmottakere(
-    brevmottakere: Brevmottaker[]
-): OppsumertBrevmottaker[] {
-    const oppsumertBrevmottakere = brevmottakere.map((brevmottaker) => {
-        const land = countryInstance.findByValue(brevmottaker.landkode).label;
-        let visningstekst = `${brevmottaker.navn} (${mottakertypeVisningsnavn[brevmottaker.mottakertype]}): ${brevmottaker.adresselinje1}`;
-        if (brevmottaker.postnummer) {
-            visningstekst = visningstekst + `, ${brevmottaker.postnummer}`;
+export function utledOppsumertBrevmottakere(brevmottakere: Brevmottakere): OppsumertBrevmottaker[] {
+    const oppsumertBrevmottakere = brevmottakere.personer.map((brevmottakerPerson) => {
+        if (erBrevmottakerPersonMedIdent(brevmottakerPerson)) {
+            return { id: brevmottakerPerson.personIdent, visningstekst: brevmottakerPerson.navn };
+        } else if (erBrevmottakerPersonUtenIdent(brevmottakerPerson)) {
+            const land = countryInstance.findByValue(brevmottakerPerson.landkode).label;
+            let visningstekst = `${brevmottakerPerson.navn} (${mottakerRolleVisningsnavn[brevmottakerPerson.mottakerRolle]}): ${brevmottakerPerson.adresselinje1}`;
+            if (brevmottakerPerson.postnummer) {
+                visningstekst = visningstekst + `, ${brevmottakerPerson.postnummer}`;
+            }
+            if (brevmottakerPerson.poststed) {
+                visningstekst = visningstekst + `, ${brevmottakerPerson.poststed}`;
+            }
+            visningstekst = visningstekst + `, ${land}`;
+            return { id: brevmottakerPerson.id, visningstekst };
+        } else {
+            throw Error('Støtter ikke type for brevmottaker');
         }
-        if (brevmottaker.poststed) {
-            visningstekst = visningstekst + `, ${brevmottaker.poststed}`;
-        }
-        visningstekst = visningstekst + `, ${land}`;
-        return { id: brevmottaker.id, visningstekst };
     });
     return [...oppsumertBrevmottakere];
 }

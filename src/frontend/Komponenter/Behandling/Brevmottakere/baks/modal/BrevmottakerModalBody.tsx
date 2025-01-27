@@ -5,15 +5,18 @@ import { Alert, Button, Modal, VStack } from '@navikt/ds-react';
 
 import { BrevmottakerForm } from './form/BrevmottakerForm';
 import { IPersonopplysninger } from '../../../../../App/typer/personopplysninger';
-import { Brevmottaker } from '../brevmottaker';
-import { NyBrevmottaker } from '../nyBrevmottaker';
+import { NyBrevmottakerPersonUtenIdent } from '../nyBrevmottakerPersonUtenIdent';
 import { BrevmottakerDetaljer } from './BrevmottakerDetaljer';
+import {
+    BrevmottakerPersonUtenIdent,
+    erEnBrevmottakerPersonUtenIdentDødsbo,
+} from '../../brevmottaker';
 
 type Props = {
     behandlingId: string;
     personopplysninger: IPersonopplysninger;
-    brevmottakere: Brevmottaker[];
-    opprettBrevmottaker: (nyBrevmottaker: NyBrevmottaker) => Promise<boolean>;
+    brevmottakere: BrevmottakerPersonUtenIdent[];
+    opprettBrevmottaker: (nyBrevmottaker: NyBrevmottakerPersonUtenIdent) => Promise<boolean>;
     slettBrevmottaker: (brevmottakerId: string) => Promise<boolean>;
     erLesevisning: boolean;
 };
@@ -37,6 +40,11 @@ export function BrevmottakerModalBody({
         }
         return Promise.resolve(erSuksess);
     }
+
+    const visLeggTilNyBrevmottakerKnapp =
+        !erEnBrevmottakerPersonUtenIdentDødsbo(brevmottakere) &&
+        !visForm &&
+        brevmottakere.length === 1;
 
     return (
         <Modal.Body>
@@ -64,7 +72,7 @@ export function BrevmottakerModalBody({
                         opprettBrevmottaker={opprettBrevmottaker}
                     />
                 )}
-                {!visForm && brevmottakere.length === 1 && (
+                {visLeggTilNyBrevmottakerKnapp && (
                     <div>
                         <Button
                             variant={'tertiary'}
@@ -72,7 +80,7 @@ export function BrevmottakerModalBody({
                             icon={<PlusCircleIcon />}
                             onClick={() => settVisForm(true)}
                         >
-                            Legg til ny mottaker
+                            Legg til ny brevmottaker
                         </Button>
                     </div>
                 )}

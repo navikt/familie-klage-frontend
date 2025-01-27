@@ -3,7 +3,7 @@ import React from 'react';
 import { TextField } from '@navikt/ds-react';
 import { IPersonopplysninger } from '../../../../../../../App/typer/personopplysninger';
 import { BrevmottakerFeltnavn, BrevmottakerFeltProps } from './felttyper';
-import { Mottakertype } from '../../../mottakertype';
+import { MottakerRolle } from '../../../../mottakerRolle';
 
 type Props = BrevmottakerFeltProps & {
     personopplysninger: IPersonopplysninger;
@@ -25,10 +25,10 @@ export function NavnFelt({ feltnavn, visningsnavn, erLesevisning }: Props) {
             }}
             render={({ field, fieldState }) => {
                 const visFeilmelding = fieldState.isTouched || formState.isSubmitted;
-                const mottakertype = watch(BrevmottakerFeltnavn.MOTTAKERTYPE);
+                const mottakerRolle = watch(BrevmottakerFeltnavn.MOTTAKERROLLE);
                 const navnSkalVærePreutfylt =
-                    mottakertype === Mottakertype.BRUKER_MED_UTENLANDSK_ADRESSE ||
-                    mottakertype === Mottakertype.DØDSBO;
+                    mottakerRolle === MottakerRolle.BRUKER_MED_UTENLANDSK_ADRESSE ||
+                    mottakerRolle === MottakerRolle.DØDSBO;
                 return (
                     <TextField
                         label={visningsnavn}

@@ -1,8 +1,9 @@
 import React, { Dispatch, FC, SetStateAction } from 'react';
 import { IPersonopplysninger } from '../../../../App/typer/personopplysninger';
-import { EBrevmottakerRolle, IBrevmottaker } from './typer';
 import styled from 'styled-components';
 import { Ingress, Radio, RadioGroup } from '@navikt/ds-react';
+import { MottakerRolle } from '../mottakerRolle';
+import { BrevmottakerPerson } from '../brevmottaker';
 
 const StyledRadioGruppe = styled(RadioGroup)`
     display: flex;
@@ -17,8 +18,8 @@ const Underoverskrift = styled(Ingress)`
 `;
 
 interface Props {
-    valgteBrevmottakere: IBrevmottaker[];
-    settValgtBrevMottakere: Dispatch<SetStateAction<IBrevmottaker[]>>;
+    valgteBrevmottakere: BrevmottakerPerson[];
+    settValgtBrevMottakere: Dispatch<SetStateAction<BrevmottakerPerson[]>>;
     personopplysninger: IPersonopplysninger;
 }
 export const SkalBrukerHaBrev: FC<Props> = ({
@@ -27,25 +28,25 @@ export const SkalBrukerHaBrev: FC<Props> = ({
     personopplysninger,
 }) => {
     const brukerSkalHaBrev = valgteBrevmottakere.some(
-        (mottaker) => mottaker.mottakerRolle === EBrevmottakerRolle.BRUKER
+        (mottaker) => mottaker.mottakerRolle === MottakerRolle.BRUKER
     );
 
     const toggleBrukerSkalHaBrev = () => {
         settValgtBrevMottakere((mottakere) => {
             const brukerErIListe = mottakere.some(
-                (mottaker) => mottaker.mottakerRolle === EBrevmottakerRolle.BRUKER
+                (mottaker) => mottaker.mottakerRolle === MottakerRolle.BRUKER
             );
 
             if (brukerErIListe) {
                 const mottakereUtenBruker = mottakere.filter(
-                    (mottaker) => mottaker.mottakerRolle !== EBrevmottakerRolle.BRUKER
+                    (mottaker) => mottaker.mottakerRolle !== MottakerRolle.BRUKER
                 );
 
                 return mottakereUtenBruker;
             } else {
                 const mottakereMedBruker = [
                     {
-                        mottakerRolle: EBrevmottakerRolle.BRUKER,
+                        mottakerRolle: MottakerRolle.BRUKER,
                         personIdent: personopplysninger.personIdent,
                         navn: personopplysninger.navn,
                     },

@@ -1,14 +1,14 @@
 import React, { Dispatch, FC, SetStateAction, useState } from 'react';
 import { SøkPerson } from './SøkPerson';
 import { SøkOrganisasjon } from './SøkOrganisasjon';
-import { IBrevmottaker, IOrganisasjonMottaker } from './typer';
 import styled from 'styled-components';
 import { Ingress, Select } from '@navikt/ds-react';
+import { BrevmottakerOrganisasjon, BrevmottakerPerson } from '../brevmottaker';
 
 interface Props {
-    settValgtePersonMottakere: Dispatch<SetStateAction<IBrevmottaker[]>>;
-    valgteOrganisasjonMottakere: IOrganisasjonMottaker[];
-    settValgteOrganisasjonMottakere: Dispatch<SetStateAction<IOrganisasjonMottaker[]>>;
+    settValgtePersonMottakere: Dispatch<SetStateAction<BrevmottakerPerson[]>>;
+    valgteOrganisasjonMottakere: BrevmottakerOrganisasjon[];
+    settValgteOrganisasjonMottakere: Dispatch<SetStateAction<BrevmottakerOrganisasjon[]>>;
     behandlingId: string;
 }
 

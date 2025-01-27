@@ -2,12 +2,14 @@ import React, { Dispatch, SetStateAction, useEffect, useState } from 'react';
 import { useApp } from '../../../../App/context/AppContext';
 import { byggTomRessurs, Ressurs } from '../../../../App/typer/ressurs';
 import DataViewer from '../../../../Felles/DataViewer/DataViewer';
-import { EBrevmottakerRolle, IBrevmottaker } from './typer';
 import { BodyShort, Button } from '@navikt/ds-react';
 import { Søkefelt, Søkeresultat } from './brevmottakereStyling';
 import { VertikalSentrering } from '../../../../App/utils/styling';
+import { MottakerRolle } from '../mottakerRolle';
+import { BrevmottakerPerson } from '../brevmottaker';
+
 interface Props {
-    settValgteMottakere: Dispatch<SetStateAction<IBrevmottaker[]>>;
+    settValgteMottakere: Dispatch<SetStateAction<BrevmottakerPerson[]>>;
     behandlingId: string;
 }
 
@@ -40,7 +42,7 @@ export const SøkPerson: React.FC<Props> = ({ settValgteMottakere, behandlingId 
     const leggTilBrevmottaker = (personIdent: string, navn: string) => () => {
         settValgteMottakere((prevState) => [
             ...prevState,
-            { navn, personIdent, mottakerRolle: EBrevmottakerRolle.VERGE },
+            { navn, personIdent, mottakerRolle: MottakerRolle.VERGE },
         ]);
     };
 

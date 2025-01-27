@@ -1,15 +1,20 @@
 import React, { Dispatch, FC, SetStateAction } from 'react';
 import { IFullmakt, IVergemål } from '../../../../App/typer/personopplysninger';
-import { IBrevmottaker } from './typer';
-import { fullmaktTilBrevMottaker, vergemålTilBrevmottaker } from './brevmottakerUtils';
 import styled from 'styled-components';
 import { Ingress, Button, BodyShort } from '@navikt/ds-react';
 import { VertikalSentrering } from '../../../../App/utils/styling';
 import { KopierbartNullableFødselsnummer } from '../../../../Fødselsnummer/KopierbartNullableFødselsnummer';
+import {
+    BrevmottakerPerson,
+    BrevmottakerPersonMedIdent,
+    erBrevmottakerPersonMedIdent,
+    mapFullmaktTilBrevmottakerPersonMedIdent,
+    mapVergemålTilBrevmottakerPersonMedIdent,
+} from '../brevmottaker';
 
 interface Props {
-    valgteMottakere: IBrevmottaker[];
-    settValgteMottakere: Dispatch<SetStateAction<IBrevmottaker[]>>;
+    valgteMottakere: BrevmottakerPerson[];
+    settValgteMottakere: Dispatch<SetStateAction<BrevmottakerPerson[]>>;
     verger: IVergemål[];
     fullmakter: IFullmakt[];
 }
@@ -38,11 +43,11 @@ export const VergerOgFullmektigeFraRegister: FC<Props> = ({
     fullmakter,
 }) => {
     const muligeMottakere = [
-        ...verger.map(vergemålTilBrevmottaker),
-        ...fullmakter.map(fullmaktTilBrevMottaker),
+        ...verger.map(mapVergemålTilBrevmottakerPersonMedIdent),
+        ...fullmakter.map(mapFullmaktTilBrevmottakerPersonMedIdent),
     ];
 
-    const settMottaker = (mottaker: IBrevmottaker) => () => {
+    const settMottaker = (mottaker: BrevmottakerPersonMedIdent) => () => {
         settValgteMottakere((prevState) => {
             return [...prevState, mottaker];
         });
@@ -53,9 +58,11 @@ export const VergerOgFullmektigeFraRegister: FC<Props> = ({
             <Undertittel>Verge/Fullmektig fra register</Undertittel>
             {muligeMottakere.length ? (
                 muligeMottakere.map((mottaker, index) => {
-                    const mottakerValgt = !!valgteMottakere.find(
-                        (valgtMottaker) => valgtMottaker.personIdent === mottaker.personIdent
-                    );
+                    const mottakerValgt = !!valgteMottakere.find((valgtMottaker) => {
+                        if (erBrevmottakerPersonMedIdent(valgtMottaker)) {
+                            return valgtMottaker.personIdent === mottaker.personIdent;
+                        }
+                    });
                     return (
                         <StyledMottakerBoks key={mottaker.navn + index}>
                             <Kolonner>
