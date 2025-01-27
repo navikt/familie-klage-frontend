@@ -5,7 +5,7 @@ import { IPersonopplysninger } from '../../../../../App/typer/personopplysninger
 import { NyBrevmottakerPersonUtenIdent } from '../nyBrevmottakerPersonUtenIdent';
 import { BrevmottakerModalBody } from './BrevmottakerModalBody';
 import { BrevmottakerModalFooter } from './BrevmottakerModalFooter';
-import { BrevmottakerPersonUtenIdent } from '../brevmottakerPersonUtenIdent';
+import { BrevmottakerPersonUtenIdent } from '../../brevmottaker';
 
 type Props = {
     behandlingId: string;

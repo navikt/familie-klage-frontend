@@ -1,5 +1,4 @@
-import { BrevmottakerPerson } from './brevmottakerPerson';
-import { BrevmottakerOrganisasjon } from './brevmottakerOrganisasjon';
+import { BrevmottakerOrganisasjon, BrevmottakerPerson } from './brevmottaker';
 
 export interface Brevmottakere {
     personer: BrevmottakerPerson[];

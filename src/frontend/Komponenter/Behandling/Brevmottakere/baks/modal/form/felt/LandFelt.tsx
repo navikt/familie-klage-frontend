@@ -4,7 +4,7 @@ import { EøsLandvelger } from '../../../../../../../Felles/Landvelger/EøsLandv
 import { BrevmottakerFeltnavn, BrevmottakerFeltProps } from './felttyper';
 import { IPersonopplysninger } from '../../../../../../../App/typer/personopplysninger';
 import { erGyldigMottakerRolleForLandkode, MottakerRolle } from '../../../../mottakerRolle';
-import { utledBrevmottakerPersonUtenIdentNavnVedDødsbo } from '../../../brevmottakerPersonUtenIdent';
+import { utledBrevmottakerPersonUtenIdentNavnVedDødsbo } from '../../../../brevmottaker';
 
 type Props = BrevmottakerFeltProps & {
     personopplysninger: IPersonopplysninger;

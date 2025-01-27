@@ -3,7 +3,7 @@ import { IPersonopplysninger } from '../../../../App/typer/personopplysninger';
 import styled from 'styled-components';
 import { Ingress, Radio, RadioGroup } from '@navikt/ds-react';
 import { MottakerRolle } from '../mottakerRolle';
-import { BrevmottakerPerson } from '../brevmottakerPerson';
+import { BrevmottakerPerson } from '../brevmottaker';
 
 const StyledRadioGruppe = styled(RadioGroup)`
     display: flex;

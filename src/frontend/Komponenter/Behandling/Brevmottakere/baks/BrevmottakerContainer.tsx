@@ -17,7 +17,7 @@ import { NyBrevmottakerPersonUtenIdent } from './nyBrevmottakerPersonUtenIdent';
 import { useOnMount } from '../../../../App/hooks/useOnMount';
 import { Box, Skeleton } from '@navikt/ds-react';
 import { Brevmottakere } from '../brevmottakere';
-import { erBrevmottakerPersonUtenIdent } from './brevmottakerPersonUtenIdent';
+import { erBrevmottakerPersonUtenIdent } from '../brevmottaker';
 
 const API_BASE_URL = `/familie-klage/api/brevmottaker/baks`;
 

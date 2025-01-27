@@ -5,12 +5,12 @@ import { Ingress, Button, BodyShort } from '@navikt/ds-react';
 import { VertikalSentrering } from '../../../../App/utils/styling';
 import { KopierbartNullableFødselsnummer } from '../../../../Fødselsnummer/KopierbartNullableFødselsnummer';
 import {
+    BrevmottakerPerson,
     BrevmottakerPersonMedIdent,
     erBrevmottakerPersonMedIdent,
-    fullmaktTilBrevmottakerPersonMedIdent,
-    vergemålTilBrevmottakerPersonMedIdent,
-} from '../brevmottakerPersonMedIdent';
-import { BrevmottakerPerson } from '../brevmottakerPerson';
+    mapFullmaktTilBrevmottakerPersonMedIdent,
+    mapVergemålTilBrevmottakerPersonMedIdent,
+} from '../brevmottaker';
 
 interface Props {
     valgteMottakere: BrevmottakerPerson[];
@@ -43,8 +43,8 @@ export const VergerOgFullmektigeFraRegister: FC<Props> = ({
     fullmakter,
 }) => {
     const muligeMottakere = [
-        ...verger.map(vergemålTilBrevmottakerPersonMedIdent),
-        ...fullmakter.map(fullmaktTilBrevmottakerPersonMedIdent),
+        ...verger.map(mapVergemålTilBrevmottakerPersonMedIdent),
+        ...fullmakter.map(mapFullmaktTilBrevmottakerPersonMedIdent),
     ];
 
     const settMottaker = (mottaker: BrevmottakerPersonMedIdent) => () => {

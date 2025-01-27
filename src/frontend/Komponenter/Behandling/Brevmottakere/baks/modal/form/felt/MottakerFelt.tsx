@@ -7,12 +7,12 @@ import {
     MottakerRolle,
     mottakerRolleVisningsnavn,
     skalNavnVærePreutfyltForMottakerRolle,
-    utledGyldigeMottakerRolle,
 } from '../../../../mottakerRolle';
 import {
     BrevmottakerPersonUtenIdent,
+    utledGyldigeMottakerRolleForBrevmottakerPersonUtenIdent,
     utledPreutfyltBrevmottakerPersonUtenIdentNavn,
-} from '../../../brevmottakerPersonUtenIdent';
+} from '../../../../brevmottaker';
 
 type Props = BrevmottakerFeltProps & {
     personopplysninger: IPersonopplysninger;
@@ -77,11 +77,13 @@ export function MottakerFelt({
                         readOnly={erLesevisning || formState.isSubmitting}
                     >
                         <option value={''}>-- Velg mottaker --</option>
-                        {utledGyldigeMottakerRolle(brevmottakere).map((mottaker) => (
-                            <option key={mottaker} value={mottaker}>
-                                {mottakerRolleVisningsnavn[mottaker]}
-                            </option>
-                        ))}
+                        {utledGyldigeMottakerRolleForBrevmottakerPersonUtenIdent(brevmottakere).map(
+                            (mottaker) => (
+                                <option key={mottaker} value={mottaker}>
+                                    {mottakerRolleVisningsnavn[mottaker]}
+                                </option>
+                            )
+                        )}
                     </Select>
                 );
             }}

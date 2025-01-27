@@ -5,7 +5,7 @@ import { Alert, Box, Button, Heading, HGrid, HStack, VStack } from '@navikt/ds-r
 import CountryData from '@navikt/land-verktoy';
 import { EøsLandkode } from '../../../../../Felles/Landvelger/landkode';
 import { MottakerRolle, mottakerRolleVisningsnavn } from '../../mottakerRolle';
-import { BrevmottakerPersonUtenIdent } from '../brevmottakerPersonUtenIdent';
+import { BrevmottakerPersonUtenIdent } from '../../brevmottaker';
 
 type Props = {
     brevmottaker: BrevmottakerPersonUtenIdent;

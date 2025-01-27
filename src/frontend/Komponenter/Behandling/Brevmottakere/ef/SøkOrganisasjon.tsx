@@ -4,7 +4,7 @@ import { byggTomRessurs, Ressurs } from '../../../../App/typer/ressurs';
 import DataViewer from '../../../../Felles/DataViewer/DataViewer';
 import { Søkefelt, Søkeresultat } from './brevmottakereStyling';
 import { BodyShort, Button, TextField } from '@navikt/ds-react';
-import { BrevmottakerOrganisasjon } from '../brevmottakerOrganisasjon';
+import { BrevmottakerOrganisasjon } from '../brevmottaker';
 
 interface Props {
     valgteMottakere: BrevmottakerOrganisasjon[];

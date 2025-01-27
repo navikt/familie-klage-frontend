@@ -1,6 +1,6 @@
 import { BrevmottakerFormValues } from './modal/form/BrevmottakerForm';
 import { EøsLandkode } from '../../../../Felles/Landvelger/landkode';
-import { BrevmottakerPersonUtenIdent } from './brevmottakerPersonUtenIdent';
+import { BrevmottakerPersonUtenIdent } from '../brevmottaker';
 
 export type NyBrevmottakerPersonUtenIdent = Omit<BrevmottakerPersonUtenIdent, 'id'>;
 

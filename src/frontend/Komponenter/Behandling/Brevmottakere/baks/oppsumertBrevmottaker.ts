@@ -1,8 +1,7 @@
 import CountryData from '@navikt/land-verktoy';
 import { Brevmottakere } from '../brevmottakere';
 import { mottakerRolleVisningsnavn } from '../mottakerRolle';
-import { erBrevmottakerPersonUtenIdent } from './brevmottakerPersonUtenIdent';
-import { erBrevmottakerPersonMedIdent } from '../brevmottakerPersonMedIdent';
+import { erBrevmottakerPersonMedIdent, erBrevmottakerPersonUtenIdent } from '../brevmottaker';
 
 export type OppsumertBrevmottaker = {
     id: string;

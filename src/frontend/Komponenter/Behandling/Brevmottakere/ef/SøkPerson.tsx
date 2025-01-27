@@ -6,7 +6,8 @@ import { BodyShort, Button } from '@navikt/ds-react';
 import { Søkefelt, Søkeresultat } from './brevmottakereStyling';
 import { VertikalSentrering } from '../../../../App/utils/styling';
 import { MottakerRolle } from '../mottakerRolle';
-import { BrevmottakerPerson } from '../brevmottakerPerson';
+import { BrevmottakerPerson } from '../brevmottaker';
+
 interface Props {
     settValgteMottakere: Dispatch<SetStateAction<BrevmottakerPerson[]>>;
     behandlingId: string;

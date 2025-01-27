@@ -3,9 +3,11 @@ import styled from 'styled-components';
 import { BodyShort, Ingress } from '@navikt/ds-react';
 import { KopierbartNullableFødselsnummer } from '../../../../Fødselsnummer/KopierbartNullableFødselsnummer';
 import SlettKnapp from '../../../../Felles/Knapper/SlettKnapp';
-import { erBrevmottakerPersonMedIdent } from '../brevmottakerPersonMedIdent';
-import { BrevmottakerPerson } from '../brevmottakerPerson';
-import { BrevmottakerOrganisasjon } from '../brevmottakerOrganisasjon';
+import {
+    BrevmottakerOrganisasjon,
+    BrevmottakerPerson,
+    erBrevmottakerPersonMedIdent,
+} from '../brevmottaker';
 
 interface Props {
     valgtePersonMottakere: BrevmottakerPerson[];

@@ -15,7 +15,7 @@ import {
     NyBrevmottakerPersonUtenIdent,
 } from '../../nyBrevmottakerPersonUtenIdent';
 import { MottakerRolle } from '../../../mottakerRolle';
-import { BrevmottakerPersonUtenIdent } from '../../brevmottakerPersonUtenIdent';
+import { BrevmottakerPersonUtenIdent } from '../../../brevmottaker';
 
 export type BrevmottakerFormValues = {
     [BrevmottakerFeltnavn.MOTTAKERROLLE]: MottakerRolle | '';

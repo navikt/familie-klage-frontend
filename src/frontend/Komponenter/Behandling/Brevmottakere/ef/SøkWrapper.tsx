@@ -3,8 +3,7 @@ import { SøkPerson } from './SøkPerson';
 import { SøkOrganisasjon } from './SøkOrganisasjon';
 import styled from 'styled-components';
 import { Ingress, Select } from '@navikt/ds-react';
-import { BrevmottakerPerson } from '../brevmottakerPerson';
-import { BrevmottakerOrganisasjon } from '../brevmottakerOrganisasjon';
+import { BrevmottakerOrganisasjon, BrevmottakerPerson } from '../brevmottaker';
 
 interface Props {
     settValgtePersonMottakere: Dispatch<SetStateAction<BrevmottakerPerson[]>>;

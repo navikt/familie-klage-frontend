@@ -10,7 +10,7 @@ import { BrevmottakerDetaljer } from './BrevmottakerDetaljer';
 import {
     BrevmottakerPersonUtenIdent,
     erEnBrevmottakerPersonUtenIdentDødsbo,
-} from '../brevmottakerPersonUtenIdent';
+} from '../../brevmottaker';
 
 type Props = {
     behandlingId: string;

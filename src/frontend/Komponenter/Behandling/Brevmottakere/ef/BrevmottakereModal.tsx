@@ -11,8 +11,7 @@ import styled from 'styled-components';
 import { Alert, Button } from '@navikt/ds-react';
 import { EToast } from '../../../../App/typer/toast';
 import { ModalWrapper } from '../../../../Felles/Modal/ModalWrapper';
-import { BrevmottakerPerson } from '../brevmottakerPerson';
-import { BrevmottakerOrganisasjon } from '../brevmottakerOrganisasjon';
+import { BrevmottakerOrganisasjon, BrevmottakerPerson } from '../brevmottaker';
 
 const GridContainer = styled.div`
     display: grid;
