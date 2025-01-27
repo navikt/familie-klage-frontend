@@ -5,19 +5,20 @@ import { Alert, Button, Modal, VStack } from '@navikt/ds-react';
 
 import { BrevmottakerForm } from './form/BrevmottakerForm';
 import { IPersonopplysninger } from '../../../../../App/typer/personopplysninger';
-import { NyBrevmottakerPersonUtenIdent } from '../nyBrevmottakerPersonUtenIdent';
 import { BrevmottakerDetaljer } from './BrevmottakerDetaljer';
 import {
     BrevmottakerPersonUtenIdent,
     erEnBrevmottakerPersonUtenIdentDødsbo,
 } from '../../brevmottaker';
+import { NyBrevmottaker } from '../../nyBrevmottaker';
+import { SlettbarBrevmottaker } from '../../slettbarBrevmottaker';
 
 type Props = {
     behandlingId: string;
     personopplysninger: IPersonopplysninger;
     brevmottakere: BrevmottakerPersonUtenIdent[];
-    opprettBrevmottaker: (nyBrevmottaker: NyBrevmottakerPersonUtenIdent) => Promise<boolean>;
-    slettBrevmottaker: (brevmottakerId: string) => Promise<boolean>;
+    opprettBrevmottaker: (nyBrevmottaker: NyBrevmottaker) => Promise<boolean>;
+    slettBrevmottaker: (slettbarBrevmottaker: SlettbarBrevmottaker) => Promise<boolean>;
     erLesevisning: boolean;
 };
 
@@ -32,9 +33,9 @@ export function BrevmottakerModalBody({
     const [visForm, settVisForm] = useState(brevmottakere.length === 0);
 
     async function slettBrevmottakerOgVisFormHvisNødvendig(
-        brevmottakerId: string
+        slettbarBrevmottaker: SlettbarBrevmottaker
     ): Promise<boolean> {
-        const erSuksess = await slettBrevmottaker(brevmottakerId);
+        const erSuksess = await slettBrevmottaker(slettbarBrevmottaker);
         if (erSuksess && brevmottakere.length === 1) {
             settVisForm(true);
         }

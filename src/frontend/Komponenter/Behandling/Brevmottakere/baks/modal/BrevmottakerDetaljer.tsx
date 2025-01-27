@@ -6,10 +6,14 @@ import CountryData from '@navikt/land-verktoy';
 import { EøsLandkode } from '../../../../../Felles/Landvelger/landkode';
 import { MottakerRolle, mottakerRolleVisningsnavn } from '../../mottakerRolle';
 import { BrevmottakerPersonUtenIdent } from '../../brevmottaker';
+import {
+    legSlettbarBrevmottakerPersonUtenIdent,
+    SlettbarBrevmottaker,
+} from '../../slettbarBrevmottaker';
 
 type Props = {
     brevmottaker: BrevmottakerPersonUtenIdent;
-    slettBrevmottaker: (brevmottakerId: string) => Promise<boolean>;
+    slettBrevmottaker: (slettbarBrevmottaker: SlettbarBrevmottaker) => Promise<boolean>;
     erLesevisning: boolean;
 };
 
@@ -40,7 +44,9 @@ export function BrevmottakerDetaljer({ brevmottaker, slettBrevmottaker, erLesevi
                             onClick={async () => {
                                 setVisSlettFeilmelding(false);
                                 setLaster(true);
-                                const erSukkess = await slettBrevmottaker(brevmottaker.id);
+                                const erSukkess = await slettBrevmottaker(
+                                    legSlettbarBrevmottakerPersonUtenIdent(brevmottaker.id)
+                                );
                                 if (!erSukkess) {
                                     setVisSlettFeilmelding(true);
                                 }
