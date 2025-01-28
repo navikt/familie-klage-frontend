@@ -21,6 +21,7 @@ import { EksisterendeBeskrivelse } from './EksisterendeBeskrivelse';
 import { SettPåVentKnappValg } from './SettPåVentKnappValg';
 import { MappeVelger } from './MappeVelger';
 import { EToast } from '../../../App/typer/toast';
+import ScrollToTop from '../../../Felles/ScrollToTop/ScrollToTop';
 
 const StyledVStack = styled(VStack)`
     background-color: #e6f1f8;
@@ -209,6 +210,7 @@ export const SettPåVent: FC<{ behandling: Behandling }> = ({ behandling }) => {
                             settPåVent={settPåVent}
                             låsKnapp={låsKnapp}
                         />
+                        <ScrollToTop />
                     </StyledVStack>
                 );
             }}
