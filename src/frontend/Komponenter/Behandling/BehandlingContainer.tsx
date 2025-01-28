@@ -71,7 +71,7 @@ const BehandlingContent: FC<{
             <ScrollToTop />
             <VisittkortComponent personopplysninger={personopplysninger} behandling={behandling} />
             <Container>
-                <InnholdWrapper åpenHøyremeny={åpenHøyremeny}>
+                <InnholdWrapper åpenHøyremeny={åpenHøyremeny} id="scroll-topp">
                     <Fanemeny behandling={behandling} />
                     <SettPåVent behandling={behandling} />
                     <BehandlingRoutes behandling={behandling} />
