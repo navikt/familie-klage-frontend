@@ -210,7 +210,7 @@ export const SettPåVent: FC<{ behandling: Behandling }> = ({ behandling }) => {
                             settPåVent={settPåVent}
                             låsKnapp={låsKnapp}
                         />
-                        {visSettPåVent && <ScrollToTop />}
+                        <ScrollToTop />
                     </StyledVStack>
                 );
             }}
