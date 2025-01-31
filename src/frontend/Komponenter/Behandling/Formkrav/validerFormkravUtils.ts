@@ -76,9 +76,13 @@ export const utledRedigeringsmodus = (
     if (!behandlingErRedigerbar) {
         return Redigeringsmodus.VISNING;
     }
-    if (alleVurderingerErStatus(vurderinger, VilkårStatus.IKKE_SATT)) {
+
+    if (vurderinger.påklagetVedtak.påklagetVedtakstype === PåklagetVedtakstype.UTEN_VEDTAK) {
+        return Redigeringsmodus.VISNING;
+    } else if (alleVurderingerErStatus(vurderinger, VilkårStatus.IKKE_SATT)) {
         return Redigeringsmodus.IKKE_PÅSTARTET;
     }
+
     return Redigeringsmodus.VISNING;
 };
 
