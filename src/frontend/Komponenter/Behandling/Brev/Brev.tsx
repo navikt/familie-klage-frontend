@@ -126,10 +126,6 @@ export const Brev: React.FC<Props> = ({ behandling }: Props) => {
         settFeilmelding('');
     };
 
-    if (!behandlingErRedigerbar) {
-        return <></>;
-    }
-
     if (utfall === 'LAG_BREV') {
         return (
             <Brevside>
