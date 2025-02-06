@@ -13,13 +13,14 @@ import {
 } from '../../../../App/typer/ressurs';
 import { BrevmottakerModal } from './modal/BrevmottakerModal';
 import { BrevmottakerPanel } from './panel/BrevmottakerPanel';
-import { NyBrevmottakerPersonUtenIdent } from './nyBrevmottakerPersonUtenIdent';
 import { useOnMount } from '../../../../App/hooks/useOnMount';
 import { Box, Skeleton } from '@navikt/ds-react';
 import { Brevmottakere } from '../brevmottakere';
 import { erBrevmottakerPersonUtenIdent } from '../brevmottaker';
+import { NyBrevmottaker } from '../nyBrevmottaker';
+import { SlettbarBrevmottaker } from '../slettbarBrevmottaker';
 
-const API_BASE_URL = `/familie-klage/api/brevmottaker/baks`;
+const API_BASE_URL = `/familie-klage/api/brevmottaker`;
 
 type Props = {
     behandlingId: string;
@@ -45,10 +46,8 @@ export function BrevmottakerContainer({ behandlingId }: Props) {
         });
     }
 
-    async function opprettBrevmottaker(
-        nyBrevmottaker: NyBrevmottakerPersonUtenIdent
-    ): Promise<boolean> {
-        return await axiosRequest<Brevmottakere, NyBrevmottakerPersonUtenIdent>({
+    async function opprettBrevmottaker(nyBrevmottaker: NyBrevmottaker): Promise<boolean> {
+        return await axiosRequest<Brevmottakere, NyBrevmottaker>({
             url: `${API_BASE_URL}/${behandlingId}`,
             method: 'POST',
             data: nyBrevmottaker,
@@ -61,10 +60,11 @@ export function BrevmottakerContainer({ behandlingId }: Props) {
         });
     }
 
-    async function slettBrevmottakere(brevmottakerId: string): Promise<boolean> {
-        return await axiosRequest<Brevmottakere, null>({
+    async function slettBrevmottaker(slettbarBrevmottaker: SlettbarBrevmottaker): Promise<boolean> {
+        return await axiosRequest<Brevmottakere, SlettbarBrevmottaker>({
             method: 'DELETE',
-            url: `${API_BASE_URL}/${behandlingId}/${brevmottakerId}`,
+            url: `${API_BASE_URL}/${behandlingId}`,
+            data: slettbarBrevmottaker,
         }).then((ressurs: RessursFeilet | RessursSuksess<Brevmottakere>) => {
             if (ressurs.status !== RessursStatus.SUKSESS) {
                 return Promise.resolve(false);
@@ -103,7 +103,7 @@ export function BrevmottakerContainer({ behandlingId }: Props) {
                             personopplysninger={personopplysninger}
                             brevmottakere={brevmottakerePersonUtenIdent}
                             opprettBrevmottaker={opprettBrevmottaker}
-                            slettBrevmottaker={slettBrevmottakere}
+                            slettBrevmottaker={slettBrevmottaker}
                             erLesevisning={false}
                         />
                     </>
