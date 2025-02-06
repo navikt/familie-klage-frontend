@@ -63,11 +63,11 @@ export const BrevmottakereModal: FC<{
     const [innsendingSuksess, settInnsendingSukksess] = useState(false);
     const { settToast, axiosRequest } = useApp();
 
-    const kallSettBrevmottakere = useCallback(
+    const kallErstattBrevmottakere = useCallback(
         (brevmottakere: Brevmottakere) =>
             axiosRequest<Brevmottakere, Brevmottakere>({
-                url: `familie-klage/api/brev/${behandlingId}/mottakere`,
-                method: 'POST',
+                url: `familie-klage/api/brevmottaker/${behandlingId}`,
+                method: 'PUT',
                 data: brevmottakere,
             }),
         [axiosRequest, behandlingId]
@@ -81,7 +81,7 @@ export const BrevmottakereModal: FC<{
     const settBrevmottakere = () => {
         settFeilmelding('');
         settInnsendingSukksess(false);
-        kallSettBrevmottakere({
+        kallErstattBrevmottakere({
             personer: valgtePersonMottakere,
             organisasjoner: valgteOrganisasjonMottakere,
         }).then((response: RessursSuksess<Brevmottakere> | RessursFeilet) => {
