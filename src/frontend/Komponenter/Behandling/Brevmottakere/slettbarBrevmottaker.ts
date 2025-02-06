@@ -14,7 +14,7 @@ export interface SlettbarBrevmottakerPersonUtenIdent extends SlettbarBrevmottake
 
 export interface SlettbarBrevmottakerOrganisasjon extends SlettbarBrevmottaker {
     type: SlettbarBrevmottakerType.ORGANISASJON;
-    id: string;
+    organisasjonsnummer: string;
 }
 
 export enum SlettbarBrevmottakerType {
