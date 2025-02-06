@@ -60,9 +60,7 @@ export function BrevmottakerContainer({ behandlingId }: Props) {
         });
     }
 
-    async function slettBrevmottakere(
-        slettbarBrevmottaker: SlettbarBrevmottaker
-    ): Promise<boolean> {
+    async function slettBrevmottaker(slettbarBrevmottaker: SlettbarBrevmottaker): Promise<boolean> {
         return await axiosRequest<Brevmottakere, SlettbarBrevmottaker>({
             method: 'DELETE',
             url: `${API_BASE_URL}/${behandlingId}`,
@@ -105,7 +103,7 @@ export function BrevmottakerContainer({ behandlingId }: Props) {
                             personopplysninger={personopplysninger}
                             brevmottakere={brevmottakerePersonUtenIdent}
                             opprettBrevmottaker={opprettBrevmottaker}
-                            slettBrevmottaker={slettBrevmottakere}
+                            slettBrevmottaker={slettBrevmottaker}
                             erLesevisning={false}
                         />
                     </>
