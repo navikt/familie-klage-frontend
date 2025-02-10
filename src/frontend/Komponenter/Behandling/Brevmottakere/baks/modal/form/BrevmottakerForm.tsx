@@ -10,12 +10,9 @@ import { Alert, Button, Heading, HStack, VStack } from '@navikt/ds-react';
 import { EøsLandkode } from '../../../../../../Felles/Landvelger/landkode';
 import { IPersonopplysninger } from '../../../../../../App/typer/personopplysninger';
 import { BrevmottakerFeltnavn } from './felt/felttyper';
-import {
-    lagNyBrevmottakerPersonUtenIdent,
-    NyBrevmottakerPersonUtenIdent,
-} from '../../nyBrevmottakerPersonUtenIdent';
 import { MottakerRolle } from '../../../mottakerRolle';
 import { BrevmottakerPersonUtenIdent } from '../../../brevmottaker';
+import { lagNyBrevmottakerPersonUtenIdent, NyBrevmottaker } from '../../../nyBrevmottaker';
 
 export type BrevmottakerFormValues = {
     [BrevmottakerFeltnavn.MOTTAKERROLLE]: MottakerRolle | '';
@@ -43,7 +40,7 @@ type Props = {
     brevmottakere: BrevmottakerPersonUtenIdent[];
     erLesevisning: boolean;
     lukkForm: () => void;
-    opprettBrevmottaker: (nyBrevmottaker: NyBrevmottakerPersonUtenIdent) => Promise<boolean>;
+    opprettBrevmottaker: (nyBrevmottaker: NyBrevmottaker) => Promise<boolean>;
 };
 
 export function BrevmottakerForm({
