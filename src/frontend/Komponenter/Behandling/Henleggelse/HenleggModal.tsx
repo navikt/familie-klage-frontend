@@ -43,11 +43,12 @@ export const HenleggModal: FC<{ behandling: Behandling }> = ({ behandling }) => 
         }
         settHenleggerBehandling(true);
 
-        axiosRequest<string, { årsak: EHenlagtårsak }>({
+        axiosRequest<string, { årsak: EHenlagtårsak; skalSendeHenleggelsesbrev: boolean }>({
             method: 'POST',
             url: `/familie-klage/api/behandling/${behandling.id}/henlegg`,
             data: {
                 årsak: henlagtårsak as EHenlagtårsak,
+                skalSendeHenleggelsesbrev: harHuketAvSendBrev,
             },
         })
             .then((respons: RessursSuksess<string> | RessursFeilet) => {
