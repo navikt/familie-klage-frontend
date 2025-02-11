@@ -12,6 +12,8 @@ import { ModalWrapper } from '../../../Felles/Modal/ModalWrapper';
 import { Stack, Link } from '@navikt/ds-react';
 import { ABorderSubtle } from '@navikt/ds-tokens/dist/tokens';
 import { base64toBlob, åpnePdfIEgenTab } from '../../../App/utils/utils';
+import { IPersonopplysninger } from '../../../App/typer/personopplysninger';
+import { erEtterDagensDato } from '../../../App/utils/dato';
 
 const AlertStripe = styled(Alert)`
     margin-top: 1rem;
@@ -21,9 +23,14 @@ const HorizontalDivider = styled.div`
     border-bottom: 2px solid ${ABorderSubtle};
 `;
 
-export const HenleggModal: FC<{ behandling: Behandling }> = ({ behandling }) => {
+export const HenleggModal: FC<{
+    behandling: Behandling;
+    personopplysninger: IPersonopplysninger;
+}> = ({ behandling, personopplysninger }) => {
     const { visHenleggModal, settVisHenleggModal, hentBehandling, hentBehandlingshistorikk } =
         useBehandling();
+    const fullmakter = personopplysninger.fullmakt;
+    const vergemål = personopplysninger.vergemål;
 
     const { axiosRequest, settToast } = useApp();
     const navigate = useNavigate();
@@ -48,7 +55,7 @@ export const HenleggModal: FC<{ behandling: Behandling }> = ({ behandling }) => 
             url: `/familie-klage/api/behandling/${behandling.id}/henlegg`,
             data: {
                 årsak: henlagtårsak as EHenlagtårsak,
-                skalSendeHenleggelsesbrev: harHuketAvSendBrev,
+                skalSendeHenleggelsesbrev: harValgtSendBrevOgSkalViseFramValg,
             },
         })
             .then((respons: RessursSuksess<string> | RessursFeilet) => {
@@ -90,8 +97,17 @@ export const HenleggModal: FC<{ behandling: Behandling }> = ({ behandling }) => 
             });
         }
     };
+    const tilknyttetFullmakt = fullmakter.some(
+        (fullmakt) => fullmakt.gyldigTilOgMed === null || erEtterDagensDato(fullmakt.gyldigTilOgMed)
+    );
 
-    const skalViseTilleggsvalg = henlagtårsak === EHenlagtårsak.TRUKKET_TILBAKE;
+    const henlagtårsakTrukketTilbake = henlagtårsak === EHenlagtårsak.TRUKKET_TILBAKE;
+
+    const harVergemål = vergemål.length > 0;
+
+    const skalViseTilleggsvalg = !harVergemål && !tilknyttetFullmakt && henlagtårsakTrukketTilbake;
+
+    const harValgtSendBrevOgSkalViseFramValg = harHuketAvSendBrev && skalViseTilleggsvalg;
 
     return (
         <ModalWrapper
@@ -140,6 +156,16 @@ export const HenleggModal: FC<{ behandling: Behandling }> = ({ behandling }) => 
                     </>
                 )}
                 {feilmelding && <AlertStripe variant={'error'}>{feilmelding}</AlertStripe>}
+                {harVergemål && henlagtårsakTrukketTilbake && (
+                    <AlertStripe size={'small'} variant={'warning'}>
+                        {'Verge registrert på bruker. Brev om trukket klage må sendes manuelt.'}
+                    </AlertStripe>
+                )}
+                {tilknyttetFullmakt && henlagtårsakTrukketTilbake && (
+                    <AlertStripe size={'small'} variant={'warning'}>
+                        {'Fullmakt registrert på bruker. Brev om trukket klage må sendes manuelt.'}
+                    </AlertStripe>
+                )}
             </VStack>
         </ModalWrapper>
     );
