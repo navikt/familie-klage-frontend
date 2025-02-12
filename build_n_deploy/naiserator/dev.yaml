@@ -62,11 +62,6 @@ spec:
       value: "{{version}}"
     - name: ENV
       value: preprod
-  redis:
-    - instance: sessions
-      access: readwrite
-    - instance: lookup
-      access: read
   valkey:
     - instance: sessions
       access: readwrite
