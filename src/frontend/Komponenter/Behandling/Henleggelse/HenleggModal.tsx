@@ -31,7 +31,6 @@ export const HenleggModal: FC<{
         useBehandling();
     const fullmakter = personopplysninger.fullmakt;
     const vergemål = personopplysninger.vergemål;
-
     const { axiosRequest, settToast } = useApp();
     const navigate = useNavigate();
     const [henlagtårsak, settHenlagtårsak] = useState<EHenlagtårsak>();
@@ -100,7 +99,6 @@ export const HenleggModal: FC<{
     const tilknyttetFullmakt = fullmakter.some(
         (fullmakt) => fullmakt.gyldigTilOgMed === null || erEtterDagensDato(fullmakt.gyldigTilOgMed)
     );
-
     const henlagtårsakTrukketTilbake = henlagtårsak === EHenlagtårsak.TRUKKET_TILBAKE;
 
     const harVergemål = vergemål.length > 0;
