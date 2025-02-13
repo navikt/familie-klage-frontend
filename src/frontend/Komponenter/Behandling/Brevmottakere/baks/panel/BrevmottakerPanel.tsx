@@ -4,6 +4,8 @@ import { useBehandling } from '../../../../../App/context/BehandlingContext';
 import { BodyShort, Box, Button, HStack, Label, Tooltip } from '@navikt/ds-react';
 import { utledOppsumertBrevmottakere } from '../oppsumertBrevmottaker';
 import { Brevmottakere } from '../../brevmottakere';
+import { useToggles } from '../../../../../App/context/TogglesContext';
+import { ToggleName } from '../../../../../App/context/toggles';
 
 type Props = {
     brevmottakere: Brevmottakere;
@@ -11,6 +13,7 @@ type Props = {
 
 export function BrevmottakerPanel({ brevmottakere }: Props) {
     const { settVisBrevmottakereModal } = useApp();
+    const { toggles } = useToggles();
     const { behandlingErRedigerbar } = useBehandling();
 
     const oppsumertBrevmottakere = utledOppsumertBrevmottakere(brevmottakere);
@@ -19,7 +22,7 @@ export function BrevmottakerPanel({ brevmottakere }: Props) {
         <Box background={'surface-info-subtle'} padding={'6'}>
             <HStack justify={'space-between'} align={'center'}>
                 <Label htmlFor={'brevmottakere_liste'}>Brevmottakere</Label>
-                {behandlingErRedigerbar && (
+                {behandlingErRedigerbar && toggles[ToggleName.leggTilBrevmottakerBaks] && (
                     <Tooltip content={'Legg til eller fjern brevmottakere'}>
                         <Button
                             variant={'tertiary'}
