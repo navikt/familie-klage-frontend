@@ -75,7 +75,7 @@ const BehandlingContent: FC<{
                     <Fanemeny behandling={behandling} />
                     <SettPåVent behandling={behandling} />
                     <BehandlingRoutes behandling={behandling} />
-                    <HenleggModal behandling={behandling} />
+                    <HenleggModal behandling={behandling} personopplysninger={personopplysninger} />
                 </InnholdWrapper>
                 <HøyreMenyWrapper åpenHøyremeny={åpenHøyremeny}>
                     <Høyremeny åpenHøyremeny={åpenHøyremeny} behandling={behandling} />
