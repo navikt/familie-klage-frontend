@@ -19,6 +19,8 @@ import { Brevmottakere } from '../brevmottakere';
 import { erBrevmottakerPersonUtenIdent } from '../brevmottaker';
 import { NyBrevmottaker } from '../nyBrevmottaker';
 import { SlettbarBrevmottaker } from '../slettbarBrevmottaker';
+import { useToggles } from '../../../../App/context/TogglesContext';
+import { ToggleName } from '../../../../App/context/toggles';
 
 const API_BASE_URL = `/familie-klage/api/brevmottaker`;
 
@@ -29,6 +31,8 @@ type Props = {
 export function BrevmottakerContainer({ behandlingId }: Props) {
     const { axiosRequest } = useApp();
     const { personopplysningerResponse: personopplysninger } = useBehandling();
+    const { toggles } = useToggles();
+
     const [brevmottakere, settBrevmottakere] = useState<Ressurs<Brevmottakere>>(byggTomRessurs());
 
     async function hentBrevmottakere(): Promise<boolean> {
@@ -98,14 +102,16 @@ export function BrevmottakerContainer({ behandlingId }: Props) {
                 return (
                     <>
                         <BrevmottakerPanel brevmottakere={brevmottakere} />
-                        <BrevmottakerModal
-                            behandlingId={behandlingId}
-                            personopplysninger={personopplysninger}
-                            brevmottakere={brevmottakerePersonUtenIdent}
-                            opprettBrevmottaker={opprettBrevmottaker}
-                            slettBrevmottaker={slettBrevmottaker}
-                            erLesevisning={false}
-                        />
+                        {toggles[ToggleName.leggTilBrevmottakerBaks] && (
+                            <BrevmottakerModal
+                                behandlingId={behandlingId}
+                                personopplysninger={personopplysninger}
+                                brevmottakere={brevmottakerePersonUtenIdent}
+                                opprettBrevmottaker={opprettBrevmottaker}
+                                slettBrevmottaker={slettBrevmottaker}
+                                erLesevisning={false}
+                            />
+                        )}
                     </>
                 );
             }}
