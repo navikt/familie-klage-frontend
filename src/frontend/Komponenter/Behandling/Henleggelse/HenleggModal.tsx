@@ -133,19 +133,16 @@ export const HenleggModal: FC<{
                 {skalViseTilleggsvalg && (
                     <>
                         <HorizontalDivider />
-                        <RadioGroup legend="Send brev om trukket klage" value={harHuketAvSendBrev}>
+                        <RadioGroup
+                            legend="Send brev om trukket klage"
+                            value={harHuketAvSendBrev}
+                            onChange={(harHuketAvSendBrev: boolean) =>
+                                settHarHuketAvSendBrev(harHuketAvSendBrev)
+                            }
+                        >
                             <Stack gap="0 6" direction={{ xs: 'column', sm: 'row' }} wrap={false}>
-                                <Radio
-                                    value={true}
-                                    onChange={() => {
-                                        settHarHuketAvSendBrev(true);
-                                    }}
-                                >
-                                    Ja
-                                </Radio>
-                                <Radio value={false} onChange={() => settHarHuketAvSendBrev(false)}>
-                                    Nei
-                                </Radio>
+                                <Radio value={true}>Ja</Radio>
+                                <Radio value={false}>Nei</Radio>
                             </Stack>
                         </RadioGroup>
                         <Link onClick={visBrevINyFane} href="#">
