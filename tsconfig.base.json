@@ -1,26 +1,40 @@
 {
   "compilerOptions": {
     "target": "ES2022",
-    "module": "ES2022",
-    "lib": ["dom", "esnext", "es6"],
+    "lib": [
+      "dom",
+      "esnext",
+      "es6"
+    ],
     "importHelpers": true,
     "declaration": true,
     "sourceMap": true,
     "strict": true,
     "noImplicitAny": true,
-    "strictNullChecks": true,
-    "strictFunctionTypes": true,
-    "strictPropertyInitialization": true,
-    "noImplicitThis": true,
-    "alwaysStrict": true,
     "noUnusedLocals": true,
     "noUnusedParameters": true,
-    "noImplicitReturns": false,
     "noFallthroughCasesInSwitch": true,
     "moduleResolution": "node",
-    "traceResolution": false,
     "jsx": "react",
-    "esModuleInterop": true,
     "skipLibCheck": true,
-  }
+    "resolveJsonModule": true,
+    "module": "es2022",
+    "esModuleInterop": true,
+    "baseUrl": "./src",
+    "rootDir": "./src",
+    "outDir": "node_dist",
+    "types": [
+      "vitest/globals",
+      "@testing-library/jest-dom"
+    ]
+  },
+  "include": [
+    "./src/**/*"
+  ],
+  "exclude": [
+    "./node_modules"
+  ],
+  "lib": [
+    "es2022"
+  ]
 }
