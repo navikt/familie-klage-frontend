@@ -3,23 +3,29 @@ import React from 'react';
 import { describe, expect, test } from 'vitest';
 import { AdresselinjeFelt } from './AdresselinjeFelt';
 import { BrevmottakerFeltnavn } from './felttyper';
-import { DefaultValues, FormProvider, useForm } from 'react-hook-form';
+import { DefaultValues, FormProvider, FormState, useForm } from 'react-hook-form';
 import { BrevmottakerFormValues } from '../BrevmottakerForm';
 import { render } from '../../../../../../../lib/testrender';
 
-const defaultValues: DefaultValues<BrevmottakerFormValues> = {
+const DEFAULT_VALUES: DefaultValues<BrevmottakerFormValues> = {
     [BrevmottakerFeltnavn.ADRESSELINJE1]: '',
 };
 
 function FormWrapper({
     children,
-    values = defaultValues,
+    defaultValues = DEFAULT_VALUES,
+    formState = undefined,
 }: {
     children: React.ReactNode;
-    values?: DefaultValues<BrevmottakerFormValues>;
+    defaultValues?: DefaultValues<BrevmottakerFormValues>;
+    formState?: Partial<FormState<BrevmottakerFormValues>>;
 }) {
-    const form = useForm<BrevmottakerFormValues>({ mode: 'onChange', defaultValues: values });
-    return <FormProvider {...form}>{children}</FormProvider>;
+    const form = useForm<BrevmottakerFormValues>({ mode: 'onChange', defaultValues });
+    return (
+        <FormProvider {...form} formState={{ ...form.formState, ...formState }}>
+            {children}
+        </FormProvider>
+    );
 }
 
 const visningsnavn = 'Adresselinje 1';
@@ -172,8 +178,8 @@ describe('AdresselinjeFelt', () => {
                 wrapper: (props) => (
                     <FormWrapper
                         {...props}
-                        values={{
-                            ...defaultValues,
+                        defaultValues={{
+                            ...DEFAULT_VALUES,
                             [BrevmottakerFeltnavn.ADRESSELINJE1]: 'Osloveien 1337',
                         }}
                     />
@@ -183,5 +189,25 @@ describe('AdresselinjeFelt', () => {
 
         const textbox = screen.getByRole('textbox', { name: visningsnavn });
         expect(textbox).toHaveValue('Osloveien 1337');
+    });
+
+    test('skal ikke kunne skrive hvis formet blir submitted', async () => {
+        const { screen, user } = render(
+            <AdresselinjeFelt
+                feltnavn={BrevmottakerFeltnavn.ADRESSELINJE1}
+                visningsnavn={visningsnavn}
+            />,
+            {
+                wrapper: (props) => <FormWrapper {...props} formState={{ isSubmitting: true }} />,
+            }
+        );
+
+        const textbox = screen.getByRole('textbox', { name: visningsnavn });
+        await user.click(textbox);
+        await user.keyboard('Dette er en prøve');
+
+        expect(textbox).toHaveValue('');
+        expect(textbox).toBeInTheDocument();
+        expect(textbox).toHaveAttribute('readonly');
     });
 });
