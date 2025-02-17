@@ -22,18 +22,8 @@
     "esModuleInterop": true,
     "baseUrl": "./src",
     "rootDir": "./src",
-    "outDir": "node_dist",
-    "types": [
-      "vitest/globals",
-      "@testing-library/jest-dom"
-    ]
+    "outDir": "dist"
   },
-  "include": [
-    "./src/**/*"
-  ],
-  "exclude": [
-    "./node_modules"
-  ],
   "lib": [
     "es2022"
   ]

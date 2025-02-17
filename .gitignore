@@ -1,7 +1,8 @@
 node_modules
 frontend_production
 frontend_development
-node_dist
+dist
+tsbuildinfo
 .DS_Store
 .idea
 VERSION

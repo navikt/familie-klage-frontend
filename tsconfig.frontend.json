@@ -1,5 +1,15 @@
 {
   "extends": "./tsconfig.base.json",
+  "compilerOptions": {
+    "tsBuildInfoFile": "./tsbuildinfo/tsconfig.frontend.tsbuildinfo",
+    "types": [
+      "vitest/globals",
+      "@testing-library/jest-dom"
+    ]
+  },
+  "include": [
+    "./src/frontend"
+  ],
   "exclude": [
     "./node_modules",
     "./src/backend"
