@@ -1,31 +1,41 @@
 import React, { useState } from 'react';
-import styled from 'styled-components';
-import { Alert, BodyShort, Button } from '@navikt/ds-react';
+import {
+    Alert,
+    BodyShort,
+    Box,
+    Button,
+    Heading,
+    Select,
+    TextField,
+    VStack,
+} from '@navikt/ds-react';
 import { useApp } from '../../App/context/AppContext';
 import { Stønadstype } from '../../App/typer/stønadstype';
 import { RessursStatus } from '../../App/typer/ressurs';
 import { useNavigate } from 'react-router-dom';
+import { Fagsystem } from '../../App/typer/fagsak';
 
-const StyledTest = styled.div`
-    display: flex;
-    flex-direction: column;
-    width: 15rem;
-    margin: 2rem;
-`;
+type DummyBehandling = {
+    ident: string;
+    stønadstype: Stønadstype;
+    fagsystem: Fagsystem;
+};
 
 export const TestSide: React.FC = () => {
     const { axiosRequest, appEnv } = useApp();
-    const [ident, settIdent] = useState<string>();
-    const [feil, settFeil] = useState<string>();
-    const [stønadstype, settStønadstype] = useState<Stønadstype>();
     const navigate = useNavigate();
 
+    const [ident, settIdent] = useState<string>();
+    const [stønadstype, settStønadstype] = useState<Stønadstype>();
+    const [fagsystem, settFagsystem] = useState<Fagsystem>();
+    const [feil, settFeil] = useState<string>();
+
     const opprettDummyBehandling = () => {
-        if (ident && stønadstype) {
-            axiosRequest<string, { ident: string; stønadstype: Stønadstype }>({
+        if (ident && stønadstype && fagsystem) {
+            axiosRequest<string, DummyBehandling>({
                 method: 'POST',
                 url: `/familie-klage/api/test/opprett`,
-                data: { ident, stønadstype },
+                data: { ident, stønadstype, fagsystem },
             }).then((resp) => {
                 if (resp.status === RessursStatus.SUKSESS) {
                     navigate(`/behandling/${resp.data}/formkrav`);
@@ -45,15 +55,17 @@ export const TestSide: React.FC = () => {
     }
 
     return (
-        <>
-            <StyledTest>
-                <b>[Test] Opprett dummy-behandling</b>
-                <input
+        <Box padding={'10'}>
+            <Heading size={'large'}>[Test] Opprett dummy-behandling</Heading>
+            <VStack padding={'4'} gap={'5'} width={'25rem'}>
+                <TextField
+                    label={'Ident'}
                     placeholder={'Ident'}
                     value={ident || ``}
                     onChange={(e) => settIdent(e.target.value)}
                 />
-                <select
+                <Select
+                    label={'Stønadstype'}
                     value={stønadstype}
                     onChange={(e) => settStønadstype(e.target.value as Stønadstype)}
                 >
@@ -63,10 +75,22 @@ export const TestSide: React.FC = () => {
                             {stønadstype}
                         </option>
                     ))}
-                </select>
+                </Select>
+                <Select
+                    label={'Fagsystem'}
+                    value={fagsystem}
+                    onChange={(e) => settFagsystem(e.target.value as Fagsystem)}
+                >
+                    <option>Velg</option>
+                    {Object.values(Fagsystem).map((fs) => (
+                        <option key={fs} value={fs}>
+                            {fs}
+                        </option>
+                    ))}
+                </Select>
                 <Button onClick={opprettDummyBehandling}>Lag behandling</Button>
-            </StyledTest>
+            </VStack>
             {feil && <Alert variant={'error'}>{feil}</Alert>}
-        </>
+        </Box>
     );
 };
