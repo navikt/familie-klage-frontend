@@ -1,13 +1,10 @@
 {
   "extends": "./tsconfig.base.json",
-  "compilerOptions": {
-    "tsBuildInfoFile": "./tsbuildinfo/tsconfig.backend.tsbuildinfo",
-  },
   "include": [
     "./src/backend"
   ],
   "exclude": [
     "./node_modules",
-    "./src/frontend",
+    "./src/frontend"
   ]
 }
