@@ -1,14 +1,11 @@
 {
-    "extends": "./tsconfig.base.json",
-    "compilerOptions": {
-        "outDir": "node_dist",
-        "baseUrl": "./src",
-        "rootDir": "./src",
-        "resolveJsonModule": true,
-        "module": "es2022",
-        "esModuleInterop": true
+  "files": [],
+  "references": [
+    {
+      "path": "./tsconfig.frontend.json"
     },
-    "include": ["./src/backend", "./src/mock-server", "./src/mock-server/**/*.json"],
-    "exclude": ["./src/frontend"],
-    "lib": ["es2022"]
+    {
+      "path": "./tsconfig.backend.json"
+    }
+  ]
 }

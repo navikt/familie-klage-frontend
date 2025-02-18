@@ -21,3 +21,5 @@ jobs:
           NODE_AUTH_TOKEN: ${{ secrets.READER_TOKEN }}
       - name: Yarn build
         run: yarn build
+      - name: Yarn test
+        run: yarn test
