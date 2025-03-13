@@ -2,7 +2,7 @@ import * as React from 'react';
 import { Heading, Select } from '@navikt/ds-react';
 import styled from 'styled-components';
 import { Dispatch, SetStateAction } from 'react';
-import { IVurdering, ÅrsakOmgjøring } from './vurderingValg';
+import { IVurdering, ÅrsakOmgjøring, årsakValgTilTekst } from './vurderingValg';
 import { useBehandling } from '../../../App/context/BehandlingContext';
 
 const ÅrsakStyled = styled.div`
@@ -17,7 +17,7 @@ const ÅrsakInnholdStyled = styled.div`
 interface IÅrsak {
     settÅrsak: Dispatch<SetStateAction<IVurdering>>;
     årsakValgt?: ÅrsakOmgjøring;
-    årsakValgmuligheter: Record<string, string>;
+    årsakValgmuligheter: ÅrsakOmgjøring[];
     endring: (komponentId: string) => void;
 }
 
@@ -53,9 +53,9 @@ export const Årsak: React.FC<IÅrsak> = ({
                     hideLabel
                 >
                     <option value={''}>Velg</option>
-                    {Object.keys(årsakValgmuligheter).map((valg, index) => (
+                    {Object.values(årsakValgmuligheter).map((valg, index) => (
                         <option value={valg} key={index}>
-                            {årsakValgmuligheter[valg]}
+                            {årsakValgTilTekst[valg]}
                         </option>
                     ))}
                 </Select>
