@@ -6,13 +6,7 @@ import { Alert, Button, ReadMore } from '@navikt/ds-react';
 import { Vedtak } from './Vedtak';
 import { Årsak } from './Årsak';
 import { HjemmelVelger } from './HjemmelVelger';
-import {
-    IVurdering,
-    VedtakValg,
-    vedtakValgTilTekst,
-    ÅrsakOmgjøring,
-    årsakValgTilTekst,
-} from './vurderingValg';
+import { IVurdering, VedtakValg, vedtakValgTilTekst, ÅrsakOmgjøring } from './vurderingValg';
 import {
     byggTomRessurs,
     Ressurs,
@@ -155,7 +149,7 @@ export const Vurdering: React.FC<{ behandling: Behandling }> = ({ behandling }) 
 
     const årsakValgmuligheter = Object.values(ÅrsakOmgjøring).filter((årsak) => {
         if (behandling.fagsystem === Fagsystem.EF) {
-            årsak !== årsakValgTilTekst.IKKE_UTREDET_NOK;
+            årsak !== ÅrsakOmgjøring.IKKE_UTREDET_NOK;
         } else true;
     });
 
