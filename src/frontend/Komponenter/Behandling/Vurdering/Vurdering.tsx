@@ -149,8 +149,8 @@ export const Vurdering: React.FC<{ behandling: Behandling }> = ({ behandling }) 
 
     const årsakValgmuligheter = Object.values(ÅrsakOmgjøring).filter((årsak) => {
         if (behandling.fagsystem === Fagsystem.EF) {
-            årsak !== ÅrsakOmgjøring.IKKE_UTREDET_NOK;
-        } else true;
+            return årsak !== ÅrsakOmgjøring.IKKE_UTREDET_NOK;
+        } else return true;
     });
 
     return (
