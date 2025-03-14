@@ -6,7 +6,7 @@ import { Alert, Button, ReadMore } from '@navikt/ds-react';
 import { Vedtak } from './Vedtak';
 import { Årsak } from './Årsak';
 import { HjemmelVelger } from './HjemmelVelger';
-import { IVurdering, VedtakValg, vedtakValgTilTekst, ÅrsakOmgjøring } from './vurderingValg';
+import { IVurdering, VedtakValg, vedtakValgTilTekst } from './vurderingValg';
 import {
     byggTomRessurs,
     Ressurs,
@@ -147,12 +147,6 @@ export const Vurdering: React.FC<{ behandling: Behandling }> = ({ behandling }) 
         navigate(`/behandling/${behandlingId}/brev`);
     }
 
-    const årsakValgmuligheter = Object.values(ÅrsakOmgjøring).filter((årsak) => {
-        if (behandling.fagsystem === Fagsystem.EF) {
-            return årsak !== ÅrsakOmgjøring.IKKE_UTREDET_NOK;
-        } else return true;
-    });
-
     return (
         <DataViewer response={{ formkrav }}>
             {({ formkrav }) => {
@@ -180,7 +174,7 @@ export const Vurdering: React.FC<{ behandling: Behandling }> = ({ behandling }) 
                                         <Årsak
                                             settÅrsak={settOppdatertVurdering}
                                             årsakValgt={oppdatertVurdering.årsak}
-                                            årsakValgmuligheter={årsakValgmuligheter}
+                                            fagsystem={behandling.fagsystem}
                                             endring={settIkkePersistertKomponent}
                                         />
                                         <FritekstFeltWrapper>

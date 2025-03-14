@@ -4,6 +4,7 @@ import styled from 'styled-components';
 import { Dispatch, SetStateAction } from 'react';
 import { IVurdering, ÅrsakOmgjøring, årsakValgTilTekst } from './vurderingValg';
 import { useBehandling } from '../../../App/context/BehandlingContext';
+import { Fagsystem } from 'frontend/App/typer/fagsak';
 
 const ÅrsakStyled = styled.div`
     margin: 2rem 4rem 2rem 4rem;
@@ -17,18 +18,20 @@ const ÅrsakInnholdStyled = styled.div`
 interface IÅrsak {
     settÅrsak: Dispatch<SetStateAction<IVurdering>>;
     årsakValgt?: ÅrsakOmgjøring;
-    årsakValgmuligheter: ÅrsakOmgjøring[];
+    fagsystem: Fagsystem;
     endring: (komponentId: string) => void;
 }
 
-export const Årsak: React.FC<IÅrsak> = ({
-    settÅrsak,
-    årsakValgt,
-    årsakValgmuligheter,
-    endring,
-}) => {
+export const Årsak: React.FC<IÅrsak> = ({ settÅrsak, årsakValgt, fagsystem, endring }) => {
     // eslint-disable-next-line react-hooks/rules-of-hooks
     const { settVurderingEndret } = useBehandling();
+
+    const årsakValgmuligheter = Object.values(ÅrsakOmgjøring).filter((årsak) => {
+        if (fagsystem === Fagsystem.EF) {
+            return årsak !== ÅrsakOmgjøring.IKKE_UTREDET_NOK;
+        } else return true;
+    });
+
     return (
         <ÅrsakStyled>
             <Heading spacing size="medium" level="5">
