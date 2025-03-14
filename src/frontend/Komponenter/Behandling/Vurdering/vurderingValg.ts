@@ -27,6 +27,7 @@ export enum ÅrsakOmgjøring {
     FEIL_REGELVERKSFORSTÅELSE = 'FEIL_REGELVERKSFORSTÅELSE',
     FEIL_ELLER_ENDRET_FAKTA = 'FEIL_ELLER_ENDRET_FAKTA',
     FEIL_PROSESSUELL = 'FEIL_PROSESSUELL',
+    IKKE_UTREDET_NOK = 'IKKE_UTREDET_NOK',
     ANNET = 'ANNET',
 }
 
@@ -35,5 +36,6 @@ export const årsakValgTilTekst: Record<ÅrsakOmgjøring, string> = {
     FEIL_REGELVERKSFORSTÅELSE: 'Feil regelverksforståelse',
     FEIL_ELLER_ENDRET_FAKTA: 'Feil eller endret fakta',
     FEIL_PROSESSUELL: 'Prosessuell feil',
+    IKKE_UTREDET_NOK: 'Ikke utredet nok',
     ANNET: 'Annet',
 };
