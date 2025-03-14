@@ -4,7 +4,7 @@ import styled from 'styled-components';
 import { Dispatch, SetStateAction } from 'react';
 import { IVurdering, ÅrsakOmgjøring, årsakValgTilTekst } from './vurderingValg';
 import { useBehandling } from '../../../App/context/BehandlingContext';
-import { Fagsystem } from 'frontend/App/typer/fagsak';
+import { Fagsystem } from '../../../App/typer/fagsak';
 
 const ÅrsakStyled = styled.div`
     margin: 2rem 4rem 2rem 4rem;
