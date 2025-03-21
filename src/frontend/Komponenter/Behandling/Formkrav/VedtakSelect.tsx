@@ -9,6 +9,7 @@ import {
 import {
     erVedtakFraFagsystemet,
     fagsystemVedtakTilVisningstekst,
+    fagsystemVedtakTilVisningstekst2,
     harManuellVedtaksdato,
     sorterVedtakstidspunktDesc,
 } from './utils';
@@ -16,12 +17,14 @@ import { FagsystemVedtak } from '../../../App/typer/fagsystemVedtak';
 import { Label, Select } from '@navikt/ds-react';
 import { erGyldigDato } from '../../../App/utils/dato';
 import { Datovelger } from '../../../Felles/Datovelger/Datovelger';
+import { KlagebehandlingsResultat } from '../../../App/typer/klagebehandlingsResultat';
 
 interface IProps {
     settOppdaterteVurderinger: Dispatch<SetStateAction<IFormkravVilkår>>;
     vedtak: FagsystemVedtak[];
     vurderinger: IFormkravVilkår;
     fagsystem: Fagsystem;
+    klagebehandlingsResultater: KlagebehandlingsResultat[];
 }
 
 const SelectWrapper = styled.div`
@@ -37,6 +40,7 @@ export const VedtakSelect: React.FC<IProps> = ({
     vedtak,
     vurderinger,
     fagsystem,
+    klagebehandlingsResultater,
 }) => {
     const handleChange = (valgtElement: string) => {
         if (erVedtakFraFagsystemet(valgtElement)) {
@@ -95,6 +99,13 @@ export const VedtakSelect: React.FC<IProps> = ({
                 {vedtak.sort(sorterVedtakstidspunktDesc).map((valg, index) => (
                     <option key={index} value={valg.eksternBehandlingId}>
                         {fagsystemVedtakTilVisningstekst(valg)}
+                        {valg.eksternBehandlingId}
+                    </option>
+                ))}
+                {klagebehandlingsResultater.sort().map((klager, index) => (
+                    <option key={index} value={klager.id}>
+                        {fagsystemVedtakTilVisningstekst2(klager)}
+                        {klager.id}
                     </option>
                 ))}
                 {hentValgForFagsystem(fagsystem).map((valg) => (

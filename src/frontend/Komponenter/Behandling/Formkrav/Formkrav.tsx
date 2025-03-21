@@ -6,16 +6,20 @@ import { IFormkravVilkår } from './typer';
 import ToKolonnerLayout from '../../../Felles/Visningskomponenter/ToKolonnerLayout';
 import { VisEllerEndreFormkravVurderinger } from './VisEllerEndreFormkravVurderinger';
 import DataViewer from '../../../Felles/DataViewer/DataViewer';
-import { Behandling } from '../../../App/typer/fagsak';
+import { Behandling, BehandlingResultat } from '../../../App/typer/fagsak';
 import { useHentFormkravVilkår } from '../../../App/hooks/useHentFormkravVilkår';
 import { utledRedigeringsmodus } from './validerFormkravUtils';
 import { useHentFagsystemVedtak } from '../../../App/hooks/useHentFagsystemVedtak';
 import { FagsystemVedtak } from '../../../App/typer/fagsystemVedtak';
+import { useHentKlagebehandlingsResultater } from '../../../App/hooks/useHentKlagebehandlingsResultater';
+import { KlagebehandlingsResultat } from '../../../App/typer/klagebehandlingsResultat';
 
 export const Formkrav: React.FC<{ behandling: Behandling }> = ({ behandling }) => {
     const { vilkårsvurderinger, hentVilkårsvurderinger, lagreVilkårsvurderinger, feilVedLagring } =
         useHentFormkravVilkår();
     const { fagsystemVedtak, hentFagsystemVedtak } = useHentFagsystemVedtak();
+    const { klagebehandlingsResultater, hentKlagebehandlingsResultater } =
+        useHentKlagebehandlingsResultater();
     const behandlingId = behandling.id;
 
     useEffect(() => {
@@ -30,9 +34,14 @@ export const Formkrav: React.FC<{ behandling: Behandling }> = ({ behandling }) =
         }
     }, [behandling, fagsystemVedtak, hentFagsystemVedtak]);
 
+    useEffect(() => {
+        if (klagebehandlingsResultater.status === RessursStatus.IKKE_HENTET) {
+            hentKlagebehandlingsResultater(behandling);
+        }
+    }, [behandling, klagebehandlingsResultater, hentKlagebehandlingsResultater]);
     return (
-        <DataViewer response={{ vilkårsvurderinger, fagsystemVedtak }}>
-            {({ vilkårsvurderinger, fagsystemVedtak }) => {
+        <DataViewer response={{ vilkårsvurderinger, fagsystemVedtak, klagebehandlingsResultater }}>
+            {({ vilkårsvurderinger, fagsystemVedtak, klagebehandlingsResultater }) => {
                 return (
                     <FormkravKomponent
                         vilkårsvurderinger={vilkårsvurderinger}
@@ -40,6 +49,10 @@ export const Formkrav: React.FC<{ behandling: Behandling }> = ({ behandling }) =
                         behandling={behandling}
                         feilmelding={feilVedLagring}
                         fagsystemVedtak={fagsystemVedtak}
+                        klagebehandlingsResultater={klagebehandlingsResultater.filter(
+                            (klage) =>
+                                klage.resultat === BehandlingResultat.IKKE_MEDHOLD_FORMKRAV_AVVIST
+                        )}
                     />
                 );
             }}
@@ -55,7 +68,15 @@ const FormkravKomponent: React.FC<{
     behandling: Behandling;
     feilmelding: string;
     fagsystemVedtak: FagsystemVedtak[];
-}> = ({ vilkårsvurderinger, lagreVurderinger, behandling, feilmelding, fagsystemVedtak }) => {
+    klagebehandlingsResultater: KlagebehandlingsResultat[];
+}> = ({
+    vilkårsvurderinger,
+    lagreVurderinger,
+    behandling,
+    feilmelding,
+    fagsystemVedtak,
+    klagebehandlingsResultater,
+}) => {
     const { behandlingErRedigerbar } = useBehandling();
     const [oppdaterteVurderinger, settOppdaterteVurderinger] =
         useState<IFormkravVilkår>(vilkårsvurderinger);
@@ -87,6 +108,7 @@ const FormkravKomponent: React.FC<{
                         feilmelding={feilmelding}
                         fagsystemVedtak={fagsystemVedtak}
                         fagsystem={behandling.fagsystem}
+                        klagebehandlingsResultater={klagebehandlingsResultater}
                     />
                 ),
             }}
