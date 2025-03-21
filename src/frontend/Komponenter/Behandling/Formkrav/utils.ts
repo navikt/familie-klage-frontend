@@ -65,15 +65,15 @@ export const sorterVedtakstidspunktDesc = (a: FagsystemVedtak, b: FagsystemVedta
 export const fagsystemVedtakTilVisningstekst = (vedtak: FagsystemVedtak) =>
     `${vedtak.behandlingstype} - ${vedtak.resultat} - ${vedtakstidspunktTilVisningstekst(vedtak)}`;
 
-export const fagsystemVedtakTilVisningstekst2 = (klage: KlagebehandlingsResultat) =>
-    `Avvist klage - ${vedtakstidspunktTilVisningstekstKlage(klage.vedtaksdato)}`;
+export const klageresultatTilVisningstekst = (klage: KlagebehandlingsResultat) =>
+    `Avvist klage - ${klagetidspunktTIlVisningstekst(klage.vedtaksdato)}`;
 
 export const vedtakstidspunktTilVisningstekst = (vedtak: FagsystemVedtak) =>
     vedtak.fagsystemType === FagsystemType.TILBAKEKREVING
         ? formaterIsoDato(vedtak.vedtakstidspunkt)
         : formaterIsoDatoTid(vedtak.vedtakstidspunkt);
 
-export const vedtakstidspunktTilVisningstekstKlage = (dato: string | undefined) =>
+export const klagetidspunktTIlVisningstekst = (dato: string | undefined) =>
     dato ? formaterIsoDatoTid(dato) : '';
 
 export const erVedtakFraFagsystemet = (valgtElement: string) => {

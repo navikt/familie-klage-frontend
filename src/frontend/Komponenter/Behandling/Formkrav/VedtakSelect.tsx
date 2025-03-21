@@ -9,7 +9,7 @@ import {
 import {
     erVedtakFraFagsystemet,
     fagsystemVedtakTilVisningstekst,
-    fagsystemVedtakTilVisningstekst2,
+    klageresultatTilVisningstekst,
     harManuellVedtaksdato,
     sorterVedtakstidspunktDesc,
 } from './utils';
@@ -114,7 +114,7 @@ export const VedtakSelect: React.FC<IProps> = ({
                 ))}
                 {klagebehandlingsResultater.sort().map((klager, index) => (
                     <option key={index} value={klager.id}>
-                        {fagsystemVedtakTilVisningstekst2(klager)}
+                        {klageresultatTilVisningstekst(klager)}
                     </option>
                 ))}
                 {hentValgForFagsystem(fagsystem).map((valg) => (
