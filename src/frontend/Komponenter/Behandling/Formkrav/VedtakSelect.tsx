@@ -43,7 +43,7 @@ export const VedtakSelect: React.FC<IProps> = ({
     klagebehandlingsResultater,
 }) => {
     const handleChange = (valgtElement: string) => {
-        if (erVedtakFraFagsystemet(valgtElement)) {
+        if (erVedtakFraFagsystemet(valgtElement) && valgtElement.length < 15) {
             settOppdaterteVurderinger((prevState) => ({
                 ...prevState,
                 påklagetVedtak: {
@@ -51,14 +51,24 @@ export const VedtakSelect: React.FC<IProps> = ({
                     påklagetVedtakstype: PåklagetVedtakstype.VEDTAK,
                 },
             }));
-        } else {
+        }
+        if (!erVedtakFraFagsystemet(valgtElement)) {
             settOppdaterteVurderinger((prevState) => ({
                 ...prevState,
                 påklagetVedtak: {
                     påklagetVedtakstype: valgtElement as PåklagetVedtakstype,
                 },
             }));
+        } else {
+            settOppdaterteVurderinger((prevState) => ({
+                ...prevState,
+                påklagetVedtak: {
+                    internKlagebehandlingId: valgtElement,
+                    påklagetVedtakstype: PåklagetVedtakstype.AVVIST_KLAGE,
+                },
+            }));
         }
+        console.log(valgtElement.length);
     };
 
     const hentValgForFagsystem = (fagsystem: Fagsystem): PåklagetVedtakstype[] => {
@@ -90,6 +100,7 @@ export const VedtakSelect: React.FC<IProps> = ({
                 }}
                 value={
                     vurderinger.påklagetVedtak.eksternFagsystemBehandlingId ??
+                    vurderinger.påklagetVedtak.internKlagebehandlingId ??
                     vurderinger.påklagetVedtak.påklagetVedtakstype
                 }
             >
@@ -99,13 +110,11 @@ export const VedtakSelect: React.FC<IProps> = ({
                 {vedtak.sort(sorterVedtakstidspunktDesc).map((valg, index) => (
                     <option key={index} value={valg.eksternBehandlingId}>
                         {fagsystemVedtakTilVisningstekst(valg)}
-                        {valg.eksternBehandlingId}
                     </option>
                 ))}
                 {klagebehandlingsResultater.sort().map((klager, index) => (
                     <option key={index} value={klager.id}>
                         {fagsystemVedtakTilVisningstekst2(klager)}
-                        {klager.id}
                     </option>
                 ))}
                 {hentValgForFagsystem(fagsystem).map((valg) => (

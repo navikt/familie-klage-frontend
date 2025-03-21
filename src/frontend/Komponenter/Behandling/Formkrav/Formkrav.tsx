@@ -6,7 +6,7 @@ import { IFormkravVilkår } from './typer';
 import ToKolonnerLayout from '../../../Felles/Visningskomponenter/ToKolonnerLayout';
 import { VisEllerEndreFormkravVurderinger } from './VisEllerEndreFormkravVurderinger';
 import DataViewer from '../../../Felles/DataViewer/DataViewer';
-import { Behandling, BehandlingResultat } from '../../../App/typer/fagsak';
+import { Behandling } from '../../../App/typer/fagsak';
 import { useHentFormkravVilkår } from '../../../App/hooks/useHentFormkravVilkår';
 import { utledRedigeringsmodus } from './validerFormkravUtils';
 import { useHentFagsystemVedtak } from '../../../App/hooks/useHentFagsystemVedtak';
@@ -49,10 +49,7 @@ export const Formkrav: React.FC<{ behandling: Behandling }> = ({ behandling }) =
                         behandling={behandling}
                         feilmelding={feilVedLagring}
                         fagsystemVedtak={fagsystemVedtak}
-                        klagebehandlingsResultater={klagebehandlingsResultater.filter(
-                            (klage) =>
-                                klage.resultat === BehandlingResultat.IKKE_MEDHOLD_FORMKRAV_AVVIST
-                        )}
+                        klagebehandlingsResultater={klagebehandlingsResultater}
                     />
                 );
             }}

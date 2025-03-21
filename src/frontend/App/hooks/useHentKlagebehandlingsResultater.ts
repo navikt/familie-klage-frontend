@@ -17,7 +17,7 @@ export const useHentKlagebehandlingsResultater = (): {
         (behandling: Behandling) => {
             axiosRequest<KlagebehandlingsResultat[], null>({
                 method: 'GET',
-                url: `/familie-klage/api/behandling/${behandling.id}/hent-klager`,
+                url: `/familie-klage/api/behandling/${behandling.id}/hent-klager-ikke-medhold-formkrav-avvist`,
             }).then(settKlagebehandlingsResultater);
         },
         [axiosRequest]
