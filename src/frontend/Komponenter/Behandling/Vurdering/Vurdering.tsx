@@ -6,7 +6,7 @@ import { Alert, Button, ReadMore } from '@navikt/ds-react';
 import { Vedtak } from './Vedtak';
 import { Årsak } from './Årsak';
 import { HjemmelVelger } from './HjemmelVelger';
-import { IVurdering, VedtakValg, vedtakValgTilTekst, årsakValgTilTekst } from './vurderingValg';
+import { IVurdering, VedtakValg, vedtakValgTilTekst } from './vurderingValg';
 import {
     byggTomRessurs,
     Ressurs,
@@ -174,7 +174,7 @@ export const Vurdering: React.FC<{ behandling: Behandling }> = ({ behandling }) 
                                         <Årsak
                                             settÅrsak={settOppdatertVurdering}
                                             årsakValgt={oppdatertVurdering.årsak}
-                                            årsakValgmuligheter={årsakValgTilTekst}
+                                            fagsystem={behandling.fagsystem}
                                             endring={settIkkePersistertKomponent}
                                         />
                                         <FritekstFeltWrapper>
@@ -205,7 +205,10 @@ export const Vurdering: React.FC<{ behandling: Behandling }> = ({ behandling }) 
                                         <FritekstFeltWrapper>
                                             <EnsligTextArea
                                                 label="Innstilling til NAV Klageinstans (kommer med i brev til bruker)"
-                                                value={oppdatertVurdering.innstillingKlageinstans}
+                                                value={hentInnstillingKlageinstansTekstForVurdering(
+                                                    oppdatertVurdering,
+                                                    behandling.fagsystem
+                                                )}
                                                 onChange={(e) => {
                                                     settIkkePersistertKomponent(e.target.value);
                                                     settOppdatertVurdering((tidligereTilstand) => ({
@@ -272,6 +275,32 @@ const hentEksempelForFagsystem = (fagsystem: Fagsystem): string => {
         case Fagsystem.EF:
             return 'Klagers søknad om overgangsstønad ble avslått fordi hun har fått nytt barn med samme partner.';
     }
+};
+
+const hentInnstillingKlageinstansTekstForVurdering = (
+    vurdering: IVurdering,
+    fagsystem: Fagsystem
+): string | undefined => {
+    if (vurdering.innstillingKlageinstans?.trim()) {
+        return vurdering.innstillingKlageinstans;
+    }
+
+    if ([Fagsystem.BA, Fagsystem.KS].includes(fagsystem)) {
+        return [
+            'Dokumentasjon og utredning',
+            '',
+            'Spørsmålet i saken',
+            '',
+            'Aktuelle rettskilder',
+            '',
+            'Klagers anførsler',
+            '',
+            'Vurdering av klagen',
+            '',
+        ].join('\n');
+    }
+
+    return undefined;
 };
 
 const LesMerTekstInnstilling: React.FC<{ fagsystem: Fagsystem }> = ({ fagsystem }) => {
