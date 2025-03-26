@@ -43,32 +43,32 @@ export const VedtakSelect: React.FC<IProps> = ({
     klagebehandlingsResultater,
 }) => {
     const handleChange = (valgtElement: string) => {
-        if (erVedtakFraFagsystemet(valgtElement) && valgtElement.length < 15) {
-            settOppdaterteVurderinger((prevState) => ({
-                ...prevState,
-                påklagetVedtak: {
-                    eksternFagsystemBehandlingId: valgtElement,
-                    påklagetVedtakstype: PåklagetVedtakstype.VEDTAK,
-                },
-            }));
-        }
-        if (!erVedtakFraFagsystemet(valgtElement)) {
+        if (erVedtakFraFagsystemet(valgtElement)) {
+            if (valgtElement.length < 15) {
+                settOppdaterteVurderinger((prevState) => ({
+                    ...prevState,
+                    påklagetVedtak: {
+                        eksternFagsystemBehandlingId: valgtElement,
+                        påklagetVedtakstype: PåklagetVedtakstype.VEDTAK,
+                    },
+                }));
+            } else {
+                settOppdaterteVurderinger((prevState) => ({
+                    ...prevState,
+                    påklagetVedtak: {
+                        internKlagebehandlingId: valgtElement,
+                        påklagetVedtakstype: PåklagetVedtakstype.AVVIST_KLAGE,
+                    },
+                }));
+            }
+        } else {
             settOppdaterteVurderinger((prevState) => ({
                 ...prevState,
                 påklagetVedtak: {
                     påklagetVedtakstype: valgtElement as PåklagetVedtakstype,
                 },
             }));
-        } else {
-            settOppdaterteVurderinger((prevState) => ({
-                ...prevState,
-                påklagetVedtak: {
-                    internKlagebehandlingId: valgtElement,
-                    påklagetVedtakstype: PåklagetVedtakstype.AVVIST_KLAGE,
-                },
-            }));
         }
-        console.log(valgtElement.length);
     };
 
     const hentValgForFagsystem = (fagsystem: Fagsystem): PåklagetVedtakstype[] => {
