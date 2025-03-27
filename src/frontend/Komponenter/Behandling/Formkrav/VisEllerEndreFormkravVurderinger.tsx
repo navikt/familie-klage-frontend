@@ -55,6 +55,7 @@ export const VisEllerEndreFormkravVurderinger: React.FC<IProps> = ({
                     settOppdaterteVurderinger={settOppdaterteVurderinger}
                     settRedigeringsmodus={settRedigeringsmodus}
                     vurderinger={vurderinger}
+                    klagebehandlingsResultater={klagebehandlingsResultater}
                 />
             );
     }

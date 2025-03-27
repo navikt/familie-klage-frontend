@@ -53,6 +53,16 @@ export const utledFagsystemVedtakFraPåklagetVedtak = (
     );
 };
 
+export const utledKlageresultatFraPåklagetVedtak = (
+    klagebehandlingsResultater: KlagebehandlingsResultat[],
+    påklagetVedtak: PåklagetVedtak
+) => {
+    return klagebehandlingsResultater.find(
+        (klagebehandlingsResultat) =>
+            klagebehandlingsResultat.id === påklagetVedtak.internKlagebehandlingId
+    );
+};
+
 export const sorterVedtakstidspunktDesc = (a: FagsystemVedtak, b: FagsystemVedtak): number => {
     if (!a.vedtakstidspunkt) {
         return 1;
@@ -66,14 +76,14 @@ export const fagsystemVedtakTilVisningstekst = (vedtak: FagsystemVedtak) =>
     `${vedtak.behandlingstype} - ${vedtak.resultat} - ${vedtakstidspunktTilVisningstekst(vedtak)}`;
 
 export const klageresultatTilVisningstekst = (klage: KlagebehandlingsResultat) =>
-    `Avvist klage - ${klagetidspunktTIlVisningstekst(klage.vedtaksdato)}`;
+    `Avvist klage - ${klagetidspunktTilVisningstekst(klage.vedtaksdato)}`;
 
 export const vedtakstidspunktTilVisningstekst = (vedtak: FagsystemVedtak) =>
     vedtak.fagsystemType === FagsystemType.TILBAKEKREVING
         ? formaterIsoDato(vedtak.vedtakstidspunkt)
         : formaterIsoDatoTid(vedtak.vedtakstidspunkt);
 
-export const klagetidspunktTIlVisningstekst = (dato: string | undefined) =>
+export const klagetidspunktTilVisningstekst = (dato: string | undefined) =>
     dato ? formaterIsoDatoTid(dato) : '';
 
 export const erVedtakFraFagsystemet = (valgtElement: string) => {
@@ -140,3 +150,6 @@ export const harManuellVedtaksdato = (påklagetVedtakstype: PåklagetVedtakstype
         PåklagetVedtakstype.UTESTENGELSE,
         PåklagetVedtakstype.INFOTRYGD_ORDINÆRT_VEDTAK,
     ].includes(påklagetVedtakstype);
+
+export const erKlageTest = (påklagetVedtakstype: PåklagetVedtakstype): boolean =>
+    [PåklagetVedtakstype.AVVIST_KLAGE].includes(påklagetVedtakstype);

@@ -17,13 +17,19 @@ import { formaterIsoDatoTid, formaterNullableIsoDato } from '../../../App/utils/
 import { Ressurs, RessursFeilet, RessursStatus, RessursSuksess } from '../../../App/typer/ressurs';
 import {
     harManuellVedtaksdato,
+    klagetidspunktTilVisningstekst,
     skalViseKlagefristUnntak,
     utledFagsystemVedtakFraPåklagetVedtak,
+    utledKlageresultatFraPåklagetVedtak,
     utledRadioKnapper,
     vedtakstidspunktTilVisningstekst,
 } from './utils';
 import { PencilIcon, TrashIcon } from '@navikt/aksel-icons';
-import { PåklagetVedtakstype, påklagetVedtakstypeTilTekst } from '../../../App/typer/fagsak';
+import {
+    behandlingResultatTilTekst,
+    PåklagetVedtakstype,
+    påklagetVedtakstypeTilTekst,
+} from '../../../App/typer/fagsak';
 import {
     alleVilkårOppfylt,
     begrunnelseUtfylt,
@@ -33,6 +39,7 @@ import {
     utledIkkeUtfylteVilkår,
 } from './validerFormkravUtils';
 import { FagsystemVedtak } from '../../../App/typer/fagsystemVedtak';
+import { KlagebehandlingsResultat } from '../../../App/typer/klagebehandlingsResultat';
 
 export const RadSentrertVertikalt = styled.div`
     display: flex;
@@ -110,6 +117,7 @@ interface IProps {
     settRedigeringsmodus: (redigeringsmodus: Redigeringsmodus) => void;
     settOppdaterteVurderinger: Dispatch<SetStateAction<IFormkravVilkår>>;
     vurderinger: IFormkravVilkår;
+    klagebehandlingsResultater: KlagebehandlingsResultat[];
 }
 
 export const VisFormkravVurderinger: React.FC<IProps> = ({
@@ -118,6 +126,7 @@ export const VisFormkravVurderinger: React.FC<IProps> = ({
     settOppdaterteVurderinger,
     settRedigeringsmodus,
     vurderinger,
+    klagebehandlingsResultater,
 }) => {
     const { behandlingErRedigerbar, hentBehandling, hentBehandlingshistorikk } = useBehandling();
     const { påklagetVedtakstype, manuellVedtaksdato } = vurderinger.påklagetVedtak;
@@ -194,6 +203,11 @@ export const VisFormkravVurderinger: React.FC<IProps> = ({
         vurderinger.påklagetVedtak
     );
 
+    const gjeldendeKlageresultat = utledKlageresultatFraPåklagetVedtak(
+        klagebehandlingsResultater,
+        vurderinger.påklagetVedtak
+    );
+
     const urlSuffiks = utledUrlSuffiks();
 
     const skalViseBegrunnelseOgBrevtekst = !alleVilkårErOppfylt || ikkePåklagetVedtak;
@@ -239,6 +253,23 @@ export const VisFormkravVurderinger: React.FC<IProps> = ({
                                 <div>
                                     {gjeldendeFagsystemVedtak.resultat} -{' '}
                                     {vedtakstidspunktTilVisningstekst(gjeldendeFagsystemVedtak)}
+                                </div>
+                            </div>
+                        ) : gjeldendeKlageresultat ? (
+                            <div>
+                                <div>{gjeldendeKlageresultat ? 'Klage' : ''}</div>
+                                <div>
+                                    <div>
+                                        {
+                                            behandlingResultatTilTekst[
+                                                gjeldendeKlageresultat.resultat
+                                            ]
+                                        }{' '}
+                                        -{' '}
+                                        {klagetidspunktTilVisningstekst(
+                                            gjeldendeKlageresultat.vedtaksdato
+                                        )}
+                                    </div>
                                 </div>
                             </div>
                         ) : (
