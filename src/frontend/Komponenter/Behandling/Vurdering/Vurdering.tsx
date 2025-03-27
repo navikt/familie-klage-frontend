@@ -2,7 +2,7 @@ import * as React from 'react';
 import { useEffect, useState } from 'react';
 import { useApp } from '../../../App/context/AppContext';
 import styled from 'styled-components';
-import { Alert, Button, ReadMore } from '@navikt/ds-react';
+import { Alert, Button } from '@navikt/ds-react';
 import { Vedtak } from './Vedtak';
 import { Årsak } from './Årsak';
 import { HjemmelVelger } from './HjemmelVelger';
@@ -25,6 +25,7 @@ import { alleVilkårOppfylt, påKlagetVedtakValgt } from '../Formkrav/validerFor
 import { InterntNotat } from './InterntNotat';
 import { useHentVurderinger } from '../../../App/hooks/useHentVurderinger';
 import { Behandling, Fagsystem } from '../../../App/typer/fagsak';
+import { InnstillingTilNavKlageinstans } from './InnstillingTilNavKlageinstans/InnstillingTilNavKlageinstans';
 
 const FritekstFeltWrapper = styled.div`
     margin: 2rem 4rem 2rem 4rem;
@@ -42,18 +43,36 @@ const VurderingKnapper = styled.div`
     margin: 0 4rem;
 `;
 
-const LesMerTekst = styled(ReadMore)`
-    margin-top: 0.25rem;
-    max-width: 40rem;
-`;
-
-const erAlleFelterUtfylt = (vurderingData: IVurdering): boolean => {
-    const { vedtak, innstillingKlageinstans, årsak, hjemmel, begrunnelseOmgjøring } = vurderingData;
+const erAlleFelterUtfylt = (vurderingData: IVurdering, fagsystem: Fagsystem): boolean => {
+    const {
+        vedtak,
+        innstillingKlageinstans,
+        dokumentasjonOgUtredning,
+        spørsmåletISaken,
+        aktuelleRettskilder,
+        klagersAnførsler,
+        vurderingAvKlagen,
+        årsak,
+        hjemmel,
+        begrunnelseOmgjøring,
+    } = vurderingData;
 
     if (vedtak === VedtakValg.OMGJØR_VEDTAK) {
         return harVerdi(årsak) && harVerdi(begrunnelseOmgjøring);
-    } else if (vedtak === VedtakValg.OPPRETTHOLD_VEDTAK) {
+    } else if (vedtak === VedtakValg.OPPRETTHOLD_VEDTAK && fagsystem == Fagsystem.EF) {
         return harVerdi(innstillingKlageinstans) && harVerdi(hjemmel);
+    } else if (
+        vedtak === VedtakValg.OPPRETTHOLD_VEDTAK &&
+        (fagsystem == Fagsystem.BA || fagsystem == Fagsystem.KS)
+    ) {
+        return (
+            harVerdi(dokumentasjonOgUtredning) &&
+            harVerdi(spørsmåletISaken) &&
+            harVerdi(aktuelleRettskilder) &&
+            harVerdi(klagersAnførsler) &&
+            harVerdi(vurderingAvKlagen) &&
+            harVerdi(hjemmel)
+        );
     } else {
         return false;
     }
@@ -202,28 +221,15 @@ export const Vurdering: React.FC<{ behandling: Behandling }> = ({ behandling }) 
                                             hjemmelValgt={oppdatertVurdering.hjemmel}
                                             endring={settIkkePersistertKomponent}
                                         />
-                                        <FritekstFeltWrapper>
-                                            <EnsligTextArea
-                                                label="Innstilling til NAV Klageinstans (kommer med i brev til bruker)"
-                                                value={hentInnstillingKlageinstansTekstForVurdering(
-                                                    oppdatertVurdering,
-                                                    behandling.fagsystem
-                                                )}
-                                                onChange={(e) => {
-                                                    settIkkePersistertKomponent(e.target.value);
-                                                    settOppdatertVurdering((tidligereTilstand) => ({
-                                                        ...tidligereTilstand,
-                                                        innstillingKlageinstans: e.target.value,
-                                                    }));
-                                                    settVurderingEndret(true);
-                                                }}
-                                                size="medium"
-                                                readOnly={false}
-                                            />
-                                            <LesMerTekstInnstilling
-                                                fagsystem={behandling.fagsystem}
-                                            />
-                                        </FritekstFeltWrapper>
+                                        <InnstillingTilNavKlageinstans
+                                            behandling={behandling}
+                                            oppdatertVurdering={oppdatertVurdering}
+                                            settIkkePersistertKomponent={
+                                                settIkkePersistertKomponent
+                                            }
+                                            settOppdatertVurdering={settOppdatertVurdering}
+                                            settVurderingEndret={settVurderingEndret}
+                                        />
                                         <InterntNotat
                                             behandlingErRedigerbar={behandlingErRedigerbar}
                                             tekst={oppdatertVurdering?.interntNotat}
@@ -237,7 +243,12 @@ export const Vurdering: React.FC<{ behandling: Behandling }> = ({ behandling }) 
                                             variant="primary"
                                             size="medium"
                                             onClick={opprettVurdering}
-                                            disabled={!erAlleFelterUtfylt(oppdatertVurdering)}
+                                            disabled={
+                                                !erAlleFelterUtfylt(
+                                                    oppdatertVurdering,
+                                                    behandling.fagsystem
+                                                )
+                                            }
                                         >
                                             Lagre vurdering
                                         </Button>
@@ -263,68 +274,5 @@ export const Vurdering: React.FC<{ behandling: Behandling }> = ({ behandling }) 
                 );
             }}
         </DataViewer>
-    );
-};
-
-const hentEksempelForFagsystem = (fagsystem: Fagsystem): string => {
-    switch (fagsystem) {
-        case Fagsystem.BA:
-            return 'Klagers søknad om utvidet barnetrygd ble avslått fordi hun har fått barn med samboer.';
-        case Fagsystem.KS:
-            return 'Klagers søknad om kontantstøtte ble avslått fordi barnet er tildelt full barnehageplass.';
-        case Fagsystem.EF:
-            return 'Klagers søknad om overgangsstønad ble avslått fordi hun har fått nytt barn med samme partner.';
-    }
-};
-
-const hentInnstillingKlageinstansTekstForVurdering = (
-    vurdering: IVurdering,
-    fagsystem: Fagsystem
-): string | undefined => {
-    if (vurdering.innstillingKlageinstans?.trim()) {
-        return vurdering.innstillingKlageinstans;
-    }
-
-    if ([Fagsystem.BA, Fagsystem.KS].includes(fagsystem)) {
-        return [
-            'Dokumentasjon og utredning',
-            '',
-            'Spørsmålet i saken',
-            '',
-            'Aktuelle rettskilder',
-            '',
-            'Klagers anførsler',
-            '',
-            'Vurdering av klagen',
-            '',
-        ].join('\n');
-    }
-
-    return undefined;
-};
-
-const LesMerTekstInnstilling: React.FC<{ fagsystem: Fagsystem }> = ({ fagsystem }) => {
-    return (
-        <LesMerTekst size="small" header="Dette skal innstillingen inneholde">
-            <ol>
-                <li>
-                    Hva klagesaken gjelder
-                    <ol type="a">
-                        <li>
-                            Skriv kort om resultatet i vedtaket. Eksempel:{' '}
-                            {hentEksempelForFagsystem(fagsystem)}
-                        </li>
-                    </ol>
-                </li>
-                <li>
-                    Vurdering av klagen
-                    <ol type="a">
-                        <li>Begrunn hvorfor vi opprettholder vedtaket</li>
-                        <li>Klagers argumenter skal vurderes/kommenteres</li>
-                        <li>Avslutt med konklusjon og vis til hjemmel</li>
-                    </ol>
-                </li>
-            </ol>
-        </LesMerTekst>
     );
 };

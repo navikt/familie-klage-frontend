@@ -7,6 +7,11 @@ export interface IVurdering {
     begrunnelseOmgjøring?: string;
     hjemmel?: Hjemmel;
     innstillingKlageinstans?: string;
+    dokumentasjonOgUtredning?: string;
+    spørsmåletISaken?: string;
+    aktuelleRettskilder?: string;
+    klagersAnførsler?: string;
+    vurderingAvKlagen?: string;
     interntNotat?: string;
 }
 
