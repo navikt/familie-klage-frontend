@@ -3,7 +3,7 @@ import { Accordion } from '@navikt/ds-react';
 import { EnsligTextArea } from '../../../../Felles/Input/EnsligTextArea';
 import { IVurdering } from '../vurderingValg';
 
-interface IProps {
+interface Props {
     tittel: string;
     verdi: string | undefined;
     felt: keyof IVurdering;
@@ -19,7 +19,7 @@ export const InnstillingTilNavKlageinstansAvsnitt = ({
     settIkkePersistertKomponent,
     settOppdatertVurdering,
     settVurderingEndret,
-}: IProps) => {
+}: Props) => {
     return (
         <Accordion.Item>
             <Accordion.Header>{tittel}</Accordion.Header>

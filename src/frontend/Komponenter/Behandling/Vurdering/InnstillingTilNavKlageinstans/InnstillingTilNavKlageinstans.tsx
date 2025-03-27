@@ -7,7 +7,7 @@ import { LesMerOmInnstilling } from './LesMerOmInnstilling';
 import { Accordion, Heading } from '@navikt/ds-react';
 import { InnstillingTilNavKlageinstansAvsnitt } from './InnstillingTilNavKlageinstansAvsnitt';
 
-interface IProps {
+interface Props {
     behandling: Behandling;
     oppdatertVurdering: IVurdering;
     settIkkePersistertKomponent: (verdi: string) => void;
@@ -30,7 +30,7 @@ export const InnstillingTilNavKlageinstans = ({
     settIkkePersistertKomponent,
     settOppdatertVurdering,
     settVurderingEndret,
-}: IProps) => {
+}: Props) => {
     return behandling.fagsystem === Fagsystem.EF ? (
         <FritekstFeltWrapper>
             <EnsligTextArea
