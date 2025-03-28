@@ -58,10 +58,10 @@ export const utledFagsystemVedtakFraPåklagetVedtak = (
 };
 
 export const utledKlageresultatFraPåklagetVedtak = (
-    klagebehandlingsResultater: Klagebehandlingsresultat[],
+    klagebehandlingsresultater: Klagebehandlingsresultat[],
     påklagetVedtak: PåklagetVedtak
 ) => {
-    return klagebehandlingsResultater.find(
+    return klagebehandlingsresultater.find(
         (klagebehandlingsresultat) =>
             klagebehandlingsresultat.id === påklagetVedtak.internKlagebehandlingId
     );
