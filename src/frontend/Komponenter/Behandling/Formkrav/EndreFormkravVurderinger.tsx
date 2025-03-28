@@ -34,7 +34,7 @@ import {
 import KlagefristUnntak from './KlagefristUnntak';
 import { FagsystemVedtak } from '../../../App/typer/fagsystemVedtak';
 import { Fagsystem, PåklagetVedtakstype } from '../../../App/typer/fagsak';
-import { KlagebehandlingsResultat } from '../../../App/typer/klagebehandlingsResultat';
+import { Klagebehandlingsresultat } from '../../../App/typer/klagebehandlingsresultat';
 
 const RadioGrupperContainer = styled.div`
     display: flex;
@@ -89,7 +89,7 @@ interface IProps {
     settOppdaterteVurderinger: Dispatch<SetStateAction<IFormkravVilkår>>;
     vurderinger: IFormkravVilkår;
     fagsystem: Fagsystem;
-    klagebehandlingsResultater: KlagebehandlingsResultat[];
+    klagebehandlingsresultater: Klagebehandlingsresultat[];
 }
 
 export const EndreFormkravVurderinger: React.FC<IProps> = ({
@@ -100,7 +100,7 @@ export const EndreFormkravVurderinger: React.FC<IProps> = ({
     settRedigeringsmodus,
     vurderinger,
     fagsystem,
-    klagebehandlingsResultater,
+    klagebehandlingsresultater,
 }) => {
     const { hentBehandling, hentBehandlingshistorikk } = useBehandling();
     const { settIkkePersistertKomponent, nullstillIkkePersistertKomponent } = useApp();
@@ -154,7 +154,7 @@ export const EndreFormkravVurderinger: React.FC<IProps> = ({
                     vedtak={fagsystemVedtak}
                     vurderinger={vurderinger}
                     fagsystem={fagsystem}
-                    klagebehandlingsResultater={klagebehandlingsResultater}
+                    klagebehandlingsresultater={klagebehandlingsresultater}
                 />
             </VedtakSelectContainer>
             {påKlagetVedtakValgt(vurderinger) && (

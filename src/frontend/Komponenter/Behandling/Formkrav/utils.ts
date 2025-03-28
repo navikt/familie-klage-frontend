@@ -16,7 +16,7 @@ import {
 } from '../../../App/utils/formatter';
 import { FagsystemVedtak } from '../../../App/typer/fagsystemVedtak';
 import { alleVilkårOppfylt } from './validerFormkravUtils';
-import { KlagebehandlingsResultat } from '../../../App/typer/klagebehandlingsResultat';
+import { Klagebehandlingsresultat } from '../../../App/typer/klagebehandlingsresultat';
 
 export const utledRadioKnapper = (vurderinger: IFormkravVilkår): IFormalkrav[] => {
     const { klagePart, klageKonkret, klagefristOverholdt, klageSignert } = vurderinger;
@@ -58,7 +58,7 @@ export const utledFagsystemVedtakFraPåklagetVedtak = (
 };
 
 export const utledKlageresultatFraPåklagetVedtak = (
-    klagebehandlingsResultater: KlagebehandlingsResultat[],
+    klagebehandlingsResultater: Klagebehandlingsresultat[],
     påklagetVedtak: PåklagetVedtak
 ) => {
     return klagebehandlingsResultater.find(
@@ -77,8 +77,8 @@ export const sorterVedtakstidspunktDesc = (a: FagsystemVedtak, b: FagsystemVedta
 };
 
 export const sorterVedtakstidspunktKlageResultatDesc = (
-    a: KlagebehandlingsResultat,
-    b: KlagebehandlingsResultat
+    a: Klagebehandlingsresultat,
+    b: Klagebehandlingsresultat
 ): number => {
     if (!a.vedtaksdato) {
         return 1;
@@ -91,7 +91,7 @@ export const sorterVedtakstidspunktKlageResultatDesc = (
 export const fagsystemVedtakTilVisningstekst = (vedtak: FagsystemVedtak) =>
     `${vedtak.behandlingstype} - ${vedtak.resultat} - ${vedtakstidspunktTilVisningstekst(vedtak)}`;
 
-export const klageresultatTilVisningstekst = (klage: KlagebehandlingsResultat) =>
+export const klageresultatTilVisningstekst = (klage: Klagebehandlingsresultat) =>
     `Avvist klage - ${formaterNullableIsoDatoTid(klage.vedtaksdato)}`;
 
 export const vedtakstidspunktTilVisningstekst = (vedtak: FagsystemVedtak) =>

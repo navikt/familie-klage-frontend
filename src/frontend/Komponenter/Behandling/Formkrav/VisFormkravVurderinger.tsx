@@ -42,7 +42,7 @@ import {
     utledIkkeUtfylteVilkår,
 } from './validerFormkravUtils';
 import { FagsystemVedtak } from '../../../App/typer/fagsystemVedtak';
-import { KlagebehandlingsResultat } from '../../../App/typer/klagebehandlingsResultat';
+import { Klagebehandlingsresultat } from '../../../App/typer/klagebehandlingsresultat';
 
 export const RadSentrertVertikalt = styled.div`
     display: flex;
@@ -120,7 +120,7 @@ interface IProps {
     settRedigeringsmodus: (redigeringsmodus: Redigeringsmodus) => void;
     settOppdaterteVurderinger: Dispatch<SetStateAction<IFormkravVilkår>>;
     vurderinger: IFormkravVilkår;
-    klagebehandlingsResultater: KlagebehandlingsResultat[];
+    klagebehandlingsresultater: Klagebehandlingsresultat[];
 }
 
 export const VisFormkravVurderinger: React.FC<IProps> = ({
@@ -129,7 +129,7 @@ export const VisFormkravVurderinger: React.FC<IProps> = ({
     settOppdaterteVurderinger,
     settRedigeringsmodus,
     vurderinger,
-    klagebehandlingsResultater,
+    klagebehandlingsresultater: klagebehandlingsresultater,
 }) => {
     const { behandlingErRedigerbar, hentBehandling, hentBehandlingshistorikk } = useBehandling();
     const { påklagetVedtakstype, manuellVedtaksdato } = vurderinger.påklagetVedtak;
@@ -207,7 +207,7 @@ export const VisFormkravVurderinger: React.FC<IProps> = ({
     );
 
     const gjeldendeKlageresultat = utledKlageresultatFraPåklagetVedtak(
-        klagebehandlingsResultater,
+        klagebehandlingsresultater,
         vurderinger.påklagetVedtak
     );
 

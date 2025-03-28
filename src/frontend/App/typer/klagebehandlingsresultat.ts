@@ -1,7 +1,7 @@
 import { BehandlingStatus } from './behandlingstatus';
 import { BehandlingResultat } from './fagsak';
 
-export interface KlagebehandlingsResultat {
+export interface Klagebehandlingsresultat {
     id: string;
     fagsakId: string;
     fagsakPersonId: string;
