@@ -12,6 +12,7 @@ import {
     klageresultatTilVisningstekst,
     harManuellVedtaksdato,
     sorterVedtakstidspunktDesc,
+    sorterVedtakstidspunktKlageResultatDesc,
 } from './utils';
 import { FagsystemVedtak } from '../../../App/typer/fagsystemVedtak';
 import { Label, Select } from '@navikt/ds-react';
@@ -114,11 +115,13 @@ export const VedtakSelect: React.FC<IProps> = ({
                         {fagsystemVedtakTilVisningstekst(valg)}
                     </option>
                 ))}
-                {klagebehandlingsResultater.sort().map((klager, index) => (
-                    <option key={index} value={klager.id}>
-                        {klageresultatTilVisningstekst(klager)}
-                    </option>
-                ))}
+                {klagebehandlingsResultater
+                    .sort(sorterVedtakstidspunktKlageResultatDesc)
+                    .map((klager, index) => (
+                        <option key={index} value={klager.id}>
+                            {klageresultatTilVisningstekst(klager)}
+                        </option>
+                    ))}
                 {hentValgForFagsystem(fagsystem).map((valg) => (
                     <option value={valg} key={valg}>
                         {påklagetVedtakstypeTilTekst[valg]}

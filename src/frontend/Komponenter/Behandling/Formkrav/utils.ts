@@ -76,6 +76,18 @@ export const sorterVedtakstidspunktDesc = (a: FagsystemVedtak, b: FagsystemVedta
     return compareDesc(new Date(a.vedtakstidspunkt), new Date(b.vedtakstidspunkt));
 };
 
+export const sorterVedtakstidspunktKlageResultatDesc = (
+    a: KlagebehandlingsResultat,
+    b: KlagebehandlingsResultat
+): number => {
+    if (!a.vedtaksdato) {
+        return 1;
+    } else if (!b.vedtaksdato) {
+        return -1;
+    }
+    return compareDesc(new Date(a.vedtaksdato), new Date(b.vedtaksdato));
+};
+
 export const fagsystemVedtakTilVisningstekst = (vedtak: FagsystemVedtak) =>
     `${vedtak.behandlingstype} - ${vedtak.resultat} - ${vedtakstidspunktTilVisningstekst(vedtak)}`;
 
