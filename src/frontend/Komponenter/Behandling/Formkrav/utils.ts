@@ -9,7 +9,11 @@ import {
 } from './typer';
 import { PåklagetVedtakstype } from '../../../App/typer/fagsak';
 import { compareDesc } from 'date-fns';
-import { formaterIsoDato, formaterIsoDatoTid } from '../../../App/utils/formatter';
+import {
+    formaterIsoDato,
+    formaterIsoDatoTid,
+    formaterNullableIsoDatoTid,
+} from '../../../App/utils/formatter';
 import { FagsystemVedtak } from '../../../App/typer/fagsystemVedtak';
 import { alleVilkårOppfylt } from './validerFormkravUtils';
 import { KlagebehandlingsResultat } from '../../../App/typer/klagebehandlingsResultat';
@@ -76,15 +80,12 @@ export const fagsystemVedtakTilVisningstekst = (vedtak: FagsystemVedtak) =>
     `${vedtak.behandlingstype} - ${vedtak.resultat} - ${vedtakstidspunktTilVisningstekst(vedtak)}`;
 
 export const klageresultatTilVisningstekst = (klage: KlagebehandlingsResultat) =>
-    `Avvist klage - ${klagetidspunktTilVisningstekst(klage.vedtaksdato)}`;
+    `Avvist klage - ${formaterNullableIsoDatoTid(klage.vedtaksdato)}`;
 
 export const vedtakstidspunktTilVisningstekst = (vedtak: FagsystemVedtak) =>
     vedtak.fagsystemType === FagsystemType.TILBAKEKREVING
         ? formaterIsoDato(vedtak.vedtakstidspunkt)
         : formaterIsoDatoTid(vedtak.vedtakstidspunkt);
-
-export const klagetidspunktTilVisningstekst = (dato: string | undefined) =>
-    dato ? formaterIsoDatoTid(dato) : '';
 
 export const erVedtakFraFagsystemet = (valgtElement: string) => {
     return !(

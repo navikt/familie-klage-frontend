@@ -13,11 +13,14 @@ import {
 import { useBehandling } from '../../../App/context/BehandlingContext';
 import { Alert, BodyShort, Button, Heading, Label } from '@navikt/ds-react';
 import { useNavigate } from 'react-router-dom';
-import { formaterIsoDatoTid, formaterNullableIsoDato } from '../../../App/utils/formatter';
+import {
+    formaterIsoDatoTid,
+    formaterNullableIsoDato,
+    formaterNullableIsoDatoTid,
+} from '../../../App/utils/formatter';
 import { Ressurs, RessursFeilet, RessursStatus, RessursSuksess } from '../../../App/typer/ressurs';
 import {
     harManuellVedtaksdato,
-    klagetidspunktTilVisningstekst,
     skalViseKlagefristUnntak,
     utledFagsystemVedtakFraPåklagetVedtak,
     utledKlageresultatFraPåklagetVedtak,
@@ -260,9 +263,7 @@ export const VisFormkravVurderinger: React.FC<IProps> = ({
                                 <div>'Klage'</div>
                                 <div>
                                     {behandlingResultatTilTekst[gjeldendeKlageresultat.resultat]} -{' '}
-                                    {klagetidspunktTilVisningstekst(
-                                        gjeldendeKlageresultat.vedtaksdato
-                                    )}
+                                    {formaterNullableIsoDatoTid(gjeldendeKlageresultat.vedtaksdato)}
                                 </div>
                             </div>
                         ) : (
