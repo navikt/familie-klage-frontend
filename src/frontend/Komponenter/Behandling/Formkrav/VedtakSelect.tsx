@@ -44,20 +44,22 @@ export const VedtakSelect: React.FC<IProps> = ({
 }) => {
     const handleChange = (valgtElement: string) => {
         if (erVedtakFraFagsystemet(valgtElement)) {
-            if (valgtElement.length < 15) {
+            const erInternKlagebehandlingId = isNaN(Number(valgtElement));
+
+            if (erInternKlagebehandlingId) {
                 settOppdaterteVurderinger((prevState) => ({
                     ...prevState,
                     påklagetVedtak: {
-                        eksternFagsystemBehandlingId: valgtElement,
-                        påklagetVedtakstype: PåklagetVedtakstype.VEDTAK,
+                        internKlagebehandlingId: valgtElement,
+                        påklagetVedtakstype: PåklagetVedtakstype.AVVIST_KLAGE,
                     },
                 }));
             } else {
                 settOppdaterteVurderinger((prevState) => ({
                     ...prevState,
                     påklagetVedtak: {
-                        internKlagebehandlingId: valgtElement,
-                        påklagetVedtakstype: PåklagetVedtakstype.AVVIST_KLAGE,
+                        eksternFagsystemBehandlingId: valgtElement,
+                        påklagetVedtakstype: PåklagetVedtakstype.VEDTAK,
                     },
                 }));
             }

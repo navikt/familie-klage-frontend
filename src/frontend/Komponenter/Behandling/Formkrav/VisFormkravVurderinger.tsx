@@ -260,7 +260,7 @@ export const VisFormkravVurderinger: React.FC<IProps> = ({
                             </div>
                         ) : gjeldendeKlageresultat ? (
                             <div>
-                                <div>'Klage'</div>
+                                <div>Klage</div>
                                 <div>
                                     {behandlingResultatTilTekst[gjeldendeKlageresultat.resultat]} -{' '}
                                     {formaterNullableIsoDatoTid(gjeldendeKlageresultat.vedtaksdato)}
