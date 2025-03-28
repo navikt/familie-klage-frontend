@@ -62,8 +62,8 @@ export const utledKlageresultatFraPåklagetVedtak = (
     påklagetVedtak: PåklagetVedtak
 ) => {
     return klagebehandlingsResultater.find(
-        (klagebehandlingsResultat) =>
-            klagebehandlingsResultat.id === påklagetVedtak.internKlagebehandlingId
+        (klagebehandlingsresultat) =>
+            klagebehandlingsresultat.id === påklagetVedtak.internKlagebehandlingId
     );
 };
 
