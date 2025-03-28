@@ -257,19 +257,12 @@ export const VisFormkravVurderinger: React.FC<IProps> = ({
                             </div>
                         ) : gjeldendeKlageresultat ? (
                             <div>
-                                <div>{gjeldendeKlageresultat ? 'Klage' : ''}</div>
+                                <div>'Klage'</div>
                                 <div>
-                                    <div>
-                                        {
-                                            behandlingResultatTilTekst[
-                                                gjeldendeKlageresultat.resultat
-                                            ]
-                                        }{' '}
-                                        -{' '}
-                                        {klagetidspunktTilVisningstekst(
-                                            gjeldendeKlageresultat.vedtaksdato
-                                        )}
-                                    </div>
+                                    {behandlingResultatTilTekst[gjeldendeKlageresultat.resultat]} -{' '}
+                                    {klagetidspunktTilVisningstekst(
+                                        gjeldendeKlageresultat.vedtaksdato
+                                    )}
                                 </div>
                             </div>
                         ) : (
