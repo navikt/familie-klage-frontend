@@ -56,6 +56,7 @@ export interface IFormkravVilkår {
 
 export interface PåklagetVedtak {
     eksternFagsystemBehandlingId?: string;
+    internKlagebehandlingId?: string;
     påklagetVedtakstype: PåklagetVedtakstype;
     fagsystemVedtak?: FagsystemVedtak;
     manuellVedtaksdato?: string;
