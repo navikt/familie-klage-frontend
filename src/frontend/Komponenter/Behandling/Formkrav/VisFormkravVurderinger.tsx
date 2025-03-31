@@ -28,6 +28,7 @@ import {
     alleVilkårOppfylt,
     begrunnelseUtfylt,
     brevtekstUtfylt,
+    klagefristUnntakErValgtOgOppfylt,
     klagefristUnntakTattStillingTil,
     påKlagetVedtakValgt,
     utledIkkeUtfylteVilkår,
@@ -156,12 +157,18 @@ export const VisFormkravVurderinger: React.FC<IProps> = ({
 
     const radioKnapper = utledRadioKnapper(vurderinger);
     const alleVilkårErOppfylt = alleVilkårOppfylt(vurderinger);
+    const klagefristVilkårOppfylt = klagefristUnntakErValgtOgOppfylt(
+        vurderinger.klagefristOverholdtUnntak
+    );
     const påKlagetVedtakErValgt = påKlagetVedtakValgt(vurderinger);
     const harBegrunnelse = begrunnelseUtfylt(vurderinger);
     const harBrevtekst = brevtekstUtfylt(vurderinger);
     const manglerFritekster = !harBrevtekst || !harBegrunnelse;
     const ikkeUtfylteVilkår = utledIkkeUtfylteVilkår(vurderinger);
     const unntakFormalkravTattStillingTil = klagefristUnntakTattStillingTil(vurderinger);
+    const klagefristUnntakOppfylt = klagefristUnntakErValgtOgOppfylt(
+        vurderinger.klagefristOverholdtUnntak
+    );
     const ikkePåklagetVedtak =
         vurderinger.påklagetVedtak.påklagetVedtakstype === PåklagetVedtakstype.UTEN_VEDTAK;
 
@@ -173,7 +180,8 @@ export const VisFormkravVurderinger: React.FC<IProps> = ({
             ikkeUtfylteVilkår.length > 0 ||
             !unntakFormalkravTattStillingTil ||
             !påKlagetVedtakErValgt ||
-            (!alleVilkårErOppfylt && manglerFritekster)
+            ((!alleVilkårErOppfylt || (alleVilkårErOppfylt && klagefristUnntakOppfylt)) &&
+                manglerFritekster)
         );
     };
 
@@ -196,7 +204,8 @@ export const VisFormkravVurderinger: React.FC<IProps> = ({
 
     const urlSuffiks = utledUrlSuffiks();
 
-    const skalViseBegrunnelseOgBrevtekst = !alleVilkårErOppfylt || ikkePåklagetVedtak;
+    const skalViseBegrunnelseOgBrevtekst =
+        !alleVilkårErOppfylt || ikkePåklagetVedtak || klagefristVilkårOppfylt;
 
     return (
         <VisFormkravContainer>

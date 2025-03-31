@@ -24,6 +24,7 @@ import { VedtakSelect } from './VedtakSelect';
 import {
     alleVilkårOppfylt,
     alleVilkårTattStillingTil,
+    klagefristUnntakErValgtOgOppfylt,
     påKlagetVedtakValgt,
 } from './validerFormkravUtils';
 import {
@@ -105,7 +106,16 @@ export const EndreFormkravVurderinger: React.FC<IProps> = ({
     const [oppdatererVurderinger, settOppdatererVurderinger] = useState<boolean>(false);
 
     const alleVilkårErOppfylt = alleVilkårOppfylt(vurderinger);
+    const klageFristUnntakErOppfylt = klagefristUnntakErValgtOgOppfylt(
+        vurderinger.klagefristOverholdtUnntak
+    );
+
+    const skalViseKlagefristUnntakOppfyltBegrunnelseOgBrevtekst =
+        alleVilkårErOppfylt && klageFristUnntakErOppfylt;
+
     const alleVilkårUtfylt = alleVilkårTattStillingTil(vurderinger);
+    const ikkePåklagetVedtak =
+        vurderinger.påklagetVedtak.påklagetVedtakstype === PåklagetVedtakstype.UTEN_VEDTAK;
 
     const submitOppdaterteVurderinger = () => {
         if (oppdatererVurderinger) {
@@ -133,9 +143,39 @@ export const EndreFormkravVurderinger: React.FC<IProps> = ({
         return type != EFormalKravType.KLAGEFRIST_OVERHOLDT;
     };
 
-    const skalViseBegrunnelseOgBrevtekst =
-        (!alleVilkårErOppfylt && alleVilkårUtfylt) ||
-        vurderinger.påklagetVedtak.påklagetVedtakstype === PåklagetVedtakstype.UTEN_VEDTAK;
+    const fritekstHjelpetekst = (): string => {
+        const standardFritekstHjelpetekst =
+            'Ut ifra hvilke(t) formkrav som ikke er oppfylt, vil det automatisk vises en generell tekst i brevet med årsak til avvisning. ' +
+            'I dette fritekstfeltet skrives en mer detaljert begrunnelse. ' +
+            'Hvis klagen skal avvises fordi det er klaget for sent, så kan teksten for eksempel inneholde datoen for når vedtaket ble gjort og datoen for når bruker fremsatte klage';
+
+        switch (fagsystem) {
+            case Fagsystem.EF:
+                return standardFritekstHjelpetekst;
+            case Fagsystem.BA:
+            case Fagsystem.KS:
+                if (skalViseKlagefristUnntakOppfyltBegrunnelseOgBrevtekst) {
+                    return 'I dette fritekstfeltet skrives en begrunnelse for hvorfor du vurderer at unntak for klagefristen er oppfylt. Det du skriver vil hentes inn til oversendelsesbrevet.';
+                } else {
+                    return standardFritekstHjelpetekst;
+                }
+        }
+    };
+
+    const skalViseBegrunnelseOgBrevtekst = (): boolean => {
+        switch (fagsystem) {
+            case Fagsystem.EF:
+                return (!alleVilkårErOppfylt && alleVilkårUtfylt) || ikkePåklagetVedtak;
+            case Fagsystem.BA:
+            case Fagsystem.KS:
+                return (
+                    ((!alleVilkårErOppfylt ||
+                        skalViseKlagefristUnntakOppfyltBegrunnelseOgBrevtekst) &&
+                        alleVilkårUtfylt) ||
+                    ikkePåklagetVedtak
+                );
+        }
+    };
 
     return (
         <form
@@ -204,7 +244,7 @@ export const EndreFormkravVurderinger: React.FC<IProps> = ({
                             ))}
                         </RadioGrupperContainer>
                     )}
-                    {skalViseBegrunnelseOgBrevtekst && (
+                    {skalViseBegrunnelseOgBrevtekst() && (
                         <>
                             <Textarea
                                 label={'Begrunnelse (intern)'}
@@ -223,15 +263,7 @@ export const EndreFormkravVurderinger: React.FC<IProps> = ({
                                 label={
                                     <FlexRow>
                                         <Label>Fritekst til brev</Label>
-                                        <HjelpeTekst>
-                                            Ut ifra hvilke(t) formkrav som ikke er oppfylt, vil det
-                                            automatisk vises en generell tekst i brevet med årsak
-                                            til avvisning. I dette fritekstfeltet skrives en mer
-                                            detaljert begrunnelse. Hvis klagen skal avvises fordi
-                                            det er klaget for sent, så kan teksten for eksempel
-                                            inneholde datoen for når vedtaket ble gjort og datoen
-                                            for når bruker fremsatte klage.
-                                        </HjelpeTekst>
+                                        <HjelpeTekst>{fritekstHjelpetekst()}</HjelpeTekst>
                                     </FlexRow>
                                 }
                                 value={vurderinger.brevtekst}
