@@ -106,7 +106,7 @@ const OpprettholdVedtak: React.FC<{ vurdering: IVurdering }> = ({ vurdering }) =
                 vurderingAvKlagen) && (
                 <Avsnitt>
                     <Heading level="1" size="medium">
-                        Innstilling til NAV Klageinstans
+                        Innstilling til Nav Klageinstans
                     </Heading>
                 </Avsnitt>
             )}
