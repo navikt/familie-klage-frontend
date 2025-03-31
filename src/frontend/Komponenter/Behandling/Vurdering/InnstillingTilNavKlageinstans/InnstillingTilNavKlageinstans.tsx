@@ -52,6 +52,7 @@ export const InnstillingTilNavKlageinstans = ({
                     settIkkePersistertKomponent={settIkkePersistertKomponent}
                     settOppdatertVurdering={settOppdatertVurdering}
                     settVurderingEndret={settVurderingEndret}
+                    defaultOpen
                 />
                 <InnstillingTilNavKlageinstansAvsnitt
                     tittel="Spørsmålet i saken"
