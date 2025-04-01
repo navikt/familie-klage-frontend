@@ -20,8 +20,6 @@ import BrevMottakere from '../Brevmottakere/ef/BrevMottakere';
 import { OmgjørVedtak } from './OmgjørVedtak';
 import { Behandling, Fagsystem } from '../../../App/typer/fagsak';
 import { BrevmottakerContainer as BaksBrevmottakerContainer } from '../Brevmottakere/baks/BrevmottakerContainer';
-import { useToggles } from '../../../App/context/TogglesContext';
-import { ToggleName } from '../../../App/context/toggles';
 
 const Brevside = styled.div`
     background-color: var(--a-bg-subtle);
@@ -43,7 +41,6 @@ export const Brev: React.FC<Props> = ({ behandling }: Props) => {
 
     const { hentBehandling, hentBehandlingshistorikk, behandlingErRedigerbar } = useBehandling();
     const navigate = useNavigate();
-    const { toggles } = useToggles();
 
     const { axiosRequest } = useApp();
     const [senderInn, settSenderInn] = useState<boolean>(false);
@@ -130,20 +127,17 @@ export const Brev: React.FC<Props> = ({ behandling }: Props) => {
         settFeilmelding('');
     };
 
-    const erFagsystemBAKS =
-        behandling.fagsystem !== Fagsystem.EF && toggles[ToggleName.visBrevmottakerBaks];
-
     if (utfall === 'LAG_BREV') {
         return (
             <Brevside>
                 <HGrid gap={'6'} columns={{ xl: 1, '2xl': '1fr 1.2fr' }}>
                     <VStack gap={'6'}>
                         {brevRessurs.status === RessursStatus.SUKSESS &&
-                            (erFagsystemBAKS ? (
-                                <BaksBrevmottakerContainer behandlingId={behandling.id} />
-                            ) : (
-                                <BrevMottakere behandlingId={behandling.id} />
-                            ))}
+                        behandling.fagsystem !== Fagsystem.EF ? (
+                            <BaksBrevmottakerContainer behandlingId={behandling.id} />
+                        ) : (
+                            <BrevMottakere behandlingId={behandling.id} />
+                        )}
                         {behandlingErRedigerbar && brevRessurs.status === RessursStatus.SUKSESS && (
                             <Button
                                 variant={'primary'}
