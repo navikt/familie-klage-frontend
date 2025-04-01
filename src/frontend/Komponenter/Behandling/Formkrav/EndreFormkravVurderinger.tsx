@@ -1,6 +1,7 @@
 import React, { Dispatch, SetStateAction, useState } from 'react';
 import {
     EFormalKravType,
+    FormkravFristUnntak,
     IFormalkrav,
     IFormkravVilkår,
     Redigeringsmodus,
@@ -177,6 +178,33 @@ export const EndreFormkravVurderinger: React.FC<IProps> = ({
         }
     };
 
+    const skalNullstilleKlagefristOverholdtUnntak = (
+        formalkrav: IFormalkrav,
+        vilkårStatus: VilkårStatus
+    ): boolean => {
+        return (
+            formalkrav.type == EFormalKravType.KLAGEFRIST_OVERHOLDT &&
+            vilkårStatus == VilkårStatus.OPPFYLT
+        );
+    };
+
+    const oppdaterVurderinger = (formalkrav: IFormalkrav, vilkårStatus: VilkårStatus) => {
+        settOppdaterteVurderinger((prevState: IFormkravVilkår) => {
+            if (skalNullstilleKlagefristOverholdtUnntak(formalkrav, vilkårStatus)) {
+                return {
+                    ...prevState,
+                    [formalkrav.navn]: vilkårStatus,
+                    klagefristOverholdtUnntak: FormkravFristUnntak.IKKE_SATT,
+                } as IFormkravVilkår;
+            }
+            return {
+                ...prevState,
+                [formalkrav.navn]: vilkårStatus,
+            } as IFormkravVilkår;
+        });
+        settIkkePersistertKomponent('formkravVilkår');
+    };
+
     return (
         <form
             onSubmit={(event) => {
@@ -198,24 +226,16 @@ export const EndreFormkravVurderinger: React.FC<IProps> = ({
                     {vurderinger.påklagetVedtak.påklagetVedtakstype !==
                         PåklagetVedtakstype.UTEN_VEDTAK && (
                         <RadioGrupperContainer>
-                            {radioKnapper.map((item: IFormalkrav, index) => (
+                            {radioKnapper.map((formalkrav: IFormalkrav, index: number) => (
                                 <>
                                     <FlexRow key={index}>
                                         <RadioGruppe
-                                            legend={item.spørsmål}
+                                            legend={formalkrav.spørsmål}
                                             size="medium"
                                             onChange={(val: VilkårStatus) => {
-                                                settOppdaterteVurderinger(
-                                                    (prevState: IFormkravVilkår) => {
-                                                        return {
-                                                            ...prevState,
-                                                            [item.navn]: val,
-                                                        } as IFormkravVilkår;
-                                                    }
-                                                );
-                                                settIkkePersistertKomponent('formkravVilkår');
+                                                oppdaterVurderinger(formalkrav, val);
                                             }}
-                                            value={item.svar}
+                                            value={formalkrav.svar}
                                             key={index}
                                         >
                                             <RadioButton value={VilkårStatus.OPPFYLT}>
@@ -226,15 +246,15 @@ export const EndreFormkravVurderinger: React.FC<IProps> = ({
                                             </RadioButton>
                                         </RadioGruppe>
 
-                                        {skalViseHjelpetekst(item.type) && (
+                                        {skalViseHjelpetekst(formalkrav.type) && (
                                             <HelpTextContainer>
                                                 <HjelpeTekst>
-                                                    <HelpTextInnhold formkrav={item.type} />
+                                                    <HelpTextInnhold formkrav={formalkrav.type} />
                                                 </HjelpeTekst>
                                             </HelpTextContainer>
                                         )}
                                     </FlexRow>
-                                    {skalViseKlagefristUnntak(item) && (
+                                    {skalViseKlagefristUnntak(formalkrav) && (
                                         <KlagefristUnntak
                                             settOppdaterteVurderinger={settOppdaterteVurderinger}
                                             unntakVurdering={vurderinger.klagefristOverholdtUnntak}
