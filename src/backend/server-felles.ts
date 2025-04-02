@@ -15,7 +15,7 @@ const setupServerFelles = ({ app, azureAuthClient, router }: IApp) => {
         '/familie-klage/api',
         addCallId(),
         ensureAuthenticated(azureAuthClient, true),
-        attachToken(azureAuthClient),
+        attachToken(),
         doProxy(klageProxyUrl)
     );
 
@@ -23,7 +23,7 @@ const setupServerFelles = ({ app, azureAuthClient, router }: IApp) => {
         '/dokument',
         addCallId(),
         ensureAuthenticated(azureAuthClient, false),
-        attachToken(azureAuthClient),
+        attachToken(),
         doProxy(klageProxyUrl)
     );
 

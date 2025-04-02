@@ -1,10 +1,10 @@
-import { Client, getOnBehalfOfAccessToken } from '@navikt/familie-backend';
+import { getTokenSetsFromSession } from '@navikt/familie-backend';
 import { NextFunction, Request, RequestHandler, Response } from 'express';
 import { ClientRequest, IncomingMessage } from 'http';
 import { createProxyMiddleware } from 'http-proxy-middleware';
 import { v4 as uuidv4 } from 'uuid';
-import { oboConfig } from './config';
-import { logError, logInfo, stdoutLogger } from '@navikt/familie-logging';
+import { stdoutLogger } from '@navikt/familie-logging';
+import { TexasClient } from './texas';
 
 const restream = (proxyReq: ClientRequest, req: IncomingMessage) => {
     const requestBody = (req as Request).body;
@@ -38,28 +38,27 @@ export const addCallId = (): RequestHandler => {
     };
 };
 
-export const attachToken = (authClient: Client): RequestHandler => {
+export const attachToken = (): RequestHandler => {
     return async (req: Request, _res: Response, next: NextFunction) => {
-        getOnBehalfOfAccessToken(authClient, req, oboConfig)
-            .then((accessToken: string) => {
-                req.headers.Authorization = `Bearer ${accessToken}`;
-                return next();
-            })
-            .catch((e) => {
-                if (e.error === 'invalid_grant') {
-                    logInfo(`invalid_grant`);
-                    _res.status(500).json({
-                        status: 'IKKE_TILGANG',
-                        frontendFeilmelding:
-                            'Uventet feil. Det er mulig at du ikke har tilgang til applikasjonen.',
+        const texasClient = new TexasClient();
+
+        getTokenSetsFromSession(req).then((accessToken: string | undefined) => {
+            if (accessToken !== undefined) {
+                texasClient
+                    .exchangeToken(
+                        'azuread',
+                        'api://dev-gcp.teamfamilie.familie-klage-frontend/.default',
+                        accessToken
+                    )
+                    .then((texasToken) => {
+                        if (texasToken !== null) {
+                            req.headers.Authorization = `Bearer ${texasToken}`;
+                            return next();
+                        }
                     });
-                } else {
-                    logError(`Uventet feil - getOnBehalfOfAccessToken  ${e}`);
-                    _res.status(500).json({
-                        status: 'FEILET',
-                        frontendFeilmelding: 'Uventet feil. Vennligst prøv på nytt.',
-                    });
-                }
-            });
+            } else {
+                return;
+            }
+        });
     };
 };

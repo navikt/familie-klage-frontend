@@ -32,8 +32,12 @@ spec:
   azure:
     application:
       enabled: true
-      replyURLs:
-        - https://familie-klage.ansatt.dev.nav.no/auth/openid/callback
+      accessPolicy:
+        inbound:
+          rules:
+            - application: azure-token-generator
+              namespace: nais
+              cluster: dev-gcp
       claims:
         groups:
           - id: d21e00a4-969d-4b28-8782-dc818abfae65 # 0000-GA-Barnetrygd
