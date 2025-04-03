@@ -11,6 +11,7 @@ import { byggTomRessurs, Ressurs } from '../../../App/typer/ressurs';
 import DataViewer from '../../../Felles/DataViewer/DataViewer';
 import { ModalWrapper } from '../../../Felles/Modal/ModalWrapper';
 import styled from 'styled-components';
+import { useFerdigstillBehandling } from './useFerdigstillBehandling';
 
 const AlertContainer = styled.div`
     padding: 2rem;
@@ -56,19 +57,22 @@ const KanOppretteRevurderingTekst: React.FC<{ kanOppretteRevurdering: KanOpprett
 
 export const OmgjørVedtak: React.FC<{
     behandlingId: string;
-    ferdigstill: () => void;
-    senderInn: boolean;
-}> = ({ behandlingId, ferdigstill, senderInn }) => {
+}> = ({ behandlingId }) => {
     const { axiosRequest } = useApp();
     const { behandlingErRedigerbar } = useBehandling();
     const [visModal, settVisModal] = useState<boolean>(false);
     const [feilmelding, settFeilmelding] = useState('');
     const [kanOppretteRevurdering, settKanOppretteRevurdering] =
         useState<Ressurs<KanOppretteRevurdering>>(byggTomRessurs());
+    const { ferdigstill, senderInn } = useFerdigstillBehandling(
+        behandlingId,
+        () => lukkModal(),
+        (feilmelding) => settFeilmelding(feilmelding)
+    );
 
     const lukkModal = () => {
-        settVisModal(false);
         settFeilmelding('');
+        settVisModal(false);
     };
 
     useEffect(() => {
