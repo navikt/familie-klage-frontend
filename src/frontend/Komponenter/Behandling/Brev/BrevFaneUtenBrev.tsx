@@ -1,11 +1,9 @@
 import React, { useState } from 'react';
 import { Alert, Button, VStack } from '@navikt/ds-react';
 import { ModalWrapper } from '../../../Felles/Modal/ModalWrapper';
-import { RessursFeilet, RessursStatus, RessursSuksess } from '../../../App/typer/ressurs';
-import { useApp } from '../../../App/context/AppContext';
 import { useBehandling } from '../../../App/context/BehandlingContext';
 import styled from 'styled-components';
-import { useNavigate } from 'react-router-dom';
+import { useFerdigstillBehandling } from './useFerdigstillBehandling';
 
 const Container = styled(VStack)`
     margin: 1rem;
@@ -20,38 +18,19 @@ interface Props {
 }
 
 export const BrevFaneUtenBrev: React.FC<Props> = ({ behandlingId }) => {
-    const { axiosRequest } = useApp();
-    const { hentBehandling, hentBehandlingshistorikk, behandlingErRedigerbar } = useBehandling();
-    const navigate = useNavigate();
+    const { behandlingErRedigerbar } = useBehandling();
+    const { ferdigstill, senderInn } = useFerdigstillBehandling(
+        behandlingId,
+        () => lukkModal(),
+        (feilmelding) => settFeilmelding(feilmelding)
+    );
 
-    const [senderInn, settSenderInn] = useState<boolean>(false);
     const [visModal, settVisModal] = useState<boolean>(false);
     const [feilmelding, settFeilmelding] = useState('');
 
     const lukkModal = () => {
         settVisModal(false);
         settFeilmelding('');
-    };
-
-    const ferdigstillBehandling = () => {
-        if (senderInn) {
-            return;
-        }
-        settSenderInn(true);
-        axiosRequest<null, null>({
-            method: 'POST',
-            url: `/familie-klage/api/behandling/${behandlingId}/ferdigstill`,
-        }).then((res: RessursSuksess<null> | RessursFeilet) => {
-            settSenderInn(false);
-            if (res.status === RessursStatus.SUKSESS) {
-                lukkModal();
-                hentBehandling.rerun();
-                hentBehandlingshistorikk.rerun();
-                navigate(`/behandling/${behandlingId}/resultat`);
-            } else {
-                settFeilmelding(res.frontendFeilmelding);
-            }
-        });
     };
 
     const alertStripeTekst = behandlingErRedigerbar
@@ -78,7 +57,7 @@ export const BrevFaneUtenBrev: React.FC<Props> = ({ behandlingId }) => {
                 onClose={() => lukkModal()}
                 aksjonsknapper={{
                     hovedKnapp: {
-                        onClick: () => ferdigstillBehandling(),
+                        onClick: () => ferdigstill(),
                         tekst: 'Ferdigstill',
                         disabled: senderInn,
                     },

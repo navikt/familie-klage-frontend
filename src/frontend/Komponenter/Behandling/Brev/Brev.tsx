@@ -11,7 +11,6 @@ import { useBehandling } from '../../../App/context/BehandlingContext';
 import styled from 'styled-components';
 import { useApp } from '../../../App/context/AppContext';
 import { Alert, Button, HGrid, VStack } from '@navikt/ds-react';
-import { useNavigate } from 'react-router-dom';
 import { IVurdering, VedtakValg } from '../Vurdering/vurderingValg';
 import PdfVisning from './PdfVisning';
 import { ModalWrapper } from '../../../Felles/Modal/ModalWrapper';
@@ -22,6 +21,7 @@ import { Behandling, Fagsystem } from '../../../App/typer/fagsak';
 import { BrevmottakerContainer as BaksBrevmottakerContainer } from '../Brevmottakere/baks/BrevmottakerContainer';
 import { useToggles } from '../../../App/context/TogglesContext';
 import { ToggleName } from '../../../App/context/toggles';
+import { useFerdigstillBehandling } from './useFerdigstillBehandling';
 
 const Brevside = styled.div`
     background-color: var(--a-bg-subtle);
@@ -39,20 +39,23 @@ type Props = {
 };
 
 export const Brev: React.FC<Props> = ({ behandling }: Props) => {
+    const behandlingId = behandling.id;
+
     const [brevRessurs, settBrevRessurs] = useState<Ressurs<string>>(byggTomRessurs());
 
-    const { hentBehandling, hentBehandlingshistorikk, behandlingErRedigerbar } = useBehandling();
-    const navigate = useNavigate();
+    const { behandlingErRedigerbar } = useBehandling();
     const { toggles } = useToggles();
 
     const { axiosRequest } = useApp();
-    const [senderInn, settSenderInn] = useState<boolean>(false);
+    const { ferdigstill, senderInn } = useFerdigstillBehandling(
+        behandlingId,
+        () => lukkModal(),
+        (feilmelding) => settFeilmelding(feilmelding)
+    );
     const [visModal, settVisModal] = useState<boolean>(false);
     const [feilmelding, settFeilmelding] = useState('');
 
     const [utfall, settUtfall] = useState<Utfall>('IKKE_SATT');
-
-    const behandlingId = behandling.id;
 
     const hentVurdering = useCallback(
         (behandlingId: string) => {
@@ -103,27 +106,6 @@ export const Brev: React.FC<Props> = ({ behandling }: Props) => {
             }
         }
     }, [behandlingErRedigerbar, genererBrev, hentBrev, utfall]);
-
-    const ferdigstill = () => {
-        if (senderInn) {
-            return;
-        }
-        settSenderInn(true);
-        axiosRequest<null, null>({
-            method: 'POST',
-            url: `/familie-klage/api/behandling/${behandlingId}/ferdigstill`,
-        }).then((res: RessursSuksess<null> | RessursFeilet) => {
-            settSenderInn(false);
-            if (res.status === RessursStatus.SUKSESS) {
-                lukkModal();
-                hentBehandling.rerun();
-                hentBehandlingshistorikk.rerun();
-                navigate(`/behandling/${behandlingId}/resultat`);
-            } else {
-                settFeilmelding(res.frontendFeilmelding);
-            }
-        });
-    };
 
     const lukkModal = () => {
         settVisModal(false);
@@ -178,13 +160,7 @@ export const Brev: React.FC<Props> = ({ behandling }: Props) => {
             </Brevside>
         );
     } else if (utfall === 'OMGJØR_VEDTAK') {
-        return (
-            <OmgjørVedtak
-                behandlingId={behandlingId}
-                ferdigstill={ferdigstill}
-                senderInn={senderInn}
-            />
-        );
+        return <OmgjørVedtak behandlingId={behandlingId} />;
     } else {
         return <div>{feilmelding || <SystemetLaster />}</div>;
     }
