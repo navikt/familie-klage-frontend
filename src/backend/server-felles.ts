@@ -4,7 +4,7 @@ import { IApp, ensureAuthenticated } from '@navikt/familie-backend';
 import bodyParser from 'body-parser';
 
 import { klageProxyUrl } from './config.js';
-import { addCallId, doProxy, attachToken } from './proxy.js';
+import { addCallId, attachToken, doProxy } from './proxy.js';
 import setupRouter from './router.js';
 import { logError, logInfo } from '@navikt/familie-logging';
 
@@ -15,7 +15,7 @@ const setupServerFelles = ({ app, azureAuthClient, router }: IApp) => {
         '/familie-klage/api',
         addCallId(),
         ensureAuthenticated(azureAuthClient, true),
-        attachToken('familie-klage'),
+        attachToken(azureAuthClient),
         doProxy(klageProxyUrl)
     );
 
@@ -23,7 +23,7 @@ const setupServerFelles = ({ app, azureAuthClient, router }: IApp) => {
         '/dokument',
         addCallId(),
         ensureAuthenticated(azureAuthClient, false),
-        attachToken('familie-klage'),
+        attachToken(azureAuthClient),
         doProxy(klageProxyUrl)
     );
 

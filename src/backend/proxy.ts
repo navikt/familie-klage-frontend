@@ -1,12 +1,10 @@
+import { Client, getOnBehalfOfAccessToken } from '@navikt/familie-backend';
 import { NextFunction, Request, RequestHandler, Response } from 'express';
 import { ClientRequest, IncomingMessage } from 'http';
 import { createProxyMiddleware } from 'http-proxy-middleware';
 import { v4 as uuidv4 } from 'uuid';
+import { oboConfig } from './config';
 import { logError, logInfo, stdoutLogger } from '@navikt/familie-logging';
-import { TexasClient } from './texas';
-
-const CLUSTER = 'dev-gcp';
-export type ApplicationName = 'familie-klage';
 
 const restream = (proxyReq: ClientRequest, req: IncomingMessage) => {
     const requestBody = (req as Request).body;
@@ -40,55 +38,28 @@ export const addCallId = (): RequestHandler => {
     };
 };
 
-const harBearerToken = (authorization: string) => {
-    return authorization.includes('Bearer ');
-};
-
-const utledToken = (authorization: string | undefined) => {
-    if (authorization && harBearerToken(authorization)) {
-        return authorization.split(' ')[1];
-    } else {
-        throw Error('Mangler authorization i header');
-    }
-};
-
-const getAccessToken = async (req: Request, audience: string) => {
-    const { authorization } = req.headers;
-    const token = utledToken(authorization);
-
-    const texasClient = new TexasClient();
-
-    const accessToken = await texasClient
-        .exchangeToken('azuread', audience, token)
-        .then((accessToken) => {
-            return accessToken.access_token;
-        });
-
-    return `Bearer ${accessToken}`;
-};
-
-export const attachToken = (applicationName: ApplicationName): RequestHandler => {
+export const attachToken = (authClient: Client): RequestHandler => {
     return async (req: Request, _res: Response, next: NextFunction) => {
-        const audience = `${CLUSTER}:teamfamilie:${applicationName}`;
-
-        try {
-            await getAccessToken(req, audience);
-            next();
-        } catch (error) {
-            if (error === 'invalid_grant') {
-                logInfo(`invalid_grant`);
-                _res.status(500).json({
-                    status: 'IKKE_TILGANG',
-                    frontendFeilmelding:
-                        'Uventet feil. Det er mulig at du ikke har tilgang til applikasjonen.',
-                });
-            } else {
-                logError(`Uventet feil - getOnBehalfOfAccessToken  ${error}`);
-                _res.status(500).json({
-                    status: 'FEILET',
-                    frontendFeilmelding: 'Uventet feil. Vennligst prøv på nytt.',
-                });
-            }
-        }
+        getOnBehalfOfAccessToken(authClient, req, oboConfig)
+            .then((accessToken: string) => {
+                req.headers.Authorization = `Bearer ${accessToken}`;
+                return next();
+            })
+            .catch((e) => {
+                if (e.error === 'invalid_grant') {
+                    logInfo(`invalid_grant`);
+                    _res.status(500).json({
+                        status: 'IKKE_TILGANG',
+                        frontendFeilmelding:
+                            'Uventet feil. Det er mulig at du ikke har tilgang til applikasjonen.',
+                    });
+                } else {
+                    logError(`Uventet feil - getOnBehalfOfAccessToken  ${e}`);
+                    _res.status(500).json({
+                        status: 'FEILET',
+                        frontendFeilmelding: 'Uventet feil. Vennligst prøv på nytt.',
+                    });
+                }
+            });
     };
 };
