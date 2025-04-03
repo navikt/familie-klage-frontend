@@ -9,19 +9,23 @@ import {
 import {
     erVedtakFraFagsystemet,
     fagsystemVedtakTilVisningstekst,
+    klageresultatTilVisningstekst,
     harManuellVedtaksdato,
     sorterVedtakstidspunktDesc,
+    sorterVedtakstidspunktKlageResultatDesc,
 } from './utils';
 import { FagsystemVedtak } from '../../../App/typer/fagsystemVedtak';
 import { Label, Select } from '@navikt/ds-react';
 import { erGyldigDato } from '../../../App/utils/dato';
 import { Datovelger } from '../../../Felles/Datovelger/Datovelger';
+import { Klagebehandlingsresultat } from '../../../App/typer/klagebehandlingsresultat';
 
 interface IProps {
     settOppdaterteVurderinger: Dispatch<SetStateAction<IFormkravVilkår>>;
     vedtak: FagsystemVedtak[];
     vurderinger: IFormkravVilkår;
     fagsystem: Fagsystem;
+    klagebehandlingsresultater: Klagebehandlingsresultat[];
 }
 
 const SelectWrapper = styled.div`
@@ -37,16 +41,29 @@ export const VedtakSelect: React.FC<IProps> = ({
     vedtak,
     vurderinger,
     fagsystem,
+    klagebehandlingsresultater,
 }) => {
     const handleChange = (valgtElement: string) => {
         if (erVedtakFraFagsystemet(valgtElement)) {
-            settOppdaterteVurderinger((prevState) => ({
-                ...prevState,
-                påklagetVedtak: {
-                    eksternFagsystemBehandlingId: valgtElement,
-                    påklagetVedtakstype: PåklagetVedtakstype.VEDTAK,
-                },
-            }));
+            const erInternKlagebehandlingId = isNaN(Number(valgtElement));
+
+            if (erInternKlagebehandlingId) {
+                settOppdaterteVurderinger((prevState) => ({
+                    ...prevState,
+                    påklagetVedtak: {
+                        internKlagebehandlingId: valgtElement,
+                        påklagetVedtakstype: PåklagetVedtakstype.AVVIST_KLAGE,
+                    },
+                }));
+            } else {
+                settOppdaterteVurderinger((prevState) => ({
+                    ...prevState,
+                    påklagetVedtak: {
+                        eksternFagsystemBehandlingId: valgtElement,
+                        påklagetVedtakstype: PåklagetVedtakstype.VEDTAK,
+                    },
+                }));
+            }
         } else {
             settOppdaterteVurderinger((prevState) => ({
                 ...prevState,
@@ -86,6 +103,7 @@ export const VedtakSelect: React.FC<IProps> = ({
                 }}
                 value={
                     vurderinger.påklagetVedtak.eksternFagsystemBehandlingId ??
+                    vurderinger.påklagetVedtak.internKlagebehandlingId ??
                     vurderinger.påklagetVedtak.påklagetVedtakstype
                 }
             >
@@ -97,6 +115,13 @@ export const VedtakSelect: React.FC<IProps> = ({
                         {fagsystemVedtakTilVisningstekst(valg)}
                     </option>
                 ))}
+                {klagebehandlingsresultater
+                    .sort(sorterVedtakstidspunktKlageResultatDesc)
+                    .map((klager, index) => (
+                        <option key={index} value={klager.id}>
+                            {klageresultatTilVisningstekst(klager)}
+                        </option>
+                    ))}
                 {hentValgForFagsystem(fagsystem).map((valg) => (
                     <option value={valg} key={valg}>
                         {påklagetVedtakstypeTilTekst[valg]}
