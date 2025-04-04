@@ -15,7 +15,7 @@ import {
     formaterNullableIsoDatoTid,
 } from '../../../App/utils/formatter';
 import { FagsystemVedtak } from '../../../App/typer/fagsystemVedtak';
-import { alleVilkårOppfylt } from './validerFormkravUtils';
+import { alleVilkårOppfylt, klagefristUnntakErValgtOgOppfylt } from './validerFormkravUtils';
 import { Klagebehandlingsresultat } from '../../../App/typer/klagebehandlingsresultat';
 
 export const utledRadioKnapper = (vurderinger: IFormkravVilkår): IFormalkrav[] => {
@@ -141,10 +141,14 @@ export const evaluerOmFelterSkalTilbakestilles = (vurderinger: IFormkravVilkår)
             : vurderinger;
 
     const alleVilkårErOppfylt = alleVilkårOppfylt(tilbakestillFormkrav);
+    const klagefristUnntakOppfylt = klagefristUnntakErValgtOgOppfylt(
+        vurderinger.klagefristOverholdtUnntak
+    );
 
-    const tilbakestillFritekstfelter = alleVilkårErOppfylt
-        ? { ...tilbakestillFormkrav, saksbehandlerBegrunnelse: '', brevtekst: undefined }
-        : tilbakestillFormkrav;
+    const tilbakestillFritekstfelter =
+        alleVilkårErOppfylt && !klagefristUnntakOppfylt
+            ? { ...tilbakestillFormkrav, saksbehandlerBegrunnelse: '', brevtekst: undefined }
+            : tilbakestillFormkrav;
 
     const tilbakestillUnntak =
         vurderinger.klagefristOverholdt === VilkårStatus.OPPFYLT
