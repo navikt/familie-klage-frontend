@@ -162,6 +162,12 @@ const TilegnetSaksbehandler: React.FC<Props> = ({ behandling }) => {
                                         </BodyShort>
                                     </FlexBoxColumn>
                                 </Tooltip>
+                                <FlexBoxColumn>
+                                    <GråBodyShort size={'small'}>Behandlende enhet</GråBodyShort>
+                                    <BodyShort size="small">
+                                        {behandling.behandlendeEnhet}
+                                    </BodyShort>
+                                </FlexBoxColumn>
                             </Grid>
                         </FlexBoxColumnFullWidth>
                     </Container>

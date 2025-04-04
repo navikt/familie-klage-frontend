@@ -65,6 +65,7 @@ export interface Behandling {
     klageMottatt: string;
     fagsystemRevurdering?: FagsystemRevurdering;
     årsak: Klagebehandlingsårsak;
+    behandlendeEnhet: string;
 }
 
 export enum Klagebehandlingsårsak {
