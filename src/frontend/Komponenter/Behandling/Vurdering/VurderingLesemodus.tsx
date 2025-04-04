@@ -62,7 +62,17 @@ const OmgjørVedtak: React.FC<{ vurdering: IVurdering }> = ({ vurdering }) => {
 };
 
 const OpprettholdVedtak: React.FC<{ vurdering: IVurdering }> = ({ vurdering }) => {
-    const { vedtak, hjemmel, innstillingKlageinstans, interntNotat } = vurdering;
+    const {
+        vedtak,
+        hjemmel,
+        innstillingKlageinstans,
+        dokumentasjonOgUtredning,
+        spørsmåletISaken,
+        aktuelleRettskilder,
+        klagersAnførsler,
+        vurderingAvKlagen,
+        interntNotat,
+    } = vurdering;
     return (
         <Container>
             {vedtak && (
@@ -87,6 +97,57 @@ const OpprettholdVedtak: React.FC<{ vurdering: IVurdering }> = ({ vurdering }) =
                         Innstilling til NAV Klageinstans
                     </Heading>
                     <FritekstfeltLesemodus>{innstillingKlageinstans}</FritekstfeltLesemodus>
+                </Avsnitt>
+            )}
+            {(dokumentasjonOgUtredning ||
+                spørsmåletISaken ||
+                aktuelleRettskilder ||
+                klagersAnførsler ||
+                vurderingAvKlagen) && (
+                <Avsnitt>
+                    <Heading level="1" size="medium">
+                        Innstilling til Nav Klageinstans
+                    </Heading>
+                </Avsnitt>
+            )}
+            {dokumentasjonOgUtredning && (
+                <Avsnitt>
+                    <Heading level="2" size="small">
+                        Dokumentasjon og utredning
+                    </Heading>
+                    <FritekstfeltLesemodus>{dokumentasjonOgUtredning}</FritekstfeltLesemodus>
+                </Avsnitt>
+            )}
+            {spørsmåletISaken && (
+                <Avsnitt>
+                    <Heading level="2" size="small">
+                        Spørsmålet i saken
+                    </Heading>
+                    <FritekstfeltLesemodus>{spørsmåletISaken}</FritekstfeltLesemodus>
+                </Avsnitt>
+            )}
+            {aktuelleRettskilder && (
+                <Avsnitt>
+                    <Heading level="2" size="small">
+                        Aktuelle rettskilder
+                    </Heading>
+                    <FritekstfeltLesemodus>{aktuelleRettskilder}</FritekstfeltLesemodus>
+                </Avsnitt>
+            )}
+            {klagersAnførsler && (
+                <Avsnitt>
+                    <Heading level="2" size="small">
+                        Klagers anførsler
+                    </Heading>
+                    <FritekstfeltLesemodus>{klagersAnførsler}</FritekstfeltLesemodus>
+                </Avsnitt>
+            )}
+            {vurderingAvKlagen && (
+                <Avsnitt>
+                    <Heading level="2" size="small">
+                        Vurdering av klagen
+                    </Heading>
+                    <FritekstfeltLesemodus>{vurderingAvKlagen}</FritekstfeltLesemodus>
                 </Avsnitt>
             )}
             {interntNotat && (

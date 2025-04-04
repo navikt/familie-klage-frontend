@@ -10,6 +10,7 @@ interface Props {
     settIkkePersistertKomponent: (verdi: string) => void;
     settOppdatertVurdering: (vurdering: React.SetStateAction<IVurdering>) => void;
     settVurderingEndret: (endret: boolean) => void;
+    defaultOpen?: boolean;
 }
 
 export const InnstillingTilNavKlageinstansAvsnitt = ({
@@ -19,9 +20,10 @@ export const InnstillingTilNavKlageinstansAvsnitt = ({
     settIkkePersistertKomponent,
     settOppdatertVurdering,
     settVurderingEndret,
+    defaultOpen,
 }: Props) => {
     return (
-        <Accordion.Item>
+        <Accordion.Item defaultOpen={defaultOpen}>
             <Accordion.Header>{tittel}</Accordion.Header>
             <Accordion.Content>
                 <EnsligTextArea
