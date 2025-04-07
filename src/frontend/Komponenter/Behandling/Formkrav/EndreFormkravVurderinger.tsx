@@ -1,6 +1,7 @@
 import React, { Dispatch, SetStateAction, useState } from 'react';
 import {
     EFormalKravType,
+    FormkravFristUnntak,
     IFormalkrav,
     IFormkravVilkår,
     Redigeringsmodus,
@@ -24,6 +25,7 @@ import { VedtakSelect } from './VedtakSelect';
 import {
     alleVilkårOppfylt,
     alleVilkårTattStillingTil,
+    klagefristUnntakErValgtOgOppfylt,
     påKlagetVedtakValgt,
 } from './validerFormkravUtils';
 import {
@@ -34,6 +36,7 @@ import {
 import KlagefristUnntak from './KlagefristUnntak';
 import { FagsystemVedtak } from '../../../App/typer/fagsystemVedtak';
 import { Fagsystem, PåklagetVedtakstype } from '../../../App/typer/fagsak';
+import { Klagebehandlingsresultat } from '../../../App/typer/klagebehandlingsresultat';
 
 const RadioGrupperContainer = styled.div`
     display: flex;
@@ -88,6 +91,7 @@ interface IProps {
     settOppdaterteVurderinger: Dispatch<SetStateAction<IFormkravVilkår>>;
     vurderinger: IFormkravVilkår;
     fagsystem: Fagsystem;
+    klagebehandlingsresultater: Klagebehandlingsresultat[];
 }
 
 export const EndreFormkravVurderinger: React.FC<IProps> = ({
@@ -98,6 +102,7 @@ export const EndreFormkravVurderinger: React.FC<IProps> = ({
     settRedigeringsmodus,
     vurderinger,
     fagsystem,
+    klagebehandlingsresultater,
 }) => {
     const { hentBehandling, hentBehandlingshistorikk } = useBehandling();
     const { settIkkePersistertKomponent, nullstillIkkePersistertKomponent } = useApp();
@@ -105,7 +110,16 @@ export const EndreFormkravVurderinger: React.FC<IProps> = ({
     const [oppdatererVurderinger, settOppdatererVurderinger] = useState<boolean>(false);
 
     const alleVilkårErOppfylt = alleVilkårOppfylt(vurderinger);
+    const klageFristUnntakErOppfylt = klagefristUnntakErValgtOgOppfylt(
+        vurderinger.klagefristOverholdtUnntak
+    );
+
+    const skalViseKlagefristUnntakOppfyltBegrunnelseOgBrevtekst =
+        alleVilkårErOppfylt && klageFristUnntakErOppfylt;
+
     const alleVilkårUtfylt = alleVilkårTattStillingTil(vurderinger);
+    const ikkePåklagetVedtak =
+        vurderinger.påklagetVedtak.påklagetVedtakstype === PåklagetVedtakstype.UTEN_VEDTAK;
 
     const submitOppdaterteVurderinger = () => {
         if (oppdatererVurderinger) {
@@ -133,9 +147,66 @@ export const EndreFormkravVurderinger: React.FC<IProps> = ({
         return type != EFormalKravType.KLAGEFRIST_OVERHOLDT;
     };
 
-    const skalViseBegrunnelseOgBrevtekst =
-        (!alleVilkårErOppfylt && alleVilkårUtfylt) ||
-        vurderinger.påklagetVedtak.påklagetVedtakstype === PåklagetVedtakstype.UTEN_VEDTAK;
+    const fritekstHjelpetekst = (): string => {
+        const standardFritekstHjelpetekst =
+            'Ut ifra hvilke(t) formkrav som ikke er oppfylt, vil det automatisk vises en generell tekst i brevet med årsak til avvisning. ' +
+            'I dette fritekstfeltet skrives en mer detaljert begrunnelse. ' +
+            'Hvis klagen skal avvises fordi det er klaget for sent, så kan teksten for eksempel inneholde datoen for når vedtaket ble gjort og datoen for når bruker fremsatte klage';
+
+        switch (fagsystem) {
+            case Fagsystem.EF:
+                return standardFritekstHjelpetekst;
+            case Fagsystem.BA:
+            case Fagsystem.KS:
+                if (skalViseKlagefristUnntakOppfyltBegrunnelseOgBrevtekst) {
+                    return 'I dette fritekstfeltet skrives en begrunnelse for hvorfor du vurderer at unntak for klagefristen er oppfylt. Det du skriver vil hentes inn til oversendelsesbrevet.';
+                } else {
+                    return standardFritekstHjelpetekst;
+                }
+        }
+    };
+
+    const skalViseBegrunnelseOgBrevtekst = (): boolean => {
+        switch (fagsystem) {
+            case Fagsystem.EF:
+                return (!alleVilkårErOppfylt && alleVilkårUtfylt) || ikkePåklagetVedtak;
+            case Fagsystem.BA:
+            case Fagsystem.KS:
+                return (
+                    ((!alleVilkårErOppfylt ||
+                        skalViseKlagefristUnntakOppfyltBegrunnelseOgBrevtekst) &&
+                        alleVilkårUtfylt) ||
+                    ikkePåklagetVedtak
+                );
+        }
+    };
+
+    const skalNullstilleKlagefristOverholdtUnntak = (
+        formalkrav: IFormalkrav,
+        vilkårStatus: VilkårStatus
+    ): boolean => {
+        return (
+            formalkrav.type == EFormalKravType.KLAGEFRIST_OVERHOLDT &&
+            vilkårStatus == VilkårStatus.OPPFYLT
+        );
+    };
+
+    const oppdaterVurderinger = (formalkrav: IFormalkrav, vilkårStatus: VilkårStatus) => {
+        settOppdaterteVurderinger((prevState: IFormkravVilkår) => {
+            if (skalNullstilleKlagefristOverholdtUnntak(formalkrav, vilkårStatus)) {
+                return {
+                    ...prevState,
+                    [formalkrav.navn]: vilkårStatus,
+                    klagefristOverholdtUnntak: FormkravFristUnntak.IKKE_SATT,
+                } as IFormkravVilkår;
+            }
+            return {
+                ...prevState,
+                [formalkrav.navn]: vilkårStatus,
+            } as IFormkravVilkår;
+        });
+        settIkkePersistertKomponent('formkravVilkår');
+    };
 
     return (
         <form
@@ -151,6 +222,7 @@ export const EndreFormkravVurderinger: React.FC<IProps> = ({
                     vedtak={fagsystemVedtak}
                     vurderinger={vurderinger}
                     fagsystem={fagsystem}
+                    klagebehandlingsresultater={klagebehandlingsresultater}
                 />
             </VedtakSelectContainer>
             {påKlagetVedtakValgt(vurderinger) && (
@@ -158,24 +230,16 @@ export const EndreFormkravVurderinger: React.FC<IProps> = ({
                     {vurderinger.påklagetVedtak.påklagetVedtakstype !==
                         PåklagetVedtakstype.UTEN_VEDTAK && (
                         <RadioGrupperContainer>
-                            {radioKnapper.map((item: IFormalkrav, index) => (
+                            {radioKnapper.map((formalkrav: IFormalkrav, index: number) => (
                                 <>
                                     <FlexRow key={index}>
                                         <RadioGruppe
-                                            legend={item.spørsmål}
+                                            legend={formalkrav.spørsmål}
                                             size="medium"
                                             onChange={(val: VilkårStatus) => {
-                                                settOppdaterteVurderinger(
-                                                    (prevState: IFormkravVilkår) => {
-                                                        return {
-                                                            ...prevState,
-                                                            [item.navn]: val,
-                                                        } as IFormkravVilkår;
-                                                    }
-                                                );
-                                                settIkkePersistertKomponent('formkravVilkår');
+                                                oppdaterVurderinger(formalkrav, val);
                                             }}
-                                            value={item.svar}
+                                            value={formalkrav.svar}
                                             key={index}
                                         >
                                             <RadioButton value={VilkårStatus.OPPFYLT}>
@@ -186,15 +250,15 @@ export const EndreFormkravVurderinger: React.FC<IProps> = ({
                                             </RadioButton>
                                         </RadioGruppe>
 
-                                        {skalViseHjelpetekst(item.type) && (
+                                        {skalViseHjelpetekst(formalkrav.type) && (
                                             <HelpTextContainer>
                                                 <HjelpeTekst>
-                                                    <HelpTextInnhold formkrav={item.type} />
+                                                    <HelpTextInnhold formkrav={formalkrav.type} />
                                                 </HjelpeTekst>
                                             </HelpTextContainer>
                                         )}
                                     </FlexRow>
-                                    {skalViseKlagefristUnntak(item) && (
+                                    {skalViseKlagefristUnntak(formalkrav) && (
                                         <KlagefristUnntak
                                             settOppdaterteVurderinger={settOppdaterteVurderinger}
                                             unntakVurdering={vurderinger.klagefristOverholdtUnntak}
@@ -204,7 +268,7 @@ export const EndreFormkravVurderinger: React.FC<IProps> = ({
                             ))}
                         </RadioGrupperContainer>
                     )}
-                    {skalViseBegrunnelseOgBrevtekst && (
+                    {skalViseBegrunnelseOgBrevtekst() && (
                         <>
                             <Textarea
                                 label={'Begrunnelse (intern)'}
@@ -223,15 +287,7 @@ export const EndreFormkravVurderinger: React.FC<IProps> = ({
                                 label={
                                     <FlexRow>
                                         <Label>Fritekst til brev</Label>
-                                        <HjelpeTekst>
-                                            Ut ifra hvilke(t) formkrav som ikke er oppfylt, vil det
-                                            automatisk vises en generell tekst i brevet med årsak
-                                            til avvisning. I dette fritekstfeltet skrives en mer
-                                            detaljert begrunnelse. Hvis klagen skal avvises fordi
-                                            det er klaget for sent, så kan teksten for eksempel
-                                            inneholde datoen for når vedtaket ble gjort og datoen
-                                            for når bruker fremsatte klage.
-                                        </HjelpeTekst>
+                                        <HjelpeTekst>{fritekstHjelpetekst()}</HjelpeTekst>
                                     </FlexRow>
                                 }
                                 value={vurderinger.brevtekst}
