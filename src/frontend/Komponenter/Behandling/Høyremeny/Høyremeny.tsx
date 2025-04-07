@@ -8,7 +8,7 @@ import { ChevronLeftIcon, ChevronRightIcon } from '@navikt/aksel-icons';
 import { AIconInfo } from '@navikt/ds-tokens/dist/tokens';
 import { useBehandling } from '../../../App/context/BehandlingContext';
 import { Behandling } from '../../../App/typer/fagsak';
-import TilegnetSaksbehandler from './TilegnetSaksbehandler';
+import { BehandlingInfo } from './BehandlingInfo';
 
 interface IHøyremenyProps {
     behandling: Behandling;
@@ -79,7 +79,7 @@ const Høyremeny: React.FC<IHøyremenyProps> = ({ åpenHøyremeny, behandling })
                             <PilHøyreIkon />
                         </ÅpneLukkeKnapp>
 
-                        <TilegnetSaksbehandler behandling={behandling} />
+                        <BehandlingInfo behandling={behandling} />
 
                         <Valgvisning aktiv={aktivtValg} settAktiv={settAktivtvalg} />
                         <Dokumenter hidden={aktivtValg !== Høyremenyvalg.Dokumenter} />
