@@ -185,9 +185,11 @@ export const revurderingIkkeOpprettetÅrsak: Record<RevurderingIkkeOpprettetÅrs
 export enum HistorikkHendelse {
     SATT_PÅ_VENT = 'SATT_PÅ_VENT',
     TATT_AV_VENT = 'TATT_AV_VENT',
+    BEHANDLENDE_ENHET_ENDRET = 'BEHANDLENDE_ENHET_ENDRET',
 }
 
 export const hendelseHistorikkTilTekst: Record<HistorikkHendelse, string> = {
     SATT_PÅ_VENT: 'Satt på vent',
     TATT_AV_VENT: 'Tatt av vent',
+    BEHANDLENDE_ENHET_ENDRET: 'Behandlende enhet endret',
 };

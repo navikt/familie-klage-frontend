@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { ABorderStrong } from '@navikt/ds-tokens/dist/tokens';
+import { ABorderStrong, ASpacing1 } from '@navikt/ds-tokens/dist/tokens';
 import { BodyShort, Detail, Label } from '@navikt/ds-react';
 import styled from 'styled-components';
 import { formaterIsoDatoTid } from '../../../App/utils/formatter';
@@ -35,6 +35,12 @@ const Tekst = styled.div`
     }
 `;
 
+const Beskrivelse = styled(BodyShort)`
+    white-space: pre-wrap;
+    word-wrap: break-word;
+    padding: ${ASpacing1} 0;
+`;
+
 interface IHistorikkOppdatering {
     behandling: Behandling;
     steg: StegType;
@@ -64,7 +70,7 @@ const HistorikkInnslag: React.FunctionComponent<IHistorikkOppdatering> = ({
             </Ikon>
             <Tekst>
                 <Label size="small">{labelTekst}</Label>
-                {beskrivelse && <BodyShort size="small">{beskrivelse}</BodyShort>}
+                {beskrivelse && <Beskrivelse size="small">{beskrivelse}</Beskrivelse>}
                 {steg === StegType.BEHANDLING_FERDIGSTILT && (
                     <BodyShort>
                         {utledStegutfallForFerdigstiltBehandling(behandling, steg)}
