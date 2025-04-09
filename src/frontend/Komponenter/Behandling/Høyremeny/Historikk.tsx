@@ -24,6 +24,8 @@ const Historikk: React.FC<{ hidden: boolean }> = ({ hidden }) => {
     );
 };
 
+const beskrivelser = ['Beskrivelse 1', undefined, 'Beskrivelse 2'];
+
 const HistorikkContainer: React.FC<{
     behandling: Behandling;
     behandlingHistorikk: IBehandlingshistorikk[];
@@ -36,6 +38,7 @@ const HistorikkContainer: React.FC<{
                         behandling={behandling}
                         steg={historikk.steg}
                         historikkHendelse={historikk.historikkHendelse}
+                        beskrivelse={beskrivelser[index] ? beskrivelser[index] : undefined}
                         opprettetAv={historikk.opprettetAv}
                         endretTid={historikk.endretTid}
                         key={index}
