@@ -45,13 +45,13 @@ export const VedtakSelect: React.FC<IProps> = ({
 }) => {
     const handleChange = (valgtElement: string) => {
         if (erVedtakFraFagsystemet(valgtElement)) {
-            const erInternKlagebehandlingId = isNaN(Number(valgtElement));
+            const erInternKlagebehandlingId = valgtElement.startsWith('internId');
 
             if (erInternKlagebehandlingId) {
                 settOppdaterteVurderinger((prevState) => ({
                     ...prevState,
                     påklagetVedtak: {
-                        internKlagebehandlingId: valgtElement,
+                        internKlagebehandlingId: valgtElement.replace('internId', ''),
                         påklagetVedtakstype: PåklagetVedtakstype.AVVIST_KLAGE,
                     },
                 }));
@@ -118,7 +118,7 @@ export const VedtakSelect: React.FC<IProps> = ({
                 {klagebehandlingsresultater
                     .sort(sorterVedtakstidspunktKlageResultatDesc)
                     .map((klager, index) => (
-                        <option key={index} value={klager.id}>
+                        <option key={index} value={'internId' + klager.id}>
                             {klageresultatTilVisningstekst(klager)}
                         </option>
                     ))}
