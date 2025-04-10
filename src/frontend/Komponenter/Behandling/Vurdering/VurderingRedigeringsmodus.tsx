@@ -7,7 +7,6 @@ import { Vedtak } from './Vedtak';
 import { Årsak } from './Årsak';
 import { HjemmelVelger } from './HjemmelVelger';
 import { IVurdering, VedtakValg, vedtakValgTilTekst } from './vurderingValg';
-import { RessursFeilet, RessursStatus, RessursSuksess } from '../../../App/typer/ressurs';
 import { useNavigate } from 'react-router-dom';
 import { useBehandling } from '../../../App/context/BehandlingContext';
 import { EnsligTextArea } from '../../../Felles/Input/EnsligTextArea';
@@ -16,6 +15,7 @@ import { InterntNotat } from './InterntNotat';
 import { useHentVurderinger } from '../../../App/hooks/useHentVurderinger';
 import { Behandling, Fagsystem } from '../../../App/typer/fagsak';
 import { InnstillingTilNavKlageinstans } from './InnstillingTilNavKlageinstans/InnstillingTilNavKlageinstans';
+import { Ressurs, RessursStatus } from '../../../App/typer/ressurs';
 
 const FritekstFeltWrapper = styled.div`
     margin: 2rem 4rem 2rem 4rem;
@@ -82,7 +82,6 @@ export const VurderingRedigeringsmodus = ({
     const navigate = useNavigate();
 
     const {
-        settOppdatertVurdering,
         vurderingEndret,
         settVurderingEndret,
         hentBehandlingshistorikk,
@@ -90,8 +89,17 @@ export const VurderingRedigeringsmodus = ({
         behandlingErRedigerbar,
     } = useBehandling();
 
-    const { lagreVurdering, melding, settMelding } = useHentVurderinger();
+    const { lagreVurderingOgOppdaterSteg, melding, settMelding } = useHentVurderinger();
     const { nullstillIkkePersisterteKomponenter, settIkkePersistertKomponent } = useApp();
+
+    const initiellVurdering: IVurdering = { behandlingId: behandling.id };
+    const [oppdatertVurdering, settOppdatertVurdering] = useState<IVurdering>(() => {
+        if (vurdering === null) {
+            settVurderingEndret(true);
+            return initiellVurdering;
+        }
+        return vurdering;
+    });
 
     const opprettVurdering = () => {
         if (senderInn) {
@@ -99,14 +107,14 @@ export const VurderingRedigeringsmodus = ({
         }
 
         const vurderingSomSkalLagres =
-            vurdering.vedtak === VedtakValg.OPPRETTHOLD_VEDTAK
+            oppdatertVurdering.vedtak === VedtakValg.OPPRETTHOLD_VEDTAK
                 ? {
-                      ...vurdering,
+                      ...oppdatertVurdering,
                       årsak: undefined,
                       begrunnelseOmgjøring: undefined,
                   }
                 : {
-                      ...vurdering,
+                      ...oppdatertVurdering,
                       hjemmel: undefined,
                       innstillingKlageinstans: undefined,
                       interntNotat: undefined,
@@ -114,17 +122,15 @@ export const VurderingRedigeringsmodus = ({
 
         settSenderInn(true);
         settMelding(undefined);
-        lagreVurdering(vurderingSomSkalLagres).then(
-            (res: RessursSuksess<IVurdering> | RessursFeilet) => {
-                if (res.status === RessursStatus.SUKSESS) {
-                    nullstillIkkePersisterteKomponenter();
-                }
-                settSenderInn(false);
-                settVurderingEndret(false);
-                hentBehandling.rerun();
-                hentBehandlingshistorikk.rerun();
+        lagreVurderingOgOppdaterSteg(vurderingSomSkalLagres).then((res: Ressurs<IVurdering>) => {
+            if (res.status === RessursStatus.SUKSESS) {
+                nullstillIkkePersisterteKomponenter();
             }
-        );
+            settSenderInn(false);
+            settVurderingEndret(false);
+            hentBehandling.rerun();
+            hentBehandlingshistorikk.rerun();
+        });
     };
 
     function navigerTilBrev() {
@@ -135,22 +141,22 @@ export const VurderingRedigeringsmodus = ({
         <>
             <Vedtak
                 settVedtak={settOppdatertVurdering}
-                vedtakValgt={vurdering.vedtak}
+                vedtakValgt={oppdatertVurdering.vedtak}
                 vedtakValgmuligheter={vedtakValgTilTekst}
                 endring={settIkkePersistertKomponent}
             />
-            {vurdering.vedtak == VedtakValg.OMGJØR_VEDTAK && (
+            {oppdatertVurdering.vedtak == VedtakValg.OMGJØR_VEDTAK && (
                 <>
                     <Årsak
                         settÅrsak={settOppdatertVurdering}
-                        årsakValgt={vurdering.årsak}
+                        årsakValgt={oppdatertVurdering.årsak}
                         fagsystem={behandling.fagsystem}
                         endring={settIkkePersistertKomponent}
                     />
                     <FritekstFeltWrapper>
                         <EnsligTextArea
                             label="Begrunnelse for omgjøring (internt notat)"
-                            value={vurdering.begrunnelseOmgjøring}
+                            value={oppdatertVurdering.begrunnelseOmgjøring}
                             onChange={(e) => {
                                 settIkkePersistertKomponent(e.target.value);
                                 settOppdatertVurdering((tidligereTilstand) => ({
@@ -165,23 +171,23 @@ export const VurderingRedigeringsmodus = ({
                     </FritekstFeltWrapper>
                 </>
             )}
-            {vurdering.vedtak == VedtakValg.OPPRETTHOLD_VEDTAK && (
+            {oppdatertVurdering.vedtak == VedtakValg.OPPRETTHOLD_VEDTAK && (
                 <>
                     <HjemmelVelger
                         settHjemmel={settOppdatertVurdering}
-                        hjemmelValgt={vurdering.hjemmel}
+                        hjemmelValgt={oppdatertVurdering.hjemmel}
                         endring={settIkkePersistertKomponent}
                     />
                     <InnstillingTilNavKlageinstans
                         behandling={behandling}
-                        oppdatertVurdering={vurdering}
+                        oppdatertVurdering={oppdatertVurdering}
                         settIkkePersistertKomponent={settIkkePersistertKomponent}
                         settOppdatertVurdering={settOppdatertVurdering}
                         settVurderingEndret={settVurderingEndret}
                     />
                     <InterntNotat
                         behandlingErRedigerbar={behandlingErRedigerbar}
-                        tekst={vurdering?.interntNotat}
+                        tekst={oppdatertVurdering?.interntNotat}
                         settIkkePersistertKomponent={settIkkePersistertKomponent}
                         settOppdatertVurdering={settOppdatertVurdering}
                     />
@@ -193,7 +199,11 @@ export const VurderingRedigeringsmodus = ({
                         variant="primary"
                         size="medium"
                         onClick={opprettVurdering}
-                        disabled={!erAlleFelterUtfylt(vurdering, behandling.fagsystem)}
+                        disabled={
+                            !erAlleFelterUtfylt(oppdatertVurdering, behandling.fagsystem) ||
+                            senderInn
+                        }
+                        loading={senderInn}
                     >
                         Lagre vurdering
                     </Button>

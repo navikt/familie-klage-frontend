@@ -9,7 +9,7 @@ import {
 import { useApp } from '../context/AppContext';
 import { IVurdering } from '../../Komponenter/Behandling/Vurdering/vurderingValg';
 
-interface IMelding {
+export interface IMelding {
     tekst: string;
     type: 'success' | 'error';
 }
@@ -17,16 +17,17 @@ interface IMelding {
 export const useHentVurderinger = (): {
     vurdering: Ressurs<IVurdering>;
     hentVurdering: (behandlingId: string) => void;
+    lagreVurderingOgOppdaterSteg: (
+        vurderinger: IVurdering
+    ) => Promise<RessursSuksess<IVurdering> | RessursFeilet>;
     lagreVurdering: (
         vurderinger: IVurdering
     ) => Promise<RessursSuksess<IVurdering> | RessursFeilet>;
-    feilVedLagring: string;
     melding: IMelding | undefined;
     settMelding: (melding?: IMelding) => void;
 } => {
     const { axiosRequest } = useApp();
 
-    const [feilVedLagring, settFeilVedLagring] = useState<string>('');
     const [melding, settMelding] = useState<IMelding>();
 
     const [vurdering, settVurdering] = useState<Ressurs<IVurdering>>(byggTomRessurs);
@@ -43,13 +44,14 @@ export const useHentVurderinger = (): {
         [axiosRequest]
     );
 
-    const lagreVurdering = (
-        vurdering: IVurdering
+    const lagre = (
+        vurdering: IVurdering,
+        url: string
     ): Promise<RessursSuksess<IVurdering> | RessursFeilet> => {
-        settFeilVedLagring('');
+        settMelding(undefined);
         return axiosRequest<IVurdering, IVurdering>({
             method: 'POST',
-            url: `/familie-klage/api/vurdering`,
+            url: url,
             data: vurdering,
         }).then((respons: RessursSuksess<IVurdering> | RessursFeilet) => {
             if (respons.status === RessursStatus.SUKSESS) {
@@ -68,11 +70,21 @@ export const useHentVurderinger = (): {
         });
     };
 
+    const lagreVurderingOgOppdaterSteg = (
+        vurdering: IVurdering
+    ): Promise<RessursSuksess<IVurdering> | RessursFeilet> =>
+        lagre(vurdering, '/familie-klage/api/vurdering');
+
+    const lagreVurdering = (
+        vurdering: IVurdering
+    ): Promise<RessursSuksess<IVurdering> | RessursFeilet> =>
+        lagre(vurdering, '/familie-klage/api/vurdering/lagre');
+
     return {
         vurdering,
         hentVurdering,
+        lagreVurderingOgOppdaterSteg,
         lagreVurdering,
-        feilVedLagring,
         melding,
         settMelding,
     };
