@@ -9,4 +9,5 @@ export enum ToggleName {
     // Release-toggles
     visBrevmottakerBaks = 'familie-klage.vis-brevmottaker-baks',
     leggTilBrevmottakerBaks = 'familie-klage.legg-til-brevmottaker-baks',
+    skalKunneEndreBehandlendeEnhetBaks = 'familie-klage.skal-kunne-endre-behandlende-enhet-baks',
 }
