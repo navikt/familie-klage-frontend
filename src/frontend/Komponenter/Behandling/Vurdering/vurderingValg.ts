@@ -1,4 +1,5 @@
 import { Hjemmel } from './hjemmel';
+import { Fagsystem } from '../../../App/typer/fagsak';
 
 export interface IVurdering {
     behandlingId: string;
@@ -44,3 +45,10 @@ export const årsakValgTilTekst: Record<ÅrsakOmgjøring, string> = {
     IKKE_UTREDET_NOK: 'Ikke utredet nok',
     ANNET: 'Annet',
 };
+
+export const årsakAlternativer: (fagsystem: Fagsystem) => Record<string, string> = (fagsystem) =>
+    Object.fromEntries(
+        Object.entries(årsakValgTilTekst).filter(
+            ([nøkkel]) => fagsystem !== Fagsystem.EF || nøkkel !== ÅrsakOmgjøring.IKKE_UTREDET_NOK
+        )
+    );

@@ -1,3 +1,5 @@
+import { Fagsystem } from '../../../App/typer/fagsak';
+
 enum FolketrygdHjemmel {
     FT_FEMTEN_TO = 'FT_FEMTEN_TO',
     FT_FEMTEN_TRE = 'FT_FEMTEN_TRE',
@@ -177,3 +179,12 @@ export const alleHjemlerTilVisningstekst: Record<Hjemmel, string> = {
     ...kontantstøttelovenVisningstekster,
     ...utlandsavtalerHjemmelVisningstekster,
 };
+
+const hjemlerForFagsystemer: Record<Fagsystem, Record<string, string>> = {
+    [Fagsystem.BA]: baHjemlerTilVisningstekst,
+    [Fagsystem.KS]: ksHjemlerTilVisningstekst,
+    [Fagsystem.EF]: folketrygdHjemmelTilVisningstekst,
+};
+
+export const hjemlerAlternativer: (fagsystem: Fagsystem) => Record<string, string> = (fagsystem) =>
+    hjemlerForFagsystemer[fagsystem] ?? alleHjemlerTilVisningstekst;
