@@ -10,6 +10,8 @@ import { Behandling, Fagsystem } from '../../../App/typer/fagsak';
 import { VurderingRedigeringsmodus as VurderingRedigeringsmodusReactHookForm } from './VurderingRedigeringsmodusReactFormHook/VurderingRedigeringsmodus';
 import { VurderingRedigeringsmodus } from './VurderingRedigeringsmodus';
 import { useHentFormkravVilkår } from '../../../App/hooks/useHentFormkravVilkår';
+import { useToggles } from '../../../App/context/TogglesContext';
+import { ToggleName } from '../../../App/context/toggles';
 
 export const Vurdering: React.FC<{ behandling: Behandling }> = ({ behandling }) => {
     const behandlingId = behandling.id;
@@ -17,6 +19,7 @@ export const Vurdering: React.FC<{ behandling: Behandling }> = ({ behandling }) 
     const { behandlingErRedigerbar } = useBehandling();
     const { vilkårsvurderinger, hentVilkårsvurderinger } = useHentFormkravVilkår();
     const { vurdering, hentVurdering } = useHentVurderinger();
+    const { toggles } = useToggles();
 
     useEffect(() => {
         if (behandlingId !== undefined) {
@@ -42,7 +45,8 @@ export const Vurdering: React.FC<{ behandling: Behandling }> = ({ behandling }) 
                         )}
                         {behandlingErRedigerbar &&
                             skalViseVurderingsvalg &&
-                            (behandling.fagsystem === Fagsystem.EF ? (
+                            (behandling.fagsystem === Fagsystem.EF ||
+                            !toggles[ToggleName.kanMellomlagreVurdering] ? (
                                 <VurderingRedigeringsmodus
                                     behandling={behandling}
                                     vurdering={vurdering}
