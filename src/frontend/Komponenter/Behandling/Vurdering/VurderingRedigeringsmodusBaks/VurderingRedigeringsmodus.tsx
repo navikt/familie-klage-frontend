@@ -15,7 +15,7 @@ import { useApp } from '../../../../App/context/AppContext';
 
 interface VurderingRedigeringsmodusProps {
     behandling: Behandling;
-    vurdering: IVurdering;
+    vurdering: IVurdering | null;
 }
 
 export const VurderingRedigeringsmodus = ({

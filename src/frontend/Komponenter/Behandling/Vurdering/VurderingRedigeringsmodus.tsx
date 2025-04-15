@@ -70,7 +70,7 @@ const erAlleFelterUtfylt = (vurderingData: IVurdering, fagsystem: Fagsystem): bo
 
 interface VurderingRedigeringsmodusProps {
     behandling: Behandling;
-    vurdering: IVurdering;
+    vurdering: IVurdering | null;
 }
 
 export const VurderingRedigeringsmodus = ({
