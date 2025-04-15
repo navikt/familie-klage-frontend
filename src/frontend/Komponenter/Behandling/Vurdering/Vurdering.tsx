@@ -7,7 +7,7 @@ import DataViewer from '../../../Felles/DataViewer/DataViewer';
 import { alleVilkårOppfylt, påKlagetVedtakValgt } from '../Formkrav/validerFormkravUtils';
 import { useHentVurderinger } from '../../../App/hooks/useHentVurderinger';
 import { Behandling, Fagsystem } from '../../../App/typer/fagsak';
-import { VurderingRedigeringsmodus as VurderingRedigeringsmodusReactHookForm } from './VurderingRedigeringsmodusReactFormHook/VurderingRedigeringsmodus';
+import { VurderingRedigeringsmodus as VurderingRedigeringsmodusBaks } from './VurderingRedigeringsmodusBaks/VurderingRedigeringsmodus';
 import { VurderingRedigeringsmodus } from './VurderingRedigeringsmodus';
 import { useHentFormkravVilkår } from '../../../App/hooks/useHentFormkravVilkår';
 import { useToggles } from '../../../App/context/TogglesContext';
@@ -52,7 +52,7 @@ export const Vurdering: React.FC<{ behandling: Behandling }> = ({ behandling }) 
                                     vurdering={vurdering}
                                 />
                             ) : (
-                                <VurderingRedigeringsmodusReactHookForm
+                                <VurderingRedigeringsmodusBaks
                                     behandling={behandling}
                                     vurdering={vurdering}
                                 />
