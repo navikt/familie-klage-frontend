@@ -49,6 +49,6 @@ export const årsakValgTilTekst: Record<ÅrsakOmgjøring, string> = {
 export const årsakAlternativer: (fagsystem: Fagsystem) => Record<string, string> = (fagsystem) =>
     Object.fromEntries(
         Object.entries(årsakValgTilTekst).filter(
-            ([nøkkel]) => fagsystem !== Fagsystem.EF || nøkkel !== ÅrsakOmgjøring.IKKE_UTREDET_NOK
+            ([årsak]) => !(fagsystem === Fagsystem.EF && årsak === ÅrsakOmgjøring.IKKE_UTREDET_NOK)
         )
     );
