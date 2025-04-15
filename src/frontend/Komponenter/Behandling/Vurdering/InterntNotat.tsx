@@ -5,6 +5,7 @@ import * as React from 'react';
 import { useState } from 'react';
 import styled from 'styled-components';
 import { harVerdi } from '../../../App/utils/utils';
+import { IVurdering } from './vurderingValg';
 
 const FritekstWrapper = styled.div`
     margin: 0 4rem 2rem 4rem;
@@ -20,9 +21,18 @@ const KnappWrapper = styled.div`
 export const InterntNotat: React.FC<{
     behandlingErRedigerbar: boolean;
     tekst?: string;
-    oppdaterTekst: (tekst?: string) => void;
-}> = ({ behandlingErRedigerbar, tekst, oppdaterTekst }) => {
+    settIkkePersistertKomponent: (verdi: string) => void;
+    settOppdatertVurdering: (vurdering: React.SetStateAction<IVurdering>) => void;
+}> = ({ behandlingErRedigerbar, tekst, settIkkePersistertKomponent, settOppdatertVurdering }) => {
     const [skalViseFritekstFelt, settSkalViseFritekstFelt] = useState<boolean>(harVerdi(tekst));
+
+    const oppdaterTekst = (tekst?: string) => {
+        settOppdatertVurdering((prevState) => ({
+            ...prevState,
+            interntNotat: tekst,
+        }));
+        settIkkePersistertKomponent('internt-notat');
+    };
 
     const handleClick = () => {
         if (skalViseFritekstFelt) {
