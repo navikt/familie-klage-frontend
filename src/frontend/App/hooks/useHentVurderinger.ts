@@ -73,7 +73,7 @@ export const useHentVurderinger = (): {
     const lagreVurderingOgOppdaterSteg = (
         vurdering: IVurdering
     ): Promise<RessursSuksess<IVurdering> | RessursFeilet> =>
-        lagre(vurdering, '/familie-klage/api/vurdering');
+        lagre(vurdering, '/familie-klage/api/vurdering/lagre-og-oppdater-steg');
 
     const lagreVurdering = (
         vurdering: IVurdering
