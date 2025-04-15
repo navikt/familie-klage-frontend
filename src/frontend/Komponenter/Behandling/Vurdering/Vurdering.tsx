@@ -35,6 +35,8 @@ export const Vurdering: React.FC<{ behandling: Behandling }> = ({ behandling }) 
                     påKlagetVedtakValgt(vilkårsvurderinger) &&
                     alleVilkårOppfylt(vilkårsvurderinger);
 
+                const skalViseRedigeringsmodus = behandlingErRedigerbar && skalViseVurderingsvalg;
+
                 return (
                     <>
                         {behandlingErRedigerbar && !skalViseVurderingsvalg && (
@@ -43,16 +45,15 @@ export const Vurdering: React.FC<{ behandling: Behandling }> = ({ behandling }) 
                         {!behandlingErRedigerbar && skalViseVurderingsvalg && (
                             <VurderingLesemodus vurdering={vurdering} />
                         )}
-                        {behandlingErRedigerbar &&
-                            skalViseVurderingsvalg &&
-                            (behandling.fagsystem === Fagsystem.EF ||
-                            !toggles[ToggleName.kanMellomlagreVurdering] ? (
-                                <VurderingRedigeringsmodus
+                        {skalViseRedigeringsmodus &&
+                            (behandling.fagsystem !== Fagsystem.EF &&
+                            toggles[ToggleName.kanMellomlagreVurdering] ? (
+                                <VurderingRedigeringsmodusBaks
                                     behandling={behandling}
                                     vurdering={vurdering}
                                 />
                             ) : (
-                                <VurderingRedigeringsmodusBaks
+                                <VurderingRedigeringsmodus
                                     behandling={behandling}
                                     vurdering={vurdering}
                                 />
