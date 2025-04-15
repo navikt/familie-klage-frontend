@@ -8,7 +8,7 @@ import { Behandling } from '../../../../App/typer/fagsak';
 import { AccordionTilstand, InnstillingTilNavKlageinstans } from './InnstillingTilNavKlageinstans';
 import { FieldErrors, FormProvider, SubmitHandler, useForm } from 'react-hook-form';
 import { Nedtrekksliste } from './Nedtrekksliste';
-import { hjemlerAlternativer } from '../hjemmel';
+import { hjemmelAlternativer } from '../hjemmel';
 import { Tekstfelt } from './Tekstfelt';
 import { FloppydiskIcon, PaperplaneIcon, PlusCircleIcon, TrashIcon } from '@navikt/aksel-icons';
 import { useApp } from '../../../../App/context/AppContext';
@@ -150,7 +150,7 @@ export const VurderingRedigeringsmodus = ({
                             <Nedtrekksliste
                                 visningsnavn={'Hjemmel'}
                                 feltnavn={'hjemmel'}
-                                alternativer={hjemlerAlternativer(fagsystem)}
+                                alternativer={hjemmelAlternativer(fagsystem)}
                             />
                             <InnstillingTilNavKlageinstans
                                 behandling={behandling}

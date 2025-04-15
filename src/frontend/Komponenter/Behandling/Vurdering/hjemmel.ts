@@ -186,5 +186,5 @@ const hjemlerForFagsystemer: Record<Fagsystem, Record<string, string>> = {
     [Fagsystem.EF]: folketrygdHjemmelTilVisningstekst,
 };
 
-export const hjemlerAlternativer: (fagsystem: Fagsystem) => Record<string, string> = (fagsystem) =>
+export const hjemmelAlternativer: (fagsystem: Fagsystem) => Record<string, string> = (fagsystem) =>
     hjemlerForFagsystemer[fagsystem] ?? alleHjemlerTilVisningstekst;
