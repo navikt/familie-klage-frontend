@@ -49,7 +49,7 @@ export const useHentVurderinger = (): {
         settFeilVedLagring('');
         return axiosRequest<IVurdering, IVurdering>({
             method: 'POST',
-            url: `/familie-klage/api/vurdering`,
+            url: `/familie-klage/api/vurdering/lagre-og-oppdater-steg`,
             data: vurdering,
         }).then((respons: RessursSuksess<IVurdering> | RessursFeilet) => {
             if (respons.status === RessursStatus.SUKSESS) {
