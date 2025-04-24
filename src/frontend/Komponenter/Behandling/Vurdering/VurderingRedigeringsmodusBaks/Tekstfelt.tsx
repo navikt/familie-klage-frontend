@@ -23,7 +23,7 @@ interface TekstfeltProps {
 }
 
 export const Tekstfelt: FC<TekstfeltProps> = ({ visningsnavn, feltnavn, frivillig }) => {
-    const { control, formState, setValue } = useFormContext();
+    const { control, formState } = useFormContext();
     const { settIkkePersistertKomponent } = useApp();
     return (
         <Controller
@@ -42,7 +42,7 @@ export const Tekstfelt: FC<TekstfeltProps> = ({ visningsnavn, feltnavn, frivilli
                         onBlur={field.onBlur}
                         onChange={({ target: { name, value } }) => {
                             settIkkePersistertKomponent(name);
-                            setValue(field.name, value === '' ? null : value);
+                            field.onChange(value === '' ? null : value);
                         }}
                         error={visFeilmelding && fieldState.error?.message}
                         readOnly={formState.isSubmitting}

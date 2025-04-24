@@ -18,7 +18,7 @@ export const Nedtrekksliste: FC<NedtrekkslisteProps> = ({
     feltnavn,
     alternativer,
 }) => {
-    const { control, formState, setValue } = useFormContext();
+    const { control, formState } = useFormContext();
     const { settIkkePersistertKomponent } = useApp();
     return (
         <Box maxWidth="18rem">
@@ -41,7 +41,7 @@ export const Nedtrekksliste: FC<NedtrekkslisteProps> = ({
                             onBlur={field.onBlur}
                             onChange={({ target: { name, value } }) => {
                                 settIkkePersistertKomponent(name);
-                                setValue(field.name, value === '' ? null : value);
+                                field.onChange(value === '' ? null : value);
                             }}
                             error={visFeilmelding && fieldState.error?.message}
                             readOnly={formState.isSubmitting}
