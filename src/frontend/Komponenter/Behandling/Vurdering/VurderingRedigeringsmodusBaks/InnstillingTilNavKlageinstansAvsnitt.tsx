@@ -1,13 +1,13 @@
 import React from 'react';
 import { Accordion } from '@navikt/ds-react';
 import { Tekstfelt } from './Tekstfelt';
-import { AccordionTilstand } from './InnstillingTilNavKlageinstans';
+import { VurderingAccordionFelter } from './felttyper';
 
 interface Props {
     visningsnavn: string;
-    feltnavn: keyof AccordionTilstand;
+    feltnavn: keyof VurderingAccordionFelter;
     åpen: boolean;
-    toggleÅpen: (feltnavn: keyof AccordionTilstand) => void;
+    toggleÅpen: (feltnavn: keyof VurderingAccordionFelter) => void;
 }
 
 export const InnstillingTilNavKlageinstansAvsnitt = ({

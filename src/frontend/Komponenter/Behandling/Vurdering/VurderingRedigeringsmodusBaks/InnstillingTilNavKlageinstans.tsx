@@ -4,19 +4,16 @@ import { LesMerOmInnstilling } from '../InnstillingTilNavKlageinstans/LesMerOmIn
 import { Accordion, Box, Heading } from '@navikt/ds-react';
 import { InnstillingTilNavKlageinstansAvsnitt } from './InnstillingTilNavKlageinstansAvsnitt';
 import { Tekstfelt } from './Tekstfelt';
+import { VurderingAccordionFelter } from './felttyper';
 
-export interface AccordionTilstand {
-    dokumentasjonOgUtredning: boolean;
-    spørsmåletISaken: boolean;
-    aktuelleRettskilder: boolean;
-    klagersAnførsler: boolean;
-    vurderingAvKlagen: boolean;
-}
+export type AccordionTilstand = {
+    [key in keyof VurderingAccordionFelter]: boolean;
+};
 
 interface Props {
     behandling: Behandling;
     accordionTilstand: AccordionTilstand;
-    toggleAccordionTilstand: (feltnavn: keyof AccordionTilstand) => void;
+    toggleAccordionTilstand: (feltnavn: keyof VurderingAccordionFelter) => void;
 }
 
 export const InnstillingTilNavKlageinstans = ({

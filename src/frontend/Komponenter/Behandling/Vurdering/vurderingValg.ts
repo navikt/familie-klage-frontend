@@ -3,17 +3,17 @@ import { Fagsystem } from '../../../App/typer/fagsak';
 
 export interface IVurdering {
     behandlingId: string;
-    vedtak?: VedtakValg | null;
-    årsak?: ÅrsakOmgjøring | null;
-    begrunnelseOmgjøring?: string | null;
-    hjemmel?: Hjemmel | null;
-    innstillingKlageinstans?: string | null;
-    dokumentasjonOgUtredning?: string | null;
-    spørsmåletISaken?: string | null;
-    aktuelleRettskilder?: string | null;
-    klagersAnførsler?: string | null;
-    vurderingAvKlagen?: string | null;
-    interntNotat?: string | null;
+    vedtak?: VedtakValg;
+    årsak?: ÅrsakOmgjøring;
+    begrunnelseOmgjøring?: string;
+    hjemmel?: Hjemmel;
+    innstillingKlageinstans?: string;
+    dokumentasjonOgUtredning?: string;
+    spørsmåletISaken?: string;
+    aktuelleRettskilder?: string;
+    klagersAnførsler?: string;
+    vurderingAvKlagen?: string;
+    interntNotat?: string;
 }
 
 // VEDTAK
