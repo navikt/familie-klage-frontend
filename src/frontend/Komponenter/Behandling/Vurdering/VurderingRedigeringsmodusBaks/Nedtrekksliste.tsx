@@ -2,14 +2,12 @@ import * as React from 'react';
 import { FC } from 'react';
 import { Box, Heading, Select } from '@navikt/ds-react';
 import { Controller, useFormContext } from 'react-hook-form';
-import { IVurdering } from '../vurderingValg';
 import { useApp } from '../../../../App/context/AppContext';
-
-type VurderingNedtrekksliste = Pick<IVurdering, 'vedtak' | 'hjemmel' | 'årsak'>;
+import { VurderingNedtrekkslisteFelter } from './felttyper';
 
 interface NedtrekkslisteProps {
     visningsnavn: string;
-    feltnavn: keyof VurderingNedtrekksliste;
+    feltnavn: keyof VurderingNedtrekkslisteFelter;
     alternativer: Record<string, string>;
 }
 
@@ -18,7 +16,7 @@ export const Nedtrekksliste: FC<NedtrekkslisteProps> = ({
     feltnavn,
     alternativer,
 }) => {
-    const { control, formState, setValue } = useFormContext();
+    const { control, formState } = useFormContext();
     const { settIkkePersistertKomponent } = useApp();
     return (
         <Box maxWidth="18rem">
@@ -41,7 +39,7 @@ export const Nedtrekksliste: FC<NedtrekkslisteProps> = ({
                             onBlur={field.onBlur}
                             onChange={({ target: { name, value } }) => {
                                 settIkkePersistertKomponent(name);
-                                setValue(field.name, value === '' ? undefined : value);
+                                field.onChange(value);
                             }}
                             error={visFeilmelding && fieldState.error?.message}
                             readOnly={formState.isSubmitting}

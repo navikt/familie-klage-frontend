@@ -1,29 +1,17 @@
 import { Textarea } from '@navikt/ds-react';
 import { Controller, useFormContext } from 'react-hook-form';
 import React, { FC } from 'react';
-import { IVurdering } from '../vurderingValg';
 import { useApp } from '../../../../App/context/AppContext';
-
-export type VurderingTekstfelt = Pick<
-    IVurdering,
-    | 'begrunnelseOmgjøring'
-    | 'innstillingKlageinstans'
-    | 'dokumentasjonOgUtredning'
-    | 'spørsmåletISaken'
-    | 'aktuelleRettskilder'
-    | 'klagersAnførsler'
-    | 'vurderingAvKlagen'
-    | 'interntNotat'
->;
+import { VurderingTekstfeltFelter } from './felttyper';
 
 interface TekstfeltProps {
     visningsnavn: string;
-    feltnavn: keyof VurderingTekstfelt;
+    feltnavn: keyof VurderingTekstfeltFelter;
     frivillig?: boolean;
 }
 
 export const Tekstfelt: FC<TekstfeltProps> = ({ visningsnavn, feltnavn, frivillig }) => {
-    const { control, formState, setValue } = useFormContext();
+    const { control, formState } = useFormContext();
     const { settIkkePersistertKomponent } = useApp();
     return (
         <Controller
@@ -42,7 +30,7 @@ export const Tekstfelt: FC<TekstfeltProps> = ({ visningsnavn, feltnavn, frivilli
                         onBlur={field.onBlur}
                         onChange={({ target: { name, value } }) => {
                             settIkkePersistertKomponent(name);
-                            setValue(field.name, value === '' ? undefined : value);
+                            field.onChange(value);
                         }}
                         error={visFeilmelding && fieldState.error?.message}
                         readOnly={formState.isSubmitting}

@@ -12,6 +12,7 @@ import { hjemmelAlternativer } from '../hjemmel';
 import { Tekstfelt } from './Tekstfelt';
 import { FloppydiskIcon, PaperplaneIcon, PlusCircleIcon, TrashIcon } from '@navikt/aksel-icons';
 import { useApp } from '../../../../App/context/AppContext';
+import { VurderingSkjemaverdier } from './felttyper';
 
 interface VurderingRedigeringsmodusProps {
     behandling: Behandling;
@@ -40,11 +41,11 @@ export const VurderingRedigeringsmodus = ({
     const toggleAccordionTilstand = (feltnavn: keyof AccordionTilstand) =>
         settAccordionTilstand({ ...accordionTilstand, [feltnavn]: !accordionTilstand[feltnavn] });
 
-    const initiellVurdering: IVurdering = { behandlingId: behandling.id };
-    const form = useForm<IVurdering>({
-        defaultValues: vurdering ?? initiellVurdering,
+    const form = useForm<VurderingSkjemaverdier>({
+        defaultValues: vurdering ?? {},
         mode: 'onChange',
     });
+
     const {
         formState: { errors },
         getValues,
@@ -53,29 +54,40 @@ export const VurderingRedigeringsmodus = ({
         trigger,
         watch,
     } = form;
+
     const vedtak = watch('vedtak');
 
     const [lagrer, settLagrer] = useState<boolean>(false);
     const [lagrerOgOppdatererSteg, settLagrerOgOppdatererSteg] = useState<boolean>(false);
     const [visInterntNotat, settVisInterntNotat] = useState<boolean>(!!vurdering?.interntNotat);
     const toggleInterntNotat = () => {
-        if (visInterntNotat) form.setValue('interntNotat', undefined);
+        if (visInterntNotat) form.setValue('interntNotat', '');
         settVisInterntNotat(!visInterntNotat);
     };
 
     useEffect(() => {
-        reset({
-            ...initiellVurdering,
-            vedtak: vedtak,
-        });
+        reset({ vedtak: vedtak });
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [vedtak]);
+
+    const skjemaverdierTilVurdering = (
+        vurderingSkjemaverdier: VurderingSkjemaverdier
+    ): IVurdering => {
+        return {
+            behandlingId: behandling.id,
+            ...Object.fromEntries(
+                Object.entries(vurderingSkjemaverdier).map(([key, value]) => {
+                    return [key, value === '' ? null : value];
+                })
+            ),
+        };
+    };
 
     const lagreVurderingUtenValidering = () => {
         trigger('vedtak').then((vedtakErValgt) => {
             if (vedtakErValgt) {
                 settLagrer(true);
-                lagreVurdering(getValues())
+                lagreVurdering(skjemaverdierTilVurdering(getValues()))
                     .then((respons) => {
                         if (respons.status === 'SUKSESS') {
                             nullstillIkkePersisterteKomponenter();
@@ -87,9 +99,9 @@ export const VurderingRedigeringsmodus = ({
         });
     };
 
-    const lagreVurderingOgNavigerTilBrev: SubmitHandler<IVurdering> = (vurdering) => {
+    const lagreVurderingOgNavigerTilBrev: SubmitHandler<VurderingSkjemaverdier> = (vurdering) => {
         settLagrerOgOppdatererSteg(true);
-        lagreVurderingOgOppdaterSteg(vurdering)
+        lagreVurderingOgOppdaterSteg(skjemaverdierTilVurdering(vurdering))
             .then((respons) => {
                 if (respons.status === 'SUKSESS') {
                     nullstillIkkePersisterteKomponenter();
