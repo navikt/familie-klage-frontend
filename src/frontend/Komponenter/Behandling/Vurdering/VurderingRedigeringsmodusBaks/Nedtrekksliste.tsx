@@ -39,7 +39,7 @@ export const Nedtrekksliste: FC<NedtrekkslisteProps> = ({
                             onBlur={field.onBlur}
                             onChange={({ target: { name, value } }) => {
                                 settIkkePersistertKomponent(name);
-                                field.onChange(value === '' ? null : value);
+                                field.onChange(value);
                             }}
                             error={visFeilmelding && fieldState.error?.message}
                             readOnly={formState.isSubmitting}
