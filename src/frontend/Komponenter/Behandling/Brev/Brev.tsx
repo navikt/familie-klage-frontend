@@ -115,11 +115,11 @@ export const Brev: React.FC<Props> = ({ behandling }: Props) => {
                 <HGrid gap={'6'} columns={{ xl: 1, '2xl': '1fr 1.2fr' }}>
                     <VStack gap={'6'}>
                         {brevRessurs.status === RessursStatus.SUKSESS &&
-                        behandling.fagsystem !== Fagsystem.EF ? (
-                            <BaksBrevmottakerContainer behandlingId={behandling.id} />
-                        ) : (
-                            <BrevMottakere behandlingId={behandling.id} />
-                        )}
+                            (behandling.fagsystem !== Fagsystem.EF ? (
+                                <BaksBrevmottakerContainer behandlingId={behandling.id} />
+                            ) : (
+                                <BrevMottakere behandlingId={behandling.id} />
+                            ))}
                         {behandlingErRedigerbar && brevRessurs.status === RessursStatus.SUKSESS && (
                             <Button
                                 variant={'primary'}
