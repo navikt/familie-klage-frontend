@@ -9,9 +9,9 @@ interface Props {
 }
 
 export function BegrunnelseFelt({ lesevisning = false, maksLengde = 4000 }: Props) {
-    const { control, formState } = useFormContext();
+    const { control } = useFormContext();
 
-    const { field, fieldState } = useController({
+    const { field, fieldState, formState } = useController({
         name: EndreBehandlendeEnhetFeltnavn.BEGRUNNELSE,
         control,
         rules: {

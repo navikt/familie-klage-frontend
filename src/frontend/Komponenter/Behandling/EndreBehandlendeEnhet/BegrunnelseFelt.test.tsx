@@ -1,29 +1,33 @@
 import React from 'react';
 
 import { describe, expect, test } from 'vitest';
-import { DefaultValues, FormProvider, FormState, useForm } from 'react-hook-form';
+import { FormProvider, useForm } from 'react-hook-form';
 import { EndreBehandlendeEnhetFeltnavn } from './feltnavn';
-import { EndreBehandlendeEnhetFormValues } from './EndreBehandlendeEnhetModal';
 import { BegrunnelseFelt } from './BegrunnelseFelt';
 import { render } from '../../../lib/testrender';
+import { Button } from '@navikt/ds-react';
 
-const DEFAULT_VALUES: DefaultValues<EndreBehandlendeEnhetFormValues> = {
-    [EndreBehandlendeEnhetFeltnavn.BEGRUNNELSE]: '',
-};
+const onSubmit = (delay: number) => new Promise((resolve) => setTimeout(resolve, delay));
 
 function FormWrapper({
     children,
-    defaultValues = DEFAULT_VALUES,
-    formState = undefined,
+    values = { [EndreBehandlendeEnhetFeltnavn.BEGRUNNELSE]: '' },
+    onSubmitDelay = 0,
 }: {
     children: React.ReactNode;
-    defaultValues?: DefaultValues<EndreBehandlendeEnhetFormValues>;
-    formState?: Partial<FormState<EndreBehandlendeEnhetFormValues>>;
+    values?: { [EndreBehandlendeEnhetFeltnavn.BEGRUNNELSE]: string };
+    onSubmitDelay?: number;
 }) {
-    const form = useForm<EndreBehandlendeEnhetFormValues>({ mode: 'onChange', defaultValues });
+    const form = useForm<{ [EndreBehandlendeEnhetFeltnavn.BEGRUNNELSE]: string }>({
+        mode: 'onChange',
+        values,
+    });
     return (
-        <FormProvider {...form} formState={{ ...form.formState, ...(formState ?? {}) }}>
-            <form>{children}</form>
+        <FormProvider {...form}>
+            <form onSubmit={form.handleSubmit(() => onSubmit(onSubmitDelay))}>
+                {children}
+                <Button type={'submit'}>Submit</Button>
+            </form>
         </FormProvider>
     );
 }
@@ -123,15 +127,12 @@ describe('BegrunnelseFelt', () => {
         expect(feilmelding).not.toBeInTheDocument();
     });
 
-    test('skal vise komponent med utfylt verdi fra form state', async () => {
+    test('skal vise komponent med preutfylt verdi fra values', async () => {
         const { screen } = render(<BegrunnelseFelt />, {
             wrapper: (props) => (
                 <FormWrapper
                     {...props}
-                    defaultValues={{
-                        ...DEFAULT_VALUES,
-                        [EndreBehandlendeEnhetFeltnavn.BEGRUNNELSE]: 'bla bla bla',
-                    }}
+                    values={{ [EndreBehandlendeEnhetFeltnavn.BEGRUNNELSE]: 'bla bla bla' }}
                 />
             ),
         });
@@ -142,14 +143,24 @@ describe('BegrunnelseFelt', () => {
 
     test('skal ikke kunne skrive hvis formet blir submitted', async () => {
         const { screen, user } = render(<BegrunnelseFelt />, {
-            wrapper: (props) => <FormWrapper {...props} formState={{ isSubmitting: true }} />,
+            wrapper: (props) => <FormWrapper {...props} onSubmitDelay={3_000} />,
         });
 
         const textbox = screen.getByRole('textbox', { name });
         await user.click(textbox);
-        await user.keyboard('Dette er en prøve');
+        await user.keyboard('abc');
 
-        expect(textbox).toHaveValue('');
+        const submitButton = screen.getByRole('button', { name: 'Submit' });
+        await user.click(submitButton);
+
+        expect(textbox).toHaveValue('abc');
+        expect(textbox).toBeInTheDocument();
+        expect(textbox).toHaveAttribute('readonly');
+
+        await user.click(textbox);
+        await user.keyboard('123');
+
+        expect(textbox).toHaveValue('abc');
         expect(textbox).toBeInTheDocument();
         expect(textbox).toHaveAttribute('readonly');
     });
