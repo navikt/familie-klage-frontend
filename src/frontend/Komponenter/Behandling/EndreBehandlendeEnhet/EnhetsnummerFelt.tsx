@@ -11,9 +11,9 @@ interface Props {
 }
 
 export function EnhetsnummerFelt({ behandling, lesevisning = false }: Props) {
-    const { control, formState } = useFormContext();
+    const { control } = useFormContext();
 
-    const { field, fieldState } = useController({
+    const { field, fieldState, formState } = useController({
         name: EndreBehandlendeEnhetFeltnavn.ENHETSNUMMER,
         control,
         rules: {

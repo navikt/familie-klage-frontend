@@ -1,46 +1,50 @@
 import React from 'react';
 
 import { describe, expect, test } from 'vitest';
-import { DefaultValues, FormProvider, FormState, useForm } from 'react-hook-form';
+import { FormProvider, useForm } from 'react-hook-form';
 import { EndreBehandlendeEnhetFeltnavn } from './feltnavn';
-import { EndreBehandlendeEnhetFormValues } from './EndreBehandlendeEnhetModal';
 import { render } from '../../../lib/testrender';
 import { EnhetsnummerFelt } from './EnhetsnummerFelt';
 import { Fagsystem } from '../../../App/typer/fagsak';
-import { lagBehandling } from '../../../testdata/behandlingTestdata';
+import { BehandlingTestdata } from '../../../testdata/behandlingTestdata';
+import { Button } from '@navikt/ds-react';
 
-const DEFAULT_VALUES: DefaultValues<EndreBehandlendeEnhetFormValues> = {
-    [EndreBehandlendeEnhetFeltnavn.BEGRUNNELSE]: '',
-};
+const onSubmit = (delay: number) => new Promise((resolve) => setTimeout(resolve, delay));
 
 function FormWrapper({
     children,
-    defaultValues = DEFAULT_VALUES,
-    formState = undefined,
+    values = { [EndreBehandlendeEnhetFeltnavn.ENHETSNUMMER]: '4833' },
+    onSubmitDelay = 0,
 }: {
     children: React.ReactNode;
-    defaultValues?: DefaultValues<EndreBehandlendeEnhetFormValues>;
-    formState?: Partial<FormState<EndreBehandlendeEnhetFormValues>>;
+    values?: { [EndreBehandlendeEnhetFeltnavn.ENHETSNUMMER]: string };
+    onSubmitDelay?: number;
 }) {
-    const form = useForm<EndreBehandlendeEnhetFormValues>({ mode: 'onChange', defaultValues });
+    const form = useForm<{ [EndreBehandlendeEnhetFeltnavn.ENHETSNUMMER]: string }>({
+        mode: 'onChange',
+        values,
+    });
     return (
-        <FormProvider {...form} formState={{ ...form.formState, ...(formState ?? {}) }}>
-            <form>{children}</form>
+        <FormProvider {...form}>
+            <form onSubmit={form.handleSubmit(() => onSubmit(onSubmitDelay))}>
+                {children}
+                <Button type={'submit'}>Submit</Button>
+            </form>
         </FormProvider>
     );
 }
 
 describe('EnhetsnummerFelt', () => {
-    const fagsystem = Fagsystem.BA;
-    const behandlendeEnhet = '4833';
+    const behandling = BehandlingTestdata.lagBehandling({
+        fagsystem: Fagsystem.BA,
+        behandlendeEnhet: '4833',
+    });
+
     const comboboxName = 'Velg ny enhet';
 
     test('skal kunne endre enhet hvis komponenten ikke er i lesevisning', async () => {
         const { screen, user } = render(
-            <EnhetsnummerFelt
-                behandling={lagBehandling({ fagsystem, behandlendeEnhet })}
-                lesevisning={false}
-            />,
+            <EnhetsnummerFelt behandling={behandling} lesevisning={false} />,
             { wrapper: FormWrapper }
         );
 
@@ -57,13 +61,9 @@ describe('EnhetsnummerFelt', () => {
     });
 
     test('skal vise komponenten i lesevisningmodus', async () => {
-        const { screen } = render(
-            <EnhetsnummerFelt
-                behandling={lagBehandling({ fagsystem, behandlendeEnhet })}
-                lesevisning={true}
-            />,
-            { wrapper: FormWrapper }
-        );
+        const { screen } = render(<EnhetsnummerFelt behandling={behandling} lesevisning={true} />, {
+            wrapper: FormWrapper,
+        });
 
         const image = screen.getByRole('img', { name: 'Skrivebeskyttet' });
         const combobox = screen.getByRole('combobox', { name: 'Skrivebeskyttet ' + comboboxName });
@@ -72,11 +72,10 @@ describe('EnhetsnummerFelt', () => {
         expect(combobox).toBeInTheDocument();
     });
 
-    test('skal fokusere som forventet på tekstfeltet når brukeren klikker på tekstfeltet for å så tabbe ut', async () => {
-        const { screen, user } = render(
-            <EnhetsnummerFelt behandling={lagBehandling({ fagsystem, behandlendeEnhet })} />,
-            { wrapper: FormWrapper }
-        );
+    test('skal fokusere som forventet på comboboxen når brukeren klikker på comboboxen for å så tabbe ut', async () => {
+        const { screen, user } = render(<EnhetsnummerFelt behandling={behandling} />, {
+            wrapper: FormWrapper,
+        });
 
         const combobox = screen.getByRole('combobox', { name: comboboxName });
         expect(combobox).not.toHaveFocus();
@@ -87,13 +86,9 @@ describe('EnhetsnummerFelt', () => {
     });
 
     test('skal vise feilmelding hvis man prøver å velge en allerde valgt enhet', async () => {
-        const { screen, user } = render(
-            <EnhetsnummerFelt
-                behandling={lagBehandling({ fagsystem, behandlendeEnhet })}
-                lesevisning={false}
-            />,
-            { wrapper: FormWrapper }
-        );
+        const { screen, user } = render(<EnhetsnummerFelt behandling={behandling} />, {
+            wrapper: FormWrapper,
+        });
 
         const combobox = screen.getByRole('combobox', { name: comboboxName });
         const option = screen.getByRole('option', {
@@ -108,36 +103,40 @@ describe('EnhetsnummerFelt', () => {
         expect(combobox).toHaveValue('4833');
     });
 
-    test('skal vise komponent med utfylt verdi fra form state', async () => {
-        const { screen } = render(
-            <EnhetsnummerFelt behandling={lagBehandling({ fagsystem, behandlendeEnhet })} />,
-            {
-                wrapper: (props) => (
-                    <FormWrapper
-                        {...props}
-                        defaultValues={{
-                            ...DEFAULT_VALUES,
-                            [EndreBehandlendeEnhetFeltnavn.ENHETSNUMMER]: '2103',
-                        }}
-                    />
-                ),
-            }
-        );
+    test('skal vise komponent med preutfylt verdi fra values', async () => {
+        const { screen } = render(<EnhetsnummerFelt behandling={behandling} />, {
+            wrapper: FormWrapper,
+        });
 
         const combobox = screen.getByRole('combobox', { name: comboboxName });
-        expect(combobox).toHaveValue('2103');
+        expect(combobox).toHaveValue('4833');
     });
 
-    test('skal være lesevisning hvis formet blir submitted', async () => {
-        const { screen } = render(
-            <EnhetsnummerFelt behandling={lagBehandling({ fagsystem, behandlendeEnhet })} />,
-            { wrapper: (props) => <FormWrapper {...props} formState={{ isSubmitting: true }} /> }
-        );
+    test('skal vise lesevisning hvis formet blir submitted', async () => {
+        const { user, screen } = render(<EnhetsnummerFelt behandling={behandling} />, {
+            wrapper: (props) => <FormWrapper {...props} onSubmitDelay={3_000} />,
+        });
 
-        const image = screen.getByRole('img', { name: 'Skrivebeskyttet' });
-        const combobox = screen.getByRole('combobox', { name: 'Skrivebeskyttet ' + comboboxName });
+        const combobox = screen.getByRole('combobox', { name: comboboxName });
+        const option = screen.getByRole('option', {
+            name: '4817 NAV Familie- og pensjonsytelser Steinkjer',
+        });
+        await user.selectOptions(combobox, option);
 
-        expect(image).toBeInTheDocument();
-        expect(combobox).toBeInTheDocument();
+        expect(screen.queryByRole('img', { name: 'Skrivebeskyttet' })).not.toBeInTheDocument();
+        expect(
+            screen.queryByRole('combobox', { name: 'Skrivebeskyttet ' + comboboxName })
+        ).not.toBeInTheDocument();
+
+        const submitButton = screen.getByRole('button', { name: 'Submit' });
+        await user.click(submitButton);
+
+        const skrivebeskyttetImage = await screen.findByRole('img', { name: 'Skrivebeskyttet' });
+        const skrivebeskyttetCombobox = await screen.findByRole('combobox', {
+            name: 'Skrivebeskyttet ' + comboboxName,
+        });
+
+        expect(skrivebeskyttetImage).toBeInTheDocument();
+        expect(skrivebeskyttetCombobox).toBeInTheDocument();
     });
 });
