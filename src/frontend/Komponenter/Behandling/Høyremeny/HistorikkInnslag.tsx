@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { ABorderStrong } from '@navikt/ds-tokens/dist/tokens';
+import { ABorderStrong, ASpacing1 } from '@navikt/ds-tokens/dist/tokens';
 import { BodyShort, Detail, Label } from '@navikt/ds-react';
 import styled from 'styled-components';
 import { formaterIsoDatoTid } from '../../../App/utils/formatter';
@@ -24,19 +24,28 @@ const Ikon = styled.div`
 
 const StipletLinje = styled.div`
     border-left: 0.15rem dotted ${ABorderStrong};
-    margin-top: 0.5rem;
     margin-left: 0.75rem;
-    height: 1.5rem;
+    height: calc(100% - 2em);
 `;
 
 const Tekst = styled.div`
     margin-left: 0.7rem;
+    > *:not(:last-child) {
+        margin: 0.25rem 0 0.25rem 0;
+    }
+`;
+
+const Beskrivelse = styled(BodyShort)`
+    white-space: pre-wrap;
+    word-wrap: break-word;
+    padding: ${ASpacing1} 0;
 `;
 
 interface IHistorikkOppdatering {
     behandling: Behandling;
     steg: StegType;
     historikkHendelse?: HistorikkHendelse;
+    beskrivelse?: string;
     opprettetAv: string;
     endretTid: string;
 }
@@ -45,6 +54,7 @@ const HistorikkInnslag: React.FunctionComponent<IHistorikkOppdatering> = ({
     behandling,
     steg,
     historikkHendelse,
+    beskrivelse,
     opprettetAv,
     endretTid,
 }) => {
@@ -55,11 +65,12 @@ const HistorikkInnslag: React.FunctionComponent<IHistorikkOppdatering> = ({
     return (
         <Innslag>
             <Ikon>
-                <PersonCircleIcon fontSize="1.5rem" />
+                <PersonCircleIcon fontSize="1.5rem" height={'1em'} />
                 <StipletLinje />
             </Ikon>
             <Tekst>
                 <Label size="small">{labelTekst}</Label>
+                {beskrivelse && <Beskrivelse size="small">{beskrivelse}</Beskrivelse>}
                 {steg === StegType.BEHANDLING_FERDIGSTILT && (
                     <BodyShort>
                         {utledStegutfallForFerdigstiltBehandling(behandling, steg)}

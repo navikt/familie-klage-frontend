@@ -69,6 +69,7 @@ const [BehandlingProvider, useBehandling] = constate(() => {
     const [visBrevmottakereModal, settVisBrevmottakereModal] = useState(false);
     const [visHenleggModal, settVisHenleggModal] = useState(false);
     const [visSettPåVent, settVisSettPåVent] = useState(false);
+    const [visEndreBehandlendeEnhet, settVisEndreBehandlendeEnhet] = useState(false);
     const [åpenHøyremeny, settÅpenHøyremeny] = useState(true);
     const [vurderingEndret, settVurderingEndret] = useState(false);
 
@@ -97,6 +98,8 @@ const [BehandlingProvider, useBehandling] = constate(() => {
         oppdatertVurdering,
         settOppdatertVurdering,
         formkravOppfylt,
+        visEndreBehandlendeEnhet,
+        settVisEndreBehandlendeEnhet,
     };
 });
 

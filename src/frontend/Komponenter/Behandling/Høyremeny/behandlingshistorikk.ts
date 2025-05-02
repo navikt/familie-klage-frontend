@@ -4,6 +4,7 @@ export interface IBehandlingshistorikk {
     behandlingId: string;
     steg: StegType;
     historikkHendelse?: HistorikkHendelse;
+    beskrivelse?: string;
     opprettetAv: string;
     endretTid: string;
 }

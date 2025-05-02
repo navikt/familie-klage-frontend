@@ -15,6 +15,7 @@ import ScrollToTop from '../../Felles/ScrollToTop/ScrollToTop';
 import { useSetPersonIdent } from '../../App/hooks/useSetPersonIdent';
 import { useSetValgtFagsakId } from '../../App/hooks/useSetValgtFagsakId';
 import { SettPåVent } from './SettPåVent/SettPåVent';
+import { EndreBehandlendeEnhetModal } from './EndreBehandlendeEnhet/EndreBehandlendeEnhetModal';
 
 const Container = styled.div`
     display: flex;
@@ -74,6 +75,7 @@ const BehandlingContent: FC<{
                 <InnholdWrapper åpenHøyremeny={åpenHøyremeny} id="scroll-topp">
                     <Fanemeny behandling={behandling} />
                     <SettPåVent behandling={behandling} />
+                    <EndreBehandlendeEnhetModal behandling={behandling} />
                     <BehandlingRoutes behandling={behandling} />
                     <HenleggModal behandling={behandling} personopplysninger={personopplysninger} />
                 </InnholdWrapper>
