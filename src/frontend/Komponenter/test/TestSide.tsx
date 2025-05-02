@@ -14,11 +14,13 @@ import { Stønadstype } from '../../App/typer/stønadstype';
 import { RessursStatus } from '../../App/typer/ressurs';
 import { useNavigate } from 'react-router-dom';
 import { Fagsystem } from '../../App/typer/fagsak';
+import { behandlendeEnheter } from '../Behandling/EndreBehandlendeEnhet/arbeidsfordelingsenhet';
 
 type DummyBehandling = {
     ident: string;
     stønadstype: Stønadstype;
     fagsystem: Fagsystem;
+    behandlendeEnhet: string;
 };
 
 export const TestSide: React.FC = () => {
@@ -30,12 +32,27 @@ export const TestSide: React.FC = () => {
     const [fagsystem, settFagsystem] = useState<Fagsystem>();
     const [feil, settFeil] = useState<string>();
 
+    const utledBehandlendeEnhetForFagsystem = (fagsystem: Fagsystem) => {
+        switch (fagsystem) {
+            case Fagsystem.KS:
+            case Fagsystem.BA:
+                return behandlendeEnheter.find(
+                    (enhet) =>
+                        enhet.gyldigForFagsystem.includes(fagsystem) &&
+                        enhet.enhetsnummer !== '2103'
+                )!.enhetsnummer;
+            default:
+                return '4489';
+        }
+    };
+
     const opprettDummyBehandling = () => {
         if (ident && stønadstype && fagsystem) {
+            const behandlendeEnhet = utledBehandlendeEnhetForFagsystem(fagsystem);
             axiosRequest<string, DummyBehandling>({
                 method: 'POST',
                 url: `/familie-klage/api/test/opprett`,
-                data: { ident, stønadstype, fagsystem },
+                data: { ident, stønadstype, fagsystem, behandlendeEnhet },
             }).then((resp) => {
                 if (resp.status === RessursStatus.SUKSESS) {
                     navigate(`/behandling/${resp.data}/formkrav`);
