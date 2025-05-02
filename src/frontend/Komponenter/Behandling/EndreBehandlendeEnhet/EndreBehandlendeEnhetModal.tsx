@@ -1,12 +1,25 @@
 import { Button, Fieldset, Modal } from '@navikt/ds-react';
-import React, { useState } from 'react';
+import React from 'react';
 import { useEndreBehandlendeEnhet } from './useEndreBehandlendeEnhet';
 import { Behandling } from '../../../App/typer/fagsak';
 import { useBehandling } from '../../../App/context/BehandlingContext';
-import { FormProvider, useForm } from 'react-hook-form';
+import { FieldErrors, FormProvider, useForm } from 'react-hook-form';
 import { EndreBehandlendeEnhetFeltnavn } from './feltnavn';
 import { EnhetsnummerFelt } from './EnhetsnummerFelt';
 import { BegrunnelseFelt } from './BegrunnelseFelt';
+
+export const CustomFormErrors: Record<
+    'onSubmitError',
+    {
+        id: `root.${string}`;
+        lookup: (errors: FieldErrors<EndreBehandlendeEnhetFormValues>) => string | undefined;
+    }
+> = {
+    onSubmitError: {
+        id: 'root.onSubmitError',
+        lookup: (errors) => errors?.root?.onSubmitError.message,
+    },
+};
 
 export interface EndreBehandlendeEnhetFormValues {
     [EndreBehandlendeEnhetFeltnavn.ENHETSNUMMER]: string;
@@ -18,7 +31,6 @@ interface Props {
 }
 
 export function EndreBehandlendeEnhetModal({ behandling }: Props) {
-    const [onSubmitFeilmelding, settOnSubmitFeilmelding] = useState<string>('');
     const { endreBehandlendeEnhet } = useEndreBehandlendeEnhet();
     const { behandlingErRedigerbar, visEndreBehandlendeEnhet, settVisEndreBehandlendeEnhet } =
         useBehandling();
@@ -34,20 +46,24 @@ export function EndreBehandlendeEnhetModal({ behandling }: Props) {
     const {
         handleSubmit,
         reset,
-        formState: { isSubmitting },
+        formState: { isSubmitting, errors },
+        setError,
+        clearErrors,
     } = form;
 
     async function onSubmit(formValues: EndreBehandlendeEnhetFormValues): Promise<void> {
-        settOnSubmitFeilmelding('');
+        clearErrors(CustomFormErrors.onSubmitError.id);
         const { enhetsnummer, begrunnelse } = formValues;
         return endreBehandlendeEnhet(behandling.id, enhetsnummer, begrunnelse)
             .then(() => settVisEndreBehandlendeEnhet(false))
-            .catch((error) => settOnSubmitFeilmelding(error.message));
+            .catch((error) =>
+                setError(CustomFormErrors.onSubmitError.id, { message: error.message })
+            );
     }
 
     function lukkModal() {
         settVisEndreBehandlendeEnhet(false);
-        settOnSubmitFeilmelding('');
+        clearErrors(CustomFormErrors.onSubmitError.id);
         reset();
     }
 
@@ -55,16 +71,14 @@ export function EndreBehandlendeEnhetModal({ behandling }: Props) {
         <Modal
             onClose={lukkModal}
             width={'35rem'}
-            header={{
-                heading: 'Endre enhet for denne behandlingen',
-            }}
+            header={{ heading: 'Endre enhet for denne behandlingen' }}
             open={visEndreBehandlendeEnhet}
         >
             <FormProvider {...form}>
                 <form onSubmit={handleSubmit(onSubmit)}>
                     <Modal.Body>
                         <Fieldset
-                            error={onSubmitFeilmelding}
+                            error={CustomFormErrors.onSubmitError.lookup(errors)}
                             legend={'Endre enhet'}
                             hideLegend={true}
                         >

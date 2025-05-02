@@ -2,6 +2,7 @@ import React from 'react';
 import { Textarea } from '@navikt/ds-react';
 import { useController, useFormContext } from 'react-hook-form';
 import { EndreBehandlendeEnhetFeltnavn } from './feltnavn';
+import { CustomFormErrors } from './EndreBehandlendeEnhetModal';
 
 interface Props {
     lesevisning?: boolean;
@@ -9,7 +10,7 @@ interface Props {
 }
 
 export function BegrunnelseFelt({ lesevisning = false, maksLengde = 4000 }: Props) {
-    const { control } = useFormContext();
+    const { control, clearErrors } = useFormContext();
 
     const { field, fieldState, formState } = useController({
         name: EndreBehandlendeEnhetFeltnavn.BEGRUNNELSE,
@@ -29,7 +30,10 @@ export function BegrunnelseFelt({ lesevisning = false, maksLengde = 4000 }: Prop
             name={field.name}
             value={field.value}
             onBlur={field.onBlur}
-            onChange={(event) => field.onChange(event.target.value)}
+            onChange={(event) => {
+                field.onChange(event.target.value);
+                clearErrors(CustomFormErrors.onSubmitError.id);
+            }}
             maxLength={maksLengde}
             readOnly={lesevisning || formState.isSubmitting}
             error={fieldState.error?.message}
