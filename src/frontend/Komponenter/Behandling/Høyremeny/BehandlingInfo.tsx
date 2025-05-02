@@ -5,9 +5,8 @@ import { ABorderSubtle, ATextSubtle } from '@navikt/ds-tokens/dist/tokens';
 import { BodyShort, Tooltip } from '@navikt/ds-react';
 import { behandlingStatusTilTekst } from '../../../App/typer/behandlingstatus';
 import { formaterIsoDato, formaterIsoDatoTid } from '../../../App/utils/formatter';
-import TilegnetSaksbehandler from './TilegnetSaksbehandler';
+import { TilegnetSaksbehandler } from './TilegnetSaksbehandler';
 import DataViewer from '../../../Felles/DataViewer/DataViewer';
-import { AnsvarligSaksbehandlerRolle } from '../../../App/typer/saksbehandler';
 import { useBehandling } from '../../../App/context/BehandlingContext';
 
 const Container = styled.div`
@@ -46,18 +45,9 @@ interface Props {
 
 export function BehandlingInfo({ behandling }: Props) {
     const { ansvarligSaksbehandler } = useBehandling();
-
     return (
         <DataViewer response={{ ansvarligSaksbehandler }}>
             {({ ansvarligSaksbehandler }) => {
-                const skalViseBehandlingInfo =
-                    ansvarligSaksbehandler.rolle !==
-                    AnsvarligSaksbehandlerRolle.OPPGAVE_FINNES_IKKE;
-
-                if (!skalViseBehandlingInfo) {
-                    return <></>;
-                }
-
                 return (
                     <Container>
                         <FlexBoxColumnFullWidth>

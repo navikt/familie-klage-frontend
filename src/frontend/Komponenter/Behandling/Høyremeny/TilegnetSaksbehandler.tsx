@@ -1,5 +1,4 @@
-/* eslint-disable react/prop-types */
-import * as React from 'react';
+import React from 'react';
 import styled from 'styled-components';
 import { BodyShort } from '@navikt/ds-react';
 import { PersonHeadsetIcon } from '@navikt/aksel-icons';
@@ -11,8 +10,8 @@ import {
     ATextSubtle,
 } from '@navikt/ds-tokens/dist/tokens';
 import {
-    AnsvarligSaksbehandlerRolle,
     AnsvarligSaksbehandler,
+    AnsvarligSaksbehandlerRolle,
 } from '../../../App/typer/saksbehandler';
 
 const FlexBoxColumn = styled.div`
@@ -35,47 +34,49 @@ const PersonIkon = styled(PersonHeadsetIcon)`
     height: 3rem;
 `;
 
-interface IProps {
+const StatusBar = styled.span<{ $color: string }>`
+    width: 100%;
+    border-top: 4px solid ${(props) => props.$color};
+`;
+
+interface Props {
     ansvarligSaksbehandler: AnsvarligSaksbehandler;
 }
 
-const TilegnetSaksbehandler: React.FC<IProps> = ({ ansvarligSaksbehandler }: IProps) => {
-    const utledStatusbarFarge = (
-        ansvarligSaksbehandlerRolle: AnsvarligSaksbehandlerRolle
-    ): string => {
-        switch (ansvarligSaksbehandlerRolle) {
-            case AnsvarligSaksbehandlerRolle.IKKE_SATT:
-            case AnsvarligSaksbehandlerRolle.UTVIKLER_MED_VEILEDERROLLE:
-                return ASurfaceNeutral;
-            case AnsvarligSaksbehandlerRolle.INNLOGGET_SAKSBEHANDLER:
-                return ASurfaceSuccess;
-            case AnsvarligSaksbehandlerRolle.ANNEN_SAKSBEHANDLER:
-            case AnsvarligSaksbehandlerRolle.OPPGAVE_TILHØRER_IKKE_ENF:
-                return ASurfaceWarning;
-            default:
-                return ASurfaceNeutral;
-        }
-    };
+function utledStatusbarFarge(ansvarligSaksbehandlerRolle: AnsvarligSaksbehandlerRolle): string {
+    switch (ansvarligSaksbehandlerRolle) {
+        case AnsvarligSaksbehandlerRolle.IKKE_SATT:
+        case AnsvarligSaksbehandlerRolle.UTVIKLER_MED_VEILEDERROLLE:
+            return ASurfaceNeutral;
+        case AnsvarligSaksbehandlerRolle.INNLOGGET_SAKSBEHANDLER:
+            return ASurfaceSuccess;
+        case AnsvarligSaksbehandlerRolle.ANNEN_SAKSBEHANDLER:
+        case AnsvarligSaksbehandlerRolle.OPPGAVE_TILHØRER_IKKE_ENF:
+            return ASurfaceWarning;
+        default:
+            return ASurfaceNeutral;
+    }
+}
 
-    const utledVisningsnavn = (ansvarligSaksbehandler: AnsvarligSaksbehandler): string => {
-        switch (ansvarligSaksbehandler.rolle) {
-            case AnsvarligSaksbehandlerRolle.INNLOGGET_SAKSBEHANDLER:
-            case AnsvarligSaksbehandlerRolle.ANNEN_SAKSBEHANDLER:
-                return `${ansvarligSaksbehandler.fornavn} ${ansvarligSaksbehandler.etternavn}`;
-            case AnsvarligSaksbehandlerRolle.UTVIKLER_MED_VEILEDERROLLE:
-                return 'ingen tilgang';
-            default:
-                return 'ingen ansvarlig';
-        }
-    };
+function utledVisningsnavn(ansvarligSaksbehandler: AnsvarligSaksbehandler): string {
+    switch (ansvarligSaksbehandler.rolle) {
+        case AnsvarligSaksbehandlerRolle.INNLOGGET_SAKSBEHANDLER:
+        case AnsvarligSaksbehandlerRolle.ANNEN_SAKSBEHANDLER:
+            return `${ansvarligSaksbehandler.fornavn} ${ansvarligSaksbehandler.etternavn}`;
+        case AnsvarligSaksbehandlerRolle.UTVIKLER_MED_VEILEDERROLLE:
+            return 'ingen tilgang';
+        default:
+            return 'ingen ansvarlig';
+    }
+}
 
-    const StatusBar = styled.span<{ $color: string }>`
-        width: 100%;
-        border-top: 4px solid ${(props) => props.$color};
-    `;
-
+export function TilegnetSaksbehandler({ ansvarligSaksbehandler }: Props) {
     const statusBarFarge = utledStatusbarFarge(ansvarligSaksbehandler?.rolle);
     const visingsnavn = utledVisningsnavn(ansvarligSaksbehandler);
+
+    if (ansvarligSaksbehandler.rolle === AnsvarligSaksbehandlerRolle.OPPGAVE_FINNES_IKKE) {
+        return null;
+    }
 
     return (
         <>
@@ -89,6 +90,4 @@ const TilegnetSaksbehandler: React.FC<IProps> = ({ ansvarligSaksbehandler }: IPr
             <StatusBar $color={statusBarFarge} />
         </>
     );
-};
-
-export default TilegnetSaksbehandler;
+}
