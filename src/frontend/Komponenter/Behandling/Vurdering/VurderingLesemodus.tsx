@@ -19,6 +19,9 @@ const FritekstfeltLesemodus = styled(BodyLong)`
 `;
 
 export const VurderingLesemodus: React.FC<{ vurdering: IVurdering }> = ({ vurdering }) => {
+    if (vurdering === null) {
+        return <></>;
+    }
     switch (vurdering.vedtak) {
         case VedtakValg.OMGJØR_VEDTAK:
             return <OmgjørVedtak vurdering={vurdering} />;
