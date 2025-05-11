@@ -16,6 +16,8 @@ import { useSetPersonIdent } from '../../App/hooks/useSetPersonIdent';
 import { useSetValgtFagsakId } from '../../App/hooks/useSetValgtFagsakId';
 import { SettPåVent } from './SettPåVent/SettPåVent';
 import { EndreBehandlendeEnhetModal } from './EndreBehandlendeEnhet/EndreBehandlendeEnhetModal';
+import { useStartUmami } from '../../App/hooks/useStartUmami';
+import { useTrackTidsbrukPåSide } from '../../App/hooks/useTrackTidsbrukPåSide';
 
 const Container = styled.div`
     display: flex;
@@ -65,6 +67,11 @@ const BehandlingContent: FC<{
 }> = ({ behandling, personopplysninger }) => {
     useSetValgtFagsakId(behandling.fagsakId);
     useSetPersonIdent(personopplysninger.personIdent);
+
+    // TODO: Finn optimal plassering
+    useStartUmami(behandling.fagsystem);
+    useTrackTidsbrukPåSide(behandling);
+
     const { åpenHøyremeny } = useBehandling();
 
     return (
