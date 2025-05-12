@@ -9,7 +9,7 @@ import { AnkeVisning } from './AnkeVisning';
 import { FeilregistrertVisning } from './FeilregistrertVisning';
 
 const HeadingContainer = styled.div`
-    margin: 2rem 5rem 0rem 5rem;
+    margin: 2rem 5rem 0 5rem;
 `;
 
 const TidslinjeContainer = styled.div<{ åpenHøyremeny: boolean }>`
