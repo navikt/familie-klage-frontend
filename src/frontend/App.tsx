@@ -16,6 +16,7 @@ import { ModalWrapper } from './Felles/Modal/ModalWrapper';
 import styled from 'styled-components';
 import UlagretDataModal from './Felles/Modal/UlagretDataModal';
 import { initGrafanaFaro } from './App/utils/grafanaFaro';
+import { useStartUmami } from './App/hooks/useStartUmami';
 
 const Innhold = styled(BodyLong)`
     margin-top: 2rem;
@@ -82,6 +83,7 @@ const AppInnhold: React.FC<{ innloggetSaksbehandler: ISaksbehandler }> = ({
 }) => {
     const navigate = useNavigate();
     const { valgtSide, byttUrl, settByttUrl } = useApp();
+    useStartUmami();
 
     useEffect(() => {
         if (valgtSide && byttUrl) {

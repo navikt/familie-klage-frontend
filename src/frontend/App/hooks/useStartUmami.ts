@@ -1,20 +1,12 @@
 import { useEffect } from 'react';
 import { erProd } from '../utils/miljø';
-import { Fagsystem } from '../typer/fagsak';
 
-const baksSporingskodeDev = '247e688e-fb49-41f5-a1ab-6ba59e71ea30';
-const baksSporingskodeProd = '';
+const sporingskodeDev = '247e688e-fb49-41f5-a1ab-6ba59e71ea30';
+const sporingskodeProd = '';
 
-const sporingskodeForMiljøOgFagsystem = (fagsystem: Fagsystem) => {
-    if (fagsystem === Fagsystem.EF) {
-        return;
-    }
-    return erProd() ? baksSporingskodeProd : baksSporingskodeDev;
-};
-
-export const useStartUmami = (fagsystem: Fagsystem) => {
+export const useStartUmami = () => {
     useEffect(() => {
-        const websiteId = sporingskodeForMiljøOgFagsystem(fagsystem);
+        const websiteId = erProd() ? sporingskodeProd : sporingskodeDev;
         if (!websiteId) {
             return;
         }
@@ -34,5 +26,5 @@ export const useStartUmami = (fagsystem: Fagsystem) => {
                 /* empty */
             }
         };
-    }, [fagsystem]);
+    }, []);
 };
