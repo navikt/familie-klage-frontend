@@ -5,7 +5,7 @@ import { Behandling } from '../../../App/typer/fagsak';
 import { useApp } from '../../../App/context/AppContext';
 import { useNavigate } from 'react-router-dom';
 import { EToast } from '../../../App/typer/toast';
-import { EHenlagtårsak } from './EHenlagtÅrsak';
+import { Henlagtårsak } from './Henlagtårsak';
 import styled from 'styled-components';
 import { Alert, Radio, RadioGroup, VStack } from '@navikt/ds-react';
 import { ModalWrapper } from '../../../Felles/Modal/ModalWrapper';
@@ -23,7 +23,7 @@ const HorizontalDivider = styled.div`
     border-bottom: 2px solid ${ABorderSubtle};
 `;
 
-export const HenleggModal: FC<{
+export const HenleggModalGammel: FC<{
     behandling: Behandling;
     personopplysninger: IPersonopplysninger;
 }> = ({ behandling, personopplysninger }) => {
@@ -33,7 +33,7 @@ export const HenleggModal: FC<{
     const vergemål = personopplysninger.vergemål;
     const { axiosRequest, settToast } = useApp();
     const navigate = useNavigate();
-    const [henlagtårsak, settHenlagtårsak] = useState<EHenlagtårsak>();
+    const [henlagtårsak, settHenlagtårsak] = useState<Henlagtårsak>();
     const [henleggerBehandling, settHenleggerBehandling] = useState<boolean>(false);
     const [feilmelding, settFeilmelding] = useState<string>();
     const [harHuketAvSendBrev, settHarHuketAvSendBrev] = useState<boolean>(true);
@@ -49,11 +49,11 @@ export const HenleggModal: FC<{
         }
         settHenleggerBehandling(true);
 
-        axiosRequest<string, { årsak: EHenlagtårsak; skalSendeHenleggelsesbrev: boolean }>({
+        axiosRequest<string, { årsak: Henlagtårsak; skalSendeHenleggelsesbrev: boolean }>({
             method: 'POST',
             url: `/familie-klage/api/behandling/${behandling.id}/henlegg`,
             data: {
-                årsak: henlagtårsak as EHenlagtårsak,
+                årsak: henlagtårsak as Henlagtårsak,
                 skalSendeHenleggelsesbrev: harValgtSendBrevOgSkalViseFramValg,
             },
         })
@@ -99,7 +99,7 @@ export const HenleggModal: FC<{
     const tilknyttetFullmakt = fullmakter.some(
         (fullmakt) => fullmakt.gyldigTilOgMed === null || erEtterDagensDato(fullmakt.gyldigTilOgMed)
     );
-    const henlagtårsakTrukketTilbake = henlagtårsak === EHenlagtårsak.TRUKKET_TILBAKE;
+    const henlagtårsakTrukketTilbake = henlagtårsak === Henlagtårsak.TRUKKET_TILBAKE;
 
     const harVergemål = vergemål.length > 0;
 
@@ -123,12 +123,9 @@ export const HenleggModal: FC<{
             ariaLabel={'Velg årsak til henleggelse av behandlingen'}
         >
             <VStack gap="4">
-                <RadioGroup
-                    legend={''}
-                    onChange={(årsak: EHenlagtårsak) => settHenlagtårsak(årsak)}
-                >
-                    <Radio value={EHenlagtårsak.TRUKKET_TILBAKE}>Trukket tilbake</Radio>
-                    <Radio value={EHenlagtårsak.FEILREGISTRERT}>Feilregistrert</Radio>
+                <RadioGroup legend={''} onChange={(årsak: Henlagtårsak) => settHenlagtårsak(årsak)}>
+                    <Radio value={Henlagtårsak.TRUKKET_TILBAKE}>Trukket tilbake</Radio>
+                    <Radio value={Henlagtårsak.FEILREGISTRERT}>Feilregistrert</Radio>
                 </RadioGroup>
                 {skalViseTilleggsvalg && (
                     <>

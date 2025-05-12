@@ -10,12 +10,15 @@ import VisittkortComponent from '../../Felles/Visittkort/Visittkort';
 import { Behandling } from '../../App/typer/fagsak';
 import { IPersonopplysninger } from '../../App/typer/personopplysninger';
 import DataViewer from '../../Felles/DataViewer/DataViewer';
-import { HenleggModal } from './Henleggelse/HenleggModal';
 import ScrollToTop from '../../Felles/ScrollToTop/ScrollToTop';
 import { useSetPersonIdent } from '../../App/hooks/useSetPersonIdent';
 import { useSetValgtFagsakId } from '../../App/hooks/useSetValgtFagsakId';
 import { SettPåVent } from './SettPåVent/SettPåVent';
 import { EndreBehandlendeEnhetModal } from './EndreBehandlendeEnhet/EndreBehandlendeEnhetModal';
+import { HenleggModalNy } from './Henleggelse/HenleggModalNy';
+import { HenleggModalGammel } from './Henleggelse/HenleggModalGammel';
+import { useToggles } from '../../App/context/TogglesContext';
+import { ToggleName } from '../../App/context/toggles';
 
 const Container = styled.div`
     display: flex;
@@ -66,6 +69,7 @@ const BehandlingContent: FC<{
     useSetValgtFagsakId(behandling.fagsakId);
     useSetPersonIdent(personopplysninger.personIdent);
     const { åpenHøyremeny } = useBehandling();
+    const { toggles } = useToggles();
 
     return (
         <>
@@ -77,7 +81,17 @@ const BehandlingContent: FC<{
                     <SettPåVent behandling={behandling} />
                     <EndreBehandlendeEnhetModal behandling={behandling} />
                     <BehandlingRoutes behandling={behandling} />
-                    <HenleggModal behandling={behandling} personopplysninger={personopplysninger} />
+                    {toggles[ToggleName.brukNyHenleggBehandlingModal] ? (
+                        <HenleggModalNy
+                            behandling={behandling}
+                            personopplysninger={personopplysninger}
+                        />
+                    ) : (
+                        <HenleggModalGammel
+                            behandling={behandling}
+                            personopplysninger={personopplysninger}
+                        />
+                    )}
                 </InnholdWrapper>
                 <HøyreMenyWrapper åpenHøyremeny={åpenHøyremeny}>
                     <Høyremeny åpenHøyremeny={åpenHøyremeny} behandling={behandling} />
