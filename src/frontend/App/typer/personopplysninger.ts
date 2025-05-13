@@ -1,3 +1,5 @@
+import { erEtterDagensDato } from '../utils/dato';
+
 export interface IPersonopplysninger {
     personIdent: string;
     navn: string;
@@ -10,6 +12,18 @@ export interface IPersonopplysninger {
     fullmakt: IFullmakt[];
     navEnhet: string;
     vergemål: IVergemål[];
+}
+
+export function erPersonopplysningerTilknyttetFullmakt(
+    personopplysninger: IPersonopplysninger
+): boolean {
+    return personopplysninger.fullmakt.some(
+        (fullmakt) => fullmakt.gyldigTilOgMed === null || erEtterDagensDato(fullmakt.gyldigTilOgMed)
+    );
+}
+
+export function harPersonopplysningerVergemål(personopplysninger: IPersonopplysninger): boolean {
+    return personopplysninger.vergemål.length > 0;
 }
 
 export enum Kjønn {
