@@ -15,7 +15,7 @@ export interface IMelding {
 }
 
 export const useHentVurderinger = (): {
-    vurdering: Ressurs<IVurdering>;
+    vurdering: Ressurs<IVurdering | null>;
     hentVurdering: (behandlingId: string) => void;
     lagreVurderingOgOppdaterSteg: (
         vurderinger: IVurdering
@@ -30,14 +30,14 @@ export const useHentVurderinger = (): {
 
     const [melding, settMelding] = useState<IMelding>();
 
-    const [vurdering, settVurdering] = useState<Ressurs<IVurdering>>(byggTomRessurs);
+    const [vurdering, settVurdering] = useState<Ressurs<IVurdering | null>>(byggTomRessurs);
 
     const hentVurdering = useCallback(
         (behandlingId: string) => {
-            axiosRequest<IVurdering, null>({
+            axiosRequest<IVurdering | null, null>({
                 method: 'GET',
                 url: `/familie-klage/api/vurdering/${behandlingId}`,
-            }).then((hentetVurdering: RessursSuksess<IVurdering> | RessursFeilet) => {
+            }).then((hentetVurdering: RessursSuksess<IVurdering | null> | RessursFeilet) => {
                 settVurdering(hentetVurdering);
             });
         },
