@@ -3,9 +3,12 @@ import React from 'react';
 import { describe, expect, test } from 'vitest';
 import { AdresselinjeFelt } from './AdresselinjeFelt';
 import { BrevmottakerFeltnavn } from './felttyper';
-import { DefaultValues, FormProvider, FormState, useForm } from 'react-hook-form';
+import { DefaultValues, FormProvider, useForm } from 'react-hook-form';
 import { BrevmottakerFormValues } from '../BrevmottakerForm';
 import { render } from '../../../../../../../lib/testrender';
+import { Button } from '@navikt/ds-react';
+
+const onSubmit = (delay: number) => new Promise((resolve) => setTimeout(resolve, delay));
 
 const DEFAULT_VALUES: DefaultValues<BrevmottakerFormValues> = {
     [BrevmottakerFeltnavn.ADRESSELINJE1]: '',
@@ -14,16 +17,19 @@ const DEFAULT_VALUES: DefaultValues<BrevmottakerFormValues> = {
 function FormWrapper({
     children,
     defaultValues = DEFAULT_VALUES,
-    formState = undefined,
+    onSubmitDelay = 0,
 }: {
     children: React.ReactNode;
     defaultValues?: DefaultValues<BrevmottakerFormValues>;
-    formState?: Partial<FormState<BrevmottakerFormValues>>;
+    onSubmitDelay?: number;
 }) {
     const form = useForm<BrevmottakerFormValues>({ mode: 'onChange', defaultValues });
     return (
-        <FormProvider {...form} formState={{ ...form.formState, ...formState }}>
-            {children}
+        <FormProvider {...form}>
+            <form onSubmit={form.handleSubmit(() => onSubmit(onSubmitDelay))}>
+                {children}
+                <Button type={'submit'}>Submit</Button>
+            </form>
         </FormProvider>
     );
 }
@@ -198,15 +204,24 @@ describe('AdresselinjeFelt', () => {
                 visningsnavn={visningsnavn}
             />,
             {
-                wrapper: (props) => <FormWrapper {...props} formState={{ isSubmitting: true }} />,
+                wrapper: (props) => <FormWrapper {...props} onSubmitDelay={3_000} />,
             }
         );
 
         const textbox = screen.getByRole('textbox', { name: visningsnavn });
         await user.click(textbox);
-        await user.keyboard('Dette er en prøve');
+        await user.keyboard('abc');
 
-        expect(textbox).toHaveValue('');
+        expect(textbox).toHaveValue('abc');
+        expect(textbox).toBeInTheDocument();
+        expect(textbox).not.toHaveAttribute('readonly');
+
+        const submitButton = screen.getByRole('button', { name: 'Submit' });
+        await user.click(submitButton);
+        await user.click(textbox);
+        await user.keyboard('123');
+
+        expect(textbox).toHaveValue('abc');
         expect(textbox).toBeInTheDocument();
         expect(textbox).toHaveAttribute('readonly');
     });
