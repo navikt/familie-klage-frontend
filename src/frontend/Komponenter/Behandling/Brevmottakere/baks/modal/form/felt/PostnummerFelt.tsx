@@ -3,13 +3,14 @@ import React from 'react';
 import { TextField } from '@navikt/ds-react';
 import { EøsLandkode } from '../../../../../../../Felles/Landvelger/landkode';
 import { BrevmottakerFeltnavn, BrevmottakerFeltProps } from './felttyper';
+import { BrevmottakerFormValues } from '../BrevmottakerForm';
 
 type Props = BrevmottakerFeltProps;
 
 const visningsnavn = 'Postnummer';
 
 export function PostnummerFelt({ feltnavn, erLesevisning }: Props) {
-    const { control, getValues } = useFormContext();
+    const { control, getValues } = useFormContext<BrevmottakerFormValues>();
 
     const { field, fieldState, formState } = useController({
         name: feltnavn,

@@ -4,6 +4,7 @@ import { TextField } from '@navikt/ds-react';
 import { IPersonopplysninger } from '../../../../../../../App/typer/personopplysninger';
 import { BrevmottakerFeltnavn, BrevmottakerFeltProps } from './felttyper';
 import { MottakerRolle } from '../../../../mottakerRolle';
+import { BrevmottakerFormValues } from '../BrevmottakerForm';
 
 type Props = BrevmottakerFeltProps & {
     personopplysninger: IPersonopplysninger;
@@ -12,7 +13,7 @@ type Props = BrevmottakerFeltProps & {
 const visningsnavn = 'Navn';
 
 export function NavnFelt({ feltnavn, erLesevisning }: Props) {
-    const { control, watch } = useFormContext();
+    const { control, watch } = useFormContext<BrevmottakerFormValues>();
 
     const { field, fieldState, formState } = useController({
         name: feltnavn,

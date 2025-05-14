@@ -13,6 +13,8 @@ import {
     utledGyldigeMottakerRolleForBrevmottakerPersonUtenIdent,
     utledPreutfyltBrevmottakerPersonUtenIdentNavn,
 } from '../../../../brevmottaker';
+import { BrevmottakerFormValues } from '../BrevmottakerForm';
+import { EøsLandkode } from '../../../../../../../Felles/Landvelger/landkode';
 
 type Props = BrevmottakerFeltProps & {
     personopplysninger: IPersonopplysninger;
@@ -27,7 +29,7 @@ export function MottakerFelt({
     brevmottakere,
     erLesevisning,
 }: Props) {
-    const { control, setValue, getValues } = useFormContext();
+    const { control, setValue, getValues } = useFormContext<BrevmottakerFormValues>();
 
     const { field, fieldState, formState } = useController({
         name: feltnavn,
@@ -38,28 +40,28 @@ export function MottakerFelt({
         },
     });
 
-    function oppdatertNavnForMottakerRolleHvisNødvendig(mottakerRolle: MottakerRolle) {
-        const [landkode, forrigeMottakerRolle] = getValues([
-            BrevmottakerFeltnavn.LANDKODE,
-            BrevmottakerFeltnavn.MOTTAKERROLLE,
-        ]);
+    function oppdatertNavnForMottakerRolleHvisNødvendig(nyMottakerRolle: MottakerRolle | '') {
+        const landkode = getValues(BrevmottakerFeltnavn.LANDKODE);
+        const forrigeMottakerRolle = getValues(BrevmottakerFeltnavn.MOTTAKERROLLE);
 
-        const varNavnPreutfylt = skalNavnVærePreutfyltForMottakerRolle(forrigeMottakerRolle);
-        const skalNavnPreutfylles = skalNavnVærePreutfyltForMottakerRolle(mottakerRolle);
+        const varNavnPreutfylt =
+            forrigeMottakerRolle !== '' &&
+            skalNavnVærePreutfyltForMottakerRolle(forrigeMottakerRolle);
+
+        const skalNavnPreutfylles =
+            nyMottakerRolle !== '' && skalNavnVærePreutfyltForMottakerRolle(nyMottakerRolle);
 
         if (varNavnPreutfylt && !skalNavnPreutfylles) {
             setValue(BrevmottakerFeltnavn.NAVN, '');
         }
 
         if (skalNavnPreutfylles) {
-            setValue(
-                BrevmottakerFeltnavn.NAVN,
-                utledPreutfyltBrevmottakerPersonUtenIdentNavn(
-                    personopplysninger.navn,
-                    landkode,
-                    mottakerRolle
-                )
+            const nyttNavn = utledPreutfyltBrevmottakerPersonUtenIdentNavn(
+                personopplysninger.navn,
+                landkode === '' ? EøsLandkode.NO : landkode,
+                nyMottakerRolle
             );
+            setValue(BrevmottakerFeltnavn.NAVN, nyttNavn);
         }
     }
 
@@ -71,9 +73,10 @@ export function MottakerFelt({
             value={field.value}
             onBlur={field.onBlur}
             onChange={(event) => {
-                const value = event.target.value as keyof typeof MottakerRolle;
-                oppdatertNavnForMottakerRolleHvisNødvendig(MottakerRolle[value]);
-                field.onChange(event);
+                const nyMottakerRolle = event.target
+                    .value as BrevmottakerFormValues[BrevmottakerFeltnavn.MOTTAKERROLLE];
+                oppdatertNavnForMottakerRolleHvisNødvendig(nyMottakerRolle);
+                field.onChange(nyMottakerRolle);
             }}
             error={visFeilmelding && fieldState.error?.message}
             readOnly={erLesevisning || formState.isSubmitting}

@@ -25,7 +25,7 @@ export function skalNavnVærePreutfyltForMottakerRolle(mottakerRolle: MottakerRo
 
 export function erGyldigMottakerRolleForLandkode(
     mottakerRolle: MottakerRolle,
-    landkode: EøsLandkode | ''
+    landkode: EøsLandkode
 ): boolean {
     const landkodeErNO = landkode === EøsLandkode.NO;
     const erBrukerMedUtenlandskAdresse =

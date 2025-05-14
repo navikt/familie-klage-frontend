@@ -5,6 +5,8 @@ import { BrevmottakerFeltnavn, BrevmottakerFeltProps } from './felttyper';
 import { IPersonopplysninger } from '../../../../../../../App/typer/personopplysninger';
 import { erGyldigMottakerRolleForLandkode, MottakerRolle } from '../../../../mottakerRolle';
 import { utledBrevmottakerPersonUtenIdentNavnVedDødsbo } from '../../../../brevmottaker';
+import { BrevmottakerFormValues } from '../BrevmottakerForm';
+import { EøsLandkode } from '../../../../../../../Felles/Landvelger/landkode';
 
 type Props = BrevmottakerFeltProps & {
     personopplysninger: IPersonopplysninger;
@@ -13,16 +15,21 @@ type Props = BrevmottakerFeltProps & {
 const visningsnavn = 'Land';
 
 export function LandFelt({ feltnavn, erLesevisning, personopplysninger }: Props) {
-    const { control, getValues, setValue } = useFormContext();
+    const { control, getValues, setValue } = useFormContext<BrevmottakerFormValues>();
 
     const { field, fieldState, formState } = useController({
         name: feltnavn,
         control,
         rules: {
-            required: `${visningsnavn} er påkrevd.`,
             validate: (landkode) => {
+                if (landkode === '') {
+                    return `${visningsnavn} er påkrevd.`;
+                }
                 const mottakerRolle = getValues(BrevmottakerFeltnavn.MOTTAKERROLLE);
-                if (!erGyldigMottakerRolleForLandkode(mottakerRolle, landkode)) {
+                if (mottakerRolle === '') {
+                    return undefined;
+                }
+                if (!erGyldigMottakerRolleForLandkode(mottakerRolle, landkode as EøsLandkode)) {
                     return 'Norge kan ikke være satt for bruker med utenlandsk adresse.';
                 }
                 return undefined;
@@ -38,18 +45,17 @@ export function LandFelt({ feltnavn, erLesevisning, personopplysninger }: Props)
             label={visningsnavn}
             onBlur={field.onBlur}
             value={field.value}
-            onToggleSelected={(landkode, isSelected) => {
+            onToggleSelected={(value, isSelected) => {
                 const mottakerRolle = getValues(BrevmottakerFeltnavn.MOTTAKERROLLE);
                 if (isSelected && mottakerRolle === MottakerRolle.DØDSBO) {
-                    setValue(
-                        BrevmottakerFeltnavn.NAVN,
-                        utledBrevmottakerPersonUtenIdentNavnVedDødsbo(
-                            personopplysninger.navn,
-                            landkode
-                        )
+                    const landkode = EøsLandkode[value as keyof typeof EøsLandkode];
+                    const nyttNavn = utledBrevmottakerPersonUtenIdentNavnVedDødsbo(
+                        personopplysninger.navn,
+                        landkode
                     );
+                    setValue(BrevmottakerFeltnavn.NAVN, nyttNavn);
                 }
-                field.onChange(isSelected ? landkode : '');
+                field.onChange(isSelected ? value : '');
             }}
             error={visFeilmelding && fieldState.error?.message}
             readOnly={erLesevisning || formState.isSubmitting}

@@ -62,15 +62,16 @@ export function erBrevmottakerPersonUtenIdent(
 
 export function utledBrevmottakerPersonUtenIdentNavnVedDødsbo(
     navn: string,
-    landkode: string
+    landkode: EøsLandkode | string
 ): string {
-    return landkode === EøsLandkode.NO ? `${navn} v/dødsbo` : `Estate of ${navn}`;
+    const erEøsLandkode = Object.values(EøsLandkode).includes(landkode as EøsLandkode);
+    return landkode === EøsLandkode.NO || !erEøsLandkode ? `${navn} v/dødsbo` : `Estate of ${navn}`;
 }
 
 export function utledPreutfyltBrevmottakerPersonUtenIdentNavn(
     navnFraPersonopplysninger: string,
-    landkode: string,
-    mottakerRolle: MottakerRolle | string
+    landkode: EøsLandkode | string,
+    mottakerRolle: MottakerRolle
 ): string {
     switch (mottakerRolle) {
         case MottakerRolle.DØDSBO:

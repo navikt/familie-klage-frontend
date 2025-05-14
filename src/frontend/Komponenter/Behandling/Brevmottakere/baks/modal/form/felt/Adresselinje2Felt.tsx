@@ -2,13 +2,14 @@ import { useController, useFormContext } from 'react-hook-form';
 import React from 'react';
 import { TextField } from '@navikt/ds-react';
 import { BrevmottakerFeltProps } from './felttyper';
+import { BrevmottakerFormValues } from '../BrevmottakerForm';
 
 type Props = BrevmottakerFeltProps & {};
 
 const visningsnavn = 'Adresselinje 2 (valgfri)';
 
 export function Adresselinje2Felt({ feltnavn, erLesevisning = false }: Props) {
-    const { control } = useFormContext();
+    const { control } = useFormContext<BrevmottakerFormValues>();
 
     const { field, fieldState, formState } = useController({
         name: feltnavn,
