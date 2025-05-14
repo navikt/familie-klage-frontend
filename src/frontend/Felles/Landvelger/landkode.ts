@@ -1,3 +1,5 @@
+export type BlankEøsLandkode = '';
+
 export enum EøsLandkode {
     BE = 'BE',
     BG = 'BG',
@@ -32,7 +34,10 @@ export enum EøsLandkode {
     AT = 'AT',
 }
 
-export function erUtanlandskEøsLandkode(landkode: EøsLandkode | string) {
-    const erEøsLandkode = Object.values(landkode).includes(landkode);
-    return erEøsLandkode && landkode !== EøsLandkode.NO;
+export function erEøsLandkode(eøsLandkode: EøsLandkode | string) {
+    return Object.values(EøsLandkode).includes(eøsLandkode as EøsLandkode);
+}
+
+export function erUtanlandskEøsLandkode(eøsLandkode: EøsLandkode | string) {
+    return erEøsLandkode(eøsLandkode) && eøsLandkode !== EøsLandkode.NO;
 }

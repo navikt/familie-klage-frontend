@@ -3,9 +3,10 @@ import { Select } from '@navikt/ds-react';
 import { useController, useFormContext } from 'react-hook-form';
 import { IPersonopplysninger } from '../../../../../../../App/typer/personopplysninger';
 import {
+    BlankMottakerRolle,
     MottakerRolle,
     mottakerRolleVisningsnavn,
-    skalNavnVærePreutfyltForMottakerRolle,
+    skalPreutfylleNavnForMottakerRolle,
 } from '../../../../mottakerRolle';
 import {
     BrevmottakerPersonUtenIdent,
@@ -35,22 +36,20 @@ export function MottakerFelt({ personopplysninger, brevmottakere, erLesevisning 
         },
     });
 
-    function oppdatertNavnForMottakerRolleHvisNødvendig(nyMottakerRolle: MottakerRolle | '') {
+    function oppdatertNavnForMottakerRolleHvisNødvendig(
+        nyMottakerRolle: MottakerRolle | BlankMottakerRolle
+    ) {
         const landkode = getValues(BrevmottakerFeltnavn.LANDKODE);
         const forrigeMottakerRolle = getValues(BrevmottakerFeltnavn.MOTTAKERROLLE);
 
-        const varNavnPreutfylt =
-            forrigeMottakerRolle !== '' &&
-            skalNavnVærePreutfyltForMottakerRolle(forrigeMottakerRolle);
-
-        const skalNavnPreutfylles =
-            nyMottakerRolle !== '' && skalNavnVærePreutfyltForMottakerRolle(nyMottakerRolle);
+        const varNavnPreutfylt = skalPreutfylleNavnForMottakerRolle(forrigeMottakerRolle);
+        const skalNavnPreutfylles = skalPreutfylleNavnForMottakerRolle(nyMottakerRolle);
 
         if (varNavnPreutfylt && !skalNavnPreutfylles) {
             setValue(BrevmottakerFeltnavn.NAVN, '');
         }
 
-        if (skalNavnPreutfylles) {
+        if (skalNavnPreutfylles && nyMottakerRolle !== '') {
             const nyttNavn = utledPreutfyltBrevmottakerPersonUtenIdentNavn(
                 personopplysninger.navn,
                 landkode === '' ? EøsLandkode.NO : landkode,
@@ -66,8 +65,9 @@ export function MottakerFelt({ personopplysninger, brevmottakere, erLesevisning 
             value={field.value}
             onBlur={field.onBlur}
             onChange={(event) => {
-                const nyMottakerRolle = event.target
-                    .value as BrevmottakerFormValues[BrevmottakerFeltnavn.MOTTAKERROLLE];
+                const value = event.target.value;
+                const nyMottakerRolle =
+                    value as BrevmottakerFormValues[BrevmottakerFeltnavn.MOTTAKERROLLE];
                 oppdatertNavnForMottakerRolleHvisNødvendig(nyMottakerRolle);
                 field.onChange(nyMottakerRolle);
             }}

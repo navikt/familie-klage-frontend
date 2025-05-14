@@ -1,7 +1,7 @@
 import { useController, useFormContext } from 'react-hook-form';
 import React from 'react';
 import { TextField } from '@navikt/ds-react';
-import { MottakerRolle } from '../../../../mottakerRolle';
+import { skalPreutfylleNavnForMottakerRolle } from '../../../../mottakerRolle';
 import { BrevmottakerFeltnavn, BrevmottakerFormValues } from '../BrevmottakerForm';
 
 interface Props {
@@ -25,11 +25,9 @@ export function NavnFelt({ erLesevisning = false }: Props) {
         },
     });
 
-    const mottakerRolle = watch(BrevmottakerFeltnavn.MOTTAKERROLLE);
-
-    const navnSkalVærePreutfylt =
-        mottakerRolle === MottakerRolle.BRUKER_MED_UTENLANDSK_ADRESSE ||
-        mottakerRolle === MottakerRolle.DØDSBO;
+    const navnSkalVærePreutfylt = skalPreutfylleNavnForMottakerRolle(
+        watch(BrevmottakerFeltnavn.MOTTAKERROLLE)
+    );
 
     return (
         <TextField

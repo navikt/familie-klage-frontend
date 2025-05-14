@@ -1,5 +1,7 @@
 import { EøsLandkode } from '../../../Felles/Landvelger/landkode';
 
+export type BlankMottakerRolle = '';
+
 export enum MottakerRolle {
     BRUKER = 'BRUKER',
     VERGE = 'VERGE',
@@ -16,10 +18,16 @@ export const mottakerRolleVisningsnavn: Record<MottakerRolle, string> = {
     DØDSBO: 'Dødsbo',
 };
 
-export function skalNavnVærePreutfyltForMottakerRolle(mottakerRolle: MottakerRolle): boolean {
+export function skalPreutfylleNavnForMottakerRolle(
+    mottakerRolle: MottakerRolle | BlankMottakerRolle
+) {
+    const erMottakerRolle = Object.values(MottakerRolle).includes(mottakerRolle as MottakerRolle);
+    if (!erMottakerRolle) {
+        return false;
+    }
     return (
-        mottakerRolle === MottakerRolle.DØDSBO ||
-        mottakerRolle === MottakerRolle.BRUKER_MED_UTENLANDSK_ADRESSE
+        mottakerRolle === MottakerRolle.BRUKER_MED_UTENLANDSK_ADRESSE ||
+        mottakerRolle === MottakerRolle.DØDSBO
     );
 }
 
