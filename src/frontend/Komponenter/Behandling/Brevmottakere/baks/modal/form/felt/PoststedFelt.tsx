@@ -8,7 +8,7 @@ interface Props {
     erLesevisning?: boolean;
 }
 
-const visningsnavn = 'Poststed';
+const label = 'Poststed';
 
 export function PoststedFelt({ erLesevisning = false }: Props) {
     const { control, getValues } = useFormContext<BrevmottakerFormValues>();
@@ -19,15 +19,15 @@ export function PoststedFelt({ erLesevisning = false }: Props) {
         rules: {
             required:
                 getValues(BrevmottakerFeltnavn.LANDKODE) === EøsLandkode.NO
-                    ? `${visningsnavn} er påkrevd om landet er Norge.`
+                    ? `${label} er påkrevd om landet er Norge.`
                     : undefined,
-            maxLength: { value: 50, message: `${visningsnavn} kan inneholde maks 50 tegn.` },
+            maxLength: { value: 50, message: `${label} kan inneholde maks 50 tegn.` },
         },
     });
 
     return (
         <TextField
-            label={visningsnavn}
+            label={label}
             value={field.value}
             onBlur={field.onBlur}
             onChange={field.onChange}

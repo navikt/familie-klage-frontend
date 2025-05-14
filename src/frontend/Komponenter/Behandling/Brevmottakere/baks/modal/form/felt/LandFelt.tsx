@@ -11,7 +11,7 @@ interface Props {
     erLesevisning?: boolean;
 }
 
-const visningsnavn = 'Land';
+const label = 'Land';
 
 export function LandFelt({ personopplysninger, erLesevisning = false }: Props) {
     const { control, getValues, setValue } = useFormContext<BrevmottakerFormValues>();
@@ -22,7 +22,7 @@ export function LandFelt({ personopplysninger, erLesevisning = false }: Props) {
         rules: {
             validate: (landkode) => {
                 if (landkode === '') {
-                    return `${visningsnavn} er påkrevd.`;
+                    return `${label} er påkrevd.`;
                 }
                 const mottakerRolle = getValues(BrevmottakerFeltnavn.MOTTAKERROLLE);
                 if (mottakerRolle === '') {
@@ -39,7 +39,7 @@ export function LandFelt({ personopplysninger, erLesevisning = false }: Props) {
 
     return (
         <EøsLandvelger
-            label={visningsnavn}
+            label={label}
             onBlur={field.onBlur}
             value={field.value}
             onToggleSelected={(value, isSelected) => {

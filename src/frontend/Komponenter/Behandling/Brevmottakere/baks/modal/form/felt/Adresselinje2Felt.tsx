@@ -7,7 +7,7 @@ interface Props {
     erLesevisning?: boolean;
 }
 
-const visningsnavn = 'Adresselinje 2 (valgfri)';
+const label = 'Adresselinje 2 (valgfri)';
 
 export function Adresselinje2Felt({ erLesevisning = false }: Props) {
     const { control } = useFormContext<BrevmottakerFormValues>();
@@ -18,14 +18,14 @@ export function Adresselinje2Felt({ erLesevisning = false }: Props) {
         rules: {
             maxLength: {
                 value: 80,
-                message: `${visningsnavn} kan ikke inneholde mer enn 80 tegn.`,
+                message: `${label} kan ikke inneholde mer enn 80 tegn.`,
             },
         },
     });
 
     return (
         <TextField
-            label={visningsnavn}
+            label={label}
             value={field.value}
             onBlur={field.onBlur}
             onChange={field.onChange}

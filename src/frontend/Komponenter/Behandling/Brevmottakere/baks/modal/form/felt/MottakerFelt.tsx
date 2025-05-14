@@ -22,7 +22,7 @@ interface Props {
     erLesevisning?: boolean;
 }
 
-const visningsnavn = 'Mottaker';
+const label = 'Mottaker';
 
 export function MottakerFelt({ personopplysninger, brevmottakere, erLesevisning = false }: Props) {
     const { control, setValue, getValues } = useFormContext<BrevmottakerFormValues>();
@@ -31,7 +31,7 @@ export function MottakerFelt({ personopplysninger, brevmottakere, erLesevisning 
         name: BrevmottakerFeltnavn.MOTTAKERROLLE,
         control,
         rules: {
-            required: `${visningsnavn} er påkrevd.`,
+            required: `${label} er påkrevd.`,
             deps: [BrevmottakerFeltnavn.LANDKODE],
         },
     });
@@ -61,7 +61,7 @@ export function MottakerFelt({ personopplysninger, brevmottakere, erLesevisning 
 
     return (
         <Select
-            label={visningsnavn}
+            label={label}
             value={field.value}
             onBlur={field.onBlur}
             onChange={(event) => {

@@ -33,7 +33,7 @@ function FormWrapper({
     );
 }
 
-const visningsnavn = 'Adresselinje 1';
+const label = 'Adresselinje 1';
 
 describe('AdresselinjeFelt', () => {
     test('skal kunne skrive hvis komponenten ikke er i lesevisning', async () => {
@@ -41,7 +41,7 @@ describe('AdresselinjeFelt', () => {
             wrapper: FormWrapper,
         });
 
-        const textbox = screen.getByRole('textbox', { name: visningsnavn });
+        const textbox = screen.getByRole('textbox', { name: label });
         await user.click(textbox);
         await user.keyboard('Dette er en prøve');
 
@@ -55,7 +55,7 @@ describe('AdresselinjeFelt', () => {
             wrapper: FormWrapper,
         });
 
-        const textbox = screen.getByRole('textbox', { name: visningsnavn });
+        const textbox = screen.getByRole('textbox', { name: label });
         await user.click(textbox);
         await user.keyboard('Dette er en prøve');
 
@@ -67,7 +67,7 @@ describe('AdresselinjeFelt', () => {
     test('skal fokusere som forventet på tekstfeltet når brukeren klikker på tekstfeltet for å så tabbe ut', async () => {
         const { screen, user } = render(<Adresselinje1Felt />, { wrapper: FormWrapper });
 
-        const textbox = screen.getByRole('textbox', { name: visningsnavn });
+        const textbox = screen.getByRole('textbox', { name: label });
         expect(textbox).not.toHaveFocus();
         await user.click(textbox);
         expect(textbox).toHaveFocus();
@@ -78,43 +78,41 @@ describe('AdresselinjeFelt', () => {
     test('skal vise "påkrevd" feilmelding hvis feltet er tomt', async () => {
         const { screen, user } = render(<Adresselinje1Felt />, { wrapper: FormWrapper });
 
-        const textbox = screen.getByRole('textbox', { name: visningsnavn });
+        const textbox = screen.getByRole('textbox', { name: label });
         await user.click(textbox);
         await user.keyboard('Abc');
         await user.clear(textbox);
         await user.tab();
 
-        const feilmelding = screen.getByText(`${visningsnavn} er påkrevd.`);
+        const feilmelding = screen.getByText(`${label} er påkrevd.`);
         expect(feilmelding).toBeInTheDocument();
     });
 
     test('skal vise maks lengde feilmelding hvis feltet overstiger 80 tegn', async () => {
         const { screen, user } = render(<Adresselinje1Felt />, { wrapper: FormWrapper });
 
-        const textbox = screen.getByRole('textbox', { name: visningsnavn });
+        const textbox = screen.getByRole('textbox', { name: label });
         await user.click(textbox);
         await user.keyboard(
             'Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligulade'
         );
         await user.tab();
 
-        const feilmelding = screen.getByText(`${visningsnavn} kan ikke inneholde mer enn 80 tegn.`);
+        const feilmelding = screen.getByText(`${label} kan ikke inneholde mer enn 80 tegn.`);
         expect(feilmelding).toBeInTheDocument();
     });
 
     test('skal ikke vise maks lengde feilmelding hvis feltet inneholder 80 tegn', async () => {
         const { screen, user } = render(<Adresselinje1Felt />, { wrapper: FormWrapper });
 
-        const textbox = screen.getByRole('textbox', { name: visningsnavn });
+        const textbox = screen.getByRole('textbox', { name: label });
         await user.click(textbox);
         await user.keyboard(
             'Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligulaa'
         );
         await user.tab();
 
-        const feilmelding = screen.queryByText(
-            `${visningsnavn} kan ikke inneholde mer enn 80 tegn.`
-        );
+        const feilmelding = screen.queryByText(`${label} kan ikke inneholde mer enn 80 tegn.`);
         expect(feilmelding).not.toBeInTheDocument();
     });
 
@@ -131,7 +129,7 @@ describe('AdresselinjeFelt', () => {
             ),
         });
 
-        const textbox = screen.getByRole('textbox', { name: visningsnavn });
+        const textbox = screen.getByRole('textbox', { name: label });
         expect(textbox).toHaveValue('Osloveien 1337');
     });
 
@@ -140,7 +138,7 @@ describe('AdresselinjeFelt', () => {
             wrapper: (props) => <FormWrapper {...props} onSubmitDelay={3_000} />,
         });
 
-        const textbox = screen.getByRole('textbox', { name: visningsnavn });
+        const textbox = screen.getByRole('textbox', { name: label });
         await user.click(textbox);
         await user.keyboard('abc');
 

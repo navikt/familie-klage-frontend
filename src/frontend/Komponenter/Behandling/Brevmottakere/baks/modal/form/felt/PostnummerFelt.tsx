@@ -8,7 +8,7 @@ interface Props {
     erLesevisning?: boolean;
 }
 
-const visningsnavn = 'Postnummer';
+const label = 'Postnummer';
 
 export function PostnummerFelt({ erLesevisning = false }: Props) {
     const { control, getValues } = useFormContext<BrevmottakerFormValues>();
@@ -19,10 +19,10 @@ export function PostnummerFelt({ erLesevisning = false }: Props) {
         rules: {
             required:
                 getValues(BrevmottakerFeltnavn.LANDKODE) === EøsLandkode.NO
-                    ? `${visningsnavn} er påkrevd om landet er Norge.`
+                    ? `${label} er påkrevd om landet er Norge.`
                     : undefined,
-            maxLength: { value: 4, message: `${visningsnavn} må inneholde 4 tegn.` },
-            minLength: { value: 4, message: `${visningsnavn} må inneholde 4 tegn.` },
+            maxLength: { value: 4, message: `${label} må inneholde 4 tegn.` },
+            minLength: { value: 4, message: `${label} må inneholde 4 tegn.` },
         },
     });
 
@@ -31,7 +31,7 @@ export function PostnummerFelt({ erLesevisning = false }: Props) {
             htmlSize={4}
             maxLength={4}
             type={'number'}
-            label={visningsnavn}
+            label={label}
             value={field.value}
             onBlur={field.onBlur}
             onChange={field.onChange}
