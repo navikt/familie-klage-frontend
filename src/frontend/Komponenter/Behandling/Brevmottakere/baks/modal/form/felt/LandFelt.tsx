@@ -5,7 +5,6 @@ import { IPersonopplysninger } from '../../../../../../../App/typer/personopplys
 import { erGyldigMottakerRolleForLandkode, MottakerRolle } from '../../../../mottakerRolle';
 import { utledBrevmottakerPersonUtenIdentNavnVedDødsbo } from '../../../../brevmottaker';
 import { BrevmottakerFeltnavn, BrevmottakerFormValues } from '../BrevmottakerForm';
-import { EøsLandkode } from '../../../../../../../Felles/Landvelger/landkode';
 
 interface Props {
     personopplysninger: IPersonopplysninger;
@@ -29,7 +28,7 @@ export function LandFelt({ personopplysninger, erLesevisning = false }: Props) {
                 if (mottakerRolle === '') {
                     return undefined;
                 }
-                if (!erGyldigMottakerRolleForLandkode(mottakerRolle, landkode as EøsLandkode)) {
+                if (!erGyldigMottakerRolleForLandkode(mottakerRolle, landkode)) {
                     return 'Norge kan ikke være satt for bruker med utenlandsk adresse.';
                 }
                 return undefined;
@@ -46,16 +45,16 @@ export function LandFelt({ personopplysninger, erLesevisning = false }: Props) {
             onBlur={field.onBlur}
             value={field.value}
             onToggleSelected={(value, isSelected) => {
+                const landkode = value as BrevmottakerFormValues[BrevmottakerFeltnavn.LANDKODE];
                 const mottakerRolle = getValues(BrevmottakerFeltnavn.MOTTAKERROLLE);
-                if (isSelected && mottakerRolle === MottakerRolle.DØDSBO) {
-                    const landkode = EøsLandkode[value as keyof typeof EøsLandkode];
+                if (isSelected && mottakerRolle === MottakerRolle.DØDSBO && landkode !== '') {
                     const nyttNavn = utledBrevmottakerPersonUtenIdentNavnVedDødsbo(
                         personopplysninger.navn,
                         landkode
                     );
                     setValue(BrevmottakerFeltnavn.NAVN, nyttNavn);
                 }
-                field.onChange(isSelected ? value : '');
+                field.onChange(isSelected ? landkode : '');
             }}
             error={visFeilmelding && fieldState.error?.message}
             readOnly={erLesevisning || formState.isSubmitting}
