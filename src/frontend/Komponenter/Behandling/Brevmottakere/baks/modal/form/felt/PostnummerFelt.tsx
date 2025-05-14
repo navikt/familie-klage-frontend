@@ -26,8 +26,6 @@ export function PostnummerFelt({ erLesevisning = false }: Props) {
         },
     });
 
-    const visFeilmelding = fieldState.isTouched || formState.isSubmitted;
-
     return (
         <TextField
             htmlSize={4}
@@ -37,7 +35,7 @@ export function PostnummerFelt({ erLesevisning = false }: Props) {
             value={field.value}
             onBlur={field.onBlur}
             onChange={field.onChange}
-            error={visFeilmelding && fieldState.error?.message}
+            error={fieldState.error?.message}
             readOnly={erLesevisning || formState.isSubmitting}
         />
     );

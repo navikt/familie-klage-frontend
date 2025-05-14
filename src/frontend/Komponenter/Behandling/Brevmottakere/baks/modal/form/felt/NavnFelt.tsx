@@ -25,8 +25,6 @@ export function NavnFelt({ erLesevisning = false }: Props) {
         },
     });
 
-    const visFeilmelding = fieldState.isTouched || formState.isSubmitted;
-
     const mottakerRolle = watch(BrevmottakerFeltnavn.MOTTAKERROLLE);
 
     const navnSkalVærePreutfylt =
@@ -39,7 +37,7 @@ export function NavnFelt({ erLesevisning = false }: Props) {
             value={field.value}
             onBlur={field.onBlur}
             onChange={field.onChange}
-            error={visFeilmelding && fieldState.error?.message}
+            error={fieldState.error?.message}
             readOnly={erLesevisning || navnSkalVærePreutfylt || formState.isSubmitting}
         />
     );

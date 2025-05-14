@@ -60,8 +60,6 @@ export function MottakerFelt({ personopplysninger, brevmottakere, erLesevisning 
         }
     }
 
-    const visFeilmelding = fieldState.isTouched || formState.isSubmitted;
-
     return (
         <Select
             label={visningsnavn}
@@ -73,7 +71,7 @@ export function MottakerFelt({ personopplysninger, brevmottakere, erLesevisning 
                 oppdatertNavnForMottakerRolleHvisNødvendig(nyMottakerRolle);
                 field.onChange(nyMottakerRolle);
             }}
-            error={visFeilmelding && fieldState.error?.message}
+            error={fieldState.error?.message}
             readOnly={erLesevisning || formState.isSubmitting}
         >
             <option value={''}>-- Velg mottaker --</option>

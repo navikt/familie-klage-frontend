@@ -29,15 +29,13 @@ export function Adresselinje1Felt({ erLesevisning = false }: Props) {
     const erLandValgt = landkode !== '';
     const erUtenlandskAdresseValgt = erLandValgt && landkode !== EøsLandkode.NO;
 
-    const visFeilmelding = fieldState.isTouched || formState.isSubmitted;
-
     return (
         <TextField
             label={visningsnavn}
             value={field.value}
             onBlur={field.onBlur}
             onChange={field.onChange}
-            error={visFeilmelding && fieldState.error?.message}
+            error={fieldState.error?.message}
             description={
                 erUtenlandskAdresseValgt && (
                     <Alert size={'small'} inline={true} variant={'info'}>

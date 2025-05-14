@@ -37,8 +37,6 @@ export function LandFelt({ personopplysninger, erLesevisning = false }: Props) {
         },
     });
 
-    const visFeilmelding = fieldState.isTouched || formState.isSubmitted;
-
     return (
         <EøsLandvelger
             label={visningsnavn}
@@ -56,7 +54,7 @@ export function LandFelt({ personopplysninger, erLesevisning = false }: Props) {
                 }
                 field.onChange(isSelected ? landkode : '');
             }}
-            error={visFeilmelding && fieldState.error?.message}
+            error={fieldState.error?.message}
             readOnly={erLesevisning || formState.isSubmitting}
         />
     );
