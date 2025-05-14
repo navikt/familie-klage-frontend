@@ -1,7 +1,7 @@
 import { useController, useFormContext } from 'react-hook-form';
 import React from 'react';
 import { Alert, TextField } from '@navikt/ds-react';
-import { EøsLandkode } from '../../../../../../../Felles/Landvelger/landkode';
+import { erUtanlandskEøsLandkode } from '../../../../../../../Felles/Landvelger/landkode';
 import { BrevmottakerFeltnavn, BrevmottakerFormValues } from '../BrevmottakerForm';
 
 interface Props {
@@ -25,9 +25,7 @@ export function Adresselinje1Felt({ erLesevisning = false }: Props) {
         },
     });
 
-    const landkode = watch(BrevmottakerFeltnavn.LANDKODE);
-    const erLandValgt = landkode !== '';
-    const erUtenlandskAdresseValgt = erLandValgt && landkode !== EøsLandkode.NO;
+    const erUtenlandskLandkode = erUtanlandskEøsLandkode(watch(BrevmottakerFeltnavn.LANDKODE));
 
     return (
         <TextField
@@ -37,7 +35,7 @@ export function Adresselinje1Felt({ erLesevisning = false }: Props) {
             onChange={field.onChange}
             error={fieldState.error?.message}
             description={
-                erUtenlandskAdresseValgt && (
+                erUtenlandskLandkode && (
                     <Alert size={'small'} inline={true} variant={'info'}>
                         Ved utenlandsk adresse skal postnummer og poststed skrives direkte i
                         adressefeltet.

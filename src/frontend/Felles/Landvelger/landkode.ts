@@ -31,3 +31,8 @@ export enum EøsLandkode {
     HU = 'HU',
     AT = 'AT',
 }
+
+export function erUtanlandskEøsLandkode(landkode: EøsLandkode | string) {
+    const erEøsLandkode = Object.values(landkode).includes(landkode);
+    return erEøsLandkode && landkode !== EøsLandkode.NO;
+}

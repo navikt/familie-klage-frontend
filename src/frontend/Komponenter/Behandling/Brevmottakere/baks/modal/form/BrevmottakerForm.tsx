@@ -7,7 +7,7 @@ import { Adresselinje1Felt } from './felt/Adresselinje1Felt';
 import { PostnummerFelt } from './felt/PostnummerFelt';
 import { PoststedFelt } from './felt/PoststedFelt';
 import { Alert, Button, Heading, HStack, VStack } from '@navikt/ds-react';
-import { EøsLandkode } from '../../../../../../Felles/Landvelger/landkode';
+import { erUtanlandskEøsLandkode, EøsLandkode } from '../../../../../../Felles/Landvelger/landkode';
 import { IPersonopplysninger } from '../../../../../../App/typer/personopplysninger';
 import { MottakerRolle } from '../../../mottakerRolle';
 import { BrevmottakerPersonUtenIdent } from '../../../brevmottaker';
@@ -64,10 +64,6 @@ export function BrevmottakerForm({
     const form = useForm<BrevmottakerFormValues>({ defaultValues });
     const { formState, handleSubmit, watch } = form;
 
-    const landkode = watch(BrevmottakerFeltnavn.LANDKODE);
-    const erLandValgt = landkode !== '';
-    const erUtenlandskAdresseValgt = erLandValgt && landkode !== EøsLandkode.NO;
-
     async function onSubmit(brevmottakerFormValues: BrevmottakerFormValues) {
         setVisSubmitError(false);
         const erSuksess = await opprettBrevmottaker(
@@ -79,6 +75,10 @@ export function BrevmottakerForm({
             setVisSubmitError(true);
         }
     }
+
+    const landkode = watch(BrevmottakerFeltnavn.LANDKODE);
+    const erLandValgt = landkode !== '';
+    const erUtenlandskLandkode = erUtanlandskEøsLandkode(landkode);
 
     return (
         <FormProvider {...form}>
@@ -101,7 +101,7 @@ export function BrevmottakerForm({
                             <NavnFelt erLesevisning={erLesevisning} />
                             <Adresselinje1Felt erLesevisning={erLesevisning} />
                             <Adresselinje2Felt erLesevisning={erLesevisning} />
-                            {!erUtenlandskAdresseValgt && (
+                            {!erUtenlandskLandkode && (
                                 <>
                                     <PostnummerFelt erLesevisning={erLesevisning} />
                                     <PoststedFelt erLesevisning={erLesevisning} />
