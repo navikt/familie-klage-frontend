@@ -2,7 +2,7 @@ import React from 'react';
 import { Select } from '@navikt/ds-react';
 import { useController, useFormContext } from 'react-hook-form';
 import { IPersonopplysninger } from '../../../../../../../App/typer/personopplysninger';
-import { BrevmottakerFeltnavn, BrevmottakerFeltProps } from './felttyper';
+import { BrevmottakerFeltnavn } from './felttyper';
 import {
     MottakerRolle,
     mottakerRolleVisningsnavn,
@@ -16,23 +16,19 @@ import {
 import { BrevmottakerFormValues } from '../BrevmottakerForm';
 import { EøsLandkode } from '../../../../../../../Felles/Landvelger/landkode';
 
-type Props = BrevmottakerFeltProps & {
+interface Props {
     personopplysninger: IPersonopplysninger;
     brevmottakere: BrevmottakerPersonUtenIdent[];
-};
+    erLesevisning?: boolean;
+}
 
 const visningsnavn = 'Mottaker';
 
-export function MottakerFelt({
-    feltnavn,
-    personopplysninger,
-    brevmottakere,
-    erLesevisning,
-}: Props) {
+export function MottakerFelt({ personopplysninger, brevmottakere, erLesevisning = false }: Props) {
     const { control, setValue, getValues } = useFormContext<BrevmottakerFormValues>();
 
     const { field, fieldState, formState } = useController({
-        name: feltnavn,
+        name: BrevmottakerFeltnavn.MOTTAKERROLLE,
         control,
         rules: {
             required: `${visningsnavn} er påkrevd.`,

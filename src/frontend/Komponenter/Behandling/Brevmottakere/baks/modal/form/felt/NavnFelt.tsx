@@ -1,22 +1,21 @@
 import { useController, useFormContext } from 'react-hook-form';
 import React from 'react';
 import { TextField } from '@navikt/ds-react';
-import { IPersonopplysninger } from '../../../../../../../App/typer/personopplysninger';
-import { BrevmottakerFeltnavn, BrevmottakerFeltProps } from './felttyper';
+import { BrevmottakerFeltnavn } from './felttyper';
 import { MottakerRolle } from '../../../../mottakerRolle';
 import { BrevmottakerFormValues } from '../BrevmottakerForm';
 
-type Props = BrevmottakerFeltProps & {
-    personopplysninger: IPersonopplysninger;
-};
+interface Props {
+    erLesevisning?: boolean;
+}
 
 const visningsnavn = 'Navn';
 
-export function NavnFelt({ feltnavn, erLesevisning }: Props) {
+export function NavnFelt({ erLesevisning = false }: Props) {
     const { control, watch } = useFormContext<BrevmottakerFormValues>();
 
     const { field, fieldState, formState } = useController({
-        name: feltnavn,
+        name: BrevmottakerFeltnavn.NAVN,
         control,
         rules: {
             required: `${visningsnavn} på person eller organisasjon er påkrevd.`,

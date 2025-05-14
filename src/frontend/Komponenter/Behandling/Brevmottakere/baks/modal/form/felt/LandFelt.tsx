@@ -1,24 +1,25 @@
 import React from 'react';
 import { useController, useFormContext } from 'react-hook-form';
 import { EøsLandvelger } from '../../../../../../../Felles/Landvelger/EøsLandvelger';
-import { BrevmottakerFeltnavn, BrevmottakerFeltProps } from './felttyper';
+import { BrevmottakerFeltnavn } from './felttyper';
 import { IPersonopplysninger } from '../../../../../../../App/typer/personopplysninger';
 import { erGyldigMottakerRolleForLandkode, MottakerRolle } from '../../../../mottakerRolle';
 import { utledBrevmottakerPersonUtenIdentNavnVedDødsbo } from '../../../../brevmottaker';
 import { BrevmottakerFormValues } from '../BrevmottakerForm';
 import { EøsLandkode } from '../../../../../../../Felles/Landvelger/landkode';
 
-type Props = BrevmottakerFeltProps & {
+interface Props {
     personopplysninger: IPersonopplysninger;
-};
+    erLesevisning?: boolean;
+}
 
 const visningsnavn = 'Land';
 
-export function LandFelt({ feltnavn, erLesevisning, personopplysninger }: Props) {
+export function LandFelt({ personopplysninger, erLesevisning = false }: Props) {
     const { control, getValues, setValue } = useFormContext<BrevmottakerFormValues>();
 
     const { field, fieldState, formState } = useController({
-        name: feltnavn,
+        name: BrevmottakerFeltnavn.LANDKODE,
         control,
         rules: {
             validate: (landkode) => {

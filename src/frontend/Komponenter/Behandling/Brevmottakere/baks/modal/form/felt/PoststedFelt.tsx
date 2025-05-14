@@ -2,18 +2,20 @@ import { useController, useFormContext } from 'react-hook-form';
 import React from 'react';
 import { TextField } from '@navikt/ds-react';
 import { EøsLandkode } from '../../../../../../../Felles/Landvelger/landkode';
-import { BrevmottakerFeltnavn, BrevmottakerFeltProps } from './felttyper';
+import { BrevmottakerFeltnavn } from './felttyper';
 import { BrevmottakerFormValues } from '../BrevmottakerForm';
 
-type Props = BrevmottakerFeltProps;
+interface Props {
+    erLesevisning?: boolean;
+}
 
 const visningsnavn = 'Poststed';
 
-export function PoststedFelt({ feltnavn, erLesevisning }: Props) {
+export function PoststedFelt({ erLesevisning = false }: Props) {
     const { control, getValues } = useFormContext<BrevmottakerFormValues>();
 
     const { field, fieldState, formState } = useController({
-        name: feltnavn,
+        name: BrevmottakerFeltnavn.POSTSTED,
         control,
         rules: {
             required:

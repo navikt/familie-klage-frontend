@@ -1,19 +1,21 @@
 import { useController, useFormContext } from 'react-hook-form';
 import React from 'react';
 import { Alert, TextField } from '@navikt/ds-react';
-import { BrevmottakerFeltnavn, BrevmottakerFeltProps } from './felttyper';
+import { BrevmottakerFeltnavn } from './felttyper';
 import { EøsLandkode } from '../../../../../../../Felles/Landvelger/landkode';
 import { BrevmottakerFormValues } from '../BrevmottakerForm';
 
-type Props = BrevmottakerFeltProps & {};
+interface Props {
+    erLesevisning?: boolean;
+}
 
 const visningsnavn = 'Adresselinje 1';
 
-export function Adresselinje1Felt({ feltnavn, erLesevisning = false }: Props) {
+export function Adresselinje1Felt({ erLesevisning = false }: Props) {
     const { control, watch } = useFormContext<BrevmottakerFormValues>();
 
     const { field, fieldState, formState } = useController({
-        name: feltnavn,
+        name: BrevmottakerFeltnavn.ADRESSELINJE1,
         control,
         rules: {
             required: `${visningsnavn} er påkrevd.`,

@@ -1,8 +1,3 @@
-export type BrevmottakerFeltProps = {
-    feltnavn: BrevmottakerFeltnavn;
-    erLesevisning?: boolean;
-};
-
 export enum BrevmottakerFeltnavn {
     MOTTAKERROLLE = 'mottakerRolle',
     LANDKODE = 'landkode',

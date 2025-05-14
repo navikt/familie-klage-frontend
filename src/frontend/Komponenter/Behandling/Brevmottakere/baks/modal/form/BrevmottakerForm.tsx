@@ -79,41 +79,23 @@ export function BrevmottakerForm({
                         Ny brevmottaker
                     </Heading>
                     <MottakerFelt
-                        feltnavn={BrevmottakerFeltnavn.MOTTAKERROLLE}
                         personopplysninger={personopplysninger}
                         brevmottakere={brevmottakere}
                         erLesevisning={erLesevisning}
                     />
                     <LandFelt
-                        feltnavn={BrevmottakerFeltnavn.LANDKODE}
                         personopplysninger={personopplysninger}
                         erLesevisning={erLesevisning}
                     />
                     {erLandValgt && (
                         <>
-                            <NavnFelt
-                                feltnavn={BrevmottakerFeltnavn.NAVN}
-                                personopplysninger={personopplysninger}
-                                erLesevisning={erLesevisning}
-                            />
-                            <Adresselinje1Felt
-                                feltnavn={BrevmottakerFeltnavn.ADRESSELINJE1}
-                                erLesevisning={erLesevisning}
-                            />
-                            <Adresselinje2Felt
-                                feltnavn={BrevmottakerFeltnavn.ADRESSELINJE2}
-                                erLesevisning={erLesevisning}
-                            />
+                            <NavnFelt erLesevisning={erLesevisning} />
+                            <Adresselinje1Felt erLesevisning={erLesevisning} />
+                            <Adresselinje2Felt erLesevisning={erLesevisning} />
                             {!erUtenlandskAdresseValgt && (
                                 <>
-                                    <PostnummerFelt
-                                        feltnavn={BrevmottakerFeltnavn.POSTNUMMER}
-                                        erLesevisning={erLesevisning}
-                                    />
-                                    <PoststedFelt
-                                        feltnavn={BrevmottakerFeltnavn.POSTSTED}
-                                        erLesevisning={erLesevisning}
-                                    />
+                                    <PostnummerFelt erLesevisning={erLesevisning} />
+                                    <PoststedFelt erLesevisning={erLesevisning} />
                                 </>
                             )}
                         </>

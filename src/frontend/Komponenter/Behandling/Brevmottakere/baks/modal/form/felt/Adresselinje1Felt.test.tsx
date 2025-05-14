@@ -38,13 +38,9 @@ const visningsnavn = 'Adresselinje 1';
 
 describe('AdresselinjeFelt', () => {
     test('skal kunne skrive hvis komponenten ikke er i lesevisning', async () => {
-        const { screen, user } = render(
-            <Adresselinje1Felt
-                feltnavn={BrevmottakerFeltnavn.ADRESSELINJE1}
-                erLesevisning={false}
-            />,
-            { wrapper: FormWrapper }
-        );
+        const { screen, user } = render(<Adresselinje1Felt erLesevisning={false} />, {
+            wrapper: FormWrapper,
+        });
 
         const textbox = screen.getByRole('textbox', { name: visningsnavn });
         await user.click(textbox);
@@ -56,13 +52,9 @@ describe('AdresselinjeFelt', () => {
     });
 
     test('skal ikke kunne skrive hvis komponenten er i lesevisning', async () => {
-        const { screen, user } = render(
-            <Adresselinje1Felt
-                feltnavn={BrevmottakerFeltnavn.ADRESSELINJE1}
-                erLesevisning={true}
-            />,
-            { wrapper: FormWrapper }
-        );
+        const { screen, user } = render(<Adresselinje1Felt erLesevisning={true} />, {
+            wrapper: FormWrapper,
+        });
 
         const textbox = screen.getByRole('textbox', { name: visningsnavn });
         await user.click(textbox);
@@ -74,10 +66,7 @@ describe('AdresselinjeFelt', () => {
     });
 
     test('skal fokusere som forventet på tekstfeltet når brukeren klikker på tekstfeltet for å så tabbe ut', async () => {
-        const { screen, user } = render(
-            <Adresselinje1Felt feltnavn={BrevmottakerFeltnavn.ADRESSELINJE1} />,
-            { wrapper: FormWrapper }
-        );
+        const { screen, user } = render(<Adresselinje1Felt />, { wrapper: FormWrapper });
 
         const textbox = screen.getByRole('textbox', { name: visningsnavn });
         expect(textbox).not.toHaveFocus();
@@ -88,10 +77,7 @@ describe('AdresselinjeFelt', () => {
     });
 
     test('skal vise "påkrevd" feilmelding hvis feltet er tomt', async () => {
-        const { screen, user } = render(
-            <Adresselinje1Felt feltnavn={BrevmottakerFeltnavn.ADRESSELINJE1} />,
-            { wrapper: FormWrapper }
-        );
+        const { screen, user } = render(<Adresselinje1Felt />, { wrapper: FormWrapper });
 
         const textbox = screen.getByRole('textbox', { name: visningsnavn });
         await user.click(textbox);
@@ -104,10 +90,7 @@ describe('AdresselinjeFelt', () => {
     });
 
     test('skal vise maks lengde feilmelding hvis feltet overstiger 80 tegn', async () => {
-        const { screen, user } = render(
-            <Adresselinje1Felt feltnavn={BrevmottakerFeltnavn.ADRESSELINJE1} />,
-            { wrapper: FormWrapper }
-        );
+        const { screen, user } = render(<Adresselinje1Felt />, { wrapper: FormWrapper });
 
         const textbox = screen.getByRole('textbox', { name: visningsnavn });
         await user.click(textbox);
@@ -121,10 +104,7 @@ describe('AdresselinjeFelt', () => {
     });
 
     test('skal ikke vise maks lengde feilmelding hvis feltet inneholder 80 tegn', async () => {
-        const { screen, user } = render(
-            <Adresselinje1Felt feltnavn={BrevmottakerFeltnavn.ADRESSELINJE1} />,
-            { wrapper: FormWrapper }
-        );
+        const { screen, user } = render(<Adresselinje1Felt />, { wrapper: FormWrapper });
 
         const textbox = screen.getByRole('textbox', { name: visningsnavn });
         await user.click(textbox);
@@ -140,32 +120,26 @@ describe('AdresselinjeFelt', () => {
     });
 
     test('skal vise komponent med utfylt verdi fra form state', async () => {
-        const { screen } = render(
-            <Adresselinje1Felt feltnavn={BrevmottakerFeltnavn.ADRESSELINJE1} />,
-            {
-                wrapper: (props) => (
-                    <FormWrapper
-                        {...props}
-                        defaultValues={{
-                            ...DEFAULT_VALUES,
-                            [BrevmottakerFeltnavn.ADRESSELINJE1]: 'Osloveien 1337',
-                        }}
-                    />
-                ),
-            }
-        );
+        const { screen } = render(<Adresselinje1Felt />, {
+            wrapper: (props) => (
+                <FormWrapper
+                    {...props}
+                    defaultValues={{
+                        ...DEFAULT_VALUES,
+                        [BrevmottakerFeltnavn.ADRESSELINJE1]: 'Osloveien 1337',
+                    }}
+                />
+            ),
+        });
 
         const textbox = screen.getByRole('textbox', { name: visningsnavn });
         expect(textbox).toHaveValue('Osloveien 1337');
     });
 
     test('skal ikke kunne skrive hvis formet blir submitted', async () => {
-        const { screen, user } = render(
-            <Adresselinje1Felt feltnavn={BrevmottakerFeltnavn.ADRESSELINJE1} />,
-            {
-                wrapper: (props) => <FormWrapper {...props} onSubmitDelay={3_000} />,
-            }
-        );
+        const { screen, user } = render(<Adresselinje1Felt />, {
+            wrapper: (props) => <FormWrapper {...props} onSubmitDelay={3_000} />,
+        });
 
         const textbox = screen.getByRole('textbox', { name: visningsnavn });
         await user.click(textbox);
