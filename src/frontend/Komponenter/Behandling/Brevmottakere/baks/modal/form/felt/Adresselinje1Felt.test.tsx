@@ -1,7 +1,7 @@
 import React from 'react';
 
 import { describe, expect, test } from 'vitest';
-import { AdresselinjeFelt } from './AdresselinjeFelt';
+import { Adresselinje1Felt } from './Adresselinje1Felt';
 import { BrevmottakerFeltnavn } from './felttyper';
 import { DefaultValues, FormProvider, useForm } from 'react-hook-form';
 import { BrevmottakerFormValues } from '../BrevmottakerForm';
@@ -39,7 +39,7 @@ const visningsnavn = 'Adresselinje 1';
 describe('AdresselinjeFelt', () => {
     test('skal kunne skrive hvis komponenten ikke er i lesevisning', async () => {
         const { screen, user } = render(
-            <AdresselinjeFelt
+            <Adresselinje1Felt
                 feltnavn={BrevmottakerFeltnavn.ADRESSELINJE1}
                 visningsnavn={visningsnavn}
                 erLesevisning={false}
@@ -58,7 +58,7 @@ describe('AdresselinjeFelt', () => {
 
     test('skal ikke kunne skrive hvis komponenten er i lesevisning', async () => {
         const { screen, user } = render(
-            <AdresselinjeFelt
+            <Adresselinje1Felt
                 feltnavn={BrevmottakerFeltnavn.ADRESSELINJE1}
                 visningsnavn={visningsnavn}
                 erLesevisning={true}
@@ -77,7 +77,7 @@ describe('AdresselinjeFelt', () => {
 
     test('skal fokusere som forventet på tekstfeltet når brukeren klikker på tekstfeltet for å så tabbe ut', async () => {
         const { screen, user } = render(
-            <AdresselinjeFelt
+            <Adresselinje1Felt
                 feltnavn={BrevmottakerFeltnavn.ADRESSELINJE1}
                 visningsnavn={visningsnavn}
             />,
@@ -92,12 +92,11 @@ describe('AdresselinjeFelt', () => {
         expect(textbox).not.toHaveFocus();
     });
 
-    test('skal vise "påkrevd" feilmelding hvis feltet ikke er valgfri og feltet er tomt', async () => {
+    test('skal vise "påkrevd" feilmelding hvis feltet er tomt', async () => {
         const { screen, user } = render(
-            <AdresselinjeFelt
+            <Adresselinje1Felt
                 feltnavn={BrevmottakerFeltnavn.ADRESSELINJE1}
                 visningsnavn={visningsnavn}
-                valgfri={false}
             />,
             { wrapper: FormWrapper }
         );
@@ -112,29 +111,9 @@ describe('AdresselinjeFelt', () => {
         expect(feilmelding).toBeInTheDocument();
     });
 
-    test('skal ikke vise "påkrevd" feilmelding hvis feltet er valgfri og feltet er tomt', async () => {
-        const { screen, user } = render(
-            <AdresselinjeFelt
-                feltnavn={BrevmottakerFeltnavn.ADRESSELINJE1}
-                visningsnavn={visningsnavn}
-                valgfri={true}
-            />,
-            { wrapper: FormWrapper }
-        );
-
-        const textbox = screen.getByRole('textbox', { name: visningsnavn });
-        await user.click(textbox);
-        await user.keyboard('Abc');
-        await user.clear(textbox);
-        await user.tab();
-
-        const feilmelding = screen.queryByText(`${visningsnavn} er påkrevd.`);
-        expect(feilmelding).not.toBeInTheDocument();
-    });
-
     test('skal vise maks lengde feilmelding hvis feltet overstiger 80 tegn', async () => {
         const { screen, user } = render(
-            <AdresselinjeFelt
+            <Adresselinje1Felt
                 feltnavn={BrevmottakerFeltnavn.ADRESSELINJE1}
                 visningsnavn={visningsnavn}
             />,
@@ -154,7 +133,7 @@ describe('AdresselinjeFelt', () => {
 
     test('skal ikke vise maks lengde feilmelding hvis feltet inneholder 80 tegn', async () => {
         const { screen, user } = render(
-            <AdresselinjeFelt
+            <Adresselinje1Felt
                 feltnavn={BrevmottakerFeltnavn.ADRESSELINJE1}
                 visningsnavn={visningsnavn}
             />,
@@ -176,7 +155,7 @@ describe('AdresselinjeFelt', () => {
 
     test('skal vise komponent med utfylt verdi fra form state', async () => {
         const { screen } = render(
-            <AdresselinjeFelt
+            <Adresselinje1Felt
                 feltnavn={BrevmottakerFeltnavn.ADRESSELINJE1}
                 visningsnavn={visningsnavn}
             />,
@@ -199,7 +178,7 @@ describe('AdresselinjeFelt', () => {
 
     test('skal ikke kunne skrive hvis formet blir submitted', async () => {
         const { screen, user } = render(
-            <AdresselinjeFelt
+            <Adresselinje1Felt
                 feltnavn={BrevmottakerFeltnavn.ADRESSELINJE1}
                 visningsnavn={visningsnavn}
             />,

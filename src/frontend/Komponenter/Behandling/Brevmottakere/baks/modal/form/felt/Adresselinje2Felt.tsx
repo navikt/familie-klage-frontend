@@ -3,25 +3,15 @@ import React from 'react';
 import { TextField } from '@navikt/ds-react';
 import { BrevmottakerFeltProps } from './felttyper';
 
-type Props = BrevmottakerFeltProps & {
-    valgfri?: boolean;
-    beskrivelse?: React.ReactNode;
-};
+type Props = BrevmottakerFeltProps & {};
 
-export function AdresselinjeFelt({
-    feltnavn,
-    visningsnavn,
-    valgfri = true,
-    beskrivelse = null,
-    erLesevisning = false,
-}: Props) {
+export function Adresselinje2Felt({ feltnavn, visningsnavn, erLesevisning = false }: Props) {
     const { control } = useFormContext();
 
     const { field, fieldState, formState } = useController({
         name: feltnavn,
         control,
         rules: {
-            required: !valgfri ? `${visningsnavn} er påkrevd.` : undefined,
             maxLength: {
                 value: 80,
                 message: `${visningsnavn} kan ikke inneholde mer enn 80 tegn.`,
@@ -38,7 +28,6 @@ export function AdresselinjeFelt({
             onBlur={field.onBlur}
             onChange={field.onChange}
             error={visFeilmelding && fieldState.error?.message}
-            description={beskrivelse}
             readOnly={erLesevisning || formState.isSubmitting}
         />
     );

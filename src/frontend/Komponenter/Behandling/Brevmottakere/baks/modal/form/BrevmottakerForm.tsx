@@ -3,7 +3,7 @@ import { DefaultValues, FormProvider, useForm } from 'react-hook-form';
 import { LandFelt } from './felt/LandFelt';
 import { MottakerFelt } from './felt/MottakerFelt';
 import { NavnFelt } from './felt/NavnFelt';
-import { AdresselinjeFelt } from './felt/AdresselinjeFelt';
+import { Adresselinje1Felt } from './felt/Adresselinje1Felt';
 import { PostnummerFelt } from './felt/PostnummerFelt';
 import { PoststedFelt } from './felt/PoststedFelt';
 import { Alert, Button, Heading, HStack, VStack } from '@navikt/ds-react';
@@ -13,6 +13,7 @@ import { BrevmottakerFeltnavn } from './felt/felttyper';
 import { MottakerRolle } from '../../../mottakerRolle';
 import { BrevmottakerPersonUtenIdent } from '../../../brevmottaker';
 import { lagNyBrevmottakerPersonUtenIdent, NyBrevmottaker } from '../../../nyBrevmottaker';
+import { Adresselinje2Felt } from './felt/Adresselinje2Felt';
 
 export type BrevmottakerFormValues = {
     [BrevmottakerFeltnavn.MOTTAKERROLLE]: MottakerRolle | '';
@@ -98,25 +99,15 @@ export function BrevmottakerForm({
                                 personopplysninger={personopplysninger}
                                 erLesevisning={erLesevisning}
                             />
-                            <AdresselinjeFelt
+                            <Adresselinje1Felt
                                 feltnavn={BrevmottakerFeltnavn.ADRESSELINJE1}
                                 visningsnavn={'Adresselinje 1'}
                                 erLesevisning={erLesevisning}
-                                valgfri={false}
-                                beskrivelse={
-                                    erUtenlandskAdresseValgt && (
-                                        <Alert size={'small'} inline={true} variant={'info'}>
-                                            Ved utenlandsk adresse skal postnummer og poststed
-                                            skrives direkte i adressefeltet.
-                                        </Alert>
-                                    )
-                                }
                             />
-                            <AdresselinjeFelt
+                            <Adresselinje2Felt
                                 feltnavn={BrevmottakerFeltnavn.ADRESSELINJE2}
                                 visningsnavn={'Adresselinje 2 (valgfri)'}
                                 erLesevisning={erLesevisning}
-                                valgfri={true}
                             />
                             {!erUtenlandskAdresseValgt && (
                                 <>
