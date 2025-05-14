@@ -9,17 +9,19 @@ type Props = BrevmottakerFeltProps & {
     personopplysninger: IPersonopplysninger;
 };
 
-export function NavnFelt({ feltnavn, visningsnavn, erLesevisning }: Props) {
+const visningsnavn = 'Navn';
+
+export function NavnFelt({ feltnavn, erLesevisning }: Props) {
     const { control, watch } = useFormContext();
 
     const { field, fieldState, formState } = useController({
         name: feltnavn,
         control,
         rules: {
-            required: 'Navn på person eller organisasjon er påkrevd.',
+            required: `${visningsnavn} på person eller organisasjon er påkrevd.`,
             maxLength: {
                 value: 80,
-                message: 'Navn på personen eller organisasjon kan ikke inneholde mer enn 80 tegn.',
+                message: `${visningsnavn} på personen eller organisasjon kan ikke inneholde mer enn 80 tegn.`,
             },
         },
     });

@@ -1,6 +1,5 @@
 export type BrevmottakerFeltProps = {
     feltnavn: BrevmottakerFeltnavn;
-    visningsnavn: string;
     erLesevisning?: boolean;
 };
 

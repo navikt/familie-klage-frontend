@@ -10,7 +10,9 @@ type Props = BrevmottakerFeltProps & {
     personopplysninger: IPersonopplysninger;
 };
 
-export function LandFelt({ feltnavn, visningsnavn, erLesevisning, personopplysninger }: Props) {
+const visningsnavn = 'Land';
+
+export function LandFelt({ feltnavn, erLesevisning, personopplysninger }: Props) {
     const { control, getValues, setValue } = useFormContext();
 
     const { field, fieldState, formState } = useController({

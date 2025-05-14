@@ -19,9 +19,10 @@ type Props = BrevmottakerFeltProps & {
     brevmottakere: BrevmottakerPersonUtenIdent[];
 };
 
+const visningsnavn = 'Mottaker';
+
 export function MottakerFelt({
     feltnavn,
-    visningsnavn,
     personopplysninger,
     brevmottakere,
     erLesevisning,

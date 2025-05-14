@@ -5,7 +5,9 @@ import { BrevmottakerFeltProps } from './felttyper';
 
 type Props = BrevmottakerFeltProps & {};
 
-export function Adresselinje2Felt({ feltnavn, visningsnavn, erLesevisning = false }: Props) {
+const visningsnavn = 'Adresselinje 2 (valgfri)';
+
+export function Adresselinje2Felt({ feltnavn, erLesevisning = false }: Props) {
     const { control } = useFormContext();
 
     const { field, fieldState, formState } = useController({

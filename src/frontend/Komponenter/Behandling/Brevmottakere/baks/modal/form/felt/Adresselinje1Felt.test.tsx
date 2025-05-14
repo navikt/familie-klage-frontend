@@ -41,7 +41,6 @@ describe('AdresselinjeFelt', () => {
         const { screen, user } = render(
             <Adresselinje1Felt
                 feltnavn={BrevmottakerFeltnavn.ADRESSELINJE1}
-                visningsnavn={visningsnavn}
                 erLesevisning={false}
             />,
             { wrapper: FormWrapper }
@@ -60,7 +59,6 @@ describe('AdresselinjeFelt', () => {
         const { screen, user } = render(
             <Adresselinje1Felt
                 feltnavn={BrevmottakerFeltnavn.ADRESSELINJE1}
-                visningsnavn={visningsnavn}
                 erLesevisning={true}
             />,
             { wrapper: FormWrapper }
@@ -77,10 +75,7 @@ describe('AdresselinjeFelt', () => {
 
     test('skal fokusere som forventet på tekstfeltet når brukeren klikker på tekstfeltet for å så tabbe ut', async () => {
         const { screen, user } = render(
-            <Adresselinje1Felt
-                feltnavn={BrevmottakerFeltnavn.ADRESSELINJE1}
-                visningsnavn={visningsnavn}
-            />,
+            <Adresselinje1Felt feltnavn={BrevmottakerFeltnavn.ADRESSELINJE1} />,
             { wrapper: FormWrapper }
         );
 
@@ -94,10 +89,7 @@ describe('AdresselinjeFelt', () => {
 
     test('skal vise "påkrevd" feilmelding hvis feltet er tomt', async () => {
         const { screen, user } = render(
-            <Adresselinje1Felt
-                feltnavn={BrevmottakerFeltnavn.ADRESSELINJE1}
-                visningsnavn={visningsnavn}
-            />,
+            <Adresselinje1Felt feltnavn={BrevmottakerFeltnavn.ADRESSELINJE1} />,
             { wrapper: FormWrapper }
         );
 
@@ -113,10 +105,7 @@ describe('AdresselinjeFelt', () => {
 
     test('skal vise maks lengde feilmelding hvis feltet overstiger 80 tegn', async () => {
         const { screen, user } = render(
-            <Adresselinje1Felt
-                feltnavn={BrevmottakerFeltnavn.ADRESSELINJE1}
-                visningsnavn={visningsnavn}
-            />,
+            <Adresselinje1Felt feltnavn={BrevmottakerFeltnavn.ADRESSELINJE1} />,
             { wrapper: FormWrapper }
         );
 
@@ -133,10 +122,7 @@ describe('AdresselinjeFelt', () => {
 
     test('skal ikke vise maks lengde feilmelding hvis feltet inneholder 80 tegn', async () => {
         const { screen, user } = render(
-            <Adresselinje1Felt
-                feltnavn={BrevmottakerFeltnavn.ADRESSELINJE1}
-                visningsnavn={visningsnavn}
-            />,
+            <Adresselinje1Felt feltnavn={BrevmottakerFeltnavn.ADRESSELINJE1} />,
             { wrapper: FormWrapper }
         );
 
@@ -155,10 +141,7 @@ describe('AdresselinjeFelt', () => {
 
     test('skal vise komponent med utfylt verdi fra form state', async () => {
         const { screen } = render(
-            <Adresselinje1Felt
-                feltnavn={BrevmottakerFeltnavn.ADRESSELINJE1}
-                visningsnavn={visningsnavn}
-            />,
+            <Adresselinje1Felt feltnavn={BrevmottakerFeltnavn.ADRESSELINJE1} />,
             {
                 wrapper: (props) => (
                     <FormWrapper
@@ -178,10 +161,7 @@ describe('AdresselinjeFelt', () => {
 
     test('skal ikke kunne skrive hvis formet blir submitted', async () => {
         const { screen, user } = render(
-            <Adresselinje1Felt
-                feltnavn={BrevmottakerFeltnavn.ADRESSELINJE1}
-                visningsnavn={visningsnavn}
-            />,
+            <Adresselinje1Felt feltnavn={BrevmottakerFeltnavn.ADRESSELINJE1} />,
             {
                 wrapper: (props) => <FormWrapper {...props} onSubmitDelay={3_000} />,
             }

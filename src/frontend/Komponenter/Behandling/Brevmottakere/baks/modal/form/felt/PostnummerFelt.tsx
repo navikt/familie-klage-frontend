@@ -6,7 +6,9 @@ import { BrevmottakerFeltnavn, BrevmottakerFeltProps } from './felttyper';
 
 type Props = BrevmottakerFeltProps;
 
-export function PostnummerFelt({ feltnavn, visningsnavn, erLesevisning }: Props) {
+const visningsnavn = 'Postnummer';
+
+export function PostnummerFelt({ feltnavn, erLesevisning }: Props) {
     const { control, getValues } = useFormContext();
 
     const { field, fieldState, formState } = useController({

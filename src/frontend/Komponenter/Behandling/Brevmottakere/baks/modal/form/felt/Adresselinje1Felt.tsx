@@ -6,7 +6,9 @@ import { EøsLandkode } from '../../../../../../../Felles/Landvelger/landkode';
 
 type Props = BrevmottakerFeltProps & {};
 
-export function Adresselinje1Felt({ feltnavn, visningsnavn, erLesevisning = false }: Props) {
+const visningsnavn = 'Adresselinje 1';
+
+export function Adresselinje1Felt({ feltnavn, erLesevisning = false }: Props) {
     const { control, watch } = useFormContext();
 
     const { field, fieldState, formState } = useController({
