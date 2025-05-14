@@ -37,23 +37,29 @@ export function LandFelt({ personopplysninger, erLesevisning = false }: Props) {
         },
     });
 
+    function onToggleSelected(value: string, isSelected: boolean) {
+        const landkode = value as BrevmottakerFormValues[BrevmottakerFeltnavn.LANDKODE];
+        const harValgtLand = landkode !== '';
+
+        const erDødsbo = getValues(BrevmottakerFeltnavn.MOTTAKERROLLE) === MottakerRolle.DØDSBO;
+
+        if (isSelected && erDødsbo && harValgtLand) {
+            const nyttNavn = utledBrevmottakerPersonUtenIdentNavnVedDødsbo(
+                personopplysninger.navn,
+                landkode
+            );
+            setValue(BrevmottakerFeltnavn.NAVN, nyttNavn);
+        }
+
+        field.onChange(isSelected ? landkode : '');
+    }
+
     return (
         <EøsLandvelger
             label={label}
             onBlur={field.onBlur}
             value={field.value}
-            onToggleSelected={(value, isSelected) => {
-                const landkode = value as BrevmottakerFormValues[BrevmottakerFeltnavn.LANDKODE];
-                const mottakerRolle = getValues(BrevmottakerFeltnavn.MOTTAKERROLLE);
-                if (isSelected && mottakerRolle === MottakerRolle.DØDSBO && landkode !== '') {
-                    const nyttNavn = utledBrevmottakerPersonUtenIdentNavnVedDødsbo(
-                        personopplysninger.navn,
-                        landkode
-                    );
-                    setValue(BrevmottakerFeltnavn.NAVN, nyttNavn);
-                }
-                field.onChange(isSelected ? landkode : '');
-            }}
+            onToggleSelected={onToggleSelected}
             error={fieldState.error?.message}
             readOnly={erLesevisning || formState.isSubmitting}
         />

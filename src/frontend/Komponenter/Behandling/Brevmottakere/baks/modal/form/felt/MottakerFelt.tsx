@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { ChangeEvent } from 'react';
 import { Select } from '@navikt/ds-react';
 import { useController, useFormContext } from 'react-hook-form';
 import { IPersonopplysninger } from '../../../../../../../App/typer/personopplysninger';
@@ -59,18 +59,19 @@ export function MottakerFelt({ personopplysninger, brevmottakere, erLesevisning 
         }
     }
 
+    function onChange(event: ChangeEvent<HTMLSelectElement>) {
+        const value = event.target.value;
+        const nyMottakerRolle = value as BrevmottakerFormValues[BrevmottakerFeltnavn.MOTTAKERROLLE];
+        oppdatertNavnForMottakerRolleHvisNødvendig(nyMottakerRolle);
+        field.onChange(nyMottakerRolle);
+    }
+
     return (
         <Select
             label={label}
             value={field.value}
             onBlur={field.onBlur}
-            onChange={(event) => {
-                const value = event.target.value;
-                const nyMottakerRolle =
-                    value as BrevmottakerFormValues[BrevmottakerFeltnavn.MOTTAKERROLLE];
-                oppdatertNavnForMottakerRolleHvisNødvendig(nyMottakerRolle);
-                field.onChange(nyMottakerRolle);
-            }}
+            onChange={onChange}
             error={fieldState.error?.message}
             readOnly={erLesevisning || formState.isSubmitting}
         >
