@@ -9,11 +9,20 @@ import { PoststedFelt } from './felt/PoststedFelt';
 import { Alert, Button, Heading, HStack, VStack } from '@navikt/ds-react';
 import { EøsLandkode } from '../../../../../../Felles/Landvelger/landkode';
 import { IPersonopplysninger } from '../../../../../../App/typer/personopplysninger';
-import { BrevmottakerFeltnavn } from './felt/felttyper';
 import { MottakerRolle } from '../../../mottakerRolle';
 import { BrevmottakerPersonUtenIdent } from '../../../brevmottaker';
 import { lagNyBrevmottakerPersonUtenIdent, NyBrevmottaker } from '../../../nyBrevmottaker';
 import { Adresselinje2Felt } from './felt/Adresselinje2Felt';
+
+export enum BrevmottakerFeltnavn {
+    MOTTAKERROLLE = 'mottakerRolle',
+    LANDKODE = 'landkode',
+    NAVN = 'navn',
+    ADRESSELINJE1 = 'adresselinje1',
+    ADRESSELINJE2 = 'adresselinje2',
+    POSTNUMMER = 'postnummer',
+    POSTSTED = 'poststed',
+}
 
 export type BrevmottakerFormValues = {
     [BrevmottakerFeltnavn.MOTTAKERROLLE]: MottakerRolle | '';

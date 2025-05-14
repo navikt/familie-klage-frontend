@@ -2,9 +2,8 @@ import React from 'react';
 
 import { describe, expect, test } from 'vitest';
 import { Adresselinje1Felt } from './Adresselinje1Felt';
-import { BrevmottakerFeltnavn } from './felttyper';
 import { DefaultValues, FormProvider, useForm } from 'react-hook-form';
-import { BrevmottakerFormValues } from '../BrevmottakerForm';
+import { BrevmottakerFeltnavn, BrevmottakerFormValues } from '../BrevmottakerForm';
 import { render } from '../../../../../../../lib/testrender';
 import { Button } from '@navikt/ds-react';
 

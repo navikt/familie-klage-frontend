@@ -2,7 +2,6 @@ import React from 'react';
 import { Select } from '@navikt/ds-react';
 import { useController, useFormContext } from 'react-hook-form';
 import { IPersonopplysninger } from '../../../../../../../App/typer/personopplysninger';
-import { BrevmottakerFeltnavn } from './felttyper';
 import {
     MottakerRolle,
     mottakerRolleVisningsnavn,
@@ -13,7 +12,7 @@ import {
     utledGyldigeMottakerRolleForBrevmottakerPersonUtenIdent,
     utledPreutfyltBrevmottakerPersonUtenIdentNavn,
 } from '../../../../brevmottaker';
-import { BrevmottakerFormValues } from '../BrevmottakerForm';
+import { BrevmottakerFeltnavn, BrevmottakerFormValues } from '../BrevmottakerForm';
 import { EøsLandkode } from '../../../../../../../Felles/Landvelger/landkode';
 
 interface Props {

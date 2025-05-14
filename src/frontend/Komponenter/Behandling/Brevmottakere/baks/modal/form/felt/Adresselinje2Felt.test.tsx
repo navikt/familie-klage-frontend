@@ -2,16 +2,15 @@ import React from 'react';
 
 import { describe, expect, test } from 'vitest';
 import { Adresselinje2Felt } from './Adresselinje2Felt';
-import { BrevmottakerFeltnavn } from './felttyper';
 import { DefaultValues, FormProvider, useForm } from 'react-hook-form';
-import { BrevmottakerFormValues } from '../BrevmottakerForm';
+import { BrevmottakerFeltnavn, BrevmottakerFormValues } from '../BrevmottakerForm';
 import { render } from '../../../../../../../lib/testrender';
 import { Button } from '@navikt/ds-react';
 
 const onSubmit = (delay: number) => new Promise((resolve) => setTimeout(resolve, delay));
 
 const DEFAULT_VALUES: DefaultValues<BrevmottakerFormValues> = {
-    [BrevmottakerFeltnavn.ADRESSELINJE1]: '',
+    [BrevmottakerFeltnavn.ADRESSELINJE2]: '',
 };
 
 function FormWrapper({

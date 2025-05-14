@@ -1,11 +1,10 @@
 import React from 'react';
 import { useController, useFormContext } from 'react-hook-form';
 import { EøsLandvelger } from '../../../../../../../Felles/Landvelger/EøsLandvelger';
-import { BrevmottakerFeltnavn } from './felttyper';
 import { IPersonopplysninger } from '../../../../../../../App/typer/personopplysninger';
 import { erGyldigMottakerRolleForLandkode, MottakerRolle } from '../../../../mottakerRolle';
 import { utledBrevmottakerPersonUtenIdentNavnVedDødsbo } from '../../../../brevmottaker';
-import { BrevmottakerFormValues } from '../BrevmottakerForm';
+import { BrevmottakerFeltnavn, BrevmottakerFormValues } from '../BrevmottakerForm';
 import { EøsLandkode } from '../../../../../../../Felles/Landvelger/landkode';
 
 interface Props {
