@@ -9,11 +9,12 @@ import { PoststedFelt } from './felt/PoststedFelt';
 import { Alert, Button, Heading, HStack, VStack } from '@navikt/ds-react';
 import {
     BlankEøsLandkode,
-    erUtanlandskEøsLandkode,
+    erEøsLandkode,
+    erUtenlandskEøsLandkode,
     EøsLandkode,
 } from '../../../../../../Felles/Landvelger/landkode';
 import { IPersonopplysninger } from '../../../../../../App/typer/personopplysninger';
-import { MottakerRolle, BlankMottakerRolle } from '../../../mottakerRolle';
+import { BlankMottakerRolle, MottakerRolle } from '../../../mottakerRolle';
 import { BrevmottakerPersonUtenIdent } from '../../../brevmottaker';
 import { lagNyBrevmottakerPersonUtenIdent, NyBrevmottaker } from '../../../nyBrevmottaker';
 import { Adresselinje2Felt } from './felt/Adresselinje2Felt';
@@ -68,6 +69,8 @@ export function BrevmottakerForm({
     const form = useForm<BrevmottakerFormValues>({ defaultValues });
     const { formState, handleSubmit, watch } = form;
 
+    const landkode = watch(BrevmottakerFeltnavn.LANDKODE);
+
     async function onSubmit(brevmottakerFormValues: BrevmottakerFormValues) {
         setVisSubmitError(false);
         const erSuksess = await opprettBrevmottaker(
@@ -79,10 +82,6 @@ export function BrevmottakerForm({
             setVisSubmitError(true);
         }
     }
-
-    const landkode = watch(BrevmottakerFeltnavn.LANDKODE);
-    const erLandValgt = landkode !== '';
-    const erUtenlandskEøsLandkode = erUtanlandskEøsLandkode(landkode);
 
     return (
         <FormProvider {...form}>
@@ -100,12 +99,12 @@ export function BrevmottakerForm({
                         personopplysninger={personopplysninger}
                         erLesevisning={erLesevisning}
                     />
-                    {erLandValgt && (
+                    {erEøsLandkode(landkode) && (
                         <>
                             <NavnFelt erLesevisning={erLesevisning} />
                             <Adresselinje1Felt erLesevisning={erLesevisning} />
                             <Adresselinje2Felt erLesevisning={erLesevisning} />
-                            {!erUtenlandskEøsLandkode && (
+                            {!erUtenlandskEøsLandkode(landkode) && (
                                 <>
                                     <PostnummerFelt erLesevisning={erLesevisning} />
                                     <PoststedFelt erLesevisning={erLesevisning} />

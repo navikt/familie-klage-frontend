@@ -34,10 +34,12 @@ export enum EøsLandkode {
     AT = 'AT',
 }
 
-export function erEøsLandkode(eøsLandkode: EøsLandkode | string) {
+export function erEøsLandkode(eøsLandkode: EøsLandkode | string): eøsLandkode is EøsLandkode {
     return Object.values(EøsLandkode).includes(eøsLandkode as EøsLandkode);
 }
 
-export function erUtanlandskEøsLandkode(eøsLandkode: EøsLandkode | string) {
+export function erUtenlandskEøsLandkode(
+    eøsLandkode: EøsLandkode | string
+): eøsLandkode is EøsLandkode {
     return erEøsLandkode(eøsLandkode) && eøsLandkode !== EøsLandkode.NO;
 }
