@@ -5,6 +5,7 @@ import { IPersonopplysninger } from '../../../../../../../App/typer/personopplys
 import { erGyldigMottakerRolleForLandkode, MottakerRolle } from '../../../../mottakerRolle';
 import { utledBrevmottakerPersonUtenIdentNavnVedDødsbo } from '../../../../brevmottaker';
 import { BrevmottakerFeltnavn, BrevmottakerFormValues } from '../BrevmottakerForm';
+import { erEøsLandkode } from '../../../../../../../Felles/Landvelger/landkode';
 
 interface Props {
     personopplysninger: IPersonopplysninger;
@@ -38,20 +39,19 @@ export function LandFelt({ personopplysninger, erLesevisning = false }: Props) {
     });
 
     function onToggleSelected(value: string, isSelected: boolean) {
-        const landkode = value as BrevmottakerFormValues[BrevmottakerFeltnavn.LANDKODE];
-        const harValgtLand = landkode !== '';
-
-        const erDødsbo = getValues(BrevmottakerFeltnavn.MOTTAKERROLLE) === MottakerRolle.DØDSBO;
-
-        if (isSelected && erDødsbo && harValgtLand) {
-            const nyttNavn = utledBrevmottakerPersonUtenIdentNavnVedDødsbo(
-                personopplysninger.navn,
-                landkode
-            );
-            setValue(BrevmottakerFeltnavn.NAVN, nyttNavn);
+        if (!isSelected || !erEøsLandkode(value)) {
+            field.onChange('');
+            return;
         }
-
-        field.onChange(isSelected ? landkode : '');
+        const mottakerRolle = getValues(BrevmottakerFeltnavn.MOTTAKERROLLE);
+        if (mottakerRolle === MottakerRolle.DØDSBO) {
+            const nyttPreutfyltNavn = utledBrevmottakerPersonUtenIdentNavnVedDødsbo(
+                personopplysninger.navn,
+                value
+            );
+            setValue(BrevmottakerFeltnavn.NAVN, nyttPreutfyltNavn);
+        }
+        field.onChange(value);
     }
 
     return (
