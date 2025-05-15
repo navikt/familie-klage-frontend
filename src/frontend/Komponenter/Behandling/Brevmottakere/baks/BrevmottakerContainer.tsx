@@ -30,7 +30,8 @@ type Props = {
 
 export function BrevmottakerContainer({ behandlingId }: Props) {
     const { axiosRequest } = useApp();
-    const { personopplysningerResponse: personopplysninger } = useBehandling();
+    const { behandlingErRedigerbar, personopplysningerResponse: personopplysninger } =
+        useBehandling();
     const { toggles } = useToggles();
 
     const [brevmottakere, settBrevmottakere] = useState<Ressurs<Brevmottakere>>(byggTomRessurs());
@@ -109,7 +110,7 @@ export function BrevmottakerContainer({ behandlingId }: Props) {
                                 brevmottakere={brevmottakerePersonUtenIdent}
                                 opprettBrevmottaker={opprettBrevmottaker}
                                 slettBrevmottaker={slettBrevmottaker}
-                                erLesevisning={false}
+                                erLesevisning={!behandlingErRedigerbar}
                             />
                         )}
                     </>

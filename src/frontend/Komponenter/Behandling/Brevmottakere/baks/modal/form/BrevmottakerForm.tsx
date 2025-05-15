@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { DefaultValues, FormProvider, useForm } from 'react-hook-form';
+import { FormProvider, useForm } from 'react-hook-form';
 import { LandFelt } from './felt/LandFelt';
 import { MottakerFelt } from './felt/MottakerFelt';
 import { NavnFelt } from './felt/NavnFelt';
@@ -29,7 +29,7 @@ export enum BrevmottakerFeltnavn {
     POSTSTED = 'poststed',
 }
 
-export type BrevmottakerFormValues = {
+export interface BrevmottakerFormValues {
     [BrevmottakerFeltnavn.MOTTAKERROLLE]: MottakerRolle | BlankMottakerRolle;
     [BrevmottakerFeltnavn.LANDKODE]: EøsLandkode | BlankEøsLandkode;
     [BrevmottakerFeltnavn.NAVN]: string;
@@ -37,26 +37,16 @@ export type BrevmottakerFormValues = {
     [BrevmottakerFeltnavn.ADRESSELINJE2]: string;
     [BrevmottakerFeltnavn.POSTNUMMER]: string;
     [BrevmottakerFeltnavn.POSTSTED]: string;
-};
+}
 
-const defaultValues: DefaultValues<BrevmottakerFormValues> = {
-    [BrevmottakerFeltnavn.MOTTAKERROLLE]: '',
-    [BrevmottakerFeltnavn.LANDKODE]: EøsLandkode.NO,
-    [BrevmottakerFeltnavn.NAVN]: '',
-    [BrevmottakerFeltnavn.ADRESSELINJE1]: '',
-    [BrevmottakerFeltnavn.ADRESSELINJE2]: '',
-    [BrevmottakerFeltnavn.POSTNUMMER]: '',
-    [BrevmottakerFeltnavn.POSTSTED]: '',
-};
-
-type Props = {
+interface Props {
     behandlingId: string;
     personopplysninger: IPersonopplysninger;
     brevmottakere: BrevmottakerPersonUtenIdent[];
     erLesevisning: boolean;
     lukkForm: () => void;
     opprettBrevmottaker: (nyBrevmottaker: NyBrevmottaker) => Promise<boolean>;
-};
+}
 
 export function BrevmottakerForm({
     personopplysninger,
@@ -66,8 +56,24 @@ export function BrevmottakerForm({
     opprettBrevmottaker,
 }: Props) {
     const [visSubmitError, setVisSubmitError] = useState<boolean>(false);
-    const form = useForm<BrevmottakerFormValues>({ defaultValues });
-    const { formState, handleSubmit, watch } = form;
+
+    const form = useForm<BrevmottakerFormValues>({
+        defaultValues: {
+            [BrevmottakerFeltnavn.MOTTAKERROLLE]: '',
+            [BrevmottakerFeltnavn.LANDKODE]: EøsLandkode.NO,
+            [BrevmottakerFeltnavn.NAVN]: '',
+            [BrevmottakerFeltnavn.ADRESSELINJE1]: '',
+            [BrevmottakerFeltnavn.ADRESSELINJE2]: '',
+            [BrevmottakerFeltnavn.POSTNUMMER]: '',
+            [BrevmottakerFeltnavn.POSTSTED]: '',
+        },
+    });
+
+    const {
+        handleSubmit,
+        formState: { isSubmitting },
+        watch,
+    } = form;
 
     const landkode = watch(BrevmottakerFeltnavn.LANDKODE);
 
@@ -123,15 +129,11 @@ export function BrevmottakerForm({
                     )}
                     <HStack gap={'4'}>
                         {!erLesevisning && (
-                            <Button
-                                variant={'primary'}
-                                type={'submit'}
-                                loading={formState.isSubmitting}
-                            >
+                            <Button variant={'primary'} type={'submit'} loading={isSubmitting}>
                                 Legg til brevmottaker
                             </Button>
                         )}
-                        {!erLesevisning && brevmottakere.length > 0 && !formState.isSubmitting && (
+                        {!erLesevisning && brevmottakere.length > 0 && !isSubmitting && (
                             <Button variant={'tertiary'} onClick={lukkForm}>
                                 Avbryt legg til brevmottaker
                             </Button>
