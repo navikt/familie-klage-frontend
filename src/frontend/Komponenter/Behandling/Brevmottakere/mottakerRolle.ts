@@ -1,4 +1,6 @@
-import { EøsLandkode } from '../../../Felles/Landvelger/landkode';
+import { BlankEøsLandkode, erEøsLandkode, EøsLandkode } from '../../../Felles/Landvelger/landkode';
+import { utledPreutfyltBrevmottakerPersonUtenIdentNavn } from './brevmottaker';
+import { IPersonopplysninger } from '../../../App/typer/personopplysninger';
 
 export type BlankMottakerRolle = '';
 
@@ -18,11 +20,14 @@ export const mottakerRolleVisningsnavn: Record<MottakerRolle, string> = {
     DØDSBO: 'Dødsbo',
 };
 
+export function erMottakerRolle(verdi: string): verdi is MottakerRolle {
+    return Object.values(MottakerRolle).includes(verdi as MottakerRolle);
+}
+
 export function skalPreutfylleNavnForMottakerRolle(
     mottakerRolle: MottakerRolle | BlankMottakerRolle
 ) {
-    const erMottakerRolle = Object.values(MottakerRolle).includes(mottakerRolle as MottakerRolle);
-    if (!erMottakerRolle) {
+    if (!erMottakerRolle(mottakerRolle)) {
         return false;
     }
     return (
@@ -39,4 +44,25 @@ export function erGyldigMottakerRolleForLandkode(
     const erBrukerMedUtenlandskAdresse =
         mottakerRolle === MottakerRolle.BRUKER_MED_UTENLANDSK_ADRESSE;
     return !(landkodeErNO && erBrukerMedUtenlandskAdresse);
+}
+
+export function finnNyttBrevmottakernavnHvisNødvendigVedEndringAvMottakerRolle(
+    nyMottakerRolle: MottakerRolle,
+    forrigeMottakerRolle: MottakerRolle | BlankMottakerRolle,
+    landkode: EøsLandkode | BlankEøsLandkode,
+    personopplysninger: IPersonopplysninger
+): string | undefined {
+    const skalNavnPreutfylles = skalPreutfylleNavnForMottakerRolle(nyMottakerRolle);
+    if (skalNavnPreutfylles) {
+        return utledPreutfyltBrevmottakerPersonUtenIdentNavn(
+            personopplysninger.navn,
+            erEøsLandkode(landkode) ? landkode : EøsLandkode.NO,
+            nyMottakerRolle
+        );
+    }
+    const varNavnPreutfylt = skalPreutfylleNavnForMottakerRolle(forrigeMottakerRolle);
+    if (varNavnPreutfylt) {
+        return '';
+    }
+    return undefined;
 }
