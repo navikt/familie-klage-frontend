@@ -36,7 +36,7 @@ export function MottakerFelt({ personopplysninger, brevmottakere, erLesevisning 
         },
     });
 
-    function oppdatertNavnForMottakerRolleHvisNødvendig(
+    function oppdaterBrevmottakernavnBasertPåMottakerRolleHvisNødvendig(
         nyMottakerRolle: MottakerRolle | BlankMottakerRolle
     ) {
         const landkode = getValues(BrevmottakerFeltnavn.LANDKODE);
@@ -62,7 +62,7 @@ export function MottakerFelt({ personopplysninger, brevmottakere, erLesevisning 
     function onChange(event: ChangeEvent<HTMLSelectElement>) {
         const value = event.target.value;
         const nyMottakerRolle = value as BrevmottakerFormValues[BrevmottakerFeltnavn.MOTTAKERROLLE];
-        oppdatertNavnForMottakerRolleHvisNødvendig(nyMottakerRolle);
+        oppdaterBrevmottakernavnBasertPåMottakerRolleHvisNødvendig(nyMottakerRolle);
         field.onChange(nyMottakerRolle);
     }
 
