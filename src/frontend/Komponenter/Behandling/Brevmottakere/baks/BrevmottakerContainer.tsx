@@ -30,56 +30,64 @@ type Props = {
 
 export function BrevmottakerContainer({ behandlingId }: Props) {
     const { axiosRequest } = useApp();
-    const { behandlingErRedigerbar, personopplysningerResponse: personopplysninger } =
-        useBehandling();
+    const { personopplysningerResponse: personopplysninger } = useBehandling();
     const { toggles } = useToggles();
 
     const [brevmottakere, settBrevmottakere] = useState<Ressurs<Brevmottakere>>(byggTomRessurs());
 
-    async function hentBrevmottakere(): Promise<boolean> {
+    async function hentBrevmottakere(): Promise<Awaited<void>> {
         settBrevmottakere(byggHenterRessurs());
         return await axiosRequest<Brevmottakere, null>({
             method: 'GET',
             url: `${API_BASE_URL}/${behandlingId}`,
         }).then((ressurs: RessursFeilet | RessursSuksess<Brevmottakere>) => {
-            if (ressurs.status !== RessursStatus.SUKSESS) {
-                settBrevmottakere(byggFeiletRessurs('Feil oppstod ved henting av brevmottakere.'));
-                return Promise.resolve(false);
+            if (ressurs.status === RessursStatus.SUKSESS) {
+                settBrevmottakere(ressurs);
+                return Promise.resolve();
+            } else {
+                settBrevmottakere(byggFeiletRessurs(ressurs.frontendFeilmelding));
+                return Promise.reject(new Error(ressurs.frontendFeilmelding));
             }
-            settBrevmottakere(ressurs);
-            return Promise.resolve(true);
         });
     }
 
-    async function opprettBrevmottaker(nyBrevmottaker: NyBrevmottaker): Promise<boolean> {
+    async function opprettBrevmottaker(nyBrevmottaker: NyBrevmottaker): Promise<Awaited<void>> {
         return await axiosRequest<Brevmottakere, NyBrevmottaker>({
             url: `${API_BASE_URL}/${behandlingId}`,
             method: 'POST',
             data: nyBrevmottaker,
         }).then((ressurs: RessursFeilet | RessursSuksess<Brevmottakere>) => {
-            if (ressurs.status !== RessursStatus.SUKSESS) {
-                return Promise.resolve(false);
+            if (ressurs.status === RessursStatus.SUKSESS) {
+                settBrevmottakere(ressurs);
+                return Promise.resolve();
+            } else {
+                return Promise.reject(new Error(ressurs.frontendFeilmelding));
             }
-            settBrevmottakere(ressurs);
-            return Promise.resolve(true);
         });
     }
 
-    async function slettBrevmottaker(slettbarBrevmottaker: SlettbarBrevmottaker): Promise<boolean> {
+    async function slettBrevmottaker(
+        slettbarBrevmottaker: SlettbarBrevmottaker
+    ): Promise<Awaited<void>> {
         return await axiosRequest<Brevmottakere, SlettbarBrevmottaker>({
             method: 'DELETE',
             url: `${API_BASE_URL}/${behandlingId}`,
             data: slettbarBrevmottaker,
         }).then((ressurs: RessursFeilet | RessursSuksess<Brevmottakere>) => {
-            if (ressurs.status !== RessursStatus.SUKSESS) {
-                return Promise.resolve(false);
+            if (ressurs.status === RessursStatus.SUKSESS) {
+                settBrevmottakere(ressurs);
+                return Promise.resolve();
+            } else {
+                return Promise.reject(new Error(ressurs.frontendFeilmelding));
             }
-            settBrevmottakere(ressurs);
-            return Promise.resolve(true);
         });
     }
 
-    useOnMount(() => hentBrevmottakere());
+    useOnMount(() =>
+        hentBrevmottakere().catch(() => {
+            // Do nothing...
+        })
+    );
 
     if (brevmottakere.status === RessursStatus.HENTER) {
         return (
@@ -105,12 +113,10 @@ export function BrevmottakerContainer({ behandlingId }: Props) {
                         <BrevmottakerPanel brevmottakere={brevmottakere} />
                         {toggles[ToggleName.leggTilBrevmottakerBaks] && (
                             <BrevmottakerModal
-                                behandlingId={behandlingId}
                                 personopplysninger={personopplysninger}
                                 brevmottakere={brevmottakerePersonUtenIdent}
                                 opprettBrevmottaker={opprettBrevmottaker}
                                 slettBrevmottaker={slettBrevmottaker}
-                                erLesevisning={!behandlingErRedigerbar}
                             />
                         )}
                     </>

@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 
 import { PlusCircleIcon } from '@navikt/aksel-icons';
-import { Alert, Button, Modal, VStack } from '@navikt/ds-react';
+import { Alert, Button, Heading, Modal, VStack } from '@navikt/ds-react';
 
 import { BrevmottakerForm } from './form/BrevmottakerForm';
 import { IPersonopplysninger } from '../../../../../App/typer/personopplysninger';
@@ -14,32 +14,28 @@ import { NyBrevmottaker } from '../../nyBrevmottaker';
 import { SlettbarBrevmottaker } from '../../slettbarBrevmottaker';
 
 type Props = {
-    behandlingId: string;
     personopplysninger: IPersonopplysninger;
     brevmottakere: BrevmottakerPersonUtenIdent[];
-    opprettBrevmottaker: (nyBrevmottaker: NyBrevmottaker) => Promise<boolean>;
-    slettBrevmottaker: (slettbarBrevmottaker: SlettbarBrevmottaker) => Promise<boolean>;
-    erLesevisning: boolean;
+    opprettBrevmottaker: (nyBrevmottaker: NyBrevmottaker) => Promise<Awaited<void>>;
+    slettBrevmottaker: (slettbarBrevmottaker: SlettbarBrevmottaker) => Promise<Awaited<void>>;
 };
 
 export function BrevmottakerModalBody({
-    behandlingId,
     personopplysninger,
     brevmottakere,
     opprettBrevmottaker,
     slettBrevmottaker,
-    erLesevisning,
 }: Props) {
     const [visForm, settVisForm] = useState(brevmottakere.length === 0);
 
     async function slettBrevmottakerOgVisFormHvisNødvendig(
         slettbarBrevmottaker: SlettbarBrevmottaker
-    ): Promise<boolean> {
-        const erSuksess = await slettBrevmottaker(slettbarBrevmottaker);
-        if (erSuksess && brevmottakere.length === 1) {
-            settVisForm(true);
-        }
-        return Promise.resolve(erSuksess);
+    ): Promise<Awaited<void>> {
+        return slettBrevmottaker(slettbarBrevmottaker).then(() => {
+            if (brevmottakere.length === 1) {
+                settVisForm(true);
+            }
+        });
     }
 
     const visLeggTilNyBrevmottakerKnapp =
@@ -60,18 +56,18 @@ export function BrevmottakerModalBody({
                         key={brevmottaker.id}
                         brevmottaker={brevmottaker}
                         slettBrevmottaker={slettBrevmottakerOgVisFormHvisNødvendig}
-                        erLesevisning={erLesevisning}
                     />
                 ))}
                 {visForm && (
-                    <BrevmottakerForm
-                        behandlingId={behandlingId}
-                        personopplysninger={personopplysninger}
-                        brevmottakere={brevmottakere}
-                        erLesevisning={erLesevisning}
-                        lukkForm={() => settVisForm(false)}
-                        opprettBrevmottaker={opprettBrevmottaker}
-                    />
+                    <>
+                        <Heading size={'medium'}>Ny brevmottaker</Heading>
+                        <BrevmottakerForm
+                            personopplysninger={personopplysninger}
+                            brevmottakere={brevmottakere}
+                            opprettBrevmottaker={opprettBrevmottaker}
+                            lukkForm={() => settVisForm(false)}
+                        />
+                    </>
                 )}
                 {visLeggTilNyBrevmottakerKnapp && (
                     <div>
