@@ -7,14 +7,13 @@ import { BrevmottakerModalFooter } from './BrevmottakerModalFooter';
 import { BrevmottakerPersonUtenIdent } from '../../brevmottaker';
 import { NyBrevmottaker } from '../../nyBrevmottaker';
 import { SlettbarBrevmottaker } from '../../slettbarBrevmottaker';
+import { useBehandling } from '../../../../../App/context/BehandlingContext';
 
 type Props = {
-    behandlingId: string;
     personopplysninger: IPersonopplysninger;
     brevmottakere: BrevmottakerPersonUtenIdent[];
-    opprettBrevmottaker: (nyBrevmottaker: NyBrevmottaker) => Promise<boolean>;
-    slettBrevmottaker: (slettbarBrevmottaker: SlettbarBrevmottaker) => Promise<boolean>;
-    erLesevisning: boolean;
+    opprettBrevmottaker: (nyBrevmottaker: NyBrevmottaker) => Promise<Awaited<void>>;
+    slettBrevmottaker: (slettbarBrevmottaker: SlettbarBrevmottaker) => Promise<Awaited<void>>;
 };
 
 function utledHeading(antallMottakere: number, erLesevisning: boolean): string {
@@ -28,31 +27,32 @@ function utledHeading(antallMottakere: number, erLesevisning: boolean): string {
 }
 
 export function BrevmottakerModal({
-    behandlingId,
     personopplysninger,
     brevmottakere,
     opprettBrevmottaker,
     slettBrevmottaker,
-    erLesevisning,
 }: Props) {
     const { visBrevmottakereModal, settVisBrevmottakereModal } = useApp();
+    const { behandlingErRedigerbar } = useBehandling();
+
     return (
         <Modal
             open={visBrevmottakereModal}
             onClose={() => settVisBrevmottakereModal(false)}
-            header={{ heading: utledHeading(brevmottakere.length, erLesevisning), size: 'medium' }}
+            header={{
+                heading: utledHeading(brevmottakere.length, !behandlingErRedigerbar),
+                size: 'medium',
+            }}
             width={'40rem'}
             portal={true}
         >
             {visBrevmottakereModal && (
                 <>
                     <BrevmottakerModalBody
-                        behandlingId={behandlingId}
                         personopplysninger={personopplysninger}
                         brevmottakere={brevmottakere}
                         opprettBrevmottaker={opprettBrevmottaker}
                         slettBrevmottaker={slettBrevmottaker}
-                        erLesevisning={erLesevisning}
                     />
                     <BrevmottakerModalFooter />
                 </>

@@ -10,48 +10,53 @@ import {
     legSlettbarBrevmottakerPersonUtenIdent,
     SlettbarBrevmottaker,
 } from '../../slettbarBrevmottaker';
+import { useBehandling } from '../../../../../App/context/BehandlingContext';
 
 type Props = {
     brevmottaker: BrevmottakerPersonUtenIdent;
-    slettBrevmottaker: (slettbarBrevmottaker: SlettbarBrevmottaker) => Promise<boolean>;
-    erLesevisning: boolean;
+    slettBrevmottaker: (slettbarBrevmottaker: SlettbarBrevmottaker) => Promise<Awaited<void>>;
 };
 
 const countryInstance = CountryData.getCountryInstance('nb');
 
-export function BrevmottakerDetaljer({ brevmottaker, slettBrevmottaker, erLesevisning }: Props) {
-    const [visSlettFeilmelding, setVisSlettFeilmelding] = useState(false);
-    const [laster, setLaster] = useState(false);
+export function BrevmottakerDetaljer({ brevmottaker, slettBrevmottaker }: Props) {
+    const { behandlingErRedigerbar } = useBehandling();
+
+    const [slettFeilmelding, settSlettFeilmelding] = useState<string>('');
+    const [laster, setLaster] = useState<boolean>(false);
+
+    async function onSlettBrevmottakerClicked(): Promise<Awaited<void>> {
+        settSlettFeilmelding('');
+        setLaster(true);
+        const slettbarBrevmottaker = legSlettbarBrevmottakerPersonUtenIdent(brevmottaker.id);
+        return await slettBrevmottaker(slettbarBrevmottaker)
+            .then(() => setLaster(false))
+            .catch((error: Error) => {
+                settSlettFeilmelding(error.message);
+                setLaster(false);
+            });
+    }
+
     return (
         <Box>
             <VStack marginBlock={'2 2'} gap={'2'}>
-                {visSlettFeilmelding && (
+                {slettFeilmelding && (
                     <Alert
                         variant={'error'}
                         closeButton={true}
-                        onClose={() => setVisSlettFeilmelding(false)}
+                        onClose={() => settSlettFeilmelding('')}
                     >
-                        Noe gikk galt ved sletting av brevmottaker.
+                        {slettFeilmelding}
                     </Alert>
                 )}
                 <HStack justify={'space-between'}>
                     <Heading level={'2'} size={'small'}>
                         {mottakerRolleVisningsnavn[brevmottaker.mottakerRolle]}
                     </Heading>
-                    {!erLesevisning && (
+                    {behandlingErRedigerbar && (
                         <Button
                             variant={'tertiary'}
-                            onClick={async () => {
-                                setVisSlettFeilmelding(false);
-                                setLaster(true);
-                                const erSukkess = await slettBrevmottaker(
-                                    legSlettbarBrevmottakerPersonUtenIdent(brevmottaker.id)
-                                );
-                                if (!erSukkess) {
-                                    setVisSlettFeilmelding(true);
-                                }
-                                setLaster(false);
-                            }}
+                            onClick={() => onSlettBrevmottakerClicked()}
                             size={'small'}
                             icon={<TrashIcon />}
                             loading={laster}
