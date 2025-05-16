@@ -9,7 +9,10 @@ type Props = {
     label: React.ReactNode;
 } & Omit<ComboboxProps, 'options'>;
 
+const DEFAULT_COMBOBOX_OPTION: ComboboxOption = { value: '', label: '-- Velg land --' };
+
 const eøsLand: ComboboxOption[] = [
+    DEFAULT_COMBOBOX_OPTION,
     { value: EøsLandkode.BE, label: 'Belgia' },
     { value: EøsLandkode.BG, label: 'Bulgaria' },
     { value: EøsLandkode.DK, label: 'Danmark' },
@@ -58,7 +61,7 @@ export function EøsLandvelger(props: Props) {
             onToggleSelected={(option, isSelected) => {
                 const newOption = eøsLand.find((opt) => opt.value === option);
                 if (newOption === selectedOption || newOption == undefined) {
-                    setSelectedOption(undefined);
+                    setSelectedOption(DEFAULT_COMBOBOX_OPTION);
                 } else {
                     setSelectedOption(newOption);
                 }

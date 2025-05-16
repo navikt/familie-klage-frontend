@@ -1,47 +1,52 @@
 import React, { useState } from 'react';
-import { DefaultValues, FormProvider, useForm } from 'react-hook-form';
+import { FormProvider, useForm } from 'react-hook-form';
 import { LandFelt } from './felt/LandFelt';
 import { MottakerFelt } from './felt/MottakerFelt';
 import { NavnFelt } from './felt/NavnFelt';
-import { AdresselinjeFelt } from './felt/AdresselinjeFelt';
+import { Adresselinje1Felt } from './felt/Adresselinje1Felt';
 import { PostnummerFelt } from './felt/PostnummerFelt';
 import { PoststedFelt } from './felt/PoststedFelt';
 import { Alert, Button, Heading, HStack, VStack } from '@navikt/ds-react';
-import { EøsLandkode } from '../../../../../../Felles/Landvelger/landkode';
+import {
+    BlankEøsLandkode,
+    erEøsLandkode,
+    erUtenlandskEøsLandkode,
+    EøsLandkode,
+} from '../../../../../../Felles/Landvelger/landkode';
 import { IPersonopplysninger } from '../../../../../../App/typer/personopplysninger';
-import { BrevmottakerFeltnavn } from './felt/felttyper';
-import { MottakerRolle } from '../../../mottakerRolle';
+import { BlankMottakerRolle, MottakerRolle } from '../../../mottakerRolle';
 import { BrevmottakerPersonUtenIdent } from '../../../brevmottaker';
 import { lagNyBrevmottakerPersonUtenIdent, NyBrevmottaker } from '../../../nyBrevmottaker';
+import { Adresselinje2Felt } from './felt/Adresselinje2Felt';
 
-export type BrevmottakerFormValues = {
-    [BrevmottakerFeltnavn.MOTTAKERROLLE]: MottakerRolle | '';
-    [BrevmottakerFeltnavn.LANDKODE]: EøsLandkode | '';
+export enum BrevmottakerFeltnavn {
+    MOTTAKERROLLE = 'mottakerRolle',
+    LANDKODE = 'landkode',
+    NAVN = 'navn',
+    ADRESSELINJE1 = 'adresselinje1',
+    ADRESSELINJE2 = 'adresselinje2',
+    POSTNUMMER = 'postnummer',
+    POSTSTED = 'poststed',
+}
+
+export interface BrevmottakerFormValues {
+    [BrevmottakerFeltnavn.MOTTAKERROLLE]: MottakerRolle | BlankMottakerRolle;
+    [BrevmottakerFeltnavn.LANDKODE]: EøsLandkode | BlankEøsLandkode;
     [BrevmottakerFeltnavn.NAVN]: string;
     [BrevmottakerFeltnavn.ADRESSELINJE1]: string;
     [BrevmottakerFeltnavn.ADRESSELINJE2]: string;
     [BrevmottakerFeltnavn.POSTNUMMER]: string;
     [BrevmottakerFeltnavn.POSTSTED]: string;
-};
+}
 
-const defaultValues: DefaultValues<BrevmottakerFormValues> = {
-    [BrevmottakerFeltnavn.MOTTAKERROLLE]: '',
-    [BrevmottakerFeltnavn.LANDKODE]: EøsLandkode.NO,
-    [BrevmottakerFeltnavn.NAVN]: '',
-    [BrevmottakerFeltnavn.ADRESSELINJE1]: '',
-    [BrevmottakerFeltnavn.ADRESSELINJE2]: '',
-    [BrevmottakerFeltnavn.POSTNUMMER]: '',
-    [BrevmottakerFeltnavn.POSTSTED]: '',
-};
-
-type Props = {
+interface Props {
     behandlingId: string;
     personopplysninger: IPersonopplysninger;
     brevmottakere: BrevmottakerPersonUtenIdent[];
     erLesevisning: boolean;
     lukkForm: () => void;
     opprettBrevmottaker: (nyBrevmottaker: NyBrevmottaker) => Promise<boolean>;
-};
+}
 
 export function BrevmottakerForm({
     personopplysninger,
@@ -51,12 +56,26 @@ export function BrevmottakerForm({
     opprettBrevmottaker,
 }: Props) {
     const [visSubmitError, setVisSubmitError] = useState<boolean>(false);
-    const form = useForm<BrevmottakerFormValues>({ mode: 'onChange', defaultValues });
-    const { formState, handleSubmit, watch } = form;
+
+    const form = useForm<BrevmottakerFormValues>({
+        defaultValues: {
+            [BrevmottakerFeltnavn.MOTTAKERROLLE]: '',
+            [BrevmottakerFeltnavn.LANDKODE]: EøsLandkode.NO,
+            [BrevmottakerFeltnavn.NAVN]: '',
+            [BrevmottakerFeltnavn.ADRESSELINJE1]: '',
+            [BrevmottakerFeltnavn.ADRESSELINJE2]: '',
+            [BrevmottakerFeltnavn.POSTNUMMER]: '',
+            [BrevmottakerFeltnavn.POSTSTED]: '',
+        },
+    });
+
+    const {
+        handleSubmit,
+        formState: { isSubmitting },
+        watch,
+    } = form;
 
     const landkode = watch(BrevmottakerFeltnavn.LANDKODE);
-    const erLandValgt = landkode !== '';
-    const erUtenlandskAdresseValgt = erLandValgt && landkode !== EøsLandkode.NO;
 
     async function onSubmit(brevmottakerFormValues: BrevmottakerFormValues) {
         setVisSubmitError(false);
@@ -78,58 +97,23 @@ export function BrevmottakerForm({
                         Ny brevmottaker
                     </Heading>
                     <MottakerFelt
-                        feltnavn={BrevmottakerFeltnavn.MOTTAKERROLLE}
-                        visningsnavn={'Mottaker'}
                         personopplysninger={personopplysninger}
                         brevmottakere={brevmottakere}
                         erLesevisning={erLesevisning}
                     />
                     <LandFelt
-                        feltnavn={BrevmottakerFeltnavn.LANDKODE}
-                        visningsnavn={'Land'}
                         personopplysninger={personopplysninger}
                         erLesevisning={erLesevisning}
                     />
-                    {erLandValgt && (
+                    {erEøsLandkode(landkode) && (
                         <>
-                            <NavnFelt
-                                feltnavn={BrevmottakerFeltnavn.NAVN}
-                                visningsnavn={'Navn'}
-                                personopplysninger={personopplysninger}
-                                erLesevisning={erLesevisning}
-                            />
-                            <AdresselinjeFelt
-                                feltnavn={BrevmottakerFeltnavn.ADRESSELINJE1}
-                                visningsnavn={'Adresselinje 1'}
-                                erLesevisning={erLesevisning}
-                                valgfri={false}
-                                beskrivelse={
-                                    erUtenlandskAdresseValgt && (
-                                        <Alert size={'small'} inline={true} variant={'info'}>
-                                            Ved utenlandsk adresse skal postnummer og poststed
-                                            skrives direkte i adressefeltet.
-                                        </Alert>
-                                    )
-                                }
-                            />
-                            <AdresselinjeFelt
-                                feltnavn={BrevmottakerFeltnavn.ADRESSELINJE2}
-                                visningsnavn={'Adresselinje 2 (valgfri)'}
-                                erLesevisning={erLesevisning}
-                                valgfri={true}
-                            />
-                            {!erUtenlandskAdresseValgt && (
+                            <NavnFelt erLesevisning={erLesevisning} />
+                            <Adresselinje1Felt erLesevisning={erLesevisning} />
+                            <Adresselinje2Felt erLesevisning={erLesevisning} />
+                            {!erUtenlandskEøsLandkode(landkode) && (
                                 <>
-                                    <PostnummerFelt
-                                        feltnavn={BrevmottakerFeltnavn.POSTNUMMER}
-                                        visningsnavn={'Postnummer'}
-                                        erLesevisning={erLesevisning}
-                                    />
-                                    <PoststedFelt
-                                        feltnavn={BrevmottakerFeltnavn.POSTSTED}
-                                        visningsnavn={'Poststed'}
-                                        erLesevisning={erLesevisning}
-                                    />
+                                    <PostnummerFelt erLesevisning={erLesevisning} />
+                                    <PoststedFelt erLesevisning={erLesevisning} />
                                 </>
                             )}
                         </>
@@ -145,15 +129,11 @@ export function BrevmottakerForm({
                     )}
                     <HStack gap={'4'}>
                         {!erLesevisning && (
-                            <Button
-                                variant={'primary'}
-                                type={'submit'}
-                                loading={formState.isSubmitting}
-                            >
+                            <Button variant={'primary'} type={'submit'} loading={isSubmitting}>
                                 Legg til brevmottaker
                             </Button>
                         )}
-                        {!erLesevisning && brevmottakere.length > 0 && !formState.isSubmitting && (
+                        {!erLesevisning && brevmottakere.length > 0 && !isSubmitting && (
                             <Button variant={'tertiary'} onClick={lukkForm}>
                                 Avbryt legg til brevmottaker
                             </Button>

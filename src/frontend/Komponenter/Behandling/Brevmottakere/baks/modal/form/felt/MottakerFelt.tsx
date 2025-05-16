@@ -1,92 +1,77 @@
-import React from 'react';
+import React, { ChangeEvent } from 'react';
 import { Select } from '@navikt/ds-react';
-import { Controller, useFormContext } from 'react-hook-form';
+import { useController, useFormContext } from 'react-hook-form';
 import { IPersonopplysninger } from '../../../../../../../App/typer/personopplysninger';
-import { BrevmottakerFeltnavn, BrevmottakerFeltProps } from './felttyper';
 import {
-    MottakerRolle,
+    erMottakerRolle,
+    finnNyttBrevmottakernavnHvisNødvendigVedEndringAvMottakerRolle,
     mottakerRolleVisningsnavn,
-    skalNavnVærePreutfyltForMottakerRolle,
 } from '../../../../mottakerRolle';
 import {
     BrevmottakerPersonUtenIdent,
     utledGyldigeMottakerRolleForBrevmottakerPersonUtenIdent,
-    utledPreutfyltBrevmottakerPersonUtenIdentNavn,
 } from '../../../../brevmottaker';
+import { BrevmottakerFeltnavn, BrevmottakerFormValues } from '../BrevmottakerForm';
 
-type Props = BrevmottakerFeltProps & {
+interface Props {
     personopplysninger: IPersonopplysninger;
     brevmottakere: BrevmottakerPersonUtenIdent[];
-};
+    erLesevisning?: boolean;
+}
 
-export function MottakerFelt({
-    feltnavn,
-    visningsnavn,
-    personopplysninger,
-    brevmottakere,
-    erLesevisning,
-}: Props) {
-    const { control, formState, setValue, getValues } = useFormContext();
+const label = 'Mottaker';
 
-    function oppdatertNavnForMottakerRolleHvisNødvendig(mottakerRolle: MottakerRolle) {
-        const [landkode, forrigeMottakerRolle] = getValues([
-            BrevmottakerFeltnavn.LANDKODE,
-            BrevmottakerFeltnavn.MOTTAKERROLLE,
-        ]);
+export function MottakerFelt({ personopplysninger, brevmottakere, erLesevisning = false }: Props) {
+    const { control, setValue, getValues } = useFormContext<BrevmottakerFormValues>();
 
-        const varNavnPreutfylt = skalNavnVærePreutfyltForMottakerRolle(forrigeMottakerRolle);
-        const skalNavnPreutfylles = skalNavnVærePreutfyltForMottakerRolle(mottakerRolle);
+    const { field, fieldState, formState } = useController({
+        name: BrevmottakerFeltnavn.MOTTAKERROLLE,
+        control,
+        rules: {
+            required: `${label} er påkrevd.`,
+            deps: [BrevmottakerFeltnavn.LANDKODE],
+        },
+    });
 
-        if (varNavnPreutfylt && !skalNavnPreutfylles) {
-            setValue(BrevmottakerFeltnavn.NAVN, '');
-        }
-
-        if (skalNavnPreutfylles) {
-            setValue(
-                BrevmottakerFeltnavn.NAVN,
-                utledPreutfyltBrevmottakerPersonUtenIdentNavn(
-                    personopplysninger.navn,
+    function onChange(event: ChangeEvent<HTMLSelectElement>) {
+        const value = event.target.value;
+        if (erMottakerRolle(value)) {
+            const nyMottakerRolle = value;
+            const forrigeMottakerRolle = getValues(BrevmottakerFeltnavn.MOTTAKERROLLE);
+            const landkode = getValues(BrevmottakerFeltnavn.LANDKODE);
+            const nyttBrevmottakernavn =
+                finnNyttBrevmottakernavnHvisNødvendigVedEndringAvMottakerRolle(
+                    nyMottakerRolle,
+                    forrigeMottakerRolle,
                     landkode,
-                    mottakerRolle
-                )
-            );
+                    personopplysninger
+                );
+            if (nyttBrevmottakernavn !== undefined) {
+                setValue(BrevmottakerFeltnavn.NAVN, nyttBrevmottakernavn);
+            }
+            field.onChange(value);
+        } else {
+            field.onChange('');
         }
     }
 
     return (
-        <Controller
-            control={control}
-            name={feltnavn}
-            rules={{
-                required: `${visningsnavn} er påkrevd.`,
-                deps: [BrevmottakerFeltnavn.LANDKODE],
-            }}
-            render={({ field, fieldState }) => {
-                const visFeilmelding = fieldState.isTouched || formState.isSubmitted;
-                return (
-                    <Select
-                        label={visningsnavn}
-                        value={field.value}
-                        onBlur={field.onBlur}
-                        onChange={(event) => {
-                            const value = event.target.value as keyof typeof MottakerRolle;
-                            oppdatertNavnForMottakerRolleHvisNødvendig(MottakerRolle[value]);
-                            field.onChange(event);
-                        }}
-                        error={visFeilmelding && fieldState.error?.message}
-                        readOnly={erLesevisning || formState.isSubmitting}
-                    >
-                        <option value={''}>-- Velg mottaker --</option>
-                        {utledGyldigeMottakerRolleForBrevmottakerPersonUtenIdent(brevmottakere).map(
-                            (mottaker) => (
-                                <option key={mottaker} value={mottaker}>
-                                    {mottakerRolleVisningsnavn[mottaker]}
-                                </option>
-                            )
-                        )}
-                    </Select>
-                );
-            }}
-        />
+        <Select
+            label={label}
+            value={field.value}
+            onBlur={field.onBlur}
+            onChange={onChange}
+            error={fieldState.error?.message}
+            readOnly={erLesevisning || formState.isSubmitting}
+        >
+            <option value={''}>-- Velg mottaker --</option>
+            {utledGyldigeMottakerRolleForBrevmottakerPersonUtenIdent(brevmottakere).map(
+                (mottaker) => (
+                    <option key={mottaker} value={mottaker}>
+                        {mottakerRolleVisningsnavn[mottaker]}
+                    </option>
+                )
+            )}
+        </Select>
     );
 }

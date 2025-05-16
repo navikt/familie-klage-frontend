@@ -1,57 +1,67 @@
 import React from 'react';
-import { Controller, useFormContext } from 'react-hook-form';
+import { useController, useFormContext } from 'react-hook-form';
 import { EøsLandvelger } from '../../../../../../../Felles/Landvelger/EøsLandvelger';
-import { BrevmottakerFeltnavn, BrevmottakerFeltProps } from './felttyper';
 import { IPersonopplysninger } from '../../../../../../../App/typer/personopplysninger';
 import { erGyldigMottakerRolleForLandkode, MottakerRolle } from '../../../../mottakerRolle';
 import { utledBrevmottakerPersonUtenIdentNavnVedDødsbo } from '../../../../brevmottaker';
+import { BrevmottakerFeltnavn, BrevmottakerFormValues } from '../BrevmottakerForm';
+import { erEøsLandkode } from '../../../../../../../Felles/Landvelger/landkode';
 
-type Props = BrevmottakerFeltProps & {
+interface Props {
     personopplysninger: IPersonopplysninger;
-};
+    erLesevisning?: boolean;
+}
 
-export function LandFelt({ feltnavn, visningsnavn, erLesevisning, personopplysninger }: Props) {
-    const { control, getValues, setValue, formState } = useFormContext();
-    return (
-        <Controller
-            control={control}
-            rules={{
-                required: `${visningsnavn} er påkrevd.`,
-                validate: (landkode) => {
-                    const mottakerRolle = getValues(BrevmottakerFeltnavn.MOTTAKERROLLE);
-                    if (!erGyldigMottakerRolleForLandkode(mottakerRolle, landkode)) {
-                        return 'Norge kan ikke være satt for bruker med utenlandsk adresse.';
-                    }
+const label = 'Land';
+
+export function LandFelt({ personopplysninger, erLesevisning = false }: Props) {
+    const { control, getValues, setValue } = useFormContext<BrevmottakerFormValues>();
+
+    const { field, fieldState, formState } = useController({
+        name: BrevmottakerFeltnavn.LANDKODE,
+        control,
+        rules: {
+            validate: (landkode) => {
+                if (landkode === '') {
+                    return `${label} er påkrevd.`;
+                }
+                const mottakerRolle = getValues(BrevmottakerFeltnavn.MOTTAKERROLLE);
+                if (mottakerRolle === '') {
                     return undefined;
-                },
-                deps: [BrevmottakerFeltnavn.POSTNUMMER, BrevmottakerFeltnavn.POSTSTED],
-            }}
-            name={feltnavn}
-            render={({ field, fieldState }) => {
-                const visFeilmelding = fieldState.isTouched || formState.isSubmitted;
-                return (
-                    <EøsLandvelger
-                        label={visningsnavn}
-                        onBlur={field.onBlur}
-                        value={field.value}
-                        onToggleSelected={(landkode, isSelected) => {
-                            const mottakerRolle = getValues(BrevmottakerFeltnavn.MOTTAKERROLLE);
-                            if (isSelected && mottakerRolle === MottakerRolle.DØDSBO) {
-                                setValue(
-                                    BrevmottakerFeltnavn.NAVN,
-                                    utledBrevmottakerPersonUtenIdentNavnVedDødsbo(
-                                        personopplysninger.navn,
-                                        landkode
-                                    )
-                                );
-                            }
-                            field.onChange(isSelected ? landkode : '');
-                        }}
-                        error={visFeilmelding && fieldState.error?.message}
-                        readOnly={erLesevisning || formState.isSubmitting}
-                    />
-                );
-            }}
+                }
+                if (!erGyldigMottakerRolleForLandkode(mottakerRolle, landkode)) {
+                    return 'Norge kan ikke være satt for bruker med utenlandsk adresse.';
+                }
+                return undefined;
+            },
+            deps: [BrevmottakerFeltnavn.POSTNUMMER, BrevmottakerFeltnavn.POSTSTED],
+        },
+    });
+
+    function onToggleSelected(value: string, isSelected: boolean) {
+        if (!isSelected || !erEøsLandkode(value)) {
+            field.onChange('');
+            return;
+        }
+        const mottakerRolle = getValues(BrevmottakerFeltnavn.MOTTAKERROLLE);
+        if (mottakerRolle === MottakerRolle.DØDSBO) {
+            const nyttPreutfyltNavn = utledBrevmottakerPersonUtenIdentNavnVedDødsbo(
+                personopplysninger.navn,
+                value
+            );
+            setValue(BrevmottakerFeltnavn.NAVN, nyttPreutfyltNavn);
+        }
+        field.onChange(value);
+    }
+
+    return (
+        <EøsLandvelger
+            label={label}
+            onBlur={field.onBlur}
+            value={field.value}
+            onToggleSelected={onToggleSelected}
+            error={fieldState.error?.message}
+            readOnly={erLesevisning || formState.isSubmitting}
         />
     );
 }

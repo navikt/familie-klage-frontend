@@ -1,6 +1,6 @@
 import { MottakerRolle } from './mottakerRolle';
 import { IFullmakt, IVergemål } from '../../../App/typer/personopplysninger';
-import { EøsLandkode } from '../../../Felles/Landvelger/landkode';
+import { BlankEøsLandkode, erEøsLandkode, EøsLandkode } from '../../../Felles/Landvelger/landkode';
 
 export type Brevmottaker = object;
 
@@ -62,15 +62,17 @@ export function erBrevmottakerPersonUtenIdent(
 
 export function utledBrevmottakerPersonUtenIdentNavnVedDødsbo(
     navn: string,
-    landkode: string
+    landkode: EøsLandkode | BlankEøsLandkode
 ): string {
-    return landkode === EøsLandkode.NO ? `${navn} v/dødsbo` : `Estate of ${navn}`;
+    return landkode === EøsLandkode.NO || !erEøsLandkode(landkode)
+        ? `${navn} v/dødsbo`
+        : `Estate of ${navn}`;
 }
 
 export function utledPreutfyltBrevmottakerPersonUtenIdentNavn(
     navnFraPersonopplysninger: string,
-    landkode: string,
-    mottakerRolle: MottakerRolle | string
+    landkode: EøsLandkode | BlankEøsLandkode,
+    mottakerRolle: MottakerRolle
 ): string {
     switch (mottakerRolle) {
         case MottakerRolle.DØDSBO:

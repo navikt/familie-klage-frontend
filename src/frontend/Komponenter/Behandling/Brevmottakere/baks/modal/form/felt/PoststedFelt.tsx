@@ -1,37 +1,38 @@
-import { Controller, useFormContext } from 'react-hook-form';
+import { useController, useFormContext } from 'react-hook-form';
 import React from 'react';
 import { TextField } from '@navikt/ds-react';
 import { EøsLandkode } from '../../../../../../../Felles/Landvelger/landkode';
-import { BrevmottakerFeltnavn, BrevmottakerFeltProps } from './felttyper';
+import { BrevmottakerFeltnavn, BrevmottakerFormValues } from '../BrevmottakerForm';
 
-type Props = BrevmottakerFeltProps;
+interface Props {
+    erLesevisning?: boolean;
+}
 
-export function PoststedFelt({ feltnavn, visningsnavn, erLesevisning }: Props) {
-    const { control, getValues, formState } = useFormContext();
+const label = 'Poststed';
+
+export function PoststedFelt({ erLesevisning = false }: Props) {
+    const { control, getValues } = useFormContext<BrevmottakerFormValues>();
+
+    const { field, fieldState, formState } = useController({
+        name: BrevmottakerFeltnavn.POSTSTED,
+        control,
+        rules: {
+            required:
+                getValues(BrevmottakerFeltnavn.LANDKODE) === EøsLandkode.NO
+                    ? `${label} er påkrevd om landet er Norge.`
+                    : undefined,
+            maxLength: { value: 50, message: `${label} kan inneholde maks 50 tegn.` },
+        },
+    });
+
     return (
-        <Controller
-            control={control}
-            name={feltnavn}
-            rules={{
-                required:
-                    getValues(BrevmottakerFeltnavn.LANDKODE) === EøsLandkode.NO
-                        ? `${visningsnavn} er påkrevd om landet er Norge.`
-                        : undefined,
-                maxLength: { value: 50, message: `${visningsnavn} kan inneholde maks 50 tegn.` },
-            }}
-            render={({ field, fieldState }) => {
-                const visFeilmelding = fieldState.isTouched || formState.isSubmitted;
-                return (
-                    <TextField
-                        label={visningsnavn}
-                        value={field.value}
-                        onBlur={field.onBlur}
-                        onChange={field.onChange}
-                        error={visFeilmelding && fieldState.error?.message}
-                        readOnly={erLesevisning || formState.isSubmitting}
-                    />
-                );
-            }}
+        <TextField
+            label={label}
+            value={field.value}
+            onBlur={field.onBlur}
+            onChange={field.onChange}
+            error={fieldState.error?.message}
+            readOnly={erLesevisning || formState.isSubmitting}
         />
     );
 }
