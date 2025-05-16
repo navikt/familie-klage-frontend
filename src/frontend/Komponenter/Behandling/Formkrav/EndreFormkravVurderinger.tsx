@@ -48,7 +48,7 @@ const RadioGruppe = styled(RadioGroup)`
 `;
 
 const RadioButton = styled(Radio)`
-    margin: -0.6rem -0.6rem -0.6rem 0rem;
+    margin: -0.6rem -0.6rem -0.6rem 0;
 `;
 
 const LagreKnapp = styled(Button)`
