@@ -37,7 +37,7 @@ export function BrevmottakerContainer({ behandlingId }: Props) {
 
     async function hentBrevmottakere(): Promise<Awaited<void>> {
         settBrevmottakere(byggHenterRessurs());
-        return await axiosRequest<Brevmottakere, null>({
+        return axiosRequest<Brevmottakere, null>({
             method: 'GET',
             url: `${API_BASE_URL}/${behandlingId}`,
         }).then((ressurs: RessursFeilet | RessursSuksess<Brevmottakere>) => {
@@ -52,7 +52,7 @@ export function BrevmottakerContainer({ behandlingId }: Props) {
     }
 
     async function opprettBrevmottaker(nyBrevmottaker: NyBrevmottaker): Promise<Awaited<void>> {
-        return await axiosRequest<Brevmottakere, NyBrevmottaker>({
+        return axiosRequest<Brevmottakere, NyBrevmottaker>({
             url: `${API_BASE_URL}/${behandlingId}`,
             method: 'POST',
             data: nyBrevmottaker,
@@ -69,7 +69,7 @@ export function BrevmottakerContainer({ behandlingId }: Props) {
     async function slettBrevmottaker(
         slettbarBrevmottaker: SlettbarBrevmottaker
     ): Promise<Awaited<void>> {
-        return await axiosRequest<Brevmottakere, SlettbarBrevmottaker>({
+        return axiosRequest<Brevmottakere, SlettbarBrevmottaker>({
             method: 'DELETE',
             url: `${API_BASE_URL}/${behandlingId}`,
             data: slettbarBrevmottaker,

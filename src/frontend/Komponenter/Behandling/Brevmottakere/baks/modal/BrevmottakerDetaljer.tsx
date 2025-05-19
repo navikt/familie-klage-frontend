@@ -29,7 +29,7 @@ export function BrevmottakerDetaljer({ brevmottaker, slettBrevmottaker }: Props)
         settSlettFeilmelding('');
         setLaster(true);
         const slettbarBrevmottaker = legSlettbarBrevmottakerPersonUtenIdent(brevmottaker.id);
-        return await slettBrevmottaker(slettbarBrevmottaker)
+        return slettBrevmottaker(slettbarBrevmottaker)
             .then(() => setLaster(false))
             .catch((error: Error) => {
                 settSlettFeilmelding(error.message);
