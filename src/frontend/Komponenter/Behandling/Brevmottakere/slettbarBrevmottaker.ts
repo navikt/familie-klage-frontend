@@ -23,7 +23,7 @@ export enum SlettbarBrevmottakerType {
     ORGANISASJON = 'ORGANISASJON',
 }
 
-export function legSlettbarBrevmottakerPersonUtenIdent(
+export function lagSlettbarBrevmottakerPersonUtenIdent(
     id: string
 ): SlettbarBrevmottakerPersonUtenIdent {
     return {

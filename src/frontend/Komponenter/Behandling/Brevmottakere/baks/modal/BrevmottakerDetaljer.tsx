@@ -7,7 +7,7 @@ import { EøsLandkode } from '../../../../../Felles/Landvelger/landkode';
 import { MottakerRolle, mottakerRolleVisningsnavn } from '../../mottakerRolle';
 import { BrevmottakerPersonUtenIdent } from '../../brevmottaker';
 import {
-    legSlettbarBrevmottakerPersonUtenIdent,
+    lagSlettbarBrevmottakerPersonUtenIdent,
     SlettbarBrevmottaker,
 } from '../../slettbarBrevmottaker';
 import { useBehandling } from '../../../../../App/context/BehandlingContext';
@@ -28,7 +28,7 @@ export function BrevmottakerDetaljer({ brevmottaker, slettBrevmottaker }: Props)
     async function onSlettBrevmottakerClicked(): Promise<Awaited<void>> {
         settSlettFeilmelding('');
         setLaster(true);
-        const slettbarBrevmottaker = legSlettbarBrevmottakerPersonUtenIdent(brevmottaker.id);
+        const slettbarBrevmottaker = lagSlettbarBrevmottakerPersonUtenIdent(brevmottaker.id);
         return slettBrevmottaker(slettbarBrevmottaker)
             .then(() => setLaster(false))
             .catch((error: Error) => {
