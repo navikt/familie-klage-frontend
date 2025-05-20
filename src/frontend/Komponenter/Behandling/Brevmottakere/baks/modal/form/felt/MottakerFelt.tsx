@@ -5,23 +5,25 @@ import { IPersonopplysninger } from '../../../../../../../App/typer/personopplys
 import {
     erMottakerRolle,
     finnNyttBrevmottakernavnHvisNødvendigVedEndringAvMottakerRolle,
+    MottakerRolle,
     mottakerRolleVisningsnavn,
+    utledGyldigeMottakerRollerBasertPåAlleredeValgteMottakerRoller,
 } from '../../../../mottakerRolle';
-import {
-    BrevmottakerPersonUtenIdent,
-    utledGyldigeMottakerRolleForBrevmottakerPersonUtenIdent,
-} from '../../../../brevmottaker';
 import { BrevmottakerFeltnavn, BrevmottakerFormValues } from '../BrevmottakerForm';
 
 interface Props {
     personopplysninger: IPersonopplysninger;
-    brevmottakere: BrevmottakerPersonUtenIdent[];
+    valgteMottakerRoller: MottakerRolle[];
     erLesevisning?: boolean;
 }
 
 const label = 'Mottaker';
 
-export function MottakerFelt({ personopplysninger, brevmottakere, erLesevisning = false }: Props) {
+export function MottakerFelt({
+    personopplysninger,
+    valgteMottakerRoller,
+    erLesevisning = false,
+}: Props) {
     const { control, setValue, getValues } = useFormContext<BrevmottakerFormValues>();
 
     const { field, fieldState, formState } = useController({
@@ -55,6 +57,9 @@ export function MottakerFelt({ personopplysninger, brevmottakere, erLesevisning 
         }
     }
 
+    const gyldigeMottakerRoller =
+        utledGyldigeMottakerRollerBasertPåAlleredeValgteMottakerRoller(valgteMottakerRoller);
+
     return (
         <Select
             label={label}
@@ -65,13 +70,11 @@ export function MottakerFelt({ personopplysninger, brevmottakere, erLesevisning 
             readOnly={erLesevisning || formState.isSubmitting}
         >
             <option value={''}>-- Velg mottaker --</option>
-            {utledGyldigeMottakerRolleForBrevmottakerPersonUtenIdent(brevmottakere).map(
-                (mottaker) => (
-                    <option key={mottaker} value={mottaker}>
-                        {mottakerRolleVisningsnavn[mottaker]}
-                    </option>
-                )
-            )}
+            {gyldigeMottakerRoller.map((mottaker) => (
+                <option key={mottaker} value={mottaker}>
+                    {mottakerRolleVisningsnavn[mottaker]}
+                </option>
+            ))}
         </Select>
     );
 }
