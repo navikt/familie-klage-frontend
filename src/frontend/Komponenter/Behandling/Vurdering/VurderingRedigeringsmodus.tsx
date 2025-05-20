@@ -187,6 +187,8 @@ export const VurderingRedigeringsmodus = ({
                     />
                     <InterntNotat
                         behandlingErRedigerbar={behandlingErRedigerbar}
+                        vurderingEndret={vurderingEndret}
+                        settVurderingEndret={settVurderingEndret}
                         tekst={oppdatertVurdering?.interntNotat}
                         settIkkePersistertKomponent={settIkkePersistertKomponent}
                         settOppdatertVurdering={settOppdatertVurdering}
