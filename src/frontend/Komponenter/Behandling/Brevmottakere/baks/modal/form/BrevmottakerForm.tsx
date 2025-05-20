@@ -1,12 +1,12 @@
-import React, { useState } from 'react';
-import { FormProvider, useForm } from 'react-hook-form';
+import React, { useEffect } from 'react';
+import { FieldErrors, FormProvider, useForm } from 'react-hook-form';
 import { LandFelt } from './felt/LandFelt';
 import { MottakerFelt } from './felt/MottakerFelt';
 import { NavnFelt } from './felt/NavnFelt';
 import { Adresselinje1Felt } from './felt/Adresselinje1Felt';
 import { PostnummerFelt } from './felt/PostnummerFelt';
 import { PoststedFelt } from './felt/PoststedFelt';
-import { Alert, Button, Heading, HStack, VStack } from '@navikt/ds-react';
+import { Alert, Button, Fieldset, HStack, VStack } from '@navikt/ds-react';
 import {
     BlankEøsLandkode,
     erEøsLandkode,
@@ -18,6 +18,20 @@ import { BlankMottakerRolle, MottakerRolle } from '../../../mottakerRolle';
 import { BrevmottakerPersonUtenIdent } from '../../../brevmottaker';
 import { lagNyBrevmottakerPersonUtenIdent, NyBrevmottaker } from '../../../nyBrevmottaker';
 import { Adresselinje2Felt } from './felt/Adresselinje2Felt';
+import { useBehandling } from '../../../../../../App/context/BehandlingContext';
+
+export const CustomFormErrors: Record<
+    'onSubmitServerError',
+    {
+        id: `root.${string}`;
+        lookup: (errors: FieldErrors<BrevmottakerFormValues>) => string | undefined;
+    }
+> = {
+    onSubmitServerError: {
+        id: 'root.onSubmitServerError',
+        lookup: (errors) => errors?.root?.onSubmitServerError?.message,
+    },
+};
 
 export enum BrevmottakerFeltnavn {
     MOTTAKERROLLE = 'mottakerRolle',
@@ -40,22 +54,19 @@ export interface BrevmottakerFormValues {
 }
 
 interface Props {
-    behandlingId: string;
     personopplysninger: IPersonopplysninger;
     brevmottakere: BrevmottakerPersonUtenIdent[];
-    erLesevisning: boolean;
+    opprettBrevmottaker: (nyBrevmottaker: NyBrevmottaker) => Promise<Awaited<void>>;
     lukkForm: () => void;
-    opprettBrevmottaker: (nyBrevmottaker: NyBrevmottaker) => Promise<boolean>;
 }
 
 export function BrevmottakerForm({
     personopplysninger,
     brevmottakere,
-    erLesevisning,
-    lukkForm,
     opprettBrevmottaker,
+    lukkForm,
 }: Props) {
-    const [visSubmitError, setVisSubmitError] = useState<boolean>(false);
+    const { behandlingErRedigerbar } = useBehandling();
 
     const form = useForm<BrevmottakerFormValues>({
         defaultValues: {
@@ -71,69 +82,75 @@ export function BrevmottakerForm({
 
     const {
         handleSubmit,
-        formState: { isSubmitting },
+        formState: { isSubmitting, isSubmitSuccessful, errors },
         watch,
+        setError,
+        clearErrors,
+        reset,
     } = form;
 
-    const landkode = watch(BrevmottakerFeltnavn.LANDKODE);
+    useEffect(() => {
+        // It's recommended to reset inside useEffect after submission, see https://react-hook-form.com/docs/useform/reset.
+        reset();
+    }, [reset, isSubmitSuccessful]);
 
-    async function onSubmit(brevmottakerFormValues: BrevmottakerFormValues) {
-        setVisSubmitError(false);
-        const erSuksess = await opprettBrevmottaker(
-            lagNyBrevmottakerPersonUtenIdent(brevmottakerFormValues)
-        );
-        if (erSuksess) {
-            lukkForm();
-        } else {
-            setVisSubmitError(true);
-        }
+    async function onSubmit(
+        brevmottakerFormValues: BrevmottakerFormValues
+    ): Promise<Awaited<void>> {
+        return opprettBrevmottaker(lagNyBrevmottakerPersonUtenIdent(brevmottakerFormValues))
+            .then(() => lukkForm())
+            .catch((error: Error) =>
+                setError(CustomFormErrors.onSubmitServerError.id, { message: error.message })
+            );
     }
+
+    const landkode = watch(BrevmottakerFeltnavn.LANDKODE);
+    const onSubmitServerError = CustomFormErrors.onSubmitServerError.lookup(errors);
 
     return (
         <FormProvider {...form}>
             <form onSubmit={handleSubmit(onSubmit)}>
                 <VStack gap={'4'}>
-                    <Heading level={'2'} size={'medium'}>
-                        Ny brevmottaker
-                    </Heading>
-                    <MottakerFelt
-                        personopplysninger={personopplysninger}
-                        brevmottakere={brevmottakere}
-                        erLesevisning={erLesevisning}
-                    />
-                    <LandFelt
-                        personopplysninger={personopplysninger}
-                        erLesevisning={erLesevisning}
-                    />
-                    {erEøsLandkode(landkode) && (
-                        <>
-                            <NavnFelt erLesevisning={erLesevisning} />
-                            <Adresselinje1Felt erLesevisning={erLesevisning} />
-                            <Adresselinje2Felt erLesevisning={erLesevisning} />
-                            {!erUtenlandskEøsLandkode(landkode) && (
-                                <>
-                                    <PostnummerFelt erLesevisning={erLesevisning} />
-                                    <PoststedFelt erLesevisning={erLesevisning} />
-                                </>
-                            )}
-                        </>
-                    )}
-                    {visSubmitError && (
+                    <Fieldset legend={'Ny brevmottaker'} hideLegend={true}>
+                        <MottakerFelt
+                            personopplysninger={personopplysninger}
+                            brevmottakere={brevmottakere}
+                            erLesevisning={!behandlingErRedigerbar}
+                        />
+                        <LandFelt
+                            personopplysninger={personopplysninger}
+                            erLesevisning={!behandlingErRedigerbar}
+                        />
+                        {erEøsLandkode(landkode) && (
+                            <>
+                                <NavnFelt erLesevisning={!behandlingErRedigerbar} />
+                                <Adresselinje1Felt erLesevisning={!behandlingErRedigerbar} />
+                                <Adresselinje2Felt erLesevisning={!behandlingErRedigerbar} />
+                                {!erUtenlandskEøsLandkode(landkode) && (
+                                    <>
+                                        <PostnummerFelt erLesevisning={!behandlingErRedigerbar} />
+                                        <PoststedFelt erLesevisning={!behandlingErRedigerbar} />
+                                    </>
+                                )}
+                            </>
+                        )}
+                    </Fieldset>
+                    {onSubmitServerError && (
                         <Alert
                             variant={'error'}
                             closeButton={true}
-                            onClose={() => setVisSubmitError(false)}
+                            onClose={() => clearErrors(CustomFormErrors.onSubmitServerError.id)}
                         >
-                            Noe gikk galt ved lagring av brevmottaker.
+                            {onSubmitServerError}
                         </Alert>
                     )}
                     <HStack gap={'4'}>
-                        {!erLesevisning && (
+                        {behandlingErRedigerbar && (
                             <Button variant={'primary'} type={'submit'} loading={isSubmitting}>
                                 Legg til brevmottaker
                             </Button>
                         )}
-                        {!erLesevisning && brevmottakere.length > 0 && !isSubmitting && (
+                        {behandlingErRedigerbar && brevmottakere.length > 0 && !isSubmitting && (
                             <Button variant={'tertiary'} onClick={lukkForm}>
                                 Avbryt legg til brevmottaker
                             </Button>
