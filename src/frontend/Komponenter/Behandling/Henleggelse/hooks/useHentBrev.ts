@@ -1,5 +1,5 @@
-import { RessursFeilet, RessursStatus, RessursSuksess } from '../../../App/typer/ressurs';
-import { useApp } from '../../../App/context/AppContext';
+import { RessursFeilet, RessursStatus, RessursSuksess } from '../../../../App/typer/ressurs';
+import { useApp } from '../../../../App/context/AppContext';
 
 export function useHentBrev() {
     const { axiosRequest } = useApp();
@@ -17,5 +17,5 @@ export function useHentBrev() {
         });
     }
 
-    return { hentBrev };
+    return hentBrev;
 }

@@ -34,7 +34,6 @@ export function LandFelt({ personopplysninger, erLesevisning = false }: Props) {
                 }
                 return undefined;
             },
-            deps: [BrevmottakerFeltnavn.POSTNUMMER, BrevmottakerFeltnavn.POSTSTED],
         },
     });
 
