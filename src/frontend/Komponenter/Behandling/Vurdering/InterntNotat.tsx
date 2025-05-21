@@ -20,13 +20,25 @@ const KnappWrapper = styled.div`
 
 export const InterntNotat: React.FC<{
     behandlingErRedigerbar: boolean;
+    vurderingEndret: boolean;
+    settVurderingEndret: (value: React.SetStateAction<boolean>) => void;
     tekst?: string;
     settIkkePersistertKomponent: (verdi: string) => void;
     settOppdatertVurdering: (vurdering: React.SetStateAction<IVurdering>) => void;
-}> = ({ behandlingErRedigerbar, tekst, settIkkePersistertKomponent, settOppdatertVurdering }) => {
+}> = ({
+    behandlingErRedigerbar,
+    vurderingEndret,
+    settVurderingEndret,
+    tekst,
+    settIkkePersistertKomponent,
+    settOppdatertVurdering,
+}) => {
     const [skalViseFritekstFelt, settSkalViseFritekstFelt] = useState<boolean>(harVerdi(tekst));
 
     const oppdaterTekst = (tekst?: string) => {
+        if (!vurderingEndret) {
+            settVurderingEndret(true);
+        }
         settOppdatertVurdering((prevState) => ({
             ...prevState,
             interntNotat: tekst,
