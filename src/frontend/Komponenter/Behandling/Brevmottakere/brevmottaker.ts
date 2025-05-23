@@ -19,6 +19,10 @@ export interface BrevmottakerPersonMedIdent extends BrevmottakerPerson {
     personIdent: string;
 }
 
+export function mapTilMottakerRolle(brevmottakere: BrevmottakerPerson[]) {
+    return brevmottakere.map((brevmottaker) => brevmottaker.mottakerRolle);
+}
+
 export function erBrevmottakerPersonMedIdent(
     brevmottakerPerson: BrevmottakerPerson
 ): brevmottakerPerson is BrevmottakerPersonMedIdent {
@@ -93,31 +97,4 @@ export function erEnBrevmottakerPersonUtenIdentDødsbo(
     return brevmottakere.some(
         (brevmottaker) => brevmottaker.mottakerRolle === MottakerRolle.DØDSBO
     );
-}
-
-export function utledGyldigeMottakerRolleForBrevmottakerPersonUtenIdent(
-    brevmottakere: BrevmottakerPersonUtenIdent[]
-): MottakerRolle[] {
-    const valgteBrevmottakerRoller = brevmottakere.map(
-        (brevmottaker) => brevmottaker.mottakerRolle
-    );
-
-    if (valgteBrevmottakerRoller.includes(MottakerRolle.DØDSBO)) {
-        return [];
-    }
-
-    if (valgteBrevmottakerRoller.includes(MottakerRolle.BRUKER_MED_UTENLANDSK_ADRESSE)) {
-        return [MottakerRolle.VERGE, MottakerRolle.FULLMAKT];
-    }
-
-    if (
-        valgteBrevmottakerRoller.length > 0 &&
-        !valgteBrevmottakerRoller.includes(MottakerRolle.BRUKER_MED_UTENLANDSK_ADRESSE)
-    ) {
-        return [MottakerRolle.BRUKER_MED_UTENLANDSK_ADRESSE];
-    }
-
-    return Object.values(MottakerRolle)
-        .filter((mottakerRolle) => mottakerRolle !== MottakerRolle.BRUKER)
-        .filter((mottakerRolle) => !valgteBrevmottakerRoller.includes(mottakerRolle));
 }
