@@ -18,7 +18,7 @@ export function lagHenleggBehandlingDto(
     }
     return {
         årsak: henlagtÅrsak,
-        skalSendeHenleggelsesbrev: sendBrevOmTrukketKlage ?? false,
-        nyeBrevmottakere: nyeBrevmottakere,
+        skalSendeHenleggelsesbrev: !!sendBrevOmTrukketKlage,
+        nyeBrevmottakere: sendBrevOmTrukketKlage ? nyeBrevmottakere : [],
     };
 }
