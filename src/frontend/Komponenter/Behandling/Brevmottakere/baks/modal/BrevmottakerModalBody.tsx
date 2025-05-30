@@ -3,14 +3,20 @@ import React, { useState } from 'react';
 import { PlusCircleIcon } from '@navikt/aksel-icons';
 import { Alert, Button, Heading, Modal, VStack } from '@navikt/ds-react';
 
-import { BrevmottakerForm } from './form/BrevmottakerForm';
+import {
+    BrevmottakerForm,
+    BrevmottakerFormValues,
+    CustomFormErrors,
+    useBrevmottakerForm,
+} from './form/BrevmottakerForm';
 import { IPersonopplysninger } from '../../../../../App/typer/personopplysninger';
 import { BrevmottakerDetaljer } from './BrevmottakerDetaljer';
 import {
     BrevmottakerPersonUtenIdent,
     erEnBrevmottakerPersonUtenIdentDødsbo,
+    mapTilMottakerRolle,
 } from '../../brevmottaker';
-import { NyBrevmottaker } from '../../nyBrevmottaker';
+import { lagNyBrevmottakerPersonUtenIdent, NyBrevmottaker } from '../../nyBrevmottaker';
 import { SlettbarBrevmottaker } from '../../slettbarBrevmottaker';
 
 type Props = {
@@ -26,7 +32,19 @@ export function BrevmottakerModalBody({
     opprettBrevmottaker,
     slettBrevmottaker,
 }: Props) {
+    const form = useBrevmottakerForm();
+
     const [visForm, settVisForm] = useState(brevmottakere.length === 0);
+
+    async function onSubmitBrevmottakerForm(
+        brevmottakerFormValues: BrevmottakerFormValues
+    ): Promise<Awaited<void>> {
+        return opprettBrevmottaker(lagNyBrevmottakerPersonUtenIdent(brevmottakerFormValues))
+            .then(() => settVisForm(false))
+            .catch((error: Error) =>
+                form.setError(CustomFormErrors.onSubmitServerError.id, { message: error.message })
+            );
+    }
 
     async function slettBrevmottakerOgVisFormHvisNødvendig(
         slettbarBrevmottaker: SlettbarBrevmottaker
@@ -62,10 +80,12 @@ export function BrevmottakerModalBody({
                     <>
                         <Heading size={'medium'}>Ny brevmottaker</Heading>
                         <BrevmottakerForm
+                            form={form}
+                            onSubmit={onSubmitBrevmottakerForm}
+                            onCancel={() => settVisForm(false)}
+                            isCancellable={brevmottakere.length > 0}
                             personopplysninger={personopplysninger}
-                            brevmottakere={brevmottakere}
-                            opprettBrevmottaker={opprettBrevmottaker}
-                            lukkForm={() => settVisForm(false)}
+                            valgteMottakerRoller={mapTilMottakerRolle(brevmottakere)}
                         />
                     </>
                 )}
