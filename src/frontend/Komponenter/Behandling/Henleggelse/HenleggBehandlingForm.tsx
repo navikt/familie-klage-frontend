@@ -12,6 +12,7 @@ import { FieldErrors, FormProvider, SubmitHandler, UseFormReturn } from 'react-h
 import { useOnUnmount } from '../../../App/hooks/useOnUnmount';
 import { useOnFormSubmitSuccessful } from '../../../App/hooks/useOnFormSubmitSuccessful';
 import { useConfirmBrowserRefresh } from '../../../App/hooks/useConfirmBrowserRefresh';
+import { Fagsystem } from '../../../App/typer/fagsak';
 
 export const HENLEGG_BEHANDLING_FORM_ID = 'henlegg_behandling_form';
 
@@ -41,10 +42,11 @@ export enum HenleggBehandlingFeltnavn {
 interface Props {
     form: UseFormReturn<HenleggBehandlingFormValues>;
     onSubmit: SubmitHandler<HenleggBehandlingFormValues>;
+    fagsystem: Fagsystem;
     personopplysninger: IPersonopplysninger;
 }
 
-export function HenleggBehandlingForm({ form, onSubmit, personopplysninger }: Props) {
+export function HenleggBehandlingForm({ form, onSubmit, fagsystem, personopplysninger }: Props) {
     const {
         control,
         handleSubmit,
@@ -64,7 +66,8 @@ export function HenleggBehandlingForm({ form, onSubmit, personopplysninger }: Pr
     const harVergemål = harPersonopplysningerVergemål(personopplysninger);
 
     const erMuligÅSendeBrev =
-        !harVergemål && !erTilknyttetFullmakt && erHenlagtÅrsakTrukketTilbakeValgt;
+        (fagsystem !== Fagsystem.EF || (!harVergemål && !erTilknyttetFullmakt)) &&
+        erHenlagtÅrsakTrukketTilbakeValgt;
 
     return (
         <FormProvider {...form}>

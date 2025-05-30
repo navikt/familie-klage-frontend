@@ -16,12 +16,12 @@ export function SendManueltBrevAdvarsel({ personopplysninger }: Props) {
 
     return (
         <>
-            {!harVergemål && (
+            {harVergemål && (
                 <Alert variant={'warning'}>
                     Verge registrert på bruker. Brev om trukket klage må sendes manuelt.
                 </Alert>
             )}
-            {!erTilknyttetFullmakt && (
+            {erTilknyttetFullmakt && (
                 <Alert variant={'warning'}>
                     Fullmakt registrert på bruker. Brev om trukket klage må sendes manuelt.
                 </Alert>

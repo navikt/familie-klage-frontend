@@ -116,6 +116,7 @@ export function HenleggBehandlingModalInnhold({ behandling, personopplysninger }
                                 <HenleggBehandlingForm
                                     form={henleggBehandlingForm}
                                     onSubmit={submitHenleggBehandlingForm}
+                                    fagsystem={behandling.fagsystem}
                                     personopplysninger={personopplysninger}
                                 />
                                 {skalViseBrevmottakereBox && (
