@@ -1,5 +1,5 @@
-import React, { useEffect } from 'react';
-import { FieldErrors, FormProvider, useForm } from 'react-hook-form';
+import React from 'react';
+import { FieldErrors, FormProvider, SubmitHandler, useForm, UseFormReturn } from 'react-hook-form';
 import { LandFelt } from './felt/LandFelt';
 import { MottakerFelt } from './felt/MottakerFelt';
 import { NavnFelt } from './felt/NavnFelt';
@@ -7,18 +7,14 @@ import { Adresselinje1Felt } from './felt/Adresselinje1Felt';
 import { PostnummerFelt } from './felt/PostnummerFelt';
 import { PoststedFelt } from './felt/PoststedFelt';
 import { Alert, Button, Fieldset, HStack, VStack } from '@navikt/ds-react';
-import {
-    BlankEøsLandkode,
-    erEøsLandkode,
-    erUtenlandskEøsLandkode,
-    EøsLandkode,
-} from '../../../../../../Felles/Landvelger/landkode';
+import { BlankEøsLandkode, EøsLandkode } from '../../../../../../Felles/Landvelger/landkode';
 import { IPersonopplysninger } from '../../../../../../App/typer/personopplysninger';
 import { BlankMottakerRolle, MottakerRolle } from '../../../mottakerRolle';
-import { BrevmottakerPersonUtenIdent } from '../../../brevmottaker';
-import { lagNyBrevmottakerPersonUtenIdent, NyBrevmottaker } from '../../../nyBrevmottaker';
 import { Adresselinje2Felt } from './felt/Adresselinje2Felt';
 import { useBehandling } from '../../../../../../App/context/BehandlingContext';
+import { useOnUnmount } from '../../../../../../App/hooks/useOnUnmount';
+import { useOnFormSubmitSuccessful } from '../../../../../../App/hooks/useOnFormSubmitSuccessful';
+import { useConfirmBrowserRefresh } from '../../../../../../App/hooks/useConfirmBrowserRefresh';
 
 export const CustomFormErrors: Record<
     'onSubmitServerError',
@@ -53,22 +49,9 @@ export interface BrevmottakerFormValues {
     [BrevmottakerFeltnavn.POSTSTED]: string;
 }
 
-interface Props {
-    personopplysninger: IPersonopplysninger;
-    brevmottakere: BrevmottakerPersonUtenIdent[];
-    opprettBrevmottaker: (nyBrevmottaker: NyBrevmottaker) => Promise<Awaited<void>>;
-    lukkForm: () => void;
-}
-
-export function BrevmottakerForm({
-    personopplysninger,
-    brevmottakere,
-    opprettBrevmottaker,
-    lukkForm,
-}: Props) {
-    const { behandlingErRedigerbar } = useBehandling();
-
-    const form = useForm<BrevmottakerFormValues>({
+export function useBrevmottakerForm() {
+    return useForm<BrevmottakerFormValues>({
+        shouldUnregister: true,
         defaultValues: {
             [BrevmottakerFeltnavn.MOTTAKERROLLE]: '',
             [BrevmottakerFeltnavn.LANDKODE]: EøsLandkode.NO,
@@ -79,30 +62,39 @@ export function BrevmottakerForm({
             [BrevmottakerFeltnavn.POSTSTED]: '',
         },
     });
+}
+
+interface Props {
+    form: UseFormReturn<BrevmottakerFormValues>;
+    onSubmit: SubmitHandler<BrevmottakerFormValues>;
+    onCancel: () => void;
+    isCancellable?: boolean;
+    personopplysninger: IPersonopplysninger;
+    valgteMottakerRoller: MottakerRolle[];
+}
+
+export function BrevmottakerForm({
+    form,
+    onSubmit,
+    onCancel,
+    isCancellable = true,
+    personopplysninger,
+    valgteMottakerRoller,
+}: Props) {
+    const { behandlingErRedigerbar } = useBehandling();
 
     const {
+        control,
         handleSubmit,
-        formState: { isSubmitting, isSubmitSuccessful, errors },
+        formState: { isDirty, isSubmitting, errors },
         watch,
-        setError,
         clearErrors,
         reset,
     } = form;
 
-    useEffect(() => {
-        // It's recommended to reset inside useEffect after submission, see https://react-hook-form.com/docs/useform/reset.
-        reset();
-    }, [reset, isSubmitSuccessful]);
-
-    async function onSubmit(
-        brevmottakerFormValues: BrevmottakerFormValues
-    ): Promise<Awaited<void>> {
-        return opprettBrevmottaker(lagNyBrevmottakerPersonUtenIdent(brevmottakerFormValues))
-            .then(() => lukkForm())
-            .catch((error: Error) =>
-                setError(CustomFormErrors.onSubmitServerError.id, { message: error.message })
-            );
-    }
+    useOnUnmount(() => reset());
+    useOnFormSubmitSuccessful(control, () => reset());
+    useConfirmBrowserRefresh({ enabled: isDirty });
 
     const landkode = watch(BrevmottakerFeltnavn.LANDKODE);
     const onSubmitServerError = CustomFormErrors.onSubmitServerError.lookup(errors);
@@ -114,24 +106,20 @@ export function BrevmottakerForm({
                     <Fieldset legend={'Ny brevmottaker'} hideLegend={true}>
                         <MottakerFelt
                             personopplysninger={personopplysninger}
-                            brevmottakere={brevmottakere}
+                            valgteMottakerRoller={valgteMottakerRoller}
                             erLesevisning={!behandlingErRedigerbar}
                         />
                         <LandFelt
                             personopplysninger={personopplysninger}
                             erLesevisning={!behandlingErRedigerbar}
                         />
-                        {erEøsLandkode(landkode) && (
+                        <NavnFelt erLesevisning={!behandlingErRedigerbar} />
+                        <Adresselinje1Felt erLesevisning={!behandlingErRedigerbar} />
+                        <Adresselinje2Felt erLesevisning={!behandlingErRedigerbar} />
+                        {landkode === EøsLandkode.NO && (
                             <>
-                                <NavnFelt erLesevisning={!behandlingErRedigerbar} />
-                                <Adresselinje1Felt erLesevisning={!behandlingErRedigerbar} />
-                                <Adresselinje2Felt erLesevisning={!behandlingErRedigerbar} />
-                                {!erUtenlandskEøsLandkode(landkode) && (
-                                    <>
-                                        <PostnummerFelt erLesevisning={!behandlingErRedigerbar} />
-                                        <PoststedFelt erLesevisning={!behandlingErRedigerbar} />
-                                    </>
-                                )}
+                                <PostnummerFelt erLesevisning={!behandlingErRedigerbar} />
+                                <PoststedFelt erLesevisning={!behandlingErRedigerbar} />
                             </>
                         )}
                     </Fieldset>
@@ -150,9 +138,9 @@ export function BrevmottakerForm({
                                 Legg til brevmottaker
                             </Button>
                         )}
-                        {behandlingErRedigerbar && brevmottakere.length > 0 && !isSubmitting && (
-                            <Button variant={'tertiary'} onClick={lukkForm}>
-                                Avbryt legg til brevmottaker
+                        {behandlingErRedigerbar && isCancellable && !isSubmitting && (
+                            <Button variant={'tertiary'} type={'button'} onClick={onCancel}>
+                                Avbryt
                             </Button>
                         )}
                     </HStack>

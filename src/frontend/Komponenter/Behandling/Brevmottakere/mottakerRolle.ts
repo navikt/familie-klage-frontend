@@ -66,3 +66,34 @@ export function finnNyttBrevmottakernavnHvisNødvendigVedEndringAvMottakerRolle(
     }
     return undefined;
 }
+
+export function utledGyldigeMottakerRollerBasertPåAlleredeValgteMottakerRoller(
+    valgteMottakerRoller: MottakerRolle[]
+): MottakerRolle[] {
+    const relevanteValgteMottakerRoller = valgteMottakerRoller.filter(
+        (vmr) => vmr !== MottakerRolle.BRUKER
+    );
+
+    if (relevanteValgteMottakerRoller.length === 2) {
+        return [];
+    }
+
+    if (relevanteValgteMottakerRoller.includes(MottakerRolle.DØDSBO)) {
+        return [];
+    }
+
+    if (relevanteValgteMottakerRoller.includes(MottakerRolle.BRUKER_MED_UTENLANDSK_ADRESSE)) {
+        return [MottakerRolle.VERGE, MottakerRolle.FULLMAKT];
+    }
+
+    if (
+        relevanteValgteMottakerRoller.length > 0 &&
+        !relevanteValgteMottakerRoller.includes(MottakerRolle.BRUKER_MED_UTENLANDSK_ADRESSE)
+    ) {
+        return [MottakerRolle.BRUKER_MED_UTENLANDSK_ADRESSE];
+    }
+
+    return Object.values(MottakerRolle)
+        .filter((mottakerRolle) => mottakerRolle !== MottakerRolle.BRUKER)
+        .filter((mottakerRolle) => !relevanteValgteMottakerRoller.includes(mottakerRolle));
+}
