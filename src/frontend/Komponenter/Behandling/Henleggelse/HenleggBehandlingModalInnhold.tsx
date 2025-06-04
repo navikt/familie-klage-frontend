@@ -1,5 +1,5 @@
 import React from 'react';
-import { Alert, Box, Button, HStack, Modal, Skeleton, VStack } from '@navikt/ds-react';
+import { Alert, Box, Button, Heading, HStack, Modal, Skeleton, VStack } from '@navikt/ds-react';
 import { IPersonopplysninger } from '../../../App/typer/personopplysninger';
 import styled from 'styled-components';
 import {
@@ -131,13 +131,24 @@ export function HenleggBehandlingModalInnhold({ behandling, personopplysninger }
                             <>
                                 <Divider />
                                 <Box as={'div'} width={'45%'}>
-                                    <BrevmottakerForm
-                                        form={brevmottakerForm}
-                                        onSubmit={submitBrevmottakerForm}
-                                        onCancel={skjulBrevmottakerForm}
-                                        personopplysninger={personopplysninger}
-                                        valgteMottakerRoller={mapTilMottakerRolle(brevmottakere)}
-                                    />
+                                    <VStack gap={'4'}>
+                                        <Heading level={'2'} size={'small'}>
+                                            Ny brevmottaker
+                                        </Heading>
+                                        <Alert variant={'info'}>
+                                            Legg til en brevmottaker eller lukk skjemaet for å
+                                            henlegge behandlingen.
+                                        </Alert>
+                                        <BrevmottakerForm
+                                            form={brevmottakerForm}
+                                            onSubmit={submitBrevmottakerForm}
+                                            onCancel={skjulBrevmottakerForm}
+                                            personopplysninger={personopplysninger}
+                                            valgteMottakerRoller={mapTilMottakerRolle(
+                                                brevmottakere
+                                            )}
+                                        />
+                                    </VStack>
                                 </Box>
                             </>
                         )}
@@ -162,7 +173,9 @@ export function HenleggBehandlingModalInnhold({ behandling, personopplysninger }
                     form={HENLEGG_BEHANDLING_FORM_ID}
                     variant={'primary'}
                     type={'submit'}
-                    disabled={henleggBehandlingForm.formState.isSubmitting}
+                    disabled={
+                        henleggBehandlingForm.formState.isSubmitting || erBrevmottakerFormSynlig
+                    }
                     loading={henleggBehandlingForm.formState.isSubmitting}
                 >
                     Henlegg
