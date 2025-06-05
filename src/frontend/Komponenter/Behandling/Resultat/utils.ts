@@ -29,14 +29,6 @@ export const fjernDuplikatStegFraHistorikk = (steg: IBehandlingshistorikk[]) => 
 };
 
 export const utledTekstForEksternutfall = (behandling: Behandling) => {
-    const erFeilregistrert = behandling.klageinstansResultat.some(
-        (resultat) => resultat.type === KlageinstansEventType.BEHANDLING_FEILREGISTRERT
-    );
-
-    if (erFeilregistrert) {
-        return 'Behandling feilregistrert';
-    }
-
     const klageResultatMedUtfall = behandling.klageinstansResultat.filter(
         (resultat) =>
             resultat.utfall && resultat.type == KlageinstansEventType.KLAGEBEHANDLING_AVSLUTTET
@@ -46,6 +38,14 @@ export const utledTekstForEksternutfall = (behandling: Behandling) => {
         if (utfall.utfall) {
             return utfallTilTekst[utfall.utfall];
         }
+    }
+
+    const erFeilregistrert = behandling.klageinstansResultat.some(
+        (resultat) => resultat.type === KlageinstansEventType.BEHANDLING_FEILREGISTRERT
+    );
+
+    if (erFeilregistrert) {
+        return 'Behandling feilregistrert';
     }
 };
 
