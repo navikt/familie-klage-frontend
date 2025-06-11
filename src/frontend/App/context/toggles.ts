@@ -9,6 +9,5 @@ export enum ToggleName {
     // Release-toggles
     leggTilBrevmottakerBaks = 'familie-klage.legg-til-brevmottaker-baks',
     kanMellomlagreVurdering = 'familie-klage.kan-mellomlagre-vurdering',
-    skalKunneEndreBehandlendeEnhetBaks = 'familie-klage.skal-kunne-endre-behandlende-enhet-baks',
     brukNyHenleggBehandlingModal = 'familie-klage.bruk-ny-henlegg-behandling-modal',
 }
