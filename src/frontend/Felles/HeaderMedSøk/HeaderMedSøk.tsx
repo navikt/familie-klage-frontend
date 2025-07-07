@@ -82,6 +82,7 @@ export const HeaderMedSøk: React.FunctionComponent<IProps> = ({ innloggetSaksbe
                 tittel="NAV Familie - klage"
                 brukerinfo={{
                     navn: innloggetSaksbehandler?.displayName || 'Ukjent',
+                    enhet: innloggetSaksbehandler?.enhet,
                 }}
                 brukerPopoverItems={[{ name: 'Logg ut', href: `${window.origin}/auth/logout` }]}
                 eksterneLenker={eksterneLenker}
