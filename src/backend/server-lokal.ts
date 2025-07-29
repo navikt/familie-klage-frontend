@@ -20,12 +20,14 @@ backend(sessionConfig, prometheusTellere).then((appConfig: IApp) => {
 
     if (process.env.NODE_ENV === 'development') {
         const compiler = webpack(config);
+        // @ts-expect-error inkompatible typer - blir antageligvis utbedret ved en senere oppdatering av avhengigheter
         middleware = webpackDevMiddleware(compiler, {
             publicPath: config.output.publicPath,
             writeToDisk: true,
         });
 
         appConfig.app.use(middleware);
+        // @ts-expect-error inkompatible typer - blir antageligvis utbedret ved en senere oppdatering av avhengigheter
         appConfig.app.use(webpackHotMiddleware(compiler));
     } else {
         throw Error('Kan ikke kjøre lokal-versjon av server med produksjonsconfig');
