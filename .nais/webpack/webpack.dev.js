@@ -1,7 +1,7 @@
 import path from 'path';
 import webpack from 'webpack';
 import { mergeWithCustomize } from 'webpack-merge';
-import common from './webpack.common';
+import common from './webpack.common.js';
 import CopyPlugin from 'copy-webpack-plugin';
 import ReactRefreshWebpackPlugin from '@pmmmwh/react-refresh-webpack-plugin';
 
@@ -30,9 +30,25 @@ const config = mergeWithCustomize({
                 },
             },
             {
-                test: /\.(css)$/,
+                test: /\.module\.css$/,
                 use: [
-                    { loader: 'style-loader' },
+                    'style-loader',
+                    {
+                        loader: 'css-loader',
+                        options: {
+                            modules: {
+                                namedExport: false,
+                            },
+                            importLoaders: 1,
+                        },
+                    },
+                ],
+            },
+            {
+                test: /\.css$/,
+                exclude: /\.module\.css$/,
+                use: [
+                    'style-loader',
                     {
                         loader: 'css-loader',
                         options: {

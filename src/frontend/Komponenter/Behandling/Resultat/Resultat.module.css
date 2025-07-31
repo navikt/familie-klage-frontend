@@ -1,0 +1,13 @@
+.headingContainer {
+    margin: 2rem 5rem 0 5rem;
+}
+
+.tidslinjeContainer {
+    @media (max-width: 1449px) {
+        display: flex;
+        justify-content: center;
+    }
+    @media (min-width: 1450px) {
+        margin-top: 12rem;
+    }
+}
