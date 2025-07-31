@@ -21,7 +21,23 @@ const config = mergeWithCustomize({
     module: {
         rules: [
             {
-                test: /\.(css)$/,
+                test: /\.module\.css$/,
+                use: [
+                    'style-loader',
+                    {
+                        loader: 'css-loader',
+                        options: {
+                            modules: {
+                                namedExport: false,
+                            },
+                            importLoaders: 1,
+                        },
+                    },
+                ],
+            },
+            {
+                test: /\.css$/,
+                exclude: /\.module\.css$/,
                 use: [
                     MiniCssExtractPlugin.loader,
                     {
