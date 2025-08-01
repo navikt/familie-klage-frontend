@@ -16,7 +16,7 @@ export const VedtakSelect: React.FC<Props> = ({ settVedtak, valgtVedtak }) => {
     const { settVurderingEndret } = useBehandling();
 
     const oppdaterVedtak = (vedtak: string) => {
-        settIkkePersistertKomponent('vedtakSelect');
+        settIkkePersistertKomponent('vedtak-select');
         settVedtak(
             (prevState: IVurdering) =>
                 ({

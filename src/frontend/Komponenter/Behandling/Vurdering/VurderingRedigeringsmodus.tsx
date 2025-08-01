@@ -5,7 +5,7 @@ import styled from 'styled-components';
 import { Alert, Button } from '@navikt/ds-react';
 import { VedtakSelect } from './VedtakSelect';
 import { ÅrsakSelect } from './ÅrsakSelect';
-import { HjemmelVelger } from './HjemmelVelger';
+import { HjemmelSelect } from './HjemmelSelect';
 import { IVurdering, VedtakValg } from './vurderingValg';
 import { useNavigate } from 'react-router-dom';
 import { useBehandling } from '../../../App/context/BehandlingContext';
@@ -68,15 +68,12 @@ const erAlleFelterUtfylt = (vurderingData: IVurdering, fagsystem: Fagsystem): bo
     }
 };
 
-interface VurderingRedigeringsmodusProps {
+interface Props {
     behandling: Behandling;
     vurdering: IVurdering | null;
 }
 
-export const VurderingRedigeringsmodus = ({
-    behandling,
-    vurdering,
-}: VurderingRedigeringsmodusProps) => {
+export const VurderingRedigeringsmodus: React.FC<Props> = ({ behandling, vurdering }) => {
     const [senderInn, settSenderInn] = useState<boolean>(false);
 
     const navigate = useNavigate();
@@ -170,10 +167,9 @@ export const VurderingRedigeringsmodus = ({
             )}
             {oppdatertVurdering.vedtak == VedtakValg.OPPRETTHOLD_VEDTAK && (
                 <>
-                    <HjemmelVelger
+                    <HjemmelSelect
                         settHjemmel={settOppdatertVurdering}
-                        hjemmelValgt={oppdatertVurdering.hjemmel}
-                        endring={settIkkePersistertKomponent}
+                        valgtHjemmel={oppdatertVurdering.hjemmel}
                     />
                     <InnstillingTilNavKlageinstans
                         behandling={behandling}

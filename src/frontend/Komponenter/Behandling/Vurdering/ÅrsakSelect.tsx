@@ -22,7 +22,7 @@ export const ÅrsakSelect: React.FC<Props> = ({ settÅrsak, årsakValgt, fagsyst
     });
 
     const oppdaterÅrsak = (årsak: string) => {
-        settIkkePersistertKomponent('årsakSelect');
+        settIkkePersistertKomponent('årsak-select');
         settÅrsak(
             (prevState: IVurdering) =>
                 ({
