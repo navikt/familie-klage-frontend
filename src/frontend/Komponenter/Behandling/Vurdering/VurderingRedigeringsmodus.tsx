@@ -4,7 +4,7 @@ import { useApp } from '../../../App/context/AppContext';
 import styled from 'styled-components';
 import { Alert, Button } from '@navikt/ds-react';
 import { Vedtak } from './Vedtak';
-import { Årsak } from './Årsak';
+import { ÅrsakSelect } from './ÅrsakSelect';
 import { HjemmelVelger } from './HjemmelVelger';
 import { IVurdering, VedtakValg, vedtakValgTilTekst } from './vurderingValg';
 import { useNavigate } from 'react-router-dom';
@@ -147,11 +147,10 @@ export const VurderingRedigeringsmodus = ({
             />
             {oppdatertVurdering.vedtak == VedtakValg.OMGJØR_VEDTAK && (
                 <>
-                    <Årsak
+                    <ÅrsakSelect
                         settÅrsak={settOppdatertVurdering}
                         årsakValgt={oppdatertVurdering.årsak}
                         fagsystem={behandling.fagsystem}
-                        endring={settIkkePersistertKomponent}
                     />
                     <FritekstFeltWrapper>
                         <EnsligTextArea
