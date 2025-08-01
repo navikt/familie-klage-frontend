@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { useState } from 'react';
 import { useApp } from '../../../App/context/AppContext';
-import styled from 'styled-components';
+import styles from './VurderingRedigeringsmodus.module.css';
 import { Alert, Button } from '@navikt/ds-react';
 import { VedtakSelect } from './VedtakSelect';
 import { ÅrsakSelect } from './ÅrsakSelect';
@@ -16,22 +16,6 @@ import { useHentVurderinger } from '../../../App/hooks/useHentVurderinger';
 import { Behandling, Fagsystem } from '../../../App/typer/fagsak';
 import { InnstillingTilNavKlageinstans } from './InnstillingTilNavKlageinstans/InnstillingTilNavKlageinstans';
 import { Ressurs, RessursStatus } from '../../../App/typer/ressurs';
-
-const FritekstFeltWrapper = styled.div`
-    margin: 2rem 4rem 2rem 4rem;
-`;
-
-const AlertStyled = styled(Alert)`
-    margin: 2rem 4rem 2rem 4rem;
-    width: 25rem;
-`;
-
-const VurderingKnapper = styled.div`
-    display: flex;
-    flex-direction: row;
-    justify-content: space-between;
-    margin: 0 4rem;
-`;
 
 const erAlleFelterUtfylt = (vurderingData: IVurdering, fagsystem: Fagsystem): boolean => {
     const {
@@ -147,7 +131,7 @@ export const VurderingRedigeringsmodus: React.FC<Props> = ({ behandling, vurderi
                         årsakValgt={oppdatertVurdering.årsak}
                         fagsystem={behandling.fagsystem}
                     />
-                    <FritekstFeltWrapper>
+                    <div className={styles.textAreaWrapper}>
                         <EnsligTextArea
                             label="Begrunnelse for omgjøring (internt notat)"
                             value={oppdatertVurdering.begrunnelseOmgjøring}
@@ -162,7 +146,7 @@ export const VurderingRedigeringsmodus: React.FC<Props> = ({ behandling, vurderi
                             size="medium"
                             readOnly={false}
                         />
-                    </FritekstFeltWrapper>
+                    </div>
                 </>
             )}
             {oppdatertVurdering.vedtak == VedtakValg.OPPRETTHOLD_VEDTAK && (
@@ -188,7 +172,7 @@ export const VurderingRedigeringsmodus: React.FC<Props> = ({ behandling, vurderi
                     />
                 </>
             )}
-            <VurderingKnapper>
+            <div className={styles.buttonWrapper}>
                 {(vurderingEndret || melding?.type === 'error') && (
                     <Button
                         variant="primary"
@@ -208,11 +192,11 @@ export const VurderingRedigeringsmodus: React.FC<Props> = ({ behandling, vurderi
                         Fortsett
                     </Button>
                 )}
-            </VurderingKnapper>
+            </div>
             {melding && (
-                <AlertStyled variant={melding.type} size="medium">
+                <Alert className={styles.alert} variant={melding.type} size="medium">
                     {melding.tekst}
-                </AlertStyled>
+                </Alert>
             )}
         </>
     );
