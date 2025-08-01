@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { Dispatch, SetStateAction } from 'react';
 import { Select } from '@navikt/ds-react';
-import styles from './OmgjøringÅrsak.module.css';
+import styles from './ÅrsakSelect.module.css';
 import { IVurdering, ÅrsakOmgjøring, årsakValgTilTekst } from './vurderingValg';
 import { useBehandling } from '../../../App/context/BehandlingContext';
 import { Fagsystem } from '../../../App/typer/fagsak';

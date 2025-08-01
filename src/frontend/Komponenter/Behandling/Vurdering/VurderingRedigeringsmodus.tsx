@@ -3,10 +3,10 @@ import { useState } from 'react';
 import { useApp } from '../../../App/context/AppContext';
 import styled from 'styled-components';
 import { Alert, Button } from '@navikt/ds-react';
-import { Vedtak } from './Vedtak';
+import { VedtakSelect } from './VedtakSelect';
 import { ÅrsakSelect } from './ÅrsakSelect';
 import { HjemmelVelger } from './HjemmelVelger';
-import { IVurdering, VedtakValg, vedtakValgTilTekst } from './vurderingValg';
+import { IVurdering, VedtakValg } from './vurderingValg';
 import { useNavigate } from 'react-router-dom';
 import { useBehandling } from '../../../App/context/BehandlingContext';
 import { EnsligTextArea } from '../../../Felles/Input/EnsligTextArea';
@@ -139,11 +139,9 @@ export const VurderingRedigeringsmodus = ({
 
     return (
         <>
-            <Vedtak
+            <VedtakSelect
                 settVedtak={settOppdatertVurdering}
-                vedtakValgt={oppdatertVurdering.vedtak}
-                vedtakValgmuligheter={vedtakValgTilTekst}
-                endring={settIkkePersistertKomponent}
+                valgtVedtak={oppdatertVurdering.vedtak}
             />
             {oppdatertVurdering.vedtak == VedtakValg.OMGJØR_VEDTAK && (
                 <>
