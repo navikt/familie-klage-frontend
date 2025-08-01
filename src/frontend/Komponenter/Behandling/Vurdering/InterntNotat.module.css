@@ -1,0 +1,11 @@
+.buttonWrapper {
+    mad-width: 18rem;
+    display: flex;
+    justify-content: flex-end;
+    margin-right: 4rem;
+    margin-bottom: -1.75rem;
+}
+
+.textAreaWrapper {
+    margin: 0 4rem 2rem 4rem;
+}
