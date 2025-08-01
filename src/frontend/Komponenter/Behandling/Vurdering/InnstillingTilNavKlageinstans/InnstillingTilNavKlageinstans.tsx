@@ -14,79 +14,111 @@ interface Props {
     settVurderingEndret: (endret: boolean) => void;
 }
 
-export const InnstillingTilNavKlageinstans = ({
+export const InnstillingTilNavKlageinstans: React.FC<Props> = ({
     behandling,
     oppdatertVurdering,
     settIkkePersistertKomponent,
     settOppdatertVurdering,
     settVurderingEndret,
-}: Props) => {
-    return behandling.fagsystem === Fagsystem.EF ? (
-        <Box marginInline="16" marginBlock="8">
-            <EnsligTextArea
-                label="Innstilling til Nav Klageinstans (kommer med i brev til bruker)"
-                value={oppdatertVurdering.innstillingKlageinstans}
-                onChange={(e) => {
-                    settIkkePersistertKomponent(e.target.value);
-                    settOppdatertVurdering((tidligereTilstand) => ({
-                        ...tidligereTilstand,
-                        innstillingKlageinstans: e.target.value,
-                    }));
-                    settVurderingEndret(true);
-                }}
-                size="medium"
-                readOnly={false}
+}) => {
+    if (behandling.fagsystem === Fagsystem.EF) {
+        return (
+            <InnstillingEF
+                oppdatertVurdering={oppdatertVurdering}
+                settIkkePersistertKomponent={settIkkePersistertKomponent}
+                settOppdatertVurdering={settOppdatertVurdering}
+                settVurderingEndret={settVurderingEndret}
             />
-            <LesMerOmInnstilling />
-        </Box>
-    ) : (
-        <Box maxWidth="40rem" marginInline="16" marginBlock="8">
-            <Accordion size="small" headingSize="xsmall">
-                <Heading spacing size="medium" level="3">
-                    Innstilling til Nav Klageinstans (kommer med i brev til bruker)
-                </Heading>
-                <InnstillingTilNavKlageinstansAvsnitt
-                    tittel="Dokumentasjon og utredning"
-                    verdi={oppdatertVurdering.dokumentasjonOgUtredning}
-                    felt="dokumentasjonOgUtredning"
-                    settIkkePersistertKomponent={settIkkePersistertKomponent}
-                    settOppdatertVurdering={settOppdatertVurdering}
-                    settVurderingEndret={settVurderingEndret}
-                    defaultOpen
-                />
-                <InnstillingTilNavKlageinstansAvsnitt
-                    tittel="Spørsmålet i saken"
-                    verdi={oppdatertVurdering.spørsmåletISaken}
-                    felt="spørsmåletISaken"
-                    settIkkePersistertKomponent={settIkkePersistertKomponent}
-                    settOppdatertVurdering={settOppdatertVurdering}
-                    settVurderingEndret={settVurderingEndret}
-                />
-                <InnstillingTilNavKlageinstansAvsnitt
-                    tittel="Aktuelle rettskilder"
-                    verdi={oppdatertVurdering.aktuelleRettskilder}
-                    felt="aktuelleRettskilder"
-                    settIkkePersistertKomponent={settIkkePersistertKomponent}
-                    settOppdatertVurdering={settOppdatertVurdering}
-                    settVurderingEndret={settVurderingEndret}
-                />
-                <InnstillingTilNavKlageinstansAvsnitt
-                    tittel="Klagers anførsler"
-                    verdi={oppdatertVurdering.klagersAnførsler}
-                    felt="klagersAnførsler"
-                    settIkkePersistertKomponent={settIkkePersistertKomponent}
-                    settOppdatertVurdering={settOppdatertVurdering}
-                    settVurderingEndret={settVurderingEndret}
-                />
-                <InnstillingTilNavKlageinstansAvsnitt
-                    tittel="Vurdering av klagen"
-                    verdi={oppdatertVurdering.vurderingAvKlagen}
-                    felt="vurderingAvKlagen"
-                    settIkkePersistertKomponent={settIkkePersistertKomponent}
-                    settOppdatertVurdering={settOppdatertVurdering}
-                    settVurderingEndret={settVurderingEndret}
-                />
-            </Accordion>
-        </Box>
+        );
+    }
+
+    return (
+        <InnstillingBAKS
+            oppdatertVurdering={oppdatertVurdering}
+            settIkkePersistertKomponent={settIkkePersistertKomponent}
+            settOppdatertVurdering={settOppdatertVurdering}
+            settVurderingEndret={settVurderingEndret}
+        />
     );
 };
+
+const InnstillingEF: React.FC<Omit<Props, 'behandling'>> = ({
+    oppdatertVurdering,
+    settIkkePersistertKomponent,
+    settOppdatertVurdering,
+    settVurderingEndret,
+}) => (
+    <Box marginInline="16" marginBlock="8">
+        <EnsligTextArea
+            label="Innstilling til Nav Klageinstans (kommer med i brev til bruker)"
+            value={oppdatertVurdering.innstillingKlageinstans}
+            onChange={(e) => {
+                settIkkePersistertKomponent(e.target.value);
+                settOppdatertVurdering((tidligereTilstand) => ({
+                    ...tidligereTilstand,
+                    innstillingKlageinstans: e.target.value,
+                }));
+                settVurderingEndret(true);
+            }}
+            size="medium"
+            readOnly={false}
+        />
+        <LesMerOmInnstilling />
+    </Box>
+);
+
+const InnstillingBAKS: React.FC<Omit<Props, 'behandling'>> = ({
+    oppdatertVurdering,
+    settIkkePersistertKomponent,
+    settOppdatertVurdering,
+    settVurderingEndret,
+}) => (
+    <Box maxWidth="40rem" marginInline="16" marginBlock="8">
+        <Accordion size="small" headingSize="xsmall">
+            <Heading spacing size="medium" level="3">
+                Innstilling til Nav Klageinstans (kommer med i brev til bruker)
+            </Heading>
+            <InnstillingTilNavKlageinstansAvsnitt
+                tittel="Dokumentasjon og utredning"
+                verdi={oppdatertVurdering.dokumentasjonOgUtredning}
+                felt="dokumentasjonOgUtredning"
+                settIkkePersistertKomponent={settIkkePersistertKomponent}
+                settOppdatertVurdering={settOppdatertVurdering}
+                settVurderingEndret={settVurderingEndret}
+                defaultOpen
+            />
+            <InnstillingTilNavKlageinstansAvsnitt
+                tittel="Spørsmålet i saken"
+                verdi={oppdatertVurdering.spørsmåletISaken}
+                felt="spørsmåletISaken"
+                settIkkePersistertKomponent={settIkkePersistertKomponent}
+                settOppdatertVurdering={settOppdatertVurdering}
+                settVurderingEndret={settVurderingEndret}
+            />
+            <InnstillingTilNavKlageinstansAvsnitt
+                tittel="Aktuelle rettskilder"
+                verdi={oppdatertVurdering.aktuelleRettskilder}
+                felt="aktuelleRettskilder"
+                settIkkePersistertKomponent={settIkkePersistertKomponent}
+                settOppdatertVurdering={settOppdatertVurdering}
+                settVurderingEndret={settVurderingEndret}
+            />
+            <InnstillingTilNavKlageinstansAvsnitt
+                tittel="Klagers anførsler"
+                verdi={oppdatertVurdering.klagersAnførsler}
+                felt="klagersAnførsler"
+                settIkkePersistertKomponent={settIkkePersistertKomponent}
+                settOppdatertVurdering={settOppdatertVurdering}
+                settVurderingEndret={settVurderingEndret}
+            />
+            <InnstillingTilNavKlageinstansAvsnitt
+                tittel="Vurdering av klagen"
+                verdi={oppdatertVurdering.vurderingAvKlagen}
+                felt="vurderingAvKlagen"
+                settIkkePersistertKomponent={settIkkePersistertKomponent}
+                settOppdatertVurdering={settOppdatertVurdering}
+                settVurderingEndret={settVurderingEndret}
+            />
+        </Accordion>
+    </Box>
+);
