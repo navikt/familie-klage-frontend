@@ -1,15 +1,7 @@
-.textAreaWrapper {
-    margin: 2rem 4rem 2rem 4rem;
-}
-
 .alert {
-    margin: 2rem 4rem 2rem 4rem;
     width: 25rem;
 }
 
-.buttonWrapper {
-    display: flex;
-    flex-direction: row;
-    justify-content: space-between;
-    margin: 0 4rem;
+.aksjonsknapp {
+    width: fit-content;
 }

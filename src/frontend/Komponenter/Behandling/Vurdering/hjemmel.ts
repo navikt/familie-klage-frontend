@@ -1,6 +1,6 @@
 import { Fagsystem } from '../../../App/typer/fagsak';
 
-enum FolketrygdHjemmel {
+export enum FolketrygdHjemmel {
     FT_FEMTEN_TO = 'FT_FEMTEN_TO',
     FT_FEMTEN_TRE = 'FT_FEMTEN_TRE',
     FT_FEMTEN_FIRE = 'FT_FEMTEN_FIRE',

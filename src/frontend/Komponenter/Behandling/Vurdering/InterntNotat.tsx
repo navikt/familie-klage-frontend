@@ -52,24 +52,21 @@ export const InterntNotat: React.FC<{
 
     return (
         <>
-            <div className={styles.buttonWrapper}>
-                <Button
-                    variant={'tertiary'}
-                    icon={knappIkon}
-                    onClick={oppdaterSkalViseFritekstFelt}
-                >
-                    {knappTekst}
-                </Button>
-            </div>
+            <Button
+                variant={'tertiary'}
+                icon={knappIkon}
+                onClick={oppdaterSkalViseFritekstFelt}
+                className={styles.interntNotatButton}
+            >
+                {knappTekst}
+            </Button>
             {skalViseFritekstFelt && (
-                <div className={styles.textAreaWrapper}>
-                    <EnsligTextArea
-                        label={'Internt notat'}
-                        readOnly={!behandlingErRedigerbar}
-                        onChange={(e) => oppdaterTekst(e.target.value)}
-                        value={tekst}
-                    />
-                </div>
+                <EnsligTextArea
+                    label={'Internt notat'}
+                    readOnly={!behandlingErRedigerbar}
+                    onChange={(e) => oppdaterTekst(e.target.value)}
+                    value={tekst}
+                />
             )}
         </>
     );

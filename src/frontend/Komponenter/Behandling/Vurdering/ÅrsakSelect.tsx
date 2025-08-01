@@ -34,20 +34,19 @@ export const ÅrsakSelect: React.FC<Props> = ({ settÅrsak, årsakValgt, fagsyst
     };
 
     return (
-        <div className={styles.container}>
-            <Select
-                value={årsakValgt}
-                label="Årsak"
-                size="medium"
-                onChange={(e) => oppdaterÅrsak(e.target.value)}
-            >
-                <option value={''}>Velg</option>
-                {Object.values(omgjøringsårsaker).map((valg, index) => (
-                    <option value={valg} key={index}>
-                        {årsakValgTilTekst[valg]}
-                    </option>
-                ))}
-            </Select>
-        </div>
+        <Select
+            value={årsakValgt}
+            label="Årsak"
+            size="medium"
+            onChange={(e) => oppdaterÅrsak(e.target.value)}
+            className={styles.select}
+        >
+            <option value={''}>Velg</option>
+            {Object.values(omgjøringsårsaker).map((valg, index) => (
+                <option value={valg} key={index}>
+                    {årsakValgTilTekst[valg]}
+                </option>
+            ))}
+        </Select>
     );
 };

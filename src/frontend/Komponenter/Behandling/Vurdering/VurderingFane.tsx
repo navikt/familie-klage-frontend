@@ -13,7 +13,7 @@ import { useHentFormkravVilkår } from '../../../App/hooks/useHentFormkravVilkå
 import { useToggles } from '../../../App/context/TogglesContext';
 import { ToggleName } from '../../../App/context/toggles';
 
-export const Vurdering: React.FC<{ behandling: Behandling }> = ({ behandling }) => {
+export const VurderingFane: React.FC<{ behandling: Behandling }> = ({ behandling }) => {
     const behandlingId = behandling.id;
 
     const { behandlingErRedigerbar } = useBehandling();

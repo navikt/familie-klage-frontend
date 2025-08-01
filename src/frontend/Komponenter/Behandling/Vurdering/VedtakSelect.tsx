@@ -30,20 +30,19 @@ export const VedtakSelect: React.FC<Props> = ({ settVedtak, valgtVedtak }) => {
     };
 
     return (
-        <div className={styles.container}>
-            <Select
-                value={valgtVedtak}
-                label="Vedtak"
-                size="medium"
-                onChange={(e) => oppdaterVedtak(e.target.value)}
-            >
-                <option value={''}>Velg</option>
-                {Object.keys(vedtakValgTilTekst).map((valg, index) => (
-                    <option value={valg} key={index}>
-                        {vedtakValgTilTekst[valg as VedtakValg]}
-                    </option>
-                ))}
-            </Select>
-        </div>
+        <Select
+            value={valgtVedtak}
+            label="Vedtak"
+            size="medium"
+            onChange={(e) => oppdaterVedtak(e.target.value)}
+            className={styles.select}
+        >
+            <option value={''}>Velg</option>
+            {Object.keys(vedtakValgTilTekst).map((valg, index) => (
+                <option value={valg} key={index}>
+                    {vedtakValgTilTekst[valg as VedtakValg]}
+                </option>
+            ))}
+        </Select>
     );
 };

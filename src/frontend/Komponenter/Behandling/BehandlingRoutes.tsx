@@ -2,7 +2,7 @@ import { Navigate, Route, Routes } from 'react-router-dom';
 import * as React from 'react';
 import { Formkrav } from './Formkrav/Formkrav';
 import { Resultat } from './Resultat/Resultat';
-import { Vurdering } from './Vurdering/Vurdering';
+import { VurderingFane } from './Vurdering/VurderingFane';
 import { Behandling, StegType } from '../../App/typer/fagsak';
 import { BrevFane } from './Brev/BrevFane';
 
@@ -30,7 +30,7 @@ export const BehandlingRoutes: React.FC<Props> = ({ behandling }) => {
         <Routes>
             <Route path="/" element={<Navigate to={redirectUrl} replace={true} />} />
             <Route path="/formkrav" element={<Formkrav behandling={behandling} />} />
-            <Route path="/vurdering" element={<Vurdering behandling={behandling} />} />
+            <Route path="/vurdering" element={<VurderingFane behandling={behandling} />} />
             <Route path="/brev" element={<BrevFane behandling={behandling} />} />
             <Route path="/resultat" element={<Resultat />} />
         </Routes>

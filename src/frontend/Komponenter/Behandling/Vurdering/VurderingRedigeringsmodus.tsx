@@ -2,7 +2,7 @@ import * as React from 'react';
 import { useState } from 'react';
 import { useApp } from '../../../App/context/AppContext';
 import styles from './VurderingRedigeringsmodus.module.css';
-import { Alert, Button } from '@navikt/ds-react';
+import { Alert, Button, VStack } from '@navikt/ds-react';
 import { VedtakSelect } from './VedtakSelect';
 import { ÅrsakSelect } from './ÅrsakSelect';
 import { HjemmelSelect } from './HjemmelSelect';
@@ -74,6 +74,7 @@ export const VurderingRedigeringsmodus: React.FC<Props> = ({ behandling, vurderi
     const { nullstillIkkePersisterteKomponenter, settIkkePersistertKomponent } = useApp();
 
     const initiellVurdering: IVurdering = { behandlingId: behandling.id };
+
     const [oppdatertVurdering, settOppdatertVurdering] = useState<IVurdering>(() => {
         if (vurdering === null) {
             settVurderingEndret(true);
@@ -114,12 +115,10 @@ export const VurderingRedigeringsmodus: React.FC<Props> = ({ behandling, vurderi
         });
     };
 
-    function navigerTilBrev() {
-        navigate(`/behandling/${behandling.id}/brev`);
-    }
+    const navigerTilBrev = () => navigate(`/behandling/${behandling.id}/brev`);
 
     return (
-        <>
+        <VStack gap={'8'} margin={'8'}>
             <VedtakSelect
                 settVedtak={settOppdatertVurdering}
                 valgtVedtak={oppdatertVurdering.vedtak}
@@ -131,22 +130,20 @@ export const VurderingRedigeringsmodus: React.FC<Props> = ({ behandling, vurderi
                         årsakValgt={oppdatertVurdering.årsak}
                         fagsystem={behandling.fagsystem}
                     />
-                    <div className={styles.textAreaWrapper}>
-                        <EnsligTextArea
-                            label="Begrunnelse for omgjøring (internt notat)"
-                            value={oppdatertVurdering.begrunnelseOmgjøring}
-                            onChange={(e) => {
-                                settIkkePersistertKomponent(e.target.value);
-                                settOppdatertVurdering((tidligereTilstand) => ({
-                                    ...tidligereTilstand,
-                                    begrunnelseOmgjøring: e.target.value,
-                                }));
-                                settVurderingEndret(true);
-                            }}
-                            size="medium"
-                            readOnly={false}
-                        />
-                    </div>
+                    <EnsligTextArea
+                        label="Begrunnelse for omgjøring (internt notat)"
+                        value={oppdatertVurdering.begrunnelseOmgjøring}
+                        onChange={(e) => {
+                            settIkkePersistertKomponent(e.target.value);
+                            settOppdatertVurdering((tidligereTilstand) => ({
+                                ...tidligereTilstand,
+                                begrunnelseOmgjøring: e.target.value,
+                            }));
+                            settVurderingEndret(true);
+                        }}
+                        size="medium"
+                        readOnly={false}
+                    />
                 </>
             )}
             {oppdatertVurdering.vedtak == VedtakValg.OPPRETTHOLD_VEDTAK && (
@@ -156,7 +153,6 @@ export const VurderingRedigeringsmodus: React.FC<Props> = ({ behandling, vurderi
                         valgtHjemmel={oppdatertVurdering.hjemmel}
                     />
                     <InnstillingTilNavKlageinstans
-                        behandling={behandling}
                         oppdatertVurdering={oppdatertVurdering}
                         settIkkePersistertKomponent={settIkkePersistertKomponent}
                         settOppdatertVurdering={settOppdatertVurdering}
@@ -172,32 +168,35 @@ export const VurderingRedigeringsmodus: React.FC<Props> = ({ behandling, vurderi
                     />
                 </>
             )}
-            <div className={styles.buttonWrapper}>
-                {(vurderingEndret || melding?.type === 'error') && (
-                    <Button
-                        variant="primary"
-                        size="medium"
-                        onClick={opprettVurdering}
-                        disabled={
-                            !erAlleFelterUtfylt(oppdatertVurdering, behandling.fagsystem) ||
-                            senderInn
-                        }
-                        loading={senderInn}
-                    >
-                        Lagre vurdering
-                    </Button>
-                )}
-                {!vurderingEndret && melding?.type !== 'error' && (
-                    <Button variant="primary" size="medium" onClick={navigerTilBrev}>
-                        Fortsett
-                    </Button>
-                )}
-            </div>
+            {(vurderingEndret || melding?.type === 'error') && (
+                <Button
+                    variant="primary"
+                    size="medium"
+                    onClick={opprettVurdering}
+                    disabled={
+                        !erAlleFelterUtfylt(oppdatertVurdering, behandling.fagsystem) || senderInn
+                    }
+                    loading={senderInn}
+                    className={styles.aksjonsknapp}
+                >
+                    Lagre vurdering
+                </Button>
+            )}
+            {!vurderingEndret && melding?.type !== 'error' && (
+                <Button
+                    variant="primary"
+                    size="medium"
+                    onClick={navigerTilBrev}
+                    className={styles.aksjonsknapp}
+                >
+                    Fortsett
+                </Button>
+            )}
             {melding && (
                 <Alert className={styles.alert} variant={melding.type} size="medium">
                     {melding.tekst}
                 </Alert>
             )}
-        </>
+        </VStack>
     );
 };
