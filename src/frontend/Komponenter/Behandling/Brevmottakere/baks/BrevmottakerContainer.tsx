@@ -19,8 +19,6 @@ import { Brevmottakere } from '../brevmottakere';
 import { erBrevmottakerPersonUtenIdent } from '../brevmottaker';
 import { NyBrevmottaker } from '../nyBrevmottaker';
 import { SlettbarBrevmottaker } from '../slettbarBrevmottaker';
-import { useToggles } from '../../../../App/context/TogglesContext';
-import { ToggleName } from '../../../../App/context/toggles';
 
 const API_BASE_URL = `/familie-klage/api/brevmottaker`;
 
@@ -31,7 +29,6 @@ type Props = {
 export function BrevmottakerContainer({ behandlingId }: Props) {
     const { axiosRequest } = useApp();
     const { personopplysningerResponse: personopplysninger } = useBehandling();
-    const { toggles } = useToggles();
 
     const [brevmottakere, settBrevmottakere] = useState<Ressurs<Brevmottakere>>(byggTomRessurs());
 
@@ -111,14 +108,12 @@ export function BrevmottakerContainer({ behandlingId }: Props) {
                 return (
                     <>
                         <BrevmottakerPanel brevmottakere={brevmottakere} />
-                        {toggles[ToggleName.leggTilBrevmottakerBaks] && (
-                            <BrevmottakerModal
-                                personopplysninger={personopplysninger}
-                                brevmottakere={brevmottakerePersonUtenIdent}
-                                opprettBrevmottaker={opprettBrevmottaker}
-                                slettBrevmottaker={slettBrevmottaker}
-                            />
-                        )}
+                        <BrevmottakerModal
+                            personopplysninger={personopplysninger}
+                            brevmottakere={brevmottakerePersonUtenIdent}
+                            opprettBrevmottaker={opprettBrevmottaker}
+                            slettBrevmottaker={slettBrevmottaker}
+                        />
                     </>
                 );
             }}
