@@ -3,7 +3,7 @@ import { KlageInfo } from './KlageInfo';
 import { RessursFeilet, RessursStatus, RessursSuksess } from '../../../App/typer/ressurs';
 import { useBehandling } from '../../../App/context/BehandlingContext';
 import { IFormkravVilkår } from './typer';
-import ToKolonnerLayout from '../../../Felles/Visningskomponenter/ToKolonnerLayout';
+import { ToKolonneLayout } from '../../../Felles/Visningskomponenter/ToKolonneLayout';
 import { VisEllerEndreFormkravVurderinger } from './VisEllerEndreFormkravVurderinger';
 import DataViewer from '../../../Felles/DataViewer/DataViewer';
 import { Behandling } from '../../../App/typer/fagsak';
@@ -86,7 +86,7 @@ const FormkravKomponent: React.FC<{
     }, [behandlingErRedigerbar, vilkårsvurderinger]);
 
     return (
-        <ToKolonnerLayout>
+        <ToKolonneLayout>
             {{
                 venstre: (
                     <KlageInfo
@@ -109,6 +109,6 @@ const FormkravKomponent: React.FC<{
                     />
                 ),
             }}
-        </ToKolonnerLayout>
+        </ToKolonneLayout>
     );
 };
