@@ -81,7 +81,7 @@ const FritekstFelt = styled(Textarea)`
     margin-top: 1rem;
 `;
 
-interface IProps {
+interface Props {
     fagsystemVedtak: FagsystemVedtak[];
     feilmelding: string;
     lagreVurderinger: (
@@ -94,7 +94,7 @@ interface IProps {
     klagebehandlingsresultater: Klagebehandlingsresultat[];
 }
 
-export const EndreFormkravVurderinger: React.FC<IProps> = ({
+export const EndreFormkravVurderinger: React.FC<Props> = ({
     fagsystemVedtak,
     feilmelding,
     lagreVurderinger,
@@ -253,7 +253,9 @@ export const EndreFormkravVurderinger: React.FC<IProps> = ({
                                         {skalViseHjelpetekst(formalkrav.type) && (
                                             <HelpTextContainer>
                                                 <HjelpeTekst>
-                                                    <HelpTextInnhold formkrav={formalkrav.type} />
+                                                    <HelpTextInnhold
+                                                        formkravType={formalkrav.type}
+                                                    />
                                                 </HjelpeTekst>
                                             </HelpTextContainer>
                                         )}
@@ -317,8 +319,8 @@ export const EndreFormkravVurderinger: React.FC<IProps> = ({
     );
 };
 
-const HelpTextInnhold: React.FC<{ formkrav: EFormalKravType }> = ({ formkrav }) => {
-    switch (formkrav) {
+const HelpTextInnhold: React.FC<{ formkravType: EFormalKravType }> = ({ formkravType }) => {
+    switch (formkravType) {
         case EFormalKravType.KLAGE_SIGNERT:
             return (
                 <>

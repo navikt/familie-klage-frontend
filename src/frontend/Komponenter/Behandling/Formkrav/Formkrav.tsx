@@ -4,7 +4,7 @@ import { RessursFeilet, RessursStatus, RessursSuksess } from '../../../App/typer
 import { useBehandling } from '../../../App/context/BehandlingContext';
 import { IFormkravVilkår } from './typer';
 import { ToKolonneLayout } from '../../../Felles/Visningskomponenter/ToKolonneLayout';
-import { VisEllerEndreFormkravVurderinger } from './VisEllerEndreFormkravVurderinger';
+import { FormkravVurderinger } from './FormkravVurderinger';
 import DataViewer from '../../../Felles/DataViewer/DataViewer';
 import { Behandling } from '../../../App/typer/fagsak';
 import { useHentFormkravVilkår } from '../../../App/hooks/useHentFormkravVilkår';
@@ -96,7 +96,7 @@ const FormkravKomponent: React.FC<{
                     />
                 ),
                 høyre: (
-                    <VisEllerEndreFormkravVurderinger
+                    <FormkravVurderinger
                         vurderinger={oppdaterteVurderinger}
                         settOppdaterteVurderinger={settOppdaterteVurderinger}
                         lagreVurderinger={lagreVurderinger}

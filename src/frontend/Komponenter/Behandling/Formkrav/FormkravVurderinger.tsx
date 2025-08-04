@@ -21,7 +21,7 @@ export interface IProps {
     klagebehandlingsresultater: Klagebehandlingsresultat[];
 }
 
-export const VisEllerEndreFormkravVurderinger: React.FC<IProps> = ({
+export const FormkravVurderinger: React.FC<IProps> = ({
     vurderinger,
     lagreVurderinger,
     redigeringsmodus,
