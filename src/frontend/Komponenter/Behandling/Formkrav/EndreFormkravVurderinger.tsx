@@ -12,6 +12,7 @@ import {
     BodyLong,
     Button,
     HelpText,
+    HStack,
     Label,
     Radio,
     RadioGroup,
@@ -20,13 +21,13 @@ import {
 import { useBehandling } from '../../../App/context/BehandlingContext';
 import { useApp } from '../../../App/context/AppContext';
 import { Ressurs, RessursFeilet, RessursStatus, RessursSuksess } from '../../../App/typer/ressurs';
-import styled from 'styled-components';
+import styles from './EndreFormkravVurderinger.module.css';
 import { VedtakSelect } from './VedtakSelect';
 import {
     alleVilkårOppfylt,
     alleVilkårTattStillingTil,
     klagefristUnntakErValgtOgOppfylt,
-    påKlagetVedtakValgt,
+    påklagetVedtakErValgt,
 } from './validerFormkravUtils';
 import {
     evaluerOmFelterSkalTilbakestilles,
@@ -37,49 +38,6 @@ import KlagefristUnntak from './KlagefristUnntak';
 import { FagsystemVedtak } from '../../../App/typer/fagsystemVedtak';
 import { Fagsystem, PåklagetVedtakstype } from '../../../App/typer/fagsak';
 import { Klagebehandlingsresultat } from '../../../App/typer/klagebehandlingsresultat';
-
-const RadioGrupperContainer = styled.div`
-    display: flex;
-    flex-direction: column;
-`;
-
-const RadioGruppe = styled(RadioGroup)`
-    margin-bottom: 1rem;
-`;
-
-const RadioButton = styled(Radio)`
-    margin: -0.6rem -0.6rem -0.6rem 0;
-`;
-
-const LagreKnapp = styled(Button)`
-    margin-top: 1rem;
-    padding: 0.75rem 1.5rem;
-`;
-
-const AlertStripe = styled(Alert)`
-    margin-top: 0.5rem;
-`;
-
-const FlexRow = styled.div`
-    display: flex;
-    flex-direction: row;
-`;
-
-const HjelpeTekst = styled(HelpText)`
-    margin-left: 0.5rem;
-`;
-
-const HelpTextContainer = styled.div`
-    max-width: 35rem;
-`;
-
-const VedtakSelectContainer = styled.div`
-    margin-bottom: 1rem;
-`;
-
-const FritekstFelt = styled(Textarea)`
-    margin-top: 1rem;
-`;
 
 interface Props {
     fagsystemVedtak: FagsystemVedtak[];
@@ -215,25 +173,24 @@ export const EndreFormkravVurderinger: React.FC<Props> = ({
                 event.stopPropagation();
                 submitOppdaterteVurderinger();
             }}
+            className={styles.container}
         >
-            <VedtakSelectContainer>
-                <VedtakSelect
-                    settOppdaterteVurderinger={settOppdaterteVurderinger}
-                    vedtak={fagsystemVedtak}
-                    vurderinger={vurderinger}
-                    fagsystem={fagsystem}
-                    klagebehandlingsresultater={klagebehandlingsresultater}
-                />
-            </VedtakSelectContainer>
-            {påKlagetVedtakValgt(vurderinger) && (
+            <VedtakSelect
+                settOppdaterteVurderinger={settOppdaterteVurderinger}
+                vedtak={fagsystemVedtak}
+                vurderinger={vurderinger}
+                fagsystem={fagsystem}
+                klagebehandlingsresultater={klagebehandlingsresultater}
+            />
+            {påklagetVedtakErValgt(vurderinger) && (
                 <>
                     {vurderinger.påklagetVedtak.påklagetVedtakstype !==
                         PåklagetVedtakstype.UTEN_VEDTAK && (
-                        <RadioGrupperContainer>
+                        <>
                             {radioKnapper.map((formalkrav: IFormalkrav, index: number) => (
                                 <>
-                                    <FlexRow key={index}>
-                                        <RadioGruppe
+                                    <HStack key={index}>
+                                        <RadioGroup
                                             legend={formalkrav.spørsmål}
                                             size="medium"
                                             onChange={(val: VilkårStatus) => {
@@ -242,24 +199,16 @@ export const EndreFormkravVurderinger: React.FC<Props> = ({
                                             value={formalkrav.svar}
                                             key={index}
                                         >
-                                            <RadioButton value={VilkårStatus.OPPFYLT}>
-                                                Ja
-                                            </RadioButton>
-                                            <RadioButton value={VilkårStatus.IKKE_OPPFYLT}>
-                                                Nei
-                                            </RadioButton>
-                                        </RadioGruppe>
+                                            <Radio value={VilkårStatus.OPPFYLT}>Ja</Radio>
+                                            <Radio value={VilkårStatus.IKKE_OPPFYLT}>Nei</Radio>
+                                        </RadioGroup>
 
                                         {skalViseHjelpetekst(formalkrav.type) && (
-                                            <HelpTextContainer>
-                                                <HjelpeTekst>
-                                                    <HelpTextInnhold
-                                                        formkravType={formalkrav.type}
-                                                    />
-                                                </HjelpeTekst>
-                                            </HelpTextContainer>
+                                            <HelpText className={styles.helpText}>
+                                                <HelpTextInnhold formkravType={formalkrav.type} />
+                                            </HelpText>
                                         )}
-                                    </FlexRow>
+                                    </HStack>
                                     {skalViseKlagefristUnntak(formalkrav) && (
                                         <KlagefristUnntak
                                             settOppdaterteVurderinger={settOppdaterteVurderinger}
@@ -268,7 +217,7 @@ export const EndreFormkravVurderinger: React.FC<Props> = ({
                                     )}
                                 </>
                             ))}
-                        </RadioGrupperContainer>
+                        </>
                     )}
                     {skalViseBegrunnelseOgBrevtekst() && (
                         <>
@@ -285,12 +234,14 @@ export const EndreFormkravVurderinger: React.FC<Props> = ({
                                     });
                                 }}
                             />
-                            <FritekstFelt
+                            <Textarea
                                 label={
-                                    <FlexRow>
+                                    <HStack>
                                         <Label>Fritekst til brev</Label>
-                                        <HjelpeTekst>{fritekstHjelpetekst()}</HjelpeTekst>
-                                    </FlexRow>
+                                        <HelpText className={styles.helpText}>
+                                            {fritekstHjelpetekst()}
+                                        </HelpText>
+                                    </HStack>
                                 }
                                 value={vurderinger.brevtekst}
                                 onChange={(e) => {
@@ -308,13 +259,13 @@ export const EndreFormkravVurderinger: React.FC<Props> = ({
                 </>
             )}
             {feilmelding && (
-                <AlertStripe variant={'error'} size={'medium'}>
+                <Alert variant={'error'} size={'medium'}>
                     {feilmelding}
-                </AlertStripe>
+                </Alert>
             )}
-            <LagreKnapp htmltype="submit" variant="primary" size="medium">
+            <Button type="submit" variant="primary" size="medium" className={styles.lagreKnapp}>
                 Lagre
-            </LagreKnapp>
+            </Button>
         </form>
     );
 };

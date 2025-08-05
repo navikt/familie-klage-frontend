@@ -5,7 +5,7 @@ import { IFormkravVilkår, Redigeringsmodus } from './typer';
 import { Behandling } from '../../../App/typer/fagsak';
 import { FileTextIcon } from '@navikt/aksel-icons';
 import { formaterIsoDato } from '../../../App/utils/formatter';
-import { alleVilkårOppfylt, påKlagetVedtakValgt } from './validerFormkravUtils';
+import { alleVilkårOppfylt, påklagetVedtakErValgt } from './validerFormkravUtils';
 import { useBehandling } from '../../../App/context/BehandlingContext';
 import Oppfylt from '../../../Felles/Ikoner/Oppfylt';
 import IkkeOppfylt from '../../../Felles/Ikoner/IkkeOppfylt';
@@ -21,7 +21,7 @@ const utledStatusIkon = (
         return <Advarsel height={26} width={26} />;
     } else if (formkravErOppfylt) {
         return <Oppfylt height={23} width={23} />;
-    } else if (påKlagetVedtakValgt(vurderinger) && alleVilkårOppfylt(vurderinger)) {
+    } else if (påklagetVedtakErValgt(vurderinger) && alleVilkårOppfylt(vurderinger)) {
         return <Info height={23} width={23} />;
     }
     return <IkkeOppfylt height={23} width={23} />;

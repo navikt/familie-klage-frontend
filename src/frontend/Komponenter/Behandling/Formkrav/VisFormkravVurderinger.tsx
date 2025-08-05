@@ -39,7 +39,7 @@ import {
     brevtekstUtfylt,
     klagefristUnntakErValgtOgOppfylt,
     klagefristUnntakTattStillingTil,
-    påKlagetVedtakValgt,
+    påklagetVedtakErValgt,
     utledIkkeUtfylteVilkår,
 } from './validerFormkravUtils';
 import { FagsystemVedtak } from '../../../App/typer/fagsystemVedtak';
@@ -172,7 +172,7 @@ export const VisFormkravVurderinger: React.FC<IProps> = ({
     const klagefristVilkårOppfylt = klagefristUnntakErValgtOgOppfylt(
         vurderinger.klagefristOverholdtUnntak
     );
-    const påKlagetVedtakErValgt = påKlagetVedtakValgt(vurderinger);
+    const påKlagetVedtakErValgt = påklagetVedtakErValgt(vurderinger);
     const harBegrunnelse = begrunnelseUtfylt(vurderinger);
     const harBrevtekst = brevtekstUtfylt(vurderinger);
     const manglerFritekster = !harBrevtekst || !harBegrunnelse;
