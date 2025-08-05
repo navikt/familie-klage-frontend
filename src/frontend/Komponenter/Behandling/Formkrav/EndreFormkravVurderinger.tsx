@@ -205,7 +205,7 @@ export const EndreFormkravVurderinger: React.FC<IProps> = ({
                 [formalkrav.navn]: vilkårStatus,
             } as IFormkravVilkår;
         });
-        settIkkePersistertKomponent('formkravVilkår');
+        settIkkePersistertKomponent('formkrav-vilkår');
     };
 
     return (
@@ -274,7 +274,7 @@ export const EndreFormkravVurderinger: React.FC<IProps> = ({
                                 label={'Begrunnelse (intern)'}
                                 value={vurderinger.saksbehandlerBegrunnelse}
                                 onChange={(e) => {
-                                    settIkkePersistertKomponent('formkravVilkår');
+                                    settIkkePersistertKomponent('formkrav-vilkår');
                                     settOppdaterteVurderinger((prevState: IFormkravVilkår) => {
                                         return {
                                             ...prevState,
@@ -292,7 +292,7 @@ export const EndreFormkravVurderinger: React.FC<IProps> = ({
                                 }
                                 value={vurderinger.brevtekst}
                                 onChange={(e) => {
-                                    settIkkePersistertKomponent('formkravVilkår');
+                                    settIkkePersistertKomponent('formkrav-vilkår');
                                     settOppdaterteVurderinger((prevState: IFormkravVilkår) => {
                                         return {
                                             ...prevState,

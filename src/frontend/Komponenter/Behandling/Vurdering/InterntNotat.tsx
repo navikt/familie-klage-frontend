@@ -3,20 +3,9 @@ import { PlusCircleIcon, TrashIcon } from '@navikt/aksel-icons';
 import { EnsligTextArea } from '../../../Felles/Input/EnsligTextArea';
 import * as React from 'react';
 import { useState } from 'react';
-import styled from 'styled-components';
+import styles from './InterntNotat.module.css';
 import { harVerdi } from '../../../App/utils/utils';
 import { IVurdering } from './vurderingValg';
-
-const FritekstWrapper = styled.div`
-    margin: 0 4rem 2rem 4rem;
-`;
-
-const KnappWrapper = styled.div`
-    display: flex;
-    justify-content: flex-end;
-    margin-right: 4rem;
-    margin-bottom: -1.75rem;
-`;
 
 export const InterntNotat: React.FC<{
     behandlingErRedigerbar: boolean;
@@ -46,40 +35,38 @@ export const InterntNotat: React.FC<{
         settIkkePersistertKomponent('internt-notat');
     };
 
-    const handleClick = () => {
+    const oppdaterSkalViseFritekstFelt = () => {
         if (skalViseFritekstFelt) {
             oppdaterTekst(undefined);
         }
-        settSkalViseFritekstFelt(!skalViseFritekstFelt);
+        settSkalViseFritekstFelt((prevState) => !prevState);
     };
 
-    const utledIkon = (skalViseFritekstFelt: boolean) =>
-        skalViseFritekstFelt ? (
-            <TrashIcon fontSize="1.5rem" />
-        ) : (
-            <PlusCircleIcon fontSize="1.5rem" />
-        );
+    const knappIkon = skalViseFritekstFelt ? (
+        <TrashIcon fontSize="1.5rem" />
+    ) : (
+        <PlusCircleIcon fontSize="1.5rem" />
+    );
+
+    const knappTekst = skalViseFritekstFelt ? 'Fjern internt notat' : 'Skriv internt notat';
 
     return (
         <>
-            <KnappWrapper>
-                <Button
-                    variant={'tertiary'}
-                    icon={utledIkon(skalViseFritekstFelt)}
-                    onClick={handleClick}
-                >
-                    {skalViseFritekstFelt ? 'Fjern internt notat' : 'Skriv internt notat'}
-                </Button>
-            </KnappWrapper>
+            <Button
+                variant={'tertiary'}
+                icon={knappIkon}
+                onClick={oppdaterSkalViseFritekstFelt}
+                className={styles.interntNotatButton}
+            >
+                {knappTekst}
+            </Button>
             {skalViseFritekstFelt && (
-                <FritekstWrapper>
-                    <EnsligTextArea
-                        label={'Internt notat'}
-                        readOnly={!behandlingErRedigerbar}
-                        onChange={(e) => oppdaterTekst(e.target.value)}
-                        value={tekst}
-                    />
-                </FritekstWrapper>
+                <EnsligTextArea
+                    label={'Internt notat'}
+                    readOnly={!behandlingErRedigerbar}
+                    onChange={(e) => oppdaterTekst(e.target.value)}
+                    value={tekst}
+                />
             )}
         </>
     );

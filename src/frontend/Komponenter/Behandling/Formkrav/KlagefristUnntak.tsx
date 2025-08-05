@@ -15,7 +15,7 @@ const EndreFormkravVurderinger: React.FC<IProps> = ({
     const { settIkkePersistertKomponent } = useApp();
 
     const håndterEndring = (val: FormkravFristUnntak) => {
-        settIkkePersistertKomponent('formkravVilkår');
+        settIkkePersistertKomponent('formkrav-vilkår');
         settOppdaterteVurderinger((prevState: IFormkravVilkår) => {
             return { ...prevState, klagefristOverholdtUnntak: val };
         });
