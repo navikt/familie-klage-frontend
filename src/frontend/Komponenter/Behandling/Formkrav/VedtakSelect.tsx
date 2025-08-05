@@ -100,7 +100,7 @@ export const VedtakSelect: React.FC<Props> = ({
                     vurderinger.påklagetVedtak.påklagetVedtakstype
                 }
             >
-                <option value={PåklagetVedtakstype.IKKE_VALGT}>
+                <option value={PåklagetVedtakstype.IKKE_VALGT} disabled>
                     {påklagetVedtakstypeTilTekst[PåklagetVedtakstype.IKKE_VALGT]}
                 </option>
                 {vedtak.sort(sorterVedtakstidspunktDesc).map((valg, index) => (

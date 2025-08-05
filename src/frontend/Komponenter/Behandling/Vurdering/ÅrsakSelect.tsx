@@ -41,7 +41,9 @@ export const ÅrsakSelect: React.FC<Props> = ({ settÅrsak, årsakValgt, fagsyst
             onChange={(e) => oppdaterÅrsak(e.target.value)}
             className={styles.select}
         >
-            <option value={''}>Velg</option>
+            <option value={''} disabled>
+                Velg
+            </option>
             {Object.values(omgjøringsårsaker).map((valg, index) => (
                 <option value={valg} key={index}>
                     {årsakValgTilTekst[valg]}

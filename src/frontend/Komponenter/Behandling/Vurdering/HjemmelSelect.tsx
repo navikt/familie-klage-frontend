@@ -36,7 +36,9 @@ export const HjemmelSelect: React.FC<Props> = ({ settHjemmel, valgtHjemmel }) =>
             onChange={(e) => oppdaterHjemmel(e.target.value)}
             className={styles.select}
         >
-            <option value={''}>Velg</option>
+            <option value={''} disabled>
+                Velg
+            </option>
             {Object.keys(folketrygdHjemmelTilVisningstekst).map((nøkkel, index) => (
                 <option value={nøkkel} key={index}>
                     {folketrygdHjemmelTilVisningstekst[nøkkel as FolketrygdHjemmel]}
