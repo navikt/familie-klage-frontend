@@ -1,0 +1,41 @@
+.spørsmålContainer {
+    display: flex;
+    flex-direction: column;
+    border-left: 0.4rem solid var(--a-purple-500);
+    padding-left: 2rem;
+    gap: 1rem;
+}
+
+.spørsmålSvar {
+    padding: 0;
+    font-size: 1rem;
+    list-style-type: none;
+}
+
+.spørsmål {
+    padding: 0 0;
+    font-weight: bold;
+}
+
+.svar {
+    padding: 0.5rem 0;
+    width: 13rem;
+}
+
+.ikon {
+    overflow: visible;
+    margin: -1rem 1.5rem 0 -0.7rem;
+}
+
+.fritekstContainer {
+    white-space: pre-wrap;
+    word-wrap: break-word;
+}
+
+.lagreKnapp {
+    width: fit-content;
+}
+
+.alert {
+    margin-top: 1rem;
+}
