@@ -4,7 +4,7 @@ import { Alert } from '@navikt/ds-react';
 import { useBehandling } from '../../../App/context/BehandlingContext';
 import { VurderingLesemodus } from './VurderingLesemodus';
 import DataViewer from '../../../Felles/DataViewer/DataViewer';
-import { alleVilkårOppfylt, påKlagetVedtakValgt } from '../Formkrav/validerFormkravUtils';
+import { alleVilkårOppfylt, påklagetVedtakErValgt } from '../Formkrav/validerFormkravUtils';
 import { useHentVurderinger } from '../../../App/hooks/useHentVurderinger';
 import { Behandling, Fagsystem } from '../../../App/typer/fagsak';
 import { VurderingRedigeringsmodus as VurderingRedigeringsmodusBaks } from './VurderingRedigeringsmodusBaks/VurderingRedigeringsmodus';
@@ -32,7 +32,7 @@ export const VurderingFane: React.FC<{ behandling: Behandling }> = ({ behandling
         <DataViewer response={{ vilkårsvurderinger, vurdering }}>
             {({ vilkårsvurderinger, vurdering }) => {
                 const skalViseVurderingsvalg =
-                    påKlagetVedtakValgt(vilkårsvurderinger) &&
+                    påklagetVedtakErValgt(vilkårsvurderinger) &&
                     alleVilkårOppfylt(vilkårsvurderinger);
 
                 const skalViseRedigeringsmodus = behandlingErRedigerbar && skalViseVurderingsvalg;

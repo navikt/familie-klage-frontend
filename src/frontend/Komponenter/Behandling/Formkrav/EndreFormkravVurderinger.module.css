@@ -1,0 +1,14 @@
+.container {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+}
+
+.lagreKnapp {
+    width: fit-content;
+}
+
+.helpText {
+    margin-left: 0.5rem;
+    max-width: 35rem;
+}

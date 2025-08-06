@@ -17,7 +17,7 @@ export const alleVurderingerErStatus = (
     );
 };
 
-export const påKlagetVedtakValgt = (vurderinger: IFormkravVilkår) => {
+export const påklagetVedtakErValgt = (vurderinger: IFormkravVilkår) => {
     const valgtVedtakstype = vurderinger.påklagetVedtak.påklagetVedtakstype;
     if (harManuellVedtaksdato(valgtVedtakstype)) {
         const manuellVedtaksdato = vurderinger.påklagetVedtak.manuellVedtaksdato;

@@ -1,0 +1,20 @@
+.container {
+    display: flex;
+    margin: 2rem;
+    border-bottom: 3px solid #e9e7e7;
+
+    @media (max-width: 1600px) {
+        flex-direction: column;
+    }
+}
+
+.kolonne {
+    padding: 1.5rem 0;
+    width: 50%;
+    max-width: 50rem;
+
+    @media (max-width: 1600px) {
+        width: 100%;
+    }
+}
+

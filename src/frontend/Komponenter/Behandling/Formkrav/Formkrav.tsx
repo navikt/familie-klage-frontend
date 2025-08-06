@@ -3,8 +3,8 @@ import { KlageInfo } from './KlageInfo';
 import { RessursFeilet, RessursStatus, RessursSuksess } from '../../../App/typer/ressurs';
 import { useBehandling } from '../../../App/context/BehandlingContext';
 import { IFormkravVilkår } from './typer';
-import ToKolonnerLayout from '../../../Felles/Visningskomponenter/ToKolonnerLayout';
-import { VisEllerEndreFormkravVurderinger } from './VisEllerEndreFormkravVurderinger';
+import { ToKolonneLayout } from '../../../Felles/Visningskomponenter/ToKolonneLayout';
+import { FormkravVurderinger } from './FormkravVurderinger';
 import DataViewer from '../../../Felles/DataViewer/DataViewer';
 import { Behandling } from '../../../App/typer/fagsak';
 import { useHentFormkravVilkår } from '../../../App/hooks/useHentFormkravVilkår';
@@ -86,7 +86,7 @@ const FormkravKomponent: React.FC<{
     }, [behandlingErRedigerbar, vilkårsvurderinger]);
 
     return (
-        <ToKolonnerLayout>
+        <ToKolonneLayout>
             {{
                 venstre: (
                     <KlageInfo
@@ -96,7 +96,7 @@ const FormkravKomponent: React.FC<{
                     />
                 ),
                 høyre: (
-                    <VisEllerEndreFormkravVurderinger
+                    <FormkravVurderinger
                         vurderinger={oppdaterteVurderinger}
                         settOppdaterteVurderinger={settOppdaterteVurderinger}
                         lagreVurderinger={lagreVurderinger}
@@ -109,6 +109,6 @@ const FormkravKomponent: React.FC<{
                     />
                 ),
             }}
-        </ToKolonnerLayout>
+        </ToKolonneLayout>
     );
 };

@@ -1,6 +1,5 @@
 import React, { Dispatch, SetStateAction, useState } from 'react';
-import styled from 'styled-components';
-import { APurple500 } from '@navikt/ds-tokens/dist/tokens';
+import styles from './VisFormkravVurderinger.module.css';
 import BrukerMedBlyant from '../../../Felles/Ikoner/BrukerMedBlyant';
 import {
     formkravFristUnntakTilTekst,
@@ -11,7 +10,7 @@ import {
     vilkårStatusTilTekst,
 } from './typer';
 import { useBehandling } from '../../../App/context/BehandlingContext';
-import { Alert, BodyShort, Button, Heading, Label } from '@navikt/ds-react';
+import { Alert, BodyShort, Button, Heading, HStack, Label, VStack } from '@navikt/ds-react';
 import { useNavigate } from 'react-router-dom';
 import {
     formaterIsoDatoTid,
@@ -39,81 +38,13 @@ import {
     brevtekstUtfylt,
     klagefristUnntakErValgtOgOppfylt,
     klagefristUnntakTattStillingTil,
-    påKlagetVedtakValgt,
+    påklagetVedtakErValgt,
     utledIkkeUtfylteVilkår,
 } from './validerFormkravUtils';
 import { FagsystemVedtak } from '../../../App/typer/fagsystemVedtak';
 import { Klagebehandlingsresultat } from '../../../App/typer/klagebehandlingsresultat';
 
-export const RadSentrertVertikalt = styled.div`
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-`;
-
-const VisFormkravContainer = styled.div`
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    width: 90%;
-`;
-
-const Header = styled.div`
-    display: flex;
-    justify-content: space-between;
-    width: 100%;
-`;
-
-const SpørsmålContainer = styled.div`
-    display: flex;
-    flex-direction: column;
-    width: 100%;
-    border-left: 0.4rem solid ${APurple500};
-    padding-left: 2rem;
-`;
-
-const SvarElement = styled.ul`
-    padding: 0;
-    font-size: 1rem;
-    list-style-type: none;
-`;
-
-const Spørsmål = styled.li`
-    padding: 0 0;
-    width: 40%;
-    font-weight: bold;
-`;
-
-const Svar = styled.li`
-    padding: 0.5rem 0;
-    width: 13rem;
-`;
-
-const VilkårIkon = styled.div`
-    margin: 0 1.5rem 0 -0.7rem;
-`;
-
-const BrukerMedBlyantIkon = styled(BrukerMedBlyant)`
-    overflow: visible;
-`;
-
-const FritekstWrapper = styled.div`
-    white-space: pre-wrap;
-    word-wrap: break-word;
-`;
-
-const LagreKnapp = styled(Button)`
-    margin-top: 1rem;
-    margin-right: auto;
-`;
-
-const StyledAlert = styled(Alert)`
-    margin-top: 1rem;
-    align-self: flex-start;
-    padding-right: 5rem;
-`;
-
-interface IProps {
+interface Props {
     fagsystemVedtak: FagsystemVedtak[];
     lagreVurderinger: (
         vurderinger: IFormkravVilkår
@@ -124,13 +55,13 @@ interface IProps {
     klagebehandlingsresultater: Klagebehandlingsresultat[];
 }
 
-export const VisFormkravVurderinger: React.FC<IProps> = ({
+export const VisFormkravVurderinger: React.FC<Props> = ({
     fagsystemVedtak,
     lagreVurderinger,
     settOppdaterteVurderinger,
     settRedigeringsmodus,
     vurderinger,
-    klagebehandlingsresultater: klagebehandlingsresultater,
+    klagebehandlingsresultater,
 }) => {
     const { behandlingErRedigerbar, hentBehandling, hentBehandlingshistorikk } = useBehandling();
     const { påklagetVedtakstype, manuellVedtaksdato } = vurderinger.påklagetVedtak;
@@ -172,7 +103,7 @@ export const VisFormkravVurderinger: React.FC<IProps> = ({
     const klagefristVilkårOppfylt = klagefristUnntakErValgtOgOppfylt(
         vurderinger.klagefristOverholdtUnntak
     );
-    const påKlagetVedtakErValgt = påKlagetVedtakValgt(vurderinger);
+    const påKlagetVedtakErValgt = påklagetVedtakErValgt(vurderinger);
     const harBegrunnelse = begrunnelseUtfylt(vurderinger);
     const harBrevtekst = brevtekstUtfylt(vurderinger);
     const manglerFritekster = !harBrevtekst || !harBegrunnelse;
@@ -225,16 +156,14 @@ export const VisFormkravVurderinger: React.FC<IProps> = ({
         !alleVilkårErOppfylt || ikkePåklagetVedtak || klagefristVilkårOppfylt;
 
     return (
-        <VisFormkravContainer>
-            <Header>
-                <RadSentrertVertikalt>
-                    <VilkårIkon>
-                        <BrukerMedBlyantIkon heigth={23} width={23} />
-                    </VilkårIkon>
+        <VStack>
+            <HStack justify="space-between">
+                <HStack align="center">
+                    <BrukerMedBlyant className={styles.ikon} heigth={23} width={23} />
                     <Heading spacing size={'medium'}>
                         {alleVilkårErOppfylt ? 'Vilkår oppfylt' : 'Vilkår ikke oppfylt'}
                     </Heading>
-                </RadSentrertVertikalt>
+                </HStack>
                 {behandlingErRedigerbar && (
                     <div>
                         <Button
@@ -253,12 +182,12 @@ export const VisFormkravVurderinger: React.FC<IProps> = ({
                         </Button>
                     </div>
                 )}
-            </Header>
-            <SpørsmålContainer>
+            </HStack>
+            <div className={styles.spørsmålContainer}>
                 Sist endret - {formaterIsoDatoTid(vurderinger.endretTid)}
-                <SvarElement>
-                    <Spørsmål>Vedtak som er påklaget</Spørsmål>
-                    <Svar>
+                <div className={styles.spørsmålSvar}>
+                    <li className={styles.spørsmål}>Vedtak som er påklaget</li>
+                    <li className={styles.svar}>
                         {gjeldendeFagsystemVedtak ? (
                             <div>
                                 <div>{gjeldendeFagsystemVedtak.behandlingstype}</div>
@@ -285,27 +214,29 @@ export const VisFormkravVurderinger: React.FC<IProps> = ({
                                 </div>
                             </div>
                         )}
-                    </Svar>
-                </SvarElement>
+                    </li>
+                </div>
                 {!ikkePåklagetVedtak && (
                     <>
                         {radioKnapper.map((knapp: IFormalkrav, index) => (
                             <>
-                                <SvarElement key={index}>
-                                    <Spørsmål>{knapp.spørsmål}</Spørsmål>
-                                    <Svar>{vilkårStatusTilTekst[knapp.svar]}</Svar>
-                                </SvarElement>
+                                <div className={styles.spørsmålSvar} key={index}>
+                                    <li className={styles.spørsmål}>{knapp.spørsmål}</li>
+                                    <li>{vilkårStatusTilTekst[knapp.svar]}</li>
+                                </div>
                                 {skalViseKlagefristUnntak(knapp) && (
-                                    <SvarElement key={'unntaksvilkår'}>
-                                        <Spørsmål>Er unntak for klagefristen oppfylt?</Spørsmål>
-                                        <Svar>
+                                    <div className={styles.spørsmålSvar} key={'unntaksvilkår'}>
+                                        <li className={styles.spørsmål}>
+                                            Er unntak for klagefristen oppfylt?
+                                        </li>
+                                        <li className={styles.svar}>
                                             {
                                                 formkravFristUnntakTilTekst[
                                                     vurderinger.klagefristOverholdtUnntak
                                                 ]
                                             }
-                                        </Svar>
-                                    </SvarElement>
+                                        </li>
+                                    </div>
                                 )}
                             </>
                         ))}
@@ -313,24 +244,27 @@ export const VisFormkravVurderinger: React.FC<IProps> = ({
                 )}
                 {skalViseBegrunnelseOgBrevtekst && (
                     <>
-                        <SvarElement>
-                            <Spørsmål>Begrunnelse (intern)</Spørsmål>
-                            <Svar>
-                                <FritekstWrapper>
+                        <div className={styles.spørsmålSvar}>
+                            <li className={styles.spørsmål}>Begrunnelse (intern)</li>
+                            <li className={styles.svar}>
+                                <div className={styles.fritekstContainer}>
                                     {vurderinger.saksbehandlerBegrunnelse}
-                                </FritekstWrapper>
-                            </Svar>
-                        </SvarElement>
-                        <SvarElement>
-                            <Spørsmål>Fritekst til brev</Spørsmål>
-                            <Svar>
-                                <FritekstWrapper>{vurderinger.brevtekst}</FritekstWrapper>
-                            </Svar>
-                        </SvarElement>
+                                </div>
+                            </li>
+                        </div>
+                        <div className={styles.spørsmålSvar}>
+                            <li className={styles.spørsmål}>Fritekst til brev</li>
+                            <li className={styles.svar}>
+                                <div className={styles.fritekstContainer}>
+                                    {vurderinger.brevtekst}
+                                </div>
+                            </li>
+                        </div>
                     </>
                 )}
                 {urlSuffiks && (
-                    <LagreKnapp
+                    <Button
+                        className={styles.lagreKnapp}
                         variant="primary"
                         size="medium"
                         onClick={() =>
@@ -338,11 +272,11 @@ export const VisFormkravVurderinger: React.FC<IProps> = ({
                         }
                     >
                         Fortsett
-                    </LagreKnapp>
+                    </Button>
                 )}
-            </SpørsmålContainer>
+            </div>
             {manglerUtfylling && (
-                <StyledAlert variant={'error'}>
+                <Alert className={styles.alert} variant={'error'}>
                     <Label>Følgende vilkår er ikke utfylt:</Label>
                     <ul>
                         {!påKlagetVedtakErValgt && <li>Ikke valgt påklaget vedtak</li>}
@@ -369,8 +303,8 @@ export const VisFormkravVurderinger: React.FC<IProps> = ({
                         {!harBegrunnelse && <li>Begrunnelse er ikke utfylt</li>}
                         {!harBrevtekst && <li>Fritekst til brev er ikke utfylt</li>}
                     </ul>
-                </StyledAlert>
+                </Alert>
             )}
-        </VisFormkravContainer>
+        </VStack>
     );
 };

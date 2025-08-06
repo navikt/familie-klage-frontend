@@ -37,7 +37,9 @@ export const VedtakSelect: React.FC<Props> = ({ settVedtak, valgtVedtak }) => {
             onChange={(e) => oppdaterVedtak(e.target.value)}
             className={styles.select}
         >
-            <option value={''}>Velg</option>
+            <option value={''} disabled>
+                Velg
+            </option>
             {Object.keys(vedtakValgTilTekst).map((valg, index) => (
                 <option value={valg} key={index}>
                     {vedtakValgTilTekst[valg as VedtakValg]}

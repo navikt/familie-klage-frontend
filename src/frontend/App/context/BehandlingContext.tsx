@@ -12,7 +12,7 @@ import { IVurdering } from '../../Komponenter/Behandling/Vurdering/vurderingValg
 import { useHentFormkravVilkår } from '../hooks/useHentFormkravVilkår';
 import {
     alleVilkårOppfylt,
-    påKlagetVedtakValgt,
+    påklagetVedtakErValgt,
 } from '../../Komponenter/Behandling/Formkrav/validerFormkravUtils';
 import { useHentAnsvarligSaksbehandler } from '../hooks/useHentAnsvarligSaksbehandler';
 import { Behandling, StegType } from '../typer/fagsak';
@@ -57,7 +57,7 @@ const [BehandlingProvider, useBehandling] = constate(() => {
     useEffect(() => {
         settFormkravOppfylt(
             vilkårsvurderinger.status === RessursStatus.SUKSESS &&
-                påKlagetVedtakValgt(vilkårsvurderinger.data) &&
+                påklagetVedtakErValgt(vilkårsvurderinger.data) &&
                 alleVilkårOppfylt(vilkårsvurderinger.data)
         );
     }, [vilkårsvurderinger]);

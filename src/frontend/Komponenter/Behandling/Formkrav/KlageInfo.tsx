@@ -1,73 +1,56 @@
 import React from 'react';
-import styled from 'styled-components';
+import styles from './KlageInfo.module.css';
 import { BodyLong, Heading } from '@navikt/ds-react';
 import { IFormkravVilkår, Redigeringsmodus } from './typer';
 import { Behandling } from '../../../App/typer/fagsak';
 import { FileTextIcon } from '@navikt/aksel-icons';
 import { formaterIsoDato } from '../../../App/utils/formatter';
-import { alleVilkårOppfylt, påKlagetVedtakValgt } from './validerFormkravUtils';
+import { alleVilkårOppfylt, påklagetVedtakErValgt } from './validerFormkravUtils';
 import { useBehandling } from '../../../App/context/BehandlingContext';
 import Oppfylt from '../../../Felles/Ikoner/Oppfylt';
 import IkkeOppfylt from '../../../Felles/Ikoner/IkkeOppfylt';
 import Advarsel from '../../../Felles/Ikoner/Advarsel';
 import Info from '../../../Felles/Ikoner/Info';
 
-const OppfyltIkon = styled(Oppfylt)`
-    margin-top: 0.25rem;
-`;
+const utledStatusIkon = (
+    redigeringsmodus: Redigeringsmodus,
+    formkravErOppfylt: boolean,
+    vurderinger: IFormkravVilkår
+) => {
+    if (redigeringsmodus === Redigeringsmodus.IKKE_PÅSTARTET) {
+        return <Advarsel height={26} width={26} />;
+    } else if (formkravErOppfylt) {
+        return <Oppfylt height={23} width={23} />;
+    } else if (påklagetVedtakErValgt(vurderinger) && alleVilkårOppfylt(vurderinger)) {
+        return <Info height={23} width={23} />;
+    }
+    return <IkkeOppfylt height={23} width={23} />;
+};
 
-const ErrorIkon = styled(IkkeOppfylt)`
-    margin-top: 0.25rem;
-`;
-
-const AdvarselIkon = styled(Advarsel)`
-    margin-top: 0.2rem;
-`;
-
-const InfoIkon = styled(Info)`
-    margin-top: 0.25rem;
-`;
-
-const TabellRad = styled.div`
-    display: grid;
-    grid-template-columns: 21px 250px repeat(2, 325px);
-    grid-auto-rows: min-content;
-    grid-gap: 0.5rem;
-    margin-bottom: 0.5rem;
-`;
-
-interface IProps {
+interface Props {
     vurderinger: IFormkravVilkår;
     redigeringsmodus: Redigeringsmodus;
     behandling: Behandling;
 }
 
-export const KlageInfo: React.FC<IProps> = ({ behandling, vurderinger, redigeringsmodus }) => {
+export const KlageInfo: React.FC<Props> = ({ behandling, vurderinger, redigeringsmodus }) => {
     const { formkravOppfylt } = useBehandling();
-    const utledetIkon = () => {
-        if (redigeringsmodus === Redigeringsmodus.IKKE_PÅSTARTET) {
-            return <AdvarselIkon height={26} width={26} />;
-        } else if (formkravOppfylt) {
-            return <OppfyltIkon height={23} width={23} />;
-        } else if (påKlagetVedtakValgt(vurderinger) && alleVilkårOppfylt(vurderinger)) {
-            return <InfoIkon height={23} width={23} />;
-        }
-        return <ErrorIkon height={23} width={23} />;
-    };
+
+    const statusIkon = utledStatusIkon(redigeringsmodus, formkravOppfylt, vurderinger);
 
     return (
         <>
-            <TabellRad>
-                {utledetIkon()}
-                <Heading spacing size="medium" level="5">
+            <div className={styles.tabellRad}>
+                <div className={styles.ikon}>{statusIkon}</div>
+                <Heading spacing size="medium" level="2">
                     Formkrav
                 </Heading>
-            </TabellRad>
-            <TabellRad>
+            </div>
+            <div className={styles.tabellRad}>
                 <FileTextIcon fontSize="1.5rem" />
                 <BodyLong size="small">Klage mottatt</BodyLong>
                 <BodyLong size="small">{formaterIsoDato(behandling.klageMottatt)}</BodyLong>
-            </TabellRad>
+            </div>
         </>
     );
 };

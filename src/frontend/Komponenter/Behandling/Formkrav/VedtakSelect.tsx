@@ -1,5 +1,5 @@
 import React, { Dispatch, SetStateAction } from 'react';
-import styled from 'styled-components';
+import styles from './VedtakSelect.module.css';
 import { IFormkravVilkår } from './typer';
 import {
     Fagsystem,
@@ -20,7 +20,7 @@ import { erGyldigDato } from '../../../App/utils/dato';
 import { Datovelger } from '../../../Felles/Datovelger/Datovelger';
 import { Klagebehandlingsresultat } from '../../../App/typer/klagebehandlingsresultat';
 
-interface IProps {
+interface Props {
     settOppdaterteVurderinger: Dispatch<SetStateAction<IFormkravVilkår>>;
     vedtak: FagsystemVedtak[];
     vurderinger: IFormkravVilkår;
@@ -28,15 +28,7 @@ interface IProps {
     klagebehandlingsresultater: Klagebehandlingsresultat[];
 }
 
-const SelectWrapper = styled.div`
-    width: 80%;
-`;
-
-const DatoWrapper = styled.div`
-    margin-top: 1rem;
-`;
-
-export const VedtakSelect: React.FC<IProps> = ({
+export const VedtakSelect: React.FC<Props> = ({
     settOppdaterteVurderinger,
     vedtak,
     vurderinger,
@@ -94,8 +86,9 @@ export const VedtakSelect: React.FC<IProps> = ({
     };
 
     const manuellVedtaksdato = vurderinger.påklagetVedtak.manuellVedtaksdato;
+
     return (
-        <SelectWrapper>
+        <div className={styles.container}>
             <Select
                 label={'Vedtak som er påklaget'}
                 onChange={(e) => {
@@ -107,7 +100,7 @@ export const VedtakSelect: React.FC<IProps> = ({
                     vurderinger.påklagetVedtak.påklagetVedtakstype
                 }
             >
-                <option value={PåklagetVedtakstype.IKKE_VALGT}>
+                <option value={PåklagetVedtakstype.IKKE_VALGT} disabled>
                     {påklagetVedtakstypeTilTekst[PåklagetVedtakstype.IKKE_VALGT]}
                 </option>
                 {vedtak.sort(sorterVedtakstidspunktDesc).map((valg, index) => (
@@ -129,7 +122,7 @@ export const VedtakSelect: React.FC<IProps> = ({
                 ))}
             </Select>
             {harManuellVedtaksdato(vurderinger.påklagetVedtak.påklagetVedtakstype) && (
-                <DatoWrapper>
+                <div className={styles.datoVelgerContainer}>
                     <Label htmlFor={'vedtaksdato'}>Vedtaksdato</Label>
                     <Datovelger
                         id={'vedtaksdato'}
@@ -150,8 +143,8 @@ export const VedtakSelect: React.FC<IProps> = ({
                         }
                         maksDato={new Date()}
                     />
-                </DatoWrapper>
+                </div>
             )}
-        </SelectWrapper>
+        </div>
     );
 };
