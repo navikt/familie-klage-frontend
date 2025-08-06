@@ -1,7 +1,7 @@
 import React, { FC } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useApp } from '../../App/context/AppContext';
-import { ModalWrapper } from '../Modal/ModalWrapper';
+import { ModalWrapper } from './ModalWrapper';
 
 const UlagretDataModal: FC = () => {
     const {

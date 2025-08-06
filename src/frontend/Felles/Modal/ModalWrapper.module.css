@@ -1,0 +1,17 @@
+.container {
+    min-width: 30rem;
+    max-width: 70rem;
+}
+
+.innhold {
+    margin-right: 2rem;
+    margin-left: 2rem;
+}
+
+.buttonContainer {
+    display: flex;
+    justify-content: flex-end;
+    margin-top: 4rem;
+    margin-right: 2rem;
+    margin-bottom: 0.5rem;
+}
