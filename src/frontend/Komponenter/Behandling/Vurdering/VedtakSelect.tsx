@@ -8,7 +8,7 @@ import { useApp } from '../../../App/context/AppContext';
 
 interface Props {
     settVedtak: Dispatch<SetStateAction<IVurdering>>;
-    valgtVedtak?: VedtakValg;
+    valgtVedtak: VedtakValg | '';
 }
 
 export const VedtakSelect: React.FC<Props> = ({ settVedtak, valgtVedtak }) => {

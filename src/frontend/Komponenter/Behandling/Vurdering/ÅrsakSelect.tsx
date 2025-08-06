@@ -9,7 +9,7 @@ import { useApp } from '../../../App/context/AppContext';
 
 interface Props {
     settÅrsak: Dispatch<SetStateAction<IVurdering>>;
-    årsakValgt?: ÅrsakOmgjøring;
+    årsakValgt: ÅrsakOmgjøring | '';
     fagsystem: Fagsystem;
 }
 
