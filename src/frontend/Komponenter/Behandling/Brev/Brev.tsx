@@ -8,9 +8,8 @@ import {
     RessursSuksess,
 } from '../../../App/typer/ressurs';
 import { useBehandling } from '../../../App/context/BehandlingContext';
-import styled from 'styled-components';
 import { useApp } from '../../../App/context/AppContext';
-import { Alert, Button, HGrid, VStack } from '@navikt/ds-react';
+import { Alert, Box, Button, HGrid, VStack } from '@navikt/ds-react';
 import { IVurdering, VedtakValg } from '../Vurdering/vurderingValg';
 import PdfVisning from './PdfVisning';
 import { ModalWrapper } from '../../../Felles/Modal/ModalWrapper';
@@ -20,15 +19,6 @@ import { OmgjørVedtak } from './OmgjørVedtak';
 import { Behandling, Fagsystem } from '../../../App/typer/fagsak';
 import { BrevmottakerContainer as BaksBrevmottakerContainer } from '../Brevmottakere/baks/BrevmottakerContainer';
 import { useFerdigstillBehandling } from './useFerdigstillBehandling';
-
-const Brevside = styled.div`
-    background-color: var(--a-bg-subtle);
-    padding: 2rem 2rem 0 2rem;
-`;
-
-const AlertStripe = styled(Alert)`
-    margin-top: 2rem;
-`;
 
 type Utfall = 'IKKE_SATT' | 'LAG_BREV' | 'OMGJØR_VEDTAK';
 
@@ -111,7 +101,7 @@ export const Brev: React.FC<Props> = ({ behandling }) => {
 
     if (utfall === 'LAG_BREV') {
         return (
-            <Brevside>
+            <Box margin="8">
                 <HGrid gap={'6'} columns={{ xl: 1, '2xl': '1fr 1.2fr' }}>
                     <VStack gap={'6'}>
                         {brevRessurs.status === RessursStatus.SUKSESS &&
@@ -146,11 +136,9 @@ export const Brev: React.FC<Props> = ({ behandling }) => {
                     }}
                     ariaLabel={'Bekreft ustending av frittstående brev'}
                 >
-                    {feilmelding && (
-                        <AlertStripe variant={'error'}>Utsending feilet.{feilmelding}</AlertStripe>
-                    )}
+                    {feilmelding && <Alert variant={'error'}>Utsending feilet.{feilmelding}</Alert>}
                 </ModalWrapper>
-            </Brevside>
+            </Box>
         );
     } else if (utfall === 'OMGJØR_VEDTAK') {
         return <OmgjørVedtak behandlingId={behandlingId} />;
