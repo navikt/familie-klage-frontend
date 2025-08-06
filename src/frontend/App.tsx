@@ -13,14 +13,8 @@ import { Toast } from './Felles/Toast/Toast';
 import { TestSide } from './Komponenter/test/TestSide';
 import { BodyLong } from '@navikt/ds-react';
 import { ModalWrapper } from './Felles/Modal/ModalWrapper';
-import styled from 'styled-components';
 import UlagretDataModal from './Felles/Modal/UlagretDataModal';
 import { initGrafanaFaro } from './App/utils/grafanaFaro';
-
-const Innhold = styled(BodyLong)`
-    margin-top: 2rem;
-    margin-bottom: 2rem;
-`;
 
 const App: React.FC = () => {
     const [innloggetSaksbehandler, settInnloggetSaksbehandler] = useState<ISaksbehandler>();
@@ -70,7 +64,7 @@ const AppRoutes: React.FC<{ innloggetSaksbehandler: ISaksbehandler }> = ({
                     visModal={true}
                     ariaLabel={'Sesjonen har utløpt. Prøv å last inn siden på nytt.'}
                 >
-                    <Innhold>Prøv å last siden på nytt</Innhold>
+                    <BodyLong>Prøv å last siden på nytt</BodyLong>
                 </ModalWrapper>
             )}
         </BrowserRouter>
