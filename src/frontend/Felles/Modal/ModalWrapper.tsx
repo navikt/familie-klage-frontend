@@ -2,9 +2,9 @@ import styled from 'styled-components';
 import { Button, Modal } from '@navikt/ds-react';
 import React from 'react';
 
-const ModalContainer = styled(Modal)<{ maxWidth?: number }>`
+const ModalContainer = styled(Modal)`
     min-width: 30rem;
-    max-width: ${(props) => (props.maxWidth ? `${props.maxWidth}rem` : '40rem')};
+    max-width: 70rem;
 `;
 
 const Innhold = styled.div`
@@ -12,10 +12,10 @@ const Innhold = styled.div`
     margin-left: 2rem;
 `;
 
-const ButtonContainer = styled.div<{ marginTop?: number }>`
+const ButtonContainer = styled.div`
     display: flex;
     justify-content: flex-end;
-    margin-top: ${(props) => (props.marginTop ? `${props.marginTop}rem` : '1rem')};
+    margin-top: 4rem;
     margin-right: 2rem;
     margin-bottom: 0.5rem;
 `;
@@ -30,8 +30,7 @@ interface ModalWrapper {
     tittel: string;
     visModal: boolean;
     onClose?: () => void;
-    aksjonsknapper?: { hovedKnapp: Aksjonsknapp; lukkKnapp: Aksjonsknapp; marginTop?: number };
-    maxWidth?: number;
+    aksjonsknapper?: { hovedKnapp: Aksjonsknapp; lukkKnapp: Aksjonsknapp };
     ariaLabel?: string;
     children?: React.ReactNode;
 }
@@ -47,7 +46,6 @@ export const ModalWrapper: React.FC<ModalWrapper> = ({
     visModal,
     onClose,
     aksjonsknapper,
-    maxWidth,
     ariaLabel,
     children,
 }) => {
@@ -56,14 +54,13 @@ export const ModalWrapper: React.FC<ModalWrapper> = ({
             <ModalContainer
                 open={visModal}
                 onClose={onClose ? () => onClose() : () => null}
-                maxWidth={maxWidth}
                 aria-label={ariaLabel ? ariaLabel : tittel}
                 header={{ heading: tittel, closeButton: !!onClose }}
             >
                 <Modal.Body>
                     <Innhold>{children}</Innhold>
                     {aksjonsknapper && (
-                        <ButtonContainer marginTop={aksjonsknapper.marginTop}>
+                        <ButtonContainer>
                             <ModalKnapp
                                 variant="tertiary"
                                 onClick={aksjonsknapper.lukkKnapp.onClick}

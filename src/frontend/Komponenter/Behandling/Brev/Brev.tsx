@@ -32,11 +32,11 @@ const AlertStripe = styled(Alert)`
 
 type Utfall = 'IKKE_SATT' | 'LAG_BREV' | 'OMGJØR_VEDTAK';
 
-type Props = {
+interface Props {
     behandling: Behandling;
-};
+}
 
-export const Brev: React.FC<Props> = ({ behandling }: Props) => {
+export const Brev: React.FC<Props> = ({ behandling }) => {
     const behandlingId = behandling.id;
 
     const [brevRessurs, settBrevRessurs] = useState<Ressurs<string>>(byggTomRessurs());
@@ -143,7 +143,6 @@ export const Brev: React.FC<Props> = ({ behandling }: Props) => {
                             disabled: senderInn,
                         },
                         lukkKnapp: { onClick: () => lukkModal(), tekst: 'Avbryt' },
-                        marginTop: 4,
                     }}
                     ariaLabel={'Bekreft ustending av frittstående brev'}
                 >

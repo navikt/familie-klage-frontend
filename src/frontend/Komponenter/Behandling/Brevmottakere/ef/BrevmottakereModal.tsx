@@ -105,7 +105,6 @@ export const BrevmottakereModal: FC<{
             onClose={() => {
                 settVisBrevmottakereModal(false);
             }}
-            maxWidth={70}
             ariaLabel={'Velg brevmottakere'}
         >
             <GridContainer>
