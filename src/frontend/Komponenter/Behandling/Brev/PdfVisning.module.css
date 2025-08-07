@@ -1,0 +1,15 @@
+.container {
+    min-width: 600px;
+    position: sticky;
+    top: 100px;
+    left: 0;
+}
+
+.pdfDokument {
+    box-shadow: 0 4px 4px rgba(0, 0, 0, 0.25), 0 0 2px rgb(0 0 0 / 25%);
+    margin: 0 auto 2rem auto;
+}
+
+.paginering {
+    margin: 0 auto;
+}

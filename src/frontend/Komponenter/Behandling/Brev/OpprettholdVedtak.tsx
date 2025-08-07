@@ -4,7 +4,7 @@ import { byggTomRessurs, Ressurs, RessursStatus } from '../../../App/typer/ressu
 import { Fagsystem } from '../../../App/typer/fagsak';
 import { BrevmottakerContainer as BaksBrevmottakerContainer } from '../Brevmottakere/baks/BrevmottakerContainer';
 import BrevMottakere from '../Brevmottakere/ef/BrevMottakere';
-import PdfVisning from './PdfVisning';
+import { PdfVisning } from './PdfVisning';
 import { ModalWrapper } from '../../../Felles/Modal/ModalWrapper';
 import { useBehandling } from '../../../App/context/BehandlingContext';
 import { useApp } from '../../../App/context/AppContext';
