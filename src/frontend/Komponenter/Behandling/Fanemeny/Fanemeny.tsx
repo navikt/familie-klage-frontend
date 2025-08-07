@@ -1,8 +1,7 @@
 import * as React from 'react';
 import { FC } from 'react';
-import styled from 'styled-components';
+import styles from './Fanemeny.module.css';
 import { alleSider, ISide, SideNavn } from './sider';
-import { Sticky } from '../../../Felles/Visningskomponenter/Sticky';
 import Fane from './Fane';
 import {
     Behandling,
@@ -11,26 +10,12 @@ import {
     StegType,
 } from '../../../App/typer/fagsak';
 import { useBehandling } from '../../../App/context/BehandlingContext';
-import { AWhite, ABorderDefault } from '@navikt/ds-tokens/dist/tokens';
-
-const StickyMedBoxShadow = styled(Sticky)`
-    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.4);
-`;
-
-const StyledFanemeny = styled.div`
-    width: 100%;
-    display: flex;
-    justify-content: space-evenly;
-    align-items: center;
-    border-bottom: ${ABorderDefault} solid 2px;
-    background-color: ${AWhite};
-`;
 
 interface Props {
     behandling: Behandling;
 }
 
-const Fanemeny: FC<Props> = ({ behandling }) => {
+export const Fanemeny: FC<Props> = ({ behandling }) => {
     const { formkravOppfylt } = useBehandling();
     const faneErLåst = (side: ISide, steg: StegType): boolean => {
         if (side.navn === SideNavn.VURDERING) {
@@ -43,8 +28,8 @@ const Fanemeny: FC<Props> = ({ behandling }) => {
     };
 
     return (
-        <StickyMedBoxShadow>
-            <StyledFanemeny>
+        <div className={styles.stickyContainer}>
+            <div className={styles.fanemeny}>
                 {alleSider.map((side, index) => (
                     <Fane
                         side={side}
@@ -54,9 +39,7 @@ const Fanemeny: FC<Props> = ({ behandling }) => {
                         key={index}
                     />
                 ))}
-            </StyledFanemeny>
-        </StickyMedBoxShadow>
+            </div>
+        </div>
     );
 };
-
-export default Fanemeny;

@@ -1,0 +1,12 @@
+.container {
+    position: sticky;
+    background-color: var(--a-white);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 1rem;
+    padding: 0 1rem 0 1rem;
+    border-bottom: 1px solid var(--a-border-strong);
+    z-index: 23;
+    top: 48px;
+}

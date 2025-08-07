@@ -2,7 +2,7 @@ import React, { useMemo } from 'react';
 import { Header, PopoverItem } from '@navikt/familie-header';
 import { ISaksbehandler } from '../../App/typer/saksbehandler';
 import { useApp } from '../../App/context/AppContext';
-import { Sticky } from '../Visningskomponenter/Sticky';
+import styles from './HeaderMedSøk.module.css';
 import { AppEnv } from '../../App/api/env';
 import { lagAInntektLink, lagGosysLink, lagModiaLink } from '../Lenker/lenker';
 import { AxiosRequestCallback } from '../../App/typer/axiosRequest';
@@ -72,8 +72,9 @@ export const HeaderMedSøk: React.FunctionComponent<IProps> = ({ innloggetSaksbe
         () => lagEksterneLenker(axiosRequest, appEnv, valgtFagsakId, personIdent),
         [axiosRequest, appEnv, valgtFagsakId, personIdent]
     );
+
     return (
-        <Sticky>
+        <div className={styles.stickyContainer}>
             <Header
                 tittelOnClick={() => {
                     gåTilUrl('#');
@@ -87,6 +88,6 @@ export const HeaderMedSøk: React.FunctionComponent<IProps> = ({ innloggetSaksbe
                 brukerPopoverItems={[{ name: 'Logg ut', href: `${window.origin}/auth/logout` }]}
                 eksterneLenker={eksterneLenker}
             />
-        </Sticky>
+        </div>
     );
 };
