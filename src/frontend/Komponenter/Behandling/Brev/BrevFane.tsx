@@ -12,5 +12,5 @@ export const BrevFane: React.FC<Props> = ({ behandling }) => {
         return <BrevFaneUtenBrev behandlingId={behandling.id} />;
     }
 
-    return <Brev behandling={behandling} />;
+    return <Brev behandlingId={behandling.id} fagsystem={behandling.fagsystem} />;
 };
