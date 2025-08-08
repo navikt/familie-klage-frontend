@@ -3,28 +3,16 @@ import * as React from 'react';
 import { Formkrav } from './Formkrav/Formkrav';
 import { Resultat } from './Resultat/Resultat';
 import { VurderingFane } from './Vurdering/VurderingFane';
-import { Behandling, StegType } from '../../App/typer/fagsak';
+import { Behandling } from '../../App/typer/fagsak';
 import { BrevFane } from './Brev/BrevFane';
+import { utledRedirectUrl } from './utils';
 
 interface Props {
     behandling: Behandling;
 }
 
 export const BehandlingRoutes: React.FC<Props> = ({ behandling }) => {
-    const utledRedirectUrl = (): string => {
-        switch (behandling.steg) {
-            case StegType.FORMKRAV:
-                return 'formkrav';
-            case StegType.VURDERING:
-                return 'vurdering';
-            case StegType.BREV:
-                return 'brev';
-            default:
-                return 'resultat';
-        }
-    };
-
-    const redirectUrl = `/behandling/${behandling.id}/${utledRedirectUrl()}`;
+    const redirectUrl = `/behandling/${behandling.id}/${utledRedirectUrl(behandling.steg)}`;
 
     return (
         <Routes>
@@ -33,6 +21,7 @@ export const BehandlingRoutes: React.FC<Props> = ({ behandling }) => {
             <Route path="/vurdering" element={<VurderingFane behandling={behandling} />} />
             <Route path="/brev" element={<BrevFane behandling={behandling} />} />
             <Route path="/resultat" element={<Resultat />} />
+            <Route path="*" element={<Navigate to={redirectUrl} replace={true} />} />
         </Routes>
     );
 };

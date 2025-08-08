@@ -1,0 +1,52 @@
+.tekst {
+    border-bottom: 5px solid white;
+    color: var(--a-gray-400);
+    text-align: center;
+    text-decoration: none;
+    width: 100%;
+    padding-top: 1rem;
+    padding-bottom: 1rem;
+    text-overflow: ellipsis;
+    overflow: hidden;
+    white-space: nowrap;
+    padding-left: 5px;
+    padding-right: 5px;
+}
+
+.navigasjonslenke {
+    border-bottom: 5px solid white;
+    color: inherit;
+    text-align: center;
+    text-decoration: none;
+    width: 100%;
+    padding-top: 1rem;
+    padding-bottom: 1rem;
+    text-overflow: ellipsis;
+    overflow: hidden;
+    white-space: nowrap;
+    padding-left: 5px;
+    padding-right: 5px;
+    &:hover {
+        border-bottom: 5px solid var(--a-blue-400);
+        p {
+            color: var(--a-text-action);
+        }
+    }
+}
+
+.valgtNavigasjonslenke {
+    composes: navigasjonslenke;
+
+    background-color: var(--a-gray-100);
+    border-bottom: 5px solid var(--a-text-action);
+
+    .typo-normal {
+        font-weight: bold;
+    }
+}
+
+.lenkeTekst {
+    text-overflow: ellipsis;
+    overflow: hidden;
+    white-space: nowrap;
+}

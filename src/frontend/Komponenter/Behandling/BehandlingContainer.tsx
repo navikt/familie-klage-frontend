@@ -2,11 +2,11 @@ import * as React from 'react';
 import { FC, useEffect } from 'react';
 import Høyremeny from './Høyremeny/Høyremeny';
 import styled from 'styled-components';
-import Fanemeny from './Fanemeny/Fanemeny';
+import { Fanemeny } from './Fanemeny/Fanemeny';
 import { ABorderDefault } from '@navikt/ds-tokens/dist/tokens';
 import { BehandlingRoutes } from './BehandlingRoutes';
 import { BehandlingProvider, useBehandling } from '../../App/context/BehandlingContext';
-import VisittkortComponent from '../../Felles/Visittkort/Visittkort';
+import { Visittkort } from '../../Felles/Visittkort/Visittkort';
 import { Behandling } from '../../App/typer/fagsak';
 import { IPersonopplysninger } from '../../App/typer/personopplysninger';
 import DataViewer from '../../Felles/DataViewer/DataViewer';
@@ -70,7 +70,7 @@ const BehandlingContent: FC<{
     return (
         <>
             <ScrollToTop />
-            <VisittkortComponent personopplysninger={personopplysninger} behandling={behandling} />
+            <Visittkort personopplysninger={personopplysninger} behandling={behandling} />
             <Container>
                 <InnholdWrapper åpenHøyremeny={åpenHøyremeny} id="scroll-topp">
                     <Fanemeny behandling={behandling} />

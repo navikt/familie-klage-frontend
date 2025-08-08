@@ -28,3 +28,16 @@ export const utledStegutfallForFerdigstiltBehandling = (behandling: Behandling, 
             return '';
     }
 };
+
+export const utledRedirectUrl = (behandlingSteg: StegType): string => {
+    switch (behandlingSteg) {
+        case StegType.FORMKRAV:
+            return 'formkrav';
+        case StegType.VURDERING:
+            return 'vurdering';
+        case StegType.BREV:
+            return 'brev';
+        default:
+            return 'resultat';
+    }
+};

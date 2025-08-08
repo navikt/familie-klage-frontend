@@ -5,9 +5,8 @@ import {
     RessursStatus,
     RessursSuksess,
 } from '../../App/typer/ressurs';
-import SystemetLaster from '../SystemetLaster/SystemetLaster';
 import AlertStripePreWrap from '../Visningskomponenter/AlertStripeFeilPreWrap';
-import { Alert } from '@navikt/ds-react';
+import { Alert, Loader, VStack } from '@navikt/ds-react';
 
 /**
  * Input: { behandling: Ressurss<Behandling>, personopslyninger: Ressurss<IPersonopplysninger> }
@@ -64,7 +63,11 @@ function DataViewer<T extends Record<string, unknown>>(
     } else if (harNoenRessursMedStatus(responses, RessursStatus.IKKE_TILGANG)) {
         return <Alert variant={'error'}>Ikke tilgang!</Alert>;
     } else if (harNoenRessursMedStatus(responses, RessursStatus.HENTER)) {
-        return <SystemetLaster />;
+        return (
+            <VStack margin="4" align="center">
+                <Loader size="xlarge" />
+            </VStack>
+        );
     } else if (harNoenRessursMedStatus(responses, RessursStatus.IKKE_HENTET)) {
         return null;
     } else if (responses.every((response) => response.status === RessursStatus.SUKSESS)) {

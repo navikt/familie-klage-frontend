@@ -1,0 +1,16 @@
+.stickyContainer {
+    position: sticky;
+    top: 0;
+    z-index: 999;
+    background-color: white;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.4);
+}
+
+.fanemeny {
+    width: 100%;
+    display: flex;
+    justify-content: space-evenly;
+    align-items: center;
+    border-bottom: var(--a-border-default);
+    background-color: var(--a-white);
+}

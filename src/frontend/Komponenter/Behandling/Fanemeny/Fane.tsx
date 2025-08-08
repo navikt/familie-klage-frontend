@@ -1,94 +1,49 @@
 import * as React from 'react';
-import styled from 'styled-components';
+import styles from './Fane.module.css';
 import { NavLink } from 'react-router-dom';
-import { ABlue400, AGray100, AGray400, ATextAction } from '@navikt/ds-tokens/dist/tokens';
 import { ISide } from './sider';
 import { useApp } from '../../../App/context/AppContext';
 import { BodyShort } from '@navikt/ds-react';
-
-const StyledNavLink = styled(NavLink)`
-    border-bottom: 5px solid white;
-    color: inherit;
-    text-align: center;
-    text-decoration: none;
-    width: 100%;
-    padding-top: 1rem;
-    padding-bottom: 1rem;
-    text-overflow: ellipsis;
-    overflow: hidden;
-    white-space: nowrap;
-    padding-left: 5px;
-    padding-right: 5px;
-    &:hover {
-        border-bottom: 5px solid ${ABlue400};
-        p {
-            color: ${ATextAction};
-        }
-    }
-    &.active {
-        background-color: ${AGray100};
-        border-bottom: 5px solid ${ATextAction};
-
-        .typo-normal {
-            font-weight: bold;
-        }
-    }
-`;
-
-const StyledLenketekst = styled(BodyShort)`
-    text-overflow: ellipsis;
-    overflow: hidden;
-    white-space: nowrap;
-`;
-
-const StyledTekst = styled(BodyShort)`
-    border-bottom: 5px solid white;
-    color: ${AGray400};
-    text-align: center;
-    text-decoration: none;
-    width: 100%;
-    padding-top: 1rem;
-    padding-bottom: 1rem;
-    text-overflow: ellipsis;
-    overflow: hidden;
-    white-space: nowrap;
-    padding-left: 5px;
-    padding-right: 5px;
-`;
+import { utledRedirectUrl } from '../utils';
+import { Behandling } from '../../../App/typer/fagsak';
+import { useBehandling } from '../../../App/context/BehandlingContext';
+import { utledFaneErLåst } from './utils';
 
 interface Props {
     side: ISide;
+    behandling: Behandling;
     behandlingId: string;
     index: number;
-    deaktivert: boolean;
 }
 
-const Fane: React.FC<Props> = ({ side, behandlingId, index, deaktivert }) => {
+export const Fane: React.FC<Props> = ({ side, behandling, behandlingId, index }) => {
     const { gåTilUrl } = useApp();
-    const fanenavn = side.navn;
+    const { formkravOppfylt } = useBehandling();
+
+    const faneErLåst = utledFaneErLåst(side, behandling, formkravOppfylt);
+
+    if (faneErLåst) {
+        return (
+            <BodyShort className={styles.tekst} size={'small'}>
+                {index + 1}. {side.navn}
+            </BodyShort>
+        );
+    }
+    const valgtFane = utledRedirectUrl(behandling.steg) === side.href;
+
     return (
-        <>
-            {deaktivert && (
-                <StyledTekst size={'small'}>
-                    {index + 1}. {fanenavn}
-                </StyledTekst>
-            )}
-            {!deaktivert && (
-                <StyledNavLink
-                    key={side.navn}
-                    to={`/behandling/${behandlingId}/${side.href}`}
-                    onClick={(e) => {
-                        e.preventDefault();
-                        gåTilUrl(`/behandling/${behandlingId}/${side.href}`);
-                    }}
-                >
-                    <StyledLenketekst size={'small'}>
-                        {index + 1}. {fanenavn}
-                    </StyledLenketekst>
-                </StyledNavLink>
-            )}
-        </>
+        <NavLink
+            className={valgtFane ? styles.valgtNavigasjonslenke : styles.navigasjonslenke}
+            key={side.navn}
+            to={`/behandling/${behandlingId}/${side.href}`}
+            onClick={(e) => {
+                e.preventDefault();
+                gåTilUrl(`/behandling/${behandlingId}/${side.href}`);
+            }}
+        >
+            <BodyShort className={styles.lenkeTekst} size={'small'}>
+                {index + 1}. {side.navn}
+            </BodyShort>
+        </NavLink>
     );
 };
-
-export default Fane;

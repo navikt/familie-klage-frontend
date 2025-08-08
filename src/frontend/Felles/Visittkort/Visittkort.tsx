@@ -1,15 +1,14 @@
 import React, { FC } from 'react';
 import { IPersonopplysninger } from '../../App/typer/personopplysninger';
-import Visittkort from '@navikt/familie-visittkort';
+import { Visittkort as FamilieVisittkort } from '@navikt/familie-visittkort';
 import styled from 'styled-components';
+import styles from './Visittkort.module.css';
 import {
     Behandling,
     Klagebehandlingsårsak,
     klagebehandlingsårsakTilTekst,
     PåklagetVedtakstype,
 } from '../../App/typer/fagsak';
-import { ABorderStrong } from '@navikt/ds-tokens/dist/tokens';
-import { Sticky } from '../Visningskomponenter/Sticky';
 import { HenleggKnapp } from './HenleggKnapp';
 import { Label, Link } from '@navikt/ds-react';
 import PersonStatusVarsel from '../Varsel/PersonStatusVarsel';
@@ -34,17 +33,6 @@ const Visningsnavn = styled.div`
     white-space: nowrap;
 `;
 
-export const Container = styled(Sticky)`
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    gap: 1rem;
-    padding: 0 1rem 0 1rem;
-    border-bottom: 1px solid ${ABorderStrong};
-    z-index: 23;
-    top: 48px; // Høyden på headeren
-`;
-
 const ElementWrapper = styled.div`
     margin-left: 1rem;
 `;
@@ -61,7 +49,7 @@ const TagsKnyttetTilBehandling = styled.div`
     gap: 1rem;
 `;
 
-const VisittkortComponent: FC<{
+export const Visittkort: FC<{
     personopplysninger: IPersonopplysninger;
     behandling: Behandling;
 }> = ({ personopplysninger, behandling }) => {
@@ -88,8 +76,8 @@ const VisittkortComponent: FC<{
     const tilbakekrevingLenke = utledTilbakekrevingLenke(behandling, appEnv.eksternlenker);
 
     return (
-        <Container>
-            <Visittkort
+        <div className={styles.container}>
+            <FamilieVisittkort
                 borderBottom={false}
                 alder={20}
                 ident={personIdent}
@@ -130,7 +118,7 @@ const VisittkortComponent: FC<{
                         <EtikettFokus>Verge</EtikettFokus>
                     </ElementWrapper>
                 )}
-            </Visittkort>
+            </FamilieVisittkort>
             <HøyreWrapper>
                 {skalLenkeTilFagsystemBehandling && (
                     <Link href={behandlingLenke} target="_blank">
@@ -169,8 +157,6 @@ const VisittkortComponent: FC<{
                     </>
                 )}
             </HøyreWrapper>
-        </Container>
+        </div>
     );
 };
-
-export default VisittkortComponent;
