@@ -40,7 +40,10 @@ export const VurderingFane: React.FC<{ behandling: Behandling }> = ({ behandling
                 return (
                     <>
                         {behandlingErRedigerbar && !skalViseVurderingsvalg && (
-                            <Alert variant={'error'}>Noen formkrav er ikke oppfylt</Alert>
+                            <Alert variant={'error'}>
+                                Alle formkrav må være utfylt. Vennligst naviger til formkravfanen
+                                for å ta stilling til formkravene.
+                            </Alert>
                         )}
                         {!behandlingErRedigerbar && skalViseVurderingsvalg && vurdering && (
                             <VurderingLesemodus vurdering={vurdering} />

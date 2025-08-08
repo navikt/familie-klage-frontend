@@ -62,7 +62,6 @@ export const BrevFaneUtenBrev: React.FC<Props> = ({ behandlingId }) => {
                         disabled: senderInn,
                     },
                     lukkKnapp: { onClick: () => lukkModal(), tekst: 'Avbryt' },
-                    marginTop: 4,
                 }}
                 ariaLabel={'Bekreft ustending av frittstående brev'}
             >

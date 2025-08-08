@@ -9,7 +9,7 @@ import { useApp } from '../../../App/context/AppContext';
 
 interface Props {
     settHjemmel: Dispatch<SetStateAction<IVurdering>>;
-    valgtHjemmel?: Hjemmel;
+    valgtHjemmel: Hjemmel | '';
 }
 
 export const HjemmelSelect: React.FC<Props> = ({ settHjemmel, valgtHjemmel }) => {

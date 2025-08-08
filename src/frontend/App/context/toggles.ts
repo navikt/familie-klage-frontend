@@ -8,5 +8,4 @@ export enum ToggleName {
 
     // Release-toggles
     kanMellomlagreVurdering = 'familie-klage.kan-mellomlagre-vurdering',
-    brukNyHenleggBehandlingModal = 'familie-klage.bruk-ny-henlegg-behandling-modal',
 }

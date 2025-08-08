@@ -1,22 +1,7 @@
 import * as React from 'react';
-import styled from 'styled-components';
-import { BodyLong, BodyShort, Heading } from '@navikt/ds-react';
+import { BodyLong, BodyShort, Heading, VStack } from '@navikt/ds-react';
 import { IVurdering, VedtakValg, vedtakValgTilTekst, årsakValgTilTekst } from './vurderingValg';
 import { alleHjemlerTilVisningstekst } from './hjemmel';
-
-const Container = styled.div`
-    display: flex;
-    flex-direction: column;
-    margin: 2rem 4rem;
-`;
-
-const Avsnitt = styled.div`
-    margin: 0 0 2rem 0;
-`;
-
-const FritekstfeltLesemodus = styled(BodyLong)`
-    white-space: pre-wrap;
-`;
 
 export const VurderingLesemodus: React.FC<{ vurdering: IVurdering }> = ({ vurdering }) => {
     switch (vurdering.vedtak) {
@@ -32,32 +17,32 @@ export const VurderingLesemodus: React.FC<{ vurdering: IVurdering }> = ({ vurder
 const OmgjørVedtak: React.FC<{ vurdering: IVurdering }> = ({ vurdering }) => {
     const { vedtak, årsak, begrunnelseOmgjøring } = vurdering;
     return (
-        <Container>
+        <VStack gap="8" margin="8">
             {vedtak && (
-                <Avsnitt>
-                    <Heading level="1" size="medium">
+                <div>
+                    <Heading level="2" size="medium">
                         Vedtak
                     </Heading>
                     <BodyShort>{vedtakValgTilTekst[vedtak]}</BodyShort>
-                </Avsnitt>
+                </div>
             )}
             {årsak && (
-                <Avsnitt>
-                    <Heading level="1" size="medium">
+                <div>
+                    <Heading level="2" size="medium">
                         Årsak
                     </Heading>
                     <BodyShort>{årsakValgTilTekst[årsak]}</BodyShort>
-                </Avsnitt>
+                </div>
             )}
             {begrunnelseOmgjøring && (
-                <Avsnitt>
-                    <Heading level="1" size="medium">
+                <div>
+                    <Heading level="2" size="medium">
                         Begrunnelse for omgjøring (internt notat)
                     </Heading>
-                    <FritekstfeltLesemodus>{begrunnelseOmgjøring}</FritekstfeltLesemodus>
-                </Avsnitt>
+                    <BodyLong>{begrunnelseOmgjøring}</BodyLong>
+                </div>
             )}
-        </Container>
+        </VStack>
     );
 };
 
@@ -74,90 +59,90 @@ const OpprettholdVedtak: React.FC<{ vurdering: IVurdering }> = ({ vurdering }) =
         interntNotat,
     } = vurdering;
     return (
-        <Container>
+        <VStack gap="8" margin="8">
             {vedtak && (
-                <Avsnitt>
-                    <Heading level="1" size="medium">
+                <div>
+                    <Heading level="2" size="medium">
                         Vedtak
                     </Heading>
                     <BodyShort>{vedtakValgTilTekst[vedtak]}</BodyShort>
-                </Avsnitt>
+                </div>
             )}
             {hjemmel && (
-                <Avsnitt>
-                    <Heading level="1" size="medium">
+                <div>
+                    <Heading level="2" size="medium">
                         Årsak
                     </Heading>
                     <BodyShort>{alleHjemlerTilVisningstekst[hjemmel]}</BodyShort>
-                </Avsnitt>
+                </div>
             )}
             {innstillingKlageinstans && (
-                <Avsnitt>
-                    <Heading level="1" size="medium">
-                        Innstilling til NAV Klageinstans
+                <div>
+                    <Heading level="2" size="medium">
+                        Innstilling til Nav Klageinstans
                     </Heading>
-                    <FritekstfeltLesemodus>{innstillingKlageinstans}</FritekstfeltLesemodus>
-                </Avsnitt>
+                    <BodyLong>{innstillingKlageinstans}</BodyLong>
+                </div>
             )}
             {(dokumentasjonOgUtredning ||
                 spørsmåletISaken ||
                 aktuelleRettskilder ||
                 klagersAnførsler ||
                 vurderingAvKlagen) && (
-                <Avsnitt>
-                    <Heading level="1" size="medium">
+                <div>
+                    <Heading level="2" size="medium">
                         Innstilling til Nav Klageinstans
                     </Heading>
-                </Avsnitt>
+                </div>
             )}
             {dokumentasjonOgUtredning && (
-                <Avsnitt>
+                <div>
                     <Heading level="2" size="small">
                         Dokumentasjon og utredning
                     </Heading>
-                    <FritekstfeltLesemodus>{dokumentasjonOgUtredning}</FritekstfeltLesemodus>
-                </Avsnitt>
+                    <BodyLong>{dokumentasjonOgUtredning}</BodyLong>
+                </div>
             )}
             {spørsmåletISaken && (
-                <Avsnitt>
+                <div>
                     <Heading level="2" size="small">
                         Spørsmålet i saken
                     </Heading>
-                    <FritekstfeltLesemodus>{spørsmåletISaken}</FritekstfeltLesemodus>
-                </Avsnitt>
+                    <BodyLong>{spørsmåletISaken}</BodyLong>
+                </div>
             )}
             {aktuelleRettskilder && (
-                <Avsnitt>
+                <div>
                     <Heading level="2" size="small">
                         Aktuelle rettskilder
                     </Heading>
-                    <FritekstfeltLesemodus>{aktuelleRettskilder}</FritekstfeltLesemodus>
-                </Avsnitt>
+                    <BodyLong>{aktuelleRettskilder}</BodyLong>
+                </div>
             )}
             {klagersAnførsler && (
-                <Avsnitt>
+                <div>
                     <Heading level="2" size="small">
                         Klagers anførsler
                     </Heading>
-                    <FritekstfeltLesemodus>{klagersAnførsler}</FritekstfeltLesemodus>
-                </Avsnitt>
+                    <BodyLong>{klagersAnførsler}</BodyLong>
+                </div>
             )}
             {vurderingAvKlagen && (
-                <Avsnitt>
+                <div>
                     <Heading level="2" size="small">
                         Vurdering av klagen
                     </Heading>
-                    <FritekstfeltLesemodus>{vurderingAvKlagen}</FritekstfeltLesemodus>
-                </Avsnitt>
+                    <BodyLong>{vurderingAvKlagen}</BodyLong>
+                </div>
             )}
             {interntNotat && (
-                <Avsnitt>
-                    <Heading level="1" size="medium">
+                <div>
+                    <Heading level="2" size="medium">
                         Internt notat
                     </Heading>
-                    <FritekstfeltLesemodus>{interntNotat}</FritekstfeltLesemodus>
-                </Avsnitt>
+                    <BodyLong>{interntNotat}</BodyLong>
+                </div>
             )}
-        </Container>
+        </VStack>
     );
 };

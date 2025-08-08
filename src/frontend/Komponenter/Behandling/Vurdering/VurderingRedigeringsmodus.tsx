@@ -118,16 +118,16 @@ export const VurderingRedigeringsmodus: React.FC<Props> = ({ behandling, vurderi
     const navigerTilBrev = () => navigate(`/behandling/${behandling.id}/brev`);
 
     return (
-        <VStack gap={'8'} margin={'8'}>
+        <VStack gap="8" margin="8">
             <VedtakSelect
                 settVedtak={settOppdatertVurdering}
-                valgtVedtak={oppdatertVurdering.vedtak}
+                valgtVedtak={oppdatertVurdering.vedtak ?? ''}
             />
             {oppdatertVurdering.vedtak == VedtakValg.OMGJØR_VEDTAK && (
                 <>
                     <ÅrsakSelect
                         settÅrsak={settOppdatertVurdering}
-                        årsakValgt={oppdatertVurdering.årsak}
+                        årsakValgt={oppdatertVurdering.årsak ?? ''}
                         fagsystem={behandling.fagsystem}
                     />
                     <EnsligTextArea
@@ -150,7 +150,7 @@ export const VurderingRedigeringsmodus: React.FC<Props> = ({ behandling, vurderi
                 <>
                     <HjemmelSelect
                         settHjemmel={settOppdatertVurdering}
-                        valgtHjemmel={oppdatertVurdering.hjemmel}
+                        valgtHjemmel={oppdatertVurdering.hjemmel ?? ''}
                     />
                     <InnstillingTilNavKlageinstans
                         oppdatertVurdering={oppdatertVurdering}

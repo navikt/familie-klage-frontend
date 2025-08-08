@@ -116,7 +116,6 @@ export const OmgjørVedtak: React.FC<{
                                 disabled: senderInn,
                             },
                             lukkKnapp: { onClick: lukkModal, tekst: 'Avbryt' },
-                            marginTop: 4,
                         }}
                     >
                         {feilmelding && <AlertStripe variant={'error'}>{feilmelding}</AlertStripe>}
