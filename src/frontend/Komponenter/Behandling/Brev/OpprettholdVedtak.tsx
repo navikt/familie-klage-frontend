@@ -1,5 +1,5 @@
 import React, { useCallback, useEffect, useState } from 'react';
-import { Alert, Box, Button, HGrid, VStack } from '@navikt/ds-react';
+import { Alert, Box, HGrid, VStack } from '@navikt/ds-react';
 import { byggTomRessurs, Ressurs, RessursStatus } from '../../../App/typer/ressurs';
 import { Fagsystem } from '../../../App/typer/fagsak';
 import { BrevmottakerContainer as BaksBrevmottakerContainer } from '../Brevmottakere/baks/BrevmottakerContainer';
@@ -10,6 +10,7 @@ import { useBehandling } from '../../../App/context/BehandlingContext';
 import { useApp } from '../../../App/context/AppContext';
 import { useFerdigstillBehandling } from './useFerdigstillBehandling';
 import { IVurdering, VedtakValg } from '../Vurdering/vurderingValg';
+import { Button } from '../../../Felles/Knapper/Button';
 
 interface Props {
     behandlingId: string;
