@@ -17,7 +17,7 @@ interface Props {
 }
 
 export const Fane: React.FC<Props> = ({ side, behandling, behandlingId, index }) => {
-    const { gåTilUrl } = useApp();
+    const { gåTilUrl, valgtSide } = useApp();
     const { formkravOppfylt } = useBehandling();
 
     const faneErLåst = utledFaneErLåst(side, behandling, formkravOppfylt);
@@ -29,11 +29,18 @@ export const Fane: React.FC<Props> = ({ side, behandling, behandlingId, index })
             </BodyShort>
         );
     }
-    const valgtFane = utledRedirectUrl(behandling.steg) === side.href;
+
+    const nåværendeSide = valgtSide
+        ? valgtSide.split('/').at(-1)
+        : utledRedirectUrl(behandling.steg);
+
+    const nåværendeFaneErValgt = nåværendeSide === side.href;
 
     return (
         <NavLink
-            className={valgtFane ? styles.valgtNavigasjonslenke : styles.navigasjonslenke}
+            className={
+                nåværendeFaneErValgt ? styles.valgtNavigasjonslenke : styles.navigasjonslenke
+            }
             key={side.navn}
             to={`/behandling/${behandlingId}/${side.href}`}
             onClick={(e) => {
