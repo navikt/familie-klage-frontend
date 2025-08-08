@@ -1,11 +1,10 @@
-import { Button } from '@navikt/ds-react';
 import { PlusCircleIcon, TrashIcon } from '@navikt/aksel-icons';
 import { EnsligTextArea } from '../../../Felles/Input/EnsligTextArea';
 import * as React from 'react';
 import { useState } from 'react';
-import styles from './InterntNotat.module.css';
 import { harVerdi } from '../../../App/utils/utils';
 import { IVurdering } from './vurderingValg';
+import { Button } from '../../../Felles/Knapper/Button';
 
 export const InterntNotat: React.FC<{
     behandlingErRedigerbar: boolean;
@@ -52,12 +51,7 @@ export const InterntNotat: React.FC<{
 
     return (
         <>
-            <Button
-                variant={'tertiary'}
-                icon={knappIkon}
-                onClick={oppdaterSkalViseFritekstFelt}
-                className={styles.interntNotatButton}
-            >
+            <Button variant={'tertiary'} icon={knappIkon} onClick={oppdaterSkalViseFritekstFelt}>
                 {knappTekst}
             </Button>
             {skalViseFritekstFelt && (

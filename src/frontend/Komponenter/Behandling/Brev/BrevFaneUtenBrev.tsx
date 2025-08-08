@@ -1,16 +1,13 @@
 import React, { useState } from 'react';
-import { Alert, Button, VStack } from '@navikt/ds-react';
+import { Alert, VStack } from '@navikt/ds-react';
 import { ModalWrapper } from '../../../Felles/Modal/ModalWrapper';
 import { useBehandling } from '../../../App/context/BehandlingContext';
 import styled from 'styled-components';
 import { useFerdigstillBehandling } from './useFerdigstillBehandling';
+import { Button } from '../../../Felles/Knapper/Button';
 
 const Container = styled(VStack)`
     margin: 1rem;
-`;
-
-const BekreftKnapp = styled(Button)`
-    width: fit-content;
 `;
 
 interface Props {
@@ -41,7 +38,7 @@ export const BrevFaneUtenBrev: React.FC<Props> = ({ behandlingId }) => {
         <Container gap="4">
             <Alert variant="info">{alertStripeTekst}</Alert>
             {behandlingErRedigerbar && (
-                <BekreftKnapp
+                <Button
                     variant="primary"
                     size="medium"
                     onClick={() => {
@@ -49,7 +46,7 @@ export const BrevFaneUtenBrev: React.FC<Props> = ({ behandlingId }) => {
                     }}
                 >
                     Ferdigstill behandling
-                </BekreftKnapp>
+                </Button>
             )}
             <ModalWrapper
                 tittel={'Bekreft ferdigstillelse av behandling'}

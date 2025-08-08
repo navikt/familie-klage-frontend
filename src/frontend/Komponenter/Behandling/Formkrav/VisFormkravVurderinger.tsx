@@ -10,7 +10,7 @@ import {
     vilkårStatusTilTekst,
 } from './typer';
 import { useBehandling } from '../../../App/context/BehandlingContext';
-import { Alert, BodyShort, Button, Heading, HStack, Label, VStack } from '@navikt/ds-react';
+import { Alert, BodyShort, Heading, HStack, Label, VStack } from '@navikt/ds-react';
 import { useNavigate } from 'react-router-dom';
 import {
     formaterIsoDatoTid,
@@ -43,6 +43,7 @@ import {
 } from './validerFormkravUtils';
 import { FagsystemVedtak } from '../../../App/typer/fagsystemVedtak';
 import { Klagebehandlingsresultat } from '../../../App/typer/klagebehandlingsresultat';
+import { Button } from '../../../Felles/Knapper/Button';
 
 interface Props {
     fagsystemVedtak: FagsystemVedtak[];
@@ -264,7 +265,6 @@ export const VisFormkravVurderinger: React.FC<Props> = ({
                 )}
                 {urlSuffiks && (
                     <Button
-                        className={styles.lagreKnapp}
                         variant="primary"
                         size="medium"
                         onClick={() =>

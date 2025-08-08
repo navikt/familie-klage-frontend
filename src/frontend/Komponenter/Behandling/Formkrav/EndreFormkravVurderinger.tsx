@@ -10,7 +10,6 @@ import {
 import {
     Alert,
     BodyLong,
-    Button,
     HelpText,
     HStack,
     Label,
@@ -38,6 +37,7 @@ import KlagefristUnntak from './KlagefristUnntak';
 import { FagsystemVedtak } from '../../../App/typer/fagsystemVedtak';
 import { Fagsystem, PåklagetVedtakstype } from '../../../App/typer/fagsak';
 import { Klagebehandlingsresultat } from '../../../App/typer/klagebehandlingsresultat';
+import { Button } from '../../../Felles/Knapper/Button';
 
 interface Props {
     fagsystemVedtak: FagsystemVedtak[];
