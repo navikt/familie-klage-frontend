@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { FC, useEffect } from 'react';
-import Høyremeny from './Høyremeny/Høyremeny';
+import { Høyremeny } from './Høyremeny/Høyremeny';
 import styled from 'styled-components';
 import { Fanemeny } from './Fanemeny/Fanemeny';
 import { ABorderDefault } from '@navikt/ds-tokens/dist/tokens';
