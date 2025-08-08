@@ -1,27 +1,8 @@
 import React, { useEffect } from 'react';
-
-import styled from 'styled-components';
-
+import styles from './Toast.module.css';
 import { useApp } from '../../App/context/AppContext';
 import { EToast, toastTilTekst } from '../../App/typer/toast';
 import { AlertMedLukkeKnapp } from '../Visningskomponenter/Alerts';
-
-const Container = styled.div`
-    z-index: 9999;
-    position: fixed;
-    right: 2rem;
-    top: 4rem;
-`;
-
-const ToastAlert: React.FC<{ toast: EToast }> = ({ toast }) => {
-    return (
-        <Container>
-            <AlertMedLukkeKnapp variant={'success'} keyProp={toast}>
-                {toastTilTekst[toast]}
-            </AlertMedLukkeKnapp>
-        </Container>
-    );
-};
 
 export const Toast: React.FC = () => {
     const { toast, settToast } = useApp();
@@ -35,3 +16,11 @@ export const Toast: React.FC = () => {
 
     return toast ? <ToastAlert toast={toast} /> : null;
 };
+
+const ToastAlert: React.FC<{ toast: EToast }> = ({ toast }) => (
+    <div className={styles.container}>
+        <AlertMedLukkeKnapp variant={'success'} keyProp={toast}>
+            {toastTilTekst[toast]}
+        </AlertMedLukkeKnapp>
+    </div>
+);
