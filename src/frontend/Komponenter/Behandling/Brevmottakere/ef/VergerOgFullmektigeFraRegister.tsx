@@ -1,8 +1,7 @@
 import React, { Dispatch, FC, SetStateAction } from 'react';
 import { IFullmakt, IVergemål } from '../../../../App/typer/personopplysninger';
 import styled from 'styled-components';
-import { Ingress, Button, BodyShort } from '@navikt/ds-react';
-import { VertikalSentrering } from '../../../../App/utils/styling';
+import { Ingress, BodyShort, HStack } from '@navikt/ds-react';
 import { KopierbartNullableFødselsnummer } from '../../../../Fødselsnummer/KopierbartNullableFødselsnummer';
 import {
     BrevmottakerPerson,
@@ -11,6 +10,7 @@ import {
     mapFullmaktTilBrevmottakerPersonMedIdent,
     mapVergemålTilBrevmottakerPersonMedIdent,
 } from '../brevmottaker';
+import { Button } from '../../../../Felles/Knapper/Button';
 
 interface Props {
     valgteMottakere: BrevmottakerPerson[];
@@ -72,17 +72,15 @@ export const VergerOgFullmektigeFraRegister: FC<Props> = ({
                                 />
                             </Kolonner>
                             {!mottakerValgt && (
-                                <VertikalSentrering>
-                                    <div>
-                                        <Button
-                                            variant="secondary"
-                                            size="small"
-                                            onClick={settMottaker(mottaker)}
-                                        >
-                                            Legg til
-                                        </Button>
-                                    </div>
-                                </VertikalSentrering>
+                                <HStack align="center">
+                                    <Button
+                                        variant="secondary"
+                                        size="small"
+                                        onClick={settMottaker(mottaker)}
+                                    >
+                                        Legg til
+                                    </Button>
+                                </HStack>
                             )}
                         </StyledMottakerBoks>
                     );
