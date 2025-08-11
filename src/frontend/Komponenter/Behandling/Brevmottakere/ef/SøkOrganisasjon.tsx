@@ -2,14 +2,15 @@ import React, { Dispatch, SetStateAction, useEffect, useState } from 'react';
 import { useApp } from '../../../../App/context/AppContext';
 import { byggTomRessurs, Ressurs } from '../../../../App/typer/ressurs';
 import DataViewer from '../../../../Felles/DataViewer/DataViewer';
-import { Søkefelt, Søkeresultat } from './brevmottakereStyling';
 import { BodyShort, Button, TextField } from '@navikt/ds-react';
 import { BrevmottakerOrganisasjon } from '../brevmottaker';
+import styles from './SøkOrganisasjon.module.css';
 
 interface Props {
     valgteMottakere: BrevmottakerOrganisasjon[];
     settValgteMottakere: Dispatch<SetStateAction<BrevmottakerOrganisasjon[]>>;
 }
+
 export const SøkOrganisasjon: React.FC<Props> = ({ settValgteMottakere }) => {
     const { axiosRequest } = useApp();
 
@@ -47,7 +48,8 @@ export const SøkOrganisasjon: React.FC<Props> = ({ settValgteMottakere }) => {
 
     return (
         <>
-            <Søkefelt
+            <TextField
+                className={styles.søkefelt}
                 label={'Organisasjonsnummer'}
                 htmlSize={26}
                 placeholder={'Søk'}
@@ -58,7 +60,7 @@ export const SøkOrganisasjon: React.FC<Props> = ({ settValgteMottakere }) => {
                 {({ organisasjonRessurs }) => {
                     return (
                         <>
-                            <Søkeresultat>
+                            <div className={styles.søkeresultat}>
                                 <div>
                                     <BodyShort>{organisasjonRessurs.navn}</BodyShort>
                                     {organisasjonRessurs.organisasjonsnummer}
@@ -80,7 +82,7 @@ export const SøkOrganisasjon: React.FC<Props> = ({ settValgteMottakere }) => {
                                     onChange={(e) => settNavnHosOrganisasjon(e.target.value)}
                                     error={feil}
                                 />
-                            </Søkeresultat>
+                            </div>
                         </>
                     );
                 }}

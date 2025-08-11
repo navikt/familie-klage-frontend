@@ -2,10 +2,10 @@ import React, { Dispatch, SetStateAction, useEffect, useState } from 'react';
 import { useApp } from '../../../../App/context/AppContext';
 import { byggTomRessurs, Ressurs } from '../../../../App/typer/ressurs';
 import DataViewer from '../../../../Felles/DataViewer/DataViewer';
-import { BodyShort, Button, HStack } from '@navikt/ds-react';
-import { Søkefelt, Søkeresultat } from './brevmottakereStyling';
+import { BodyShort, Button, HStack, TextField } from '@navikt/ds-react';
 import { MottakerRolle } from '../mottakerRolle';
 import { BrevmottakerPerson } from '../brevmottaker';
+import styles from './SøkOrganisasjon.module.css';
 
 interface Props {
     settValgteMottakere: Dispatch<SetStateAction<BrevmottakerPerson[]>>;
@@ -47,7 +47,8 @@ export const SøkPerson: React.FC<Props> = ({ settValgteMottakere, behandlingId 
 
     return (
         <>
-            <Søkefelt
+            <TextField
+                className={styles.søkefelt}
                 label={'Personident'}
                 htmlSize={26}
                 placeholder={'Personen som skal ha brevet'}
@@ -57,7 +58,7 @@ export const SøkPerson: React.FC<Props> = ({ settValgteMottakere, behandlingId 
             <DataViewer response={{ søkRessurs }}>
                 {({ søkRessurs }) => {
                     return (
-                        <Søkeresultat>
+                        <div className={styles.søkeresultat}>
                             <div>
                                 <BodyShort>{søkRessurs.navn}</BodyShort>
                                 {søkRessurs.personIdent}
@@ -74,7 +75,7 @@ export const SøkPerson: React.FC<Props> = ({ settValgteMottakere, behandlingId 
                                     Legg til
                                 </Button>
                             </HStack>
-                        </Søkeresultat>
+                        </div>
                     );
                 }}
             </DataViewer>
