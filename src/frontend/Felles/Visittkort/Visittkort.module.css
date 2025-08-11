@@ -10,3 +10,13 @@
     z-index: 23;
     top: 48px;
 }
+
+.visningsnavn {
+    text-overflow: ellipsis;
+    overflow: hidden;
+    white-space: nowrap;
+}
+
+.elementContainer {
+    margin-left: 1rem;
+}

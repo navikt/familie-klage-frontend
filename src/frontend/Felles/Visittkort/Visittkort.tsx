@@ -1,7 +1,6 @@
 import React, { FC } from 'react';
 import { IPersonopplysninger } from '../../App/typer/personopplysninger';
 import { Visittkort as FamilieVisittkort } from '@navikt/familie-visittkort';
-import styled from 'styled-components';
 import styles from './Visittkort.module.css';
 import {
     Behandling,
@@ -10,7 +9,7 @@ import {
     PåklagetVedtakstype,
 } from '../../App/typer/fagsak';
 import { HenleggKnapp } from './HenleggKnapp';
-import { Label, Link } from '@navikt/ds-react';
+import { HStack, Label, Link } from '@navikt/ds-react';
 import PersonStatusVarsel from '../Varsel/PersonStatusVarsel';
 import AdressebeskyttelseVarsel from '../Varsel/AdressebeskyttelseVarsel';
 import { EtikettFokus, EtikettInfo, EtikettSuksess } from '../Varsel/Etikett';
@@ -26,28 +25,6 @@ import { useApp } from '../../App/context/AppContext';
 import { FagsystemType } from '../../Komponenter/Behandling/Formkrav/typer';
 import { SettPåVentKnapp } from './SettPåVentKnapp';
 import { EndreBehandlendeEnhetKnapp } from './EndreBehandlendeEnhetKnapp';
-
-const Visningsnavn = styled.div`
-    text-overflow: ellipsis;
-    overflow: hidden;
-    white-space: nowrap;
-`;
-
-const ElementWrapper = styled.div`
-    margin-left: 1rem;
-`;
-
-const HøyreWrapper = styled.div`
-    display: flex;
-    justify-content: flex-end;
-    gap: 1rem;
-`;
-
-const TagsKnyttetTilBehandling = styled.div`
-    display: flex;
-    justify-content: flex-end;
-    gap: 1rem;
-`;
 
 export const Visittkort: FC<{
     personopplysninger: IPersonopplysninger;
@@ -83,43 +60,43 @@ export const Visittkort: FC<{
                 ident={personIdent}
                 kjønn={kjønn}
                 navn={
-                    <Visningsnavn>
+                    <div className={styles.visningsnavn}>
                         <Label size={'small'} as={'p'}>
                             {navn}
                         </Label>
-                    </Visningsnavn>
+                    </div>
                 }
             >
                 {folkeregisterpersonstatus && (
-                    <ElementWrapper>
+                    <div className={styles.elementContainer}>
                         <PersonStatusVarsel folkeregisterpersonstatus={folkeregisterpersonstatus} />
-                    </ElementWrapper>
+                    </div>
                 )}
                 {adressebeskyttelse && (
-                    <ElementWrapper>
+                    <div className={styles.elementContainer}>
                         <AdressebeskyttelseVarsel adressebeskyttelse={adressebeskyttelse} />
-                    </ElementWrapper>
+                    </div>
                 )}
                 {egenAnsatt && (
-                    <ElementWrapper>
+                    <div className={styles.elementContainer}>
                         <EtikettFokus>Egen ansatt</EtikettFokus>
-                    </ElementWrapper>
+                    </div>
                 )}
                 {fullmakt.some(
                     (f) => f.gyldigTilOgMed === null || erEtterDagensDato(f.gyldigTilOgMed)
                 ) && (
-                    <ElementWrapper>
+                    <div className={styles.elementContainer}>
                         <EtikettFokus>Fullmakt</EtikettFokus>
-                    </ElementWrapper>
+                    </div>
                 )}
 
                 {vergemål.length > 0 && (
-                    <ElementWrapper>
+                    <div className={styles.elementContainer}>
                         <EtikettFokus>Verge</EtikettFokus>
-                    </ElementWrapper>
+                    </div>
                 )}
             </FamilieVisittkort>
-            <HøyreWrapper>
+            <HStack justify="end" gap="4">
                 {skalLenkeTilFagsystemBehandling && (
                     <Link href={behandlingLenke} target="_blank">
                         Gå til behandling
@@ -141,7 +118,7 @@ export const Visittkort: FC<{
                 </Link>
                 {behandling && (
                     <>
-                        <TagsKnyttetTilBehandling>
+                        <HStack justify="end" gap="4">
                             <EtikettSuksess>
                                 {stønadstypeTilTekst[behandling.stønadstype]}
                             </EtikettSuksess>
@@ -150,13 +127,13 @@ export const Visittkort: FC<{
                                     {klagebehandlingsårsakTilTekst[behandling.årsak]}
                                 </EtikettInfo>
                             )}
-                        </TagsKnyttetTilBehandling>
+                        </HStack>
                         <SettPåVentKnapp />
                         <EndreBehandlendeEnhetKnapp fagsystem={behandling.fagsystem} />
                         <HenleggKnapp />
                     </>
                 )}
-            </HøyreWrapper>
+            </HStack>
         </div>
     );
 };
