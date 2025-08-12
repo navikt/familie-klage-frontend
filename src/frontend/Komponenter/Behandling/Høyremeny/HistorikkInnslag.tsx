@@ -51,7 +51,7 @@ export const HistorikkInnslag: React.FC<Props> = ({
                         {utledStegutfallForFerdigstiltBehandling(behandling, steg)}
                     </BodyShort>
                 )}
-                <Detail size="small">
+                <Detail>
                     {formaterIsoDatoTid(endretTid)} | {opprettetAv}
                 </Detail>
             </Box>
