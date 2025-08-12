@@ -1,0 +1,36 @@
+.container {
+    width: 100%;
+    border-top: var(--a-border-divider) solid 2px;
+    border-bottom: var(--a-border-divider) solid 2px;
+    text-align: center;
+
+    /*.navds-body-short {*/
+    /*    font-size: 12px;*/
+    /*    margin-top: -5px;*/
+    /*}*/
+}
+
+.ikon {
+    flex: 1;
+    padding-top: 0.75rem;
+    padding-bottom: 0.25rem;
+
+    color: var(--a-blue-500);
+
+    &:hover {
+        cursor: pointer;
+        svg {
+            fill: var(--a-blue-400);
+        }
+        border-bottom: 5px solid var(--a-blue-400);
+    }
+
+    background-color: var(--a-white);
+    border-bottom: 5px solid var(--a-white);
+}
+
+.valgtIkon {
+    composes: ikon;
+    background-color: var(--a-gray-100);
+    border-bottom: 5px solid var(--a-blue-500);
+}

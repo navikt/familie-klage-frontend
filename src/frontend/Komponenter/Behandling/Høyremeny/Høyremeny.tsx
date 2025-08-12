@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { useEffect, useState } from 'react';
-import Valgvisning from './Valgvisning';
+import { Valgvisning } from './Valgvisning';
 import Historikk from './Historikk';
 import { Dokumenter } from './Dokumenter';
 import styles from './Høyremeny.module.css';
