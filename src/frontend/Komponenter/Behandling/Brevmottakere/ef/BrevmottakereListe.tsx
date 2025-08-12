@@ -1,6 +1,6 @@
 import React, { Dispatch, FC, SetStateAction } from 'react';
-import styled from 'styled-components';
-import { BodyShort, Ingress } from '@navikt/ds-react';
+import styles from './BrevmottakereListe.module.css';
+import { BodyShort, VStack } from '@navikt/ds-react';
 import { KopierbartNullableFødselsnummer } from '../../../../Fødselsnummer/KopierbartNullableFødselsnummer';
 import SlettKnapp from '../../../../Felles/Knapper/SlettKnapp';
 import {
@@ -15,23 +15,6 @@ interface Props {
     valgteOrganisasjonMottakere: BrevmottakerOrganisasjon[];
     settValgteOrganisasjonMottakere: Dispatch<SetStateAction<BrevmottakerOrganisasjon[]>>;
 }
-
-const Undertittel = styled(Ingress)`
-    margin-bottom: 1rem;
-`;
-
-const StyledMottakerBoks = styled.div`
-    padding: 10px;
-    margin-bottom: 4px;
-    display: grid;
-    grid-template-columns: 5fr 1fr;
-    background: rgba(196, 196, 196, 0.2);
-`;
-
-const Flexboks = styled.div`
-    display: flex;
-    flex-direction: column;
-`;
 
 export const BrevmottakereListe: FC<Props> = ({
     valgtePersonMottakere,
@@ -56,27 +39,29 @@ export const BrevmottakereListe: FC<Props> = ({
     };
     return (
         <>
-            <Undertittel>Brevmottakere</Undertittel>
+            <BodyShort size="large" spacing>
+                Brevmottakere
+            </BodyShort>
             {valgtePersonMottakere
                 .filter((mottaker) => erBrevmottakerPersonMedIdent(mottaker))
                 .map((mottaker, index) => (
-                    <StyledMottakerBoks key={mottaker.navn + index}>
-                        <Flexboks>
+                    <div className={styles.container} key={mottaker.navn + index}>
+                        <VStack>
                             <BodyShort>
                                 {`${mottaker.navn} (${mottaker.mottakerRolle.toLowerCase()})`}
                                 <KopierbartNullableFødselsnummer
                                     fødselsnummer={mottaker.personIdent}
                                 />
                             </BodyShort>
-                        </Flexboks>
+                        </VStack>
                         <SlettKnapp
                             onClick={fjernPersonMottaker(mottaker.personIdent)}
                             tekst={''}
                         />
-                    </StyledMottakerBoks>
+                    </div>
                 ))}
             {valgteOrganisasjonMottakere.map((mottaker, index) => (
-                <StyledMottakerBoks key={mottaker.navnHosOrganisasjon + index}>
+                <div className={styles.container} key={mottaker.navnHosOrganisasjon + index}>
                     <div>
                         <BodyShort>{`${mottaker.navnHosOrganisasjon}`}</BodyShort>
                         <BodyShort>
@@ -87,7 +72,7 @@ export const BrevmottakereListe: FC<Props> = ({
                         onClick={fjernOrganisasjonMottaker(mottaker.organisasjonsnummer)}
                         tekst={''}
                     />
-                </StyledMottakerBoks>
+                </div>
             ))}
         </>
     );
