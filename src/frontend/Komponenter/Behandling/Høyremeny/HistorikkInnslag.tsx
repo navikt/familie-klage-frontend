@@ -1,7 +1,6 @@
 import * as React from 'react';
-import { ABorderStrong, ASpacing1 } from '@navikt/ds-tokens/dist/tokens';
-import { BodyShort, Detail, Label } from '@navikt/ds-react';
-import styled from 'styled-components';
+import { BodyShort, Box, Detail, HStack, Label } from '@navikt/ds-react';
+import styles from './HistorikkInnslag.module.css';
 import { formaterIsoDatoTid } from '../../../App/utils/formatter';
 import {
     Behandling,
@@ -13,35 +12,7 @@ import {
 import { PersonCircleIcon } from '@navikt/aksel-icons';
 import { utledStegutfallForFerdigstiltBehandling } from '../utils';
 
-const Innslag = styled.div`
-    display: flex;
-    margin: 1rem 1.6rem;
-`;
-
-const Ikon = styled.div`
-    display: block;
-`;
-
-const StipletLinje = styled.div`
-    border-left: 0.15rem dotted ${ABorderStrong};
-    margin-left: 0.75rem;
-    height: calc(100% - 2em);
-`;
-
-const Tekst = styled.div`
-    margin-left: 0.7rem;
-    > *:not(:last-child) {
-        margin: 0.25rem 0 0.25rem 0;
-    }
-`;
-
-const Beskrivelse = styled(BodyShort)`
-    white-space: pre-wrap;
-    word-wrap: break-word;
-    padding: ${ASpacing1} 0;
-`;
-
-interface IHistorikkOppdatering {
+interface Props {
     behandling: Behandling;
     steg: StegType;
     historikkHendelse?: HistorikkHendelse;
@@ -50,7 +21,7 @@ interface IHistorikkOppdatering {
     endretTid: string;
 }
 
-const HistorikkInnslag: React.FunctionComponent<IHistorikkOppdatering> = ({
+export const HistorikkInnslag: React.FC<Props> = ({
     behandling,
     steg,
     historikkHendelse,
@@ -63,14 +34,18 @@ const HistorikkInnslag: React.FunctionComponent<IHistorikkOppdatering> = ({
         : behandlingStegFullførtTilTekst[steg];
 
     return (
-        <Innslag>
-            <Ikon>
+        <HStack margin="6">
+            <div>
                 <PersonCircleIcon fontSize="1.5rem" height={'1em'} />
-                <StipletLinje />
-            </Ikon>
-            <Tekst>
+                <div className={styles.stipletLinje} />
+            </div>
+            <Box marginInline="2 0">
                 <Label size="small">{labelTekst}</Label>
-                {beskrivelse && <Beskrivelse size="small">{beskrivelse}</Beskrivelse>}
+                {beskrivelse && (
+                    <BodyShort className={styles.beskrivelse} size="small">
+                        {beskrivelse}
+                    </BodyShort>
+                )}
                 {steg === StegType.BEHANDLING_FERDIGSTILT && (
                     <BodyShort>
                         {utledStegutfallForFerdigstiltBehandling(behandling, steg)}
@@ -79,9 +54,7 @@ const HistorikkInnslag: React.FunctionComponent<IHistorikkOppdatering> = ({
                 <Detail size="small">
                     {formaterIsoDatoTid(endretTid)} | {opprettetAv}
                 </Detail>
-            </Tekst>
-        </Innslag>
+            </Box>
+        </HStack>
     );
 };
-
-export default HistorikkInnslag;

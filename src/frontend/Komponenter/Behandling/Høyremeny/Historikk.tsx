@@ -1,11 +1,11 @@
 import * as React from 'react';
-import HistorikkInnslag from './HistorikkInnslag';
+import { HistorikkInnslag } from './HistorikkInnslag';
 import { useBehandling } from '../../../App/context/BehandlingContext';
 import DataViewer from '../../../Felles/DataViewer/DataViewer';
 import { IBehandlingshistorikk } from './behandlingshistorikk';
 import { Behandling } from '../../../App/typer/fagsak';
 
-const Historikk: React.FC<{ hidden: boolean }> = ({ hidden }) => {
+export const Historikk: React.FC<{ hidden: boolean }> = ({ hidden }) => {
     const { behandling, behandlingHistorikk } = useBehandling();
 
     if (hidden) {
@@ -46,5 +46,3 @@ const HistorikkContainer: React.FC<{
         </>
     );
 };
-
-export default Historikk;
