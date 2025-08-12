@@ -1,27 +1,15 @@
 import React, { Dispatch, FC, SetStateAction } from 'react';
 import { IPersonopplysninger } from '../../../../App/typer/personopplysninger';
-import styled from 'styled-components';
-import { Ingress, Radio, RadioGroup } from '@navikt/ds-react';
+import { BodyShort, Radio, RadioGroup } from '@navikt/ds-react';
 import { MottakerRolle } from '../mottakerRolle';
 import { BrevmottakerPerson } from '../brevmottaker';
-
-const StyledRadioGruppe = styled(RadioGroup)`
-    display: flex;
-
-    > div {
-        margin-right: 2rem;
-    }
-`;
-
-const Underoverskrift = styled(Ingress)`
-    margin-bottom: 1rem;
-`;
 
 interface Props {
     valgteBrevmottakere: BrevmottakerPerson[];
     settValgtBrevMottakere: Dispatch<SetStateAction<BrevmottakerPerson[]>>;
     personopplysninger: IPersonopplysninger;
 }
+
 export const SkalBrukerHaBrev: FC<Props> = ({
     valgteBrevmottakere,
     settValgtBrevMottakere,
@@ -37,30 +25,26 @@ export const SkalBrukerHaBrev: FC<Props> = ({
                 (mottaker) => mottaker.mottakerRolle === MottakerRolle.BRUKER
             );
 
-            if (brukerErIListe) {
-                const mottakereUtenBruker = mottakere.filter(
-                    (mottaker) => mottaker.mottakerRolle !== MottakerRolle.BRUKER
-                );
-
-                return mottakereUtenBruker;
-            } else {
-                const mottakereMedBruker = [
-                    {
-                        mottakerRolle: MottakerRolle.BRUKER,
-                        personIdent: personopplysninger.personIdent,
-                        navn: personopplysninger.navn,
-                    },
-                    ...mottakere,
-                ];
-                return mottakereMedBruker;
-            }
+            // Returnerer mottakerliste ekskludert bruker eller mottakerliste inkludert bruker
+            return brukerErIListe
+                ? mottakere.filter((mottaker) => mottaker.mottakerRolle !== MottakerRolle.BRUKER)
+                : [
+                      {
+                          mottakerRolle: MottakerRolle.BRUKER,
+                          personIdent: personopplysninger.personIdent,
+                          navn: personopplysninger.navn,
+                      },
+                      ...mottakere,
+                  ];
         });
     };
 
     return (
         <>
-            <Underoverskrift>Skal bruker motta brevet?</Underoverskrift>
-            <StyledRadioGruppe
+            <BodyShort size="large" spacing>
+                Skal bruker motta brevet?
+            </BodyShort>
+            <RadioGroup
                 legend={'Skal bruker motta brevet?'}
                 hideLegend
                 value={brukerSkalHaBrev ? 'Ja' : 'Nei'}
@@ -71,7 +55,7 @@ export const SkalBrukerHaBrev: FC<Props> = ({
                 <Radio value={'Nei'} name={'brukerHaBrevRadio'} onChange={toggleBrukerSkalHaBrev}>
                     Nei
                 </Radio>
-            </StyledRadioGruppe>
+            </RadioGroup>
         </>
     );
 };
