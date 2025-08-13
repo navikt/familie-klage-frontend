@@ -1,0 +1,16 @@
+.container {
+    max-height: 15rem;
+    overflow: hidden;
+    white-space: pre-wrap;
+    max-width: 50rem;
+}
+
+containerEkspandert {
+    composes: container;
+    max-height: none;
+}
+
+.venstreSkillelinje {
+    border-left: 2px solid var(--a-blue-300);
+    padding-left: 1.5rem;
+}

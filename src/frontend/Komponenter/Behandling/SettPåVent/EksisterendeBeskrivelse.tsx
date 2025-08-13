@@ -1,26 +1,7 @@
 import React, { FC, useCallback, useState } from 'react';
-import { BodyShort, Button, Label } from '@navikt/ds-react';
+import { BodyShort, Button, Label, VStack } from '@navikt/ds-react';
 import { ChevronDownIcon, ChevronUpIcon } from '@navikt/aksel-icons';
-import { styled } from 'styled-components';
-import { ABlue300 } from '@navikt/ds-tokens/dist/tokens';
-
-const EkspanderbarContainer = styled(BodyShort)<{ $ekspandert: boolean }>`
-    max-height: ${(props) => (props.$ekspandert ? 'none' : '15rem')};
-    overflow: hidden;
-    white-space: pre-wrap;
-    max-width: 50rem;
-`;
-
-const VenstreSkillelinje = styled.div`
-    border-left: 2px solid ${ABlue300};
-    padding-left: 1.5rem;
-`;
-
-const BeskrivelseContainer = styled.div`
-    display: flex;
-    flex-direction: column;
-    gap: 0.5rem;
-`;
+import styles from './EksisterendeBeskrivelse.module.css';
 
 export const EksisterendeBeskrivelse: FC<{ beskrivelse?: string }> = ({ beskrivelse }) => {
     const [harOverflow, settHarOverflow] = useState(false);
@@ -34,12 +15,16 @@ export const EksisterendeBeskrivelse: FC<{ beskrivelse?: string }> = ({ beskrive
 
     return (
         <section>
-            <BeskrivelseContainer>
+            <VStack gap="2">
                 <Label size={'small'}>Beskrivelseshistorikk</Label>
-                <VenstreSkillelinje>
-                    <EkspanderbarContainer ref={refCallback} $ekspandert={ekspandert} size="small">
+                <div className={styles.venstreSkillelinje}>
+                    <BodyShort
+                        className={ekspandert ? styles.containerEkspandert : styles.container}
+                        ref={refCallback}
+                        size="small"
+                    >
                         {beskrivelse}
-                    </EkspanderbarContainer>
+                    </BodyShort>
                     {(harOverflow || ekspandert) && (
                         <Button
                             variant={'tertiary'}
@@ -51,8 +36,8 @@ export const EksisterendeBeskrivelse: FC<{ beskrivelse?: string }> = ({ beskrive
                             {ekspandert ? 'Skjul beskrivelsen' : 'Se hele beskrivelsen'}
                         </Button>
                     )}
-                </VenstreSkillelinje>
-            </BeskrivelseContainer>
+                </div>
+            </VStack>
         </section>
     );
 };
