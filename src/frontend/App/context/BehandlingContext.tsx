@@ -1,7 +1,6 @@
 import constate from 'constate';
 import { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
-import { IBehandlingParams } from '../typer/routing';
 import { useRerunnableEffect } from '../hooks/useRerunnableEffect';
 import { useHentPersonopplysninger } from '../hooks/useHentPersonopplysninger';
 import { useHentBehandling } from '../hooks/useHentBehandling';
@@ -18,7 +17,7 @@ import { useHentAnsvarligSaksbehandler } from '../hooks/useHentAnsvarligSaksbeha
 import { Behandling, StegType } from '../typer/fagsak';
 
 const [BehandlingProvider, useBehandling] = constate(() => {
-    const behandlingId = useParams<IBehandlingParams>().behandlingId as string;
+    const behandlingId = useParams<{ behandlingId: string }>().behandlingId as string;
 
     const [behandlingErRedigerbar, settBehandlingErRedigerbar] = useState<boolean>(true);
     const { hentPersonopplysninger, personopplysningerResponse } =

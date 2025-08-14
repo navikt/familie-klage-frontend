@@ -106,7 +106,7 @@ export const åpneFilIEgenTab = (
 // Brukes for å fjerne undefined og null fra lister som blir generert av .find()-funksjoner
 export function ensure<T>(
     argument: T | undefined | null,
-    message = 'Verdien kan ikke være null eller underfined'
+    message = 'Verdien kan ikke være null eller undefined'
 ): T {
     if (argument === undefined || argument === null) {
         throw new TypeError(message);

@@ -1,7 +1,6 @@
 import * as React from 'react';
 import { useCallback, useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
-import { IBehandlingParams } from '../../../App/typer/routing';
 import { DataViewer } from '../../../Felles/DataViewer/DataViewer';
 import { compareDesc } from 'date-fns';
 import { formaterNullableIsoDatoTid } from '../../../App/utils/formatter';
@@ -22,7 +21,7 @@ interface Props {
 
 export const Dokumenter: React.FC<Props> = ({ hidden }) => {
     const { axiosRequest } = useApp();
-    const { behandlingId } = useParams<IBehandlingParams>();
+    const { behandlingId } = useParams<{ behandlingId: string }>();
 
     const [dokumenter, settDokumenter] = useState<Ressurs<Dokument[]>>(byggTomRessurs());
 
