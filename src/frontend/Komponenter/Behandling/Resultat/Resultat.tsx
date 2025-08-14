@@ -2,7 +2,7 @@ import * as React from 'react';
 import { useEffect } from 'react';
 import styles from './Resultat.module.css';
 import { Tidslinje } from './Tidslinje';
-import DataViewer from '../../../Felles/DataViewer/DataViewer';
+import { DataViewer } from '../../../Felles/DataViewer/DataViewer';
 import { Heading } from '@navikt/ds-react';
 import { useBehandling } from '../../../App/context/BehandlingContext';
 import { AnkeVisning } from './AnkeVisning';

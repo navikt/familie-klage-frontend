@@ -7,7 +7,6 @@ import { VedtakSelect } from './VedtakSelect';
 import { ÅrsakSelect } from './ÅrsakSelect';
 import { HjemmelSelect } from './HjemmelSelect';
 import { IVurdering, VedtakValg } from './vurderingValg';
-import { useNavigate } from 'react-router-dom';
 import { useBehandling } from '../../../App/context/BehandlingContext';
 import { EnsligTextArea } from '../../../Felles/Input/EnsligTextArea';
 import { harVerdi } from '../../../App/utils/utils';
@@ -59,9 +58,9 @@ interface Props {
 }
 
 export const VurderingRedigeringsmodus: React.FC<Props> = ({ behandling, vurdering }) => {
-    const [senderInn, settSenderInn] = useState<boolean>(false);
+    const { gåTilUrl } = useApp();
 
-    const navigate = useNavigate();
+    const [senderInn, settSenderInn] = useState<boolean>(false);
 
     const {
         vurderingEndret,
@@ -115,8 +114,6 @@ export const VurderingRedigeringsmodus: React.FC<Props> = ({ behandling, vurderi
             hentBehandlingshistorikk.rerun();
         });
     };
-
-    const navigerTilBrev = () => navigate(`/behandling/${behandling.id}/brev`);
 
     return (
         <VStack gap="8" margin="8">
@@ -183,7 +180,11 @@ export const VurderingRedigeringsmodus: React.FC<Props> = ({ behandling, vurderi
                 </Button>
             )}
             {!vurderingEndret && melding?.type !== 'error' && (
-                <Button variant="primary" size="medium" onClick={navigerTilBrev}>
+                <Button
+                    variant="primary"
+                    size="medium"
+                    onClick={() => gåTilUrl(`/behandling/${behandling.id}/brev`)}
+                >
                     Fortsett
                 </Button>
             )}

@@ -11,7 +11,7 @@ import {
 } from '../../../App/typer/ressurs';
 import { IOppgave, Prioritet } from '../Typer/IOppgave';
 import { useApp } from '../../../App/context/AppContext';
-import DataViewer from '../../../Felles/DataViewer/DataViewer';
+import { DataViewer } from '../../../Felles/DataViewer/DataViewer';
 import { useBehandling } from '../../../App/context/BehandlingContext';
 import { BehandlingStatus } from '../../../App/typer/behandlingstatus';
 import { SaksbehandlerVelger } from './SaksbehandlerVelger';
@@ -21,7 +21,7 @@ import { EksisterendeBeskrivelse } from './EksisterendeBeskrivelse';
 import { SettPåVentKnappValg } from './SettPåVentKnappValg';
 import { MappeVelger } from './MappeVelger';
 import { EToast } from '../../../App/typer/toast';
-import ScrollToTop from '../../../Felles/ScrollToTop/ScrollToTop';
+import { ScrollToTop } from '../../../Felles/ScrollToTop/ScrollToTop';
 
 type SettPåVentRequest = {
     oppgaveId: number;

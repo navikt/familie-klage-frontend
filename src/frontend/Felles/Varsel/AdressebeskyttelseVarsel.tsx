@@ -2,11 +2,11 @@ import React from 'react';
 import { Adressebeskyttelse } from '../../App/typer/personopplysninger';
 import { EtikettAdvarsel } from './Etikett';
 
-interface IProps {
+interface Props {
     adressebeskyttelse: Adressebeskyttelse;
 }
 
-const AdressebeskyttelseVarsel: React.FC<IProps> = ({ adressebeskyttelse }) => {
+export const AdressebeskyttelseVarsel: React.FC<Props> = ({ adressebeskyttelse }) => {
     switch (adressebeskyttelse) {
         case Adressebeskyttelse.STRENGT_FORTROLIG_UTLAND:
             return <EtikettAdvarsel>Kode 6 U</EtikettAdvarsel>;
@@ -18,5 +18,3 @@ const AdressebeskyttelseVarsel: React.FC<IProps> = ({ adressebeskyttelse }) => {
             return null;
     }
 };
-
-export default AdressebeskyttelseVarsel;

@@ -1,9 +1,9 @@
 import { DependencyList, EffectCallback, useEffect, useMemo, useState } from 'react';
 
-export function useRerunnableEffect(
+export const useRerunnableEffect = (
     effect: EffectCallback,
     deps?: DependencyList
-): { rerun: () => void } {
+): { rerun: () => void } => {
     const [rerun, setRerun] = useState<number>(0);
     const allDeps = useMemo(() => [rerun, ...(deps ?? [])], [rerun, deps]);
     // eslint-disable-next-line
@@ -14,4 +14,4 @@ export function useRerunnableEffect(
         }),
         [setRerun]
     );
-}
+};

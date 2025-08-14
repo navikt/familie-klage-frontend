@@ -33,7 +33,7 @@ import {
     skalViseKlagefristUnntak,
     utledRadioKnapper,
 } from './utils';
-import KlagefristUnntak from './KlagefristUnntak';
+import { KlagefristUnntak } from './KlagefristUnntak';
 import { FagsystemVedtak } from '../../../App/typer/fagsystemVedtak';
 import { Fagsystem, PåklagetVedtakstype } from '../../../App/typer/fagsak';
 import { Klagebehandlingsresultat } from '../../../App/typer/klagebehandlingsresultat';
@@ -189,7 +189,7 @@ export const EndreFormkravVurderinger: React.FC<Props> = ({
                         <>
                             {radioKnapper.map((formalkrav: IFormalkrav, index: number) => (
                                 <>
-                                    <HStack key={index}>
+                                    <HStack key={index} gap="2">
                                         <RadioGroup
                                             legend={formalkrav.spørsmål}
                                             size="medium"
@@ -263,7 +263,7 @@ export const EndreFormkravVurderinger: React.FC<Props> = ({
                     {feilmelding}
                 </Alert>
             )}
-            <Button type="submit" variant="primary" size="medium" className={styles.lagreKnapp}>
+            <Button type="submit" variant="primary" size="medium">
                 Lagre
             </Button>
         </form>

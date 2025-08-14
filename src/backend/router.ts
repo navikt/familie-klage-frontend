@@ -5,7 +5,7 @@ import { buildPath, eksternlenker, miljø, roller } from './config';
 import { prometheusTellere } from './metrikker';
 import { LOG_LEVEL } from '@navikt/familie-logging';
 
-export const redirectHvisInternUrlIPreprod = () => {
+const redirectHvisInternUrlIPreprod = () => {
     return async (req: Request, res: Response, next: NextFunction) => {
         if (
             process.env.ENV === 'preprod' &&
@@ -17,7 +17,8 @@ export const redirectHvisInternUrlIPreprod = () => {
         }
     };
 };
-export default (authClient: Client, router: Router): Router => {
+
+export const setupRouter = (authClient: Client, router: Router): Router => {
     router.get('/version', (_req: Request, res: Response) => {
         res.status(200).send({ version: process.env.APP_VERSION }).end();
     });

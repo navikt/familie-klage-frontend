@@ -1,9 +1,9 @@
 import React, { useCallback, useEffect, useState } from 'react';
 import styles from './BrevMottakere.module.css';
 import { useApp } from '../../../../App/context/AppContext';
-import { Alert, BodyShort, Button, Label, Tooltip } from '@navikt/ds-react';
+import { Alert, BodyShort, Button, HStack, Label, Tooltip } from '@navikt/ds-react';
 import { Brevmottakere } from '../brevmottakere';
-import DataViewer from '../../../../Felles/DataViewer/DataViewer';
+import { DataViewer } from '../../../../Felles/DataViewer/DataViewer';
 import { useBehandling } from '../../../../App/context/BehandlingContext';
 import { BrevmottakereModal } from './BrevmottakereModal';
 import { byggTomRessurs, Ressurs } from '../../../../App/typer/ressurs';
@@ -99,7 +99,7 @@ const BrevMottakereContainer: React.FC<{
             </ul>
         </Alert>
     ) : (
-        <div className={styles.grid}>
+        <HStack gap="4" align="center">
             <Label>Brevmottaker:</Label>
             <BodyShort>{navn.map((navn) => navn)}</BodyShort>
             {behandlingErRedigerbar && (
@@ -113,6 +113,6 @@ const BrevMottakereContainer: React.FC<{
                     </Button>
                 </Tooltip>
             )}
-        </div>
+        </HStack>
     );
 };

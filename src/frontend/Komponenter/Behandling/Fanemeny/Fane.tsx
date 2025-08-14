@@ -4,7 +4,6 @@ import { NavLink } from 'react-router-dom';
 import { ISide } from './sider';
 import { useApp } from '../../../App/context/AppContext';
 import { BodyShort } from '@navikt/ds-react';
-import { utledRedirectUrl } from '../utils';
 import { Behandling } from '../../../App/typer/fagsak';
 import { useBehandling } from '../../../App/context/BehandlingContext';
 import { utledFaneErLåst } from './utils';
@@ -17,7 +16,7 @@ interface Props {
 }
 
 export const Fane: React.FC<Props> = ({ side, behandling, behandlingId, index }) => {
-    const { gåTilUrl, valgtSide } = useApp();
+    const { gåTilUrl } = useApp();
     const { formkravOppfylt } = useBehandling();
 
     const faneErLåst = utledFaneErLåst(side, behandling, formkravOppfylt);
@@ -30,17 +29,13 @@ export const Fane: React.FC<Props> = ({ side, behandling, behandlingId, index })
         );
     }
 
-    const nåværendeSide = valgtSide
-        ? valgtSide.split('/').at(-1)
-        : utledRedirectUrl(behandling.steg);
+    const nåværendeSide = window.location.href.split('/').at(-1);
 
-    const nåværendeFaneErValgt = nåværendeSide === side.href;
+    const faneErValgt = nåværendeSide === side.href;
 
     return (
         <NavLink
-            className={
-                nåværendeFaneErValgt ? styles.valgtNavigasjonslenke : styles.navigasjonslenke
-            }
+            className={faneErValgt ? styles.valgtNavigasjonslenke : styles.navigasjonslenke}
             key={side.navn}
             to={`/behandling/${behandlingId}/${side.href}`}
             onClick={(e) => {

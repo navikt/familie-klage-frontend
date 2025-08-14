@@ -9,8 +9,8 @@ import {
 } from '../../App/typer/fagsak';
 import { HenleggKnapp } from './HenleggKnapp';
 import { CopyButton, HStack, Label, Link } from '@navikt/ds-react';
-import PersonStatusVarsel from '../Varsel/PersonStatusVarsel';
-import AdressebeskyttelseVarsel from '../Varsel/AdressebeskyttelseVarsel';
+import { PersonStatusVarsel } from '../Varsel/PersonStatusVarsel';
+import { AdressebeskyttelseVarsel } from '../Varsel/AdressebeskyttelseVarsel';
 import { EtikettFokus, EtikettInfo, EtikettSuksess } from '../Varsel/Etikett';
 import { erEtterDagensDato } from '../../App/utils/dato';
 import { stønadstypeTilTekst } from '../../App/typer/stønadstype';
@@ -24,7 +24,7 @@ import { useApp } from '../../App/context/AppContext';
 import { FagsystemType } from '../../Komponenter/Behandling/Formkrav/typer';
 import { SettPåVentKnapp } from './SettPåVentKnapp';
 import { EndreBehandlendeEnhetKnapp } from './EndreBehandlendeEnhetKnapp';
-import { FamilieIkonVelger } from '../IkonVelger/FamilieIkonVelger';
+import { IkonVelger } from '../IkonVelger/IkonVelger';
 
 export const Visittkort: FC<{
     personopplysninger: IPersonopplysninger;
@@ -159,7 +159,7 @@ const VisittkortInner: React.FunctionComponent<IProps> = ({
 }) => (
     <HStack className={styles.innerContainer} align="center" justify="space-between" gap="4">
         <HStack align="center" gap="4">
-            <FamilieIkonVelger alder={alder} kjønn={kjønn} width={24} height={24} />
+            <IkonVelger alder={alder} kjønn={kjønn} width={24} height={24} />
             {typeof navn === 'string' ? (
                 <Label size={'small'}>
                     {navn} ({alder} år)

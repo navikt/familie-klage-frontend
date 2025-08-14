@@ -3,7 +3,7 @@ import { useEffect, useState } from 'react';
 import { AppProvider, useApp } from './App/context/AppContext';
 import { hentInnloggetBruker } from './App/api/saksbehandler';
 import { ISaksbehandler } from './App/typer/saksbehandler';
-import ErrorBoundary from './Felles/ErrorBoundary/ErrorBoundary';
+import { ErrorBoundary } from './Felles/ErrorBoundary/ErrorBoundary';
 import { TogglesProvider } from './App/context/TogglesContext';
 import { BrowserRouter, Navigate, Route, Routes, useNavigate } from 'react-router-dom';
 import { HeaderMedSøk } from './Felles/HeaderMedSøk/HeaderMedSøk';
@@ -13,10 +13,10 @@ import { Toast } from './Felles/Toast/Toast';
 import { TestSide } from './Komponenter/test/TestSide';
 import { BodyLong } from '@navikt/ds-react';
 import { ModalWrapper } from './Felles/Modal/ModalWrapper';
-import UlagretDataModal from './Felles/Modal/UlagretDataModal';
+import { UlagretDataModal } from './Felles/Modal/UlagretDataModal';
 import { initGrafanaFaro } from './App/utils/grafanaFaro';
 
-const App: React.FC = () => {
+export const App: React.FC = () => {
     const [innloggetSaksbehandler, settInnloggetSaksbehandler] = useState<ISaksbehandler>();
     const [appEnv, settAppEnv] = useState<AppEnv>();
 
@@ -46,8 +46,6 @@ const App: React.FC = () => {
         </ErrorBoundary>
     );
 };
-
-export default App;
 
 const AppRoutes: React.FC<{ innloggetSaksbehandler: ISaksbehandler }> = ({
     innloggetSaksbehandler,

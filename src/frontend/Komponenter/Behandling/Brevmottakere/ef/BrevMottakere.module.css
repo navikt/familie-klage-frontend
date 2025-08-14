@@ -1,8 +1,3 @@
-.grid {
-    display: grid;
-    grid-template-columns: 9rem 23rem 16rem;
-}
-
 .informasjonHeader {
     display: grid;
     grid-template-columns: 26rem 12rem;
@@ -11,8 +6,4 @@
 .button {
     padding: 0;
     justify-content: right;
-
-    .navds-button__inner {
-        margin: 0;
-    }
 }

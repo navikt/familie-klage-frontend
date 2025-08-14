@@ -3,7 +3,7 @@ import { useEffect } from 'react';
 import { Alert } from '@navikt/ds-react';
 import { useBehandling } from '../../../App/context/BehandlingContext';
 import { VurderingLesemodus } from './VurderingLesemodus';
-import DataViewer from '../../../Felles/DataViewer/DataViewer';
+import { DataViewer } from '../../../Felles/DataViewer/DataViewer';
 import { alleVilkårOppfylt, påklagetVedtakErValgt } from '../Formkrav/validerFormkravUtils';
 import { useHentVurderinger } from '../../../App/hooks/useHentVurderinger';
 import { Behandling, Fagsystem } from '../../../App/typer/fagsak';
@@ -14,12 +14,12 @@ import { useToggles } from '../../../App/context/TogglesContext';
 import { ToggleName } from '../../../App/context/toggles';
 
 export const VurderingFane: React.FC<{ behandling: Behandling }> = ({ behandling }) => {
-    const behandlingId = behandling.id;
-
     const { behandlingErRedigerbar } = useBehandling();
     const { vilkårsvurderinger, hentVilkårsvurderinger } = useHentFormkravVilkår();
     const { vurdering, hentVurdering } = useHentVurderinger();
     const { toggles } = useToggles();
+
+    const behandlingId = behandling.id;
 
     useEffect(() => {
         if (behandlingId !== undefined) {

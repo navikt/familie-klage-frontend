@@ -15,9 +15,9 @@ import { utledStegutfallForFerdigstiltBehandling } from '../utils';
 import { fjernDuplikatStegFraHistorikk } from './utils';
 import { useApp } from '../../../App/context/AppContext';
 import { utledEksternBehandlingLenke, utledSaksoversiktLenke } from '../../../App/utils/utils';
-import Oppfylt from '../../../Felles/Ikoner/Oppfylt';
-import Advarsel from '../../../Felles/Ikoner/Advarsel';
-import Info from '../../../Felles/Ikoner/Info';
+import { Oppfylt } from '../../../Felles/Ikoner/Oppfylt';
+import { Advarsel } from '../../../Felles/Ikoner/Advarsel';
+import { Info } from '../../../Felles/Ikoner/Info';
 
 /**
  * Hvis resultat = HENLAGT, vis kun opprettet og ferdigstilt

@@ -3,7 +3,7 @@ import { Select } from '@navikt/ds-react';
 import { byggTomRessurs, Ressurs } from '../../../App/typer/ressurs';
 import { IMappe } from '../Typer/IMappe';
 import { useApp } from '../../../App/context/AppContext';
-import DataViewer from '../../../Felles/DataViewer/DataViewer';
+import { DataViewer } from '../../../Felles/DataViewer/DataViewer';
 import { Fagsystem } from '../../../App/typer/fagsak';
 
 export const MappeVelger: FC<{

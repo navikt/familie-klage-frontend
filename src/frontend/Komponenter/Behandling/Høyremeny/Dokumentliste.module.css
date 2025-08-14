@@ -15,8 +15,6 @@
     align-items: center;
 }
 
-.button {
-    margin: 0;
-    padding: 0;
-    text-align: left;
+.dokumentTag {
+    width: 1.5rem;
 }

@@ -105,7 +105,7 @@ export const håndterRessurs = <T>(
     return typetRessurs;
 };
 
-export const loggFeil = (
+const loggFeil = (
     error?: AxiosError,
     innloggetSaksbehandler?: ISaksbehandler,
     feilmelding?: string,
@@ -138,7 +138,7 @@ export const loggFeil = (
     }
 };
 
-export const apiLoggFeil = (melding: string, headers?: Headers, isWarning = false): void => {
+const apiLoggFeil = (melding: string, headers?: Headers, isWarning = false): void => {
     const callId = headers?.['nav-call-id'];
     preferredAxios.post(
         '/logg-feil',

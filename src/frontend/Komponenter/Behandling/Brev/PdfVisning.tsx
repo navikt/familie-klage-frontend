@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { Ressurs } from '../../../App/typer/ressurs';
 import styles from './PdfVisning.module.css';
 import { Document, Page, pdfjs } from 'react-pdf';
-import DataViewer from '../../../Felles/DataViewer/DataViewer';
+import { DataViewer } from '../../../Felles/DataViewer/DataViewer';
 import { Alert, Loader, Pagination, VStack } from '@navikt/ds-react';
 import 'react-pdf/dist/Page/TextLayer.css';
 import 'react-pdf/dist/Page/AnnotationLayer.css';

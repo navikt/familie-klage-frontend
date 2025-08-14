@@ -5,7 +5,7 @@ import { useBehandling } from '../../../App/context/BehandlingContext';
 import { IFormkravVilkår } from './typer';
 import { ToKolonneLayout } from '../../../Felles/Visningskomponenter/ToKolonneLayout';
 import { FormkravVurderinger } from './FormkravVurderinger';
-import DataViewer from '../../../Felles/DataViewer/DataViewer';
+import { DataViewer } from '../../../Felles/DataViewer/DataViewer';
 import { Behandling } from '../../../App/typer/fagsak';
 import { useHentFormkravVilkår } from '../../../App/hooks/useHentFormkravVilkår';
 import { utledRedigeringsmodus } from './validerFormkravUtils';

@@ -7,10 +7,10 @@ import { FileTextIcon } from '@navikt/aksel-icons';
 import { formaterIsoDato } from '../../../App/utils/formatter';
 import { alleVilkårOppfylt, påklagetVedtakErValgt } from './validerFormkravUtils';
 import { useBehandling } from '../../../App/context/BehandlingContext';
-import Oppfylt from '../../../Felles/Ikoner/Oppfylt';
-import IkkeOppfylt from '../../../Felles/Ikoner/IkkeOppfylt';
-import Advarsel from '../../../Felles/Ikoner/Advarsel';
-import Info from '../../../Felles/Ikoner/Info';
+import { Oppfylt } from '../../../Felles/Ikoner/Oppfylt';
+import { IkkeOppfylt } from '../../../Felles/Ikoner/IkkeOppfylt';
+import { Advarsel } from '../../../Felles/Ikoner/Advarsel';
+import { Info } from '../../../Felles/Ikoner/Info';
 
 const utledStatusIkon = (
     redigeringsmodus: Redigeringsmodus,
