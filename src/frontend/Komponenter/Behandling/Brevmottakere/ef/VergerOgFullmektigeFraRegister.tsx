@@ -2,7 +2,7 @@ import React, { Dispatch, FC, SetStateAction } from 'react';
 import { IFullmakt, IVergemål } from '../../../../App/typer/personopplysninger';
 import styles from './SøkWrapper.module.css';
 import { BodyShort, HStack, VStack } from '@navikt/ds-react';
-import { KopierbartNullableFødselsnummer } from '../../../../Fødselsnummer/KopierbartNullableFødselsnummer';
+import { KopierbartNullableFødselsnummer } from '../../../../Felles/Fødselsnummer/KopierbartNullableFødselsnummer';
 import {
     BrevmottakerPerson,
     BrevmottakerPersonMedIdent,

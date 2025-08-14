@@ -1,7 +1,7 @@
 import React, { Dispatch, FC, SetStateAction } from 'react';
 import styles from './BrevmottakereListe.module.css';
 import { BodyShort, Button, VStack } from '@navikt/ds-react';
-import { KopierbartNullableFødselsnummer } from '../../../../Fødselsnummer/KopierbartNullableFødselsnummer';
+import { KopierbartNullableFødselsnummer } from '../../../../Felles/Fødselsnummer/KopierbartNullableFødselsnummer';
 import {
     BrevmottakerOrganisasjon,
     BrevmottakerPerson,

@@ -13,12 +13,7 @@ export interface Props {
     height: number;
 }
 
-export const FamilieIkonVelger: React.FunctionComponent<Props> = ({
-    alder,
-    kjønn,
-    width,
-    height,
-}) => {
+export const IkonVelger: React.FunctionComponent<Props> = ({ alder, kjønn, width, height }) => {
     switch (kjønn) {
         case Kjønn.KVINNE:
             if (alder < 18) {

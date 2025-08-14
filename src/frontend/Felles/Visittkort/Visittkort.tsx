@@ -24,7 +24,7 @@ import { useApp } from '../../App/context/AppContext';
 import { FagsystemType } from '../../Komponenter/Behandling/Formkrav/typer';
 import { SettPåVentKnapp } from './SettPåVentKnapp';
 import { EndreBehandlendeEnhetKnapp } from './EndreBehandlendeEnhetKnapp';
-import { FamilieIkonVelger } from '../IkonVelger/FamilieIkonVelger';
+import { IkonVelger } from '../IkonVelger/IkonVelger';
 
 export const Visittkort: FC<{
     personopplysninger: IPersonopplysninger;
@@ -159,7 +159,7 @@ const VisittkortInner: React.FunctionComponent<IProps> = ({
 }) => (
     <HStack className={styles.innerContainer} align="center" justify="space-between" gap="4">
         <HStack align="center" gap="4">
-            <FamilieIkonVelger alder={alder} kjønn={kjønn} width={24} height={24} />
+            <IkonVelger alder={alder} kjønn={kjønn} width={24} height={24} />
             {typeof navn === 'string' ? (
                 <Label size={'small'}>
                     {navn} ({alder} år)
