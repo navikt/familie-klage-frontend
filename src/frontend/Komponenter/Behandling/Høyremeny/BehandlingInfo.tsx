@@ -5,7 +5,7 @@ import { BodyShort, HStack, Tooltip, VStack } from '@navikt/ds-react';
 import { behandlingStatusTilTekst } from '../../../App/typer/behandlingstatus';
 import { formaterIsoDato, formaterIsoDatoTid } from '../../../App/utils/formatter';
 import { TilegnetSaksbehandler } from './TilegnetSaksbehandler';
-import DataViewer from '../../../Felles/DataViewer/DataViewer';
+import { DataViewer } from '../../../Felles/DataViewer/DataViewer';
 import { useBehandling } from '../../../App/context/BehandlingContext';
 
 interface Props {

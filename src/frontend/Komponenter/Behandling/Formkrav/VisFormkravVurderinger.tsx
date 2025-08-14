@@ -1,6 +1,6 @@
 import React, { Dispatch, SetStateAction, useState } from 'react';
 import styles from './VisFormkravVurderinger.module.css';
-import BrukerMedBlyant from '../../../Felles/Ikoner/BrukerMedBlyant';
+import { BrukerMedBlyant } from '../../../Felles/Ikoner/BrukerMedBlyant';
 import {
     formkravFristUnntakTilTekst,
     IFormalkrav,

@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { HistorikkInnslag } from './HistorikkInnslag';
 import { useBehandling } from '../../../App/context/BehandlingContext';
-import DataViewer from '../../../Felles/DataViewer/DataViewer';
+import { DataViewer } from '../../../Felles/DataViewer/DataViewer';
 import { IBehandlingshistorikk } from './behandlingshistorikk';
 import { Behandling } from '../../../App/typer/fagsak';
 

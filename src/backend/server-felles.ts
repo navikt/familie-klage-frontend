@@ -5,12 +5,12 @@ import bodyParser from 'body-parser';
 
 import { klageProxyUrl } from './config.js';
 import { addCallId, attachToken, doProxy } from './proxy.js';
-import setupRouter from './router.js';
+import { setupRouter } from './router.js';
 import { logError, logInfo } from '@navikt/familie-logging';
 
 const port = 8020;
 
-const setupServerFelles = ({ app, azureAuthClient, router }: IApp) => {
+export const setupServerFelles = ({ app, azureAuthClient, router }: IApp) => {
     app.use(
         '/familie-klage/api',
         addCallId(),
@@ -38,5 +38,3 @@ const setupServerFelles = ({ app, azureAuthClient, router }: IApp) => {
         logError(`server startup failed - ${err}`);
     });
 };
-
-export default setupServerFelles;

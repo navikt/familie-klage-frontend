@@ -3,12 +3,12 @@ import { Radio, RadioGroup } from '@navikt/ds-react';
 import { FormkravFristUnntak, formkravFristUnntakTilTekst, IFormkravVilkår } from './typer';
 import { useApp } from '../../../App/context/AppContext';
 
-interface IProps {
+interface Props {
     settOppdaterteVurderinger: Dispatch<SetStateAction<IFormkravVilkår>>;
     unntakVurdering?: FormkravFristUnntak;
 }
 
-const EndreFormkravVurderinger: React.FC<IProps> = ({
+export const KlagefristUnntak: React.FC<Props> = ({
     settOppdaterteVurderinger,
     unntakVurdering,
 }) => {
@@ -40,5 +40,3 @@ const EndreFormkravVurderinger: React.FC<IProps> = ({
         </RadioGroup>
     );
 };
-
-export default EndreFormkravVurderinger;

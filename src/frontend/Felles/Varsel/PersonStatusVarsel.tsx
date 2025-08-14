@@ -2,11 +2,11 @@ import React from 'react';
 import { Folkeregisterpersonstatus } from '../../App/typer/personopplysninger';
 import { EtikettAdvarsel } from './Etikett';
 
-interface IProps {
+interface Props {
     folkeregisterpersonstatus: Folkeregisterpersonstatus;
 }
 
-const PersonStatusVarsel: React.FC<IProps> = ({ folkeregisterpersonstatus }) => {
+export const PersonStatusVarsel: React.FC<Props> = ({ folkeregisterpersonstatus }) => {
     switch (folkeregisterpersonstatus) {
         case Folkeregisterpersonstatus.DØD:
             return <EtikettAdvarsel>Død</EtikettAdvarsel>;
@@ -18,5 +18,3 @@ const PersonStatusVarsel: React.FC<IProps> = ({ folkeregisterpersonstatus }) => 
             return null;
     }
 };
-
-export default PersonStatusVarsel;

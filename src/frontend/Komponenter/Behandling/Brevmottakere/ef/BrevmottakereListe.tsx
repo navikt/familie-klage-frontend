@@ -1,13 +1,13 @@
 import React, { Dispatch, FC, SetStateAction } from 'react';
 import styles from './BrevmottakereListe.module.css';
-import { BodyShort, VStack } from '@navikt/ds-react';
+import { BodyShort, Button, VStack } from '@navikt/ds-react';
 import { KopierbartNullableFødselsnummer } from '../../../../Fødselsnummer/KopierbartNullableFødselsnummer';
-import SlettKnapp from '../../../../Felles/Knapper/SlettKnapp';
 import {
     BrevmottakerOrganisasjon,
     BrevmottakerPerson,
     erBrevmottakerPersonMedIdent,
 } from '../brevmottaker';
+import { TrashIcon } from '@navikt/aksel-icons';
 
 interface Props {
     valgtePersonMottakere: BrevmottakerPerson[];
@@ -54,9 +54,10 @@ export const BrevmottakereListe: FC<Props> = ({
                                 />
                             </BodyShort>
                         </VStack>
-                        <SlettKnapp
-                            onClick={fjernPersonMottaker(mottaker.personIdent)}
-                            tekst={''}
+                        <Button
+                            onClick={() => fjernPersonMottaker(mottaker.personIdent)}
+                            icon={<TrashIcon fontSize="1.5rem" />}
+                            variant={'tertiary'}
                         />
                     </div>
                 ))}
@@ -68,9 +69,10 @@ export const BrevmottakereListe: FC<Props> = ({
                             {`Organisasjonsnummer: ${mottaker.organisasjonsnummer}`}
                         </BodyShort>
                     </div>
-                    <SlettKnapp
-                        onClick={fjernOrganisasjonMottaker(mottaker.organisasjonsnummer)}
-                        tekst={''}
+                    <Button
+                        onClick={() => fjernOrganisasjonMottaker(mottaker.organisasjonsnummer)}
+                        icon={<TrashIcon fontSize="1.5rem" />}
+                        variant={'tertiary'}
                     />
                 </div>
             ))}

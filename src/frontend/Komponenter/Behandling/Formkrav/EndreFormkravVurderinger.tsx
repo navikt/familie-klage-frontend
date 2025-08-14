@@ -33,7 +33,7 @@ import {
     skalViseKlagefristUnntak,
     utledRadioKnapper,
 } from './utils';
-import KlagefristUnntak from './KlagefristUnntak';
+import { KlagefristUnntak } from './KlagefristUnntak';
 import { FagsystemVedtak } from '../../../App/typer/fagsystemVedtak';
 import { Fagsystem, PåklagetVedtakstype } from '../../../App/typer/fagsak';
 import { Klagebehandlingsresultat } from '../../../App/typer/klagebehandlingsresultat';

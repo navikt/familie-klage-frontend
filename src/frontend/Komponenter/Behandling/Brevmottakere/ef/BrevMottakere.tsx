@@ -3,7 +3,7 @@ import styles from './BrevMottakere.module.css';
 import { useApp } from '../../../../App/context/AppContext';
 import { Alert, BodyShort, Button, Label, Tooltip } from '@navikt/ds-react';
 import { Brevmottakere } from '../brevmottakere';
-import DataViewer from '../../../../Felles/DataViewer/DataViewer';
+import { DataViewer } from '../../../../Felles/DataViewer/DataViewer';
 import { useBehandling } from '../../../../App/context/BehandlingContext';
 import { BrevmottakereModal } from './BrevmottakereModal';
 import { byggTomRessurs, Ressurs } from '../../../../App/typer/ressurs';

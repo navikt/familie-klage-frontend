@@ -3,7 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import { useApp } from '../../App/context/AppContext';
 import { ModalWrapper } from './ModalWrapper';
 
-const UlagretDataModal: FC = () => {
+export const UlagretDataModal: FC = () => {
     const {
         nullstillIkkePersisterteKomponenter,
         visUlagretDataModal,
@@ -38,5 +38,3 @@ const UlagretDataModal: FC = () => {
         />
     );
 };
-
-export default UlagretDataModal;

@@ -53,9 +53,9 @@ const renderChildren = (children: any, response: any): ReactElement => {
     return children;
 };
 
-function DataViewer<T extends Record<string, unknown>>(
+export const DataViewer = <T extends Record<string, unknown>>(
     props: DataViewerProps<T>
-): ReactNode | null {
+): ReactNode | null => {
     const { response, children } = props;
     const responses = Object.values(response);
     if (harNoenRessursMedStatus(responses, RessursStatus.FUNKSJONELL_FEIL, RessursStatus.FEILET)) {
@@ -75,6 +75,4 @@ function DataViewer<T extends Record<string, unknown>>(
     } else {
         return null;
     }
-}
-
-export default DataViewer;
+};

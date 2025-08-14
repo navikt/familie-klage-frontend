@@ -3,7 +3,7 @@ import { useEffect } from 'react';
 import { Alert } from '@navikt/ds-react';
 import { useBehandling } from '../../../App/context/BehandlingContext';
 import { VurderingLesemodus } from './VurderingLesemodus';
-import DataViewer from '../../../Felles/DataViewer/DataViewer';
+import { DataViewer } from '../../../Felles/DataViewer/DataViewer';
 import { alleVilkårOppfylt, påklagetVedtakErValgt } from '../Formkrav/validerFormkravUtils';
 import { useHentVurderinger } from '../../../App/hooks/useHentVurderinger';
 import { Behandling, Fagsystem } from '../../../App/typer/fagsak';

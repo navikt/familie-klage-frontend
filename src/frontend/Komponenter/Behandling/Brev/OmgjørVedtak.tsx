@@ -8,7 +8,7 @@ import { Alert, VStack } from '@navikt/ds-react';
 import { useApp } from '../../../App/context/AppContext';
 import { useBehandling } from '../../../App/context/BehandlingContext';
 import { byggTomRessurs, Ressurs } from '../../../App/typer/ressurs';
-import DataViewer from '../../../Felles/DataViewer/DataViewer';
+import { DataViewer } from '../../../Felles/DataViewer/DataViewer';
 import { ModalWrapper } from '../../../Felles/Modal/ModalWrapper';
 import { useFerdigstillBehandling } from './useFerdigstillBehandling';
 import { Button } from '../../../Felles/Knapper/Button';

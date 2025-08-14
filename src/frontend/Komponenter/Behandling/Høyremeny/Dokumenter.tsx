@@ -4,7 +4,7 @@ import { useMemo } from 'react';
 import { useParams } from 'react-router-dom';
 import { IBehandlingParams } from '../../../App/typer/routing';
 import { useDataHenter } from '../../../App/hooks/felles/useDataHenter';
-import DataViewer from '../../../Felles/DataViewer/DataViewer';
+import { DataViewer } from '../../../Felles/DataViewer/DataViewer';
 import { compareDesc } from 'date-fns';
 import { formaterNullableIsoDatoTid } from '../../../App/utils/formatter';
 import { åpneFilIEgenTab } from '../../../App/utils/utils';

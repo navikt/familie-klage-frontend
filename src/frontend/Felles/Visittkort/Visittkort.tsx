@@ -9,8 +9,8 @@ import {
 } from '../../App/typer/fagsak';
 import { HenleggKnapp } from './HenleggKnapp';
 import { CopyButton, HStack, Label, Link } from '@navikt/ds-react';
-import PersonStatusVarsel from '../Varsel/PersonStatusVarsel';
-import AdressebeskyttelseVarsel from '../Varsel/AdressebeskyttelseVarsel';
+import { PersonStatusVarsel } from '../Varsel/PersonStatusVarsel';
+import { AdressebeskyttelseVarsel } from '../Varsel/AdressebeskyttelseVarsel';
 import { EtikettFokus, EtikettInfo, EtikettSuksess } from '../Varsel/Etikett';
 import { erEtterDagensDato } from '../../App/utils/dato';
 import { stønadstypeTilTekst } from '../../App/typer/stønadstype';

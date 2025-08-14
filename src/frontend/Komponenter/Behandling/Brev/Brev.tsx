@@ -11,7 +11,7 @@ import { useApp } from '../../../App/context/AppContext';
 import { IVurdering, VedtakValg } from '../Vurdering/vurderingValg';
 import { OmgjørVedtak } from './OmgjørVedtak';
 import { Fagsystem } from '../../../App/typer/fagsak';
-import DataViewer from '../../../Felles/DataViewer/DataViewer';
+import { DataViewer } from '../../../Felles/DataViewer/DataViewer';
 import { OpprettholdVedtak } from './OpprettholdVedtak';
 import { Alert } from '@navikt/ds-react';
 

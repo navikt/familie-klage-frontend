@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { useApp } from '../../../../App/context/AppContext';
-import DataViewer from '../../../../Felles/DataViewer/DataViewer';
+import { DataViewer } from '../../../../Felles/DataViewer/DataViewer';
 import { useBehandling } from '../../../../App/context/BehandlingContext';
 import {
     byggFeiletRessurs,
