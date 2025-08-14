@@ -142,7 +142,6 @@ const Bruker: React.FC<{
             <InternalHeader.UserButton
                 name={navn}
                 description={enhet ? `Enhet: ${enhet}` : 'Ukjent enhet'}
-                className="ml-auto"
             />
         </ActionMenu.Trigger>
         {popoverItems && (

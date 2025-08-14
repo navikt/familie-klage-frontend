@@ -6,8 +6,4 @@
 .button {
     padding: 0;
     justify-content: right;
-
-    .navds-button__inner {
-        margin: 0;
-    }
 }
