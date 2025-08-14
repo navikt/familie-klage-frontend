@@ -5,11 +5,8 @@
     max-width: 50rem;
 }
 
-containerEkspandert {
-    max-height: 15rem;
-    overflow: hidden;
-    white-space: pre-wrap;
-    max-width: 50rem;
+.containerEkspandert {
+    composes: container;
     max-height: none;
 }
 
