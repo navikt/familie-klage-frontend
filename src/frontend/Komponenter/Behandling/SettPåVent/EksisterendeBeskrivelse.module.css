@@ -6,7 +6,10 @@
 }
 
 containerEkspandert {
-    composes: container;
+    max-height: 15rem;
+    overflow: hidden;
+    white-space: pre-wrap;
+    max-width: 50rem;
     max-height: none;
 }
 
