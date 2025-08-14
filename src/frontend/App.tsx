@@ -7,7 +7,7 @@ import ErrorBoundary from './Felles/ErrorBoundary/ErrorBoundary';
 import { TogglesProvider } from './App/context/TogglesContext';
 import { BrowserRouter, Navigate, Route, Routes, useNavigate } from 'react-router-dom';
 import { HeaderMedSøk } from './Felles/HeaderMedSøk/HeaderMedSøk';
-import BehandlingContainer from './Komponenter/Behandling/BehandlingContainer';
+import { BehandlingContainer } from './Komponenter/Behandling/BehandlingContainer';
 import { AppEnv, hentEnv } from './App/api/env';
 import { Toast } from './Felles/Toast/Toast';
 import { TestSide } from './Komponenter/test/TestSide';

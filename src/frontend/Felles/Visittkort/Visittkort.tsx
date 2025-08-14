@@ -1,7 +1,5 @@
 import React, { FC } from 'react';
 import { IPersonopplysninger } from '../../App/typer/personopplysninger';
-import { Visittkort as FamilieVisittkort } from '@navikt/familie-visittkort';
-import styled from 'styled-components';
 import styles from './Visittkort.module.css';
 import {
     Behandling,
@@ -10,7 +8,7 @@ import {
     PåklagetVedtakstype,
 } from '../../App/typer/fagsak';
 import { HenleggKnapp } from './HenleggKnapp';
-import { Label, Link } from '@navikt/ds-react';
+import { CopyButton, HStack, Label, Link } from '@navikt/ds-react';
 import PersonStatusVarsel from '../Varsel/PersonStatusVarsel';
 import AdressebeskyttelseVarsel from '../Varsel/AdressebeskyttelseVarsel';
 import { EtikettFokus, EtikettInfo, EtikettSuksess } from '../Varsel/Etikett';
@@ -26,28 +24,7 @@ import { useApp } from '../../App/context/AppContext';
 import { FagsystemType } from '../../Komponenter/Behandling/Formkrav/typer';
 import { SettPåVentKnapp } from './SettPåVentKnapp';
 import { EndreBehandlendeEnhetKnapp } from './EndreBehandlendeEnhetKnapp';
-
-const Visningsnavn = styled.div`
-    text-overflow: ellipsis;
-    overflow: hidden;
-    white-space: nowrap;
-`;
-
-const ElementWrapper = styled.div`
-    margin-left: 1rem;
-`;
-
-const HøyreWrapper = styled.div`
-    display: flex;
-    justify-content: flex-end;
-    gap: 1rem;
-`;
-
-const TagsKnyttetTilBehandling = styled.div`
-    display: flex;
-    justify-content: flex-end;
-    gap: 1rem;
-`;
+import { FamilieIkonVelger } from '../IkonVelger/FamilieIkonVelger';
 
 export const Visittkort: FC<{
     personopplysninger: IPersonopplysninger;
@@ -77,49 +54,48 @@ export const Visittkort: FC<{
 
     return (
         <div className={styles.container}>
-            <FamilieVisittkort
-                borderBottom={false}
+            <VisittkortInner
                 alder={20}
                 ident={personIdent}
                 kjønn={kjønn}
                 navn={
-                    <Visningsnavn>
+                    <div className={styles.visningsnavn}>
                         <Label size={'small'} as={'p'}>
                             {navn}
                         </Label>
-                    </Visningsnavn>
+                    </div>
                 }
             >
                 {folkeregisterpersonstatus && (
-                    <ElementWrapper>
+                    <div className={styles.elementContainer}>
                         <PersonStatusVarsel folkeregisterpersonstatus={folkeregisterpersonstatus} />
-                    </ElementWrapper>
+                    </div>
                 )}
                 {adressebeskyttelse && (
-                    <ElementWrapper>
+                    <div className={styles.elementContainer}>
                         <AdressebeskyttelseVarsel adressebeskyttelse={adressebeskyttelse} />
-                    </ElementWrapper>
+                    </div>
                 )}
                 {egenAnsatt && (
-                    <ElementWrapper>
+                    <div className={styles.elementContainer}>
                         <EtikettFokus>Egen ansatt</EtikettFokus>
-                    </ElementWrapper>
+                    </div>
                 )}
                 {fullmakt.some(
                     (f) => f.gyldigTilOgMed === null || erEtterDagensDato(f.gyldigTilOgMed)
                 ) && (
-                    <ElementWrapper>
+                    <div className={styles.elementContainer}>
                         <EtikettFokus>Fullmakt</EtikettFokus>
-                    </ElementWrapper>
+                    </div>
                 )}
 
                 {vergemål.length > 0 && (
-                    <ElementWrapper>
+                    <div className={styles.elementContainer}>
                         <EtikettFokus>Verge</EtikettFokus>
-                    </ElementWrapper>
+                    </div>
                 )}
-            </FamilieVisittkort>
-            <HøyreWrapper>
+            </VisittkortInner>
+            <HStack justify="end" gap="4">
                 {skalLenkeTilFagsystemBehandling && (
                     <Link href={behandlingLenke} target="_blank">
                         Gå til behandling
@@ -141,7 +117,7 @@ export const Visittkort: FC<{
                 </Link>
                 {behandling && (
                     <>
-                        <TagsKnyttetTilBehandling>
+                        <HStack justify="end" gap="4">
                             <EtikettSuksess>
                                 {stønadstypeTilTekst[behandling.stønadstype]}
                             </EtikettSuksess>
@@ -150,13 +126,55 @@ export const Visittkort: FC<{
                                     {klagebehandlingsårsakTilTekst[behandling.årsak]}
                                 </EtikettInfo>
                             )}
-                        </TagsKnyttetTilBehandling>
+                        </HStack>
                         <SettPåVentKnapp />
                         <EndreBehandlendeEnhetKnapp fagsystem={behandling.fagsystem} />
                         <HenleggKnapp />
                     </>
                 )}
-            </HøyreWrapper>
+            </HStack>
         </div>
     );
 };
+
+export interface IProps extends React.PropsWithChildren {
+    alder: number;
+    ident: string;
+    kjønn: Kjønn;
+    navn: string | React.ReactNode;
+}
+
+enum Kjønn {
+    KVINNE = 'KVINNE',
+    MANN = 'MANN',
+    UKJENT = 'UKJENT',
+}
+
+const VisittkortInner: React.FunctionComponent<IProps> = ({
+    alder,
+    children,
+    ident,
+    kjønn,
+    navn,
+}) => (
+    <HStack className={styles.innerContainer} align="center" justify="space-between" gap="4">
+        <HStack align="center" gap="4">
+            <FamilieIkonVelger alder={alder} kjønn={kjønn} width={24} height={24} />
+            {typeof navn === 'string' ? (
+                <Label size={'small'}>
+                    {navn} ({alder} år)
+                </Label>
+            ) : (
+                navn
+            )}
+            <div>|</div>
+            <HStack align="center" gap="1">
+                {ident}
+                <CopyButton copyText={ident.replace(' ', '')} size={'small'} />
+            </HStack>
+        </HStack>
+        <HStack className={styles.grådigContainer} align="center" gap="4">
+            {children}
+        </HStack>
+    </HStack>
+);

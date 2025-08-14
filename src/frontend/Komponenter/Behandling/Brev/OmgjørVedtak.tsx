@@ -4,27 +4,84 @@ import {
     KanIkkeOppretteRevurderingÅrsak,
     KanOppretteRevurdering,
 } from '../../../App/typer/kanOppretteRevurdering';
-import { Alert, Button } from '@navikt/ds-react';
+import { Alert, VStack } from '@navikt/ds-react';
 import { useApp } from '../../../App/context/AppContext';
 import { useBehandling } from '../../../App/context/BehandlingContext';
 import { byggTomRessurs, Ressurs } from '../../../App/typer/ressurs';
 import DataViewer from '../../../Felles/DataViewer/DataViewer';
 import { ModalWrapper } from '../../../Felles/Modal/ModalWrapper';
-import styled from 'styled-components';
 import { useFerdigstillBehandling } from './useFerdigstillBehandling';
+import { Button } from '../../../Felles/Knapper/Button';
 
-const AlertContainer = styled.div`
-    padding: 2rem;
-    max-width: 40rem;
-`;
+interface Props {
+    behandlingId: string;
+}
 
-const AlertStripe = styled(Alert)`
-    margin-top: 2rem;
-`;
+export const OmgjørVedtak: React.FC<Props> = ({ behandlingId }) => {
+    const { axiosRequest } = useApp();
+    const { behandlingErRedigerbar } = useBehandling();
 
-const StyledKnapp = styled(Button)`
-    margin-top: 2rem;
-`;
+    const [visModal, settVisModal] = useState<boolean>(false);
+    const [feilmelding, settFeilmelding] = useState('');
+    const [kanOppretteRevurdering, settKanOppretteRevurdering] =
+        useState<Ressurs<KanOppretteRevurdering>>(byggTomRessurs());
+
+    const { ferdigstill, senderInn } = useFerdigstillBehandling(
+        behandlingId,
+        () => lukkModal(),
+        (feilmelding) => settFeilmelding(feilmelding)
+    );
+
+    const lukkModal = () => {
+        settFeilmelding('');
+        settVisModal(false);
+    };
+
+    useEffect(() => {
+        if (behandlingErRedigerbar) {
+            axiosRequest<KanOppretteRevurdering, null>({
+                method: 'GET',
+                url: `/familie-klage/api/behandling/${behandlingId}/kan-opprette-revurdering`,
+            }).then(settKanOppretteRevurdering);
+        }
+    }, [axiosRequest, behandlingErRedigerbar, behandlingId]);
+
+    if (!behandlingErRedigerbar) {
+        return <Alert variant={'info'}>Brev finnes ikke fordi klagen er tatt til følge.</Alert>;
+    }
+
+    return (
+        <DataViewer response={{ kanOppretteRevurdering }}>
+            {({ kanOppretteRevurdering }) => (
+                <VStack margin="8" gap="4" maxWidth="40rem">
+                    {behandlingErRedigerbar && (
+                        <>
+                            <KanOppretteRevurderingTekst
+                                kanOppretteRevurdering={kanOppretteRevurdering}
+                            />
+                            <Button onClick={() => settVisModal(true)}>Ferdigstill</Button>
+                        </>
+                    )}
+                    <ModalWrapper
+                        tittel={'Bekreft ferdigstillelse av klagebehandling'}
+                        visModal={visModal}
+                        onClose={() => lukkModal()}
+                        aksjonsknapper={{
+                            hovedKnapp: {
+                                onClick: ferdigstill,
+                                tekst: 'Ferdigstill',
+                                disabled: senderInn,
+                            },
+                            lukkKnapp: { onClick: lukkModal, tekst: 'Avbryt' },
+                        }}
+                    >
+                        {feilmelding && <Alert variant={'error'}>{feilmelding}</Alert>}
+                    </ModalWrapper>
+                </VStack>
+            )}
+        </DataViewer>
+    );
+};
 
 const KanOppretteRevurderingTekst: React.FC<{ kanOppretteRevurdering: KanOppretteRevurdering }> = ({
     kanOppretteRevurdering,
@@ -53,75 +110,4 @@ const KanOppretteRevurderingTekst: React.FC<{ kanOppretteRevurdering: KanOpprett
             </Alert>
         );
     }
-};
-
-export const OmgjørVedtak: React.FC<{
-    behandlingId: string;
-}> = ({ behandlingId }) => {
-    const { axiosRequest } = useApp();
-    const { behandlingErRedigerbar } = useBehandling();
-    const [visModal, settVisModal] = useState<boolean>(false);
-    const [feilmelding, settFeilmelding] = useState('');
-    const [kanOppretteRevurdering, settKanOppretteRevurdering] =
-        useState<Ressurs<KanOppretteRevurdering>>(byggTomRessurs());
-    const { ferdigstill, senderInn } = useFerdigstillBehandling(
-        behandlingId,
-        () => lukkModal(),
-        (feilmelding) => settFeilmelding(feilmelding)
-    );
-
-    const lukkModal = () => {
-        settFeilmelding('');
-        settVisModal(false);
-    };
-
-    useEffect(() => {
-        if (behandlingErRedigerbar) {
-            axiosRequest<KanOppretteRevurdering, null>({
-                method: 'GET',
-                url: `/familie-klage/api/behandling/${behandlingId}/kan-opprette-revurdering`,
-            }).then(settKanOppretteRevurdering);
-        }
-    }, [axiosRequest, behandlingErRedigerbar, behandlingId]);
-
-    if (!behandlingErRedigerbar) {
-        return (
-            <AlertContainer>
-                <Alert variant={'info'}>Brev finnes ikke fordi klagen er tatt til følge.</Alert>
-            </AlertContainer>
-        );
-    }
-    return (
-        <DataViewer response={{ kanOppretteRevurdering }}>
-            {({ kanOppretteRevurdering }) => (
-                <>
-                    {behandlingErRedigerbar && (
-                        <AlertContainer>
-                            <KanOppretteRevurderingTekst
-                                kanOppretteRevurdering={kanOppretteRevurdering}
-                            />
-                            <StyledKnapp onClick={() => settVisModal(true)}>
-                                Ferdigstill
-                            </StyledKnapp>
-                        </AlertContainer>
-                    )}
-                    <ModalWrapper
-                        tittel={'Bekreft ferdigstillelse av klagebehandling'}
-                        visModal={visModal}
-                        onClose={() => lukkModal()}
-                        aksjonsknapper={{
-                            hovedKnapp: {
-                                onClick: ferdigstill,
-                                tekst: 'Ferdigstill',
-                                disabled: senderInn,
-                            },
-                            lukkKnapp: { onClick: lukkModal, tekst: 'Avbryt' },
-                        }}
-                    >
-                        {feilmelding && <AlertStripe variant={'error'}>{feilmelding}</AlertStripe>}
-                    </ModalWrapper>
-                </>
-            )}
-        </DataViewer>
-    );
 };

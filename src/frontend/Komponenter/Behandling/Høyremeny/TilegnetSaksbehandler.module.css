@@ -1,0 +1,18 @@
+.statusBar {
+    width: 100%;
+}
+
+.statusBarNeutral {
+    composes: statusBar;
+    border-top: 4px solid var(--a-surface-neutral);
+}
+
+.statusBarSucess {
+    composes: statusBar;
+    border-top: 4px solid var(--a-surface-success);
+}
+
+.statusBarWarning {
+    composes: statusBar;
+    border-top: 4px solid var(--a-surface-warning);
+}

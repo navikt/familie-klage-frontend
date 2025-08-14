@@ -1,102 +1,76 @@
 import React from 'react';
 import { Behandling, behandlingResultatTilTekst } from '../../../App/typer/fagsak';
-import styled from 'styled-components';
-import { ABorderSubtle, ATextSubtle } from '@navikt/ds-tokens/dist/tokens';
-import { BodyShort, Tooltip } from '@navikt/ds-react';
+import styles from './BehandlingInfo.module.css';
+import { BodyShort, HStack, Tooltip, VStack } from '@navikt/ds-react';
 import { behandlingStatusTilTekst } from '../../../App/typer/behandlingstatus';
 import { formaterIsoDato, formaterIsoDatoTid } from '../../../App/utils/formatter';
 import { TilegnetSaksbehandler } from './TilegnetSaksbehandler';
 import DataViewer from '../../../Felles/DataViewer/DataViewer';
 import { useBehandling } from '../../../App/context/BehandlingContext';
 
-const Container = styled.div`
-    padding: 1rem;
-    display: flex;
-    gap: 0.5rem;
-    border: 1px solid ${ABorderSubtle};
-    border-radius: 0.125rem;
-    margin: 1rem 0.5rem;
-`;
-
-const FlexBoxColumn = styled.div`
-    display: flex;
-    flex-direction: column;
-`;
-
-const FlexBoxColumnFullWidth = styled(FlexBoxColumn)`
-    width: 100%;
-    gap: 0.75rem;
-`;
-
-const GråBodyShort = styled(BodyShort)`
-    color: ${ATextSubtle};
-`;
-
-const Grid = styled.div`
-    display: grid;
-    grid-template-columns: repeat(2, max-content);
-    row-gap: 1rem;
-    column-gap: 1.5rem;
-`;
-
 interface Props {
     behandling: Behandling;
 }
 
-export function BehandlingInfo({ behandling }: Props) {
+export const BehandlingInfo: React.FC<Props> = ({ behandling }) => {
     const { ansvarligSaksbehandler } = useBehandling();
+
     return (
         <DataViewer response={{ ansvarligSaksbehandler }}>
-            {({ ansvarligSaksbehandler }) => {
-                return (
-                    <Container>
-                        <FlexBoxColumnFullWidth>
-                            <TilegnetSaksbehandler
-                                ansvarligSaksbehandler={ansvarligSaksbehandler}
-                            />
-                            <Grid>
-                                <FlexBoxColumn>
-                                    <GråBodyShort size={'small'}>Behandlingsstatus</GråBodyShort>
+            {({ ansvarligSaksbehandler }) => (
+                <HStack padding="4" gap="2" className={styles.container}>
+                    <HStack gap="3" width="100%">
+                        <TilegnetSaksbehandler ansvarligSaksbehandler={ansvarligSaksbehandler} />
+                        <div className={styles.grid}>
+                            <VStack>
+                                <BodyShort size={'small'} textColor="subtle">
+                                    Behandlingsstatus
+                                </BodyShort>
+                                <BodyShort size={'small'}>
+                                    {behandlingStatusTilTekst[behandling.status]}
+                                </BodyShort>
+                            </VStack>
+                            <Tooltip content={formaterIsoDatoTid(behandling.opprettet)}>
+                                <VStack>
+                                    <BodyShort size={'small'} textColor="subtle">
+                                        Opprettet
+                                    </BodyShort>
                                     <BodyShort size={'small'}>
-                                        {behandlingStatusTilTekst[behandling.status]}
+                                        {formaterIsoDato(behandling.opprettet)}
                                     </BodyShort>
-                                </FlexBoxColumn>
-                                <Tooltip content={formaterIsoDatoTid(behandling.opprettet)}>
-                                    <FlexBoxColumn>
-                                        <GråBodyShort size={'small'}>Opprettet</GråBodyShort>
-                                        <BodyShort size={'small'}>
-                                            {formaterIsoDato(behandling.opprettet)}
-                                        </BodyShort>
-                                    </FlexBoxColumn>
-                                </Tooltip>
-                                <FlexBoxColumn>
-                                    <GråBodyShort size={'small'}>Behandlingsresultat</GråBodyShort>
+                                </VStack>
+                            </Tooltip>
+                            <VStack>
+                                <BodyShort size={'small'} textColor="subtle">
+                                    Behandlingsresultat
+                                </BodyShort>
+                                <BodyShort size={'small'}>
+                                    {behandlingResultatTilTekst[behandling.resultat]}
+                                </BodyShort>
+                            </VStack>
+                            <Tooltip
+                                content={formaterIsoDatoTid(behandling.sistEndret)}
+                                placement={'bottom'}
+                            >
+                                <VStack>
+                                    <BodyShort size={'small'} textColor="subtle">
+                                        Sist endret
+                                    </BodyShort>
                                     <BodyShort size={'small'}>
-                                        {behandlingResultatTilTekst[behandling.resultat]}
+                                        {formaterIsoDato(behandling.sistEndret)}
                                     </BodyShort>
-                                </FlexBoxColumn>
-                                <Tooltip
-                                    content={formaterIsoDatoTid(behandling.sistEndret)}
-                                    placement={'bottom'}
-                                >
-                                    <FlexBoxColumn>
-                                        <GråBodyShort size={'small'}>Sist endret</GråBodyShort>
-                                        <BodyShort size={'small'}>
-                                            {formaterIsoDato(behandling.sistEndret)}
-                                        </BodyShort>
-                                    </FlexBoxColumn>
-                                </Tooltip>
-                                <FlexBoxColumn>
-                                    <GråBodyShort size={'small'}>Behandlende enhet</GråBodyShort>
-                                    <BodyShort size="small">
-                                        {behandling.behandlendeEnhet}
-                                    </BodyShort>
-                                </FlexBoxColumn>
-                            </Grid>
-                        </FlexBoxColumnFullWidth>
-                    </Container>
-                );
-            }}
+                                </VStack>
+                            </Tooltip>
+                            <VStack>
+                                <BodyShort size={'small'} textColor="subtle">
+                                    Behandlende enhet
+                                </BodyShort>
+                                <BodyShort size="small">{behandling.behandlendeEnhet}</BodyShort>
+                            </VStack>
+                        </div>
+                    </HStack>
+                </HStack>
+            )}
         </DataViewer>
     );
-}
+};

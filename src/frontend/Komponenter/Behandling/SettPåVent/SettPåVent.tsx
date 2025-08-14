@@ -1,6 +1,6 @@
 import React, { FC, useCallback, useEffect, useState } from 'react';
 import { Behandling } from '../../../App/typer/fagsak';
-import { styled } from 'styled-components';
+import styles from './SettPåVent.module.css';
 import { Alert, Heading, HStack, Textarea, VStack } from '@navikt/ds-react';
 import {
     byggTomRessurs,
@@ -22,15 +22,6 @@ import { SettPåVentKnappValg } from './SettPåVentKnappValg';
 import { MappeVelger } from './MappeVelger';
 import { EToast } from '../../../App/typer/toast';
 import ScrollToTop from '../../../Felles/ScrollToTop/ScrollToTop';
-
-const StyledVStack = styled(VStack)`
-    background-color: #e6f1f8;
-    padding: 2rem;
-`;
-
-const Beskrivelse = styled(Textarea)`
-    max-width: 60rem;
-`;
 
 type SettPåVentRequest = {
     oppgaveId: number;
@@ -161,7 +152,7 @@ export const SettPåVent: FC<{ behandling: Behandling }> = ({ behandling }) => {
         <DataViewer response={{ oppgave }}>
             {({ oppgave }) => {
                 return (
-                    <StyledVStack gap="4">
+                    <VStack className={styles.container} gap="4" padding="8">
                         {feilmelding && <Alert variant="error">{feilmelding}</Alert>}
                         <Heading size={'medium'}>
                             {erBehandlingPåVent
@@ -196,7 +187,7 @@ export const SettPåVent: FC<{ behandling: Behandling }> = ({ behandling }) => {
                         </HStack>
                         <EksisterendeBeskrivelse beskrivelse={oppgave.beskrivelse} />
                         {!erBehandlingPåVent && (
-                            <Beskrivelse
+                            <Textarea
                                 label={'Beskrivelse'}
                                 size={'small'}
                                 value={beskrivelse}
@@ -211,7 +202,7 @@ export const SettPåVent: FC<{ behandling: Behandling }> = ({ behandling }) => {
                             låsKnapp={låsKnapp}
                         />
                         <ScrollToTop />
-                    </StyledVStack>
+                    </VStack>
                 );
             }}
         </DataViewer>

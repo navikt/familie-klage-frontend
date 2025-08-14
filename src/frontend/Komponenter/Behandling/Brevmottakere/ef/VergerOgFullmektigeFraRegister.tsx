@@ -1,8 +1,7 @@
 import React, { Dispatch, FC, SetStateAction } from 'react';
 import { IFullmakt, IVergemål } from '../../../../App/typer/personopplysninger';
-import styled from 'styled-components';
-import { Ingress, Button, BodyShort } from '@navikt/ds-react';
-import { VertikalSentrering } from '../../../../App/utils/styling';
+import styles from './SøkWrapper.module.css';
+import { BodyShort, HStack, VStack } from '@navikt/ds-react';
 import { KopierbartNullableFødselsnummer } from '../../../../Fødselsnummer/KopierbartNullableFødselsnummer';
 import {
     BrevmottakerPerson,
@@ -11,6 +10,7 @@ import {
     mapFullmaktTilBrevmottakerPersonMedIdent,
     mapVergemålTilBrevmottakerPersonMedIdent,
 } from '../brevmottaker';
+import { Button } from '../../../../Felles/Knapper/Button';
 
 interface Props {
     valgteMottakere: BrevmottakerPerson[];
@@ -18,23 +18,6 @@ interface Props {
     verger: IVergemål[];
     fullmakter: IFullmakt[];
 }
-
-const Undertittel = styled(Ingress)`
-    margin-bottom: 1rem;
-`;
-
-const StyledMottakerBoks = styled.div`
-    padding: 10px;
-    margin-bottom: 4px;
-    display: grid;
-    grid-template-columns: 5fr 1fr;
-    background: rgba(196, 196, 196, 0.2);
-`;
-
-const Kolonner = styled.div`
-    display: flex;
-    flex-direction: column;
-`;
 
 export const VergerOgFullmektigeFraRegister: FC<Props> = ({
     valgteMottakere,
@@ -55,7 +38,9 @@ export const VergerOgFullmektigeFraRegister: FC<Props> = ({
 
     return (
         <>
-            <Undertittel>Verge/Fullmektig fra register</Undertittel>
+            <BodyShort size="large" spacing>
+                Verge/Fullmektig fra register
+            </BodyShort>
             {muligeMottakere.length ? (
                 muligeMottakere.map((mottaker, index) => {
                     const mottakerValgt = !!valgteMottakere.find((valgtMottaker) => {
@@ -63,28 +48,27 @@ export const VergerOgFullmektigeFraRegister: FC<Props> = ({
                             return valgtMottaker.personIdent === mottaker.personIdent;
                         }
                     });
+
                     return (
-                        <StyledMottakerBoks key={mottaker.navn + index}>
-                            <Kolonner>
+                        <div className={styles.mottakerBoks} key={mottaker.navn + index}>
+                            <VStack>
                                 {`${mottaker.navn} (${mottaker.mottakerRolle.toLowerCase()})`}
                                 <KopierbartNullableFødselsnummer
                                     fødselsnummer={mottaker.personIdent}
                                 />
-                            </Kolonner>
+                            </VStack>
                             {!mottakerValgt && (
-                                <VertikalSentrering>
-                                    <div>
-                                        <Button
-                                            variant="secondary"
-                                            size="small"
-                                            onClick={settMottaker(mottaker)}
-                                        >
-                                            Legg til
-                                        </Button>
-                                    </div>
-                                </VertikalSentrering>
+                                <HStack align="center">
+                                    <Button
+                                        variant="secondary"
+                                        size="small"
+                                        onClick={settMottaker(mottaker)}
+                                    >
+                                        Legg til
+                                    </Button>
+                                </HStack>
                             )}
-                        </StyledMottakerBoks>
+                        </div>
                     );
                 })
             ) : (

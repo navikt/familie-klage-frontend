@@ -5,8 +5,8 @@ import {
     RessursStatus,
     RessursSuksess,
 } from '../../App/typer/ressurs';
-import AlertStripePreWrap from '../Visningskomponenter/AlertStripeFeilPreWrap';
 import { Alert, Loader, VStack } from '@navikt/ds-react';
+import styles from './DataViewer.module.css';
 
 /**
  * Input: { behandling: Ressurss<Behandling>, personopslyninger: Ressurss<IPersonopplysninger> }
@@ -29,9 +29,9 @@ const renderFeil = (responses: Ressurs<any>[]) => (
                 feilet.status === RessursStatus.FEILET
             ) {
                 return (
-                    <AlertStripePreWrap key={index} variant={'error'}>
+                    <Alert className={styles.alert} key={index} variant={'error'}>
                         {feilet.frontendFeilmelding}
-                    </AlertStripePreWrap>
+                    </Alert>
                 );
             } else {
                 return null;

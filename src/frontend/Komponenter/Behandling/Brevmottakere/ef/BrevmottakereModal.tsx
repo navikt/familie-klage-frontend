@@ -7,51 +7,25 @@ import { useApp } from '../../../../App/context/AppContext';
 import { RessursFeilet, RessursStatus, RessursSuksess } from '../../../../App/typer/ressurs';
 import { BrevmottakereListe } from './BrevmottakereListe';
 import { Brevmottakere } from '../brevmottakere';
-import styled from 'styled-components';
-import { Alert, Button } from '@navikt/ds-react';
+import styles from './BrevmottakereModal.module.css';
+import { Alert, Button, HStack } from '@navikt/ds-react';
 import { EToast } from '../../../../App/typer/toast';
 import { ModalWrapper } from '../../../../Felles/Modal/ModalWrapper';
 import { BrevmottakerOrganisasjon, BrevmottakerPerson } from '../brevmottaker';
 
-const GridContainer = styled.div`
-    display: grid;
-    grid-template-columns: 100fr 1fr 100fr;
-    column-gap: 2rem;
-`;
-const Venstrekolonne = styled.div``;
-const Høyrekolonne = styled.div``;
-
-const SentrerKnapper = styled.div`
-    display: flex;
-    justify-content: center;
-
-    > button {
-        margin-left: 1rem;
-        margin-right: 1rem;
-    }
-`;
-
-const HorisontalLinje = styled.div`
-    height: 0;
-
-    border: 2px solid #f3f3f3;
-
-    margin-top: 2rem;
-    margin-bottom: 1.5rem;
-`;
-
-const VertikalLinje = styled.div`
-    border-left: 2px solid #f3f3f3;
-    width: 5px;
-    margin-bottom: 1rem;
-`;
-
-export const BrevmottakereModal: FC<{
+interface Props {
     behandlingId: string;
     personopplysninger: IPersonopplysninger;
     mottakere: Brevmottakere;
     kallHentBrevmottakere: () => void;
-}> = ({ behandlingId, personopplysninger, mottakere, kallHentBrevmottakere }) => {
+}
+
+export const BrevmottakereModal: FC<Props> = ({
+    behandlingId,
+    personopplysninger,
+    mottakere,
+    kallHentBrevmottakere,
+}) => {
     const { visBrevmottakereModal, settVisBrevmottakereModal } = useApp();
 
     const [valgtePersonMottakere, settValgtePersonMottakere] = useState<BrevmottakerPerson[]>([]);
@@ -107,46 +81,46 @@ export const BrevmottakereModal: FC<{
             }}
             ariaLabel={'Velg brevmottakere'}
         >
-            <GridContainer>
-                <Venstrekolonne>
+            <div className={styles.container}>
+                <div>
                     <VergerOgFullmektigeFraRegister
                         verger={personopplysninger.vergemål}
                         fullmakter={personopplysninger.fullmakt}
                         valgteMottakere={valgtePersonMottakere}
                         settValgteMottakere={settValgtePersonMottakere}
                     />
-                    <HorisontalLinje />
+                    <div className={styles.horisontalLinje} />
                     <SøkWrapper
                         settValgtePersonMottakere={settValgtePersonMottakere}
                         valgteOrganisasjonMottakere={valgteOrganisasjonMottakere}
                         settValgteOrganisasjonMottakere={settValgteOrganisasjonMottakere}
                         behandlingId={behandlingId}
                     />
-                    <HorisontalLinje />
+                    <div className={styles.horisontalLinje} />
                     <SkalBrukerHaBrev
                         valgteBrevmottakere={valgtePersonMottakere}
                         settValgtBrevMottakere={settValgtePersonMottakere}
                         personopplysninger={personopplysninger}
                     />
-                </Venstrekolonne>
-                <VertikalLinje />
-                <Høyrekolonne>
+                </div>
+                <div className={styles.vertikalLinje} />
+                <div>
                     <BrevmottakereListe
                         valgtePersonMottakere={valgtePersonMottakere}
                         settValgtePersonMottakere={settValgtePersonMottakere}
                         valgteOrganisasjonMottakere={valgteOrganisasjonMottakere}
                         settValgteOrganisasjonMottakere={settValgteOrganisasjonMottakere}
                     />
-                </Høyrekolonne>
-            </GridContainer>
-            <SentrerKnapper>
+                </div>
+            </div>
+            <HStack justify="center" gap="4">
                 <Button variant="tertiary" onClick={() => settVisBrevmottakereModal(false)}>
                     Avbryt
                 </Button>
                 <Button variant="primary" onClick={settBrevmottakere} disabled={!harValgtMottakere}>
                     Sett mottakere
                 </Button>
-            </SentrerKnapper>
+            </HStack>
             {feilmelding && <Alert variant={'error'}>{feilmelding}</Alert>}
             {innsendingSuksess && <Alert variant={'success'}>Brevmottakere er satt</Alert>}
         </ModalWrapper>

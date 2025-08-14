@@ -1,0 +1,11 @@
+.stipletLinje {
+    border-left: 0.15rem dotted var(--a-border-strong);
+    margin-left: 0.75rem;
+    height: calc(100% - 2em);
+}
+
+.beskrivelse {
+    white-space: pre-wrap;
+    word-wrap: break-word;
+    padding: var(--a-spacing-1);
+}

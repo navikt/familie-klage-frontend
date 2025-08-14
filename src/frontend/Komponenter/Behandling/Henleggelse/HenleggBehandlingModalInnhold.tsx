@@ -1,7 +1,6 @@
 import React from 'react';
 import { Alert, Box, Button, Heading, HStack, Modal, Skeleton, VStack } from '@navikt/ds-react';
 import { IPersonopplysninger } from '../../../App/typer/personopplysninger';
-import styled from 'styled-components';
 import {
     HENLEGG_BEHANDLING_FORM_ID,
     HenleggBehandlingFeltnavn,
@@ -20,10 +19,7 @@ import { Behandling, Fagsystem } from '../../../App/typer/fagsak';
 import { useHenleggBehandlingForm } from './hooks/useHenleggBehandlingForm';
 import { useBrevmottakerForm } from './hooks/useBrevmottakerForm';
 import { BrevmottakerFormActionsContextProvider } from './context/BrevmottakerFormActionsContextProvider';
-
-const Divider = styled.div`
-    border: 2px solid #f3f3f3;
-`;
+import { Divider } from '../../../Felles/Divider/Divider';
 
 interface Props {
     behandling: Behandling;

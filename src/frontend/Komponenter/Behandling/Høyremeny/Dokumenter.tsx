@@ -8,9 +8,13 @@ import DataViewer from '../../../Felles/DataViewer/DataViewer';
 import { compareDesc } from 'date-fns';
 import { formaterNullableIsoDatoTid } from '../../../App/utils/formatter';
 import { åpneFilIEgenTab } from '../../../App/utils/utils';
-import Dokumentliste, { DokumentProps } from './Dokumentliste';
+import { Dokument, Dokumentliste } from './Dokumentliste';
 
-const Dokumenter: React.FC<{ hidden: boolean }> = ({ hidden }) => {
+interface Props {
+    hidden: boolean;
+}
+
+export const Dokumenter: React.FC<Props> = ({ hidden }) => {
     const { behandlingId } = useParams<IBehandlingParams>();
 
     const dokumentConfig: AxiosRequestConfig = useMemo(
@@ -20,9 +24,9 @@ const Dokumenter: React.FC<{ hidden: boolean }> = ({ hidden }) => {
         }),
         [behandlingId]
     );
-    const dokumentResponse = useDataHenter<DokumentProps[], null>(dokumentConfig);
+    const dokumentResponse = useDataHenter<Dokument[], null>(dokumentConfig);
 
-    const sorterDokumentlisten = (dokumenter: DokumentProps[]) => {
+    const sorterDokumentlisten = (dokumenter: Dokument[]) => {
         return dokumenter
             .sort((a, b) => {
                 if (!a.dato) {
@@ -37,7 +41,7 @@ const Dokumenter: React.FC<{ hidden: boolean }> = ({ hidden }) => {
             });
     };
 
-    const lastNedDokument = (dokument: DokumentProps) => {
+    const lastNedDokument = (dokument: Dokument) => {
         åpneFilIEgenTab(
             dokument.journalpostId,
             dokument.dokumentinfoId,
@@ -60,5 +64,3 @@ const Dokumenter: React.FC<{ hidden: boolean }> = ({ hidden }) => {
         </DataViewer>
     );
 };
-
-export default Dokumenter;

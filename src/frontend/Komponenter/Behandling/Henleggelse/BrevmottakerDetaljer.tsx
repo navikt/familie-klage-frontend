@@ -7,13 +7,8 @@ import {
     NyBrevmottakerPerson,
 } from '../Brevmottakere/nyBrevmottaker';
 import CountryData from '@navikt/land-verktoy';
-import styled from 'styled-components';
 import { useBrevmottakereContext } from './context/BrevmottakereContextProvider';
-
-const Divider = styled.div`
-    border: 2px solid rgba(213, 213, 213, 0.46);
-    margin-bottom: 0.5rem;
-`;
+import { Divider } from '../../../Felles/Divider/Divider';
 
 const countryInstance = CountryData.getCountryInstance('nb');
 

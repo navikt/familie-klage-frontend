@@ -6,14 +6,13 @@ import {
     utfallTilTekst,
 } from '../../../App/typer/fagsak';
 import { Alert, BodyShort, Heading, Label } from '@navikt/ds-react';
-import styled from 'styled-components';
 import { formaterIsoDatoTid } from '../../../App/utils/formatter';
 
-const AlertMedMaxbredde = styled(Alert)`
-    max-width: 60rem;
-`;
+interface Props {
+    behandling: Behandling;
+}
 
-export const AnkeVisning: React.FC<{ behandling: Behandling }> = ({ behandling }) => {
+export const AnkeVisning: React.FC<Props> = ({ behandling }) => {
     const ankeResultater = behandling.klageinstansResultat.filter((resultat) =>
         [
             KlageinstansEventType.ANKE_I_TRYGDERETTENBEHANDLING_OPPRETTET,
@@ -23,7 +22,7 @@ export const AnkeVisning: React.FC<{ behandling: Behandling }> = ({ behandling }
     );
 
     return ankeResultater.length > 0 ? (
-        <AlertMedMaxbredde variant={'warning'}>
+        <Alert variant={'warning'}>
             <Heading spacing size="small" level="3">
                 Merk at det finnes informasjon om anke på denne klagen
             </Heading>
@@ -38,6 +37,6 @@ export const AnkeVisning: React.FC<{ behandling: Behandling }> = ({ behandling }
                     )}
                 </div>
             ))}
-        </AlertMedMaxbredde>
+        </Alert>
     ) : null;
 };

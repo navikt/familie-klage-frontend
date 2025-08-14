@@ -4,3 +4,7 @@
     z-index: 999;
     background-color: white;
 }
+
+.header {
+    cursor: pointer;
+}

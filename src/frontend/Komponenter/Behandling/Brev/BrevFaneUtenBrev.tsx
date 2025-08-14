@@ -1,17 +1,9 @@
 import React, { useState } from 'react';
-import { Alert, Button, VStack } from '@navikt/ds-react';
+import { Alert, VStack } from '@navikt/ds-react';
 import { ModalWrapper } from '../../../Felles/Modal/ModalWrapper';
 import { useBehandling } from '../../../App/context/BehandlingContext';
-import styled from 'styled-components';
 import { useFerdigstillBehandling } from './useFerdigstillBehandling';
-
-const Container = styled(VStack)`
-    margin: 1rem;
-`;
-
-const BekreftKnapp = styled(Button)`
-    width: fit-content;
-`;
+import { Button } from '../../../Felles/Knapper/Button';
 
 interface Props {
     behandlingId: string;
@@ -38,10 +30,10 @@ export const BrevFaneUtenBrev: React.FC<Props> = ({ behandlingId }) => {
         : 'Klagebehandlingen ble opprettet med årsak "Henvendelse fra KA (uten brev)". Det ble derfor ikke utsendt brev til bruker.';
 
     return (
-        <Container gap="4">
+        <VStack gap="4" margin="4">
             <Alert variant="info">{alertStripeTekst}</Alert>
             {behandlingErRedigerbar && (
-                <BekreftKnapp
+                <Button
                     variant="primary"
                     size="medium"
                     onClick={() => {
@@ -49,7 +41,7 @@ export const BrevFaneUtenBrev: React.FC<Props> = ({ behandlingId }) => {
                     }}
                 >
                     Ferdigstill behandling
-                </BekreftKnapp>
+                </Button>
             )}
             <ModalWrapper
                 tittel={'Bekreft ferdigstillelse av behandling'}
@@ -67,6 +59,6 @@ export const BrevFaneUtenBrev: React.FC<Props> = ({ behandlingId }) => {
             >
                 {feilmelding && <Alert variant={'error'}>Utsending feilet.{feilmelding}</Alert>}
             </ModalWrapper>
-        </Container>
+        </VStack>
     );
 };

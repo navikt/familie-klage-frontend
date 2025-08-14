@@ -1,62 +1,25 @@
 import * as React from 'react';
 import { useEffect, useState } from 'react';
-import Valgvisning from './Valgvisning';
-import Historikk from './Historikk';
-import Dokumenter from './Dokumenter';
-import styled from 'styled-components';
+import { Valgvisning } from './Valgvisning';
+import { Historikk } from './Historikk';
+import { Dokumenter } from './Dokumenter';
+import styles from './Høyremeny.module.css';
 import { ChevronLeftIcon, ChevronRightIcon } from '@navikt/aksel-icons';
-import { AIconInfo } from '@navikt/ds-tokens/dist/tokens';
 import { useBehandling } from '../../../App/context/BehandlingContext';
 import { Behandling } from '../../../App/typer/fagsak';
 import { BehandlingInfo } from './BehandlingInfo';
 
-interface IHøyremenyProps {
+interface Props {
     behandling: Behandling;
     åpenHøyremeny: boolean;
 }
-
-const PilVenstreIkon = styled(ChevronLeftIcon)`
-    border-radius: 0;
-    margin-top: 3px;
-    margin-right: 2px;
-    color: white;
-`;
-
-const PilHøyreIkon = styled(ChevronRightIcon)`
-    border-radius: 0;
-    margin-top: 3px;
-    color: white;
-`;
-
-const ÅpneLukkeKnapp = styled.button`
-    position: absolute;
-    background: none;
-    background-color: ${AIconInfo};
-    margin-left: -12px;
-    top: 200px;
-    width: 24px;
-    height: 24px;
-    border-radius: 50%;
-    filter: drop-shadow(0px 4px 4px rgba(0, 0, 0, 0.25));
-    z-index: 22;
-    color: inherit;
-    border: none;
-    padding: 0;
-    font: inherit;
-    cursor: pointer;
-    outline: inherit;
-`;
-
-const StyledHøyremeny = styled.div`
-    width: 100%;
-`;
 
 export enum Høyremenyvalg {
     Historikk = 'Historikk',
     Dokumenter = 'Dokumenter',
 }
 
-const Høyremeny: React.FC<IHøyremenyProps> = ({ åpenHøyremeny, behandling }) => {
+export const Høyremeny: React.FC<Props> = ({ åpenHøyremeny, behandling }) => {
     const [aktivtValg, settAktivtvalg] = useState<Høyremenyvalg>(Høyremenyvalg.Historikk);
     const { settÅpenHøyremeny, behandlingErRedigerbar } = useBehandling();
 
@@ -70,33 +33,33 @@ const Høyremeny: React.FC<IHøyremenyProps> = ({ åpenHøyremeny, behandling })
         <>
             {åpenHøyremeny ? (
                 <>
-                    <StyledHøyremeny>
-                        <ÅpneLukkeKnapp
+                    <div className={styles.container}>
+                        <button
+                            className={styles.toggleOpen}
                             onClick={() => {
                                 settÅpenHøyremeny(!åpenHøyremeny);
                             }}
                         >
-                            <PilHøyreIkon />
-                        </ÅpneLukkeKnapp>
+                            <ChevronRightIcon className={styles.pilHøyre} />
+                        </button>
 
                         <BehandlingInfo behandling={behandling} />
 
                         <Valgvisning aktiv={aktivtValg} settAktiv={settAktivtvalg} />
                         <Dokumenter hidden={aktivtValg !== Høyremenyvalg.Dokumenter} />
                         <Historikk hidden={aktivtValg !== Høyremenyvalg.Historikk} />
-                    </StyledHøyremeny>
+                    </div>
                 </>
             ) : (
-                <ÅpneLukkeKnapp
+                <button
+                    className={styles.toggleOpen}
                     onClick={() => {
                         settÅpenHøyremeny(!åpenHøyremeny);
                     }}
                 >
-                    <PilVenstreIkon />
-                </ÅpneLukkeKnapp>
+                    <ChevronLeftIcon className={styles.pilVenstre} />
+                </button>
             )}
         </>
     );
 };
-
-export default Høyremeny;

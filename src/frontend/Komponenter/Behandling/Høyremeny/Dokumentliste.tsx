@@ -1,36 +1,58 @@
 import * as React from 'react';
-import styled from 'styled-components';
+import styles from './Dokumentliste.module.css';
 import { BodyShort, Button, Tag } from '@navikt/ds-react';
 import { LogiskeVedlegg } from './LogiskeVedlegg';
 import { Journalposttype, LogiskVedlegg } from '../../../App/typer/dokument';
 
-const StyledDokumentListe = styled.ul`
-    padding: 0;
-    margin: 0 1rem;
-    list-style-type: none;
-    span {
-        font-weight: var(--a-font-weight-regular);
-    }
-`;
-
-const StyledLi = styled.li`
-    display: grid;
-    grid-template-columns: repeat(2, minmax(2rem, max-content));
-    gap: 0.5rem;
-    margin: 0.5rem 0;
-`;
-
-const StyledButton = styled(Button)`
-    margin: 0;
-    padding: 0;
-    text-align: left;
-`;
-
-interface JournalpostTagProps {
+export interface Dokument {
+    tittel: string;
+    dato?: string;
+    journalpostId: string;
     journalposttype: Journalposttype;
+    dokumentinfoId: string;
+    filnavn?: string;
+    logiskeVedlegg?: LogiskVedlegg[];
 }
 
-const JournalpostTag: React.FC<JournalpostTagProps> = ({ journalposttype }) => {
+interface Props {
+    dokumenter: Dokument[];
+    onClick: (dokument: Dokument) => void;
+}
+
+export const Dokumentliste: React.FC<Props> = ({ dokumenter, onClick }) => (
+    <ul className={styles.container}>
+        {dokumenter.map((dokument: Dokument, indeks: number) => {
+            return <DokumentElement dokument={dokument} onClick={onClick} key={indeks} />;
+        })}
+    </ul>
+);
+
+const DokumentElement: React.FC<{
+    dokument: Dokument;
+    onClick: (dokument: Dokument) => void;
+}> = ({ dokument, onClick }) => (
+    <li className={styles.dokument}>
+        <div>
+            <JournalpostTag journalposttype={dokument.journalposttype} />
+        </div>
+        <div>
+            <Button
+                className={styles.button}
+                variant="tertiary"
+                size="small"
+                onClick={() => onClick(dokument)}
+            >
+                {dokument.tittel}
+            </Button>
+            <BodyShort size="small">{dokument.dato}</BodyShort>
+            <LogiskeVedlegg logiskeVedlegg={dokument.logiskeVedlegg} />
+        </div>
+    </li>
+);
+
+const JournalpostTag: React.FC<{
+    journalposttype: Journalposttype;
+}> = ({ journalposttype }) => {
     switch (journalposttype) {
         case 'I':
             return (
@@ -52,53 +74,3 @@ const JournalpostTag: React.FC<JournalpostTagProps> = ({ journalposttype }) => {
             );
     }
 };
-
-export interface DokumentProps {
-    tittel: string;
-    dato?: string;
-    journalpostId: string;
-    journalposttype: Journalposttype;
-    dokumentinfoId: string;
-    filnavn?: string;
-    logiskeVedlegg?: LogiskVedlegg[];
-}
-
-export interface DokumentElementProps {
-    dokument: DokumentProps;
-    onClick: (dokument: DokumentProps) => void;
-}
-
-export interface DokumentlisteProps {
-    dokumenter: DokumentProps[];
-    onClick: (dokument: DokumentProps) => void;
-    className?: string;
-}
-
-export const DokumentElement: React.FC<DokumentElementProps> = ({ dokument, onClick }) => {
-    return (
-        <StyledLi>
-            <div>
-                <JournalpostTag journalposttype={dokument.journalposttype} />
-            </div>
-            <div>
-                <StyledButton variant="tertiary" size="small" onClick={() => onClick(dokument)}>
-                    {dokument.tittel}
-                </StyledButton>
-                <BodyShort size="small">{dokument.dato}</BodyShort>
-                <LogiskeVedlegg logiskeVedlegg={dokument.logiskeVedlegg} />
-            </div>
-        </StyledLi>
-    );
-};
-
-export const Dokumentliste: React.FC<DokumentlisteProps> = ({ dokumenter, onClick, className }) => {
-    return (
-        <StyledDokumentListe className={className}>
-            {dokumenter.map((dokument: DokumentProps, indeks: number) => {
-                return <DokumentElement dokument={dokument} onClick={onClick} key={indeks} />;
-            })}
-        </StyledDokumentListe>
-    );
-};
-
-export default Dokumentliste;

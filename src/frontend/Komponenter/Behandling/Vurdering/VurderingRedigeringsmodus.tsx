@@ -2,7 +2,7 @@ import * as React from 'react';
 import { useState } from 'react';
 import { useApp } from '../../../App/context/AppContext';
 import styles from './VurderingRedigeringsmodus.module.css';
-import { Alert, Button, VStack } from '@navikt/ds-react';
+import { Alert, VStack } from '@navikt/ds-react';
 import { VedtakSelect } from './VedtakSelect';
 import { ÅrsakSelect } from './ÅrsakSelect';
 import { HjemmelSelect } from './HjemmelSelect';
@@ -16,6 +16,7 @@ import { useHentVurderinger } from '../../../App/hooks/useHentVurderinger';
 import { Behandling, Fagsystem } from '../../../App/typer/fagsak';
 import { InnstillingTilNavKlageinstans } from './InnstillingTilNavKlageinstans/InnstillingTilNavKlageinstans';
 import { Ressurs, RessursStatus } from '../../../App/typer/ressurs';
+import { Button } from '../../../Felles/Knapper/Button';
 
 const erAlleFelterUtfylt = (vurderingData: IVurdering, fagsystem: Fagsystem): boolean => {
     const {
@@ -177,18 +178,12 @@ export const VurderingRedigeringsmodus: React.FC<Props> = ({ behandling, vurderi
                         !erAlleFelterUtfylt(oppdatertVurdering, behandling.fagsystem) || senderInn
                     }
                     loading={senderInn}
-                    className={styles.aksjonsknapp}
                 >
                     Lagre vurdering
                 </Button>
             )}
             {!vurderingEndret && melding?.type !== 'error' && (
-                <Button
-                    variant="primary"
-                    size="medium"
-                    onClick={navigerTilBrev}
-                    className={styles.aksjonsknapp}
-                >
+                <Button variant="primary" size="medium" onClick={navigerTilBrev}>
                     Fortsett
                 </Button>
             )}
