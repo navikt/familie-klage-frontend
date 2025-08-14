@@ -2,7 +2,7 @@ import constate from 'constate';
 import { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import { IBehandlingParams } from '../typer/routing';
-import { useRerunnableEffect } from '../hooks/felles/useRerunnableEffect';
+import { useRerunnableEffect } from '../hooks/useRerunnableEffect';
 import { useHentPersonopplysninger } from '../hooks/useHentPersonopplysninger';
 import { useHentBehandling } from '../hooks/useHentBehandling';
 import { useHentBehandlingHistorikk } from '../hooks/useHentBehandlingHistorikk';
