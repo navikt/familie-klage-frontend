@@ -14,12 +14,12 @@ import { useToggles } from '../../../App/context/TogglesContext';
 import { ToggleName } from '../../../App/context/toggles';
 
 export const VurderingFane: React.FC<{ behandling: Behandling }> = ({ behandling }) => {
-    const behandlingId = behandling.id;
-
     const { behandlingErRedigerbar } = useBehandling();
     const { vilkårsvurderinger, hentVilkårsvurderinger } = useHentFormkravVilkår();
     const { vurdering, hentVurdering } = useHentVurderinger();
     const { toggles } = useToggles();
+
+    const behandlingId = behandling.id;
 
     useEffect(() => {
         if (behandlingId !== undefined) {

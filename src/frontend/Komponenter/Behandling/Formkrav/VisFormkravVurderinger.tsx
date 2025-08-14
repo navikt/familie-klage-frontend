@@ -11,7 +11,6 @@ import {
 } from './typer';
 import { useBehandling } from '../../../App/context/BehandlingContext';
 import { Alert, BodyShort, Heading, HStack, Label, VStack } from '@navikt/ds-react';
-import { useNavigate } from 'react-router-dom';
 import {
     formaterIsoDatoTid,
     formaterNullableIsoDato,
@@ -44,6 +43,7 @@ import {
 import { FagsystemVedtak } from '../../../App/typer/fagsystemVedtak';
 import { Klagebehandlingsresultat } from '../../../App/typer/klagebehandlingsresultat';
 import { Button } from '../../../Felles/Knapper/Button';
+import { useApp } from '../../../App/context/AppContext';
 
 interface Props {
     fagsystemVedtak: FagsystemVedtak[];
@@ -64,9 +64,9 @@ export const VisFormkravVurderinger: React.FC<Props> = ({
     vurderinger,
     klagebehandlingsresultater,
 }) => {
+    const { gåTilUrl } = useApp();
     const { behandlingErRedigerbar, hentBehandling, hentBehandlingshistorikk } = useBehandling();
     const { påklagetVedtakstype, manuellVedtaksdato } = vurderinger.påklagetVedtak;
-    const navigate = useNavigate();
     const [nullstillerVurderinger, settNullstillerVurderinger] = useState<boolean>(false);
 
     const nullstillVurderinger = () => {
@@ -268,7 +268,7 @@ export const VisFormkravVurderinger: React.FC<Props> = ({
                         variant="primary"
                         size="medium"
                         onClick={() =>
-                            navigate(`/behandling/${vurderinger.behandlingId}/${urlSuffiks}`)
+                            gåTilUrl(`/behandling/${vurderinger.behandlingId}/${urlSuffiks}`)
                         }
                     >
                         Fortsett

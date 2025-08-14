@@ -1,7 +1,6 @@
 import { RessursFeilet, RessursStatus, RessursSuksess } from '../../../App/typer/ressurs';
 import { useState } from 'react';
 import { useBehandling } from '../../../App/context/BehandlingContext';
-import { useNavigate } from 'react-router-dom';
 import { useApp } from '../../../App/context/AppContext';
 
 export const useFerdigstillBehandling = (
@@ -9,11 +8,10 @@ export const useFerdigstillBehandling = (
     onSuccess: () => void,
     onFailure: (feilmelding: string) => void
 ) => {
+    const { axiosRequest, gåTilUrl } = useApp();
     const { hentBehandling, hentBehandlingshistorikk } = useBehandling();
 
     const [senderInn, settSenderInn] = useState(false);
-    const navigate = useNavigate();
-    const { axiosRequest } = useApp();
 
     const ferdigstill = () => {
         if (senderInn) {
@@ -29,7 +27,7 @@ export const useFerdigstillBehandling = (
                 onSuccess();
                 hentBehandling.rerun();
                 hentBehandlingshistorikk.rerun();
-                navigate(`/behandling/${behandlingId}/resultat`);
+                gåTilUrl(`/behandling/${behandlingId}/resultat`);
             } else {
                 onFailure(res.frontendFeilmelding);
             }
