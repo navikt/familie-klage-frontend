@@ -1,30 +1,49 @@
 import * as React from 'react';
-import { AxiosRequestConfig } from 'axios';
-import { useMemo } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import { IBehandlingParams } from '../../../App/typer/routing';
-import { useDataHenter } from '../../../App/hooks/felles/useDataHenter';
 import { DataViewer } from '../../../Felles/DataViewer/DataViewer';
 import { compareDesc } from 'date-fns';
 import { formaterNullableIsoDatoTid } from '../../../App/utils/formatter';
 import { åpneFilIEgenTab } from '../../../App/utils/utils';
 import { Dokument, Dokumentliste } from './Dokumentliste';
+import {
+    byggTomRessurs,
+    Ressurs,
+    RessursFeilet,
+    RessursStatus,
+    RessursSuksess,
+} from '../../../App/typer/ressurs';
+import { useApp } from '../../../App/context/AppContext';
 
 interface Props {
     hidden: boolean;
 }
 
 export const Dokumenter: React.FC<Props> = ({ hidden }) => {
+    const { axiosRequest } = useApp();
     const { behandlingId } = useParams<IBehandlingParams>();
 
-    const dokumentConfig: AxiosRequestConfig = useMemo(
-        () => ({
-            method: 'GET',
-            url: `/familie-klage/api/vedlegg/${behandlingId}`,
-        }),
-        [behandlingId]
+    const [dokumenter, settDokumenter] = useState<Ressurs<Dokument[]>>(byggTomRessurs());
+
+    const hentDokumenter = useCallback(
+        (behandlingId: string) => {
+            settDokumenter({ status: RessursStatus.HENTER });
+            axiosRequest<Dokument[], null>({
+                method: 'GET',
+                url: `/familie-klage/api/vedlegg/${behandlingId}`,
+            }).then((response: RessursSuksess<Dokument[]> | RessursFeilet) => {
+                settDokumenter(response);
+            });
+        },
+        [axiosRequest]
     );
-    const dokumentResponse = useDataHenter<Dokument[], null>(dokumentConfig);
+
+    useEffect(() => {
+        if (behandlingId) {
+            hentDokumenter(behandlingId);
+        }
+    }, [behandlingId, hentDokumenter]);
 
     const sorterDokumentlisten = (dokumenter: Dokument[]) => {
         return dokumenter
@@ -54,9 +73,9 @@ export const Dokumenter: React.FC<Props> = ({ hidden }) => {
     }
 
     return (
-        <DataViewer response={{ dokumentResponse }}>
-            {({ dokumentResponse }) => {
-                const sortertDokumentliste = sorterDokumentlisten(dokumentResponse);
+        <DataViewer response={{ dokumenter }}>
+            {({ dokumenter }) => {
+                const sortertDokumentliste = sorterDokumentlisten(dokumenter);
                 return (
                     <Dokumentliste dokumenter={sortertDokumentliste} onClick={lastNedDokument} />
                 );
