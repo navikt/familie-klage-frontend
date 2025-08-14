@@ -121,6 +121,7 @@ export const Header: React.FC<Props> = ({
             <InternalHeader.Title className={styles.header} onClick={() => gåTilUrl('#')}>
                 NAV Familie - klage
             </InternalHeader.Title>
+            <div style={{ marginLeft: 'auto' }} />
             <LenkePopover lenker={eksterneLenker} />
             <Bruker
                 navn={saksbehandlerNavn}
