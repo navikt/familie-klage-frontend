@@ -33,7 +33,6 @@
     "@navikt/ds-react": "^7.25.1",
     "@navikt/familie-backend": "^10.1.8",
     "@navikt/familie-logging": "^7.0.4",
-    "@navikt/familie-visittkort": "^15.1.7",
     "@navikt/land-verktoy": "^9.1.9",
     "@sentry/browser": "^9.42.1",
     "@sentry/core": "^9.42.1",
