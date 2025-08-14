@@ -37,10 +37,10 @@ const DokumentElement: React.FC<{
         </div>
         <div>
             <Button
-                className={styles.button}
                 variant="tertiary"
                 size="small"
                 onClick={() => onClick(dokument)}
+                style={{ margin: 0, padding: 0, textAlign: 'left' }}
             >
                 {dokument.tittel}
             </Button>
@@ -56,19 +56,19 @@ const JournalpostTag: React.FC<{
     switch (journalposttype) {
         case 'I':
             return (
-                <Tag variant="info-moderate" size="small">
+                <Tag className={styles.dokumentTag} variant="info-moderate" size="small">
                     I
                 </Tag>
             );
         case 'N':
             return (
-                <Tag variant="neutral-moderate" size="small">
+                <Tag className={styles.dokumentTag} variant="neutral-moderate" size="small">
                     N
                 </Tag>
             );
         case 'U':
             return (
-                <Tag variant="alt1-moderate" size="small">
+                <Tag className={styles.dokumentTag} variant="alt1-moderate" size="small">
                     U
                 </Tag>
             );
