@@ -91,7 +91,7 @@ export const EndreFormkravVurderinger: React.FC<Props> = ({
             settOppdatererVurderinger(false);
             if (res.status === RessursStatus.SUKSESS) {
                 settOppdaterteVurderinger(vurderingerSomSkalLagres);
-                nullstillIkkePersistertKomponent('formkravVilkår');
+                nullstillIkkePersistertKomponent('formkrav-vilkår');
                 settRedigeringsmodus(Redigeringsmodus.VISNING);
                 hentBehandling.rerun();
                 hentBehandlingshistorikk.rerun();
