@@ -17,9 +17,9 @@ interface Props {
 
 export const Fane: React.FC<Props> = ({ side, behandling, behandlingId, index }) => {
     const { gåTilUrl } = useApp();
-    const { formkravOppfylt } = useBehandling();
+    const { formkravErOppfylt } = useBehandling();
 
-    const faneErLåst = utledFaneErLåst(side, behandling, formkravOppfylt);
+    const faneErLåst = utledFaneErLåst(side, behandling, formkravErOppfylt);
 
     if (faneErLåst) {
         return (

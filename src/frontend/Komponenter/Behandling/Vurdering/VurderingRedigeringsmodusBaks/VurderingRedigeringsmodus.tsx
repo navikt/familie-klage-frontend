@@ -13,6 +13,7 @@ import { Tekstfelt } from './Tekstfelt';
 import { FloppydiskIcon, PaperplaneIcon, PlusCircleIcon, TrashIcon } from '@navikt/aksel-icons';
 import { useApp } from '../../../../App/context/AppContext';
 import { VurderingSkjemaverdier } from './felttyper';
+import { useBehandling } from '../../../../App/context/BehandlingContext';
 
 interface VurderingRedigeringsmodusProps {
     behandling: Behandling;
@@ -29,6 +30,8 @@ export const VurderingRedigeringsmodus = ({
 
     const { nullstillIkkePersisterteKomponenter } = useApp();
     const { lagreVurdering, lagreVurderingOgOppdaterSteg, melding } = useHentVurderinger();
+
+    const { hentBehandlingshistorikk, hentBehandling } = useBehandling();
 
     const [accordionTilstand, settAccordionTilstand] = useState<AccordionTilstand>({
         dokumentasjonOgUtredning: true,
@@ -106,6 +109,8 @@ export const VurderingRedigeringsmodus = ({
                 if (respons.status === 'SUKSESS') {
                     nullstillIkkePersisterteKomponenter();
                     navigate(`/behandling/${behandling.id}/brev`);
+                    hentBehandling.rerun();
+                    hentBehandlingshistorikk.rerun();
                 }
             })
             .finally(() => settLagrerOgOppdatererSteg(false));

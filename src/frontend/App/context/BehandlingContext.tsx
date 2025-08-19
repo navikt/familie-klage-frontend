@@ -26,7 +26,7 @@ const [BehandlingProvider, useBehandling] = constate(() => {
     const { hentBehandlingshistorikkCallback, behandlingHistorikk } =
         useHentBehandlingHistorikk(behandlingId);
     const { vilkårsvurderinger, hentVilkårsvurderinger } = useHentFormkravVilkår();
-    const [formkravOppfylt, settFormkravOppfylt] = useState<boolean>(false);
+    const [formkravErOppfylt, settFormkravErOppfylt] = useState<boolean>(false);
     const { hentAnsvarligSaksbehandlerCallback, ansvarligSaksbehandler } =
         useHentAnsvarligSaksbehandler(behandlingId);
 
@@ -54,7 +54,7 @@ const [BehandlingProvider, useBehandling] = constate(() => {
     }, [ansvarligSaksbehandler, behandling, behandlingId, hentVilkårsvurderinger]);
 
     useEffect(() => {
-        settFormkravOppfylt(
+        settFormkravErOppfylt(
             vilkårsvurderinger.status === RessursStatus.SUKSESS &&
                 påklagetVedtakErValgt(vilkårsvurderinger.data) &&
                 alleVilkårOppfylt(vilkårsvurderinger.data)
@@ -96,7 +96,7 @@ const [BehandlingProvider, useBehandling] = constate(() => {
         settVurderingEndret,
         oppdatertVurdering,
         settOppdatertVurdering,
-        formkravOppfylt,
+        formkravErOppfylt,
         visEndreBehandlendeEnhet,
         settVisEndreBehandlendeEnhet,
     };

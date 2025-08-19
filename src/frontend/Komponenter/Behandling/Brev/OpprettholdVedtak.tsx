@@ -9,16 +9,14 @@ import { ModalWrapper } from '../../../Felles/Modal/ModalWrapper';
 import { useBehandling } from '../../../App/context/BehandlingContext';
 import { useApp } from '../../../App/context/AppContext';
 import { useFerdigstillBehandling } from './useFerdigstillBehandling';
-import { IVurdering, VedtakValg } from '../Vurdering/vurderingValg';
 import { Button } from '../../../Felles/Knapper/Button';
 
 interface Props {
     behandlingId: string;
     fagsystem: Fagsystem;
-    vurdering: IVurdering;
 }
 
-export const OpprettholdVedtak: React.FC<Props> = ({ behandlingId, fagsystem, vurdering }) => {
+export const OpprettholdVedtak: React.FC<Props> = ({ behandlingId, fagsystem }) => {
     const [brevRessurs, settBrevRessurs] = useState<Ressurs<string>>(byggTomRessurs());
 
     const { behandlingErRedigerbar } = useBehandling();
@@ -49,14 +47,12 @@ export const OpprettholdVedtak: React.FC<Props> = ({ behandlingId, fagsystem, vu
     }, [axiosRequest, behandlingId]);
 
     useEffect(() => {
-        if (vurdering.vedtak === VedtakValg.OPPRETTHOLD_VEDTAK) {
-            if (behandlingErRedigerbar) {
-                genererBrev();
-            } else {
-                hentBrev();
-            }
+        if (behandlingErRedigerbar) {
+            genererBrev();
+        } else {
+            hentBrev();
         }
-    }, [behandlingErRedigerbar, genererBrev, hentBrev, vurdering.vedtak]);
+    }, [behandlingErRedigerbar, genererBrev, hentBrev]);
 
     const lukkModal = () => {
         settVisModal(false);

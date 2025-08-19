@@ -14,6 +14,7 @@ import { Fagsystem } from '../../../App/typer/fagsak';
 import { DataViewer } from '../../../Felles/DataViewer/DataViewer';
 import { OpprettholdVedtak } from './OpprettholdVedtak';
 import { Alert } from '@navikt/ds-react';
+import { useBehandling } from '../../../App/context/BehandlingContext';
 
 interface Props {
     behandlingId: string;
@@ -22,6 +23,7 @@ interface Props {
 
 export const Brev: React.FC<Props> = ({ behandlingId, fagsystem }) => {
     const { axiosRequest } = useApp();
+    const { formkravErOppfylt } = useBehandling();
     const [feilmelding, settFeilmelding] = useState('');
     const [vurdering, settVurdering] = useState<Ressurs<IVurdering | undefined>>(byggTomRessurs());
 
@@ -32,7 +34,7 @@ export const Brev: React.FC<Props> = ({ behandlingId, fagsystem }) => {
                 url: `/familie-klage/api/vurdering/${behandlingId}`,
             }).then((response: RessursSuksess<IVurdering | undefined> | RessursFeilet) => {
                 if (response.status === RessursStatus.SUKSESS) {
-                    if (!response.data?.vedtak) {
+                    if (!response.data?.vedtak && formkravErOppfylt) {
                         settFeilmelding(
                             'Det er ikke tatt stilling til om vedtaket skal opprettholdes eller omgjøres. Vennligst naviger til vurderingsfanen for å ta stilling til dette.'
                         );
@@ -44,7 +46,7 @@ export const Brev: React.FC<Props> = ({ behandlingId, fagsystem }) => {
                 }
             });
         },
-        [axiosRequest]
+        [axiosRequest, formkravErOppfylt]
     );
 
     useEffect(() => {
@@ -58,22 +60,10 @@ export const Brev: React.FC<Props> = ({ behandlingId, fagsystem }) => {
     return (
         <DataViewer response={{ vurdering }}>
             {({ vurdering }) => {
-                if (vurdering && vurdering.vedtak) {
-                    if (vurdering.vedtak === VedtakValg.OPPRETTHOLD_VEDTAK) {
-                        return (
-                            <OpprettholdVedtak
-                                behandlingId={behandlingId}
-                                fagsystem={fagsystem}
-                                vurdering={vurdering}
-                            />
-                        );
-                    }
-
-                    if (vurdering.vedtak === VedtakValg.OMGJØR_VEDTAK) {
-                        return <OmgjørVedtak behandlingId={behandlingId} />;
-                    }
+                if (vurdering && vurdering.vedtak === VedtakValg.OMGJØR_VEDTAK) {
+                    return <OmgjørVedtak behandlingId={behandlingId} />;
                 }
-                return <Alert variant="error">Noe gikk galt</Alert>;
+                return <OpprettholdVedtak behandlingId={behandlingId} fagsystem={fagsystem} />;
             }}
         </DataViewer>
     );
