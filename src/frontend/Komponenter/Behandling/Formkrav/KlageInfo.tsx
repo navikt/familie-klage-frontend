@@ -28,15 +28,15 @@ const utledStatusIkon = (
 };
 
 interface Props {
+    behandling: Behandling;
     vurderinger: IFormkravVilkår;
     redigeringsmodus: Redigeringsmodus;
-    behandling: Behandling;
 }
 
 export const KlageInfo: React.FC<Props> = ({ behandling, vurderinger, redigeringsmodus }) => {
-    const { formkravOppfylt } = useBehandling();
+    const { formkravErOppfylt } = useBehandling();
 
-    const statusIkon = utledStatusIkon(redigeringsmodus, formkravOppfylt, vurderinger);
+    const statusIkon = utledStatusIkon(redigeringsmodus, formkravErOppfylt, vurderinger);
 
     return (
         <>
