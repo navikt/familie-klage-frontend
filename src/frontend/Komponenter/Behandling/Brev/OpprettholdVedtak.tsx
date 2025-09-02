@@ -97,6 +97,7 @@ export const OpprettholdVedtak: React.FC<Props> = ({ behandlingId, fagsystem }) 
                     lukkKnapp: { onClick: () => lukkModal(), tekst: 'Avbryt' },
                 }}
                 ariaLabel={'Bekreft ustending av frittstående brev'}
+                width={'30rem'}
             >
                 {feilmelding && <Alert variant={'error'}>Utsending feilet.{feilmelding}</Alert>}
             </ModalWrapper>

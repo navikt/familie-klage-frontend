@@ -78,6 +78,7 @@ export const BrevmottakereModal: FC<Props> = ({
                 settVisBrevmottakereModal(false);
             }}
             ariaLabel={'Velg brevmottakere'}
+            width={'70rem'}
         >
             <div className={styles.container}>
                 <div>

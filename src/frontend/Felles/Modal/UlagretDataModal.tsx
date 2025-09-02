@@ -35,6 +35,7 @@ export const UlagretDataModal: FC = () => {
                     tekst: 'Forlat siden',
                 },
             }}
+            width={'40rem'}
         />
     );
 };

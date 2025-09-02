@@ -74,6 +74,7 @@ export const OmgjørVedtak: React.FC<Props> = ({ behandlingId }) => {
                             },
                             lukkKnapp: { onClick: lukkModal, tekst: 'Avbryt' },
                         }}
+                        width={'30rem'}
                     >
                         {feilmelding && <Alert variant={'error'}>{feilmelding}</Alert>}
                     </ModalWrapper>
