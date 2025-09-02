@@ -1,9 +1,0 @@
-.informasjonHeader {
-    display: grid;
-    grid-template-columns: 26rem 12rem;
-}
-
-.button {
-    padding: 0;
-    justify-content: right;
-}

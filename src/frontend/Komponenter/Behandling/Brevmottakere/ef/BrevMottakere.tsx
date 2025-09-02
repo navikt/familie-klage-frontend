@@ -1,7 +1,6 @@
 import React, { useCallback, useEffect, useState } from 'react';
-import styles from './BrevMottakere.module.css';
 import { useApp } from '../../../../App/context/AppContext';
-import { Alert, BodyShort, Button, HStack, Label, Tooltip } from '@navikt/ds-react';
+import { Alert, BodyShort, Button, HStack, Label, Tooltip, VStack } from '@navikt/ds-react';
 import { Brevmottakere } from '../brevmottakere';
 import { DataViewer } from '../../../../Felles/DataViewer/DataViewer';
 import { useBehandling } from '../../../../App/context/BehandlingContext';
@@ -78,27 +77,25 @@ const BrevMottakerPanel: React.FC<{
 
     return flereBrevmottakereErValgt || !brukerErBrevmottaker ? (
         <Alert variant={'info'}>
-            <div className={styles.informasjonHeader}>
-                <Label>Brevmottakere:</Label>
-                {behandlingErRedigerbar && (
-                    <Tooltip content={'Legg til verge eller fullmektige brevmottakere'}>
-                        <Button
-                            className={styles.button}
-                            variant={'tertiary'}
-                            onClick={() => settVisBrevmottakereModal(true)}
-                        >
-                            Legg til/endre brevmottakere
-                        </Button>
-                    </Tooltip>
-                )}
-            </div>
-            <ul>
+            <VStack gap={'2'}>
+                <HStack justify="space-between" style={{ margin: '0.25rem 0 0.25rem 0' }}>
+                    <Label>Brevmottakere:</Label>
+                    {behandlingErRedigerbar && (
+                        <Tooltip content={'Legg til verge eller fullmektige brevmottakere'}>
+                            <Button
+                                variant={'tertiary'}
+                                onClick={() => settVisBrevmottakereModal(true)}
+                                style={{ padding: '0' }}
+                            >
+                                Legg til/endre brevmottakere
+                            </Button>
+                        </Tooltip>
+                    )}
+                </HStack>
                 {navn.map((navn, index) => (
-                    <li key={navn + index}>
-                        <BodyShort key={navn + index}>{navn}</BodyShort>
-                    </li>
+                    <BodyShort key={navn + index}>{navn}</BodyShort>
                 ))}
-            </ul>
+            </VStack>
         </Alert>
     ) : (
         <HStack gap="4" align="center">
@@ -107,9 +104,9 @@ const BrevMottakerPanel: React.FC<{
             {behandlingErRedigerbar && (
                 <Tooltip content={'Legg til verge eller fullmektige brevmottakere'}>
                     <Button
-                        className={styles.button}
                         variant={'tertiary'}
                         onClick={() => settVisBrevmottakereModal(true)}
+                        style={{ padding: '0' }}
                     >
                         Legg til/endre brevmottakere
                     </Button>
