@@ -7,18 +7,19 @@ import { DataViewer } from '../../../../Felles/DataViewer/DataViewer';
 import { useBehandling } from '../../../../App/context/BehandlingContext';
 import { BrevmottakereModal } from './BrevmottakereModal';
 import { byggTomRessurs, Ressurs } from '../../../../App/typer/ressurs';
-import { AxiosRequestConfig } from 'axios';
 import { MottakerRolle } from '../mottakerRolle';
+import { AxiosRequestConfig } from 'axios';
 
 interface Props {
     behandlingId: string;
+    genererBrev: () => void;
 }
 
-export const BrevMottakere: React.FC<Props> = ({ behandlingId }) => {
+export const BrevMottakere: React.FC<Props> = ({ behandlingId, genererBrev }) => {
     const { axiosRequest } = useApp();
     const { personopplysningerResponse } = useBehandling();
 
-    const [mottakere, settMottakere] = useState<Ressurs<Brevmottakere>>(byggTomRessurs());
+    const [brevMottakere, settBrevMottakere] = useState<Ressurs<Brevmottakere>>(byggTomRessurs());
 
     const hentBrevmottakere = useCallback(() => {
         const behandlingConfig: AxiosRequestConfig = {
@@ -26,7 +27,7 @@ export const BrevMottakere: React.FC<Props> = ({ behandlingId }) => {
             url: `/familie-klage/api/brevmottaker/${behandlingId}`,
         };
         axiosRequest<Brevmottakere, null>(behandlingConfig).then((res: Ressurs<Brevmottakere>) =>
-            settMottakere(res)
+            settBrevMottakere(res)
         );
     }, [axiosRequest, behandlingId]);
 
@@ -35,15 +36,16 @@ export const BrevMottakere: React.FC<Props> = ({ behandlingId }) => {
     }, [hentBrevmottakere]);
 
     return (
-        <DataViewer response={{ mottakere, personopplysningerResponse }}>
-            {({ mottakere, personopplysningerResponse }) => (
+        <DataViewer response={{ personopplysningerResponse, brevMottakere }}>
+            {({ personopplysningerResponse, brevMottakere }) => (
                 <>
-                    <BrevMottakereContainer mottakere={mottakere} />
+                    <BrevMottakerPanel mottakere={brevMottakere} />
                     <BrevmottakereModal
                         behandlingId={behandlingId}
                         personopplysninger={personopplysningerResponse}
-                        mottakere={mottakere}
-                        kallHentBrevmottakere={hentBrevmottakere}
+                        mottakere={brevMottakere}
+                        hentBrevmottakere={hentBrevmottakere}
+                        genererBrev={genererBrev}
                     />
                 </>
             )}
@@ -51,19 +53,19 @@ export const BrevMottakere: React.FC<Props> = ({ behandlingId }) => {
     );
 };
 
-const BrevMottakereContainer: React.FC<{
+const BrevMottakerPanel: React.FC<{
     mottakere: Brevmottakere;
 }> = ({ mottakere }) => {
     const { settVisBrevmottakereModal } = useApp();
     const { behandlingErRedigerbar } = useBehandling();
+
     const utledNavnPåMottakere = (brevMottakere: Brevmottakere) => {
         return [
             ...brevMottakere.personer.map(
                 (person) => `${person.navn} (${person.mottakerRolle.toLowerCase()})`
             ),
             ...brevMottakere.organisasjoner.map(
-                (org) =>
-                    `${org.navnHosOrganisasjon} - ${org.organisasjonsnavn} (${org.organisasjonsnummer})`
+                (org) => `${org.navnHosOrganisasjon} -(${org.organisasjonsnummer})`
             ),
         ];
     };

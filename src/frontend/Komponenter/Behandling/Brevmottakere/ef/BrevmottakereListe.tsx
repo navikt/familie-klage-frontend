@@ -22,21 +22,23 @@ export const BrevmottakereListe: FC<Props> = ({
     valgteOrganisasjonMottakere,
     settValgteOrganisasjonMottakere,
 }) => {
-    const fjernPersonMottaker = (personIdent: string) => () => {
-        settValgtePersonMottakere((prevState) =>
-            prevState.filter((mottaker) => {
+    const fjernPersonMottaker = (personIdent: string) => {
+        settValgtePersonMottakere((prevState) => {
+            return prevState.filter((mottaker) => {
                 if (erBrevmottakerPersonMedIdent(mottaker)) {
                     return mottaker.personIdent !== personIdent;
                 }
                 return true;
-            })
-        );
+            });
+        });
     };
-    const fjernOrganisasjonMottaker = (organisasjonsnummer: string) => () => {
+
+    const fjernOrganisasjonMottaker = (organisasjonsnummer: string) => {
         settValgteOrganisasjonMottakere((prevState) =>
             prevState.filter((mottaker) => mottaker.organisasjonsnummer !== organisasjonsnummer)
         );
     };
+
     return (
         <>
             <BodyShort size="large" spacing>

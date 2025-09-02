@@ -2,7 +2,16 @@ import React, { Dispatch, SetStateAction, useEffect, useState } from 'react';
 import { useApp } from '../../../../App/context/AppContext';
 import { byggTomRessurs, Ressurs } from '../../../../App/typer/ressurs';
 import { DataViewer } from '../../../../Felles/DataViewer/DataViewer';
-import { BodyShort, Button, HStack, TextField } from '@navikt/ds-react';
+import {
+    BodyShort,
+    Button,
+    HStack,
+    Radio,
+    RadioGroup,
+    Stack,
+    TextField,
+    VStack,
+} from '@navikt/ds-react';
 import { MottakerRolle } from '../mottakerRolle';
 import { BrevmottakerPerson } from '../brevmottaker';
 import styles from './SøkOrganisasjon.module.css';
@@ -20,6 +29,7 @@ interface PersonSøk {
 
 export const SøkPerson: React.FC<Props> = ({ settValgteMottakere, behandlingId }) => {
     const { axiosRequest } = useApp();
+    const [mottakerRolle, settMottakerRolle] = useState<MottakerRolle>(MottakerRolle.FULLMAKT);
     const [søkIdent, settSøkIdent] = useState('');
     const [søkRessurs, settSøkRessurs] = useState(byggTomRessurs<PersonSøk>());
 
@@ -41,7 +51,7 @@ export const SøkPerson: React.FC<Props> = ({ settValgteMottakere, behandlingId 
     const leggTilBrevmottaker = (personIdent: string, navn: string) => () => {
         settValgteMottakere((prevState) => [
             ...prevState,
-            { navn, personIdent, mottakerRolle: MottakerRolle.VERGE },
+            { navn: navn, personIdent: personIdent, mottakerRolle: mottakerRolle },
         ]);
     };
 
@@ -58,24 +68,36 @@ export const SøkPerson: React.FC<Props> = ({ settValgteMottakere, behandlingId 
             <DataViewer response={{ søkRessurs }}>
                 {({ søkRessurs }) => {
                     return (
-                        <div className={styles.søkeresultat}>
-                            <div>
-                                <BodyShort>{søkRessurs.navn}</BodyShort>
-                                {søkRessurs.personIdent}
+                        <VStack style={{ marginTop: '1rem' }}>
+                            <RadioGroup
+                                legend="Velg mottakerrolle"
+                                onChange={(rolle: MottakerRolle) => settMottakerRolle(rolle)}
+                                value={mottakerRolle}
+                            >
+                                <Stack gap="space-0 space-24" direction={'row'} wrap={false}>
+                                    <Radio value={MottakerRolle.FULLMAKT}>Fullmakt</Radio>
+                                    <Radio value={MottakerRolle.VERGE}>Verge</Radio>
+                                </Stack>
+                            </RadioGroup>
+                            <div className={styles.søkeresultat}>
+                                <div>
+                                    <BodyShort>{søkRessurs.navn}</BodyShort>
+                                    {søkRessurs.personIdent}
+                                </div>
+                                <HStack align="center" justify="center">
+                                    <Button
+                                        variant="secondary"
+                                        size="small"
+                                        onClick={leggTilBrevmottaker(
+                                            søkRessurs.personIdent,
+                                            søkRessurs.navn
+                                        )}
+                                    >
+                                        Legg til
+                                    </Button>
+                                </HStack>
                             </div>
-                            <HStack align="center" justify="center">
-                                <Button
-                                    variant="secondary"
-                                    size="small"
-                                    onClick={leggTilBrevmottaker(
-                                        søkRessurs.personIdent,
-                                        søkRessurs.navn
-                                    )}
-                                >
-                                    Legg til
-                                </Button>
-                            </HStack>
-                        </div>
+                        </VStack>
                     );
                 }}
             </DataViewer>

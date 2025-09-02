@@ -2,8 +2,8 @@ import React, { useCallback, useEffect, useState } from 'react';
 import { Alert, Box, HGrid, VStack } from '@navikt/ds-react';
 import { byggTomRessurs, Ressurs, RessursStatus } from '../../../App/typer/ressurs';
 import { Fagsystem } from '../../../App/typer/fagsak';
-import { BrevmottakerContainer as BaksBrevmottakerContainer } from '../Brevmottakere/baks/BrevmottakerContainer';
-import { BrevMottakere } from '../Brevmottakere/ef/BrevMottakere';
+import { BrevmottakerContainer as BrevmottakereBaks } from '../Brevmottakere/baks/BrevmottakerContainer';
+import { BrevMottakere as BrevmottakereEf } from '../Brevmottakere/ef/BrevMottakere';
 import { PdfVisning } from './PdfVisning';
 import { ModalWrapper } from '../../../Felles/Modal/ModalWrapper';
 import { useBehandling } from '../../../App/context/BehandlingContext';
@@ -17,16 +17,16 @@ interface Props {
 }
 
 export const OpprettholdVedtak: React.FC<Props> = ({ behandlingId, fagsystem }) => {
-    const [brevRessurs, settBrevRessurs] = useState<Ressurs<string>>(byggTomRessurs());
-
     const { behandlingErRedigerbar } = useBehandling();
-
     const { axiosRequest } = useApp();
+
     const { ferdigstill, senderInn } = useFerdigstillBehandling(
         behandlingId,
         () => lukkModal(),
         (feilmelding) => settFeilmelding(feilmelding)
     );
+
+    const [brevRessurs, settBrevRessurs] = useState<Ressurs<string>>(byggTomRessurs());
     const [visModal, settVisModal] = useState<boolean>(false);
     const [feilmelding, settFeilmelding] = useState('');
 
@@ -65,9 +65,12 @@ export const OpprettholdVedtak: React.FC<Props> = ({ behandlingId, fagsystem }) 
                 <VStack gap={'6'}>
                     {brevRessurs.status === RessursStatus.SUKSESS &&
                         (fagsystem === Fagsystem.EF ? (
-                            <BrevMottakere behandlingId={behandlingId} />
+                            <BrevmottakereEf
+                                behandlingId={behandlingId}
+                                genererBrev={genererBrev}
+                            />
                         ) : (
-                            <BaksBrevmottakerContainer behandlingId={behandlingId} />
+                            <BrevmottakereBaks behandlingId={behandlingId} />
                         ))}
                     {behandlingErRedigerbar && brevRessurs.status === RessursStatus.SUKSESS && (
                         <Button

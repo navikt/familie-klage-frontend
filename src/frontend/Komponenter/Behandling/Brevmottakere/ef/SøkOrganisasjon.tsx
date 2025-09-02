@@ -6,6 +6,11 @@ import { BodyShort, Button, TextField } from '@navikt/ds-react';
 import { BrevmottakerOrganisasjon } from '../brevmottaker';
 import styles from './SøkOrganisasjon.module.css';
 
+interface Organisasjon {
+    navn: string;
+    organisasjonsnummer: string;
+}
+
 interface Props {
     valgteMottakere: BrevmottakerOrganisasjon[];
     settValgteMottakere: Dispatch<SetStateAction<BrevmottakerOrganisasjon[]>>;
@@ -15,33 +20,33 @@ export const SøkOrganisasjon: React.FC<Props> = ({ settValgteMottakere }) => {
     const { axiosRequest } = useApp();
 
     const [organisasjonsnummer, settOrganisasjonsnummer] = useState('');
-    const [navnHosOrganisasjon, settNavnHosOrganisasjon] = useState('');
-    const [organisasjonRessurs, settOrganisasjonRessurs] =
-        useState(byggTomRessurs<IOrganisasjon>());
+    const [kontaktpersonHosOrganisasjon, settKontaktpersonHosOrganisasjon] = useState('');
+    const [organisasjonRessurs, settOrganisasjonRessurs] = useState(byggTomRessurs<Organisasjon>());
     const [feil, settFeil] = useState('');
 
     useEffect(() => {
         if (organisasjonsnummer?.length === 9) {
-            axiosRequest<IOrganisasjon, null>({
+            axiosRequest<Organisasjon, null>({
                 method: 'GET',
                 url: `familie-klage/api/sok/organisasjon/${organisasjonsnummer}`,
-            }).then((response: Ressurs<IOrganisasjon>) => {
+            }).then((response: Ressurs<Organisasjon>) => {
                 settOrganisasjonRessurs(response);
             });
         }
     }, [axiosRequest, organisasjonsnummer]);
 
     const leggTilOrganisasjon = (organisasjonsnummer: string, organisasjonsnavn: string) => () => {
-        if (!navnHosOrganisasjon) {
+        if (!kontaktpersonHosOrganisasjon) {
             settFeil('Oppgi kontaktperson hos organisasjonen');
             return;
         }
         settFeil('');
-        settValgteMottakere([
+        settValgteMottakere((prevState) => [
+            ...prevState,
             {
-                organisasjonsnummer,
-                organisasjonsnavn,
-                navnHosOrganisasjon,
+                organisasjonsnummer: organisasjonsnummer,
+                organisasjonsnavn: organisasjonsnavn,
+                navnHosOrganisasjon: `${organisasjonsnavn} c/o ${kontaktpersonHosOrganisasjon}`,
             },
         ]);
     };
@@ -78,8 +83,10 @@ export const SøkOrganisasjon: React.FC<Props> = ({ settValgteMottakere }) => {
                                     htmlSize={25}
                                     label={'Ved'}
                                     placeholder={'Personen brevet skal til'}
-                                    value={navnHosOrganisasjon}
-                                    onChange={(e) => settNavnHosOrganisasjon(e.target.value)}
+                                    value={kontaktpersonHosOrganisasjon}
+                                    onChange={(e) =>
+                                        settKontaktpersonHosOrganisasjon(e.target.value)
+                                    }
                                     error={feil}
                                 />
                             </div>
@@ -90,8 +97,3 @@ export const SøkOrganisasjon: React.FC<Props> = ({ settValgteMottakere }) => {
         </>
     );
 };
-
-export interface IOrganisasjon {
-    navn: string;
-    organisasjonsnummer: string;
-}
