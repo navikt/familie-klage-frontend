@@ -1,24 +1,24 @@
 import React, { useCallback, useEffect, useState } from 'react';
-import styles from './BrevMottakere.module.css';
 import { useApp } from '../../../../App/context/AppContext';
-import { Alert, BodyShort, Button, HStack, Label, Tooltip } from '@navikt/ds-react';
+import { Alert, BodyShort, Button, HStack, Label, Tooltip, VStack } from '@navikt/ds-react';
 import { Brevmottakere } from '../brevmottakere';
 import { DataViewer } from '../../../../Felles/DataViewer/DataViewer';
 import { useBehandling } from '../../../../App/context/BehandlingContext';
 import { BrevmottakereModal } from './BrevmottakereModal';
 import { byggTomRessurs, Ressurs } from '../../../../App/typer/ressurs';
-import { AxiosRequestConfig } from 'axios';
 import { MottakerRolle } from '../mottakerRolle';
+import { AxiosRequestConfig } from 'axios';
 
 interface Props {
     behandlingId: string;
+    genererBrev: () => void;
 }
 
-export const BrevMottakere: React.FC<Props> = ({ behandlingId }) => {
+export const BrevMottakere: React.FC<Props> = ({ behandlingId, genererBrev }) => {
     const { axiosRequest } = useApp();
     const { personopplysningerResponse } = useBehandling();
 
-    const [mottakere, settMottakere] = useState<Ressurs<Brevmottakere>>(byggTomRessurs());
+    const [brevMottakere, settBrevMottakere] = useState<Ressurs<Brevmottakere>>(byggTomRessurs());
 
     const hentBrevmottakere = useCallback(() => {
         const behandlingConfig: AxiosRequestConfig = {
@@ -26,7 +26,7 @@ export const BrevMottakere: React.FC<Props> = ({ behandlingId }) => {
             url: `/familie-klage/api/brevmottaker/${behandlingId}`,
         };
         axiosRequest<Brevmottakere, null>(behandlingConfig).then((res: Ressurs<Brevmottakere>) =>
-            settMottakere(res)
+            settBrevMottakere(res)
         );
     }, [axiosRequest, behandlingId]);
 
@@ -35,15 +35,16 @@ export const BrevMottakere: React.FC<Props> = ({ behandlingId }) => {
     }, [hentBrevmottakere]);
 
     return (
-        <DataViewer response={{ mottakere, personopplysningerResponse }}>
-            {({ mottakere, personopplysningerResponse }) => (
+        <DataViewer response={{ personopplysningerResponse, brevMottakere }}>
+            {({ personopplysningerResponse, brevMottakere }) => (
                 <>
-                    <BrevMottakereContainer mottakere={mottakere} />
+                    <BrevMottakerPanel mottakere={brevMottakere} />
                     <BrevmottakereModal
                         behandlingId={behandlingId}
                         personopplysninger={personopplysningerResponse}
-                        mottakere={mottakere}
-                        kallHentBrevmottakere={hentBrevmottakere}
+                        mottakere={brevMottakere}
+                        hentBrevmottakere={hentBrevmottakere}
+                        genererBrev={genererBrev}
                     />
                 </>
             )}
@@ -51,19 +52,19 @@ export const BrevMottakere: React.FC<Props> = ({ behandlingId }) => {
     );
 };
 
-const BrevMottakereContainer: React.FC<{
+const BrevMottakerPanel: React.FC<{
     mottakere: Brevmottakere;
 }> = ({ mottakere }) => {
     const { settVisBrevmottakereModal } = useApp();
     const { behandlingErRedigerbar } = useBehandling();
+
     const utledNavnPåMottakere = (brevMottakere: Brevmottakere) => {
         return [
             ...brevMottakere.personer.map(
                 (person) => `${person.navn} (${person.mottakerRolle.toLowerCase()})`
             ),
             ...brevMottakere.organisasjoner.map(
-                (org) =>
-                    `${org.navnHosOrganisasjon} - ${org.organisasjonsnavn} (${org.organisasjonsnummer})`
+                (org) => `${org.navnHosOrganisasjon} -(${org.organisasjonsnummer})`
             ),
         ];
     };
@@ -76,27 +77,25 @@ const BrevMottakereContainer: React.FC<{
 
     return flereBrevmottakereErValgt || !brukerErBrevmottaker ? (
         <Alert variant={'info'}>
-            <div className={styles.informasjonHeader}>
-                <Label>Brevmottakere:</Label>
-                {behandlingErRedigerbar && (
-                    <Tooltip content={'Legg til verge eller fullmektige brevmottakere'}>
-                        <Button
-                            className={styles.button}
-                            variant={'tertiary'}
-                            onClick={() => settVisBrevmottakereModal(true)}
-                        >
-                            Legg til/endre brevmottakere
-                        </Button>
-                    </Tooltip>
-                )}
-            </div>
-            <ul>
+            <VStack gap={'2'}>
+                <HStack justify="space-between" style={{ margin: '0.25rem 0 0.25rem 0' }}>
+                    <Label>Brevmottakere:</Label>
+                    {behandlingErRedigerbar && (
+                        <Tooltip content={'Legg til verge eller fullmektige brevmottakere'}>
+                            <Button
+                                variant={'tertiary'}
+                                onClick={() => settVisBrevmottakereModal(true)}
+                                style={{ padding: '0' }}
+                            >
+                                Legg til/endre brevmottakere
+                            </Button>
+                        </Tooltip>
+                    )}
+                </HStack>
                 {navn.map((navn, index) => (
-                    <li key={navn + index}>
-                        <BodyShort key={navn + index}>{navn}</BodyShort>
-                    </li>
+                    <BodyShort key={navn + index}>{navn}</BodyShort>
                 ))}
-            </ul>
+            </VStack>
         </Alert>
     ) : (
         <HStack gap="4" align="center">
@@ -105,9 +104,9 @@ const BrevMottakereContainer: React.FC<{
             {behandlingErRedigerbar && (
                 <Tooltip content={'Legg til verge eller fullmektige brevmottakere'}>
                     <Button
-                        className={styles.button}
                         variant={'tertiary'}
                         onClick={() => settVisBrevmottakereModal(true)}
+                        style={{ padding: '0' }}
                     >
                         Legg til/endre brevmottakere
                     </Button>

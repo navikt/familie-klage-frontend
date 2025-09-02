@@ -1,4 +1,4 @@
-import React, { FC, useCallback, useEffect, useState } from 'react';
+import React, { FC, useCallback, useState } from 'react';
 import { IPersonopplysninger } from '../../../../App/typer/personopplysninger';
 import { VergerOgFullmektigeFraRegister } from './VergerOgFullmektigeFraRegister';
 import { SøkWrapper } from './SøkWrapper';
@@ -17,25 +17,27 @@ interface Props {
     behandlingId: string;
     personopplysninger: IPersonopplysninger;
     mottakere: Brevmottakere;
-    kallHentBrevmottakere: () => void;
+    hentBrevmottakere: () => void;
+    genererBrev: () => void;
 }
 
 export const BrevmottakereModal: FC<Props> = ({
     behandlingId,
     personopplysninger,
     mottakere,
-    kallHentBrevmottakere,
+    hentBrevmottakere,
+    genererBrev,
 }) => {
-    const { visBrevmottakereModal, settVisBrevmottakereModal } = useApp();
+    const { visBrevmottakereModal, settVisBrevmottakereModal, settToast, axiosRequest } = useApp();
 
-    const [valgtePersonMottakere, settValgtePersonMottakere] = useState<BrevmottakerPerson[]>([]);
-
+    const [valgtePersonMottakere, settValgtePersonMottakere] = useState<BrevmottakerPerson[]>(
+        mottakere.personer
+    );
     const [valgteOrganisasjonMottakere, settValgteOrganisasjonMottakere] = useState<
         BrevmottakerOrganisasjon[]
-    >([]);
+    >(mottakere.organisasjoner);
     const [feilmelding, settFeilmelding] = useState('');
     const [innsendingSuksess, settInnsendingSukksess] = useState(false);
-    const { settToast, axiosRequest } = useApp();
 
     const kallErstattBrevmottakere = useCallback(
         (brevmottakere: Brevmottakere) =>
@@ -47,11 +49,6 @@ export const BrevmottakereModal: FC<Props> = ({
         [axiosRequest, behandlingId]
     );
 
-    useEffect(() => {
-        settValgtePersonMottakere(mottakere.personer);
-        settValgteOrganisasjonMottakere(mottakere.organisasjoner);
-    }, [mottakere]);
-
     const settBrevmottakere = () => {
         settFeilmelding('');
         settInnsendingSukksess(false);
@@ -60,7 +57,8 @@ export const BrevmottakereModal: FC<Props> = ({
             organisasjoner: valgteOrganisasjonMottakere,
         }).then((response: RessursSuksess<Brevmottakere> | RessursFeilet) => {
             if (response.status === RessursStatus.SUKSESS) {
-                kallHentBrevmottakere();
+                hentBrevmottakere();
+                genererBrev();
                 settVisBrevmottakereModal(false);
                 settToast(EToast.BREVMOTTAKERE_SATT);
             } else {
@@ -80,6 +78,7 @@ export const BrevmottakereModal: FC<Props> = ({
                 settVisBrevmottakereModal(false);
             }}
             ariaLabel={'Velg brevmottakere'}
+            width={'70rem'}
         >
             <div className={styles.container}>
                 <div>

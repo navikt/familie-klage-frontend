@@ -61,6 +61,7 @@ const AppRoutes: React.FC<{ innloggetSaksbehandler: ISaksbehandler }> = ({
                     tittel={'Ugyldig sesjon'}
                     visModal={true}
                     ariaLabel={'Sesjonen har utløpt. Prøv å last inn siden på nytt.'}
+                    width={'30rem'}
                 >
                     <BodyLong>Prøv å last siden på nytt</BodyLong>
                 </ModalWrapper>
