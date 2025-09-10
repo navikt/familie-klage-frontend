@@ -35,7 +35,6 @@ import {
     alleVilkårOppfylt,
     begrunnelseUtfylt,
     brevtekstUtfylt,
-    klagefristUnntakErValgtOgOppfylt,
     klagefristUnntakTattStillingTil,
     påklagetVedtakErValgt,
     utledIkkeUtfylteVilkår,
@@ -101,18 +100,12 @@ export const VisFormkravVurderinger: React.FC<Props> = ({
 
     const radioKnapper = utledRadioKnapper(vurderinger);
     const alleVilkårErOppfylt = alleVilkårOppfylt(vurderinger);
-    const klagefristVilkårOppfylt = klagefristUnntakErValgtOgOppfylt(
-        vurderinger.klagefristOverholdtUnntak
-    );
     const påKlagetVedtakErValgt = påklagetVedtakErValgt(vurderinger);
     const harBegrunnelse = begrunnelseUtfylt(vurderinger);
     const harBrevtekst = brevtekstUtfylt(vurderinger);
     const manglerFritekster = !harBrevtekst || !harBegrunnelse;
     const ikkeUtfylteVilkår = utledIkkeUtfylteVilkår(vurderinger);
     const unntakFormalkravTattStillingTil = klagefristUnntakTattStillingTil(vurderinger);
-    const klagefristUnntakOppfylt = klagefristUnntakErValgtOgOppfylt(
-        vurderinger.klagefristOverholdtUnntak
-    );
     const ikkePåklagetVedtak =
         vurderinger.påklagetVedtak.påklagetVedtakstype === PåklagetVedtakstype.UTEN_VEDTAK;
 
@@ -121,11 +114,10 @@ export const VisFormkravVurderinger: React.FC<Props> = ({
             return manglerFritekster;
         }
         return (
+            !påKlagetVedtakErValgt ||
             ikkeUtfylteVilkår.length > 0 ||
             !unntakFormalkravTattStillingTil ||
-            !påKlagetVedtakErValgt ||
-            ((!alleVilkårErOppfylt || (alleVilkårErOppfylt && klagefristUnntakOppfylt)) &&
-                manglerFritekster)
+            (!alleVilkårErOppfylt && manglerFritekster)
         );
     };
 
@@ -153,8 +145,7 @@ export const VisFormkravVurderinger: React.FC<Props> = ({
 
     const urlSuffiks = utledUrlSuffiks();
 
-    const skalViseBegrunnelseOgBrevtekst =
-        !alleVilkårErOppfylt || ikkePåklagetVedtak || klagefristVilkårOppfylt;
+    const skalViseBegrunnelseOgBrevtekst = !alleVilkårErOppfylt || ikkePåklagetVedtak;
 
     return (
         <VStack>
