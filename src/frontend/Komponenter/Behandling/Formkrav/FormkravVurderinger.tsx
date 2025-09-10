@@ -56,6 +56,7 @@ export const FormkravVurderinger: React.FC<IProps> = ({
                     settRedigeringsmodus={settRedigeringsmodus}
                     vurderinger={vurderinger}
                     klagebehandlingsresultater={klagebehandlingsresultater}
+                    fagsystem={fagsystem}
                 />
             );
     }
