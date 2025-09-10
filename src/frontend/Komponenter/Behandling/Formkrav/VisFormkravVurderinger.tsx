@@ -28,6 +28,7 @@ import {
 import { PencilIcon, TrashIcon } from '@navikt/aksel-icons';
 import {
     behandlingResultatTilTekst,
+    Fagsystem,
     PåklagetVedtakstype,
     påklagetVedtakstypeTilTekst,
 } from '../../../App/typer/fagsak';
@@ -35,6 +36,7 @@ import {
     alleVilkårOppfylt,
     begrunnelseUtfylt,
     brevtekstUtfylt,
+    klagefristUnntakErValgtOgOppfylt,
     klagefristUnntakTattStillingTil,
     påklagetVedtakErValgt,
     utledIkkeUtfylteVilkår,
@@ -53,6 +55,7 @@ interface Props {
     settOppdaterteVurderinger: Dispatch<SetStateAction<IFormkravVilkår>>;
     vurderinger: IFormkravVilkår;
     klagebehandlingsresultater: Klagebehandlingsresultat[];
+    fagsystem: Fagsystem;
 }
 
 export const VisFormkravVurderinger: React.FC<Props> = ({
@@ -62,6 +65,7 @@ export const VisFormkravVurderinger: React.FC<Props> = ({
     settRedigeringsmodus,
     vurderinger,
     klagebehandlingsresultater,
+    fagsystem,
 }) => {
     const { gåTilUrl } = useApp();
     const { behandlingErRedigerbar, hentBehandling, hentBehandlingshistorikk } = useBehandling();
@@ -108,17 +112,21 @@ export const VisFormkravVurderinger: React.FC<Props> = ({
     const unntakFormalkravTattStillingTil = klagefristUnntakTattStillingTil(vurderinger);
     const ikkePåklagetVedtak =
         vurderinger.påklagetVedtak.påklagetVedtakstype === PåklagetVedtakstype.UTEN_VEDTAK;
+    const klagefristUnntakOppfylt = klagefristUnntakErValgtOgOppfylt(
+        vurderinger.klagefristOverholdtUnntak
+    );
 
     const utledManglerUtfylling = () => {
         if (ikkePåklagetVedtak) {
             return manglerFritekster;
         }
-        return (
-            !påKlagetVedtakErValgt ||
+        return !påKlagetVedtakErValgt ||
             ikkeUtfylteVilkår.length > 0 ||
             !unntakFormalkravTattStillingTil ||
-            (!alleVilkårErOppfylt && manglerFritekster)
-        );
+            fagsystem === Fagsystem.EF
+            ? !alleVilkårErOppfylt && manglerFritekster
+            : (!alleVilkårErOppfylt || (alleVilkårErOppfylt && klagefristUnntakOppfylt)) &&
+                  manglerFritekster;
     };
 
     const manglerUtfylling = utledManglerUtfylling();
@@ -145,7 +153,10 @@ export const VisFormkravVurderinger: React.FC<Props> = ({
 
     const urlSuffiks = utledUrlSuffiks();
 
-    const skalViseBegrunnelseOgBrevtekst = !alleVilkårErOppfylt || ikkePåklagetVedtak;
+    const skalViseBegrunnelseOgBrevtekst =
+        fagsystem === Fagsystem.EF
+            ? !alleVilkårErOppfylt || ikkePåklagetVedtak
+            : !alleVilkårErOppfylt || ikkePåklagetVedtak || klagefristUnntakOppfylt;
 
     return (
         <VStack>
