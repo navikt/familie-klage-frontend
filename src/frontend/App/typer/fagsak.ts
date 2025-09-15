@@ -140,6 +140,7 @@ export const klagehendelseTypeTilTekst: Record<KlageinstansEventType, string> = 
 
 export enum KlageinstansUtfall {
     TRUKKET = 'TRUKKET',
+    HENLAGT = 'HENLAGT',
     RETUR = 'RETUR',
     OPPHEVET = 'OPPHEVET',
     MEDHOLD = 'MEDHOLD',
@@ -151,6 +152,7 @@ export enum KlageinstansUtfall {
 
 export const utfallTilTekst: Record<KlageinstansUtfall, string> = {
     TRUKKET: 'Trukket KA',
+    HENLAGT: 'Henlagt KA',
     RETUR: 'Retur KA',
     OPPHEVET: 'Opphevet KA',
     MEDHOLD: 'Medhold KA',
