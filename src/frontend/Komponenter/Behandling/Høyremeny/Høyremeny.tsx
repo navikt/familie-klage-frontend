@@ -26,24 +26,22 @@ export const Høyremeny: React.FC<Props> = ({ åpenHøyremeny, behandling }) => 
     return (
         <>
             {åpenHøyremeny ? (
-                <>
-                    <div className={styles.container}>
-                        <button
-                            className={styles.toggleOpen}
-                            onClick={() => {
-                                settÅpenHøyremeny(!åpenHøyremeny);
-                            }}
-                        >
-                            <ChevronRightIcon className={styles.pilHøyre} />
-                        </button>
+                <div className={styles.container}>
+                    <button
+                        className={styles.toggleOpen}
+                        onClick={() => {
+                            settÅpenHøyremeny(!åpenHøyremeny);
+                        }}
+                    >
+                        <ChevronRightIcon className={styles.pilHøyre} />
+                    </button>
 
-                        <BehandlingInfo behandling={behandling} />
+                    <BehandlingInfo behandling={behandling} />
 
-                        <Valgvisning aktiv={aktivtValg} settAktiv={settAktivtvalg} />
-                        <Dokumenter hidden={aktivtValg !== Høyremenyvalg.Dokumenter} />
-                        <Historikk hidden={aktivtValg !== Høyremenyvalg.Historikk} />
-                    </div>
-                </>
+                    <Valgvisning aktiv={aktivtValg} settAktiv={settAktivtvalg} />
+                    <Dokumenter hidden={aktivtValg !== Høyremenyvalg.Dokumenter} />
+                    <Historikk hidden={aktivtValg !== Høyremenyvalg.Historikk} />
+                </div>
             ) : (
                 <button
                     className={styles.toggleOpen}

@@ -6,29 +6,20 @@ import {
     Behandling,
     behandlingStegFullførtTilTekst,
     hendelseHistorikkTilTekst,
-    HistorikkHendelse,
     StegType,
 } from '../../../App/typer/fagsak';
 import { PersonCircleIcon } from '@navikt/aksel-icons';
 import { utledStegutfallForFerdigstiltBehandling } from '../utils';
+import { IBehandlingshistorikk } from './behandlingshistorikk';
 
 interface Props {
     behandling: Behandling;
-    steg: StegType;
-    historikkHendelse?: HistorikkHendelse;
-    beskrivelse?: string;
-    opprettetAv: string;
-    endretTid: string;
+    historikkInnslag: IBehandlingshistorikk;
 }
 
-export const HistorikkInnslag: React.FC<Props> = ({
-    behandling,
-    steg,
-    historikkHendelse,
-    beskrivelse,
-    opprettetAv,
-    endretTid,
-}) => {
+export const HistorikkInnslag: React.FC<Props> = ({ behandling, historikkInnslag }) => {
+    const { steg, historikkHendelse, beskrivelse, opprettetAv, endretTid } = historikkInnslag;
+
     const labelTekst = historikkHendelse
         ? hendelseHistorikkTilTekst[historikkHendelse]
         : behandlingStegFullførtTilTekst[steg];

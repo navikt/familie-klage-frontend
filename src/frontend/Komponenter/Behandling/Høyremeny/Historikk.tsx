@@ -27,22 +27,10 @@ export const Historikk: React.FC<{ hidden: boolean }> = ({ hidden }) => {
 const HistorikkContainer: React.FC<{
     behandling: Behandling;
     behandlingHistorikk: IBehandlingshistorikk[];
-}> = ({ behandling, behandlingHistorikk }) => {
-    return (
-        <>
-            {behandlingHistorikk.map((historikk, index) => {
-                return (
-                    <HistorikkInnslag
-                        behandling={behandling}
-                        steg={historikk.steg}
-                        historikkHendelse={historikk.historikkHendelse}
-                        beskrivelse={historikk.beskrivelse}
-                        opprettetAv={historikk.opprettetAv}
-                        endretTid={historikk.endretTid}
-                        key={index}
-                    />
-                );
-            })}
-        </>
-    );
-};
+}> = ({ behandling, behandlingHistorikk }) => (
+    <>
+        {behandlingHistorikk.map((historikk, index) => (
+            <HistorikkInnslag behandling={behandling} historikkInnslag={historikk} key={index} />
+        ))}
+    </>
+);
