@@ -8,6 +8,7 @@ export interface BrevmottakerOrganisasjon extends Brevmottaker {
     organisasjonsnummer: string;
     organisasjonsnavn: string;
     navnHosOrganisasjon: string;
+    mottakerRolle?: MottakerRolle;
 }
 
 export interface BrevmottakerPerson extends Brevmottaker {
