@@ -8,3 +8,5 @@ export interface IBehandlingshistorikk {
     opprettetAv: string;
     endretTid: string;
 }
+
+export type HøyremenyHendelse = StegType | HistorikkHendelse;
