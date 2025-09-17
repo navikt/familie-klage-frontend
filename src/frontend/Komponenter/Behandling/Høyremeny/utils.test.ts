@@ -1,23 +1,19 @@
 import { IBehandlingshistorikk } from './behandlingshistorikk';
+import { utledSisteHistorikkInnslagPerKjede } from './utils';
 import { HistorikkHendelse, StegType } from '../../../App/typer/fagsak';
-import {
-    mapHøyremenyHendelseTilHistorikkInnslag,
-    utledNyesteHistorikkInnslagPerUnikeHendelse,
-} from './utils';
 
 describe('høyremeny utils tester', () => {
     test('utled nyeste innslag per unike historikkhendelse', () => {
-        const stegTypeTilHistorikkInnslag =
-            mapHøyremenyHendelseTilHistorikkInnslag(behandlingshistorikk);
-        const sisteInnslagPerUnikeHistorikkHendelse = utledNyesteHistorikkInnslagPerUnikeHendelse(
-            stegTypeTilHistorikkInnslag
-        );
+        const sisteHistorikkInnslagPerKjede =
+            utledSisteHistorikkInnslagPerKjede(behandlingshistorikk);
 
         expect(
-            sisteInnslagPerUnikeHistorikkHendelse.map(
-                (historikkInnslag) => historikkInnslag.endretTid
-            )
+            sisteHistorikkInnslagPerKjede.map((historikkInnslag) => historikkInnslag.endretTid)
         ).toEqual([
+            '2025-09-17T13:46:37.722436',
+            '2025-09-17T12:35:36.08834',
+            '2025-09-17T12:35:33.767664',
+            '2025-09-17T12:25:36.031985',
             '2025-09-16T16:05:01.624491',
             '2025-09-16T16:04:58.674151',
             '2025-09-16T16:04:31.781598',
@@ -27,6 +23,34 @@ describe('høyremeny utils tester', () => {
     });
 
     const behandlingshistorikk: IBehandlingshistorikk[] = [
+        {
+            behandlingId: '6a8b9e0b-91a9-493f-8258-be19f80c8afe',
+            historikkHendelse: undefined,
+            steg: StegType.VURDERING,
+            opprettetAv: 'Z993224',
+            endretTid: '2025-09-17T13:46:37.722436',
+        },
+        {
+            behandlingId: '6a8b9e0b-91a9-493f-8258-be19f80c8afe',
+            historikkHendelse: HistorikkHendelse.TATT_AV_VENT,
+            steg: StegType.VURDERING,
+            opprettetAv: 'Z993224',
+            endretTid: '2025-09-17T12:35:36.08834',
+        },
+        {
+            behandlingId: '6a8b9e0b-91a9-493f-8258-be19f80c8afe',
+            historikkHendelse: HistorikkHendelse.SATT_PÅ_VENT,
+            steg: StegType.VURDERING,
+            opprettetAv: 'Z993224',
+            endretTid: '2025-09-17T12:35:33.767664',
+        },
+        {
+            behandlingId: '6a8b9e0b-91a9-493f-8258-be19f80c8afe',
+            historikkHendelse: undefined,
+            steg: StegType.FORMKRAV,
+            opprettetAv: 'Z993224',
+            endretTid: '2025-09-17T12:25:36.031985',
+        },
         {
             behandlingId: '6a8b9e0b-91a9-493f-8258-be19f80c8afe',
             historikkHendelse: HistorikkHendelse.TATT_AV_VENT,

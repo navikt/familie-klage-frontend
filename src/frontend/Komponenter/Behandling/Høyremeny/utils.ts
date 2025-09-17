@@ -1,26 +1,25 @@
-import { HøyremenyHendelse, IBehandlingshistorikk } from './behandlingshistorikk';
+import { IBehandlingshistorikk } from './behandlingshistorikk';
 
-export const mapHøyremenyHendelseTilHistorikkInnslag = (
-    behandlingshistorikk: IBehandlingshistorikk[]
-) =>
-    behandlingshistorikk.reduce(
-        (
-            acc: Map<HøyremenyHendelse, IBehandlingshistorikk[]>,
-            historikk: IBehandlingshistorikk
-        ) => {
-            const hendelseType = historikk.historikkHendelse ?? historikk.steg;
-            return new Map(acc).set(hendelseType, [...(acc.get(hendelseType) ?? []), historikk]);
-        },
-        new Map<HøyremenyHendelse, IBehandlingshistorikk[]>()
-    );
+export const utledSisteHistorikkInnslagPerKjede = (historikkListe: IBehandlingshistorikk[]) =>
+    historikkListe
+        .sort((first, second) => Date.parse(first.endretTid) - Date.parse(second.endretTid))
+        .reduce(
+            (
+                acc: IBehandlingshistorikk[],
+                currentHistorikkInnslag: IBehandlingshistorikk,
+                index
+            ) => {
+                const currentHistorikkHendelse =
+                    currentHistorikkInnslag.historikkHendelse ?? currentHistorikkInnslag.steg;
+                const nextHistorikkInnslag =
+                    index + 1 < historikkListe.length ? historikkListe[index + 1] : null;
+                const nextHistorikkHendelse =
+                    nextHistorikkInnslag?.historikkHendelse ?? nextHistorikkInnslag?.steg;
 
-export const utledNyesteHistorikkInnslagPerUnikeHendelse = (
-    map: Map<HøyremenyHendelse, IBehandlingshistorikk[]>
-) =>
-    Array.from(map.values()).map((historikkInnslagListe: IBehandlingshistorikk[]) =>
-        historikkInnslagListe.reduce((nyesteForekomst, current) =>
-            Date.parse(current.endretTid) > Date.parse(nyesteForekomst.endretTid)
-                ? current
-                : nyesteForekomst
+                return currentHistorikkHendelse === nextHistorikkHendelse
+                    ? acc
+                    : [...acc, currentHistorikkInnslag];
+            },
+            [] as IBehandlingshistorikk[]
         )
-    );
+        .sort((first, second) => Date.parse(second.endretTid) - Date.parse(first.endretTid));

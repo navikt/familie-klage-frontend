@@ -4,10 +4,7 @@ import { useBehandling } from '../../../App/context/BehandlingContext';
 import { DataViewer } from '../../../Felles/DataViewer/DataViewer';
 import { IBehandlingshistorikk } from './behandlingshistorikk';
 import { Behandling } from '../../../App/typer/fagsak';
-import {
-    mapHøyremenyHendelseTilHistorikkInnslag,
-    utledNyesteHistorikkInnslagPerUnikeHendelse,
-} from './utils';
+import { utledSisteHistorikkInnslagPerKjede } from './utils';
 
 export const Historikk: React.FC<{ hidden: boolean }> = ({ hidden }) => {
     const { behandling, behandlingHistorikk } = useBehandling();
@@ -32,15 +29,11 @@ const HistorikkContainer: React.FC<{
     behandling: Behandling;
     behandlingHistorikk: IBehandlingshistorikk[];
 }> = ({ behandling, behandlingHistorikk }) => {
-    const stegTypeTilHistorikkInnslag =
-        mapHøyremenyHendelseTilHistorikkInnslag(behandlingHistorikk);
-    const sisteInnslagPerUnikeHistorikkHendelse = utledNyesteHistorikkInnslagPerUnikeHendelse(
-        stegTypeTilHistorikkInnslag
-    );
+    const sisteHistorikkInnslagPerKjede = utledSisteHistorikkInnslagPerKjede(behandlingHistorikk);
 
     return (
         <>
-            {sisteInnslagPerUnikeHistorikkHendelse.map((historikk, index) => (
+            {sisteHistorikkInnslagPerKjede.map((historikk, index) => (
                 <HistorikkInnslag
                     behandling={behandling}
                     historikkInnslag={historikk}
