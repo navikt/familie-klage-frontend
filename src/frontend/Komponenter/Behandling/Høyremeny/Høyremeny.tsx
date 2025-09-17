@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import { Valgvisning } from './Valgvisning';
 import { Historikk } from './Historikk';
 import { Dokumenter } from './Dokumenter';
@@ -21,35 +21,27 @@ export enum Høyremenyvalg {
 
 export const Høyremeny: React.FC<Props> = ({ åpenHøyremeny, behandling }) => {
     const [aktivtValg, settAktivtvalg] = useState<Høyremenyvalg>(Høyremenyvalg.Historikk);
-    const { settÅpenHøyremeny, behandlingErRedigerbar } = useBehandling();
-
-    useEffect(() => {
-        if (behandlingErRedigerbar) {
-            settAktivtvalg(Høyremenyvalg.Historikk);
-        }
-    }, [behandling, behandlingErRedigerbar]);
+    const { settÅpenHøyremeny } = useBehandling();
 
     return (
         <>
             {åpenHøyremeny ? (
-                <>
-                    <div className={styles.container}>
-                        <button
-                            className={styles.toggleOpen}
-                            onClick={() => {
-                                settÅpenHøyremeny(!åpenHøyremeny);
-                            }}
-                        >
-                            <ChevronRightIcon className={styles.pilHøyre} />
-                        </button>
+                <div className={styles.container}>
+                    <button
+                        className={styles.toggleOpen}
+                        onClick={() => {
+                            settÅpenHøyremeny(!åpenHøyremeny);
+                        }}
+                    >
+                        <ChevronRightIcon className={styles.pilHøyre} />
+                    </button>
 
-                        <BehandlingInfo behandling={behandling} />
+                    <BehandlingInfo behandling={behandling} />
 
-                        <Valgvisning aktiv={aktivtValg} settAktiv={settAktivtvalg} />
-                        <Dokumenter hidden={aktivtValg !== Høyremenyvalg.Dokumenter} />
-                        <Historikk hidden={aktivtValg !== Høyremenyvalg.Historikk} />
-                    </div>
-                </>
+                    <Valgvisning aktiv={aktivtValg} settAktiv={settAktivtvalg} />
+                    <Dokumenter hidden={aktivtValg !== Høyremenyvalg.Dokumenter} />
+                    <Historikk hidden={aktivtValg !== Høyremenyvalg.Historikk} />
+                </div>
             ) : (
                 <button
                     className={styles.toggleOpen}
