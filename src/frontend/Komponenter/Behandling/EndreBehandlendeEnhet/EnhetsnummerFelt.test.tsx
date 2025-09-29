@@ -66,7 +66,7 @@ describe('EnhetsnummerFelt', () => {
         });
 
         const image = screen.getByRole('img', { name: 'Skrivebeskyttet' });
-        const combobox = screen.getByRole('combobox', { name: 'Skrivebeskyttet ' + comboboxName });
+        const combobox = screen.getByRole('combobox', { name: 'Skrivebeskyttet' + comboboxName });
 
         expect(image).toBeInTheDocument();
         expect(combobox).toBeInTheDocument();
@@ -125,7 +125,7 @@ describe('EnhetsnummerFelt', () => {
 
         expect(screen.queryByRole('img', { name: 'Skrivebeskyttet' })).not.toBeInTheDocument();
         expect(
-            screen.queryByRole('combobox', { name: 'Skrivebeskyttet ' + comboboxName })
+            screen.queryByRole('combobox', { name: 'Skrivebeskyttet' + comboboxName })
         ).not.toBeInTheDocument();
 
         const submitButton = screen.getByRole('button', { name: 'Submit' });
@@ -133,7 +133,7 @@ describe('EnhetsnummerFelt', () => {
 
         const skrivebeskyttetImage = await screen.findByRole('img', { name: 'Skrivebeskyttet' });
         const skrivebeskyttetCombobox = await screen.findByRole('combobox', {
-            name: 'Skrivebeskyttet ' + comboboxName,
+            name: 'Skrivebeskyttet' + comboboxName,
         });
 
         expect(skrivebeskyttetImage).toBeInTheDocument();
