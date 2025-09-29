@@ -2043,10 +2043,15 @@
     "@sentry-internal/replay-canvas" "9.42.1"
     "@sentry/core" "9.42.1"
 
-"@sentry/core@9.42.1", "@sentry/core@^9.42.1":
+"@sentry/core@9.42.1":
   version "9.42.1"
   resolved "https://registry.yarnpkg.com/@sentry/core/-/core-9.42.1.tgz#d8f88d3b5ba7aa6f77374504041716496bb8fbb2"
   integrity sha512-9jWgjgZ8EvIYMTL5HzG8PYRo7+/vv3qwPabPVV2EfGPOjU65GFcT7N+oitg+0rAI/fTMsLaQXC77WmKzhRBSdw==
+
+"@sentry/core@^10.12.0":
+  version "10.12.0"
+  resolved "https://registry.yarnpkg.com/@sentry/core/-/core-10.12.0.tgz#3f6a0f5c2f63f2c1761e3cf442a986d74adf6403"
+  integrity sha512-Jrf0Yo7DvmI/ZQcvBnA0xKNAFkJlVC/fMlvcin+5IrFNRcqOToZ2vtF+XqTgjRZymXQNE8s1QTD7IomPHk0TAw==
 
 "@sinclair/typebox@^0.27.8":
   version "0.27.8"
