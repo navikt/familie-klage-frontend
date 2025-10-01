@@ -6,13 +6,22 @@ import { ComboboxOption } from '@navikt/ds-react/cjs/form/combobox/types';
 import { EøsLandkode } from './landkode';
 
 type Props = {
+    ref?: React.Ref<HTMLInputElement>;
     label: React.ReactNode;
-} & Omit<ComboboxProps, 'options'>;
+    onSelect: (landkode: EøsLandkode) => void;
+} & Omit<
+    ComboboxProps,
+    | 'isMultiSelect'
+    | 'shouldAutocomplete'
+    | 'options'
+    | 'selectedOptions'
+    | 'onToggleSelected'
+    | 'onSelect'
+>;
 
-const DEFAULT_COMBOBOX_OPTION: ComboboxOption = { value: '', label: '-- Velg land --' };
+const FALLBACK_COMBOBOX_OPTION: ComboboxOption = { value: '', label: '-- Velg land --' };
 
 const eøsLand: ComboboxOption[] = [
-    DEFAULT_COMBOBOX_OPTION,
     { value: EøsLandkode.BE, label: 'Belgia' },
     { value: EøsLandkode.BG, label: 'Bulgaria' },
     { value: EøsLandkode.DK, label: 'Danmark' },
@@ -44,34 +53,28 @@ const eøsLand: ComboboxOption[] = [
     { value: EøsLandkode.DE, label: 'Tyskland' },
     { value: EøsLandkode.HU, label: 'Ungarn' },
     { value: EøsLandkode.AT, label: 'Østerrike' },
-];
+].sort((l1, l2) => l1.value.localeCompare(l2.value));
 
-export function EøsLandvelger(props: Props) {
-    const { label, value, onToggleSelected, error, onBlur, readOnly } = props;
+export function EøsLandvelger({ value, onSelect, ...rest }: Props) {
     const [selectedOption, setSelectedOption] = useState<ComboboxOption | undefined>(
         eøsLand.find((opt) => opt.value === value)
     );
     return (
         <UNSAFE_Combobox
-            label={label}
-            options={eøsLand}
-            onBlur={onBlur}
+            {...rest}
             isMultiSelect={false}
-            selectedOptions={selectedOption ? [selectedOption] : []}
-            onToggleSelected={(option, isSelected) => {
-                const newOption = eøsLand.find((opt) => opt.value === option);
-                if (newOption === selectedOption || newOption == undefined) {
-                    setSelectedOption(DEFAULT_COMBOBOX_OPTION);
-                } else {
-                    setSelectedOption(newOption);
-                }
-                if (onToggleSelected) {
-                    onToggleSelected(option, isSelected, false);
-                }
-            }}
-            error={error}
             shouldAutocomplete={true}
-            readOnly={readOnly}
+            options={eøsLand}
+            selectedOptions={selectedOption ? [selectedOption] : []}
+            onToggleSelected={(option) => {
+                const newOption = eøsLand.find((opt) => opt.value === option);
+                if (newOption == undefined) {
+                    setSelectedOption(FALLBACK_COMBOBOX_OPTION);
+                    return;
+                }
+                setSelectedOption(newOption);
+                onSelect(newOption.value as EøsLandkode);
+            }}
         />
     );
 }

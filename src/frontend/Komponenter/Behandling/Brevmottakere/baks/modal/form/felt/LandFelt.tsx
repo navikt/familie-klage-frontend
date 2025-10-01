@@ -5,7 +5,7 @@ import { IPersonopplysninger } from '../../../../../../../App/typer/personopplys
 import { erGyldigMottakerRolleForLandkode, MottakerRolle } from '../../../../mottakerRolle';
 import { utledBrevmottakerPersonUtenIdentNavnVedDødsbo } from '../../../../brevmottaker';
 import { BrevmottakerFeltnavn, BrevmottakerFormValues } from '../BrevmottakerForm';
-import { erEøsLandkode } from '../../../../../../../Felles/Landvelger/landkode';
+import { EøsLandkode } from '../../../../../../../Felles/Landvelger/landkode';
 
 interface Props {
     personopplysninger: IPersonopplysninger;
@@ -15,7 +15,7 @@ interface Props {
 const label = 'Land';
 
 export function LandFelt({ personopplysninger, erLesevisning = false }: Props) {
-    const { control, getValues, setValue } = useFormContext<BrevmottakerFormValues>();
+    const { control, getValues, setValue, resetField } = useFormContext<BrevmottakerFormValues>();
 
     const { field, fieldState, formState } = useController({
         name: BrevmottakerFeltnavn.LANDKODE,
@@ -37,28 +37,30 @@ export function LandFelt({ personopplysninger, erLesevisning = false }: Props) {
         },
     });
 
-    function onToggleSelected(value: string, isSelected: boolean) {
-        if (!isSelected || !erEøsLandkode(value)) {
-            field.onChange('');
-            return;
+    function onSelect(landkode: EøsLandkode) {
+        if (landkode !== EøsLandkode.NO) {
+            resetField(BrevmottakerFeltnavn.POSTNUMMER);
+            resetField(BrevmottakerFeltnavn.POSTSTED);
         }
         const mottakerRolle = getValues(BrevmottakerFeltnavn.MOTTAKERROLLE);
         if (mottakerRolle === MottakerRolle.DØDSBO) {
             const nyttPreutfyltNavn = utledBrevmottakerPersonUtenIdentNavnVedDødsbo(
                 personopplysninger.navn,
-                value
+                landkode
             );
             setValue(BrevmottakerFeltnavn.NAVN, nyttPreutfyltNavn);
         }
-        field.onChange(value);
+        field.onChange(landkode);
     }
 
     return (
         <EøsLandvelger
             label={label}
+            name={field.name}
+            ref={field.ref}
             onBlur={field.onBlur}
             value={field.value}
-            onToggleSelected={onToggleSelected}
+            onSelect={onSelect}
             error={fieldState.error?.message}
             readOnly={erLesevisning || formState.isSubmitting}
         />

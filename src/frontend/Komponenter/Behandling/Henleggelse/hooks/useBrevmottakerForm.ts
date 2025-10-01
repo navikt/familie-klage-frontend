@@ -19,7 +19,6 @@ export function useBrevmottakerForm() {
     const [erFormSynlig, settErFormSynlig] = useState<boolean>(false);
 
     const form = useForm<BrevmottakerFormValues>({
-        shouldUnregister: true,
         defaultValues: {
             [BrevmottakerFeltnavn.MOTTAKERROLLE]: '',
             [BrevmottakerFeltnavn.LANDKODE]: EøsLandkode.NO,
