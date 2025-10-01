@@ -7,6 +7,7 @@ import {
     finnNyttBrevmottakernavnHvisNødvendigVedEndringAvMottakerRolle,
     MottakerRolle,
     mottakerRolleVisningsnavn,
+    skalPreutfylleNavnForMottakerRolle,
     utledGyldigeMottakerRollerBasertPåAlleredeValgteMottakerRoller,
 } from '../../../../mottakerRolle';
 import { BrevmottakerFeltnavn, BrevmottakerFormValues } from '../BrevmottakerForm';
@@ -24,7 +25,7 @@ export function MottakerFelt({
     valgteMottakerRoller,
     erLesevisning = false,
 }: Props) {
-    const { control, setValue, getValues } = useFormContext<BrevmottakerFormValues>();
+    const { control, setValue, getValues, resetField } = useFormContext<BrevmottakerFormValues>();
 
     const { field, fieldState, formState } = useController({
         name: BrevmottakerFeltnavn.MOTTAKERROLLE,
@@ -36,25 +37,26 @@ export function MottakerFelt({
     });
 
     function onChange(event: ChangeEvent<HTMLSelectElement>) {
-        const value = event.target.value;
-        if (erMottakerRolle(value)) {
-            const nyMottakerRolle = value;
-            const forrigeMottakerRolle = getValues(BrevmottakerFeltnavn.MOTTAKERROLLE);
-            const landkode = getValues(BrevmottakerFeltnavn.LANDKODE);
-            const nyttBrevmottakernavn =
-                finnNyttBrevmottakernavnHvisNødvendigVedEndringAvMottakerRolle(
-                    nyMottakerRolle,
-                    forrigeMottakerRolle,
-                    landkode,
-                    personopplysninger
-                );
-            if (nyttBrevmottakernavn !== undefined) {
-                setValue(BrevmottakerFeltnavn.NAVN, nyttBrevmottakernavn);
+        const mottakerRolle = event.target.value;
+        const forrigeMottakerRolle = getValues(BrevmottakerFeltnavn.MOTTAKERROLLE);
+        const landkode = getValues(BrevmottakerFeltnavn.LANDKODE);
+        if (!erMottakerRolle(mottakerRolle)) {
+            if (skalPreutfylleNavnForMottakerRolle(forrigeMottakerRolle)) {
+                resetField(BrevmottakerFeltnavn.NAVN);
             }
-            field.onChange(value);
-        } else {
             field.onChange('');
+            return;
         }
+        const nyttBrevmottakernavn = finnNyttBrevmottakernavnHvisNødvendigVedEndringAvMottakerRolle(
+            mottakerRolle,
+            forrigeMottakerRolle,
+            landkode,
+            personopplysninger
+        );
+        if (nyttBrevmottakernavn !== undefined) {
+            setValue(BrevmottakerFeltnavn.NAVN, nyttBrevmottakernavn);
+        }
+        field.onChange(mottakerRolle);
     }
 
     const gyldigeMottakerRoller =
@@ -69,7 +71,9 @@ export function MottakerFelt({
             error={fieldState.error?.message}
             readOnly={erLesevisning || formState.isSubmitting}
         >
-            <option value={''}>-- Velg mottaker --</option>
+            <option value={''} disabled={true}>
+                -- Velg mottaker --
+            </option>
             {gyldigeMottakerRoller.map((mottaker) => (
                 <option key={mottaker} value={mottaker}>
                     {mottakerRolleVisningsnavn[mottaker]}

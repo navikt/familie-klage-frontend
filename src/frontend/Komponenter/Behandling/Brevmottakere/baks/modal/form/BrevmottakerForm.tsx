@@ -1,5 +1,5 @@
 import React from 'react';
-import { FieldErrors, FormProvider, SubmitHandler, useForm, UseFormReturn } from 'react-hook-form';
+import { FormProvider, SubmitHandler, UseFormReturn } from 'react-hook-form';
 import { LandFelt } from './felt/LandFelt';
 import { MottakerFelt } from './felt/MottakerFelt';
 import { NavnFelt } from './felt/NavnFelt';
@@ -15,19 +15,6 @@ import { useBehandling } from '../../../../../../App/context/BehandlingContext';
 import { useOnUnmount } from '../../../../../../App/hooks/useOnUnmount';
 import { useOnFormSubmitSuccessful } from '../../../../../../App/hooks/useOnFormSubmitSuccessful';
 import { useConfirmBrowserRefresh } from '../../../../../../App/hooks/useConfirmBrowserRefresh';
-
-export const CustomFormErrors: Record<
-    'onSubmitServerError',
-    {
-        id: `root.${string}`;
-        lookup: (errors: FieldErrors<BrevmottakerFormValues>) => string | undefined;
-    }
-> = {
-    onSubmitServerError: {
-        id: 'root.onSubmitServerError',
-        lookup: (errors) => errors?.root?.onSubmitServerError?.message,
-    },
-};
 
 export enum BrevmottakerFeltnavn {
     MOTTAKERROLLE = 'mottakerRolle',
@@ -47,21 +34,6 @@ export interface BrevmottakerFormValues {
     [BrevmottakerFeltnavn.ADRESSELINJE2]: string;
     [BrevmottakerFeltnavn.POSTNUMMER]: string;
     [BrevmottakerFeltnavn.POSTSTED]: string;
-}
-
-export function useBrevmottakerForm() {
-    return useForm<BrevmottakerFormValues>({
-        shouldUnregister: true,
-        defaultValues: {
-            [BrevmottakerFeltnavn.MOTTAKERROLLE]: '',
-            [BrevmottakerFeltnavn.LANDKODE]: EøsLandkode.NO,
-            [BrevmottakerFeltnavn.NAVN]: '',
-            [BrevmottakerFeltnavn.ADRESSELINJE1]: '',
-            [BrevmottakerFeltnavn.ADRESSELINJE2]: '',
-            [BrevmottakerFeltnavn.POSTNUMMER]: '',
-            [BrevmottakerFeltnavn.POSTSTED]: '',
-        },
-    });
 }
 
 interface Props {
@@ -97,7 +69,6 @@ export function BrevmottakerForm({
     useConfirmBrowserRefresh({ enabled: isDirty });
 
     const landkode = watch(BrevmottakerFeltnavn.LANDKODE);
-    const onSubmitServerError = CustomFormErrors.onSubmitServerError.lookup(errors);
 
     return (
         <FormProvider {...form}>
@@ -123,13 +94,9 @@ export function BrevmottakerForm({
                             </>
                         )}
                     </Fieldset>
-                    {onSubmitServerError && (
-                        <Alert
-                            variant={'error'}
-                            closeButton={true}
-                            onClose={() => clearErrors(CustomFormErrors.onSubmitServerError.id)}
-                        >
-                            {onSubmitServerError}
+                    {errors.root?.message && (
+                        <Alert variant={'error'} closeButton={true} onClose={() => clearErrors()}>
+                            {errors.root.message}
                         </Alert>
                     )}
                     <HStack gap={'4'}>
