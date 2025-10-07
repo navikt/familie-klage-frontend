@@ -4,10 +4,9 @@ import { PlusCircleIcon } from '@navikt/aksel-icons';
 import { Alert, Button, Heading, Modal, VStack } from '@navikt/ds-react';
 
 import {
+    BrevmottakerFeltnavn,
     BrevmottakerForm,
     BrevmottakerFormValues,
-    CustomFormErrors,
-    useBrevmottakerForm,
 } from './form/BrevmottakerForm';
 import { IPersonopplysninger } from '../../../../../App/typer/personopplysninger';
 import { BrevmottakerDetaljer } from './BrevmottakerDetaljer';
@@ -18,6 +17,8 @@ import {
 } from '../../brevmottaker';
 import { lagNyBrevmottakerPersonUtenIdent, NyBrevmottaker } from '../../nyBrevmottaker';
 import { SlettbarBrevmottaker } from '../../slettbarBrevmottaker';
+import { useForm } from 'react-hook-form';
+import { EøsLandkode } from '../../../../../Felles/Landvelger/landkode';
 
 type Props = {
     personopplysninger: IPersonopplysninger;
@@ -32,7 +33,17 @@ export function BrevmottakerModalBody({
     opprettBrevmottaker,
     slettBrevmottaker,
 }: Props) {
-    const form = useBrevmottakerForm();
+    const form = useForm<BrevmottakerFormValues>({
+        defaultValues: {
+            [BrevmottakerFeltnavn.MOTTAKERROLLE]: '',
+            [BrevmottakerFeltnavn.LANDKODE]: EøsLandkode.NO,
+            [BrevmottakerFeltnavn.NAVN]: '',
+            [BrevmottakerFeltnavn.ADRESSELINJE1]: '',
+            [BrevmottakerFeltnavn.ADRESSELINJE2]: '',
+            [BrevmottakerFeltnavn.POSTNUMMER]: '',
+            [BrevmottakerFeltnavn.POSTSTED]: '',
+        },
+    });
 
     const [visForm, settVisForm] = useState(brevmottakere.length === 0);
 
@@ -41,9 +52,7 @@ export function BrevmottakerModalBody({
     ): Promise<Awaited<void>> {
         return opprettBrevmottaker(lagNyBrevmottakerPersonUtenIdent(brevmottakerFormValues))
             .then(() => settVisForm(false))
-            .catch((error: Error) =>
-                form.setError(CustomFormErrors.onSubmitServerError.id, { message: error.message })
-            );
+            .catch((error: Error) => form.setError('root', { message: error.message }));
     }
 
     async function slettBrevmottakerOgVisFormHvisNødvendig(

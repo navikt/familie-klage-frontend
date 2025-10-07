@@ -97,5 +97,6 @@ export function utledGyldigeMottakerRollerBasertPåAlleredeValgteMottakerRoller(
 
     return Object.values(MottakerRolle)
         .filter((mottakerRolle) => mottakerRolle !== MottakerRolle.BRUKER)
+        .filter((mottakerRolle) => mottakerRolle !== MottakerRolle.MOTTAKER)
         .filter((mottakerRolle) => !relevanteValgteMottakerRoller.includes(mottakerRolle));
 }
