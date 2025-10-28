@@ -1,6 +1,6 @@
 // Konfigurer appen før backend prøver å sette opp konfigurasjon
 
-import { appConfig, IApi, ISessionKonfigurasjon } from '@navikt/familie-backend';
+import { IApi, ISessionKonfigurasjon } from '@navikt/familie-backend';
 
 type Rolle = 'veileder' | 'saksbehandler' | 'beslutter' | 'kode6' | 'kode7' | 'egenAnsatt';
 type EksternlenkeKey =
@@ -140,8 +140,12 @@ if (!process.env.FAMILIE_KLAGE_SCOPE) {
     throw new Error('Scope mot familie-klage er ikke konfigurert');
 }
 
+if (!process.env.CLIENT_ID) {
+    throw new Error('Mangler CLIENT_ID, ikke konfigurert');
+}
+
 export const oboConfig: IApi = {
-    clientId: appConfig.clientId,
+    clientId: process.env.CLIENT_ID,
     scopes: [process.env.FAMILIE_KLAGE_SCOPE],
 };
 
