@@ -17,12 +17,34 @@ export default tseslint.config(
         },
     },
     {
-        plugins: { 'react-hooks': reactHooks },
+        plugins: {
+            'react-hooks': reactHooks, // TODO : Bytt til recommended når errors er fikset, se https://github.com/facebook/react/tree/HEAD/packages/eslint-plugin-react-hooks#installation
+        },
         rules: {
-            ...reactHooks.configs.recommended.rules,
+            // Core hooks rules
+            'react-hooks/rules-of-hooks': 'warn', // TODO: Endre til error når feilene er fikset.
+            'react-hooks/exhaustive-deps': 'warn',
+
+            // React Compiler rules
+            'react-hooks/config': 'error',
+            'react-hooks/error-boundaries': 'error',
+            'react-hooks/component-hook-factories': 'error',
+            'react-hooks/gating': 'error',
+            'react-hooks/globals': 'error',
+            'react-hooks/immutability': 'warn', // TODO: Endre til error når feilene er fikset.
+            'react-hooks/preserve-manual-memoization': 'warn', // TODO: Endre til error når feilene er fikset.
+            'react-hooks/purity': 'error',
+            'react-hooks/refs': 'warn', // TODO: Endre til error når feilene er fikset.
+            'react-hooks/set-state-in-effect': 'warn', // TODO: Endre til error når feilene er fikset.
+            'react-hooks/set-state-in-render': 'error',
+            'react-hooks/static-components': 'error',
+            'react-hooks/unsupported-syntax': 'error',
+            'react-hooks/use-memo': 'error',
+            'react-hooks/incompatible-library': 'warn',
+
             'react/no-unescaped-entities': 'off',
+
             '@typescript-eslint/no-unused-expressions': 'off',
-            'react-hooks/rules-of-hooks': 'off',
         },
         settings: {
             react: {
