@@ -126,6 +126,7 @@ export enum KlageinstansEventType {
     KLAGEBEHANDLING_AVSLUTTET = 'KLAGEBEHANDLING_AVSLUTTET',
     ANKEBEHANDLING_OPPRETTET = 'ANKEBEHANDLING_OPPRETTET',
     ANKEBEHANDLING_AVSLUTTET = 'ANKEBEHANDLING_AVSLUTTET',
+    GJENOPPTAKSBEHANDLING_AVSLUTTET = 'GJENOPPTAKSBEHANDLING_AVSLUTTET',
     ANKE_I_TRYGDERETTENBEHANDLING_OPPRETTET = 'ANKE_I_TRYGDERETTENBEHANDLING_OPPRETTET',
     BEHANDLING_FEILREGISTRERT = 'BEHANDLING_FEILREGISTRERT',
 }
@@ -134,6 +135,7 @@ export const klagehendelseTypeTilTekst: Record<KlageinstansEventType, string> = 
     KLAGEBEHANDLING_AVSLUTTET: 'Klagebehandling avsluttet',
     ANKEBEHANDLING_OPPRETTET: 'Ankebehandling opprettet',
     ANKEBEHANDLING_AVSLUTTET: 'Ankebehandling avsluttet',
+    GJENOPPTAKSBEHANDLING_AVSLUTTET: 'Gjenopptaksbehandling avsluttet',
     ANKE_I_TRYGDERETTENBEHANDLING_OPPRETTET: 'Anke i trygderettenbehandling opprettet',
     BEHANDLING_FEILREGISTRERT: 'Behandling feilregistrert',
 };
@@ -148,6 +150,9 @@ export enum KlageinstansUtfall {
     STADFESTELSE = 'STADFESTELSE',
     UGUNST = 'UGUNST',
     AVVIST = 'AVVIST',
+    MEDHOLD_ETTER_FVL_35 = 'MEDHOLD_ETTER_FVL_35',
+    GJENOPPTATT_DELVIS_ELLER_FULLT_MEDHOLD = 'GJENOPPTATT_DELVIS_ELLER_FULLT_MEDHOLD',
+    GJENOPPTATT_OPPHEVET = 'GJENOPPTATT_OPPHEVET',
 }
 
 export const utfallTilTekst: Record<KlageinstansUtfall, string> = {
@@ -160,6 +165,9 @@ export const utfallTilTekst: Record<KlageinstansUtfall, string> = {
     STADFESTELSE: 'Stadfestelse KA',
     UGUNST: 'Ugunst (Ugyldig) KA',
     AVVIST: 'Avvist KA',
+    MEDHOLD_ETTER_FVL_35: 'Medhold etter fvl. § 35 KA"',
+    GJENOPPTATT_DELVIS_ELLER_FULLT_MEDHOLD: 'Gjenopptatt - Delvis eller fullt medhold',
+    GJENOPPTATT_OPPHEVET: 'Gjenopptatt - Opphevet',
 };
 
 export type FagsystemRevurdering =
