@@ -12,17 +12,17 @@ interface Props {
     behandling: Behandling;
 }
 
-export const GjenoptakVisning: React.FC<Props> = ({ behandling }) => {
-    const gjenoptakResultat = behandling.klageinstansResultat.filter((resultat) =>
+export const GjenopptakVisning: React.FC<Props> = ({ behandling }) => {
+    const gjenopptakResultat = behandling.klageinstansResultat.filter((resultat) =>
         [KlageinstansEventType.GJENOPPTAKSBEHANDLING_AVSLUTTET].includes(resultat.type)
     );
 
-    return gjenoptakResultat.length > 0 ? (
+    return gjenopptakResultat.length > 0 ? (
         <Alert variant={'warning'}>
             <Heading spacing size="small" level="3">
                 Merk at det finnes informasjon om gjenopptak på denne klagen
             </Heading>
-            {gjenoptakResultat.map((resultat) => (
+            {gjenopptakResultat.map((resultat) => (
                 <div key={resultat.mottattEllerAvsluttetTidspunkt}>
                     <Label size={'small'}>
                         {formaterIsoDatoTid(resultat.mottattEllerAvsluttetTidspunkt)}
