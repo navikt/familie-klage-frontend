@@ -7,6 +7,7 @@ import { Heading } from '@navikt/ds-react';
 import { useBehandling } from '../../../App/context/BehandlingContext';
 import { AnkeVisning } from './AnkeVisning';
 import { FeilregistrertVisning } from './FeilregistrertVisning';
+import { GjenoptakVisning } from './GjenoptakVisning';
 
 export const Resultat: React.FC = () => {
     const { behandling, hentBehandling, behandlingHistorikk } = useBehandling();
@@ -25,6 +26,7 @@ export const Resultat: React.FC = () => {
                         </Heading>
                         <FeilregistrertVisning behandling={behandling} />
                         <AnkeVisning behandling={behandling} />
+                        <GjenoptakVisning behandling={behandling} />
                     </div>
                     <div className={styles.tidslinjeContainer}>
                         <Tidslinje
