@@ -6,7 +6,7 @@
       "esnext",
       "es6"
     ],
-    "importHelpers": true,
+    "importHelpers": true, // tslib required
     "declaration": true,
     "sourceMap": true,
     "strict": true,
