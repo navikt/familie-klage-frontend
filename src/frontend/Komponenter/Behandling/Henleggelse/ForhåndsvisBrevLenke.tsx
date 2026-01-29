@@ -4,6 +4,7 @@ import React, { useState } from 'react';
 import { base64toBlob, åpnePdfIEgenTab } from '../../../App/utils/utils';
 import { useHentBrev } from './hooks/useHentBrev';
 import { Behandling } from '../../../App/typer/fagsak';
+import { useBrevmottakereContext } from './context/BrevmottakereContextProvider';
 
 const filnavn = 'Forhåndsvisning av trukket søknadsbrev';
 
@@ -13,13 +14,14 @@ interface Props {
 
 export function ForhåndsvisBrevLenke({ behandling }: Props) {
     const hentBrev = useHentBrev();
+    const { brevmottakere } = useBrevmottakereContext();
 
     const [feilmelding, settFeilmelding] = useState<string>('');
     const [laster, settLaster] = useState<boolean>(false);
 
     async function hentOgÅpneBrevINyFane(): Promise<Awaited<void>> {
         settLaster(true);
-        return hentBrev(behandling.id)
+        return hentBrev(behandling.id, { brevmottakere })
             .then((brev) => base64toBlob(brev, 'application/pdf'))
             .then((blob) => åpnePdfIEgenTab(blob, filnavn))
             .catch((error: Error) => settFeilmelding(error.message))
