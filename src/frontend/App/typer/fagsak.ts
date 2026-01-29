@@ -1,6 +1,7 @@
 import { Stønadstype } from './stønadstype';
 import { BehandlingStatus } from './behandlingstatus';
 import { PåklagetVedtak } from '../../Komponenter/Behandling/Formkrav/typer';
+import { Institusjon } from './institusjon';
 
 export enum Fagsystem {
     EF = 'EF',
@@ -66,6 +67,7 @@ export interface Behandling {
     fagsystemRevurdering?: FagsystemRevurdering;
     årsak: Klagebehandlingsårsak;
     behandlendeEnhet: string;
+    institusjon?: Institusjon;
 }
 
 export enum Klagebehandlingsårsak {
