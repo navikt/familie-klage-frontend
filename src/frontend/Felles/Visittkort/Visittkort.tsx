@@ -1,4 +1,4 @@
-import React, { FC } from 'react';
+import React from 'react';
 import { IPersonopplysninger } from '../../App/typer/personopplysninger';
 import styles from './Visittkort.module.css';
 import {
@@ -8,7 +8,7 @@ import {
     PåklagetVedtakstype,
 } from '../../App/typer/fagsak';
 import { HenleggKnapp } from './HenleggKnapp';
-import { BodyShort, CopyButton, HStack, Label, Link } from '@navikt/ds-react';
+import { BodyShort, CopyButton, HStack, Label, Link, Stack } from '@navikt/ds-react';
 import { PersonStatusVarsel } from '../Varsel/PersonStatusVarsel';
 import { AdressebeskyttelseVarsel } from '../Varsel/AdressebeskyttelseVarsel';
 import { EtikettFokus, EtikettInfo, EtikettSuksess } from '../Varsel/Etikett';
@@ -27,10 +27,12 @@ import { EndreBehandlendeEnhetKnapp } from './EndreBehandlendeEnhetKnapp';
 import { IkonVelger } from '../IkonVelger/IkonVelger';
 import { formaterOrgNummer, Institusjon } from '../../App/typer/institusjon';
 
-export const Visittkort: FC<{
+interface Props {
     personopplysninger: IPersonopplysninger;
     behandling: Behandling;
-}> = ({ personopplysninger, behandling }) => {
+}
+
+export function Visittkort({ personopplysninger, behandling }: Props) {
     const { appEnv } = useApp();
 
     const {
@@ -43,6 +45,7 @@ export const Visittkort: FC<{
         fullmakt,
         vergemål,
     } = personopplysninger;
+
     const skalLenkeTilFagsystemBehandling =
         behandling.påklagetVedtak.påklagetVedtakstype === PåklagetVedtakstype.VEDTAK &&
         behandling.påklagetVedtak.fagsystemVedtak?.fagsystemType === FagsystemType.ORDNIÆR;
@@ -55,89 +58,96 @@ export const Visittkort: FC<{
 
     return (
         <div className={styles.container}>
-            <VisittkortInner
-                alder={20}
-                ident={personIdent}
-                kjønn={kjønn}
-                navn={
-                    <div className={styles.visningsnavn}>
-                        <Label size={'small'} as={'p'}>
-                            {navn}
-                        </Label>
-                    </div>
-                }
-                institusjon={behandling.institusjon}
-            >
-                {folkeregisterpersonstatus && (
-                    <div className={styles.elementContainer}>
-                        <PersonStatusVarsel folkeregisterpersonstatus={folkeregisterpersonstatus} />
-                    </div>
-                )}
-                {adressebeskyttelse && (
-                    <div className={styles.elementContainer}>
-                        <AdressebeskyttelseVarsel adressebeskyttelse={adressebeskyttelse} />
-                    </div>
-                )}
-                {egenAnsatt && (
-                    <div className={styles.elementContainer}>
-                        <EtikettFokus>Egen ansatt</EtikettFokus>
-                    </div>
-                )}
-                {fullmakt.some(
-                    (f) => f.gyldigTilOgMed === null || erEtterDagensDato(f.gyldigTilOgMed)
-                ) && (
-                    <div className={styles.elementContainer}>
-                        <EtikettFokus>Fullmakt</EtikettFokus>
-                    </div>
-                )}
-
-                {vergemål.length > 0 && (
-                    <div className={styles.elementContainer}>
-                        <EtikettFokus>Verge</EtikettFokus>
-                    </div>
-                )}
-            </VisittkortInner>
-            <HStack justify="end" gap="4">
-                {skalLenkeTilFagsystemBehandling && (
-                    <Link href={behandlingLenke} target="_blank">
-                        Gå til behandling
-                        <ExternalLinkIcon aria-label="Gå til behandling" fontSize={'1.375rem'} />
+            <HStack justify={'space-between'} width={'100%'}>
+                <VisittkortInner
+                    alder={20}
+                    ident={personIdent}
+                    kjønn={kjønn}
+                    navn={
+                        <div className={styles.visningsnavn}>
+                            <Label size={'small'} as={'p'}>
+                                {navn}
+                            </Label>
+                        </div>
+                    }
+                    institusjon={behandling.institusjon}
+                >
+                    {folkeregisterpersonstatus && (
+                        <div className={styles.elementContainer}>
+                            <PersonStatusVarsel
+                                folkeregisterpersonstatus={folkeregisterpersonstatus}
+                            />
+                        </div>
+                    )}
+                    {adressebeskyttelse && (
+                        <div className={styles.elementContainer}>
+                            <AdressebeskyttelseVarsel adressebeskyttelse={adressebeskyttelse} />
+                        </div>
+                    )}
+                    {egenAnsatt && (
+                        <div className={styles.elementContainer}>
+                            <EtikettFokus>Egen ansatt</EtikettFokus>
+                        </div>
+                    )}
+                    {fullmakt.some(
+                        (f) => f.gyldigTilOgMed === null || erEtterDagensDato(f.gyldigTilOgMed)
+                    ) && (
+                        <div className={styles.elementContainer}>
+                            <EtikettFokus>Fullmakt</EtikettFokus>
+                        </div>
+                    )}
+                    {vergemål.length > 0 && (
+                        <div className={styles.elementContainer}>
+                            <EtikettFokus>Verge</EtikettFokus>
+                        </div>
+                    )}
+                </VisittkortInner>
+                <HStack align={'center'} justify={'start'} gap={'space-8'} padding={'space-8'}>
+                    {skalLenkeTilFagsystemBehandling && (
+                        <Link href={behandlingLenke} target="_blank">
+                            Gå til behandling
+                            <ExternalLinkIcon
+                                aria-label="Gå til behandling"
+                                fontSize={'1.375rem'}
+                            />
+                        </Link>
+                    )}
+                    {skalLenkeTilTilbakekreving && (
+                        <Link href={tilbakekrevingLenke} target="_blank">
+                            Gå til tilbakekreving
+                            <ExternalLinkIcon
+                                aria-label="Gå til tilbakekreving"
+                                fontSize={'1.375rem'}
+                            />
+                        </Link>
+                    )}
+                    <Link href={saksoversiktLenke} target="_blank">
+                        Gå til saksoversikt
+                        <ExternalLinkIcon aria-label="Gå til saksoversikt" fontSize={'1.375rem'} />
                     </Link>
-                )}
-                {skalLenkeTilTilbakekreving && (
-                    <Link href={tilbakekrevingLenke} target="_blank">
-                        Gå til tilbakekreving
-                        <ExternalLinkIcon
-                            aria-label="Gå til tilbakekreving"
-                            fontSize={'1.375rem'}
-                        />
-                    </Link>
-                )}
-                <Link href={saksoversiktLenke} target="_blank">
-                    Gå til saksoversikt
-                    <ExternalLinkIcon aria-label="Gå til saksoversikt" fontSize={'1.375rem'} />
-                </Link>
-                {behandling && (
-                    <>
-                        <HStack justify="end" gap="4">
-                            <EtikettSuksess>
-                                {stønadstypeTilTekst[behandling.stønadstype]}
-                            </EtikettSuksess>
-                            {behandling.årsak === Klagebehandlingsårsak.HENVENDELSE_FRA_KABAL && (
-                                <EtikettInfo>
-                                    {klagebehandlingsårsakTilTekst[behandling.årsak]}
-                                </EtikettInfo>
-                            )}
-                        </HStack>
-                        <SettPåVentKnapp />
-                        <EndreBehandlendeEnhetKnapp fagsystem={behandling.fagsystem} />
-                        <HenleggKnapp />
-                    </>
-                )}
+                    {behandling && (
+                        <Stack direction={'row'} gap={'space-8'}>
+                            <HStack justify={'end'} gap={'space-8'}>
+                                <EtikettSuksess>
+                                    {stønadstypeTilTekst[behandling.stønadstype]}
+                                </EtikettSuksess>
+                                {behandling.årsak ===
+                                    Klagebehandlingsårsak.HENVENDELSE_FRA_KABAL && (
+                                    <EtikettInfo>
+                                        {klagebehandlingsårsakTilTekst[behandling.årsak]}
+                                    </EtikettInfo>
+                                )}
+                            </HStack>
+                            <SettPåVentKnapp />
+                            <EndreBehandlendeEnhetKnapp fagsystem={behandling.fagsystem} />
+                            <HenleggKnapp />
+                        </Stack>
+                    )}
+                </HStack>
             </HStack>
         </div>
     );
-};
+}
 
 export interface IProps extends React.PropsWithChildren {
     alder: number;
@@ -161,47 +171,34 @@ const VisittkortInner: React.FunctionComponent<IProps> = ({
     navn,
     institusjon,
 }) => (
-    <HStack className={styles.innerContainer} align="center" justify="space-between" gap="4">
-        <HStack align="center" gap="4">
-            <IkonVelger
-                alder={alder}
-                kjønn={kjønn}
-                width={24}
-                height={24}
-                institusjon={institusjon}
-            />
-            {typeof navn === 'string' ? (
-                <Label size={'small'}>
-                    {navn} ({alder} år)
-                </Label>
-            ) : (
-                navn
-            )}
-            <div>|</div>
-            <HStack align="center" gap="1">
-                {ident}
-                <CopyButton copyText={ident.replace(' ', '')} size={'small'} />
-            </HStack>
-            {institusjon && (
-                <HStack align={'center'} gap={'4'}>
-                    <div>|</div>
-                    <HStack align={'center'} gap={'1'}>
-                        <BodyShort weight={'semibold'}>Søker:</BodyShort>
-                        {institusjon.navn}
-                    </HStack>
-                    <div>|</div>
-                    <HStack align={'center'} gap={'1'}>
-                        <BodyShort>{formaterOrgNummer(institusjon.orgNummer)} </BodyShort>
-                        <CopyButton
-                            copyText={institusjon.orgNummer.replace(' ', '')}
-                            size={'small'}
-                        />
-                    </HStack>
+    <HStack align={'center'} gap={'space-8'} padding={'space-8'}>
+        <IkonVelger alder={alder} kjønn={kjønn} width={24} height={24} institusjon={institusjon} />
+        {typeof navn === 'string' ? (
+            <Label size={'small'}>
+                {navn} ({alder} år)
+            </Label>
+        ) : (
+            navn
+        )}
+        <div>|</div>
+        <HStack align={'center'} gap={'space-8'} wrap={false}>
+            {ident}
+            <CopyButton copyText={ident.replace(' ', '')} size={'small'} />
+        </HStack>
+        {institusjon && (
+            <HStack align={'center'} gap={'space-8'} wrap={false}>
+                <div>|</div>
+                <HStack align={'center'} gap={'1'} wrap={false}>
+                    <BodyShort weight={'semibold'}>Søker:</BodyShort>
+                    {institusjon.navn}
                 </HStack>
-            )}
-        </HStack>
-        <HStack className={styles.grådigContainer} align="center" gap="4">
-            {children}
-        </HStack>
+                <div>|</div>
+                <HStack align={'center'} gap={'1'} wrap={false}>
+                    <BodyShort>{formaterOrgNummer(institusjon.orgNummer)} </BodyShort>
+                    <CopyButton copyText={institusjon.orgNummer.replace(' ', '')} size={'small'} />
+                </HStack>
+            </HStack>
+        )}
+        {children}
     </HStack>
 );
