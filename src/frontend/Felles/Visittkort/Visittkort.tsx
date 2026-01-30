@@ -182,7 +182,7 @@ const VisittkortInner: React.FunctionComponent<IProps> = ({
                 {ident}
                 <CopyButton copyText={ident.replace(' ', '')} size={'small'} />
             </HStack>
-            {institusjon !== undefined && (
+            {institusjon && (
                 <HStack align={'center'} gap={'4'}>
                     <div>|</div>
                     <HStack align={'center'} gap={'1'}>
