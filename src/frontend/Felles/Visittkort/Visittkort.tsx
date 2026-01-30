@@ -8,7 +8,7 @@ import {
     PåklagetVedtakstype,
 } from '../../App/typer/fagsak';
 import { HenleggKnapp } from './HenleggKnapp';
-import { BodyShort, CopyButton, HStack, Label, Link } from '@navikt/ds-react';
+import { CopyButton, HStack, Label, Link } from '@navikt/ds-react';
 import { PersonStatusVarsel } from '../Varsel/PersonStatusVarsel';
 import { AdressebeskyttelseVarsel } from '../Varsel/AdressebeskyttelseVarsel';
 import { EtikettFokus, EtikettInfo, EtikettSuksess } from '../Varsel/Etikett';
@@ -25,7 +25,6 @@ import { FagsystemType } from '../../Komponenter/Behandling/Formkrav/typer';
 import { SettPåVentKnapp } from './SettPåVentKnapp';
 import { EndreBehandlendeEnhetKnapp } from './EndreBehandlendeEnhetKnapp';
 import { IkonVelger } from '../IkonVelger/IkonVelger';
-import { formaterOrgNummer, Institusjon } from '../../App/typer/institusjon';
 
 export const Visittkort: FC<{
     personopplysninger: IPersonopplysninger;
@@ -66,7 +65,6 @@ export const Visittkort: FC<{
                         </Label>
                     </div>
                 }
-                institusjon={behandling.institusjon}
             >
                 {folkeregisterpersonstatus && (
                     <div className={styles.elementContainer}>
@@ -144,7 +142,6 @@ export interface IProps extends React.PropsWithChildren {
     ident: string;
     kjønn: Kjønn;
     navn: string | React.ReactNode;
-    institusjon?: Institusjon;
 }
 
 enum Kjønn {
@@ -159,17 +156,10 @@ const VisittkortInner: React.FunctionComponent<IProps> = ({
     ident,
     kjønn,
     navn,
-    institusjon,
 }) => (
     <HStack className={styles.innerContainer} align="center" justify="space-between" gap="4">
         <HStack align="center" gap="4">
-            <IkonVelger
-                alder={alder}
-                kjønn={kjønn}
-                width={24}
-                height={24}
-                institusjon={institusjon}
-            />
+            <IkonVelger alder={alder} kjønn={kjønn} width={24} height={24} />
             {typeof navn === 'string' ? (
                 <Label size={'small'}>
                     {navn} ({alder} år)
@@ -182,23 +172,6 @@ const VisittkortInner: React.FunctionComponent<IProps> = ({
                 {ident}
                 <CopyButton copyText={ident.replace(' ', '')} size={'small'} />
             </HStack>
-            {institusjon !== undefined && (
-                <HStack align={'center'} gap={'4'}>
-                    <div>|</div>
-                    <HStack align={'center'} gap={'1'}>
-                        <BodyShort weight={'semibold'}>Søker:</BodyShort>
-                        {institusjon.navn}
-                    </HStack>
-                    <div>|</div>
-                    <HStack align={'center'} gap={'1'}>
-                        <BodyShort>{formaterOrgNummer(institusjon.orgNummer)} </BodyShort>
-                        <CopyButton
-                            copyText={institusjon.orgNummer.replace(' ', '')}
-                            size={'small'}
-                        />
-                    </HStack>
-                </HStack>
-            )}
         </HStack>
         <HStack className={styles.grådigContainer} align="center" gap="4">
             {children}

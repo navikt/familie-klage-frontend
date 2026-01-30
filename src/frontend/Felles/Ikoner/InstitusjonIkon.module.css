@@ -1,8 +1,0 @@
-.sirkel {
-    border-color: var(--a-green-400);
-    border-radius: 50%;
-    background-color: var(--a-green-400);
-    display: inline-grid;
-    place-items: center;
-    color: white;
-}
