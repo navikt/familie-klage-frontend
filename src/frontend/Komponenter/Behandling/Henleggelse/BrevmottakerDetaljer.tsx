@@ -2,7 +2,12 @@ import { Alert, Button, Heading, HGrid, HStack, VStack } from '@navikt/ds-react'
 import { ArrowUndoIcon, TrashIcon } from '@navikt/aksel-icons';
 import React, { ReactNode } from 'react';
 import { MottakerRolle, mottakerRolleVisningsnavn } from '../Brevmottakere/mottakerRolle';
-import { erNyBrevmottakerPersonUtenIdent, NyBrevmottaker } from '../Brevmottakere/nyBrevmottaker';
+import {
+    erNyBrevmottakerOrganisasjon,
+    erNyBrevmottakerPersonMedIdent,
+    erNyBrevmottakerPersonUtenIdent,
+    NyBrevmottaker,
+} from '../Brevmottakere/nyBrevmottaker';
 import CountryData from '@navikt/land-verktoy';
 import { useBrevmottakereContext } from './context/BrevmottakereContextProvider';
 import { Divider } from '../../../Felles/Divider/Divider';
@@ -87,20 +92,41 @@ export function BrevmottakerDetaljer({ brevmottaker }: Props) {
                 )}
             </VStack>
         );
+    } else if (erNyBrevmottakerPersonMedIdent(brevmottaker)) {
+        return (
+            <VStack gap={'0'}>
+                <Divider />
+                <HStack justify={'space-between'}>
+                    <Heading level={'3'} size={'xsmall'}>
+                        {mottakerRolleVisningsnavn[brevmottaker.mottakerRolle]}
+                    </Heading>
+                </HStack>
+                <HGrid gap={'2'} columns={'1fr 1fr'}>
+                    <div>Navn:</div>
+                    <div>{brevmottaker.navn}</div>
+                </HGrid>
+            </VStack>
+        );
+    } else if (erNyBrevmottakerOrganisasjon(brevmottaker)) {
+        return (
+            <VStack gap={'0'}>
+                <Divider />
+                <HStack justify={'space-between'}>
+                    <Heading level={'3'} size={'xsmall'}>
+                        {brevmottaker.mottakerRolle
+                            ? mottakerRolleVisningsnavn[brevmottaker.mottakerRolle]
+                            : 'Ukjent mottakerrolle'}
+                    </Heading>
+                </HStack>
+                <HGrid gap={'2'} columns={'1fr 1fr'}>
+                    <div>Navn:</div>
+                    <div>{brevmottaker.organisasjonsnavn}</div>
+                    <div>Organisasjonsnummer:</div>
+                    <div>{brevmottaker.organisasjonsnummer}</div>
+                </HGrid>
+            </VStack>
+        );
+    } else {
+        throw new Error('Ukjent brevmottaker type');
     }
-
-    return (
-        <VStack gap={'0'}>
-            <Divider />
-            <HStack justify={'space-between'}>
-                <Heading level={'3'} size={'xsmall'}>
-                    {mottakerRolleVisningsnavn[brevmottaker.mottakerRolle]}
-                </Heading>
-            </HStack>
-            <HGrid gap={'2'} columns={'1fr 1fr'}>
-                <div>Navn:</div>
-                <div>{brevmottaker.navn}</div>
-            </HGrid>
-        </VStack>
-    );
 }

@@ -78,6 +78,12 @@ export function erNyBrevmottakerPersonUtenIdent(
     return nyBrevmottaker.type === NyBrevmottakerType.PERSON_UTEN_IDENT;
 }
 
+export function erNyBrevmottakerOrganisasjon(
+    nyBrevmottaker: NyBrevmottaker
+): nyBrevmottaker is NyBrevmottakerOrganisasjon {
+    return nyBrevmottaker.type === NyBrevmottakerType.ORGANISASJON;
+}
+
 export function lagNyeBrevmottakere(brevmottakere: Brevmottakere): NyBrevmottaker[] {
     return [
         ...brevmottakere.personer.map((person) => {
@@ -104,6 +110,7 @@ export function lagNyBrevmottakerOrganisasjon(
         organisasjonsnummer: brevmottakerOrganisasjon.organisasjonsnummer,
         organisasjonsnavn: brevmottakerOrganisasjon.organisasjonsnavn,
         navnHosOrganisasjon: brevmottakerOrganisasjon.navnHosOrganisasjon,
+        mottakerRolle: brevmottakerOrganisasjon.mottakerRolle,
     };
 }
 
