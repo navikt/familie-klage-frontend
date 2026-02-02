@@ -10,6 +10,7 @@ import {
 
 export interface NyBrevmottaker {
     type: NyBrevmottakerType;
+    mottakerRolle?: MottakerRolle;
 }
 
 export interface NyBrevmottakerPerson extends NyBrevmottaker {

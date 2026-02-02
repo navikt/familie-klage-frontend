@@ -2,13 +2,14 @@ import { MottakerRolle } from './mottakerRolle';
 import { IFullmakt, IVergemål } from '../../../App/typer/personopplysninger';
 import { BlankEøsLandkode, erEøsLandkode, EøsLandkode } from '../../../Felles/Landvelger/landkode';
 
-export type Brevmottaker = object;
+export interface Brevmottaker {
+    mottakerRolle?: MottakerRolle;
+}
 
 export interface BrevmottakerOrganisasjon extends Brevmottaker {
     organisasjonsnummer: string;
     organisasjonsnavn: string;
     navnHosOrganisasjon: string;
-    mottakerRolle?: MottakerRolle;
 }
 
 export interface BrevmottakerPerson extends Brevmottaker {
