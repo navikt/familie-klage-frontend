@@ -16,7 +16,6 @@ import { BrevmottakerPanel } from './panel/BrevmottakerPanel';
 import { useOnMount } from '../../../../App/hooks/useOnMount';
 import { Box, Skeleton } from '@navikt/ds-react';
 import { Brevmottakere } from '../brevmottakere';
-import { erBrevmottakerPersonUtenIdent } from '../brevmottaker';
 import { NyBrevmottaker } from '../nyBrevmottaker';
 import { SlettbarBrevmottaker } from '../slettbarBrevmottaker';
 
@@ -102,15 +101,12 @@ export function BrevmottakerContainer({ behandlingId }: Props) {
     return (
         <DataViewer response={{ brevmottakere, personopplysninger }}>
             {({ brevmottakere, personopplysninger }) => {
-                const brevmottakerePersonUtenIdent = brevmottakere.personer.filter(
-                    (brevmottakerPerson) => erBrevmottakerPersonUtenIdent(brevmottakerPerson)
-                );
                 return (
                     <>
                         <BrevmottakerPanel brevmottakere={brevmottakere} />
                         <BrevmottakerModal
                             personopplysninger={personopplysninger}
-                            brevmottakere={brevmottakerePersonUtenIdent}
+                            brevmottakere={brevmottakere}
                             opprettBrevmottaker={opprettBrevmottaker}
                             slettBrevmottaker={slettBrevmottaker}
                         />

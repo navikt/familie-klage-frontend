@@ -4,14 +4,14 @@ import { useApp } from '../../../../../App/context/AppContext';
 import { IPersonopplysninger } from '../../../../../App/typer/personopplysninger';
 import { BrevmottakerModalBody } from './BrevmottakerModalBody';
 import { BrevmottakerModalFooter } from './BrevmottakerModalFooter';
-import { BrevmottakerPersonUtenIdent } from '../../brevmottaker';
 import { NyBrevmottaker } from '../../nyBrevmottaker';
 import { SlettbarBrevmottaker } from '../../slettbarBrevmottaker';
 import { useBehandling } from '../../../../../App/context/BehandlingContext';
+import { Brevmottakere, hentBrevmottakerPersonUtenIdenter } from '../../brevmottakere';
 
 type Props = {
     personopplysninger: IPersonopplysninger;
-    brevmottakere: BrevmottakerPersonUtenIdent[];
+    brevmottakere: Brevmottakere;
     opprettBrevmottaker: (nyBrevmottaker: NyBrevmottaker) => Promise<Awaited<void>>;
     slettBrevmottaker: (slettbarBrevmottaker: SlettbarBrevmottaker) => Promise<Awaited<void>>;
 };
@@ -35,12 +35,17 @@ export function BrevmottakerModal({
     const { visBrevmottakereModal, settVisBrevmottakereModal } = useApp();
     const { behandlingErRedigerbar } = useBehandling();
 
+    const brevmottakerPersonUtenIdenter = hentBrevmottakerPersonUtenIdenter(brevmottakere);
+
     return (
         <Modal
             open={visBrevmottakereModal}
             onClose={() => settVisBrevmottakereModal(false)}
             header={{
-                heading: utledHeading(brevmottakere.length, !behandlingErRedigerbar),
+                heading: utledHeading(
+                    brevmottakerPersonUtenIdenter.length,
+                    !behandlingErRedigerbar
+                ),
                 size: 'medium',
             }}
             width={'40rem'}
