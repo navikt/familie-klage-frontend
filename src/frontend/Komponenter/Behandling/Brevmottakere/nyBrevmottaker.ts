@@ -1,9 +1,10 @@
 import { MottakerRolle } from './mottakerRolle';
 import { EøsLandkode } from '../../../Felles/Landvelger/landkode';
-import { Brevmottakere } from './brevmottakere';
+import { Brevmottakere, hentAlleBrevmottakereSomListe } from './brevmottakere';
 import {
     BrevmottakerOrganisasjon,
     BrevmottakerPersonMedIdent,
+    erBrevmottakerOrganisasjon,
     erBrevmottakerPersonMedIdent,
     erBrevmottakerPersonUtenIdent,
 } from './brevmottaker';
@@ -85,21 +86,17 @@ export function erNyBrevmottakerOrganisasjon(
 }
 
 export function lagNyeBrevmottakere(brevmottakere: Brevmottakere): NyBrevmottaker[] {
-    return [
-        ...brevmottakere.personer.map((person) => {
-            if (erBrevmottakerPersonMedIdent(person)) {
-                return lagNyBrevmottakerPersonMedIdent(person);
-            } else if (erBrevmottakerPersonUtenIdent(person)) {
-                return lagNyBrevmottakerPersonUtenIdent(person);
-            } else {
-                // Dette burde aldri skje da en person må enten ha en ident eller ikke
-                throw Error('Feil oppstod ved oppretting av nye brevmottakere.');
-            }
-        }),
-        ...brevmottakere.organisasjoner.map((organisasjon) => {
-            return lagNyBrevmottakerOrganisasjon(organisasjon);
-        }),
-    ];
+    return hentAlleBrevmottakereSomListe(brevmottakere).map((mottaker) => {
+        if (erBrevmottakerPersonMedIdent(mottaker)) {
+            return lagNyBrevmottakerPersonMedIdent(mottaker);
+        } else if (erBrevmottakerPersonUtenIdent(mottaker)) {
+            return lagNyBrevmottakerPersonUtenIdent(mottaker);
+        } else if (erBrevmottakerOrganisasjon(mottaker)) {
+            return lagNyBrevmottakerOrganisasjon(mottaker);
+        } else {
+            throw Error('Feil oppstod ved oppretting av nye brevmottakere.');
+        }
+    });
 }
 
 export function lagNyBrevmottakerOrganisasjon(
