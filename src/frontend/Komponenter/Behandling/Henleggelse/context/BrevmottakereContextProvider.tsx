@@ -79,13 +79,13 @@ export function BrevmottakereContextProvider({ behandling, children }: Props) {
 
     function slettBrevmottaker(brevmottaker: NyBrevmottakerPerson) {
         settBrevmottakere((prev) => {
-            if (bruker.current === undefined) {
-                throw Error('Forventet en definert bruker.');
-            }
             const erBrukerMedUtenlandskAdresse =
                 brevmottaker.mottakerRolle === MottakerRolle.BRUKER_MED_UTENLANDSK_ADRESSE;
             const erDødsbo = brevmottaker.mottakerRolle === MottakerRolle.DØDSBO;
             if (erDødsbo || erBrukerMedUtenlandskAdresse) {
+                if (bruker.current === undefined) {
+                    throw Error('Forventet en definert bruker.');
+                }
                 const newState = [...prev];
                 const index = newState.findIndex(
                     (p) => p.mottakerRolle === brevmottaker.mottakerRolle
