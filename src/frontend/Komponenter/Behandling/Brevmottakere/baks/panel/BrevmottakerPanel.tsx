@@ -2,7 +2,7 @@ import React from 'react';
 import { useApp } from '../../../../../App/context/AppContext';
 import { useBehandling } from '../../../../../App/context/BehandlingContext';
 import { BodyShort, Box, Button, HStack, Label, Tooltip } from '@navikt/ds-react';
-import { utledOppsumertBrevmottakere } from '../oppsumertBrevmottaker';
+import { utledOppsumertBrevmottakere } from '../oppsummertBrevmottaker';
 import { Brevmottakere } from '../../brevmottakere';
 
 type Props = {

@@ -12,6 +12,12 @@ export interface BrevmottakerOrganisasjon extends Brevmottaker {
     navnHosOrganisasjon: string;
 }
 
+export function erBrevmottakerOrganisasjon(
+    brevmottaker: Brevmottaker
+): brevmottaker is BrevmottakerOrganisasjon {
+    return (brevmottaker as BrevmottakerOrganisasjon).organisasjonsnummer !== undefined;
+}
+
 export interface BrevmottakerPerson extends Brevmottaker {
     mottakerRolle: MottakerRolle;
     navn: string;
