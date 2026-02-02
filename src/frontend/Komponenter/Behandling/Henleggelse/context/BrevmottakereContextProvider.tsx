@@ -1,9 +1,9 @@
 import React, { createContext, PropsWithChildren, useContext, useRef, useState } from 'react';
 import { useOnMount } from '../../../../App/hooks/useOnMount';
 import {
-    erNyBrevmottakerPerson,
     erNyBrevmottakerPersonMedIdent,
     lagNyeBrevmottakere,
+    NyBrevmottaker,
     NyBrevmottakerPerson,
     NyBrevmottakerPersonMedIdent,
     NyBrevmottakerPersonUtenIdent,
@@ -13,7 +13,7 @@ import { useHentInitielleBrevmottakere } from '../hooks/useHentInitielleBrevmott
 import { Behandling } from '../../../../App/typer/fagsak';
 
 interface ContextValue {
-    brevmottakere: NyBrevmottakerPerson[];
+    brevmottakere: NyBrevmottaker[];
     laster: boolean;
     feilmelding: string;
     leggTilBrevmottaker: (brevmottaker: NyBrevmottakerPersonUtenIdent) => void;
@@ -39,7 +39,7 @@ interface Props extends PropsWithChildren {
 export function BrevmottakereContextProvider({ behandling, children }: Props) {
     const hentInitielleBrevmottakere = useHentInitielleBrevmottakere();
 
-    const [brevmottakere, settBrevmottakere] = useState<NyBrevmottakerPerson[]>([]);
+    const [brevmottakere, settBrevmottakere] = useState<NyBrevmottaker[]>([]);
     const [laster, settLaster] = useState<boolean>(false);
     const [feilmelding, settFeilmelding] = useState<string>('');
 
@@ -49,9 +49,7 @@ export function BrevmottakereContextProvider({ behandling, children }: Props) {
         settLaster(true);
         hentInitielleBrevmottakere(behandling.id)
             .then((brevmottakere) => {
-                const nyeBrevmottakere = lagNyeBrevmottakere(brevmottakere).filter((brevmottaker) =>
-                    erNyBrevmottakerPerson(brevmottaker)
-                );
+                const nyeBrevmottakere = lagNyeBrevmottakere(brevmottakere);
                 bruker.current = nyeBrevmottakere
                     .filter((brevmottaker) => erNyBrevmottakerPersonMedIdent(brevmottaker))
                     .find((brevmottaker) => brevmottaker.mottakerRolle === MottakerRolle.BRUKER);

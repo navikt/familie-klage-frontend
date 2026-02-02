@@ -39,8 +39,10 @@ export interface NyBrevmottakerOrganisasjon extends NyBrevmottaker {
     navnHosOrganisasjon: string;
 }
 
-export function mapTilMottakerRolle(brevmottakere: NyBrevmottakerPerson[]) {
-    return brevmottakere.map((brevmottaker) => brevmottaker.mottakerRolle);
+export function mapTilMottakerRolle(brevmottakere: NyBrevmottaker[]) {
+    return brevmottakere
+        .map((brevmottaker) => brevmottaker.mottakerRolle)
+        .filter((mottakerRolle) => mottakerRolle !== undefined);
 }
 
 export function harEnDødsboNyBrevmottaker(nyeBrevmottakere: NyBrevmottaker[]) {

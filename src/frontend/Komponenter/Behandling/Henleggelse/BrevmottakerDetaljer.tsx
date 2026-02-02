@@ -2,10 +2,7 @@ import { Alert, Button, Heading, HGrid, HStack, VStack } from '@navikt/ds-react'
 import { ArrowUndoIcon, TrashIcon } from '@navikt/aksel-icons';
 import React, { ReactNode } from 'react';
 import { MottakerRolle, mottakerRolleVisningsnavn } from '../Brevmottakere/mottakerRolle';
-import {
-    erNyBrevmottakerPersonUtenIdent,
-    NyBrevmottakerPerson,
-} from '../Brevmottakere/nyBrevmottaker';
+import { erNyBrevmottakerPersonUtenIdent, NyBrevmottaker } from '../Brevmottakere/nyBrevmottaker';
 import CountryData from '@navikt/land-verktoy';
 import { useBrevmottakereContext } from './context/BrevmottakereContextProvider';
 import { Divider } from '../../../Felles/Divider/Divider';
@@ -33,7 +30,7 @@ function utledSlettKnappTittel(mottakerRolle: MottakerRolle): string {
 }
 
 interface Props {
-    brevmottaker: NyBrevmottakerPerson;
+    brevmottaker: NyBrevmottaker;
 }
 
 export function BrevmottakerDetaljer({ brevmottaker }: Props) {

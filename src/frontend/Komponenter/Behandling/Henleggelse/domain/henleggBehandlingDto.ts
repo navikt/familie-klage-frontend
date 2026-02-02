@@ -1,16 +1,16 @@
 import { HenlagtÅrsak } from './henlagtÅrsak';
 import { HenleggBehandlingFormValues } from '../HenleggBehandlingForm';
-import { NyBrevmottakerPerson } from '../../Brevmottakere/nyBrevmottaker';
+import { NyBrevmottaker } from '../../Brevmottakere/nyBrevmottaker';
 
 export interface HenleggBehandlingDto {
     årsak: HenlagtÅrsak;
     skalSendeHenleggelsesbrev: boolean;
-    nyeBrevmottakere: NyBrevmottakerPerson[];
+    nyeBrevmottakere: NyBrevmottaker[];
 }
 
 export function lagHenleggBehandlingDto(
     values: HenleggBehandlingFormValues,
-    nyeBrevmottakere: NyBrevmottakerPerson[]
+    nyeBrevmottakere: NyBrevmottaker[]
 ): HenleggBehandlingDto {
     const { henlagtÅrsak, sendBrevOmTrukketKlage } = values;
     if (henlagtÅrsak === null) {
