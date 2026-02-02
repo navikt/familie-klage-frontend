@@ -74,6 +74,10 @@ export function finnNyttBrevmottakernavnHvisNødvendigVedEndringAvMottakerRolle(
 export function utledGyldigeMottakerRollerBasertPåAlleredeValgteMottakerRoller(
     valgteMottakerRoller: MottakerRolle[]
 ): MottakerRolle[] {
+    if (valgteMottakerRoller.includes(MottakerRolle.INSTITUSJON)) {
+        return [MottakerRolle.FULLMAKT];
+    }
+
     const relevanteValgteMottakerRoller = valgteMottakerRoller.filter(
         (vmr) => vmr !== MottakerRolle.BRUKER
     );
@@ -99,6 +103,7 @@ export function utledGyldigeMottakerRollerBasertPåAlleredeValgteMottakerRoller(
 
     return Object.values(MottakerRolle)
         .filter((mottakerRolle) => mottakerRolle !== MottakerRolle.BRUKER)
+        .filter((mottakerRolle) => mottakerRolle !== MottakerRolle.INSTITUSJON)
         .filter((mottakerRolle) => mottakerRolle !== MottakerRolle.MOTTAKER)
         .filter((mottakerRolle) => !relevanteValgteMottakerRoller.includes(mottakerRolle));
 }
