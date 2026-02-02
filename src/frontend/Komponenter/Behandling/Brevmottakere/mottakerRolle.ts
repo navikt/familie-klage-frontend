@@ -11,6 +11,7 @@ export enum MottakerRolle {
     BRUKER_MED_UTENLANDSK_ADRESSE = 'BRUKER_MED_UTENLANDSK_ADRESSE',
     DØDSBO = 'DØDSBO',
     MOTTAKER = 'MOTTAKER',
+    INSTITUSJON = 'INSTITUSJON',
 }
 
 export const mottakerRolleVisningsnavn: Record<MottakerRolle, string> = {
@@ -20,6 +21,7 @@ export const mottakerRolleVisningsnavn: Record<MottakerRolle, string> = {
     BRUKER_MED_UTENLANDSK_ADRESSE: 'Bruker med utenlandsk adresse',
     DØDSBO: 'Dødsbo',
     MOTTAKER: 'Brevmottaker',
+    INSTITUSJON: 'Institusjon',
 };
 
 export function erMottakerRolle(verdi: string): verdi is MottakerRolle {
