@@ -15,8 +15,10 @@ import { lagNyBrevmottakerPersonUtenIdent, NyBrevmottaker } from '../../nyBrevmo
 import { SlettbarBrevmottaker } from '../../slettbarBrevmottaker';
 import { useForm } from 'react-hook-form';
 import { EøsLandkode } from '../../../../../Felles/Landvelger/landkode';
+
 import {
     Brevmottakere,
+    erInstitusjonBrevmottaker,
     hentAlleBrevmottakereSomListe,
     hentBrevmottakerPersonUtenIdenter,
 } from '../../brevmottakere';
@@ -48,6 +50,7 @@ export function BrevmottakerModalBody({
 
     const brevmottakerPersonUtenIdenter = hentBrevmottakerPersonUtenIdenter(brevmottakere);
     const antallBrevmottakere = brevmottakerPersonUtenIdenter.length;
+    const institusjonErBrevmottaker = erInstitusjonBrevmottaker(brevmottakere);
 
     const [visForm, settVisForm] = useState(brevmottakerPersonUtenIdenter.length === 0);
 
@@ -70,6 +73,7 @@ export function BrevmottakerModalBody({
     }
 
     const visLeggTilNyBrevmottakerKnapp =
+        !institusjonErBrevmottaker &&
         !erEnBrevmottakerPersonUtenIdentDødsbo(brevmottakerPersonUtenIdenter) &&
         !visForm &&
         antallBrevmottakere === 1;
@@ -77,11 +81,18 @@ export function BrevmottakerModalBody({
     return (
         <Modal.Body>
             <VStack gap={'4'}>
-                <Alert variant={'info'}>
-                    Brev sendes til brukers folkeregistrerte adresse eller annen foretrukken kanal.
-                    Legg til mottaker dersom brev skal sendes til utenlandsk adresse, fullmektig,
-                    verge eller dødsbo.
-                </Alert>
+                {institusjonErBrevmottaker ? (
+                    <Alert variant={'info'}>
+                        Brev sendes til institusjon. Legg til mottaker dersom brev skal sendes til
+                        fullmektig.
+                    </Alert>
+                ) : (
+                    <Alert variant={'info'}>
+                        Brev sendes til brukers folkeregistrerte adresse eller annen foretrukken
+                        kanal. Legg til mottaker dersom brev skal sendes til utenlandsk adresse,
+                        fullmektig, verge eller dødsbo.
+                    </Alert>
+                )}
                 {brevmottakerPersonUtenIdenter.map((brevmottaker) => (
                     <BrevmottakerDetaljer
                         key={brevmottaker.mottakerRolle}

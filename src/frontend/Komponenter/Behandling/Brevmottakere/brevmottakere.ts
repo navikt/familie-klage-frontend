@@ -5,6 +5,7 @@ import {
     BrevmottakerPersonUtenIdent,
     erBrevmottakerPersonUtenIdent,
 } from './brevmottaker';
+import { MottakerRolle } from './mottakerRolle';
 
 export interface Brevmottakere {
     personer: BrevmottakerPerson[];
@@ -20,3 +21,8 @@ export const hentAlleBrevmottakereSomListe = (brevmottakere: Brevmottakere): Bre
     ...brevmottakere.personer,
     ...brevmottakere.organisasjoner,
 ];
+
+export const erInstitusjonBrevmottaker = (brevmottakere: Brevmottakere): boolean =>
+    brevmottakere.organisasjoner.some(
+        (brevmottaker) => brevmottaker.mottakerRolle === MottakerRolle.INSTITUSJON
+    );
