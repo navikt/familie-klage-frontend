@@ -44,25 +44,21 @@ export const BrevmottakereListe: FC<Props> = ({
             <BodyShort size="large" spacing>
                 Brevmottakere
             </BodyShort>
-            {valgtePersonMottakere
-                .filter((mottaker) => erBrevmottakerPersonMedIdent(mottaker))
-                .map((mottaker, index) => (
-                    <div className={styles.container} key={mottaker.navn + index}>
-                        <VStack>
-                            <BodyShort>
-                                {`${mottaker.navn} (${mottaker.mottakerRolle.toLowerCase()})`}
-                                <KopierbartNullableFødselsnummer
-                                    fødselsnummer={mottaker.personIdent}
-                                />
-                            </BodyShort>
-                        </VStack>
-                        <Button
-                            onClick={() => fjernPersonMottaker(mottaker.personIdent)}
-                            icon={<TrashIcon fontSize="1.5rem" />}
-                            variant={'tertiary'}
-                        />
-                    </div>
-                ))}
+            {valgtePersonMottakere.filter(erBrevmottakerPersonMedIdent).map((mottaker, index) => (
+                <div className={styles.container} key={mottaker.navn + index}>
+                    <VStack>
+                        <BodyShort>
+                            {`${mottaker.navn} (${mottaker.mottakerRolle.toLowerCase()})`}
+                            <KopierbartNullableFødselsnummer fødselsnummer={mottaker.personIdent} />
+                        </BodyShort>
+                    </VStack>
+                    <Button
+                        onClick={() => fjernPersonMottaker(mottaker.personIdent)}
+                        icon={<TrashIcon fontSize="1.5rem" />}
+                        variant={'tertiary'}
+                    />
+                </div>
+            ))}
             {valgteOrganisasjonMottakere.map((mottaker, index) => (
                 <div className={styles.container} key={mottaker.navnHosOrganisasjon + index}>
                     <div>

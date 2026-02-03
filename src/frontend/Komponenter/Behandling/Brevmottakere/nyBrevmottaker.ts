@@ -1,15 +1,17 @@
 import { MottakerRolle } from './mottakerRolle';
 import { EøsLandkode } from '../../../Felles/Landvelger/landkode';
-import { Brevmottakere } from './brevmottakere';
+import { Brevmottakere, hentAlleBrevmottakereSomListe } from './brevmottakere';
 import {
     BrevmottakerOrganisasjon,
     BrevmottakerPersonMedIdent,
+    erBrevmottakerOrganisasjon,
     erBrevmottakerPersonMedIdent,
     erBrevmottakerPersonUtenIdent,
 } from './brevmottaker';
 
 export interface NyBrevmottaker {
     type: NyBrevmottakerType;
+    mottakerRolle?: MottakerRolle;
 }
 
 export interface NyBrevmottakerPerson extends NyBrevmottaker {
@@ -38,19 +40,21 @@ export interface NyBrevmottakerOrganisasjon extends NyBrevmottaker {
     navnHosOrganisasjon: string;
 }
 
-export function mapTilMottakerRolle(brevmottakere: NyBrevmottakerPerson[]) {
-    return brevmottakere.map((brevmottaker) => brevmottaker.mottakerRolle);
+export function mapTilMottakerRolle(brevmottakere: NyBrevmottaker[]) {
+    return brevmottakere
+        .map((brevmottaker) => brevmottaker.mottakerRolle)
+        .filter((mottakerRolle) => mottakerRolle !== undefined);
 }
 
 export function harEnDødsboNyBrevmottaker(nyeBrevmottakere: NyBrevmottaker[]) {
     return nyeBrevmottakere
-        .filter((brevmottaker) => erNyBrevmottakerPerson(brevmottaker))
+        .filter(erNyBrevmottakerPerson)
         .some((brevmottaker) => brevmottaker.mottakerRolle === MottakerRolle.DØDSBO);
 }
 
 export function harEnBrukerNyBrevmottaker(nyeBrevmottakere: NyBrevmottaker[]) {
     return nyeBrevmottakere
-        .filter((brevmottaker) => erNyBrevmottakerPerson(brevmottaker))
+        .filter(erNyBrevmottakerPerson)
         .some((brevmottaker) => brevmottaker.mottakerRolle === MottakerRolle.BRUKER);
 }
 
@@ -75,22 +79,24 @@ export function erNyBrevmottakerPersonUtenIdent(
     return nyBrevmottaker.type === NyBrevmottakerType.PERSON_UTEN_IDENT;
 }
 
+export function erNyBrevmottakerOrganisasjon(
+    nyBrevmottaker: NyBrevmottaker
+): nyBrevmottaker is NyBrevmottakerOrganisasjon {
+    return nyBrevmottaker.type === NyBrevmottakerType.ORGANISASJON;
+}
+
 export function lagNyeBrevmottakere(brevmottakere: Brevmottakere): NyBrevmottaker[] {
-    return [
-        ...brevmottakere.personer.map((person) => {
-            if (erBrevmottakerPersonMedIdent(person)) {
-                return lagNyBrevmottakerPersonMedIdent(person);
-            } else if (erBrevmottakerPersonUtenIdent(person)) {
-                return lagNyBrevmottakerPersonUtenIdent(person);
-            } else {
-                // Dette burde aldri skje da en person må enten ha en ident eller ikke
-                throw Error('Feil oppstod ved oppretting av nye brevmottakere.');
-            }
-        }),
-        ...brevmottakere.organisasjoner.map((organisasjon) => {
-            return lagNyBrevmottakerOrganisasjon(organisasjon);
-        }),
-    ];
+    return hentAlleBrevmottakereSomListe(brevmottakere).map((mottaker) => {
+        if (erBrevmottakerPersonMedIdent(mottaker)) {
+            return lagNyBrevmottakerPersonMedIdent(mottaker);
+        } else if (erBrevmottakerPersonUtenIdent(mottaker)) {
+            return lagNyBrevmottakerPersonUtenIdent(mottaker);
+        } else if (erBrevmottakerOrganisasjon(mottaker)) {
+            return lagNyBrevmottakerOrganisasjon(mottaker);
+        } else {
+            throw Error('Feil oppstod ved oppretting av nye brevmottakere.');
+        }
+    });
 }
 
 export function lagNyBrevmottakerOrganisasjon(
@@ -101,6 +107,7 @@ export function lagNyBrevmottakerOrganisasjon(
         organisasjonsnummer: brevmottakerOrganisasjon.organisasjonsnummer,
         organisasjonsnavn: brevmottakerOrganisasjon.organisasjonsnavn,
         navnHosOrganisasjon: brevmottakerOrganisasjon.navnHosOrganisasjon,
+        mottakerRolle: brevmottakerOrganisasjon.mottakerRolle,
     };
 }
 

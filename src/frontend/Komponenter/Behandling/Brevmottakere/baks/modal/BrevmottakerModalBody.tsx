@@ -10,19 +10,22 @@ import {
 } from './form/BrevmottakerForm';
 import { IPersonopplysninger } from '../../../../../App/typer/personopplysninger';
 import { BrevmottakerDetaljer } from './BrevmottakerDetaljer';
-import {
-    BrevmottakerPersonUtenIdent,
-    erEnBrevmottakerPersonUtenIdentDødsbo,
-    mapTilMottakerRolle,
-} from '../../brevmottaker';
+import { erEnBrevmottakerPersonUtenIdentDødsbo, mapTilMottakerRolle } from '../../brevmottaker';
 import { lagNyBrevmottakerPersonUtenIdent, NyBrevmottaker } from '../../nyBrevmottaker';
 import { SlettbarBrevmottaker } from '../../slettbarBrevmottaker';
 import { useForm } from 'react-hook-form';
 import { EøsLandkode } from '../../../../../Felles/Landvelger/landkode';
 
+import {
+    Brevmottakere,
+    erInstitusjonBrevmottaker,
+    hentAlleBrevmottakereSomListe,
+    hentAlleBrevmottakerPersonUtenIdent,
+} from '../../brevmottakere';
+
 type Props = {
     personopplysninger: IPersonopplysninger;
-    brevmottakere: BrevmottakerPersonUtenIdent[];
+    brevmottakere: Brevmottakere;
     opprettBrevmottaker: (nyBrevmottaker: NyBrevmottaker) => Promise<Awaited<void>>;
     slettBrevmottaker: (slettbarBrevmottaker: SlettbarBrevmottaker) => Promise<Awaited<void>>;
 };
@@ -45,7 +48,11 @@ export function BrevmottakerModalBody({
         },
     });
 
-    const [visForm, settVisForm] = useState(brevmottakere.length === 0);
+    const brevmottakerPersonUtenIdenter = hentAlleBrevmottakerPersonUtenIdent(brevmottakere);
+    const antallBrevmottakere = brevmottakerPersonUtenIdenter.length;
+    const institusjonErBrevmottaker = erInstitusjonBrevmottaker(brevmottakere);
+
+    const [visForm, settVisForm] = useState(brevmottakerPersonUtenIdenter.length === 0);
 
     async function onSubmitBrevmottakerForm(
         brevmottakerFormValues: BrevmottakerFormValues
@@ -59,26 +66,34 @@ export function BrevmottakerModalBody({
         slettbarBrevmottaker: SlettbarBrevmottaker
     ): Promise<Awaited<void>> {
         return slettBrevmottaker(slettbarBrevmottaker).then(() => {
-            if (brevmottakere.length === 1) {
+            if (antallBrevmottakere === 1) {
                 settVisForm(true);
             }
         });
     }
 
     const visLeggTilNyBrevmottakerKnapp =
-        !erEnBrevmottakerPersonUtenIdentDødsbo(brevmottakere) &&
+        !institusjonErBrevmottaker &&
+        !erEnBrevmottakerPersonUtenIdentDødsbo(brevmottakerPersonUtenIdenter) &&
         !visForm &&
-        brevmottakere.length === 1;
+        antallBrevmottakere === 1;
 
     return (
         <Modal.Body>
             <VStack gap={'4'}>
-                <Alert variant={'info'}>
-                    Brev sendes til brukers folkeregistrerte adresse eller annen foretrukken kanal.
-                    Legg til mottaker dersom brev skal sendes til utenlandsk adresse, fullmektig,
-                    verge eller dødsbo.
-                </Alert>
-                {brevmottakere.map((brevmottaker) => (
+                {institusjonErBrevmottaker ? (
+                    <Alert variant={'info'}>
+                        Brev sendes til institusjon. Legg til mottaker dersom brev skal sendes til
+                        fullmektig.
+                    </Alert>
+                ) : (
+                    <Alert variant={'info'}>
+                        Brev sendes til brukers folkeregistrerte adresse eller annen foretrukken
+                        kanal. Legg til mottaker dersom brev skal sendes til utenlandsk adresse,
+                        fullmektig, verge eller dødsbo.
+                    </Alert>
+                )}
+                {brevmottakerPersonUtenIdenter.map((brevmottaker) => (
                     <BrevmottakerDetaljer
                         key={brevmottaker.id}
                         brevmottaker={brevmottaker}
@@ -92,9 +107,11 @@ export function BrevmottakerModalBody({
                             form={form}
                             onSubmit={onSubmitBrevmottakerForm}
                             onCancel={() => settVisForm(false)}
-                            isCancellable={brevmottakere.length > 0}
+                            isCancellable={antallBrevmottakere > 0}
                             personopplysninger={personopplysninger}
-                            valgteMottakerRoller={mapTilMottakerRolle(brevmottakere)}
+                            valgteMottakerRoller={mapTilMottakerRolle(
+                                hentAlleBrevmottakereSomListe(brevmottakere)
+                            )}
                         />
                     </>
                 )}

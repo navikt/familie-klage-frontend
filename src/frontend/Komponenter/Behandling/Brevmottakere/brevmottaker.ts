@@ -2,13 +2,20 @@ import { MottakerRolle } from './mottakerRolle';
 import { IFullmakt, IVergemål } from '../../../App/typer/personopplysninger';
 import { BlankEøsLandkode, erEøsLandkode, EøsLandkode } from '../../../Felles/Landvelger/landkode';
 
-export type Brevmottaker = object;
+export interface Brevmottaker {
+    mottakerRolle?: MottakerRolle;
+}
 
 export interface BrevmottakerOrganisasjon extends Brevmottaker {
     organisasjonsnummer: string;
     organisasjonsnavn: string;
     navnHosOrganisasjon: string;
-    mottakerRolle?: MottakerRolle;
+}
+
+export function erBrevmottakerOrganisasjon(
+    brevmottaker: Brevmottaker
+): brevmottaker is BrevmottakerOrganisasjon {
+    return (brevmottaker as BrevmottakerOrganisasjon).organisasjonsnummer !== undefined;
 }
 
 export interface BrevmottakerPerson extends Brevmottaker {
@@ -20,14 +27,16 @@ export interface BrevmottakerPersonMedIdent extends BrevmottakerPerson {
     personIdent: string;
 }
 
-export function mapTilMottakerRolle(brevmottakere: BrevmottakerPerson[]) {
-    return brevmottakere.map((brevmottaker) => brevmottaker.mottakerRolle);
+export function mapTilMottakerRolle(brevmottakere: Brevmottaker[]) {
+    return brevmottakere
+        .map((brevmottaker) => brevmottaker.mottakerRolle)
+        .filter((mottakerRolle) => mottakerRolle !== undefined);
 }
 
 export function erBrevmottakerPersonMedIdent(
-    brevmottakerPerson: BrevmottakerPerson
-): brevmottakerPerson is BrevmottakerPersonMedIdent {
-    return (brevmottakerPerson as BrevmottakerPersonMedIdent).personIdent !== undefined;
+    brevmottaker: Brevmottaker
+): brevmottaker is BrevmottakerPersonMedIdent {
+    return (brevmottaker as BrevmottakerPersonMedIdent).personIdent !== undefined;
 }
 
 export function mapVergemålTilBrevmottakerPersonMedIdent(
@@ -60,9 +69,9 @@ export interface BrevmottakerPersonUtenIdent extends BrevmottakerPerson {
 }
 
 export function erBrevmottakerPersonUtenIdent(
-    brevmottakerPerson: BrevmottakerPerson
-): brevmottakerPerson is BrevmottakerPersonUtenIdent {
-    return (brevmottakerPerson as BrevmottakerPersonUtenIdent).id !== undefined;
+    brevmottaker: Brevmottaker
+): brevmottaker is BrevmottakerPersonUtenIdent {
+    return (brevmottaker as BrevmottakerPersonUtenIdent).id !== undefined;
 }
 
 export function utledBrevmottakerPersonUtenIdentNavnVedDødsbo(
@@ -92,9 +101,7 @@ export function utledPreutfyltBrevmottakerPersonUtenIdentNavn(
     }
 }
 
-export function erEnBrevmottakerPersonUtenIdentDødsbo(
-    brevmottakere: BrevmottakerPersonUtenIdent[]
-) {
+export function erEnBrevmottakerPersonUtenIdentDødsbo(brevmottakere: Brevmottaker[]) {
     return brevmottakere.some(
         (brevmottaker) => brevmottaker.mottakerRolle === MottakerRolle.DØDSBO
     );

@@ -11,6 +11,7 @@ export enum MottakerRolle {
     BRUKER_MED_UTENLANDSK_ADRESSE = 'BRUKER_MED_UTENLANDSK_ADRESSE',
     DØDSBO = 'DØDSBO',
     MOTTAKER = 'MOTTAKER',
+    INSTITUSJON = 'INSTITUSJON',
 }
 
 export const mottakerRolleVisningsnavn: Record<MottakerRolle, string> = {
@@ -20,6 +21,7 @@ export const mottakerRolleVisningsnavn: Record<MottakerRolle, string> = {
     BRUKER_MED_UTENLANDSK_ADRESSE: 'Bruker med utenlandsk adresse',
     DØDSBO: 'Dødsbo',
     MOTTAKER: 'Brevmottaker',
+    INSTITUSJON: 'Institusjon',
 };
 
 export function erMottakerRolle(verdi: string): verdi is MottakerRolle {
@@ -72,6 +74,10 @@ export function finnNyttBrevmottakernavnHvisNødvendigVedEndringAvMottakerRolle(
 export function utledGyldigeMottakerRollerBasertPåAlleredeValgteMottakerRoller(
     valgteMottakerRoller: MottakerRolle[]
 ): MottakerRolle[] {
+    if (valgteMottakerRoller.includes(MottakerRolle.INSTITUSJON)) {
+        return [MottakerRolle.FULLMAKT];
+    }
+
     const relevanteValgteMottakerRoller = valgteMottakerRoller.filter(
         (vmr) => vmr !== MottakerRolle.BRUKER
     );
@@ -97,6 +103,7 @@ export function utledGyldigeMottakerRollerBasertPåAlleredeValgteMottakerRoller(
 
     return Object.values(MottakerRolle)
         .filter((mottakerRolle) => mottakerRolle !== MottakerRolle.BRUKER)
+        .filter((mottakerRolle) => mottakerRolle !== MottakerRolle.INSTITUSJON)
         .filter((mottakerRolle) => mottakerRolle !== MottakerRolle.MOTTAKER)
         .filter((mottakerRolle) => !relevanteValgteMottakerRoller.includes(mottakerRolle));
 }
