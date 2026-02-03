@@ -2,10 +2,10 @@ import { RessursFeilet, RessursStatus, RessursSuksess } from '../../../../App/ty
 import { useApp } from '../../../../App/context/AppContext';
 import { ForhåndsvisHenleggBehandlingBrevDto } from '../domain/forhåndsvisHenleggBehandlingBrevDto';
 
-export function useHentBrev() {
+export function useLagHenleggelsesbrev() {
     const { axiosRequest } = useApp();
 
-    async function hentBrev(
+    async function lagHenleggelsesbrev(
         behandlingId: string,
         forhåndsvisHenleggBehandlingBrevDto: ForhåndsvisHenleggBehandlingBrevDto
     ): Promise<Awaited<string>> {
@@ -22,5 +22,5 @@ export function useHentBrev() {
         });
     }
 
-    return hentBrev;
+    return lagHenleggelsesbrev;
 }

@@ -2,7 +2,7 @@ import { Alert, Box, Link, Loader, VStack } from '@navikt/ds-react';
 import { LinkIcon } from '@navikt/aksel-icons';
 import React, { useState } from 'react';
 import { base64toBlob, åpnePdfIEgenTab } from '../../../App/utils/utils';
-import { useHentBrev } from './hooks/useHentBrev';
+import { useLagHenleggelsesbrev } from './hooks/useLagHenleggelsesbrev';
 import { Behandling } from '../../../App/typer/fagsak';
 import { useBrevmottakereContext } from './context/BrevmottakereContextProvider';
 
@@ -13,7 +13,7 @@ interface Props {
 }
 
 export function ForhåndsvisBrevLenke({ behandling }: Props) {
-    const hentBrev = useHentBrev();
+    const lagHenleggelsesbrev = useLagHenleggelsesbrev();
     const { brevmottakere } = useBrevmottakereContext();
 
     const [feilmelding, settFeilmelding] = useState<string>('');
@@ -21,7 +21,7 @@ export function ForhåndsvisBrevLenke({ behandling }: Props) {
 
     async function hentOgÅpneBrevINyFane(): Promise<Awaited<void>> {
         settLaster(true);
-        return hentBrev(behandling.id, { brevmottakere })
+        return lagHenleggelsesbrev(behandling.id, { brevmottakere })
             .then((brev) => base64toBlob(brev, 'application/pdf'))
             .then((blob) => åpnePdfIEgenTab(blob, filnavn))
             .catch((error: Error) => settFeilmelding(error.message))
