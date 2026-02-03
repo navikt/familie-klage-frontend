@@ -12,10 +12,9 @@ export interface Brevmottakere {
     organisasjoner: BrevmottakerOrganisasjon[];
 }
 
-export const hentBrevmottakerPersonUtenIdenter = (
+export const hentAlleBrevmottakerPersonUtenIdent = (
     brevmottakere: Brevmottakere
-): BrevmottakerPersonUtenIdent[] =>
-    brevmottakere.personer.filter((brevmottaker) => erBrevmottakerPersonUtenIdent(brevmottaker));
+): BrevmottakerPersonUtenIdent[] => brevmottakere.personer.filter(erBrevmottakerPersonUtenIdent);
 
 export const hentAlleBrevmottakereSomListe = (brevmottakere: Brevmottakere): Brevmottaker[] => [
     ...brevmottakere.personer,

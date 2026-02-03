@@ -20,7 +20,7 @@ import {
     Brevmottakere,
     erInstitusjonBrevmottaker,
     hentAlleBrevmottakereSomListe,
-    hentBrevmottakerPersonUtenIdenter,
+    hentAlleBrevmottakerPersonUtenIdent,
 } from '../../brevmottakere';
 
 type Props = {
@@ -48,7 +48,7 @@ export function BrevmottakerModalBody({
         },
     });
 
-    const brevmottakerPersonUtenIdenter = hentBrevmottakerPersonUtenIdenter(brevmottakere);
+    const brevmottakerPersonUtenIdenter = hentAlleBrevmottakerPersonUtenIdent(brevmottakere);
     const antallBrevmottakere = brevmottakerPersonUtenIdenter.length;
     const institusjonErBrevmottaker = erInstitusjonBrevmottaker(brevmottakere);
 

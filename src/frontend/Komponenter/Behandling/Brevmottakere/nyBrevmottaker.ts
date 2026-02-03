@@ -48,13 +48,13 @@ export function mapTilMottakerRolle(brevmottakere: NyBrevmottaker[]) {
 
 export function harEnDødsboNyBrevmottaker(nyeBrevmottakere: NyBrevmottaker[]) {
     return nyeBrevmottakere
-        .filter((brevmottaker) => erNyBrevmottakerPerson(brevmottaker))
+        .filter(erNyBrevmottakerPerson)
         .some((brevmottaker) => brevmottaker.mottakerRolle === MottakerRolle.DØDSBO);
 }
 
 export function harEnBrukerNyBrevmottaker(nyeBrevmottakere: NyBrevmottaker[]) {
     return nyeBrevmottakere
-        .filter((brevmottaker) => erNyBrevmottakerPerson(brevmottaker))
+        .filter(erNyBrevmottakerPerson)
         .some((brevmottaker) => brevmottaker.mottakerRolle === MottakerRolle.BRUKER);
 }
 

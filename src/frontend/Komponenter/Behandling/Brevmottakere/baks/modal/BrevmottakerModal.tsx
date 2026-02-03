@@ -7,7 +7,7 @@ import { BrevmottakerModalFooter } from './BrevmottakerModalFooter';
 import { NyBrevmottaker } from '../../nyBrevmottaker';
 import { SlettbarBrevmottaker } from '../../slettbarBrevmottaker';
 import { useBehandling } from '../../../../../App/context/BehandlingContext';
-import { Brevmottakere, hentBrevmottakerPersonUtenIdenter } from '../../brevmottakere';
+import { Brevmottakere, hentAlleBrevmottakerPersonUtenIdent } from '../../brevmottakere';
 
 type Props = {
     personopplysninger: IPersonopplysninger;
@@ -35,7 +35,7 @@ export function BrevmottakerModal({
     const { visBrevmottakereModal, settVisBrevmottakereModal } = useApp();
     const { behandlingErRedigerbar } = useBehandling();
 
-    const brevmottakerPersonUtenIdenter = hentBrevmottakerPersonUtenIdenter(brevmottakere);
+    const brevmottakerPersonUtenIdenter = hentAlleBrevmottakerPersonUtenIdent(brevmottakere);
 
     return (
         <Modal

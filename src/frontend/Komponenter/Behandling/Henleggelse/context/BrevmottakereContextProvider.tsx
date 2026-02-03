@@ -51,7 +51,7 @@ export function BrevmottakereContextProvider({ behandling, children }: Props) {
             .then((brevmottakere) => {
                 const nyeBrevmottakere = lagNyeBrevmottakere(brevmottakere);
                 bruker.current = nyeBrevmottakere
-                    .filter((brevmottaker) => erNyBrevmottakerPersonMedIdent(brevmottaker))
+                    .filter(erNyBrevmottakerPersonMedIdent)
                     .find((brevmottaker) => brevmottaker.mottakerRolle === MottakerRolle.BRUKER);
                 settBrevmottakere(nyeBrevmottakere);
                 settLaster(false);
