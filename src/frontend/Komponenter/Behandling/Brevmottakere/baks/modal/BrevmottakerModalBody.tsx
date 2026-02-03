@@ -95,7 +95,7 @@ export function BrevmottakerModalBody({
                 )}
                 {brevmottakerPersonUtenIdenter.map((brevmottaker) => (
                     <BrevmottakerDetaljer
-                        key={brevmottaker.mottakerRolle}
+                        key={brevmottaker.id}
                         brevmottaker={brevmottaker}
                         slettBrevmottaker={slettBrevmottakerOgVisFormHvisNødvendig}
                     />
