@@ -37,7 +37,7 @@ export interface NyBrevmottakerOrganisasjon extends NyBrevmottaker {
     type: NyBrevmottakerType.ORGANISASJON;
     organisasjonsnummer: string;
     organisasjonsnavn: string;
-    navnHosOrganisasjon: string;
+    navnHosOrganisasjon?: string;
 }
 
 export function mapTilMottakerRolle(brevmottakere: NyBrevmottaker[]) {
