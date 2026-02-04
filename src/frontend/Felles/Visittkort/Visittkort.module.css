@@ -20,12 +20,3 @@
 .elementContainer {
     margin-left: 1rem;
 }
-
-.grådigContainer {
-    flex: 1;
-}
-
-.innerContainer {
-    height: 3rem;
-    padding: 0 var(--a-spacing-4);
-}
