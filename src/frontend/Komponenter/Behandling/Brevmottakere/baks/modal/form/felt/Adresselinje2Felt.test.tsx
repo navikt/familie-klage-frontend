@@ -3,14 +3,17 @@ import React from 'react';
 import { describe, expect, test } from 'vitest';
 import { Adresselinje2Felt } from './Adresselinje2Felt';
 import { DefaultValues, FormProvider, useForm } from 'react-hook-form';
-import { BrevmottakerFeltnavn, BrevmottakerFormValues } from '../BrevmottakerForm';
+import {
+    BrevmottakerPersonUtenIdentFeltnavn,
+    BrevmottakerPersonUtenIdentFormValues,
+} from '../BrevmottakerPersonUtenIdentForm';
 import { render } from '../../../../../../../lib/testrender';
 import { Button } from '@navikt/ds-react';
 
 const onSubmit = (delay: number) => new Promise((resolve) => setTimeout(resolve, delay));
 
-const DEFAULT_VALUES: DefaultValues<BrevmottakerFormValues> = {
-    [BrevmottakerFeltnavn.ADRESSELINJE2]: '',
+const DEFAULT_VALUES: DefaultValues<BrevmottakerPersonUtenIdentFormValues> = {
+    [BrevmottakerPersonUtenIdentFeltnavn.ADRESSELINJE2]: '',
 };
 
 function FormWrapper({
@@ -19,10 +22,13 @@ function FormWrapper({
     onSubmitDelay = 0,
 }: {
     children: React.ReactNode;
-    defaultValues?: DefaultValues<BrevmottakerFormValues>;
+    defaultValues?: DefaultValues<BrevmottakerPersonUtenIdentFormValues>;
     onSubmitDelay?: number;
 }) {
-    const form = useForm<BrevmottakerFormValues>({ mode: 'onChange', defaultValues });
+    const form = useForm<BrevmottakerPersonUtenIdentFormValues>({
+        mode: 'onChange',
+        defaultValues,
+    });
     return (
         <FormProvider {...form}>
             <form onSubmit={form.handleSubmit(() => onSubmit(onSubmitDelay))}>
@@ -110,7 +116,7 @@ describe('AdresselinjeFelt', () => {
                     {...props}
                     defaultValues={{
                         ...DEFAULT_VALUES,
-                        [BrevmottakerFeltnavn.ADRESSELINJE2]: 'Osloveien 1337',
+                        [BrevmottakerPersonUtenIdentFeltnavn.ADRESSELINJE2]: 'Osloveien 1337',
                     }}
                 />
             ),

@@ -4,10 +4,10 @@ import { PlusCircleIcon } from '@navikt/aksel-icons';
 import { Alert, Button, Heading, Modal, VStack } from '@navikt/ds-react';
 
 import {
-    BrevmottakerFeltnavn,
-    BrevmottakerForm,
-    BrevmottakerFormValues,
-} from './form/BrevmottakerForm';
+    BrevmottakerPersonUtenIdentFeltnavn,
+    BrevmottakerPersonUtenIdentForm,
+    BrevmottakerPersonUtenIdentFormValues,
+} from './form/BrevmottakerPersonUtenIdentForm';
 import { BrevmottakerDetaljer } from './BrevmottakerDetaljer';
 import { erEnBrevmottakerPersonUtenIdentDødsbo, mapTilMottakerRolle } from '../../brevmottaker';
 import { lagNyBrevmottakerPersonUtenIdent, NyBrevmottaker } from '../../nyBrevmottaker';
@@ -33,15 +33,15 @@ export function BrevmottakerModalBody({
     opprettBrevmottaker,
     slettBrevmottaker,
 }: Props) {
-    const form = useForm<BrevmottakerFormValues>({
+    const brevmottakerPersonUtenIdentForm = useForm<BrevmottakerPersonUtenIdentFormValues>({
         defaultValues: {
-            [BrevmottakerFeltnavn.MOTTAKERROLLE]: '',
-            [BrevmottakerFeltnavn.LANDKODE]: EøsLandkode.NO,
-            [BrevmottakerFeltnavn.NAVN]: '',
-            [BrevmottakerFeltnavn.ADRESSELINJE1]: '',
-            [BrevmottakerFeltnavn.ADRESSELINJE2]: '',
-            [BrevmottakerFeltnavn.POSTNUMMER]: '',
-            [BrevmottakerFeltnavn.POSTSTED]: '',
+            [BrevmottakerPersonUtenIdentFeltnavn.MOTTAKERROLLE]: '',
+            [BrevmottakerPersonUtenIdentFeltnavn.LANDKODE]: EøsLandkode.NO,
+            [BrevmottakerPersonUtenIdentFeltnavn.NAVN]: '',
+            [BrevmottakerPersonUtenIdentFeltnavn.ADRESSELINJE1]: '',
+            [BrevmottakerPersonUtenIdentFeltnavn.ADRESSELINJE2]: '',
+            [BrevmottakerPersonUtenIdentFeltnavn.POSTNUMMER]: '',
+            [BrevmottakerPersonUtenIdentFeltnavn.POSTSTED]: '',
         },
     });
 
@@ -51,12 +51,14 @@ export function BrevmottakerModalBody({
 
     const [visForm, settVisForm] = useState(brevmottakerPersonUtenIdenter.length === 0);
 
-    async function onSubmitBrevmottakerForm(
-        brevmottakerFormValues: BrevmottakerFormValues
+    async function onSubmitBrevmottakerPersonUtenIdentForm(
+        brevmottakerFormValues: BrevmottakerPersonUtenIdentFormValues
     ): Promise<Awaited<void>> {
         return opprettBrevmottaker(lagNyBrevmottakerPersonUtenIdent(brevmottakerFormValues))
             .then(() => settVisForm(false))
-            .catch((error: Error) => form.setError('root', { message: error.message }));
+            .catch((error: Error) =>
+                brevmottakerPersonUtenIdentForm.setError('root', { message: error.message })
+            );
     }
 
     async function slettBrevmottakerOgVisFormHvisNødvendig(
@@ -100,9 +102,9 @@ export function BrevmottakerModalBody({
                 {visForm && (
                     <>
                         <Heading size={'medium'}>Ny brevmottaker</Heading>
-                        <BrevmottakerForm
-                            form={form}
-                            onSubmit={onSubmitBrevmottakerForm}
+                        <BrevmottakerPersonUtenIdentForm
+                            form={brevmottakerPersonUtenIdentForm}
+                            onSubmit={onSubmitBrevmottakerPersonUtenIdentForm}
                             onCancel={() => settVisForm(false)}
                             isCancellable={antallBrevmottakere > 0}
                             valgteMottakerRoller={mapTilMottakerRolle(

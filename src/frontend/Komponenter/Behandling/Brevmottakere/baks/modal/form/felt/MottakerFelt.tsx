@@ -9,7 +9,10 @@ import {
     skalPreutfylleNavnForMottakerRolle,
     utledGyldigeMottakerRollerBasertPåAlleredeValgteMottakerRoller,
 } from '../../../../mottakerRolle';
-import { BrevmottakerFeltnavn, BrevmottakerFormValues } from '../BrevmottakerForm';
+import {
+    BrevmottakerPersonUtenIdentFeltnavn,
+    BrevmottakerPersonUtenIdentFormValues,
+} from '../BrevmottakerPersonUtenIdentForm';
 import { usePersonopplysningerContext } from '../../../../../../../App/context/PersonopplysningerContext';
 
 interface Props {
@@ -20,26 +23,27 @@ interface Props {
 const label = 'Mottaker';
 
 export function MottakerFelt({ valgteMottakerRoller, erLesevisning = false }: Props) {
-    const { control, setValue, getValues, resetField } = useFormContext<BrevmottakerFormValues>();
+    const { control, setValue, getValues, resetField } =
+        useFormContext<BrevmottakerPersonUtenIdentFormValues>();
 
     const { navn } = usePersonopplysningerContext();
 
     const { field, fieldState, formState } = useController({
-        name: BrevmottakerFeltnavn.MOTTAKERROLLE,
+        name: BrevmottakerPersonUtenIdentFeltnavn.MOTTAKERROLLE,
         control,
         rules: {
             required: `${label} er påkrevd.`,
-            deps: [BrevmottakerFeltnavn.LANDKODE],
+            deps: [BrevmottakerPersonUtenIdentFeltnavn.LANDKODE],
         },
     });
 
     function onChange(event: ChangeEvent<HTMLSelectElement>) {
         const mottakerRolle = event.target.value;
-        const forrigeMottakerRolle = getValues(BrevmottakerFeltnavn.MOTTAKERROLLE);
-        const landkode = getValues(BrevmottakerFeltnavn.LANDKODE);
+        const forrigeMottakerRolle = getValues(BrevmottakerPersonUtenIdentFeltnavn.MOTTAKERROLLE);
+        const landkode = getValues(BrevmottakerPersonUtenIdentFeltnavn.LANDKODE);
         if (!erMottakerRolle(mottakerRolle)) {
             if (skalPreutfylleNavnForMottakerRolle(forrigeMottakerRolle)) {
-                resetField(BrevmottakerFeltnavn.NAVN);
+                resetField(BrevmottakerPersonUtenIdentFeltnavn.NAVN);
             }
             field.onChange('');
             return;
@@ -51,7 +55,7 @@ export function MottakerFelt({ valgteMottakerRoller, erLesevisning = false }: Pr
             navn
         );
         if (nyttBrevmottakernavn !== undefined) {
-            setValue(BrevmottakerFeltnavn.NAVN, nyttBrevmottakernavn);
+            setValue(BrevmottakerPersonUtenIdentFeltnavn.NAVN, nyttBrevmottakernavn);
         }
         field.onChange(mottakerRolle);
     }
