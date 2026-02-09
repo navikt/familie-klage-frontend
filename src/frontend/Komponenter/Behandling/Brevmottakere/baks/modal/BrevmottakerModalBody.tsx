@@ -19,7 +19,7 @@ import {
     Brevmottakere,
     erInstitusjonBrevmottaker,
     hentAlleBrevmottakereSomListe,
-    hentAlleBrevmottakerPersonUtenIdent,
+    hentManueltOpprettedeBrevmottakere,
 } from '../../brevmottakere';
 
 type Props = {
@@ -45,11 +45,11 @@ export function BrevmottakerModalBody({
         },
     });
 
-    const brevmottakerPersonUtenIdenter = hentAlleBrevmottakerPersonUtenIdent(brevmottakere);
-    const antallBrevmottakere = brevmottakerPersonUtenIdenter.length;
+    const manueltOpprettedeBrevmottakere = hentManueltOpprettedeBrevmottakere(brevmottakere);
+    const antallBrevmottakere = manueltOpprettedeBrevmottakere.length;
     const institusjonErBrevmottaker = erInstitusjonBrevmottaker(brevmottakere);
 
-    const [visForm, settVisForm] = useState(brevmottakerPersonUtenIdenter.length === 0);
+    const [visForm, settVisForm] = useState(manueltOpprettedeBrevmottakere.length === 0);
 
     async function onSubmitBrevmottakerPersonUtenIdentForm(
         brevmottakerFormValues: BrevmottakerPersonUtenIdentFormValues
@@ -73,7 +73,7 @@ export function BrevmottakerModalBody({
 
     const visLeggTilNyBrevmottakerKnapp =
         !institusjonErBrevmottaker &&
-        !erEnBrevmottakerPersonUtenIdentDødsbo(brevmottakerPersonUtenIdenter) &&
+        !erEnBrevmottakerPersonUtenIdentDødsbo(manueltOpprettedeBrevmottakere) &&
         !visForm &&
         antallBrevmottakere === 1;
 
@@ -92,9 +92,9 @@ export function BrevmottakerModalBody({
                         fullmektig, verge eller dødsbo.
                     </Alert>
                 )}
-                {brevmottakerPersonUtenIdenter.map((brevmottaker) => (
+                {manueltOpprettedeBrevmottakere.map((brevmottaker) => (
                     <BrevmottakerDetaljer
-                        key={brevmottaker.id}
+                        key={brevmottaker.mottakerRolle}
                         brevmottaker={brevmottaker}
                         slettBrevmottaker={slettBrevmottakerOgVisFormHvisNødvendig}
                     />

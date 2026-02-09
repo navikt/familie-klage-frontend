@@ -6,7 +6,7 @@ import { BrevmottakerModalFooter } from './BrevmottakerModalFooter';
 import { NyBrevmottaker } from '../../nyBrevmottaker';
 import { SlettbarBrevmottaker } from '../../slettbarBrevmottaker';
 import { useBehandling } from '../../../../../App/context/BehandlingContext';
-import { Brevmottakere, hentAlleBrevmottakerPersonUtenIdent } from '../../brevmottakere';
+import { Brevmottakere, hentManueltOpprettedeBrevmottakere } from '../../brevmottakere';
 
 type Props = {
     brevmottakere: Brevmottakere;
@@ -32,7 +32,7 @@ export function BrevmottakerModal({
     const { visBrevmottakereModal, settVisBrevmottakereModal } = useApp();
     const { behandlingErRedigerbar } = useBehandling();
 
-    const brevmottakerPersonUtenIdenter = hentAlleBrevmottakerPersonUtenIdent(brevmottakere);
+    const manueltOpprettedeBrevmottaker = hentManueltOpprettedeBrevmottakere(brevmottakere);
 
     return (
         <Modal
@@ -40,7 +40,7 @@ export function BrevmottakerModal({
             onClose={() => settVisBrevmottakereModal(false)}
             header={{
                 heading: utledHeading(
-                    brevmottakerPersonUtenIdenter.length,
+                    manueltOpprettedeBrevmottaker.length,
                     !behandlingErRedigerbar
                 ),
                 size: 'medium',
