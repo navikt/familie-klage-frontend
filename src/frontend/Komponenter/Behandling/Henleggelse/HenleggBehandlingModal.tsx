@@ -1,5 +1,4 @@
 import React from 'react';
-import { IPersonopplysninger } from '../../../App/typer/personopplysninger';
 
 import { HenleggBehandlingModalInnhold } from './HenleggBehandlingModalInnhold';
 import { Modal } from '@navikt/ds-react';
@@ -12,21 +11,17 @@ import { Behandling } from '../../../App/typer/fagsak';
 
 interface Props {
     behandling: Behandling;
-    personopplysninger: IPersonopplysninger;
 }
 
-export function HenleggBehandlingModal({ behandling, personopplysninger }: Props) {
+export function HenleggBehandlingModal({ behandling }: Props) {
     return (
         <HenleggBehandlingModalContextProvider>
-            <HenleggBehandlingModalMedContext
-                behandling={behandling}
-                personopplysninger={personopplysninger}
-            />
+            <HenleggBehandlingModalMedContext behandling={behandling} />
         </HenleggBehandlingModalContextProvider>
     );
 }
 
-function HenleggBehandlingModalMedContext({ behandling, personopplysninger }: Props) {
+function HenleggBehandlingModalMedContext({ behandling }: Props) {
     const { modalWidth, erModalÅpen, lukkModal } = useHenleggBehandlingModalContext();
     return (
         <Modal
@@ -38,10 +33,7 @@ function HenleggBehandlingModalMedContext({ behandling, personopplysninger }: Pr
         >
             {erModalÅpen && (
                 <BrevmottakereContextProvider behandling={behandling}>
-                    <HenleggBehandlingModalInnhold
-                        behandling={behandling}
-                        personopplysninger={personopplysninger}
-                    />
+                    <HenleggBehandlingModalInnhold behandling={behandling} />
                 </BrevmottakereContextProvider>
             )}
         </Modal>

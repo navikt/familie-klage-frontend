@@ -16,7 +16,6 @@ interface Props {
 
 export const BrevMottakere: React.FC<Props> = ({ behandlingId, genererBrev }) => {
     const { axiosRequest } = useApp();
-    const { personopplysningerResponse } = useBehandling();
 
     const [brevMottakere, settBrevMottakere] = useState<Ressurs<Brevmottakere>>(byggTomRessurs());
 
@@ -35,13 +34,12 @@ export const BrevMottakere: React.FC<Props> = ({ behandlingId, genererBrev }) =>
     }, [hentBrevmottakere]);
 
     return (
-        <DataViewer response={{ personopplysningerResponse, brevMottakere }}>
-            {({ personopplysningerResponse, brevMottakere }) => (
+        <DataViewer response={{ brevMottakere }}>
+            {({ brevMottakere }) => (
                 <>
                     <BrevMottakerPanel mottakere={brevMottakere} />
                     <BrevmottakereModal
                         behandlingId={behandlingId}
-                        personopplysninger={personopplysningerResponse}
                         mottakere={brevMottakere}
                         hentBrevmottakere={hentBrevmottakere}
                         genererBrev={genererBrev}

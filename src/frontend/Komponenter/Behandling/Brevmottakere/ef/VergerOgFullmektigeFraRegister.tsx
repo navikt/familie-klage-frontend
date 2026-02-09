@@ -1,5 +1,4 @@
 import React, { Dispatch, FC, SetStateAction } from 'react';
-import { IFullmakt, IVergemål } from '../../../../App/typer/personopplysninger';
 import styles from './SøkWrapper.module.css';
 import { BodyShort, HStack, VStack } from '@navikt/ds-react';
 import { KopierbartNullableFødselsnummer } from '../../../../Felles/Fødselsnummer/KopierbartNullableFødselsnummer';
@@ -11,23 +10,22 @@ import {
     mapVergemålTilBrevmottakerPersonMedIdent,
 } from '../brevmottaker';
 import { Button } from '../../../../Felles/Knapper/Button';
+import { usePersonopplysningerContext } from '../../../../App/context/PersonopplysningerContext';
 
 interface Props {
     valgteMottakere: BrevmottakerPerson[];
     settValgteMottakere: Dispatch<SetStateAction<BrevmottakerPerson[]>>;
-    verger: IVergemål[];
-    fullmakter: IFullmakt[];
 }
 
 export const VergerOgFullmektigeFraRegister: FC<Props> = ({
     valgteMottakere,
     settValgteMottakere,
-    verger,
-    fullmakter,
 }) => {
+    const { vergemål, fullmakt } = usePersonopplysningerContext();
+
     const muligeMottakere = [
-        ...verger.map(mapVergemålTilBrevmottakerPersonMedIdent),
-        ...fullmakter.map(mapFullmaktTilBrevmottakerPersonMedIdent),
+        ...vergemål.map(mapVergemålTilBrevmottakerPersonMedIdent),
+        ...fullmakt.map(mapFullmaktTilBrevmottakerPersonMedIdent),
     ];
 
     const settMottaker = (mottaker: BrevmottakerPersonMedIdent) => () => {

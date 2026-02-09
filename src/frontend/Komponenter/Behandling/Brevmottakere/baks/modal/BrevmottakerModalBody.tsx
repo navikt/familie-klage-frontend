@@ -8,7 +8,6 @@ import {
     BrevmottakerForm,
     BrevmottakerFormValues,
 } from './form/BrevmottakerForm';
-import { IPersonopplysninger } from '../../../../../App/typer/personopplysninger';
 import { BrevmottakerDetaljer } from './BrevmottakerDetaljer';
 import { erEnBrevmottakerPersonUtenIdentDødsbo, mapTilMottakerRolle } from '../../brevmottaker';
 import { lagNyBrevmottakerPersonUtenIdent, NyBrevmottaker } from '../../nyBrevmottaker';
@@ -24,14 +23,12 @@ import {
 } from '../../brevmottakere';
 
 type Props = {
-    personopplysninger: IPersonopplysninger;
     brevmottakere: Brevmottakere;
     opprettBrevmottaker: (nyBrevmottaker: NyBrevmottaker) => Promise<Awaited<void>>;
     slettBrevmottaker: (slettbarBrevmottaker: SlettbarBrevmottaker) => Promise<Awaited<void>>;
 };
 
 export function BrevmottakerModalBody({
-    personopplysninger,
     brevmottakere,
     opprettBrevmottaker,
     slettBrevmottaker,
@@ -108,7 +105,6 @@ export function BrevmottakerModalBody({
                             onSubmit={onSubmitBrevmottakerForm}
                             onCancel={() => settVisForm(false)}
                             isCancellable={antallBrevmottakere > 0}
-                            personopplysninger={personopplysninger}
                             valgteMottakerRoller={mapTilMottakerRolle(
                                 hentAlleBrevmottakereSomListe(brevmottakere)
                             )}

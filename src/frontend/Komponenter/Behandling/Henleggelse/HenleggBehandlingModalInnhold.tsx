@@ -1,6 +1,5 @@
 import React from 'react';
 import { Alert, Box, Button, Heading, HStack, Modal, Skeleton, VStack } from '@navikt/ds-react';
-import { IPersonopplysninger } from '../../../App/typer/personopplysninger';
 import {
     HENLEGG_BEHANDLING_FORM_ID,
     HenleggBehandlingFeltnavn,
@@ -23,10 +22,9 @@ import { Divider } from '../../../Felles/Divider/Divider';
 
 interface Props {
     behandling: Behandling;
-    personopplysninger: IPersonopplysninger;
 }
 
-export function HenleggBehandlingModalInnhold({ behandling, personopplysninger }: Props) {
+export function HenleggBehandlingModalInnhold({ behandling }: Props) {
     const { lukkModal } = useHenleggBehandlingModalContext();
 
     const { brevmottakere, laster, feilmelding } = useBrevmottakereContext();
@@ -104,16 +102,11 @@ export function HenleggBehandlingModalInnhold({ behandling, personopplysninger }
                     <HStack as={'div'} justify={'space-between'}>
                         <Box as={'div'} width={erBrevmottakerFormSynlig ? '45%' : '100%'}>
                             <VStack gap={'4'}>
-                                {skalViseSendManueltBrevAdvarsel && (
-                                    <SendManueltBrevAdvarsel
-                                        personopplysninger={personopplysninger}
-                                    />
-                                )}
+                                {skalViseSendManueltBrevAdvarsel && <SendManueltBrevAdvarsel />}
                                 <HenleggBehandlingForm
                                     form={henleggBehandlingForm}
                                     onSubmit={submitHenleggBehandlingForm}
                                     fagsystem={behandling.fagsystem}
-                                    personopplysninger={personopplysninger}
                                 />
                                 {skalViseBrevmottakereBox && (
                                     <BrevmottakereBox behandling={behandling} />
@@ -139,7 +132,6 @@ export function HenleggBehandlingModalInnhold({ behandling, personopplysninger }
                                             form={brevmottakerForm}
                                             onSubmit={submitBrevmottakerForm}
                                             onCancel={skjulBrevmottakerForm}
-                                            personopplysninger={personopplysninger}
                                             valgteMottakerRoller={mapTilMottakerRolle(
                                                 brevmottakere
                                             )}

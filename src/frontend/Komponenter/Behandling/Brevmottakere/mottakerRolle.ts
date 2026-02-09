@@ -1,6 +1,5 @@
 import { BlankEøsLandkode, erEøsLandkode, EøsLandkode } from '../../../Felles/Landvelger/landkode';
 import { utledPreutfyltBrevmottakerPersonUtenIdentNavn } from './brevmottaker';
-import { IPersonopplysninger } from '../../../App/typer/personopplysninger';
 
 export type BlankMottakerRolle = '';
 
@@ -54,12 +53,12 @@ export function finnNyttBrevmottakernavnHvisNødvendigVedEndringAvMottakerRolle(
     nyMottakerRolle: MottakerRolle,
     forrigeMottakerRolle: MottakerRolle | BlankMottakerRolle,
     landkode: EøsLandkode | BlankEøsLandkode,
-    personopplysninger: IPersonopplysninger
+    navnFraPersonopplysninger: string
 ): string | undefined {
     const skalNavnPreutfylles = skalPreutfylleNavnForMottakerRolle(nyMottakerRolle);
     if (skalNavnPreutfylles) {
         return utledPreutfyltBrevmottakerPersonUtenIdentNavn(
-            personopplysninger.navn,
+            navnFraPersonopplysninger,
             erEøsLandkode(landkode) ? landkode : EøsLandkode.NO,
             nyMottakerRolle
         );

@@ -8,17 +8,15 @@ import { BehandlingProvider, useBehandling } from '../../App/context/BehandlingC
 import { Visittkort } from '../../Felles/Visittkort/Visittkort';
 import { Behandling } from '../../App/typer/fagsak';
 import { ScrollToTop } from '../../Felles/ScrollToTop/ScrollToTop';
-import { IPersonopplysninger } from '../../App/typer/personopplysninger';
 import { DataViewer } from '../../Felles/DataViewer/DataViewer';
-import { useSetPersonIdent } from '../../App/hooks/useSetPersonIdent';
 import { useSetValgtFagsakId } from '../../App/hooks/useSetValgtFagsakId';
 import { SettPåVent } from './SettPåVent/SettPåVent';
 import { EndreBehandlendeEnhetModal } from './EndreBehandlendeEnhet/EndreBehandlendeEnhetModal';
 import { HenleggBehandlingModal } from './Henleggelse/HenleggBehandlingModal';
+import { PersonopplysningerContextProvider } from '../../App/context/PersonopplysningerContext';
 
 interface Props {
     behandling: Behandling;
-    personopplysninger: IPersonopplysninger;
 }
 
 export const BehandlingContainer: FC = () => (
@@ -37,20 +35,18 @@ const BehandlingOverbygg: FC = () => {
     return (
         <DataViewer response={{ behandling, personopplysningerResponse }}>
             {({ behandling, personopplysningerResponse }) => (
-                <BehandlingContent
-                    behandling={behandling}
-                    personopplysninger={personopplysningerResponse}
-                />
+                <PersonopplysningerContextProvider personopplysninger={personopplysningerResponse}>
+                    <BehandlingContent behandling={behandling} />
+                </PersonopplysningerContextProvider>
             )}
         </DataViewer>
     );
 };
 
-const BehandlingContent: FC<Props> = ({ behandling, personopplysninger }) => {
+const BehandlingContent: FC<Props> = ({ behandling }) => {
     const { åpenHøyremeny } = useBehandling();
 
     useSetValgtFagsakId(behandling.fagsakId);
-    useSetPersonIdent(personopplysninger.personIdent);
 
     const classNameBehandlingContainer = åpenHøyremeny
         ? styles.behandlingÅpenHøyremeny
@@ -63,17 +59,14 @@ const BehandlingContent: FC<Props> = ({ behandling, personopplysninger }) => {
     return (
         <>
             <ScrollToTop />
-            <Visittkort personopplysninger={personopplysninger} behandling={behandling} />
+            <Visittkort behandling={behandling} />
             <div className={styles.container}>
                 <div className={classNameBehandlingContainer} id="scroll-topp">
                     <Fanemeny behandling={behandling} />
                     <SettPåVent behandling={behandling} />
                     <EndreBehandlendeEnhetModal behandling={behandling} />
                     <BehandlingRoutes behandling={behandling} />
-                    <HenleggBehandlingModal
-                        behandling={behandling}
-                        personopplysninger={personopplysninger}
-                    />
+                    <HenleggBehandlingModal behandling={behandling} />
                 </div>
                 <div className={classNameHøyremenyContainer}>
                     <Høyremeny åpenHøyremeny={åpenHøyremeny} behandling={behandling} />

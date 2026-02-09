@@ -1,5 +1,4 @@
 import React from 'react';
-import { IPersonopplysninger } from '../../App/typer/personopplysninger';
 import styles from './Visittkort.module.css';
 import {
     Behandling,
@@ -26,13 +25,13 @@ import { SettPåVentKnapp } from './SettPåVentKnapp';
 import { EndreBehandlendeEnhetKnapp } from './EndreBehandlendeEnhetKnapp';
 import { IkonVelger } from '../IkonVelger/IkonVelger';
 import { formaterOrgNummer, Institusjon } from '../../App/typer/institusjon';
+import { usePersonopplysningerContext } from '../../App/context/PersonopplysningerContext';
 
 interface Props {
-    personopplysninger: IPersonopplysninger;
     behandling: Behandling;
 }
 
-export function Visittkort({ personopplysninger, behandling }: Props) {
+export function Visittkort({ behandling }: Props) {
     const { appEnv } = useApp();
 
     const {
@@ -44,7 +43,7 @@ export function Visittkort({ personopplysninger, behandling }: Props) {
         egenAnsatt,
         fullmakt,
         vergemål,
-    } = personopplysninger;
+    } = usePersonopplysningerContext();
 
     const skalLenkeTilFagsystemBehandling =
         behandling.påklagetVedtak.påklagetVedtakstype === PåklagetVedtakstype.VEDTAK &&
