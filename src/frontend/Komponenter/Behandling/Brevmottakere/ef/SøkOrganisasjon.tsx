@@ -7,7 +7,7 @@ import { BrevmottakerOrganisasjon } from '../brevmottaker';
 import styles from './SøkOrganisasjon.module.css';
 import { MottakerRolle } from '../mottakerRolle';
 
-interface Organisasjon {
+export interface Organisasjon {
     navn: string;
     organisasjonsnummer: string;
 }
