@@ -1,7 +1,6 @@
 import React from 'react';
 import { Modal } from '@navikt/ds-react';
 import { useApp } from '../../../../../App/context/AppContext';
-import { IPersonopplysninger } from '../../../../../App/typer/personopplysninger';
 import { BrevmottakerModalBody } from './BrevmottakerModalBody';
 import { BrevmottakerModalFooter } from './BrevmottakerModalFooter';
 import { NyBrevmottaker } from '../../nyBrevmottaker';
@@ -10,7 +9,6 @@ import { useBehandling } from '../../../../../App/context/BehandlingContext';
 import { Brevmottakere, hentAlleBrevmottakerPersonUtenIdent } from '../../brevmottakere';
 
 type Props = {
-    personopplysninger: IPersonopplysninger;
     brevmottakere: Brevmottakere;
     opprettBrevmottaker: (nyBrevmottaker: NyBrevmottaker) => Promise<Awaited<void>>;
     slettBrevmottaker: (slettbarBrevmottaker: SlettbarBrevmottaker) => Promise<Awaited<void>>;
@@ -27,7 +25,6 @@ function utledHeading(antallMottakere: number, erLesevisning: boolean): string {
 }
 
 export function BrevmottakerModal({
-    personopplysninger,
     brevmottakere,
     opprettBrevmottaker,
     slettBrevmottaker,
@@ -54,7 +51,6 @@ export function BrevmottakerModal({
             {visBrevmottakereModal && (
                 <>
                     <BrevmottakerModalBody
-                        personopplysninger={personopplysninger}
                         brevmottakere={brevmottakere}
                         opprettBrevmottaker={opprettBrevmottaker}
                         slettBrevmottaker={slettBrevmottaker}

@@ -1,20 +1,16 @@
 import React, { Dispatch, FC, SetStateAction } from 'react';
-import { IPersonopplysninger } from '../../../../App/typer/personopplysninger';
 import { BodyShort, Radio, RadioGroup } from '@navikt/ds-react';
 import { MottakerRolle } from '../mottakerRolle';
 import { BrevmottakerPerson } from '../brevmottaker';
+import { usePersonopplysningerContext } from '../../../../App/context/PersonopplysningerContext';
 
 interface Props {
     valgteBrevmottakere: BrevmottakerPerson[];
     settValgtBrevMottakere: Dispatch<SetStateAction<BrevmottakerPerson[]>>;
-    personopplysninger: IPersonopplysninger;
 }
 
-export const SkalBrukerHaBrev: FC<Props> = ({
-    valgteBrevmottakere,
-    settValgtBrevMottakere,
-    personopplysninger,
-}) => {
+export const SkalBrukerHaBrev: FC<Props> = ({ valgteBrevmottakere, settValgtBrevMottakere }) => {
+    const { navn, personIdent } = usePersonopplysningerContext();
     const brukerSkalHaBrev = valgteBrevmottakere.some(
         (mottaker) => mottaker.mottakerRolle === MottakerRolle.BRUKER
     );
@@ -31,8 +27,8 @@ export const SkalBrukerHaBrev: FC<Props> = ({
                 : [
                       {
                           mottakerRolle: MottakerRolle.BRUKER,
-                          personIdent: personopplysninger.personIdent,
-                          navn: personopplysninger.navn,
+                          personIdent,
+                          navn,
                       },
                       ...mottakere,
                   ];

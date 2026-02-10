@@ -3,16 +3,16 @@ import { HenlagtÅrsakFelt } from './HenlagtÅrsakFelt';
 import { SendTrukketKlageBrevFelt } from './SendTrukketKlageBrevFelt';
 import React from 'react';
 import { erHenlagtÅrsakTrukketTilbake, HenlagtÅrsak } from './domain/henlagtÅrsak';
-import {
-    erPersonopplysningerTilknyttetFullmakt,
-    harPersonopplysningerVergemål,
-    IPersonopplysninger,
-} from '../../../App/typer/personopplysninger';
 import { FieldErrors, FormProvider, SubmitHandler, UseFormReturn } from 'react-hook-form';
 import { useOnUnmount } from '../../../App/hooks/useOnUnmount';
 import { useOnFormSubmitSuccessful } from '../../../App/hooks/useOnFormSubmitSuccessful';
 import { useConfirmBrowserRefresh } from '../../../App/hooks/useConfirmBrowserRefresh';
 import { Fagsystem } from '../../../App/typer/fagsak';
+import {
+    erPersonopplysningerTilknyttetFullmakt,
+    harPersonopplysningerVergemål,
+} from '../../../App/typer/personopplysninger';
+import { usePersonopplysningerContext } from '../../../App/context/PersonopplysningerContext';
 
 export const HENLEGG_BEHANDLING_FORM_ID = 'henlegg_behandling_form';
 
@@ -43,10 +43,9 @@ interface Props {
     form: UseFormReturn<HenleggBehandlingFormValues>;
     onSubmit: SubmitHandler<HenleggBehandlingFormValues>;
     fagsystem: Fagsystem;
-    personopplysninger: IPersonopplysninger;
 }
 
-export function HenleggBehandlingForm({ form, onSubmit, fagsystem, personopplysninger }: Props) {
+export function HenleggBehandlingForm({ form, onSubmit, fagsystem }: Props) {
     const {
         control,
         handleSubmit,
@@ -62,6 +61,7 @@ export function HenleggBehandlingForm({ form, onSubmit, fagsystem, personopplysn
     const henlagtÅrsak = watch(HenleggBehandlingFeltnavn.HENLAGT_ÅRSAK);
 
     const erHenlagtÅrsakTrukketTilbakeValgt = erHenlagtÅrsakTrukketTilbake(henlagtÅrsak);
+    const personopplysninger = usePersonopplysningerContext();
     const erTilknyttetFullmakt = erPersonopplysningerTilknyttetFullmakt(personopplysninger);
     const harVergemål = harPersonopplysningerVergemål(personopplysninger);
 

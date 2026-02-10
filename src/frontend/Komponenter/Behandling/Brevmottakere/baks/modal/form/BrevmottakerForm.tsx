@@ -8,7 +8,6 @@ import { PostnummerFelt } from './felt/PostnummerFelt';
 import { PoststedFelt } from './felt/PoststedFelt';
 import { Alert, Button, Fieldset, HStack, VStack } from '@navikt/ds-react';
 import { BlankEøsLandkode, EøsLandkode } from '../../../../../../Felles/Landvelger/landkode';
-import { IPersonopplysninger } from '../../../../../../App/typer/personopplysninger';
 import { BlankMottakerRolle, MottakerRolle } from '../../../mottakerRolle';
 import { Adresselinje2Felt } from './felt/Adresselinje2Felt';
 import { useBehandling } from '../../../../../../App/context/BehandlingContext';
@@ -41,7 +40,6 @@ interface Props {
     onSubmit: SubmitHandler<BrevmottakerFormValues>;
     onCancel: () => void;
     isCancellable?: boolean;
-    personopplysninger: IPersonopplysninger;
     valgteMottakerRoller: MottakerRolle[];
 }
 
@@ -50,7 +48,6 @@ export function BrevmottakerForm({
     onSubmit,
     onCancel,
     isCancellable = true,
-    personopplysninger,
     valgteMottakerRoller,
 }: Props) {
     const { behandlingErRedigerbar } = useBehandling();
@@ -76,14 +73,10 @@ export function BrevmottakerForm({
                 <VStack gap={'4'}>
                     <Fieldset legend={'Ny brevmottaker'} hideLegend={true}>
                         <MottakerFelt
-                            personopplysninger={personopplysninger}
                             valgteMottakerRoller={valgteMottakerRoller}
                             erLesevisning={!behandlingErRedigerbar}
                         />
-                        <LandFelt
-                            personopplysninger={personopplysninger}
-                            erLesevisning={!behandlingErRedigerbar}
-                        />
+                        <LandFelt erLesevisning={!behandlingErRedigerbar} />
                         <NavnFelt erLesevisning={!behandlingErRedigerbar} />
                         <Adresselinje1Felt erLesevisning={!behandlingErRedigerbar} />
                         <Adresselinje2Felt erLesevisning={!behandlingErRedigerbar} />

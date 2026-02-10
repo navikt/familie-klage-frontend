@@ -1,5 +1,4 @@
 import React, { FC, useCallback, useState } from 'react';
-import { IPersonopplysninger } from '../../../../App/typer/personopplysninger';
 import { VergerOgFullmektigeFraRegister } from './VergerOgFullmektigeFraRegister';
 import { SøkWrapper } from './SøkWrapper';
 import { SkalBrukerHaBrev } from './SkalBrukerHaBrev';
@@ -15,7 +14,6 @@ import { BrevmottakerOrganisasjon, BrevmottakerPerson } from '../brevmottaker';
 
 interface Props {
     behandlingId: string;
-    personopplysninger: IPersonopplysninger;
     mottakere: Brevmottakere;
     hentBrevmottakere: () => void;
     genererBrev: () => void;
@@ -23,7 +21,6 @@ interface Props {
 
 export const BrevmottakereModal: FC<Props> = ({
     behandlingId,
-    personopplysninger,
     mottakere,
     hentBrevmottakere,
     genererBrev,
@@ -83,8 +80,6 @@ export const BrevmottakereModal: FC<Props> = ({
             <div className={styles.container}>
                 <div>
                     <VergerOgFullmektigeFraRegister
-                        verger={personopplysninger.vergemål}
-                        fullmakter={personopplysninger.fullmakt}
                         valgteMottakere={valgtePersonMottakere}
                         settValgteMottakere={settValgtePersonMottakere}
                     />
@@ -99,7 +94,6 @@ export const BrevmottakereModal: FC<Props> = ({
                     <SkalBrukerHaBrev
                         valgteBrevmottakere={valgtePersonMottakere}
                         settValgtBrevMottakere={settValgtePersonMottakere}
-                        personopplysninger={personopplysninger}
                     />
                 </div>
                 <div className={styles.vertikalLinje} />

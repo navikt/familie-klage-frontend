@@ -1,7 +1,6 @@
 import React, { ChangeEvent } from 'react';
 import { Select } from '@navikt/ds-react';
 import { useController, useFormContext } from 'react-hook-form';
-import { IPersonopplysninger } from '../../../../../../../App/typer/personopplysninger';
 import {
     erMottakerRolle,
     finnNyttBrevmottakernavnHvisNødvendigVedEndringAvMottakerRolle,
@@ -11,21 +10,19 @@ import {
     utledGyldigeMottakerRollerBasertPåAlleredeValgteMottakerRoller,
 } from '../../../../mottakerRolle';
 import { BrevmottakerFeltnavn, BrevmottakerFormValues } from '../BrevmottakerForm';
+import { usePersonopplysningerContext } from '../../../../../../../App/context/PersonopplysningerContext';
 
 interface Props {
-    personopplysninger: IPersonopplysninger;
     valgteMottakerRoller: MottakerRolle[];
     erLesevisning?: boolean;
 }
 
 const label = 'Mottaker';
 
-export function MottakerFelt({
-    personopplysninger,
-    valgteMottakerRoller,
-    erLesevisning = false,
-}: Props) {
+export function MottakerFelt({ valgteMottakerRoller, erLesevisning = false }: Props) {
     const { control, setValue, getValues, resetField } = useFormContext<BrevmottakerFormValues>();
+
+    const { navn } = usePersonopplysningerContext();
 
     const { field, fieldState, formState } = useController({
         name: BrevmottakerFeltnavn.MOTTAKERROLLE,
@@ -51,7 +48,7 @@ export function MottakerFelt({
             mottakerRolle,
             forrigeMottakerRolle,
             landkode,
-            personopplysninger
+            navn
         );
         if (nyttBrevmottakernavn !== undefined) {
             setValue(BrevmottakerFeltnavn.NAVN, nyttBrevmottakernavn);

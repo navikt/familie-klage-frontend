@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
 import { useApp } from '../../../../App/context/AppContext';
 import { DataViewer } from '../../../../Felles/DataViewer/DataViewer';
-import { useBehandling } from '../../../../App/context/BehandlingContext';
 import {
     byggFeiletRessurs,
     byggHenterRessurs,
@@ -27,8 +26,6 @@ type Props = {
 
 export function BrevmottakerContainer({ behandlingId }: Props) {
     const { axiosRequest } = useApp();
-    const { personopplysningerResponse: personopplysninger } = useBehandling();
-
     const [brevmottakere, settBrevmottakere] = useState<Ressurs<Brevmottakere>>(byggTomRessurs());
 
     async function hentBrevmottakere(): Promise<Awaited<void>> {
@@ -99,13 +96,12 @@ export function BrevmottakerContainer({ behandlingId }: Props) {
     }
 
     return (
-        <DataViewer response={{ brevmottakere, personopplysninger }}>
-            {({ brevmottakere, personopplysninger }) => {
+        <DataViewer response={{ brevmottakere }}>
+            {({ brevmottakere }) => {
                 return (
                     <>
                         <BrevmottakerPanel brevmottakere={brevmottakere} />
                         <BrevmottakerModal
-                            personopplysninger={personopplysninger}
                             brevmottakere={brevmottakere}
                             opprettBrevmottaker={opprettBrevmottaker}
                             slettBrevmottaker={slettBrevmottaker}

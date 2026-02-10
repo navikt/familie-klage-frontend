@@ -3,14 +3,11 @@ import React from 'react';
 import {
     erPersonopplysningerTilknyttetFullmakt,
     harPersonopplysningerVergemål,
-    IPersonopplysninger,
 } from '../../../App/typer/personopplysninger';
+import { usePersonopplysningerContext } from '../../../App/context/PersonopplysningerContext';
 
-interface Props {
-    personopplysninger: IPersonopplysninger;
-}
-
-export function SendManueltBrevAdvarsel({ personopplysninger }: Props) {
+export function SendManueltBrevAdvarsel() {
+    const personopplysninger = usePersonopplysningerContext();
     const erTilknyttetFullmakt = erPersonopplysningerTilknyttetFullmakt(personopplysninger);
     const harVergemål = harPersonopplysningerVergemål(personopplysninger);
 
