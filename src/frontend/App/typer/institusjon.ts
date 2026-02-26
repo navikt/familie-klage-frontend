@@ -5,5 +5,5 @@ export interface Institusjon {
 }
 
 export function formaterOrgNummer(orgNummer: string): string {
-    return `${orgNummer.slice(0, 3)} ${orgNummer.slice(3, 6)} ${orgNummer.slice(6, 9)}`;
+    return `${orgNummer.slice(0, 3)}\u00A0${orgNummer.slice(3, 6)}\u00A0${orgNummer.slice(6, 9)}`;
 }
