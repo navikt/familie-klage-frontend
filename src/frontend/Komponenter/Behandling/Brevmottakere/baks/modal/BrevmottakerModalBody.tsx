@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 
 import { PlusCircleIcon } from '@navikt/aksel-icons';
-import { Alert, Button, Heading, Modal, VStack } from '@navikt/ds-react';
+import { Alert, Button, Heading, HStack, Modal, Radio, RadioGroup, VStack } from '@navikt/ds-react';
 
 import {
     BrevmottakerPersonUtenIdentFeltnavn,
@@ -10,7 +10,12 @@ import {
 } from './form/BrevmottakerPersonUtenIdentForm';
 import { BrevmottakerDetaljer } from './BrevmottakerDetaljer';
 import { erEnBrevmottakerPersonUtenIdentDødsbo, mapTilMottakerRolle } from '../../brevmottaker';
-import { lagNyBrevmottakerPersonUtenIdent, NyBrevmottaker } from '../../nyBrevmottaker';
+import {
+    lagNyBrevmottakerOrganisasjon,
+    lagNyBrevmottakerPersonUtenIdent,
+    NyBrevmottaker,
+    NyBrevmottakerType,
+} from '../../nyBrevmottaker';
 import { SlettbarBrevmottaker } from '../../slettbarBrevmottaker';
 import { useForm } from 'react-hook-form';
 import { EøsLandkode } from '../../../../../Felles/Landvelger/landkode';
@@ -21,6 +26,14 @@ import {
     hentAlleBrevmottakereSomListe,
     hentManueltOpprettedeBrevmottakere,
 } from '../../brevmottakere';
+import {
+    BrevmottakerOrganisasjonFeltnavn,
+    BrevmottakerOrganisasjonForm,
+    BrevmottakerOrganisasjonFormValues,
+} from './OrganisasjonForm/BrevmottakerOrganisasjonForm';
+import { useToggles } from '../../../../../App/context/TogglesContext';
+import { ToggleName } from '../../../../../App/context/toggles';
+import { uuid4 } from '@sentry/core';
 
 type Props = {
     brevmottakere: Brevmottakere;
@@ -33,6 +46,8 @@ export function BrevmottakerModalBody({
     opprettBrevmottaker,
     slettBrevmottaker,
 }: Props) {
+    const { toggles } = useToggles();
+
     const brevmottakerPersonUtenIdentForm = useForm<BrevmottakerPersonUtenIdentFormValues>({
         defaultValues: {
             [BrevmottakerPersonUtenIdentFeltnavn.MOTTAKERROLLE]: '',
@@ -45,16 +60,45 @@ export function BrevmottakerModalBody({
         },
     });
 
+    const brevmottakerOrganisasjonForm = useForm<BrevmottakerOrganisasjonFormValues>({
+        defaultValues: {
+            [BrevmottakerOrganisasjonFeltnavn.MOTTAKERROLLE]: '',
+            [BrevmottakerOrganisasjonFeltnavn.ORGANISASJONSNUMMER]: '',
+            [BrevmottakerOrganisasjonFeltnavn.ORGANISASJONSNAVN]: '',
+            [BrevmottakerOrganisasjonFeltnavn.NAVN_HOS_ORGANISASJON]: '',
+        },
+    });
+
     const manueltOpprettedeBrevmottakere = hentManueltOpprettedeBrevmottakere(brevmottakere);
     const antallBrevmottakere = manueltOpprettedeBrevmottakere.length;
     const institusjonErBrevmottaker = erInstitusjonBrevmottaker(brevmottakere);
 
     const [visForm, settVisForm] = useState(manueltOpprettedeBrevmottakere.length === 0);
+    const [brevmottakerType, settBrevmottakerType] = useState<NyBrevmottakerType>(
+        NyBrevmottakerType.PERSON_UTEN_IDENT
+    );
 
     async function onSubmitBrevmottakerPersonUtenIdentForm(
         brevmottakerFormValues: BrevmottakerPersonUtenIdentFormValues
     ): Promise<Awaited<void>> {
         return opprettBrevmottaker(lagNyBrevmottakerPersonUtenIdent(brevmottakerFormValues))
+            .then(() => settVisForm(false))
+            .catch((error: Error) =>
+                brevmottakerPersonUtenIdentForm.setError('root', { message: error.message })
+            );
+    }
+
+    async function onSubmitBrevmottakerOrganisasjonForm(
+        brevmottakerFormValues: BrevmottakerOrganisasjonFormValues
+    ): Promise<Awaited<void>> {
+        return opprettBrevmottaker(
+            lagNyBrevmottakerOrganisasjon({
+                ...brevmottakerFormValues,
+                mottakerRolle:
+                    brevmottakerFormValues[BrevmottakerOrganisasjonFeltnavn.MOTTAKERROLLE] ||
+                    undefined,
+            })
+        )
             .then(() => settVisForm(false))
             .catch((error: Error) =>
                 brevmottakerPersonUtenIdentForm.setError('root', { message: error.message })
@@ -94,7 +138,7 @@ export function BrevmottakerModalBody({
                 )}
                 {manueltOpprettedeBrevmottakere.map((brevmottaker) => (
                     <BrevmottakerDetaljer
-                        key={brevmottaker.mottakerRolle}
+                        key={uuid4()}
                         brevmottaker={brevmottaker}
                         slettBrevmottaker={slettBrevmottakerOgVisFormHvisNødvendig}
                     />
@@ -102,15 +146,46 @@ export function BrevmottakerModalBody({
                 {visForm && (
                     <>
                         <Heading size={'medium'}>Ny brevmottaker</Heading>
-                        <BrevmottakerPersonUtenIdentForm
-                            form={brevmottakerPersonUtenIdentForm}
-                            onSubmit={onSubmitBrevmottakerPersonUtenIdentForm}
-                            onCancel={() => settVisForm(false)}
-                            isCancellable={antallBrevmottakere > 0}
-                            valgteMottakerRoller={mapTilMottakerRolle(
-                                hentAlleBrevmottakereSomListe(brevmottakere)
-                            )}
-                        />
+                        {toggles[ToggleName.MANUELL_BREVMOTTAKER_ORGANISASJON] && (
+                            <RadioGroup
+                                legend={'Mottakertype'}
+                                value={brevmottakerType}
+                                onChange={settBrevmottakerType}
+                            >
+                                <HStack gap={'6'}>
+                                    <Radio value={NyBrevmottakerType.PERSON_UTEN_IDENT}>
+                                        Person
+                                    </Radio>
+                                    <Radio value={NyBrevmottakerType.ORGANISASJON}>
+                                        Organisasjon
+                                    </Radio>
+                                </HStack>
+                            </RadioGroup>
+                        )}
+                        {
+                            {
+                                [NyBrevmottakerType.PERSON_MED_IDENT]: null,
+                                [NyBrevmottakerType.PERSON_UTEN_IDENT]: (
+                                    <BrevmottakerPersonUtenIdentForm
+                                        form={brevmottakerPersonUtenIdentForm}
+                                        onSubmit={onSubmitBrevmottakerPersonUtenIdentForm}
+                                        onCancel={() => settVisForm(false)}
+                                        isCancellable={antallBrevmottakere > 0}
+                                        valgteMottakerRoller={mapTilMottakerRolle(
+                                            hentAlleBrevmottakereSomListe(brevmottakere)
+                                        )}
+                                    />
+                                ),
+                                [NyBrevmottakerType.ORGANISASJON]: (
+                                    <BrevmottakerOrganisasjonForm
+                                        form={brevmottakerOrganisasjonForm}
+                                        onSubmit={onSubmitBrevmottakerOrganisasjonForm}
+                                        onCancel={() => settVisForm(false)}
+                                        isCancellable={antallBrevmottakere > 0}
+                                    />
+                                ),
+                            }[brevmottakerType]
+                        }
                     </>
                 )}
                 {visLeggTilNyBrevmottakerKnapp && (
