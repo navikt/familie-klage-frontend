@@ -2,9 +2,9 @@ import { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { EøsLandkode } from '../../../../Felles/Landvelger/landkode';
 import {
-    BrevmottakerFeltnavn,
-    BrevmottakerFormValues,
-} from '../../Brevmottakere/baks/modal/form/BrevmottakerForm';
+    BrevmottakerPersonUtenIdentFeltnavn,
+    BrevmottakerPersonUtenIdentFormValues,
+} from '../../Brevmottakere/baks/modal/form/BrevmottakerPersonUtenIdentForm';
 import { lagNyBrevmottakerPersonUtenIdent } from '../../Brevmottakere/nyBrevmottaker';
 import { useBrevmottakereContext } from '../context/BrevmottakereContextProvider';
 import {
@@ -18,19 +18,19 @@ export function useBrevmottakerForm() {
 
     const [erFormSynlig, settErFormSynlig] = useState<boolean>(false);
 
-    const form = useForm<BrevmottakerFormValues>({
+    const form = useForm<BrevmottakerPersonUtenIdentFormValues>({
         defaultValues: {
-            [BrevmottakerFeltnavn.MOTTAKERROLLE]: '',
-            [BrevmottakerFeltnavn.LANDKODE]: EøsLandkode.NO,
-            [BrevmottakerFeltnavn.NAVN]: '',
-            [BrevmottakerFeltnavn.ADRESSELINJE1]: '',
-            [BrevmottakerFeltnavn.ADRESSELINJE2]: '',
-            [BrevmottakerFeltnavn.POSTNUMMER]: '',
-            [BrevmottakerFeltnavn.POSTSTED]: '',
+            [BrevmottakerPersonUtenIdentFeltnavn.MOTTAKERROLLE]: '',
+            [BrevmottakerPersonUtenIdentFeltnavn.LANDKODE]: EøsLandkode.NO,
+            [BrevmottakerPersonUtenIdentFeltnavn.NAVN]: '',
+            [BrevmottakerPersonUtenIdentFeltnavn.ADRESSELINJE1]: '',
+            [BrevmottakerPersonUtenIdentFeltnavn.ADRESSELINJE2]: '',
+            [BrevmottakerPersonUtenIdentFeltnavn.POSTNUMMER]: '',
+            [BrevmottakerPersonUtenIdentFeltnavn.POSTSTED]: '',
         },
     });
 
-    function submitForm(values: BrevmottakerFormValues) {
+    function submitForm(values: BrevmottakerPersonUtenIdentFormValues) {
         const nyBrevmottaker = lagNyBrevmottakerPersonUtenIdent(values);
         leggTilBrevmottaker(nyBrevmottaker);
         skjulForm();

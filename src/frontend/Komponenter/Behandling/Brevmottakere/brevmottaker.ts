@@ -9,7 +9,7 @@ export interface Brevmottaker {
 export interface BrevmottakerOrganisasjon extends Brevmottaker {
     organisasjonsnummer: string;
     organisasjonsnavn: string;
-    navnHosOrganisasjon: string;
+    navnHosOrganisasjon?: string;
 }
 
 export function erBrevmottakerOrganisasjon(

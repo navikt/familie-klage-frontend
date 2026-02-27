@@ -2,7 +2,10 @@ import { useController, useFormContext } from 'react-hook-form';
 import React from 'react';
 import { TextField } from '@navikt/ds-react';
 import { skalPreutfylleNavnForMottakerRolle } from '../../../../mottakerRolle';
-import { BrevmottakerFeltnavn, BrevmottakerFormValues } from '../BrevmottakerForm';
+import {
+    BrevmottakerPersonUtenIdentFeltnavn,
+    BrevmottakerPersonUtenIdentFormValues,
+} from '../BrevmottakerPersonUtenIdentForm';
 
 interface Props {
     erLesevisning?: boolean;
@@ -11,10 +14,10 @@ interface Props {
 const label = 'Navn';
 
 export function NavnFelt({ erLesevisning = false }: Props) {
-    const { control, watch } = useFormContext<BrevmottakerFormValues>();
+    const { control, watch } = useFormContext<BrevmottakerPersonUtenIdentFormValues>();
 
     const { field, fieldState, formState } = useController({
-        name: BrevmottakerFeltnavn.NAVN,
+        name: BrevmottakerPersonUtenIdentFeltnavn.NAVN,
         control,
         rules: {
             required: `${label} på person eller organisasjon er påkrevd.`,
@@ -26,7 +29,7 @@ export function NavnFelt({ erLesevisning = false }: Props) {
     });
 
     const navnSkalVærePreutfylt = skalPreutfylleNavnForMottakerRolle(
-        watch(BrevmottakerFeltnavn.MOTTAKERROLLE)
+        watch(BrevmottakerPersonUtenIdentFeltnavn.MOTTAKERROLLE)
     );
 
     return (

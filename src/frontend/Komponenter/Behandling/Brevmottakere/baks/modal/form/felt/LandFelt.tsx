@@ -3,7 +3,10 @@ import { useController, useFormContext } from 'react-hook-form';
 import { EøsLandvelger } from '../../../../../../../Felles/Landvelger/EøsLandvelger';
 import { erGyldigMottakerRolleForLandkode, MottakerRolle } from '../../../../mottakerRolle';
 import { utledBrevmottakerPersonUtenIdentNavnVedDødsbo } from '../../../../brevmottaker';
-import { BrevmottakerFeltnavn, BrevmottakerFormValues } from '../BrevmottakerForm';
+import {
+    BrevmottakerPersonUtenIdentFeltnavn,
+    BrevmottakerPersonUtenIdentFormValues,
+} from '../BrevmottakerPersonUtenIdentForm';
 import { EøsLandkode } from '../../../../../../../Felles/Landvelger/landkode';
 import { usePersonopplysningerContext } from '../../../../../../../App/context/PersonopplysningerContext';
 
@@ -14,19 +17,20 @@ interface Props {
 const label = 'Land';
 
 export function LandFelt({ erLesevisning = false }: Props) {
-    const { control, getValues, setValue, resetField } = useFormContext<BrevmottakerFormValues>();
+    const { control, getValues, setValue, resetField } =
+        useFormContext<BrevmottakerPersonUtenIdentFormValues>();
 
     const { navn } = usePersonopplysningerContext();
 
     const { field, fieldState, formState } = useController({
-        name: BrevmottakerFeltnavn.LANDKODE,
+        name: BrevmottakerPersonUtenIdentFeltnavn.LANDKODE,
         control,
         rules: {
             validate: (landkode) => {
                 if (landkode === '') {
                     return `${label} er påkrevd.`;
                 }
-                const mottakerRolle = getValues(BrevmottakerFeltnavn.MOTTAKERROLLE);
+                const mottakerRolle = getValues(BrevmottakerPersonUtenIdentFeltnavn.MOTTAKERROLLE);
                 if (mottakerRolle === '') {
                     return undefined;
                 }
@@ -40,13 +44,13 @@ export function LandFelt({ erLesevisning = false }: Props) {
 
     function onSelect(landkode: EøsLandkode) {
         if (landkode !== EøsLandkode.NO) {
-            resetField(BrevmottakerFeltnavn.POSTNUMMER);
-            resetField(BrevmottakerFeltnavn.POSTSTED);
+            resetField(BrevmottakerPersonUtenIdentFeltnavn.POSTNUMMER);
+            resetField(BrevmottakerPersonUtenIdentFeltnavn.POSTSTED);
         }
-        const mottakerRolle = getValues(BrevmottakerFeltnavn.MOTTAKERROLLE);
+        const mottakerRolle = getValues(BrevmottakerPersonUtenIdentFeltnavn.MOTTAKERROLLE);
         if (mottakerRolle === MottakerRolle.DØDSBO) {
             const nyttPreutfyltNavn = utledBrevmottakerPersonUtenIdentNavnVedDødsbo(navn, landkode);
-            setValue(BrevmottakerFeltnavn.NAVN, nyttPreutfyltNavn);
+            setValue(BrevmottakerPersonUtenIdentFeltnavn.NAVN, nyttPreutfyltNavn);
         }
         field.onChange(landkode);
     }

@@ -1,7 +1,10 @@
 import { useController, useFormContext } from 'react-hook-form';
 import React from 'react';
 import { TextField } from '@navikt/ds-react';
-import { BrevmottakerFeltnavn, BrevmottakerFormValues } from '../BrevmottakerForm';
+import {
+    BrevmottakerPersonUtenIdentFeltnavn,
+    BrevmottakerPersonUtenIdentFormValues,
+} from '../BrevmottakerPersonUtenIdentForm';
 
 interface Props {
     erLesevisning?: boolean;
@@ -10,10 +13,10 @@ interface Props {
 const label = 'Adresselinje 2 (valgfri)';
 
 export function Adresselinje2Felt({ erLesevisning = false }: Props) {
-    const { control } = useFormContext<BrevmottakerFormValues>();
+    const { control } = useFormContext<BrevmottakerPersonUtenIdentFormValues>();
 
     const { field, fieldState, formState } = useController({
-        name: BrevmottakerFeltnavn.ADRESSELINJE2,
+        name: BrevmottakerPersonUtenIdentFeltnavn.ADRESSELINJE2,
         control,
         rules: {
             maxLength: {

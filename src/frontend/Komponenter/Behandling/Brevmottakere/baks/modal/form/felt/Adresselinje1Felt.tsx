@@ -2,7 +2,10 @@ import { useController, useFormContext } from 'react-hook-form';
 import React from 'react';
 import { Alert, TextField } from '@navikt/ds-react';
 import { erUtenlandskEøsLandkode } from '../../../../../../../Felles/Landvelger/landkode';
-import { BrevmottakerFeltnavn, BrevmottakerFormValues } from '../BrevmottakerForm';
+import {
+    BrevmottakerPersonUtenIdentFeltnavn,
+    BrevmottakerPersonUtenIdentFormValues,
+} from '../BrevmottakerPersonUtenIdentForm';
 
 interface Props {
     erLesevisning?: boolean;
@@ -11,10 +14,10 @@ interface Props {
 const label = 'Adresselinje 1';
 
 export function Adresselinje1Felt({ erLesevisning = false }: Props) {
-    const { control, watch } = useFormContext<BrevmottakerFormValues>();
+    const { control, watch } = useFormContext<BrevmottakerPersonUtenIdentFormValues>();
 
     const { field, fieldState, formState } = useController({
-        name: BrevmottakerFeltnavn.ADRESSELINJE1,
+        name: BrevmottakerPersonUtenIdentFeltnavn.ADRESSELINJE1,
         control,
         rules: {
             required: `${label} er påkrevd.`,
@@ -25,7 +28,7 @@ export function Adresselinje1Felt({ erLesevisning = false }: Props) {
         },
     });
 
-    const landkode = watch(BrevmottakerFeltnavn.LANDKODE);
+    const landkode = watch(BrevmottakerPersonUtenIdentFeltnavn.LANDKODE);
 
     return (
         <TextField

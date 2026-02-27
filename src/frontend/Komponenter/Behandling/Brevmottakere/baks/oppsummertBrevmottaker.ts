@@ -6,6 +6,7 @@ import {
     erBrevmottakerPersonMedIdent,
     erBrevmottakerPersonUtenIdent,
 } from '../brevmottaker';
+import { formaterOrgNummer } from '../../../../App/typer/institusjon';
 
 export type OppsummertBrevmottaker = {
     id: string;
@@ -20,6 +21,9 @@ export function utledOppsumertBrevmottakere(
 ): OppsummertBrevmottaker[] {
     const oppsummertBrevmottakere = hentAlleBrevmottakereSomListe(brevmottakere)
         .map((brevmottaker) => {
+            const mottakerRolle = brevmottaker.mottakerRolle
+                ? ` (${mottakerRolleVisningsnavn[brevmottaker.mottakerRolle].replace(/ /g, '\u00A0')})`
+                : '';
             if (erBrevmottakerPersonMedIdent(brevmottaker)) {
                 return {
                     id: brevmottaker.personIdent,
@@ -28,23 +32,26 @@ export function utledOppsumertBrevmottakere(
                 };
             } else if (erBrevmottakerPersonUtenIdent(brevmottaker)) {
                 const land = countryInstance.findByValue(brevmottaker.landkode).label;
-                let visningstekst = `${brevmottaker.navn} (${mottakerRolleVisningsnavn[brevmottaker.mottakerRolle]}): ${brevmottaker.adresselinje1}`;
+                let visningstekst = `${brevmottaker.navn}${mottakerRolle}: `;
+                let adresse = brevmottaker.adresselinje1;
                 if (brevmottaker.postnummer) {
-                    visningstekst = visningstekst + `, ${brevmottaker.postnummer}`;
+                    adresse += `, ${brevmottaker.postnummer}`;
                 }
                 if (brevmottaker.poststed) {
-                    visningstekst = visningstekst + `, ${brevmottaker.poststed}`;
+                    adresse += `, ${brevmottaker.poststed}`;
                 }
-                visningstekst = visningstekst + `, ${land}`;
+                adresse += `, ${land}`;
+                visningstekst += adresse.replace(/ /g, '\u00A0');
                 return { id: brevmottaker.id, visningstekst, rekkefølge: 2 };
             } else if (erBrevmottakerOrganisasjon(brevmottaker)) {
                 const organisasjonsnavn = brevmottaker.organisasjonsnavn;
-                const mottakerrolle = brevmottaker.mottakerRolle
-                    ? ` (${mottakerRolleVisningsnavn[brevmottaker.mottakerRolle]})`
+                const organisasjonsnummer = formaterOrgNummer(brevmottaker.organisasjonsnummer);
+                const navnHosOrganisasjon = brevmottaker.navnHosOrganisasjon
+                    ? ' ' + `c/o ${brevmottaker.navnHosOrganisasjon}`.replace(/ /g, '\u00A0')
                     : '';
                 return {
                     id: brevmottaker.organisasjonsnummer,
-                    visningstekst: `${organisasjonsnavn}${mottakerrolle}`,
+                    visningstekst: `${organisasjonsnavn}${mottakerRolle}${navnHosOrganisasjon}: ${organisasjonsnummer}`,
                     rekkefølge: brevmottaker.mottakerRolle === 'INSTITUSJON' ? 1 : 3,
                 };
             } else {

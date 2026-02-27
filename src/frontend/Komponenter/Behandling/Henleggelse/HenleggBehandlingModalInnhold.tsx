@@ -6,7 +6,7 @@ import {
     HenleggBehandlingForm,
     HenleggBehandlingFormServerErrors,
 } from './HenleggBehandlingForm';
-import { BrevmottakerForm } from '../Brevmottakere/baks/modal/form/BrevmottakerForm';
+import { BrevmottakerPersonUtenIdentForm } from '../Brevmottakere/baks/modal/form/BrevmottakerPersonUtenIdentForm';
 import { HenlagtÅrsak } from './domain/henlagtÅrsak';
 import { ForhåndsvisBrevLenke } from './ForhåndsvisBrevLenke';
 import { mapTilMottakerRolle } from '../Brevmottakere/nyBrevmottaker';
@@ -128,7 +128,7 @@ export function HenleggBehandlingModalInnhold({ behandling }: Props) {
                                             Legg til en brevmottaker eller lukk skjemaet for å
                                             henlegge behandlingen.
                                         </Alert>
-                                        <BrevmottakerForm
+                                        <BrevmottakerPersonUtenIdentForm
                                             form={brevmottakerForm}
                                             onSubmit={submitBrevmottakerForm}
                                             onCancel={skjulBrevmottakerForm}

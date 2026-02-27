@@ -15,7 +15,7 @@ import { useOnUnmount } from '../../../../../../App/hooks/useOnUnmount';
 import { useOnFormSubmitSuccessful } from '../../../../../../App/hooks/useOnFormSubmitSuccessful';
 import { useConfirmBrowserRefresh } from '../../../../../../App/hooks/useConfirmBrowserRefresh';
 
-export enum BrevmottakerFeltnavn {
+export enum BrevmottakerPersonUtenIdentFeltnavn {
     MOTTAKERROLLE = 'mottakerRolle',
     LANDKODE = 'landkode',
     NAVN = 'navn',
@@ -25,25 +25,25 @@ export enum BrevmottakerFeltnavn {
     POSTSTED = 'poststed',
 }
 
-export interface BrevmottakerFormValues {
-    [BrevmottakerFeltnavn.MOTTAKERROLLE]: MottakerRolle | BlankMottakerRolle;
-    [BrevmottakerFeltnavn.LANDKODE]: EøsLandkode | BlankEøsLandkode;
-    [BrevmottakerFeltnavn.NAVN]: string;
-    [BrevmottakerFeltnavn.ADRESSELINJE1]: string;
-    [BrevmottakerFeltnavn.ADRESSELINJE2]: string;
-    [BrevmottakerFeltnavn.POSTNUMMER]: string;
-    [BrevmottakerFeltnavn.POSTSTED]: string;
+export interface BrevmottakerPersonUtenIdentFormValues {
+    [BrevmottakerPersonUtenIdentFeltnavn.MOTTAKERROLLE]: MottakerRolle | BlankMottakerRolle;
+    [BrevmottakerPersonUtenIdentFeltnavn.LANDKODE]: EøsLandkode | BlankEøsLandkode;
+    [BrevmottakerPersonUtenIdentFeltnavn.NAVN]: string;
+    [BrevmottakerPersonUtenIdentFeltnavn.ADRESSELINJE1]: string;
+    [BrevmottakerPersonUtenIdentFeltnavn.ADRESSELINJE2]: string;
+    [BrevmottakerPersonUtenIdentFeltnavn.POSTNUMMER]: string;
+    [BrevmottakerPersonUtenIdentFeltnavn.POSTSTED]: string;
 }
 
 interface Props {
-    form: UseFormReturn<BrevmottakerFormValues>;
-    onSubmit: SubmitHandler<BrevmottakerFormValues>;
+    form: UseFormReturn<BrevmottakerPersonUtenIdentFormValues>;
+    onSubmit: SubmitHandler<BrevmottakerPersonUtenIdentFormValues>;
     onCancel: () => void;
     isCancellable?: boolean;
     valgteMottakerRoller: MottakerRolle[];
 }
 
-export function BrevmottakerForm({
+export function BrevmottakerPersonUtenIdentForm({
     form,
     onSubmit,
     onCancel,
@@ -65,7 +65,7 @@ export function BrevmottakerForm({
     useOnFormSubmitSuccessful(control, () => reset());
     useConfirmBrowserRefresh({ enabled: isDirty });
 
-    const landkode = watch(BrevmottakerFeltnavn.LANDKODE);
+    const landkode = watch(BrevmottakerPersonUtenIdentFeltnavn.LANDKODE);
 
     return (
         <FormProvider {...form}>
