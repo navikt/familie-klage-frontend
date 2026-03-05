@@ -11,10 +11,11 @@ import {
 import CountryData from '@navikt/land-verktoy';
 import { useBrevmottakereContext } from './context/BrevmottakereContextProvider';
 import { Divider } from '../../../Felles/Divider/Divider';
+import { formaterOrgNummer } from '../../../App/typer/institusjon';
 
 const countryInstance = CountryData.getCountryInstance('nb');
 
-function utledSlettKnappIkon(mottakerRolle: MottakerRolle): ReactNode {
+function utledSlettKnappIkon(mottakerRolle?: MottakerRolle): ReactNode {
     if (
         mottakerRolle === MottakerRolle.DØDSBO ||
         mottakerRolle === MottakerRolle.BRUKER_MED_UTENLANDSK_ADRESSE
@@ -24,7 +25,7 @@ function utledSlettKnappIkon(mottakerRolle: MottakerRolle): ReactNode {
     return <TrashIcon />;
 }
 
-function utledSlettKnappTittel(mottakerRolle: MottakerRolle): string {
+function utledSlettKnappTittel(mottakerRolle?: MottakerRolle): string {
     if (
         mottakerRolle === MottakerRolle.DØDSBO ||
         mottakerRolle === MottakerRolle.BRUKER_MED_UTENLANDSK_ADRESSE
@@ -41,14 +42,16 @@ interface Props {
 export function BrevmottakerDetaljer({ brevmottaker }: Props) {
     const { slettBrevmottaker } = useBrevmottakereContext();
 
-    if (erNyBrevmottakerPersonUtenIdent(brevmottaker)) {
-        return (
-            <VStack gap={'2'}>
-                <Divider />
-                <HStack justify={'space-between'}>
-                    <Heading level={'3'} size={'xsmall'}>
-                        {mottakerRolleVisningsnavn[brevmottaker.mottakerRolle]}
-                    </Heading>
+    return (
+        <VStack gap={'2'}>
+            <Divider />
+            <HStack justify={'space-between'}>
+                <Heading level={'3'} size={'xsmall'}>
+                    {brevmottaker.mottakerRolle
+                        ? mottakerRolleVisningsnavn[brevmottaker.mottakerRolle]
+                        : 'Ukjent mottakerrolle'}
+                </Heading>
+                {brevmottaker.mottakerRolle !== MottakerRolle.BRUKER && (
                     <Button
                         variant={'tertiary'}
                         onClick={() => slettBrevmottaker(brevmottaker)}
@@ -57,76 +60,59 @@ export function BrevmottakerDetaljer({ brevmottaker }: Props) {
                     >
                         {utledSlettKnappTittel(brevmottaker.mottakerRolle)}
                     </Button>
-                </HStack>
-                <HGrid gap={'2'} columns={'1fr 1fr'}>
-                    <div>Navn:</div>
-                    <div>{brevmottaker.navn}</div>
-                    <div>Land:</div>
-                    <div>{countryInstance.findByValue(brevmottaker.landkode).label}</div>
-                    <div>Adresselinje 1:</div>
-                    <div>{brevmottaker.adresselinje1}</div>
-                    <div>Adresselinje 2:</div>
-                    <div>{brevmottaker.adresselinje2 || '-'}</div>
-                    {brevmottaker.postnummer && (
-                        <>
-                            <div>Postnummer</div>
-                            <div>{brevmottaker.postnummer || '-'}</div>
-                        </>
-                    )}
-                    {brevmottaker.poststed && (
-                        <>
-                            <div>Poststed</div>
-                            <div>{brevmottaker.poststed || '-'}</div>
-                        </>
-                    )}
-                </HGrid>
-                {brevmottaker.mottakerRolle === MottakerRolle.BRUKER_MED_UTENLANDSK_ADRESSE && (
-                    <Alert variant={'info'} inline={true}>
-                        Ved utenlandsk adresse skal postnummer og poststed legges i adresselinjene.
-                    </Alert>
                 )}
-                {brevmottaker.mottakerRolle === MottakerRolle.DØDSBO && (
-                    <Alert variant={'info'} inline={true}>
-                        Ved dødsbo kan kun en brevmottaker legges til.
-                    </Alert>
-                )}
-            </VStack>
-        );
-    } else if (erNyBrevmottakerPersonMedIdent(brevmottaker)) {
-        return (
-            <VStack gap={'0'}>
-                <Divider />
-                <HStack justify={'space-between'}>
-                    <Heading level={'3'} size={'xsmall'}>
-                        {mottakerRolleVisningsnavn[brevmottaker.mottakerRolle]}
-                    </Heading>
-                </HStack>
+            </HStack>
+            {erNyBrevmottakerPersonUtenIdent(brevmottaker) && (
+                <>
+                    <HGrid gap={'2'} columns={'1fr 1fr'}>
+                        <div>Navn:</div>
+                        <div>{brevmottaker.navn}</div>
+                        <div>Land:</div>
+                        <div>{countryInstance.findByValue(brevmottaker.landkode).label}</div>
+                        <div>Adresselinje 1:</div>
+                        <div>{brevmottaker.adresselinje1}</div>
+                        <div>Adresselinje 2:</div>
+                        <div>{brevmottaker.adresselinje2 || '-'}</div>
+                        {brevmottaker.postnummer && (
+                            <>
+                                <div>Postnummer</div>
+                                <div>{brevmottaker.postnummer || '-'}</div>
+                            </>
+                        )}
+                        {brevmottaker.poststed && (
+                            <>
+                                <div>Poststed</div>
+                                <div>{brevmottaker.poststed || '-'}</div>
+                            </>
+                        )}
+                    </HGrid>
+                    {brevmottaker.mottakerRolle === MottakerRolle.BRUKER_MED_UTENLANDSK_ADRESSE && (
+                        <Alert variant={'info'} inline={true}>
+                            Ved utenlandsk adresse skal postnummer og poststed legges i
+                            adresselinjene.
+                        </Alert>
+                    )}
+                    {brevmottaker.mottakerRolle === MottakerRolle.DØDSBO && (
+                        <Alert variant={'info'} inline={true}>
+                            Ved dødsbo kan kun en brevmottaker legges til.
+                        </Alert>
+                    )}
+                </>
+            )}
+            {erNyBrevmottakerPersonMedIdent(brevmottaker) && (
                 <HGrid gap={'2'} columns={'1fr 1fr'}>
                     <div>Navn:</div>
                     <div>{brevmottaker.navn}</div>
                 </HGrid>
-            </VStack>
-        );
-    } else if (erNyBrevmottakerOrganisasjon(brevmottaker)) {
-        return (
-            <VStack gap={'0'}>
-                <Divider />
-                <HStack justify={'space-between'}>
-                    <Heading level={'3'} size={'xsmall'}>
-                        {brevmottaker.mottakerRolle
-                            ? mottakerRolleVisningsnavn[brevmottaker.mottakerRolle]
-                            : 'Ukjent mottakerrolle'}
-                    </Heading>
-                </HStack>
+            )}
+            {erNyBrevmottakerOrganisasjon(brevmottaker) && (
                 <HGrid gap={'2'} columns={'1fr 1fr'}>
                     <div>Navn:</div>
                     <div>{brevmottaker.organisasjonsnavn}</div>
                     <div>Organisasjonsnummer:</div>
-                    <div>{brevmottaker.organisasjonsnummer}</div>
+                    <div>{formaterOrgNummer(brevmottaker.organisasjonsnummer)}</div>
                 </HGrid>
-            </VStack>
-        );
-    } else {
-        throw new Error('Ukjent brevmottaker type');
-    }
+            )}
+        </VStack>
+    );
 }

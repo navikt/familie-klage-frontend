@@ -6,9 +6,13 @@ import {
 import { lagHenleggBehandlingDto } from '../domain/henleggBehandlingDto';
 import { useHenleggBehandling } from './useHenleggBehandling';
 import { Behandling } from '../../../../App/typer/fagsak';
-import { useHenleggBehandlingModalContext } from '../context/HenleggBehandlingModalContextProvider';
+import {
+    HENLEGG_BEHANDLING_MODAL_WIDTHS,
+    useHenleggBehandlingModalContext,
+} from '../context/HenleggBehandlingModalContextProvider';
 import { useForm } from 'react-hook-form';
 import { useBrevmottakereContext } from '../context/BrevmottakereContextProvider';
+import { useState } from 'react';
 
 export function useHenleggBehandlingForm(behandling: Behandling) {
     const { lukkModal } = useHenleggBehandlingModalContext();
@@ -34,5 +38,22 @@ export function useHenleggBehandlingForm(behandling: Behandling) {
             );
     }
 
-    return { form, actions: { submitForm } };
+    const { settModalWidth } = useHenleggBehandlingModalContext();
+    const [erBrevmottakerFormSynlig, settErBrevmottakerFormSynlig] = useState<boolean>(false);
+
+    function visBrevmottakerForm() {
+        settErBrevmottakerFormSynlig(true);
+        settModalWidth(HENLEGG_BEHANDLING_MODAL_WIDTHS.UTVIDET);
+    }
+
+    function skjulBrevmottakerForm() {
+        settErBrevmottakerFormSynlig(false);
+        settModalWidth(HENLEGG_BEHANDLING_MODAL_WIDTHS.DEFAULT);
+    }
+
+    return {
+        form,
+        actions: { submitForm, visBrevmottakerForm, skjulBrevmottakerForm },
+        metadata: { erBrevmottakerFormSynlig },
+    };
 }

@@ -2,7 +2,6 @@ import { MottakerRolle } from './mottakerRolle';
 import { EøsLandkode } from '../../../Felles/Landvelger/landkode';
 import { Brevmottakere, hentAlleBrevmottakereSomListe } from './brevmottakere';
 import {
-    BrevmottakerOrganisasjon,
     BrevmottakerPersonMedIdent,
     erBrevmottakerOrganisasjon,
     erBrevmottakerPersonMedIdent,
@@ -99,15 +98,18 @@ export function lagNyeBrevmottakere(brevmottakere: Brevmottakere): NyBrevmottake
     });
 }
 
-export function lagNyBrevmottakerOrganisasjon(
-    brevmottakerOrganisasjon: BrevmottakerOrganisasjon
-): NyBrevmottakerOrganisasjon {
+export function lagNyBrevmottakerOrganisasjon(organisasjon: {
+    mottakerRolle?: MottakerRolle | '';
+    organisasjonsnummer: string;
+    organisasjonsnavn: string;
+    navnHosOrganisasjon?: string;
+}): NyBrevmottakerOrganisasjon {
     return {
         type: NyBrevmottakerType.ORGANISASJON,
-        organisasjonsnummer: brevmottakerOrganisasjon.organisasjonsnummer,
-        organisasjonsnavn: brevmottakerOrganisasjon.organisasjonsnavn,
-        navnHosOrganisasjon: brevmottakerOrganisasjon.navnHosOrganisasjon,
-        mottakerRolle: brevmottakerOrganisasjon.mottakerRolle,
+        organisasjonsnummer: organisasjon.organisasjonsnummer,
+        organisasjonsnavn: organisasjon.organisasjonsnavn,
+        navnHosOrganisasjon: organisasjon.navnHosOrganisasjon,
+        mottakerRolle: organisasjon.mottakerRolle || undefined,
     };
 }
 
