@@ -1,5 +1,16 @@
-import React from 'react';
-import { Alert, Box, Button, Heading, HStack, Modal, Skeleton, VStack } from '@navikt/ds-react';
+import React, { useState } from 'react';
+import {
+    Alert,
+    Box,
+    Button,
+    Heading,
+    HStack,
+    Modal,
+    Radio,
+    RadioGroup,
+    Skeleton,
+    VStack,
+} from '@navikt/ds-react';
 import {
     HENLEGG_BEHANDLING_FORM_ID,
     HenleggBehandlingFeltnavn,
@@ -9,16 +20,20 @@ import {
 import { BrevmottakerPersonUtenIdentForm } from '../Brevmottakere/baks/modal/form/BrevmottakerPersonUtenIdentForm';
 import { HenlagtÅrsak } from './domain/henlagtÅrsak';
 import { ForhåndsvisBrevLenke } from './ForhåndsvisBrevLenke';
-import { mapTilMottakerRolle } from '../Brevmottakere/nyBrevmottaker';
+import { mapTilMottakerRolle, NyBrevmottakerType } from '../Brevmottakere/nyBrevmottaker';
 import { SendManueltBrevAdvarsel } from './SendManueltBrevAdvarsel';
 import { BrevmottakereBox } from './BrevmottakereBox';
 import { useHenleggBehandlingModalContext } from './context/HenleggBehandlingModalContextProvider';
 import { useBrevmottakereContext } from './context/BrevmottakereContextProvider';
 import { Behandling, Fagsystem } from '../../../App/typer/fagsak';
 import { useHenleggBehandlingForm } from './hooks/useHenleggBehandlingForm';
-import { useBrevmottakerForm } from './hooks/useBrevmottakerForm';
+import { useBrevmottakerPersonUtenIdentForm } from './hooks/useBrevmottakerPersonUtenIdentForm';
 import { BrevmottakerFormActionsContextProvider } from './context/BrevmottakerFormActionsContextProvider';
 import { Divider } from '../../../Felles/Divider/Divider';
+import { ToggleName } from '../../../App/context/toggles';
+import { useToggles } from '../../../App/context/TogglesContext';
+import { BrevmottakerOrganisasjonForm } from '../Brevmottakere/baks/modal/OrganisasjonForm/BrevmottakerOrganisasjonForm';
+import { useBrevmottakerOrganisasjonForm } from './hooks/useBrevmottakerOrganisasjonForm';
 
 interface Props {
     behandling: Behandling;
@@ -26,6 +41,7 @@ interface Props {
 
 export function HenleggBehandlingModalInnhold({ behandling }: Props) {
     const { lukkModal } = useHenleggBehandlingModalContext();
+    const { toggles } = useToggles();
 
     const { brevmottakere, laster, feilmelding } = useBrevmottakereContext();
 
@@ -40,9 +56,14 @@ export function HenleggBehandlingModalInnhold({ behandling }: Props) {
     } = useHenleggBehandlingForm(behandling);
 
     const {
-        form: brevmottakerForm,
-        actions: { submitForm: submitBrevmottakerForm },
-    } = useBrevmottakerForm(skjulBrevmottakerForm);
+        form: brevmottakerPersonUtenIdentForm,
+        actions: { submitForm: onSubmitBrevmottakerPersonUtenIdentForm },
+    } = useBrevmottakerPersonUtenIdentForm(skjulBrevmottakerForm);
+
+    const {
+        form: brevmottakerOrganisasjonForm,
+        actions: { submitForm: onSubmitBrevmottakerOrganisasjonForm },
+    } = useBrevmottakerOrganisasjonForm(skjulBrevmottakerForm);
 
     const henlagtÅrsak = henleggBehandlingForm.watch(HenleggBehandlingFeltnavn.HENLAGT_ÅRSAK);
     const sendBrevOmTrukketKlage = henleggBehandlingForm.watch(
@@ -56,6 +77,10 @@ export function HenleggBehandlingModalInnhold({ behandling }: Props) {
 
     const onHenleggBehandlingSubmitError = HenleggBehandlingFormServerErrors.onSubmitError.lookup(
         henleggBehandlingForm.formState.errors
+    );
+
+    const [brevmottakerType, settBrevmottakerType] = useState<NyBrevmottakerType>(
+        NyBrevmottakerType.PERSON_UTEN_IDENT
     );
 
     if (laster) {
@@ -128,14 +153,50 @@ export function HenleggBehandlingModalInnhold({ behandling }: Props) {
                                             Legg til en brevmottaker eller lukk skjemaet for å
                                             henlegge behandlingen.
                                         </Alert>
-                                        <BrevmottakerPersonUtenIdentForm
-                                            form={brevmottakerForm}
-                                            onSubmit={submitBrevmottakerForm}
-                                            onCancel={skjulBrevmottakerForm}
-                                            valgteMottakerRoller={mapTilMottakerRolle(
-                                                brevmottakere
-                                            )}
-                                        />
+                                        {toggles[ToggleName.MANUELL_BREVMOTTAKER_ORGANISASJON] && (
+                                            <RadioGroup
+                                                legend={'Mottakertype'}
+                                                value={brevmottakerType}
+                                                onChange={settBrevmottakerType}
+                                            >
+                                                <HStack gap={'6'}>
+                                                    <Radio
+                                                        value={NyBrevmottakerType.PERSON_UTEN_IDENT}
+                                                    >
+                                                        Person
+                                                    </Radio>
+                                                    <Radio value={NyBrevmottakerType.ORGANISASJON}>
+                                                        Organisasjon
+                                                    </Radio>
+                                                </HStack>
+                                            </RadioGroup>
+                                        )}
+                                        {
+                                            {
+                                                [NyBrevmottakerType.PERSON_MED_IDENT]: null,
+                                                [NyBrevmottakerType.PERSON_UTEN_IDENT]: (
+                                                    <BrevmottakerPersonUtenIdentForm
+                                                        form={brevmottakerPersonUtenIdentForm}
+                                                        onSubmit={
+                                                            onSubmitBrevmottakerPersonUtenIdentForm
+                                                        }
+                                                        onCancel={skjulBrevmottakerForm}
+                                                        valgteMottakerRoller={mapTilMottakerRolle(
+                                                            brevmottakere
+                                                        )}
+                                                    />
+                                                ),
+                                                [NyBrevmottakerType.ORGANISASJON]: (
+                                                    <BrevmottakerOrganisasjonForm
+                                                        form={brevmottakerOrganisasjonForm}
+                                                        onSubmit={
+                                                            onSubmitBrevmottakerOrganisasjonForm
+                                                        }
+                                                        onCancel={skjulBrevmottakerForm}
+                                                    />
+                                                ),
+                                            }[brevmottakerType]
+                                        }
                                     </VStack>
                                 </Box>
                             </>

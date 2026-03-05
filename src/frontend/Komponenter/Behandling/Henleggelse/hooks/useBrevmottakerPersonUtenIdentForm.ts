@@ -7,7 +7,7 @@ import {
 import { lagNyBrevmottakerPersonUtenIdent } from '../../Brevmottakere/nyBrevmottaker';
 import { useBrevmottakereContext } from '../context/BrevmottakereContextProvider';
 
-export function useBrevmottakerForm(onSubmitCallback?: () => void) {
+export function useBrevmottakerPersonUtenIdentForm(onSubmitCallback?: () => void) {
     const { leggTilBrevmottaker } = useBrevmottakereContext();
 
     const form = useForm<BrevmottakerPersonUtenIdentFormValues>({
