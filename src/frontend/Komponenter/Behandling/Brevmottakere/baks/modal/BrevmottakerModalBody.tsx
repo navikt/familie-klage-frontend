@@ -91,14 +91,7 @@ export function BrevmottakerModalBody({
     async function onSubmitBrevmottakerOrganisasjonForm(
         brevmottakerFormValues: BrevmottakerOrganisasjonFormValues
     ): Promise<Awaited<void>> {
-        return opprettBrevmottaker(
-            lagNyBrevmottakerOrganisasjon({
-                ...brevmottakerFormValues,
-                mottakerRolle:
-                    brevmottakerFormValues[BrevmottakerOrganisasjonFeltnavn.MOTTAKERROLLE] ||
-                    undefined,
-            })
-        )
+        return opprettBrevmottaker(lagNyBrevmottakerOrganisasjon(brevmottakerFormValues))
             .then(() => settVisForm(false))
             .catch((error: Error) =>
                 brevmottakerPersonUtenIdentForm.setError('root', { message: error.message })
