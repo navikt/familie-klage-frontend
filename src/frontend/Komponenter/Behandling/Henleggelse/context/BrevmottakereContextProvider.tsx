@@ -4,9 +4,7 @@ import {
     erNyBrevmottakerPersonMedIdent,
     lagNyeBrevmottakere,
     NyBrevmottaker,
-    NyBrevmottakerPerson,
     NyBrevmottakerPersonMedIdent,
-    NyBrevmottakerPersonUtenIdent,
 } from '../../Brevmottakere/nyBrevmottaker';
 import { MottakerRolle } from '../../Brevmottakere/mottakerRolle';
 import { useHentInitielleBrevmottakere } from '../hooks/useHentInitielleBrevmottakere';
@@ -16,8 +14,8 @@ interface ContextValue {
     brevmottakere: NyBrevmottaker[];
     laster: boolean;
     feilmelding: string;
-    leggTilBrevmottaker: (brevmottaker: NyBrevmottakerPersonUtenIdent) => void;
-    slettBrevmottaker: (brevmottaker: NyBrevmottakerPerson) => void;
+    leggTilBrevmottaker: (brevmottaker: NyBrevmottaker) => void;
+    slettBrevmottaker: (brevmottaker: NyBrevmottaker) => void;
 }
 
 const BrevmottakereContext = createContext<ContextValue | undefined>(undefined);
@@ -62,7 +60,7 @@ export function BrevmottakereContextProvider({ behandling, children }: Props) {
             });
     });
 
-    function leggTilBrevmottaker(nyBrevmottaker: NyBrevmottakerPersonUtenIdent) {
+    function leggTilBrevmottaker(nyBrevmottaker: NyBrevmottaker) {
         settBrevmottakere((prev) => {
             if (nyBrevmottaker.mottakerRolle === MottakerRolle.BRUKER_MED_UTENLANDSK_ADRESSE) {
                 const newState = [...prev];
@@ -77,7 +75,7 @@ export function BrevmottakereContextProvider({ behandling, children }: Props) {
         });
     }
 
-    function slettBrevmottaker(brevmottaker: NyBrevmottakerPerson) {
+    function slettBrevmottaker(brevmottaker: NyBrevmottaker) {
         settBrevmottakere((prev) => {
             const erBrukerMedUtenlandskAdresse =
                 brevmottaker.mottakerRolle === MottakerRolle.BRUKER_MED_UTENLANDSK_ADRESSE;
