@@ -30,19 +30,19 @@ export function HenleggBehandlingModalInnhold({ behandling }: Props) {
     const { brevmottakere, laster, feilmelding } = useBrevmottakereContext();
 
     const {
-        form: brevmottakerForm,
+        form: henleggBehandlingForm,
         actions: {
-            submitForm: submitBrevmottakerForm,
-            visForm: visBrevmottakerForm,
-            skjulForm: skjulBrevmottakerForm,
+            submitForm: submitHenleggBehandlingForm,
+            visBrevmottakerForm,
+            skjulBrevmottakerForm,
         },
-        metadata: { erFormSynlig: erBrevmottakerFormSynlig },
-    } = useBrevmottakerForm();
+        metadata: { erBrevmottakerFormSynlig },
+    } = useHenleggBehandlingForm(behandling);
 
     const {
-        form: henleggBehandlingForm,
-        actions: { submitForm: submitHenleggBehandlingForm },
-    } = useHenleggBehandlingForm(behandling);
+        form: brevmottakerForm,
+        actions: { submitForm: submitBrevmottakerForm },
+    } = useBrevmottakerForm(skjulBrevmottakerForm);
 
     const henlagtÅrsak = henleggBehandlingForm.watch(HenleggBehandlingFeltnavn.HENLAGT_ÅRSAK);
     const sendBrevOmTrukketKlage = henleggBehandlingForm.watch(
