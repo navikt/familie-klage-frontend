@@ -9,33 +9,111 @@ updates:
   - package-ecosystem: npm
     directory: "/"
     schedule:
-      interval: weekly
-      day: "sunday"
-      time: "04:00"
+      interval: daily
+      time: "09:00"
+    ignore:
+      - dependency-name: "@types/node"
+        versions:
+          - "25"
     cooldown:
       default-days: 4
     open-pull-requests-limit: 30
     registries: "*"
-    versioning-strategy: increase
     groups:
-      minor-and-patch-dependencies:
-        patterns:
-          - "*"
+      patch:
+        update-types:
+          - "patch"
+      minor:
         update-types:
           - "minor"
-          - "patch"
-      major-dependencies:
+      aksel:
         patterns:
-          - "*"
-        update-types:
-          - "major"
-
+          - '@navikt/ds-css'
+          - '@navikt/ds-react'
+      familie:
+        patterns:
+          - '@navikt/familie-backend'
+          - '@navikt/familie-logging'
+      landvelger:
+        patterns:
+          - '@navikt/land-verktoy'
+      sentry:
+        patterns:
+          - '@sentry/browser'
+          - '@sentry/core'
+      express:
+        patterns:
+          - 'express'
+          - 'express-static-gzip'
+          - '@types/express'
+      react:
+        patterns:
+          - 'react'
+          - 'react-dom'
+          - '@types/react'
+          - '@types/react-dom'
+      router:
+        patterns:
+          - 'react-router-dom'
+          - '@types/react-router-dom'
+      babel:
+        patterns:
+          - '@babel/core'
+          - '@babel/preset-env'
+          - '@babel/preset-react'
+          - '@babel/preset-typescript'
+      webpack:
+        patterns:
+          - '@pmmmwh/react-refresh-webpack-plugin'
+          - 'react-refresh'
+          - 'compression-webpack-plugin'
+          - 'copy-webpack-plugin'
+          - 'fork-ts-checker-webpack-plugin'
+          - 'html-webpack-plugin'
+          - 'mini-css-extract-plugin'
+          - 'postcss'
+          - 'postcss-loader'
+          - 'css-loader'
+          - 'style-loader'
+          - 'svg-inline-loader'
+          - 'babel-loader'
+          - 'file-loader'
+          - 'webpack'
+          - 'webpack-cli'
+          - 'webpack-dev-middleware'
+          - 'webpack-dev-server'
+          - 'webpack-hot-middleware'
+          - 'webpack-merge'
+          - '@types/webpack'
+          - '@types/webpack-env'
+          - '@types/webpack-hot-middleware'
+      testing:
+        patterns:
+          - '@testing-library/dom'
+          - '@testing-library/jest-dom'
+          - '@testing-library/react'
+          - '@testing-library/user-event'
+          - '@vitejs/plugin-react'
+          - 'jsdom'
+          - 'vitest'
+      tooling:
+        patterns:
+          - 'eslint'
+          - 'eslint-config-prettier'
+          - 'eslint-plugin-jsx-a11y'
+          - 'eslint-plugin-prettier'
+          - 'eslint-plugin-react'
+          - 'eslint-plugin-react-hooks'
+          - 'eslint-webpack-plugin'
+          - 'husky'
+          - 'lint-staged'
+          - 'prettier'
+          - 'typescript-eslint'
   - package-ecosystem: github-actions
     directory: "/"
     schedule:
-      interval: weekly
-      day: "sunday"
-      time: "04:00"
+      interval: daily
+      time: "09:00"
     cooldown:
       default-days: 4
     groups:
