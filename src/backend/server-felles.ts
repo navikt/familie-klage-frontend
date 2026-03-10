@@ -1,7 +1,7 @@
 import './konfigurerApp.js';
 
 import { IApp, ensureAuthenticated } from '@navikt/familie-backend';
-import bodyParser from 'body-parser';
+import express from 'express';
 
 import { klageProxyUrl } from './config.js';
 import { addCallId, attachToken, doProxy } from './proxy.js';
@@ -27,9 +27,8 @@ export const setupServerFelles = ({ app, azureAuthClient, router }: IApp) => {
         doProxy(klageProxyUrl)
     );
 
-    // Sett opp bodyParser og router etter proxy. Spesielt viktig med tanke på større payloads som blir parset av bodyParser
-    app.use(bodyParser.json({ limit: '200mb' }));
-    app.use(bodyParser.urlencoded({ limit: '200mb', extended: true }));
+    app.use(express.json({ limit: '200mb' }));
+    app.use(express.urlencoded({ limit: '200mb', extended: true }));
     app.use('/', setupRouter(azureAuthClient, router));
 
     app.listen(port, '0.0.0.0', () => {
