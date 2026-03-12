@@ -21,7 +21,7 @@ interface Props extends PropsWithChildren {
 }
 
 export function PersonopplysningerContextProvider({ personopplysninger, children }: Props) {
-    useSetPersonIdent(personopplysninger.fagsakEier.personIdent);
+    useSetPersonIdent(personopplysninger);
 
     return (
         <PersonopplysningerContext.Provider value={personopplysninger}>
