@@ -35,14 +35,16 @@ export function Visittkort({ behandling }: Props) {
     const { appEnv } = useApp();
 
     const {
-        personIdent,
-        kjønn,
-        navn,
-        folkeregisterpersonstatus,
-        adressebeskyttelse,
-        egenAnsatt,
-        fullmakt,
-        vergemål,
+        fagsakEier: {
+            personIdent,
+            kjønn,
+            navn,
+            folkeregisterpersonstatus,
+            adressebeskyttelse,
+            egenAnsatt,
+            fullmakt,
+            vergemål,
+        },
     } = usePersonopplysningerContext();
 
     const skalLenkeTilFagsystemBehandling =

@@ -1,10 +1,12 @@
 import React, { createContext, PropsWithChildren, useContext } from 'react';
-import { IPersonopplysninger } from '../typer/personopplysninger';
+import { IPersonopplysningerFagsakeierOgSøker } from '../typer/personopplysninger';
 import { useSetPersonIdent } from '../hooks/useSetPersonIdent';
 
-const PersonopplysningerContext = createContext<IPersonopplysninger | undefined>(undefined);
+const PersonopplysningerContext = createContext<IPersonopplysningerFagsakeierOgSøker | undefined>(
+    undefined
+);
 
-export const usePersonopplysningerContext = (): IPersonopplysninger => {
+export const usePersonopplysningerContext = (): IPersonopplysningerFagsakeierOgSøker => {
     const context = useContext(PersonopplysningerContext);
     if (context === undefined) {
         throw new Error(
@@ -15,11 +17,11 @@ export const usePersonopplysningerContext = (): IPersonopplysninger => {
 };
 
 interface Props extends PropsWithChildren {
-    personopplysninger: IPersonopplysninger;
+    personopplysninger: IPersonopplysningerFagsakeierOgSøker;
 }
 
 export function PersonopplysningerContextProvider({ personopplysninger, children }: Props) {
-    useSetPersonIdent(personopplysninger.personIdent);
+    useSetPersonIdent(personopplysninger.fagsakEier.personIdent);
 
     return (
         <PersonopplysningerContext.Provider value={personopplysninger}>

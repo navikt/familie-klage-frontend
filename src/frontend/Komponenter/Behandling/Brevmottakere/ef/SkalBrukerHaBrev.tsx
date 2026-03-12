@@ -10,7 +10,9 @@ interface Props {
 }
 
 export const SkalBrukerHaBrev: FC<Props> = ({ valgteBrevmottakere, settValgtBrevMottakere }) => {
-    const { navn, personIdent } = usePersonopplysningerContext();
+    const {
+        fagsakEier: { navn, personIdent },
+    } = usePersonopplysningerContext();
     const brukerSkalHaBrev = valgteBrevmottakere.some(
         (mottaker) => mottaker.mottakerRolle === MottakerRolle.BRUKER
     );

@@ -38,7 +38,7 @@ const [BehandlingProvider, useBehandling] = constate(() => {
         behandlingId,
     ]);
 
-    useEffect(() => hentPersonopplysninger(behandlingId), [behandlingId, hentPersonopplysninger]);
+    useEffect(() => hentPersonopplysninger(), [hentPersonopplysninger]);
 
     useEffect(() => {
         if (behandling.status === RessursStatus.SUKSESS) {

@@ -7,9 +7,9 @@ import {
 import { usePersonopplysningerContext } from '../../../App/context/PersonopplysningerContext';
 
 export function SendManueltBrevAdvarsel() {
-    const personopplysninger = usePersonopplysningerContext();
-    const erTilknyttetFullmakt = erPersonopplysningerTilknyttetFullmakt(personopplysninger);
-    const harVergemål = harPersonopplysningerVergemål(personopplysninger);
+    const { fagsakEier } = usePersonopplysningerContext();
+    const erTilknyttetFullmakt = erPersonopplysningerTilknyttetFullmakt(fagsakEier);
+    const harVergemål = harPersonopplysningerVergemål(fagsakEier);
 
     return (
         <>
