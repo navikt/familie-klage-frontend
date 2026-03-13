@@ -6,7 +6,6 @@ import {
     Behandling,
     Klagebehandlingsårsak,
     klagebehandlingsårsakTilTekst,
-    PåklagetVedtakstype,
 } from '../../App/typer/fagsak';
 import {
     utledBehandlingLenke,
@@ -18,7 +17,6 @@ import { stønadstypeTilTekst } from '../../App/typer/stønadstype';
 import { SettPåVentKnapp } from './SettPåVentKnapp';
 import { EndreBehandlendeEnhetKnapp } from './EndreBehandlendeEnhetKnapp';
 import { HenleggKnapp } from './HenleggKnapp';
-import { FagsystemType } from '../../Komponenter/Behandling/Formkrav/typer';
 
 interface Props {
     behandling: Behandling;
@@ -27,25 +25,19 @@ interface Props {
 export const LenkerOgKnapper = ({ behandling }: Props) => {
     const { appEnv } = useApp();
 
-    const skalLenkeTilFagsystemBehandling =
-        behandling.påklagetVedtak.påklagetVedtakstype === PåklagetVedtakstype.VEDTAK &&
-        behandling.påklagetVedtak.fagsystemVedtak?.fagsystemType === FagsystemType.ORDNIÆR;
-    const skalLenkeTilTilbakekreving =
-        behandling.påklagetVedtak.påklagetVedtakstype === PåklagetVedtakstype.VEDTAK &&
-        behandling.påklagetVedtak.fagsystemVedtak?.fagsystemType === FagsystemType.TILBAKEKREVING;
     const behandlingLenke = utledBehandlingLenke(behandling, appEnv.eksternlenker);
     const saksoversiktLenke = utledSaksoversiktLenke(behandling, appEnv.eksternlenker);
     const tilbakekrevingLenke = utledTilbakekrevingLenke(behandling, appEnv.eksternlenker);
 
     return (
         <HStack align={'center'} justify={'start'} gap={'space-8'} padding={'space-8'}>
-            {skalLenkeTilFagsystemBehandling && (
+            {behandlingLenke && (
                 <Link href={behandlingLenke} target="_blank">
                     Gå til behandling
                     <ExternalLinkIcon aria-label="Gå til behandling" fontSize={'1.375rem'} />
                 </Link>
             )}
-            {skalLenkeTilTilbakekreving && (
+            {tilbakekrevingLenke && (
                 <Link href={tilbakekrevingLenke} target="_blank">
                     Gå til tilbakekreving
                     <ExternalLinkIcon aria-label="Gå til tilbakekreving" fontSize={'1.375rem'} />
