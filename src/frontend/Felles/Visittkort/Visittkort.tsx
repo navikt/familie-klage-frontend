@@ -8,6 +8,7 @@ import { LenkerOgKnapper } from './LenkerOgKnapper';
 import { PersonopplysningerVarsler } from './PersonopplysningerVarsler';
 import { NavnOgIdent } from './NavnOgIdent';
 import { formaterFødselsnummer } from '../../App/utils/formatter';
+import { nullableDatoTilAlder } from '../../App/utils/dato';
 
 interface Props {
     behandling: Behandling;
@@ -23,13 +24,14 @@ export function Visittkort({ behandling }: Props) {
                 <HStack align={'center'} gap={'space-8 space-12'}>
                     <HStack align={'center'} gap={'space-8 space-12'} wrap={false}>
                         <IkonVelger
-                            alder={20}
+                            alder={nullableDatoTilAlder(fagsakEier.fødselsdato) || 18}
                             kjønn={fagsakEier.kjønn}
                             institusjon={behandling.institusjon}
                         />
                         <NavnOgIdent
                             navn={fagsakEier.navn}
                             ident={formaterFødselsnummer(fagsakEier.personIdent)}
+                            alder={nullableDatoTilAlder(fagsakEier.fødselsdato)}
                         />
                     </HStack>
                     <PersonopplysningerVarsler personopplysninger={fagsakEier} />
@@ -39,6 +41,7 @@ export function Visittkort({ behandling }: Props) {
                             <NavnOgIdent
                                 navn={`Søker: ${søker.navn}`}
                                 ident={formaterFødselsnummer(søker.personIdent)}
+                                alder={nullableDatoTilAlder(søker.fødselsdato)}
                             />
                         </>
                     )}
