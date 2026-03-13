@@ -2,78 +2,36 @@ import React from 'react';
 import styles from './Visittkort.module.css';
 import { Behandling } from '../../App/typer/fagsak';
 import { BodyShort, CopyButton, HStack, Label } from '@navikt/ds-react';
-import { PersonStatusVarsel } from '../Varsel/PersonStatusVarsel';
-import { AdressebeskyttelseVarsel } from '../Varsel/AdressebeskyttelseVarsel';
-import { EtikettFokus } from '../Varsel/Etikett';
-import { erEtterDagensDato } from '../../App/utils/dato';
 import { IkonVelger } from '../IkonVelger/IkonVelger';
 import { formaterOrgNummer, Institusjon } from '../../App/typer/institusjon';
 import { usePersonopplysningerContext } from '../../App/context/PersonopplysningerContext';
 import { LenkerOgKnapper } from './LenkerOgKnapper';
+import { PersonopplysningerVarsler } from './PersonopplysningerVarsler';
 
 interface Props {
     behandling: Behandling;
 }
 
 export function Visittkort({ behandling }: Props) {
-    const {
-        fagsakEier: {
-            personIdent,
-            kjønn,
-            navn,
-            folkeregisterpersonstatus,
-            adressebeskyttelse,
-            egenAnsatt,
-            fullmakt,
-            vergemål,
-        },
-    } = usePersonopplysningerContext();
+    const { fagsakEier } = usePersonopplysningerContext();
 
     return (
         <div className={styles.container}>
             <HStack justify={'space-between'} width={'100%'}>
                 <VisittkortInner
                     alder={20}
-                    ident={personIdent}
-                    kjønn={kjønn}
+                    ident={fagsakEier.personIdent}
+                    kjønn={fagsakEier.kjønn}
                     navn={
                         <div className={styles.visningsnavn}>
                             <Label size={'small'} as={'p'}>
-                                {navn}
+                                {fagsakEier.navn}
                             </Label>
                         </div>
                     }
                     institusjon={behandling.institusjon}
                 >
-                    {folkeregisterpersonstatus && (
-                        <div className={styles.elementContainer}>
-                            <PersonStatusVarsel
-                                folkeregisterpersonstatus={folkeregisterpersonstatus}
-                            />
-                        </div>
-                    )}
-                    {adressebeskyttelse && (
-                        <div className={styles.elementContainer}>
-                            <AdressebeskyttelseVarsel adressebeskyttelse={adressebeskyttelse} />
-                        </div>
-                    )}
-                    {egenAnsatt && (
-                        <div className={styles.elementContainer}>
-                            <EtikettFokus>Egen ansatt</EtikettFokus>
-                        </div>
-                    )}
-                    {fullmakt.some(
-                        (f) => f.gyldigTilOgMed === null || erEtterDagensDato(f.gyldigTilOgMed)
-                    ) && (
-                        <div className={styles.elementContainer}>
-                            <EtikettFokus>Fullmakt</EtikettFokus>
-                        </div>
-                    )}
-                    {vergemål.length > 0 && (
-                        <div className={styles.elementContainer}>
-                            <EtikettFokus>Verge</EtikettFokus>
-                        </div>
-                    )}
+                    <PersonopplysningerVarsler personopplysninger={fagsakEier} />
                 </VisittkortInner>
                 <LenkerOgKnapper behandling={behandling} />
             </HStack>
