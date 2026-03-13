@@ -15,7 +15,8 @@ interface Props {
 }
 
 export function Visittkort({ behandling }: Props) {
-    const { fagsakEier } = usePersonopplysningerContext();
+    const { fagsakEier, søker } = usePersonopplysningerContext();
+    const skalViseSøker = fagsakEier.personIdent != søker.personIdent;
 
     return (
         <div className={styles.container}>
@@ -33,6 +34,15 @@ export function Visittkort({ behandling }: Props) {
                         ident={formaterFødselsnummer(fagsakEier.personIdent)}
                     />
                     <PersonopplysningerVarsler personopplysninger={fagsakEier} />
+                    {skalViseSøker && (
+                        <>
+                            <div>|</div>
+                            <NavnOgIdent
+                                navn={`Søker: ${søker.navn}`}
+                                ident={formaterFødselsnummer(søker.personIdent)}
+                            />
+                        </>
+                    )}
                     {behandling.institusjon && (
                         <>
                             <div>|</div>
