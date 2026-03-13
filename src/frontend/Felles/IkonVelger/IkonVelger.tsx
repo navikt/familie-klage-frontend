@@ -11,17 +11,17 @@ import { InstitusjonIkon } from '../Ikoner/InstitusjonIkon';
 export interface Props {
     alder: number;
     kjønn: Kjønn;
-    width: number;
-    height: number;
     institusjon?: Institusjon;
+    width?: number;
+    height?: number;
 }
 
 export const IkonVelger: React.FunctionComponent<Props> = ({
     alder,
     kjønn,
-    width,
-    height,
     institusjon,
+    width = 24,
+    height = 24,
 }) => {
     if (institusjon) {
         return <InstitusjonIkon height={height} width={width} />;

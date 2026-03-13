@@ -25,8 +25,6 @@ export function Visittkort({ behandling }: Props) {
                         <IkonVelger
                             alder={20}
                             kjønn={fagsakEier.kjønn}
-                            width={24}
-                            height={24}
                             institusjon={behandling.institusjon}
                         />
                         <NavnOgIdent
