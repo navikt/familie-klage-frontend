@@ -29,8 +29,8 @@
   },
   "dependencies": {
     "@grafana/faro-web-sdk": "2.2.4",
-    "@navikt/ds-css": "7.39.0",
-    "@navikt/ds-react": "7.39.0",
+    "@navikt/ds-css": "8.6.0",
+    "@navikt/ds-react": "8.6.0",
     "@navikt/familie-backend": "10.1.21",
     "@navikt/familie-logging": "7.0.7",
     "@navikt/land-verktoy": "11.0.41",
