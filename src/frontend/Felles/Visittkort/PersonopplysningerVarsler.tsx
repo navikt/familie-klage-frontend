@@ -1,5 +1,4 @@
 import React from 'react';
-import styles from './Visittkort.module.css';
 import { IPersonopplysninger } from '../../App/typer/personopplysninger';
 import { PersonStatusVarsel } from '../Varsel/PersonStatusVarsel';
 import { AdressebeskyttelseVarsel } from '../Varsel/AdressebeskyttelseVarsel';
@@ -20,32 +19,16 @@ export const PersonopplysningerVarsler = ({
     return (
         <>
             {folkeregisterpersonstatus && (
-                <div className={styles.elementContainer}>
-                    <PersonStatusVarsel folkeregisterpersonstatus={folkeregisterpersonstatus} />
-                </div>
+                <PersonStatusVarsel folkeregisterpersonstatus={folkeregisterpersonstatus} />
             )}
             {adressebeskyttelse && (
-                <div className={styles.elementContainer}>
-                    <AdressebeskyttelseVarsel adressebeskyttelse={adressebeskyttelse} />
-                </div>
+                <AdressebeskyttelseVarsel adressebeskyttelse={adressebeskyttelse} />
             )}
-            {egenAnsatt && (
-                <div className={styles.elementContainer}>
-                    <EtikettFokus>Egen ansatt</EtikettFokus>
-                </div>
-            )}
+            {egenAnsatt && <EtikettFokus>Egen ansatt</EtikettFokus>}
             {fullmakt.some(
                 (f) => f.gyldigTilOgMed === null || erEtterDagensDato(f.gyldigTilOgMed)
-            ) && (
-                <div className={styles.elementContainer}>
-                    <EtikettFokus>Fullmakt</EtikettFokus>
-                </div>
-            )}
-            {vergemål.length > 0 && (
-                <div className={styles.elementContainer}>
-                    <EtikettFokus>Verge</EtikettFokus>
-                </div>
-            )}
+            ) && <EtikettFokus>Fullmakt</EtikettFokus>}
+            {vergemål.length > 0 && <EtikettFokus>Verge</EtikettFokus>}
         </>
     );
 };
