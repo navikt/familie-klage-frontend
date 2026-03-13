@@ -1,12 +1,14 @@
 import React from 'react';
 import styles from './Visittkort.module.css';
 import { Behandling } from '../../App/typer/fagsak';
-import { BodyShort, CopyButton, HStack, Label } from '@navikt/ds-react';
+import { HStack } from '@navikt/ds-react';
 import { IkonVelger } from '../IkonVelger/IkonVelger';
 import { formaterOrgNummer, Institusjon } from '../../App/typer/institusjon';
 import { usePersonopplysningerContext } from '../../App/context/PersonopplysningerContext';
 import { LenkerOgKnapper } from './LenkerOgKnapper';
 import { PersonopplysningerVarsler } from './PersonopplysningerVarsler';
+import { NavnOgIdent } from './NavnOgIdent';
+import { formaterFødselsnummer } from '../../App/utils/formatter';
 
 interface Props {
     behandling: Behandling;
@@ -22,13 +24,7 @@ export function Visittkort({ behandling }: Props) {
                     alder={20}
                     ident={fagsakEier.personIdent}
                     kjønn={fagsakEier.kjønn}
-                    navn={
-                        <div className={styles.visningsnavn}>
-                            <Label size={'small'} as={'p'}>
-                                {fagsakEier.navn}
-                            </Label>
-                        </div>
-                    }
+                    navn={fagsakEier.navn}
                     institusjon={behandling.institusjon}
                 >
                     <PersonopplysningerVarsler personopplysninger={fagsakEier} />
@@ -43,7 +39,7 @@ export interface IProps extends React.PropsWithChildren {
     alder: number;
     ident: string;
     kjønn: Kjønn;
-    navn: string | React.ReactNode;
+    navn: string;
     institusjon?: Institusjon;
 }
 
@@ -63,31 +59,15 @@ const VisittkortInner: React.FunctionComponent<IProps> = ({
 }) => (
     <HStack align={'center'} gap={'space-8'} padding={'space-8'}>
         <IkonVelger alder={alder} kjønn={kjønn} width={24} height={24} institusjon={institusjon} />
-        {typeof navn === 'string' ? (
-            <Label size={'small'}>
-                {navn} ({alder} år)
-            </Label>
-        ) : (
-            navn
-        )}
-        <div>|</div>
-        <HStack align={'center'} gap={'space-8'} wrap={false}>
-            {ident}
-            <CopyButton copyText={ident.replace(' ', '')} size={'small'} />
-        </HStack>
+        <NavnOgIdent navn={navn} ident={formaterFødselsnummer(ident)} alder={alder} />
         {institusjon && (
-            <HStack align={'center'} gap={'space-8'} wrap={false}>
+            <>
                 <div>|</div>
-                <HStack align={'center'} gap={'1'} wrap={false}>
-                    <BodyShort weight={'semibold'}>Søker:</BodyShort>
-                    {institusjon.navn}
-                </HStack>
-                <div>|</div>
-                <HStack align={'center'} gap={'1'} wrap={false}>
-                    <BodyShort>{formaterOrgNummer(institusjon.orgNummer)} </BodyShort>
-                    <CopyButton copyText={institusjon.orgNummer.replace(' ', '')} size={'small'} />
-                </HStack>
-            </HStack>
+                <NavnOgIdent
+                    navn={`Søker: ${institusjon.navn}`}
+                    ident={formaterOrgNummer(institusjon.orgNummer)}
+                />
+            </>
         )}
         {children}
     </HStack>
