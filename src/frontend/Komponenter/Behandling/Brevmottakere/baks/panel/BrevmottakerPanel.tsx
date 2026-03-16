@@ -4,6 +4,9 @@ import { useBehandling } from '../../../../../App/context/BehandlingContext';
 import { BodyShort, Box, Button, HStack, Label, Tooltip } from '@navikt/ds-react';
 import { utledOppsumertBrevmottakere } from '../oppsummertBrevmottaker';
 import { Brevmottakere } from '../../brevmottakere';
+import { useToggles } from '../../../../../App/context/TogglesContext';
+import { usePersonopplysningerContext } from '../../../../../App/context/PersonopplysningerContext';
+import { ToggleName } from '../../../../../App/context/toggles';
 
 type Props = {
     brevmottakere: Brevmottakere;
@@ -12,15 +15,24 @@ type Props = {
 export function BrevmottakerPanel({ brevmottakere }: Props) {
     const { settVisBrevmottakereModal } = useApp();
     const { behandlingErRedigerbar } = useBehandling();
+    const {
+        fagsakEier: { personIdent: fagsakEierPersonIdent },
+        søker: { personIdent: søkerPersonIdent },
+    } = usePersonopplysningerContext();
+    const { toggles } = useToggles();
 
     const oppsumertBrevmottakere = utledOppsumertBrevmottakere(brevmottakere);
+    const kanEndreBrevmottakere =
+        behandlingErRedigerbar &&
+        (fagsakEierPersonIdent == søkerPersonIdent ||
+            !toggles[ToggleName.BRUK_SØKER_PERSONOPPLYSNINGER]);
 
     return (
         <>
             <Box background={'surface-info-subtle'} padding={'6'}>
                 <HStack justify={'space-between'} align={'center'}>
                     <Label htmlFor={'brevmottakere_liste'}>Brevmottakere</Label>
-                    {behandlingErRedigerbar && (
+                    {kanEndreBrevmottakere && (
                         <Tooltip content={'Legg til eller fjern brevmottakere'}>
                             <Button
                                 variant={'tertiary'}
