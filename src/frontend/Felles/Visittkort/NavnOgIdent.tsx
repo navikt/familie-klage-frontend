@@ -14,7 +14,7 @@ export const NavnOgIdent = ({
         <HStack align={'center'} gap={'space-8 space-12'} wrap={false}>
             <BodyShort as={'span'} weight={'semibold'} style={{ whiteSpace: 'nowrap' }}>
                 {navn}
-                {alder && ` (${alder} år)`}
+                {alder !== undefined && ` (${alder} år)`}
             </BodyShort>
             <div>|</div>
             <HStack align={'center'} gap={'1'} wrap={false}>
