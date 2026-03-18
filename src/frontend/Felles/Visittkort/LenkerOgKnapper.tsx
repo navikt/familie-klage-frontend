@@ -38,13 +38,13 @@ export const LenkerOgKnapper = ({ behandling }: Props) => {
         >
             <HStack align={'center'} gap={'space-8 space-12'} wrap={false}>
                 {behandlingLenke && (
-                    <Link href={behandlingLenke} target="_blank">
+                    <Link href={behandlingLenke} target="_blank" rel="noopener noreferrer">
                         Gå til behandling
                         <ExternalLinkIcon aria-label="Gå til behandling" fontSize={'1.375rem'} />
                     </Link>
                 )}
                 {tilbakekrevingLenke && (
-                    <Link href={tilbakekrevingLenke} target="_blank">
+                    <Link href={tilbakekrevingLenke} target="_blank" rel="noopener noreferrer">
                         Gå til tilbakekreving
                         <ExternalLinkIcon
                             aria-label="Gå til tilbakekreving"
@@ -52,7 +52,7 @@ export const LenkerOgKnapper = ({ behandling }: Props) => {
                         />
                     </Link>
                 )}
-                <Link href={saksoversiktLenke} target="_blank">
+                <Link href={saksoversiktLenke} target="_blank" rel="noopener noreferrer">
                     Gå til saksoversikt
                     <ExternalLinkIcon aria-label="Gå til saksoversikt" fontSize={'1.375rem'} />
                 </Link>
