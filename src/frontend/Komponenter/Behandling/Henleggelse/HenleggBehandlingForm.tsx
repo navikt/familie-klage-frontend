@@ -61,9 +61,9 @@ export function HenleggBehandlingForm({ form, onSubmit, fagsystem }: Props) {
     const henlagtÅrsak = watch(HenleggBehandlingFeltnavn.HENLAGT_ÅRSAK);
 
     const erHenlagtÅrsakTrukketTilbakeValgt = erHenlagtÅrsakTrukketTilbake(henlagtÅrsak);
-    const personopplysninger = usePersonopplysningerContext();
-    const erTilknyttetFullmakt = erPersonopplysningerTilknyttetFullmakt(personopplysninger);
-    const harVergemål = harPersonopplysningerVergemål(personopplysninger);
+    const { fagsakEier } = usePersonopplysningerContext();
+    const erTilknyttetFullmakt = erPersonopplysningerTilknyttetFullmakt(fagsakEier);
+    const harVergemål = harPersonopplysningerVergemål(fagsakEier);
 
     const erMuligÅSendeBrev =
         (fagsystem !== Fagsystem.EF || (!harVergemål && !erTilknyttetFullmakt)) &&

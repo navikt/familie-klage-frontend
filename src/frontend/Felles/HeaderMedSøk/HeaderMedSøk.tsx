@@ -11,14 +11,14 @@ import { MenuGridIcon } from '@navikt/aksel-icons';
 export const HeaderMedSøk: React.FunctionComponent<{ innloggetSaksbehandler: ISaksbehandler }> = ({
     innloggetSaksbehandler,
 }) => {
-    const { axiosRequest, appEnv, valgtFagsakId, personIdent } = useApp();
+    const { axiosRequest, appEnv, valgtFagsakId, fagsakEierPersonIdent } = useApp();
 
     const navn = innloggetSaksbehandler?.displayName ?? 'Ukjent';
     const enhet = innloggetSaksbehandler?.enhet ?? 'Ukjent';
     const popoverItems = [{ name: 'Logg ut', href: `${window.origin}/auth/logout` }];
     const eksterneLenker = useMemo(
-        () => lagEksterneLenker(axiosRequest, appEnv, valgtFagsakId, personIdent),
-        [axiosRequest, appEnv, valgtFagsakId, personIdent]
+        () => lagEksterneLenker(axiosRequest, appEnv, valgtFagsakId, fagsakEierPersonIdent),
+        [axiosRequest, appEnv, valgtFagsakId, fagsakEierPersonIdent]
     );
 
     return (

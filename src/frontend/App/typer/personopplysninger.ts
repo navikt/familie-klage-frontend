@@ -1,5 +1,10 @@
 import { erEtterDagensDato } from '../utils/dato';
 
+export interface IPersonopplysningerFagsakeierOgSøker {
+    fagsakEier: IPersonopplysninger;
+    søker: IPersonopplysninger;
+}
+
 export interface IPersonopplysninger {
     personIdent: string;
     navn: string;

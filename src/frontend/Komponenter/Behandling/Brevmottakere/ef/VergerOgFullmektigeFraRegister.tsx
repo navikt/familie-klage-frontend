@@ -21,7 +21,9 @@ export const VergerOgFullmektigeFraRegister: FC<Props> = ({
     valgteMottakere,
     settValgteMottakere,
 }) => {
-    const { vergemål, fullmakt } = usePersonopplysningerContext();
+    const {
+        fagsakEier: { vergemål, fullmakt },
+    } = usePersonopplysningerContext();
 
     const muligeMottakere = [
         ...vergemål.map(mapVergemålTilBrevmottakerPersonMedIdent),

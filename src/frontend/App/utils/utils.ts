@@ -1,5 +1,6 @@
-import { Behandling, Fagsystem } from '../typer/fagsak';
+import { Behandling, Fagsystem, PåklagetVedtakstype } from '../typer/fagsak';
 import { Eksternlenker } from '../typer/eksternlenker';
+import { FagsystemType } from '../../Komponenter/Behandling/Formkrav/typer';
 
 export const base64toBlob = (b64Data: string, contentType = '', sliceSize = 512): Blob => {
     const byteCharacters = atob(b64Data);
@@ -27,12 +28,18 @@ export const harVerdi = (str: string | undefined | null): boolean =>
 export const utledBehandlingLenke = (
     behandling: Behandling,
     eksternLenker: Eksternlenker
-): string => {
-    return utledEksternBehandlingLenke(
-        behandling,
-        behandling.påklagetVedtak?.eksternFagsystemBehandlingId,
-        eksternLenker
-    );
+): string | null => {
+    if (
+        behandling.påklagetVedtak.påklagetVedtakstype === PåklagetVedtakstype.VEDTAK &&
+        behandling.påklagetVedtak.fagsystemVedtak?.fagsystemType === FagsystemType.ORDNIÆR
+    ) {
+        return utledEksternBehandlingLenke(
+            behandling,
+            behandling.påklagetVedtak?.eksternFagsystemBehandlingId,
+            eksternLenker
+        );
+    }
+    return null;
 };
 
 export const utledEksternBehandlingLenke = (
@@ -48,10 +55,16 @@ export const utledEksternBehandlingLenke = (
 export const utledTilbakekrevingLenke = (
     behandling: Behandling,
     eksternLenker: Eksternlenker
-): string => {
-    return `${eksternLenker.tilbakekrevingUrl}/${behandling.fagsystem}/fagsak/${
-        behandling.eksternFagsystemFagsakId
-    }/behandling/${behandling.påklagetVedtak?.eksternFagsystemBehandlingId}`;
+): string | null => {
+    if (
+        behandling.påklagetVedtak.påklagetVedtakstype === PåklagetVedtakstype.VEDTAK &&
+        behandling.påklagetVedtak.fagsystemVedtak?.fagsystemType === FagsystemType.TILBAKEKREVING
+    ) {
+        return `${eksternLenker.tilbakekrevingUrl}/${behandling.fagsystem}/fagsak/${
+            behandling.eksternFagsystemFagsakId
+        }/behandling/${behandling.påklagetVedtak?.eksternFagsystemBehandlingId}`;
+    }
+    return null;
 };
 
 export const utledSaksoversiktLenke = (

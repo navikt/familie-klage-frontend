@@ -14,16 +14,20 @@ import { SettPåVent } from './SettPåVent/SettPåVent';
 import { EndreBehandlendeEnhetModal } from './EndreBehandlendeEnhet/EndreBehandlendeEnhetModal';
 import { HenleggBehandlingModal } from './Henleggelse/HenleggBehandlingModal';
 import { PersonopplysningerContextProvider } from '../../App/context/PersonopplysningerContext';
+import { useParams } from 'react-router-dom';
 
 interface Props {
     behandling: Behandling;
 }
 
-export const BehandlingContainer: FC = () => (
-    <BehandlingProvider>
-        <BehandlingOverbygg />
-    </BehandlingProvider>
-);
+export const BehandlingContainer: FC = () => {
+    const behandlingId = useParams<{ behandlingId: string }>().behandlingId as string;
+    return (
+        <BehandlingProvider key={behandlingId}>
+            <BehandlingOverbygg />
+        </BehandlingProvider>
+    );
+};
 
 const BehandlingOverbygg: FC = () => {
     const { personopplysningerResponse, behandling } = useBehandling();

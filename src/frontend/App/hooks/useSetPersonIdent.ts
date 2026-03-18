@@ -1,13 +1,19 @@
 import { useApp } from '../context/AppContext';
 import { useEffect } from 'react';
+import { IPersonopplysningerFagsakeierOgSøker } from '../typer/personopplysninger';
 
-export const useSetPersonIdent = (personIdent: string) => {
-    const { settPersonIdent } = useApp();
+export const useSetPersonIdent = (personopplysninger: IPersonopplysningerFagsakeierOgSøker) => {
+    const { settFagsakEierPersonIdent, settSøkerPersonIdent } = useApp();
 
     useEffect(() => {
-        settPersonIdent(personIdent);
-        return () => settPersonIdent(undefined);
-    }, [settPersonIdent, personIdent]);
+        settFagsakEierPersonIdent(personopplysninger.fagsakEier.personIdent);
+        return () => settFagsakEierPersonIdent(undefined);
+    }, [settFagsakEierPersonIdent, personopplysninger.fagsakEier.personIdent]);
+
+    useEffect(() => {
+        settSøkerPersonIdent(personopplysninger.søker.personIdent);
+        return () => settSøkerPersonIdent(undefined);
+    }, [settSøkerPersonIdent, personopplysninger.søker.personIdent]);
 
     return {};
 };

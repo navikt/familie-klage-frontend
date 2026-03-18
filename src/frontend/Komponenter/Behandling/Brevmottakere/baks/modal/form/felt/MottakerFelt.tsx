@@ -26,7 +26,9 @@ export function MottakerFelt({ valgteMottakerRoller, erLesevisning = false }: Pr
     const { control, setValue, getValues, resetField } =
         useFormContext<BrevmottakerPersonUtenIdentFormValues>();
 
-    const { navn } = usePersonopplysningerContext();
+    const {
+        fagsakEier: { navn },
+    } = usePersonopplysningerContext();
 
     const { field, fieldState, formState } = useController({
         name: BrevmottakerPersonUtenIdentFeltnavn.MOTTAKERROLLE,

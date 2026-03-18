@@ -20,7 +20,9 @@ export function LandFelt({ erLesevisning = false }: Props) {
     const { control, getValues, setValue, resetField } =
         useFormContext<BrevmottakerPersonUtenIdentFormValues>();
 
-    const { navn } = usePersonopplysningerContext();
+    const {
+        fagsakEier: { navn },
+    } = usePersonopplysningerContext();
 
     const { field, fieldState, formState } = useController({
         name: BrevmottakerPersonUtenIdentFeltnavn.LANDKODE,
