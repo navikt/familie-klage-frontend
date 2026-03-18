@@ -24,8 +24,8 @@ export function Visittkort({ behandling }: Props) {
                 <HStack align={'center'} gap={'space-8 space-12'}>
                     <HStack align={'center'} gap={'space-8 space-12'} wrap={false}>
                         <IkonVelger
-                            alder={nullableDatoTilAlder(fagsakEier.fødselsdato) || 18}
                             kjønn={fagsakEier.kjønn}
+                            alder={nullableDatoTilAlder(fagsakEier.fødselsdato)}
                             institusjon={behandling.institusjon}
                         />
                         <NavnOgIdent
