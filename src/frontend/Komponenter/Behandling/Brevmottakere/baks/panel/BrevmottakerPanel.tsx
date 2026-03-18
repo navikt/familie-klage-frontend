@@ -24,8 +24,8 @@ export function BrevmottakerPanel({ brevmottakere }: Props) {
     const oppsumertBrevmottakere = utledOppsumertBrevmottakere(brevmottakere);
     const kanEndreBrevmottakere =
         behandlingErRedigerbar &&
-        (fagsakEierPersonIdent == søkerPersonIdent ||
-            toggles[ToggleName.BRUK_SØKER_PERSONOPPLYSNINGER] == false);
+        (fagsakEierPersonIdent === søkerPersonIdent ||
+            toggles[ToggleName.BRUK_SØKER_PERSONOPPLYSNINGER] === false);
 
     return (
         <>

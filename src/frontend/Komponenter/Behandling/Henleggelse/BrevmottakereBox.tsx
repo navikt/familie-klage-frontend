@@ -36,8 +36,8 @@ export function BrevmottakereBox({ behandling }: Props) {
         behandling.fagsystem !== Fagsystem.EF &&
         !harDødsboBrevmottaker &&
         (brevmottakere.length < 2 || harBruker) &&
-        (fagsakEierPersonIdent == søkerPersonIdent ||
-            toggles[ToggleName.BRUK_SØKER_PERSONOPPLYSNINGER] == false);
+        (fagsakEierPersonIdent === søkerPersonIdent ||
+            toggles[ToggleName.BRUK_SØKER_PERSONOPPLYSNINGER] === false);
 
     return (
         <Box as={'div'} background={'surface-neutral-subtle'} padding={'space-12'}>
