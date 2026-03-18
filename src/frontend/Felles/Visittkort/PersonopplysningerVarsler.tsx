@@ -17,7 +17,7 @@ export const PersonopplysningerVarsler = ({
 }: {
     personopplysninger: IPersonopplysninger;
 }) => {
-    const folkregisterpersonstatusVarsel = folkeregisterpersonstatus && (
+    const folkeregisterpersonstatusVarsel = folkeregisterpersonstatus && (
         <PersonStatusVarsel folkeregisterpersonstatus={folkeregisterpersonstatus} />
     );
 
@@ -34,7 +34,7 @@ export const PersonopplysningerVarsler = ({
     const vergemålVarsel = vergemål.length > 0 && <EtikettFokus>Verge</EtikettFokus>;
 
     if (
-        !folkregisterpersonstatusVarsel &&
+        !folkeregisterpersonstatusVarsel &&
         !adressebeskyttelseVarsel &&
         !egenAnsattVarsel &&
         !fullmaktVarsel &&
@@ -47,7 +47,7 @@ export const PersonopplysningerVarsler = ({
         <>
             <div>|</div>
             <HStack align={'center'} gap={'space-8 space-12'} wrap={false}>
-                {folkregisterpersonstatusVarsel}
+                {folkeregisterpersonstatusVarsel}
                 {adressebeskyttelseVarsel}
                 {egenAnsattVarsel}
                 {fullmaktVarsel}
