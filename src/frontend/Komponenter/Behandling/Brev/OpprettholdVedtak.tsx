@@ -60,9 +60,9 @@ export const OpprettholdVedtak: React.FC<Props> = ({ behandlingId, fagsystem }) 
     };
 
     return (
-        <Box margin="8">
-            <HGrid gap={'6'} columns={{ xl: 1, '2xl': '1fr 1.2fr' }}>
-                <VStack gap={'6'}>
+        <Box margin="space-32">
+            <HGrid gap={'space-24'} columns={{ xl: 1, '2xl': '1fr 1.2fr' }}>
+                <VStack gap={'space-24'}>
                     {brevRessurs.status === RessursStatus.SUKSESS &&
                         (fagsystem === Fagsystem.EF ? (
                             <BrevmottakereEf

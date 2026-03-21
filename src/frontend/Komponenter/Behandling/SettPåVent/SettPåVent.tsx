@@ -152,14 +152,14 @@ export const SettPåVent: FC<{ behandling: Behandling }> = ({ behandling }) => {
         <DataViewer response={{ oppgave }}>
             {({ oppgave }) => {
                 return (
-                    <VStack className={styles.container} gap="4" padding="8">
+                    <VStack className={styles.container} gap="space-16" padding="space-32">
                         {feilmelding && <Alert variant="error">{feilmelding}</Alert>}
                         <Heading size={'medium'}>
                             {erBehandlingPåVent
                                 ? 'Behandling er på vent'
                                 : 'Sett behandling på vent'}
                         </Heading>
-                        <HStack gap="4">
+                        <HStack gap="space-16">
                             <SaksbehandlerVelger
                                 oppgave={oppgave}
                                 saksbehandler={saksbehandler}

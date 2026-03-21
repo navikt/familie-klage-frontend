@@ -18,8 +18,8 @@ export const BehandlingInfo: React.FC<Props> = ({ behandling }) => {
     return (
         <DataViewer response={{ ansvarligSaksbehandler }}>
             {({ ansvarligSaksbehandler }) => (
-                <HStack padding="4" gap="2" className={styles.container}>
-                    <HStack gap="3" width="100%">
+                <HStack padding="space-16" gap="space-8" className={styles.container}>
+                    <HStack gap="space-12" width="100%">
                         <TilegnetSaksbehandler ansvarligSaksbehandler={ansvarligSaksbehandler} />
                         <div className={styles.grid}>
                             <VStack>

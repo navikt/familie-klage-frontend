@@ -34,7 +34,11 @@ export function SendTrukketKlageBrevFelt() {
                 error={fieldState.error?.message}
                 readOnly={formState.isSubmitting}
             >
-                <Stack gap={'0 6'} direction={{ xs: 'column', sm: 'row' }} wrap={false}>
+                <Stack
+                    gap={'space-0 space-24'}
+                    direction={{ xs: 'column', sm: 'row' }}
+                    wrap={false}
+                >
                     <Radio value={true}>Ja</Radio>
                     <Radio value={false}>Nei</Radio>
                 </Stack>

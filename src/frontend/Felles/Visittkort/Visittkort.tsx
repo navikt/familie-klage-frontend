@@ -19,8 +19,8 @@ export function Visittkort({ behandling }: Props) {
     const skalViseSøker = fagsakEier.personIdent != søker.personIdent;
 
     return (
-        <Box borderWidth={'0 0 1 0'} paddingInline={'4'} paddingBlock={'2'}>
-            <HGrid columns={'auto 1fr'} align={'center'} gap={'4'}>
+        <Box borderWidth={'0 0 1 0'} paddingInline={'space-16'} paddingBlock={'space-8'}>
+            <HGrid columns={'auto 1fr'} align={'center'} gap={'space-16'}>
                 <HStack align={'center'} gap={'space-8 space-12'}>
                     <HStack align={'center'} gap={'space-8 space-12'} wrap={false}>
                         <IkonVelger

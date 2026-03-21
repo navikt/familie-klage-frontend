@@ -75,7 +75,7 @@ const BrevMottakerPanel: React.FC<{
 
     return flereBrevmottakereErValgt || !brukerErBrevmottaker ? (
         <Alert variant={'info'}>
-            <VStack gap={'2'}>
+            <VStack gap={'space-8'}>
                 <HStack justify="space-between" style={{ margin: '0.25rem 0 0.25rem 0' }}>
                     <Label>Brevmottakere:</Label>
                     {behandlingErRedigerbar && (
@@ -96,7 +96,7 @@ const BrevMottakerPanel: React.FC<{
             </VStack>
         </Alert>
     ) : (
-        <HStack gap="4" align="center">
+        <HStack gap="space-16" align="center">
             <Label>Brevmottaker:</Label>
             <BodyShort>{navn.map((navn) => navn)}</BodyShort>
             {behandlingErRedigerbar && (

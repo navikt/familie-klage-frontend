@@ -17,7 +17,7 @@ export const VurderingLesemodus: React.FC<{ vurdering: IVurdering }> = ({ vurder
 const OmgjørVedtak: React.FC<{ vurdering: IVurdering }> = ({ vurdering }) => {
     const { vedtak, årsak, begrunnelseOmgjøring } = vurdering;
     return (
-        <VStack gap="8" margin="8">
+        <VStack gap="space-32" margin="space-32">
             {vedtak && (
                 <div>
                     <Heading level="2" size="medium">
@@ -59,7 +59,7 @@ const OpprettholdVedtak: React.FC<{ vurdering: IVurdering }> = ({ vurdering }) =
         interntNotat,
     } = vurdering;
     return (
-        <VStack gap="8" margin="8">
+        <VStack gap="space-32" margin="space-32">
             {vedtak && (
                 <div>
                     <Heading level="2" size="medium">

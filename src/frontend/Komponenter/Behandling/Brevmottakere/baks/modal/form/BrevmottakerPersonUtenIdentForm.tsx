@@ -70,7 +70,7 @@ export function BrevmottakerPersonUtenIdentForm({
     return (
         <FormProvider {...form}>
             <form onSubmit={handleSubmit(onSubmit)}>
-                <VStack gap={'4'}>
+                <VStack gap={'space-16'}>
                     <Fieldset legend={'Ny brevmottaker'} hideLegend={true}>
                         <MottakerFelt
                             valgteMottakerRoller={valgteMottakerRoller}
@@ -92,7 +92,7 @@ export function BrevmottakerPersonUtenIdentForm({
                             {errors.root.message}
                         </Alert>
                     )}
-                    <HStack gap={'4'}>
+                    <HStack gap={'space-16'}>
                         {behandlingErRedigerbar && (
                             <Button variant={'primary'} type={'submit'} loading={isSubmitting}>
                                 Legg til brevmottaker

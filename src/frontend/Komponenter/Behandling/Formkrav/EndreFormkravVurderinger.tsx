@@ -189,7 +189,7 @@ export const EndreFormkravVurderinger: React.FC<Props> = ({
                         <>
                             {radioKnapper.map((formalkrav: IFormalkrav, index: number) => (
                                 <>
-                                    <HStack key={index} gap="2">
+                                    <HStack key={index} gap="space-8">
                                         <RadioGroup
                                             legend={formalkrav.spørsmål}
                                             size="medium"

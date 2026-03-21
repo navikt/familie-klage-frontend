@@ -72,9 +72,9 @@ export const TestSide: React.FC = () => {
     }
 
     return (
-        <Box padding={'10'}>
+        <Box padding={'space-40'}>
             <Heading size={'large'}>[Test] Opprett dummy-behandling</Heading>
-            <VStack padding={'4'} gap={'5'} width={'25rem'}>
+            <VStack padding={'space-16'} gap={'space-20'} width={'25rem'}>
                 <TextField
                     label={'Ident'}
                     placeholder={'Ident'}

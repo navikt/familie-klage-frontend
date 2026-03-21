@@ -3,7 +3,7 @@ import { Box, ReadMore } from '@navikt/ds-react';
 
 export const LesMerOmInnstilling = () => {
     return (
-        <Box maxWidth="40rem" marginBlock="2 0">
+        <Box maxWidth="40rem" marginBlock="space-8 space-0">
             <ReadMore size="small" header="Dette skal innstillingen inneholde">
                 <ol>
                     <li>

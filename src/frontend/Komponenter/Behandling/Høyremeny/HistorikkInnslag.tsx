@@ -25,12 +25,12 @@ export const HistorikkInnslag: React.FC<Props> = ({ behandling, historikkInnslag
         : behandlingStegFullførtTilTekst[steg];
 
     return (
-        <HStack margin="6">
+        <HStack margin="space-24">
             <div>
                 <PersonCircleIcon fontSize="1.5rem" height={'1em'} />
                 <div className={styles.stipletLinje} />
             </div>
-            <Box marginInline="2 0">
+            <Box marginInline="space-8 space-0">
                 <Label size="small">{labelTekst}</Label>
                 {beskrivelse && (
                     <BodyShort className={styles.beskrivelse} size="small">

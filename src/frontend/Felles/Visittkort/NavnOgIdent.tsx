@@ -17,7 +17,7 @@ export const NavnOgIdent = ({
                 {alder !== undefined && ` (${alder} år)`}
             </BodyShort>
             <div>|</div>
-            <HStack align={'center'} gap={'1'} wrap={false}>
+            <HStack align={'center'} gap={'space-4'} wrap={false}>
                 {ident}
                 <CopyButton copyText={ident.replaceAll(' ', '')} size={'small'} />
             </HStack>
