@@ -138,7 +138,7 @@ export const VurderingRedigeringsmodus = ({
                     });
                 }}
             >
-                <VStack gap="4" marginInline="8" marginBlock="8">
+                <VStack gap="space-16" marginInline="space-32" marginBlock="space-32">
                     <Nedtrekksliste
                         visningsnavn={'Vedtak'}
                         feltnavn={'vedtak'}
@@ -206,7 +206,7 @@ export const VurderingRedigeringsmodus = ({
                             </ErrorSummary>
                         </Box>
                     )}
-                    <HStack gap="4">
+                    <HStack gap="space-16">
                         <Button
                             variant="secondary"
                             size="medium"

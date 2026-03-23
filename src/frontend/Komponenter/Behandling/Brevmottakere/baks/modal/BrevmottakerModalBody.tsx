@@ -116,7 +116,7 @@ export function BrevmottakerModalBody({
 
     return (
         <Modal.Body>
-            <VStack gap={'4'}>
+            <VStack gap={'space-16'}>
                 {institusjonErBrevmottaker ? (
                     <Alert variant={'info'}>
                         Brev sendes til institusjon. Legg til mottaker dersom brev skal sendes til
@@ -145,7 +145,7 @@ export function BrevmottakerModalBody({
                                 value={brevmottakerType}
                                 onChange={settBrevmottakerType}
                             >
-                                <HStack gap={'6'}>
+                                <HStack gap={'space-24'}>
                                     <Radio value={NyBrevmottakerType.PERSON_UTEN_IDENT}>
                                         Person
                                     </Radio>

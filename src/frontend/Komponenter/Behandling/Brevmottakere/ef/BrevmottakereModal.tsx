@@ -106,7 +106,7 @@ export const BrevmottakereModal: FC<Props> = ({
                     />
                 </div>
             </div>
-            <HStack justify="center" gap="4">
+            <HStack justify="center" gap="space-16">
                 <Button variant="tertiary" onClick={() => settVisBrevmottakereModal(false)}>
                     Avbryt
                 </Button>

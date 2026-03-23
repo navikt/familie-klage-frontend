@@ -21,7 +21,7 @@ export const TilegnetSaksbehandler: React.FC<Props> = ({ ansvarligSaksbehandler 
 
     return (
         <>
-            <HStack align="center" gap="3">
+            <HStack align="center" gap="space-12">
                 <PersonHeadsetIcon width="3rem" height="3rem" />
                 <VStack>
                     <BodyShort size={'small'} textColor="subtle">

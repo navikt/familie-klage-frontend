@@ -15,7 +15,7 @@ export const EksisterendeBeskrivelse: FC<{ beskrivelse?: string }> = ({ beskrive
 
     return (
         <section>
-            <VStack gap="2">
+            <VStack gap="space-8">
                 <Label size={'small'}>Beskrivelseshistorikk</Label>
                 <div className={styles.venstreSkillelinje}>
                     <BodyShort

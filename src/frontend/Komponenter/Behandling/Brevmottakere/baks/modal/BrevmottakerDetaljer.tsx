@@ -41,7 +41,7 @@ export function BrevmottakerDetaljer({ brevmottaker, slettBrevmottaker }: Props)
     }
 
     return (
-        <VStack marginBlock={'2 2'} gap={'2'}>
+        <VStack marginBlock={'space-8 space-8'} gap={'space-8'}>
             {slettFeilmelding && (
                 <Alert
                     variant={'error'}
@@ -71,7 +71,7 @@ export function BrevmottakerDetaljer({ brevmottaker, slettBrevmottaker }: Props)
             </HStack>
             {erBrevmottakerPersonUtenIdent(brevmottaker) && (
                 <>
-                    <HGrid gap={'2'} columns={'1fr 2fr'}>
+                    <HGrid gap={'space-8'} columns={'1fr 2fr'}>
                         <div>Navn:</div>
                         <div>{brevmottaker.navn}</div>
                         <div>Land:</div>
@@ -107,13 +107,13 @@ export function BrevmottakerDetaljer({ brevmottaker, slettBrevmottaker }: Props)
                 </>
             )}
             {erBrevmottakerPersonMedIdent(brevmottaker) && (
-                <HGrid gap={'2'} columns={'1fr 1fr'}>
+                <HGrid gap={'space-8'} columns={'1fr 1fr'}>
                     <div>Navn:</div>
                     <div>{brevmottaker.navn}</div>
                 </HGrid>
             )}
             {erBrevmottakerOrganisasjon(brevmottaker) && (
-                <HGrid gap={'2'} columns={'1fr 1fr'}>
+                <HGrid gap={'space-8'} columns={'1fr 1fr'}>
                     <div>Organisasjonsnavn:</div>
                     <div>{brevmottaker.organisasjonsnavn}</div>
                     <div>Organisasjonsnummer:</div>

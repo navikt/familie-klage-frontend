@@ -116,7 +116,7 @@ export const VurderingRedigeringsmodus: React.FC<Props> = ({ behandling, vurderi
     };
 
     return (
-        <VStack gap="8" margin="8">
+        <VStack gap="space-32" margin="space-32">
             <VedtakSelect
                 settVedtak={settOppdatertVurdering}
                 valgtVedtak={oppdatertVurdering.vedtak ?? ''}

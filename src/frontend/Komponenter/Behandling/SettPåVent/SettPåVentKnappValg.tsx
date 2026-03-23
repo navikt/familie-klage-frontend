@@ -17,7 +17,7 @@ export const SettPåVentKnappValg: React.FC<SettPåVentKnappValgProps> = ({
     låsKnapp,
 }) => {
     return (
-        <HStack justify="end" gap="8">
+        <HStack justify="end" gap="space-32">
             {erBehandlingPåVent ? (
                 <Button onClick={taAvVent} variant="primary" disabled={låsKnapp}>
                     Ta av vent

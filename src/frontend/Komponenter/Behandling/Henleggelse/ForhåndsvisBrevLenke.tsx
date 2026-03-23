@@ -30,7 +30,7 @@ export function ForhåndsvisBrevLenke({ behandling }: Props) {
 
     return (
         <Box paddingBlock={'space-12'}>
-            <VStack gap={'2'}>
+            <VStack gap={'space-8'}>
                 {feilmelding && (
                     <Alert
                         variant={'error'}

@@ -87,7 +87,12 @@ export function HenleggBehandlingModalInnhold({ behandling }: Props) {
         return (
             <>
                 <Modal.Body>
-                    <VStack gap={'5'} as={'div'} height={'10rem'} paddingBlock={'6 0'}>
+                    <VStack
+                        gap={'space-20'}
+                        as={'div'}
+                        height={'10rem'}
+                        paddingBlock={'space-24 space-0'}
+                    >
                         <Skeleton variant={'rectangle'} width={'50%'} height={'1.65rem'} />
                         <Skeleton variant={'rectangle'} width={'50%'} height={'1.65rem'} />
                         <Skeleton variant={'rectangle'} width={'50%'} height={'1.65rem'} />
@@ -122,11 +127,11 @@ export function HenleggBehandlingModalInnhold({ behandling }: Props) {
             value={{ visForm: visBrevmottakerForm, skjulForm: skjulBrevmottakerForm }}
         >
             <Modal.Body>
-                <VStack gap={'4'}>
+                <VStack gap={'space-16'}>
                     <Divider />
                     <HStack as={'div'} justify={'space-between'}>
                         <Box as={'div'} width={erBrevmottakerFormSynlig ? '45%' : '100%'}>
-                            <VStack gap={'4'}>
+                            <VStack gap={'space-16'}>
                                 {skalViseSendManueltBrevAdvarsel && <SendManueltBrevAdvarsel />}
                                 <HenleggBehandlingForm
                                     form={henleggBehandlingForm}
@@ -145,7 +150,7 @@ export function HenleggBehandlingModalInnhold({ behandling }: Props) {
                             <>
                                 <Divider />
                                 <Box as={'div'} width={'45%'}>
-                                    <VStack gap={'4'}>
+                                    <VStack gap={'space-16'}>
                                         <Heading level={'2'} size={'small'}>
                                             Ny brevmottaker
                                         </Heading>
@@ -159,7 +164,7 @@ export function HenleggBehandlingModalInnhold({ behandling }: Props) {
                                                 value={brevmottakerType}
                                                 onChange={settBrevmottakerType}
                                             >
-                                                <HStack gap={'6'}>
+                                                <HStack gap={'space-24'}>
                                                     <Radio
                                                         value={NyBrevmottakerType.PERSON_UTEN_IDENT}
                                                     >

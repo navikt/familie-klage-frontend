@@ -53,7 +53,7 @@ export const OmgjørVedtak: React.FC<Props> = ({ behandlingId }) => {
     return (
         <DataViewer response={{ kanOppretteRevurdering }}>
             {({ kanOppretteRevurdering }) => (
-                <VStack margin="8" gap="4" maxWidth="40rem">
+                <VStack margin="space-32" gap="space-16" maxWidth="40rem">
                     {behandlingErRedigerbar && (
                         <>
                             <KanOppretteRevurderingTekst

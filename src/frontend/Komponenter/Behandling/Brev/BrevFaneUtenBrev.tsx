@@ -30,7 +30,7 @@ export const BrevFaneUtenBrev: React.FC<Props> = ({ behandlingId }) => {
         : 'Klagebehandlingen ble opprettet med årsak "Henvendelse fra KA (uten brev)". Det ble derfor ikke utsendt brev til bruker.';
 
     return (
-        <VStack gap="4" margin="4">
+        <VStack gap="space-16" margin="space-16">
             <Alert variant="info">{alertStripeTekst}</Alert>
             {behandlingErRedigerbar && (
                 <Button

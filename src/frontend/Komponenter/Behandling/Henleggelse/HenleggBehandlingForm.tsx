@@ -72,7 +72,7 @@ export function HenleggBehandlingForm({ form, onSubmit, fagsystem }: Props) {
     return (
         <FormProvider {...form}>
             <form id={HENLEGG_BEHANDLING_FORM_ID} onSubmit={handleSubmit(onSubmit)}>
-                <VStack gap={'4'}>
+                <VStack gap={'space-16'}>
                     <Fieldset legend={'Henlegg behandling'} hideLegend={true}>
                         <HenlagtÅrsakFelt />
                         {erMuligÅSendeBrev && <SendTrukketKlageBrevFelt />}

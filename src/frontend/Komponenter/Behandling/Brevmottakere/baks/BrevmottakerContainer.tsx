@@ -84,7 +84,7 @@ export function BrevmottakerContainer({ behandlingId }: Props) {
 
     if (brevmottakere.status === RessursStatus.HENTER) {
         return (
-            <Box background={'surface-info-subtle'} width={'100%'}>
+            <Box background={'info-moderate'} width={'100%'}>
                 <Skeleton
                     width={'100%'}
                     height={150}

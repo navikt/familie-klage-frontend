@@ -64,7 +64,7 @@ export const DataViewer = <T extends Record<string, unknown>>(
         return <Alert variant={'error'}>Ikke tilgang!</Alert>;
     } else if (harNoenRessursMedStatus(responses, RessursStatus.HENTER)) {
         return (
-            <VStack margin="4" align="center">
+            <VStack margin="space-16" align="center">
                 <Loader size="xlarge" />
             </VStack>
         );

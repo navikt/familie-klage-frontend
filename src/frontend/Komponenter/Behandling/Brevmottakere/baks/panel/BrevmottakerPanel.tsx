@@ -29,7 +29,7 @@ export function BrevmottakerPanel({ brevmottakere }: Props) {
 
     return (
         <>
-            <Box background={'surface-info-subtle'} padding={'6'}>
+            <Box background={'info-moderate'} padding={'space-24'}>
                 <HStack justify={'space-between'} align={'center'}>
                     <Label htmlFor={'brevmottakere_liste'}>Brevmottakere</Label>
                     {kanEndreBrevmottakere && (

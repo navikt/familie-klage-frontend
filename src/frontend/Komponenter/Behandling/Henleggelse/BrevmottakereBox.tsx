@@ -40,8 +40,8 @@ export function BrevmottakereBox({ behandling }: Props) {
             toggles[ToggleName.BRUK_SØKER_PERSONOPPLYSNINGER] === false);
 
     return (
-        <Box as={'div'} background={'surface-neutral-subtle'} padding={'space-12'}>
-            <VStack gap={'4'}>
+        <Box as={'div'} background={'neutral-moderateA'} padding={'space-12'}>
+            <VStack gap={'space-16'}>
                 <Heading size={'small'}>Brevmottakere</Heading>
                 {brevmottakere.length === 0 && (
                     <Alert variant={'warning'}>Fant ingen brevmottakere...</Alert>
