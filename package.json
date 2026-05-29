@@ -36,7 +36,7 @@
     "@navikt/land-verktoy": "11.0.41",
     "@sentry/browser": "10.51.0",
     "@sentry/core": "10.51.0",
-    "axios": "1.15.2",
+    "axios": "1.16.0",
     "constate": "3.3.3",
     "date-fns": "4.1.0",
     "dotenv": "17.4.2",
