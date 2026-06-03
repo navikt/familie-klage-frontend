@@ -38,7 +38,7 @@
     "@sentry/core": "10.55.0",
     "axios": "1.16.1",
     "constate": "3.3.3",
-    "date-fns": "4.3.0",
+    "date-fns": "4.4.0",
     "dotenv": "17.4.2",
     "express": "5.2.1",
     "express-static-gzip": "3.0.0",
