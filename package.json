@@ -98,7 +98,7 @@
     "react-refresh": "0.18.0",
     "style-loader": "4.0.0",
     "svg-inline-loader": "0.8.2",
-    "typescript": "5.9.3",
+    "typescript": "6.0.3",
     "typescript-eslint": "8.60.1",
     "vitest": "4.1.8",
     "webpack": "5.107.2",
