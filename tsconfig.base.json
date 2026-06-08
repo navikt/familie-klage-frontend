@@ -1,11 +1,7 @@
 {
   "compilerOptions": {
     "target": "ES2022",
-    "lib": [
-      "dom",
-      "esnext",
-      "es6"
-    ],
+    "lib": ["esnext", "es6"],
     "importHelpers": true, // tslib required
     "declaration": true,
     "sourceMap": true,
@@ -14,17 +10,10 @@
     "noUnusedLocals": true,
     "noUnusedParameters": true,
     "noFallthroughCasesInSwitch": true,
-    "moduleResolution": "node",
-    "jsx": "react",
     "skipLibCheck": true,
     "resolveJsonModule": true,
-    "module": "es2022",
     "esModuleInterop": true,
-    "baseUrl": "./src",
     "rootDir": "./src",
     "outDir": "dist"
   },
-  "lib": [
-    "es2022"
-  ]
 }

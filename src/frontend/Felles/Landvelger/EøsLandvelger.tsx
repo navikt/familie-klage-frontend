@@ -2,8 +2,9 @@ import React, { useState } from 'react';
 
 import { ComboboxProps, UNSAFE_Combobox } from '@navikt/ds-react';
 
-import { ComboboxOption } from '@navikt/ds-react/cjs/form/combobox/types';
 import { EøsLandkode } from './landkode';
+
+type ComboboxOption = { value: string; label: string };
 
 type Props = {
     ref?: React.Ref<HTMLInputElement>;

@@ -60,7 +60,10 @@ export const BrevmottakereListe: FC<Props> = ({
                 </div>
             ))}
             {valgteOrganisasjonMottakere.map((mottaker, index) => (
-                <div className={styles.container} key={mottaker.navnHosOrganisasjon + index}>
+                <div
+                    className={styles.container}
+                    key={(mottaker.navnHosOrganisasjon ?? '') + index}
+                >
                     <div>
                         <BodyShort>{`${mottaker.navnHosOrganisasjon}`}</BodyShort>
                         <BodyShort>

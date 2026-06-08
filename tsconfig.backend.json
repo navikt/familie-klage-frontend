@@ -1,10 +1,9 @@
 {
   "extends": "./tsconfig.base.json",
-  "include": [
-    "./src/backend"
-  ],
-  "exclude": [
-    "./node_modules",
-    "./src/frontend"
-  ]
+  "compilerOptions": {
+    "moduleResolution": "NodeNext",
+    "module": "NodeNext"
+  },
+  "include": ["./src/backend"],
+  "exclude": ["./node_modules", "./src/frontend"]
 }

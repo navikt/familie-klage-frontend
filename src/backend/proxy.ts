@@ -3,7 +3,7 @@ import { NextFunction, Request, RequestHandler, Response } from 'express';
 import { ClientRequest, IncomingMessage } from 'http';
 import { createProxyMiddleware } from 'http-proxy-middleware';
 import { v4 as uuidv4 } from 'uuid';
-import { oboConfig } from './config';
+import { oboConfig } from './config.js';
 import { logError, logInfo, stdoutLogger } from '@navikt/familie-logging';
 
 const restream = (proxyReq: ClientRequest, req: IncomingMessage) => {

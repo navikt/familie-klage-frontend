@@ -1,8 +1,8 @@
 import { Client, ensureAuthenticated, logRequest } from '@navikt/familie-backend';
 import { NextFunction, Request, Response, Router } from 'express';
 import path from 'path';
-import { buildPath, eksternlenker, miljø, roller } from './config';
-import { prometheusTellere } from './metrikker';
+import { buildPath, eksternlenker, miljø, roller } from './config.js';
+import { prometheusTellere } from './metrikker.js';
 import { LOG_LEVEL } from '@navikt/familie-logging';
 
 const redirectHvisInternUrlIPreprod = () => {
