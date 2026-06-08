@@ -1631,13 +1631,13 @@
   dependencies:
     winston "3.19.0"
 
-"@navikt/land-verktoy@11.0.41":
-  version "11.0.41"
-  resolved "https://npm.pkg.github.com/download/@navikt/land-verktoy/11.0.41/21c325a3dc68cb6f2b2b10465afd71711346eb95#21c325a3dc68cb6f2b2b10465afd71711346eb95"
-  integrity sha512-WuOLd7fpRqscZZvI5yFqs9PY4F9ScfK3klHxRB0zP6QgKgrpf1Bz3Lv7t668V+C4hdNfOBJGT/lgDvWIqaiexQ==
+"@navikt/land-verktoy@14.0.2":
+  version "14.0.2"
+  resolved "https://npm.pkg.github.com/download/@navikt/land-verktoy/14.0.2/c1a87a2af49a9577a4030957c76493bd5fc6d39f#c1a87a2af49a9577a4030957c76493bd5fc6d39f"
+  integrity sha512-JIKTlKpnTpDKubsHoHU9d1VZtBymAfvJhS3UjU4oGtwr04C0J7FiHXmkOGO2QJEpKX1BBlvLh4CWCgCKrHnN1Q==
   dependencies:
     "@piotrgorecki/i18n-currency-name" "1.3.0"
-    country-data-list "1.6.0"
+    country-data-list "1.6.3"
     i18n-iso-countries "7.14.0"
 
 "@noble/hashes@1.4.0":
@@ -3657,10 +3657,10 @@ cosmiconfig@^9.0.0:
     js-yaml "^4.1.0"
     parse-json "^5.2.0"
 
-country-data-list@1.6.0:
-  version "1.6.0"
-  resolved "https://registry.yarnpkg.com/country-data-list/-/country-data-list-1.6.0.tgz#2ebd1fae15094c148a2d8c150f73768580e9cc82"
-  integrity sha512-KG1flNkUHtde7q9zw1/NcH5fFgDxU6gRt4f7jhBm2ucNXrSO8UBWv/w8UyueOhJGabzzjHJ7fTyRVLrKruWpUw==
+country-data-list@1.6.3:
+  version "1.6.3"
+  resolved "https://registry.yarnpkg.com/country-data-list/-/country-data-list-1.6.3.tgz#26ffc82937dd9c847fd82b6118cdfb32c8d61140"
+  integrity sha512-lyJkUP9bKZW4BkoM4Z3fLvrOwsFQ7bxnnPoR+xtQKbpAyAn7p1xOmnFURJ/oXWuIzDHedqTvZSOLjoRs6ccE7w==
 
 create-require@^1.1.0:
   version "1.1.1"
