@@ -15,6 +15,7 @@ export interface IPersonopplysninger {
     fødselsdato?: string;
     egenAnsatt: boolean;
     fullmakt: IFullmakt[];
+    harFullmaktTilgang: boolean;
     navEnhet: string;
     vergemål: IVergemål[];
 }
