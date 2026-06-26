@@ -26,7 +26,8 @@ const renderFeil = (responses: Ressurs<any>[]) => (
         {responses.map((feilet, index) => {
             if (
                 feilet.status === RessursStatus.FUNKSJONELL_FEIL ||
-                feilet.status === RessursStatus.FEILET
+                feilet.status === RessursStatus.FEILET ||
+                feilet.status === RessursStatus.IKKE_TILGANG
             ) {
                 return (
                     <Alert className={styles.alert} key={index} variant={'error'}>
@@ -58,10 +59,15 @@ export const DataViewer = <T extends Record<string, unknown>>(
 ): ReactNode | null => {
     const { response, children } = props;
     const responses = Object.values(response);
-    if (harNoenRessursMedStatus(responses, RessursStatus.FUNKSJONELL_FEIL, RessursStatus.FEILET)) {
+    if (
+        harNoenRessursMedStatus(
+            responses,
+            RessursStatus.FUNKSJONELL_FEIL,
+            RessursStatus.FEILET,
+            RessursStatus.IKKE_TILGANG
+        )
+    ) {
         return renderFeil(responses);
-    } else if (harNoenRessursMedStatus(responses, RessursStatus.IKKE_TILGANG)) {
-        return <Alert variant={'error'}>Ikke tilgang!</Alert>;
     } else if (harNoenRessursMedStatus(responses, RessursStatus.HENTER)) {
         return (
             <VStack margin="space-16" align="center">
