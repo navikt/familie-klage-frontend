@@ -15,6 +15,8 @@ import { EndreBehandlendeEnhetModal } from './EndreBehandlendeEnhet/EndreBehandl
 import { HenleggBehandlingModal } from './Henleggelse/HenleggBehandlingModal';
 import { PersonopplysningerContextProvider } from '../../App/context/PersonopplysningerContext';
 import { useParams } from 'react-router-dom';
+import { usePersonopplysningerContext } from '../../App/context/PersonopplysningerContext';
+import { Alert } from '@navikt/ds-react';
 
 interface Props {
     behandling: Behandling;
@@ -49,6 +51,7 @@ const BehandlingOverbygg: FC = () => {
 
 const BehandlingContent: FC<Props> = ({ behandling }) => {
     const { åpenHøyremeny } = useBehandling();
+    const { fagsakEier } = usePersonopplysningerContext();
 
     useSetValgtFagsakId(behandling.fagsakId);
 
@@ -67,6 +70,11 @@ const BehandlingContent: FC<Props> = ({ behandling }) => {
             <div className={styles.container}>
                 <div className={classNameBehandlingContainer} id="scroll-topp">
                     <Fanemeny behandling={behandling} />
+                    {!fagsakEier.harFullmaktTilgang && (
+                        <Alert variant={'warning'} style={{ marginBottom: '1rem' }}>
+                            Har ikke tilgang til å hente fullmaktopplysninger for denne personen.
+                        </Alert>
+                    )}
                     <SettPåVent behandling={behandling} />
                     <EndreBehandlendeEnhetModal behandling={behandling} />
                     <BehandlingRoutes behandling={behandling} />
