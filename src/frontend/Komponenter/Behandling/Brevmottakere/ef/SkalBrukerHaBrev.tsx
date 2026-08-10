@@ -1,7 +1,8 @@
-import React, { Dispatch, FC, SetStateAction } from 'react';
+import type { Dispatch, FC, SetStateAction } from 'react';
+import React from 'react';
 import { BodyShort, Radio, RadioGroup } from '@navikt/ds-react';
 import { MottakerRolle } from '../mottakerRolle';
-import { BrevmottakerPerson } from '../brevmottaker';
+import type { BrevmottakerPerson } from '../brevmottaker';
 import { usePersonopplysningerContext } from '../../../../App/context/PersonopplysningerContext';
 
 interface Props {

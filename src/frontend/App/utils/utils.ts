@@ -1,5 +1,6 @@
-import { Behandling, Fagsystem, PåklagetVedtakstype } from '../typer/fagsak';
-import { Eksternlenker } from '../typer/eksternlenker';
+import type { Behandling } from '../typer/fagsak';
+import { Fagsystem, PåklagetVedtakstype } from '../typer/fagsak';
+import type { Eksternlenker } from '../typer/eksternlenker';
 import { FagsystemType } from '../../Komponenter/Behandling/Formkrav/typer';
 
 export const base64toBlob = (b64Data: string, contentType = '', sliceSize = 512): Blob => {

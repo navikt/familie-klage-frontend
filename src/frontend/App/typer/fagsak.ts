@@ -1,7 +1,7 @@
-import { Stønadstype } from './stønadstype';
-import { BehandlingStatus } from './behandlingstatus';
-import { PåklagetVedtak } from '../../Komponenter/Behandling/Formkrav/typer';
-import { Institusjon } from './institusjon';
+import type { Stønadstype } from './stønadstype';
+import type { BehandlingStatus } from './behandlingstatus';
+import type { PåklagetVedtak } from '../../Komponenter/Behandling/Formkrav/typer';
+import type { Institusjon } from './institusjon';
 
 export enum Fagsystem {
     EF = 'EF',

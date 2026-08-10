@@ -1,10 +1,11 @@
 import * as React from 'react';
-import { Behandling, Fagsystem } from '../../../../App/typer/fagsak';
+import type { Behandling } from '../../../../App/typer/fagsak';
+import { Fagsystem } from '../../../../App/typer/fagsak';
 import { LesMerOmInnstilling } from '../InnstillingTilNavKlageinstans/LesMerOmInnstilling';
 import { Accordion, Box, Heading } from '@navikt/ds-react';
 import { InnstillingTilNavKlageinstansAvsnitt } from './InnstillingTilNavKlageinstansAvsnitt';
 import { Tekstfelt } from './Tekstfelt';
-import { VurderingAccordionFelter } from './felttyper';
+import type { VurderingAccordionFelter } from './felttyper';
 
 export type AccordionTilstand = {
     [key in keyof VurderingAccordionFelter]: boolean;

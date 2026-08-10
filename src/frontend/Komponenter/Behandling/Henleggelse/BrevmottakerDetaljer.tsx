@@ -1,12 +1,13 @@
 import { Alert, Button, Heading, HGrid, HStack, VStack } from '@navikt/ds-react';
 import { ArrowUndoIcon, TrashIcon } from '@navikt/aksel-icons';
-import React, { ReactNode } from 'react';
+import type { ReactNode } from 'react';
+import React from 'react';
 import { MottakerRolle, mottakerRolleVisningsnavn } from '../Brevmottakere/mottakerRolle';
+import type { NyBrevmottaker } from '../Brevmottakere/nyBrevmottaker';
 import {
     erNyBrevmottakerOrganisasjon,
     erNyBrevmottakerPersonMedIdent,
     erNyBrevmottakerPersonUtenIdent,
-    NyBrevmottaker,
 } from '../Brevmottakere/nyBrevmottaker';
 import CountryData from '@navikt/land-verktoy';
 import { useBrevmottakereContext } from './context/BrevmottakereContextProvider';

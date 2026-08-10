@@ -1,4 +1,5 @@
-import { RessursFeilet, RessursStatus, RessursSuksess } from '../../../App/typer/ressurs';
+import type { RessursFeilet, RessursSuksess } from '../../../App/typer/ressurs';
+import { RessursStatus } from '../../../App/typer/ressurs';
 import { useState } from 'react';
 import { useBehandling } from '../../../App/context/BehandlingContext';
 import { useApp } from '../../../App/context/AppContext';

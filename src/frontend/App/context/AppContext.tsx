@@ -1,13 +1,13 @@
-import { AxiosError, AxiosRequestConfig, AxiosResponse } from 'axios';
+import type { AxiosError, AxiosRequestConfig, AxiosResponse } from 'axios';
 import React, { useCallback, useEffect, useState } from 'react';
 
 import { håndterFeil, håndterRessurs, preferredAxios } from '../api/axios';
-import { Ressurs, RessursFeilet, RessursSuksess } from '../typer/ressurs';
-import { ISaksbehandler } from '../typer/saksbehandler';
+import type { Ressurs, RessursFeilet, RessursSuksess } from '../typer/ressurs';
+import type { ISaksbehandler } from '../typer/saksbehandler';
 import constate from 'constate';
-import { EToast } from '../typer/toast';
-import { AppEnv } from '../api/env';
-import { AxiosRequestCallback } from '../typer/axiosRequest';
+import type { EToast } from '../typer/toast';
+import type { AppEnv } from '../api/env';
+import type { AxiosRequestCallback } from '../typer/axiosRequest';
 
 interface IProps {
     autentisertSaksbehandler: ISaksbehandler;

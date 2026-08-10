@@ -1,16 +1,18 @@
-import React, { FC, useCallback, useState } from 'react';
+import type { FC } from 'react';
+import React, { useCallback, useState } from 'react';
 import { VergerOgFullmektigeFraRegister } from './VergerOgFullmektigeFraRegister';
 import { SøkWrapper } from './SøkWrapper';
 import { SkalBrukerHaBrev } from './SkalBrukerHaBrev';
 import { useApp } from '../../../../App/context/AppContext';
-import { RessursFeilet, RessursStatus, RessursSuksess } from '../../../../App/typer/ressurs';
+import type { RessursFeilet, RessursSuksess } from '../../../../App/typer/ressurs';
+import { RessursStatus } from '../../../../App/typer/ressurs';
 import { BrevmottakereListe } from './BrevmottakereListe';
-import { Brevmottakere } from '../brevmottakere';
+import type { Brevmottakere } from '../brevmottakere';
 import styles from './BrevmottakereModal.module.css';
 import { Alert, Button, HStack } from '@navikt/ds-react';
 import { EToast } from '../../../../App/typer/toast';
 import { ModalWrapper } from '../../../../Felles/Modal/ModalWrapper';
-import { BrevmottakerOrganisasjon, BrevmottakerPerson } from '../brevmottaker';
+import type { BrevmottakerOrganisasjon, BrevmottakerPerson } from '../brevmottaker';
 
 interface Props {
     behandlingId: string;

@@ -1,5 +1,5 @@
 import React from 'react';
-import { Behandling } from '../../App/typer/fagsak';
+import type { Behandling } from '../../App/typer/fagsak';
 import { Box, HGrid, HStack } from '@navikt/ds-react';
 import { IkonVelger } from '../IkonVelger/IkonVelger';
 import { formaterOrgNummer } from '../../App/typer/institusjon';

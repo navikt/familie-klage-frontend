@@ -1,4 +1,4 @@
-import { IBehandlingshistorikk } from './behandlingshistorikk';
+import type { IBehandlingshistorikk } from './behandlingshistorikk';
 
 export const utledSisteHistorikkInnslagPerKjede = (historikkListe: IBehandlingshistorikk[]) =>
     historikkListe

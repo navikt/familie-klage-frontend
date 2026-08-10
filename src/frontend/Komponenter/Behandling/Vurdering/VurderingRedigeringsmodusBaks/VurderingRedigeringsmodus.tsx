@@ -1,18 +1,21 @@
 import * as React from 'react';
 import { useEffect, useRef, useState } from 'react';
 import { Alert, Box, Button, ErrorSummary, Heading, HStack, VStack } from '@navikt/ds-react';
-import { IVurdering, VedtakValg, vedtakValgTilTekst, årsakAlternativer } from '../vurderingValg';
+import type { IVurdering } from '../vurderingValg';
+import { VedtakValg, vedtakValgTilTekst, årsakAlternativer } from '../vurderingValg';
 import { useNavigate } from 'react-router-dom';
 import { useHentVurderinger } from '../../../../App/hooks/useHentVurderinger';
-import { Behandling } from '../../../../App/typer/fagsak';
-import { AccordionTilstand, InnstillingTilNavKlageinstans } from './InnstillingTilNavKlageinstans';
-import { FieldErrors, FormProvider, SubmitHandler, useForm } from 'react-hook-form';
+import type { Behandling } from '../../../../App/typer/fagsak';
+import type { AccordionTilstand } from './InnstillingTilNavKlageinstans';
+import { InnstillingTilNavKlageinstans } from './InnstillingTilNavKlageinstans';
+import type { FieldErrors, SubmitHandler } from 'react-hook-form';
+import { FormProvider, useForm } from 'react-hook-form';
 import { Nedtrekksliste } from './Nedtrekksliste';
 import { hjemmelAlternativer } from '../hjemmel';
 import { Tekstfelt } from './Tekstfelt';
 import { FloppydiskIcon, PaperplaneIcon, PlusCircleIcon, TrashIcon } from '@navikt/aksel-icons';
 import { useApp } from '../../../../App/context/AppContext';
-import { VurderingSkjemaverdier } from './felttyper';
+import type { VurderingSkjemaverdier } from './felttyper';
 import { useBehandling } from '../../../../App/context/BehandlingContext';
 
 interface VurderingRedigeringsmodusProps {

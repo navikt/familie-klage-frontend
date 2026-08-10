@@ -2,11 +2,8 @@ import React from 'react';
 import { ExternalLinkIcon } from '@navikt/aksel-icons';
 import { HStack, Link } from '@navikt/ds-react';
 import { useApp } from '../../App/context/AppContext';
-import {
-    Behandling,
-    Klagebehandlingsårsak,
-    klagebehandlingsårsakTilTekst,
-} from '../../App/typer/fagsak';
+import type { Behandling } from '../../App/typer/fagsak';
+import { Klagebehandlingsårsak, klagebehandlingsårsakTilTekst } from '../../App/typer/fagsak';
 import {
     utledBehandlingLenke,
     utledSaksoversiktLenke,

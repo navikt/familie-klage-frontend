@@ -1,6 +1,7 @@
 import { useApp } from '../../../../../App/context/AppContext';
-import { RessursFeilet, RessursStatus, RessursSuksess } from '../../../../../App/typer/ressurs';
-import { Organisasjon } from '../../ef/SøkOrganisasjon';
+import type { RessursFeilet, RessursSuksess } from '../../../../../App/typer/ressurs';
+import { RessursStatus } from '../../../../../App/typer/ressurs';
+import type { Organisasjon } from '../../ef/SøkOrganisasjon';
 
 export function useHentOrganisasjon() {
     const { axiosRequest } = useApp();

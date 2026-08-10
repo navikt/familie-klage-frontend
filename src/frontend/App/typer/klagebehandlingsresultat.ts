@@ -1,5 +1,5 @@
-import { BehandlingStatus } from './behandlingstatus';
-import { BehandlingResultat } from './fagsak';
+import type { BehandlingStatus } from './behandlingstatus';
+import type { BehandlingResultat } from './fagsak';
 
 export interface Klagebehandlingsresultat {
     id: string;

@@ -1,5 +1,5 @@
+import type { Brevmottaker } from './brevmottaker';
 import {
-    Brevmottaker,
     erBrevmottakerOrganisasjon,
     erBrevmottakerPersonMedIdent,
     erBrevmottakerPersonUtenIdent,

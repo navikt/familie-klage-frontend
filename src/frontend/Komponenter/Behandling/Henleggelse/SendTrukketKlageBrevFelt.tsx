@@ -1,7 +1,8 @@
 import { Radio, RadioGroup, Stack } from '@navikt/ds-react';
 import React from 'react';
 import { useController, useFormContext } from 'react-hook-form';
-import { HenleggBehandlingFeltnavn, HenleggBehandlingFormValues } from './HenleggBehandlingForm';
+import type { HenleggBehandlingFormValues } from './HenleggBehandlingForm';
+import { HenleggBehandlingFeltnavn } from './HenleggBehandlingForm';
 import { useBrevmottakerFormActionsContext } from './context/BrevmottakerFormActionsContextProvider';
 
 export function SendTrukketKlageBrevFelt() {

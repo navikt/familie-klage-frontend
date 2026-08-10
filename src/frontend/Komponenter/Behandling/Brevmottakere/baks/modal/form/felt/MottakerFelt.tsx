@@ -1,18 +1,17 @@
-import React, { ChangeEvent } from 'react';
+import type { ChangeEvent } from 'react';
+import React from 'react';
 import { Select } from '@navikt/ds-react';
 import { useController, useFormContext } from 'react-hook-form';
+import type { MottakerRolle } from '../../../../mottakerRolle';
 import {
     erMottakerRolle,
     finnNyttBrevmottakernavnHvisNødvendigVedEndringAvMottakerRolle,
-    MottakerRolle,
     mottakerRolleVisningsnavn,
     skalPreutfylleNavnForMottakerRolle,
     utledGyldigeMottakerRollerBasertPåAlleredeValgteMottakerRoller,
 } from '../../../../mottakerRolle';
-import {
-    BrevmottakerPersonUtenIdentFeltnavn,
-    BrevmottakerPersonUtenIdentFormValues,
-} from '../BrevmottakerPersonUtenIdentForm';
+import type { BrevmottakerPersonUtenIdentFormValues } from '../BrevmottakerPersonUtenIdentForm';
+import { BrevmottakerPersonUtenIdentFeltnavn } from '../BrevmottakerPersonUtenIdentForm';
 import { usePersonopplysningerContext } from '../../../../../../../App/context/PersonopplysningerContext';
 
 interface Props {

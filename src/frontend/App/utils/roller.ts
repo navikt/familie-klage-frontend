@@ -1,5 +1,5 @@
-import { ISaksbehandler } from '../typer/saksbehandler';
-import { AppEnv } from '../api/env';
+import type { ISaksbehandler } from '../typer/saksbehandler';
+import type { AppEnv } from '../api/env';
 
 export type SaksbehadlerRolle = 'veileder' | 'saksbehandler' | 'beslutter';
 export type Rolle = SaksbehadlerRolle | 'kode6' | 'kode7';

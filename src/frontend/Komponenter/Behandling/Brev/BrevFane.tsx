@@ -1,5 +1,6 @@
 import React from 'react';
-import { Behandling, Klagebehandlingsårsak } from '../../../App/typer/fagsak';
+import type { Behandling } from '../../../App/typer/fagsak';
+import { Klagebehandlingsårsak } from '../../../App/typer/fagsak';
 import { Brev } from './Brev';
 import { BrevFaneUtenBrev } from './BrevFaneUtenBrev';
 

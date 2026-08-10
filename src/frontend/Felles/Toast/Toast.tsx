@@ -1,7 +1,8 @@
 import React, { useEffect } from 'react';
 import styles from './Toast.module.css';
 import { useApp } from '../../App/context/AppContext';
-import { EToast, toastTilTekst } from '../../App/typer/toast';
+import type { EToast } from '../../App/typer/toast';
+import { toastTilTekst } from '../../App/typer/toast';
 import { AlertMedLukkeKnapp } from '../Visningskomponenter/Alerts';
 
 export const Toast: React.FC = () => {

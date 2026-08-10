@@ -1,9 +1,10 @@
 import * as React from 'react';
 import { Select } from '@navikt/ds-react';
 import styles from './HjemmelSelect.module.css';
-import { Dispatch, SetStateAction } from 'react';
-import { IVurdering } from './vurderingValg';
-import { Hjemmel, folketrygdHjemmelTilVisningstekst, FolketrygdHjemmel } from './hjemmel';
+import type { Dispatch, SetStateAction } from 'react';
+import type { IVurdering } from './vurderingValg';
+import type { Hjemmel, FolketrygdHjemmel } from './hjemmel';
+import { folketrygdHjemmelTilVisningstekst } from './hjemmel';
 import { useBehandling } from '../../../App/context/BehandlingContext';
 import { useApp } from '../../../App/context/AppContext';
 

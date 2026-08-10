@@ -1,10 +1,7 @@
-import React, { ReactElement, ReactNode } from 'react';
-import {
-    harNoenRessursMedStatus,
-    Ressurs,
-    RessursStatus,
-    RessursSuksess,
-} from '../../App/typer/ressurs';
+import type { ReactElement, ReactNode } from 'react';
+import React from 'react';
+import type { Ressurs, RessursSuksess } from '../../App/typer/ressurs';
+import { harNoenRessursMedStatus, RessursStatus } from '../../App/typer/ressurs';
 import { Alert, Loader, VStack } from '@navikt/ds-react';
 import styles from './DataViewer.module.css';
 

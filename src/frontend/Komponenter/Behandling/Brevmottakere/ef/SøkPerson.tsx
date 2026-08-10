@@ -1,6 +1,8 @@
-import React, { Dispatch, SetStateAction, useEffect, useState } from 'react';
+import type { Dispatch, SetStateAction } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useApp } from '../../../../App/context/AppContext';
-import { byggTomRessurs, Ressurs } from '../../../../App/typer/ressurs';
+import type { Ressurs } from '../../../../App/typer/ressurs';
+import { byggTomRessurs } from '../../../../App/typer/ressurs';
 import { DataViewer } from '../../../../Felles/DataViewer/DataViewer';
 import {
     BodyShort,
@@ -13,7 +15,7 @@ import {
     VStack,
 } from '@navikt/ds-react';
 import { MottakerRolle } from '../mottakerRolle';
-import { BrevmottakerPerson } from '../brevmottaker';
+import type { BrevmottakerPerson } from '../brevmottaker';
 import styles from './SøkOrganisasjon.module.css';
 
 interface Props {

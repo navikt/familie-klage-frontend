@@ -1,8 +1,9 @@
 import * as React from 'react';
-import { Dispatch, SetStateAction } from 'react';
+import type { Dispatch, SetStateAction } from 'react';
 import { Select } from '@navikt/ds-react';
 import styles from './VedtakSelect.module.css';
-import { IVurdering, VedtakValg, vedtakValgTilTekst } from './vurderingValg';
+import type { IVurdering, VedtakValg } from './vurderingValg';
+import { vedtakValgTilTekst } from './vurderingValg';
 import { useBehandling } from '../../../App/context/BehandlingContext';
 import { useApp } from '../../../App/context/AppContext';
 

@@ -2,10 +2,8 @@ import { useController, useFormContext } from 'react-hook-form';
 import React from 'react';
 import { Alert, TextField } from '@navikt/ds-react';
 import { erUtenlandskEøsLandkode } from '../../../../../../../Felles/Landvelger/landkode';
-import {
-    BrevmottakerPersonUtenIdentFeltnavn,
-    BrevmottakerPersonUtenIdentFormValues,
-} from '../BrevmottakerPersonUtenIdentForm';
+import type { BrevmottakerPersonUtenIdentFormValues } from '../BrevmottakerPersonUtenIdentForm';
+import { BrevmottakerPersonUtenIdentFeltnavn } from '../BrevmottakerPersonUtenIdentForm';
 
 interface Props {
     erLesevisning?: boolean;

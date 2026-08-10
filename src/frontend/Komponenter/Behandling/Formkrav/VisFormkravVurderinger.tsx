@@ -1,10 +1,10 @@
-import React, { Dispatch, SetStateAction, useState } from 'react';
+import type { Dispatch, SetStateAction } from 'react';
+import React, { useState } from 'react';
 import styles from './VisFormkravVurderinger.module.css';
 import { BrukerMedBlyant } from '../../../Felles/Ikoner/BrukerMedBlyant';
+import type { IFormalkrav, IFormkravVilkår } from './typer';
 import {
     formkravFristUnntakTilTekst,
-    IFormalkrav,
-    IFormkravVilkår,
     Redigeringsmodus,
     VilkårStatus,
     vilkårStatusTilTekst,
@@ -16,7 +16,8 @@ import {
     formaterNullableIsoDato,
     formaterNullableIsoDatoTid,
 } from '../../../App/utils/formatter';
-import { Ressurs, RessursFeilet, RessursStatus, RessursSuksess } from '../../../App/typer/ressurs';
+import type { Ressurs, RessursFeilet, RessursSuksess } from '../../../App/typer/ressurs';
+import { RessursStatus } from '../../../App/typer/ressurs';
 import {
     harManuellVedtaksdato,
     skalViseKlagefristUnntak,
@@ -41,8 +42,8 @@ import {
     påklagetVedtakErValgt,
     utledIkkeUtfylteVilkår,
 } from './validerFormkravUtils';
-import { FagsystemVedtak } from '../../../App/typer/fagsystemVedtak';
-import { Klagebehandlingsresultat } from '../../../App/typer/klagebehandlingsresultat';
+import type { FagsystemVedtak } from '../../../App/typer/fagsystemVedtak';
+import type { Klagebehandlingsresultat } from '../../../App/typer/klagebehandlingsresultat';
 import { Button } from '../../../Felles/Knapper/Button';
 import { useApp } from '../../../App/context/AppContext';
 

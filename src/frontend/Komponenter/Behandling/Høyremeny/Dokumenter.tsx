@@ -5,14 +5,10 @@ import { DataViewer } from '../../../Felles/DataViewer/DataViewer';
 import { compareDesc } from 'date-fns';
 import { formaterNullableIsoDatoTid } from '../../../App/utils/formatter';
 import { åpneFilIEgenTab } from '../../../App/utils/utils';
-import { Dokument, Dokumentliste } from './Dokumentliste';
-import {
-    byggTomRessurs,
-    Ressurs,
-    RessursFeilet,
-    RessursStatus,
-    RessursSuksess,
-} from '../../../App/typer/ressurs';
+import type { Dokument } from './Dokumentliste';
+import { Dokumentliste } from './Dokumentliste';
+import type { Ressurs, RessursFeilet, RessursSuksess } from '../../../App/typer/ressurs';
+import { byggTomRessurs, RessursStatus } from '../../../App/typer/ressurs';
 import { useApp } from '../../../App/context/AppContext';
 
 interface Props {

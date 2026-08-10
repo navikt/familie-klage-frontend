@@ -1,4 +1,4 @@
-import { ISaksbehandler } from '../typer/saksbehandler';
+import type { ISaksbehandler } from '../typer/saksbehandler';
 import { preferredAxios } from './axios';
 
 export const hentInnloggetBruker = (): Promise<ISaksbehandler> => {

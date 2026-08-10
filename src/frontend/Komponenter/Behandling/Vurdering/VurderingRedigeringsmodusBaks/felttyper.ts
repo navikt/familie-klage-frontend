@@ -1,5 +1,5 @@
-import { VedtakValg, ÅrsakOmgjøring } from '../vurderingValg';
-import { Hjemmel } from '../hjemmel';
+import type { VedtakValg, ÅrsakOmgjøring } from '../vurderingValg';
+import type { Hjemmel } from '../hjemmel';
 
 export type VurderingSkjemaverdier = VurderingNedtrekkslisteFelter & VurderingTekstfeltFelter;
 

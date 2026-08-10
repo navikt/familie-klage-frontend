@@ -1,10 +1,10 @@
-import {
+import type {
     Brevmottaker,
     BrevmottakerOrganisasjon,
     BrevmottakerPerson,
     BrevmottakerPersonUtenIdent,
-    erBrevmottakerPersonUtenIdent,
 } from './brevmottaker';
+import { erBrevmottakerPersonUtenIdent } from './brevmottaker';
 import { MottakerRolle } from './mottakerRolle';
 
 export interface Brevmottakere {

@@ -3,33 +3,33 @@ import React, { useState } from 'react';
 import { PlusCircleIcon } from '@navikt/aksel-icons';
 import { Alert, Button, Heading, HStack, Modal, Radio, RadioGroup, VStack } from '@navikt/ds-react';
 
+import type { BrevmottakerPersonUtenIdentFormValues } from './form/BrevmottakerPersonUtenIdentForm';
 import {
     BrevmottakerPersonUtenIdentFeltnavn,
     BrevmottakerPersonUtenIdentForm,
-    BrevmottakerPersonUtenIdentFormValues,
 } from './form/BrevmottakerPersonUtenIdentForm';
 import { BrevmottakerDetaljer } from './BrevmottakerDetaljer';
 import { erEnBrevmottakerPersonUtenIdentDødsbo, mapTilMottakerRolle } from '../../brevmottaker';
+import type { NyBrevmottaker } from '../../nyBrevmottaker';
 import {
     lagNyBrevmottakerOrganisasjon,
     lagNyBrevmottakerPersonUtenIdent,
-    NyBrevmottaker,
     NyBrevmottakerType,
 } from '../../nyBrevmottaker';
-import { SlettbarBrevmottaker } from '../../slettbarBrevmottaker';
+import type { SlettbarBrevmottaker } from '../../slettbarBrevmottaker';
 import { useForm } from 'react-hook-form';
 import { EøsLandkode } from '../../../../../Felles/Landvelger/landkode';
 
+import type { Brevmottakere } from '../../brevmottakere';
 import {
-    Brevmottakere,
     erInstitusjonBrevmottaker,
     hentAlleBrevmottakereSomListe,
     hentManueltOpprettedeBrevmottakere,
 } from '../../brevmottakere';
+import type { BrevmottakerOrganisasjonFormValues } from './OrganisasjonForm/BrevmottakerOrganisasjonForm';
 import {
     BrevmottakerOrganisasjonFeltnavn,
     BrevmottakerOrganisasjonForm,
-    BrevmottakerOrganisasjonFormValues,
 } from './OrganisasjonForm/BrevmottakerOrganisasjonForm';
 import { useToggles } from '../../../../../App/context/TogglesContext';
 import { ToggleName } from '../../../../../App/context/toggles';

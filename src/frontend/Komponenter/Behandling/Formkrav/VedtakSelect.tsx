@@ -1,6 +1,7 @@
-import React, { Dispatch, SetStateAction } from 'react';
+import type { Dispatch, SetStateAction } from 'react';
+import React from 'react';
 import styles from './VedtakSelect.module.css';
-import { IFormkravVilkår } from './typer';
+import type { IFormkravVilkår } from './typer';
 import {
     Fagsystem,
     PåklagetVedtakstype,
@@ -14,11 +15,11 @@ import {
     sorterVedtakstidspunktDesc,
     sorterVedtakstidspunktKlageResultatDesc,
 } from './utils';
-import { FagsystemVedtak } from '../../../App/typer/fagsystemVedtak';
+import type { FagsystemVedtak } from '../../../App/typer/fagsystemVedtak';
 import { Label, Select } from '@navikt/ds-react';
 import { erGyldigDato } from '../../../App/utils/dato';
 import { Datovelger } from '../../../Felles/Datovelger/Datovelger';
-import { Klagebehandlingsresultat } from '../../../App/typer/klagebehandlingsresultat';
+import type { Klagebehandlingsresultat } from '../../../App/typer/klagebehandlingsresultat';
 
 interface Props {
     settOppdaterteVurderinger: Dispatch<SetStateAction<IFormkravVilkår>>;

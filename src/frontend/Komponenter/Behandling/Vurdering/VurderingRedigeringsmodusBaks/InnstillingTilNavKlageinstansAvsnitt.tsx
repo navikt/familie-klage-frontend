@@ -1,7 +1,7 @@
 import React from 'react';
 import { Accordion } from '@navikt/ds-react';
 import { Tekstfelt } from './Tekstfelt';
-import { VurderingAccordionFelter } from './felttyper';
+import type { VurderingAccordionFelter } from './felttyper';
 
 interface Props {
     visningsnavn: string;

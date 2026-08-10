@@ -3,10 +3,8 @@ import { useController, useFormContext } from 'react-hook-form';
 import { EøsLandvelger } from '../../../../../../../Felles/Landvelger/EøsLandvelger';
 import { erGyldigMottakerRolleForLandkode, MottakerRolle } from '../../../../mottakerRolle';
 import { utledBrevmottakerPersonUtenIdentNavnVedDødsbo } from '../../../../brevmottaker';
-import {
-    BrevmottakerPersonUtenIdentFeltnavn,
-    BrevmottakerPersonUtenIdentFormValues,
-} from '../BrevmottakerPersonUtenIdentForm';
+import type { BrevmottakerPersonUtenIdentFormValues } from '../BrevmottakerPersonUtenIdentForm';
+import { BrevmottakerPersonUtenIdentFeltnavn } from '../BrevmottakerPersonUtenIdentForm';
 import { EøsLandkode } from '../../../../../../../Felles/Landvelger/landkode';
 import { usePersonopplysningerContext } from '../../../../../../../App/context/PersonopplysningerContext';
 

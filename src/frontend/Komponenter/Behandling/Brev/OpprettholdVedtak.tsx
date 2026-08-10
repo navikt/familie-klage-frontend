@@ -1,6 +1,7 @@
 import React, { useCallback, useEffect, useState } from 'react';
 import { Alert, Box, HGrid, VStack } from '@navikt/ds-react';
-import { byggTomRessurs, Ressurs, RessursStatus } from '../../../App/typer/ressurs';
+import type { Ressurs } from '../../../App/typer/ressurs';
+import { byggTomRessurs, RessursStatus } from '../../../App/typer/ressurs';
 import { Fagsystem } from '../../../App/typer/fagsak';
 import { BrevmottakerContainer as BrevmottakereBaks } from '../Brevmottakere/baks/BrevmottakerContainer';
 import { BrevMottakere as BrevmottakereEf } from '../Brevmottakere/ef/BrevMottakere';

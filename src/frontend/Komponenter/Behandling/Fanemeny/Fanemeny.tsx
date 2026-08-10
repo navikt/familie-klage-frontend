@@ -1,9 +1,9 @@
 import * as React from 'react';
-import { FC } from 'react';
+import type { FC } from 'react';
 import styles from './Fanemeny.module.css';
 import { alleSider } from './sider';
 import { Fane } from './Fane';
-import { Behandling } from '../../../App/typer/fagsak';
+import type { Behandling } from '../../../App/typer/fagsak';
 
 interface Props {
     behandling: Behandling;

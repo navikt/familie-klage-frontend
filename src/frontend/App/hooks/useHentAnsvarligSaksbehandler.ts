@@ -1,7 +1,8 @@
 import { useApp } from '../context/AppContext';
 import { useCallback, useState } from 'react';
-import { byggHenterRessurs, byggTomRessurs, Ressurs } from '../typer/ressurs';
-import { AnsvarligSaksbehandler } from '../typer/saksbehandler';
+import type { Ressurs } from '../typer/ressurs';
+import { byggHenterRessurs, byggTomRessurs } from '../typer/ressurs';
+import type { AnsvarligSaksbehandler } from '../typer/saksbehandler';
 
 export const useHentAnsvarligSaksbehandler = (behandlingId: string) => {
     const { axiosRequest } = useApp();

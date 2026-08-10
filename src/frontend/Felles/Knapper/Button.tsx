@@ -1,5 +1,6 @@
 import React from 'react';
-import { Button as NavButton, ButtonProps as Props } from '@navikt/ds-react';
+import type { ButtonProps as Props } from '@navikt/ds-react';
+import { Button as NavButton } from '@navikt/ds-react';
 import styles from './Button.module.css';
 
 export const Button: React.FC<Props> = (props) => (

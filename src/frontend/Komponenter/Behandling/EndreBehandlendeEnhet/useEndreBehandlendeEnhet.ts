@@ -1,6 +1,7 @@
 import { useApp } from '../../../App/context/AppContext';
 import { useBehandling } from '../../../App/context/BehandlingContext';
-import { RessursFeilet, RessursStatus, RessursSuksess } from '../../../App/typer/ressurs';
+import type { RessursFeilet, RessursSuksess } from '../../../App/typer/ressurs';
+import { RessursStatus } from '../../../App/typer/ressurs';
 
 export interface OppdaterBehandlendeEnhetDto {
     enhetsnummer: string;

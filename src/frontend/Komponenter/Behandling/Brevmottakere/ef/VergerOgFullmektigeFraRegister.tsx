@@ -1,10 +1,10 @@
-import React, { Dispatch, FC, SetStateAction } from 'react';
+import type { Dispatch, FC, SetStateAction } from 'react';
+import React from 'react';
 import styles from './SøkWrapper.module.css';
 import { BodyShort, HStack, VStack } from '@navikt/ds-react';
 import { KopierbartNullableFødselsnummer } from '../../../../Felles/Fødselsnummer/KopierbartNullableFødselsnummer';
+import type { BrevmottakerPerson, BrevmottakerPersonMedIdent } from '../brevmottaker';
 import {
-    BrevmottakerPerson,
-    BrevmottakerPersonMedIdent,
     erBrevmottakerPersonMedIdent,
     mapFullmaktTilBrevmottakerPersonMedIdent,
     mapVergemålTilBrevmottakerPersonMedIdent,

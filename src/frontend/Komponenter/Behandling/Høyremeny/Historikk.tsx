@@ -2,8 +2,8 @@ import * as React from 'react';
 import { HistorikkInnslag } from './HistorikkInnslag';
 import { useBehandling } from '../../../App/context/BehandlingContext';
 import { DataViewer } from '../../../Felles/DataViewer/DataViewer';
-import { IBehandlingshistorikk } from './behandlingshistorikk';
-import { Behandling } from '../../../App/typer/fagsak';
+import type { IBehandlingshistorikk } from './behandlingshistorikk';
+import type { Behandling } from '../../../App/typer/fagsak';
 import { utledSisteHistorikkInnslagPerKjede } from './utils';
 
 export const Historikk: React.FC<{ hidden: boolean }> = ({ hidden }) => {

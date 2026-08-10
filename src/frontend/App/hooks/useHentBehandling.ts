@@ -1,8 +1,9 @@
-import { byggTomRessurs, Ressurs } from '../typer/ressurs';
+import type { Ressurs } from '../typer/ressurs';
+import { byggTomRessurs } from '../typer/ressurs';
 import { useApp } from '../context/AppContext';
 import { useCallback, useState } from 'react';
-import { Behandling } from '../typer/fagsak';
-import { AxiosRequestConfig } from 'axios';
+import type { Behandling } from '../typer/fagsak';
+import type { AxiosRequestConfig } from 'axios';
 
 export const useHentBehandling = (
     behandlingId: string

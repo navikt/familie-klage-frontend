@@ -1,12 +1,13 @@
 import * as React from 'react';
-import { FC, useEffect } from 'react';
+import type { FC } from 'react';
+import { useEffect } from 'react';
 import { Høyremeny } from './Høyremeny/Høyremeny';
 import styles from './BehandlingContainer.module.css';
 import { Fanemeny } from './Fanemeny/Fanemeny';
 import { BehandlingRoutes } from './BehandlingRoutes';
 import { BehandlingProvider, useBehandling } from '../../App/context/BehandlingContext';
 import { Visittkort } from '../../Felles/Visittkort/Visittkort';
-import { Behandling } from '../../App/typer/fagsak';
+import type { Behandling } from '../../App/typer/fagsak';
 import { ScrollToTop } from '../../Felles/ScrollToTop/ScrollToTop';
 import { DataViewer } from '../../Felles/DataViewer/DataViewer';
 import { useSetValgtFagsakId } from '../../App/hooks/useSetValgtFagsakId';
