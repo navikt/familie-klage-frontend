@@ -1,7 +1,9 @@
 import { captureException, getCurrentScope, withScope } from '@sentry/core';
-import axios, { AxiosError, AxiosRequestHeaders, AxiosResponse } from 'axios';
-import { Ressurs, RessursFeilet, RessursStatus, RessursSuksess } from '../typer/ressurs';
-import { ISaksbehandler } from '../typer/saksbehandler';
+import type { AxiosError, AxiosRequestHeaders, AxiosResponse } from 'axios';
+import axios from 'axios';
+import type { Ressurs, RessursFeilet, RessursSuksess } from '../typer/ressurs';
+import { RessursStatus } from '../typer/ressurs';
+import type { ISaksbehandler } from '../typer/saksbehandler';
 
 axios.defaults.baseURL = window.location.origin;
 export const preferredAxios = axios;
@@ -112,7 +114,7 @@ const loggFeil = (
     headers?: Headers,
     isWarning = false
 ): void => {
-    if (process.env.NODE_ENV === 'production') {
+    if (import.meta.env.PROD) {
         getCurrentScope().setUser({
             username: innloggetSaksbehandler ? innloggetSaksbehandler.displayName : 'Ukjent bruker',
         });

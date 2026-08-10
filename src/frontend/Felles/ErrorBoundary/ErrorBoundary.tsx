@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { captureException, getCurrentScope, withScope } from '@sentry/core';
-import { ISaksbehandler } from '../../App/typer/saksbehandler';
+import type { ISaksbehandler } from '../../App/typer/saksbehandler';
 
 interface Props {
     innloggetSaksbehandler: ISaksbehandler;
@@ -15,7 +15,7 @@ export class ErrorBoundary extends React.Component<Props> {
     // eslint-disable-next-line
     public componentDidCatch(error: any, info: any): void {
         console.log(error, info);
-        if (process.env.NODE_ENV !== 'development') {
+        if (!import.meta.env.DEV) {
             getCurrentScope().setUser({
                 username: this.props.innloggetSaksbehandler.displayName,
             });
