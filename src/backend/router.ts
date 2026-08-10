@@ -1,16 +1,17 @@
-import { Client, ensureAuthenticated, logRequest } from '@navikt/familie-backend';
-import { NextFunction, Request, Response, Router } from 'express';
+import type { Client } from '@navikt/familie-backend';
+import { ensureAuthenticated, logRequest } from '@navikt/familie-backend';
+import type { NextFunction, Request, Response, Router } from 'express';
+import fs from 'fs';
 import path from 'path';
-import { buildPath, eksternlenker, miljø, roller } from './config';
-import { prometheusTellere } from './metrikker';
+import type { ViteDevServer } from 'vite';
+import { eksternlenker, frontendPath, miljø, roller } from './config.js';
+import { erLokal, erPreprod } from './env.js';
+import { prometheusTellere } from './metrikker.js';
 import { LOG_LEVEL } from '@navikt/familie-logging';
 
 const redirectHvisInternUrlIPreprod = () => {
     return async (req: Request, res: Response, next: NextFunction) => {
-        if (
-            process.env.ENV === 'preprod' &&
-            req.headers.host === 'familie-klage.intern.dev.nav.no'
-        ) {
+        if (erPreprod() && req.headers.host === 'familie-klage.intern.dev.nav.no') {
             res.redirect(`https://familie-klage.ansatt.dev.nav.no${req.url}`);
         } else {
             next();
@@ -18,7 +19,7 @@ const redirectHvisInternUrlIPreprod = () => {
     };
 };
 
-export const setupRouter = (authClient: Client, router: Router): Router => {
+export const setupRouter = async (authClient: Client, router: Router): Promise<Router> => {
     router.get('/version', (_req: Request, res: Response) => {
         res.status(200).send({ version: process.env.APP_VERSION }).end();
     });
@@ -37,14 +38,37 @@ export const setupRouter = (authClient: Client, router: Router): Router => {
         res.status(200).send();
     });
 
+    let viteDevServer: ViteDevServer | undefined = undefined;
+    if (erLokal()) {
+        const { createServer } = await import('vite');
+        viteDevServer = await createServer({
+            root: path.join(process.cwd(), frontendPath),
+            server: { middlewareMode: true },
+            appType: 'custom',
+        });
+
+        router.use(viteDevServer.middlewares);
+    }
+
+    const htmlPath = path.join(process.cwd(), frontendPath, 'index.html');
+
     router.get(
         '*global',
         redirectHvisInternUrlIPreprod(),
         ensureAuthenticated(authClient, false),
-        (_req: Request, res: Response) => {
+        async (req: Request, res: Response) => {
             prometheusTellere.appLoad.inc();
 
-            res.sendFile('index.html', { root: path.join(process.cwd(), buildPath) });
+            if (erLokal()) {
+                if (!viteDevServer) {
+                    throw new Error('ViteDevServer er ikke initialisert.');
+                }
+                const htmlInnhold = await fs.promises.readFile(htmlPath, 'utf-8');
+                const transformed = await viteDevServer.transformIndexHtml(req.url, htmlInnhold);
+                res.status(200).type('html').send(transformed);
+            } else {
+                res.sendFile(htmlPath);
+            }
         }
     );
 
