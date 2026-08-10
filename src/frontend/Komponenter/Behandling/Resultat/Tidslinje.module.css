@@ -86,7 +86,9 @@
 
 .headingSpacing {
     composes: heading;
-    position: relative; bottom: 1rem; margin-bottom: -0.75rem;
+    position: relative;
+    bottom: 1rem;
+    margin-bottom: -0.75rem;
 }
 
 .suksessIkon {
