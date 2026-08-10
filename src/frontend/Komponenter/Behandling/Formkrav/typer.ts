@@ -1,5 +1,5 @@
-import { PåklagetVedtakstype } from '../../../App/typer/fagsak';
-import { FagsystemVedtak } from '../../../App/typer/fagsystemVedtak';
+import type { PåklagetVedtakstype } from '../../../App/typer/fagsak';
+import type { FagsystemVedtak } from '../../../App/typer/fagsystemVedtak';
 
 export enum VilkårStatus {
     OPPFYLT = 'OPPFYLT',

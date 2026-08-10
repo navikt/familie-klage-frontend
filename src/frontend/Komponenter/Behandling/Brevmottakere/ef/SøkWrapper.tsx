@@ -1,9 +1,10 @@
-import React, { Dispatch, FC, SetStateAction, useState } from 'react';
+import type { Dispatch, FC, SetStateAction } from 'react';
+import React, { useState } from 'react';
 import { SøkPerson } from './SøkPerson';
 import { SøkOrganisasjon } from './SøkOrganisasjon';
 import styles from './SøkWrapper.module.css';
 import { BodyShort, Select } from '@navikt/ds-react';
-import { BrevmottakerOrganisasjon, BrevmottakerPerson } from '../brevmottaker';
+import type { BrevmottakerOrganisasjon, BrevmottakerPerson } from '../brevmottaker';
 
 interface Props {
     settValgtePersonMottakere: Dispatch<SetStateAction<BrevmottakerPerson[]>>;

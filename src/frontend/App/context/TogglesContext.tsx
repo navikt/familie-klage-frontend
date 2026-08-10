@@ -1,8 +1,9 @@
 import { useCallback, useEffect, useState } from 'react';
 
 import createUseContext from 'constate';
-import { Toggles } from './toggles';
-import axios, { AxiosResponse } from 'axios';
+import type { Toggles } from './toggles';
+import type { AxiosResponse } from 'axios';
+import axios from 'axios';
 
 const [TogglesProvider, useToggles] = createUseContext(() => {
     const [toggles, settToggles] = useState<Toggles>({});

@@ -1,22 +1,20 @@
 import React, { useState } from 'react';
 import { useApp } from '../../../../App/context/AppContext';
 import { DataViewer } from '../../../../Felles/DataViewer/DataViewer';
+import type { Ressurs, RessursFeilet, RessursSuksess } from '../../../../App/typer/ressurs';
 import {
     byggFeiletRessurs,
     byggHenterRessurs,
     byggTomRessurs,
-    Ressurs,
-    RessursFeilet,
     RessursStatus,
-    RessursSuksess,
 } from '../../../../App/typer/ressurs';
 import { BrevmottakerModal } from './modal/BrevmottakerModal';
 import { BrevmottakerPanel } from './panel/BrevmottakerPanel';
 import { useOnMount } from '../../../../App/hooks/useOnMount';
 import { Box, Skeleton } from '@navikt/ds-react';
-import { Brevmottakere } from '../brevmottakere';
-import { NyBrevmottaker } from '../nyBrevmottaker';
-import { SlettbarBrevmottaker } from '../slettbarBrevmottaker';
+import type { Brevmottakere } from '../brevmottakere';
+import type { NyBrevmottaker } from '../nyBrevmottaker';
+import type { SlettbarBrevmottaker } from '../slettbarBrevmottaker';
 
 const API_BASE_URL = `/familie-klage/api/brevmottaker`;
 

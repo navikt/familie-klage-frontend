@@ -3,7 +3,7 @@ import { EnsligTextArea } from '../../../Felles/Input/EnsligTextArea';
 import * as React from 'react';
 import { useState } from 'react';
 import { harVerdi } from '../../../App/utils/utils';
-import { IVurdering } from './vurderingValg';
+import type { IVurdering } from './vurderingValg';
 import { Button } from '../../../Felles/Knapper/Button';
 
 export const InterntNotat: React.FC<{

@@ -1,15 +1,11 @@
-import React, { FC, useCallback, useEffect, useState } from 'react';
-import { Behandling } from '../../../App/typer/fagsak';
+import type { FC } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
+import type { Behandling } from '../../../App/typer/fagsak';
 import styles from './SettPåVent.module.css';
 import { Alert, Heading, HStack, Textarea, VStack } from '@navikt/ds-react';
-import {
-    byggTomRessurs,
-    Ressurs,
-    RessursFeilet,
-    RessursStatus,
-    RessursSuksess,
-} from '../../../App/typer/ressurs';
-import { IOppgave, Prioritet } from '../Typer/IOppgave';
+import type { Ressurs, RessursFeilet, RessursSuksess } from '../../../App/typer/ressurs';
+import { byggTomRessurs, RessursStatus } from '../../../App/typer/ressurs';
+import type { IOppgave, Prioritet } from '../Typer/IOppgave';
 import { useApp } from '../../../App/context/AppContext';
 import { DataViewer } from '../../../Felles/DataViewer/DataViewer';
 import { useBehandling } from '../../../App/context/BehandlingContext';

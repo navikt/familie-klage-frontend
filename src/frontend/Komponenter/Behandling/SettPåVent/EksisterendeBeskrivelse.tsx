@@ -1,4 +1,5 @@
-import React, { FC, useCallback, useState } from 'react';
+import type { FC } from 'react';
+import React, { useCallback, useState } from 'react';
 import { BodyShort, Button, Label, VStack } from '@navikt/ds-react';
 import { ChevronDownIcon, ChevronUpIcon } from '@navikt/aksel-icons';
 import styles from './EksisterendeBeskrivelse.module.css';

@@ -1,5 +1,6 @@
-import React, { FC } from 'react';
-import { IOppgave } from '../Typer/IOppgave';
+import type { FC } from 'react';
+import React from 'react';
+import type { IOppgave } from '../Typer/IOppgave';
 import { useApp } from '../../../App/context/AppContext';
 import { Select } from '@navikt/ds-react';
 

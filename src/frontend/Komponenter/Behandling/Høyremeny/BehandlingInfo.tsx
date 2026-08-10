@@ -1,5 +1,6 @@
 import React from 'react';
-import { Behandling, behandlingResultatTilTekst } from '../../../App/typer/fagsak';
+import type { Behandling } from '../../../App/typer/fagsak';
+import { behandlingResultatTilTekst } from '../../../App/typer/fagsak';
 import styles from './BehandlingInfo.module.css';
 import { BodyShort, HStack, Tooltip, VStack } from '@navikt/ds-react';
 import { behandlingStatusTilTekst } from '../../../App/typer/behandlingstatus';

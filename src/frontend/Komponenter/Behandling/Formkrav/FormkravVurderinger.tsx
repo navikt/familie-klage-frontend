@@ -1,11 +1,13 @@
-import React, { Dispatch, SetStateAction } from 'react';
+import type { Dispatch, SetStateAction } from 'react';
+import React from 'react';
 import { VisFormkravVurderinger } from './VisFormkravVurderinger';
-import { IFormkravVilkår, Redigeringsmodus } from './typer';
+import type { IFormkravVilkår } from './typer';
+import { Redigeringsmodus } from './typer';
 import { EndreFormkravVurderinger } from './EndreFormkravVurderinger';
-import { RessursFeilet, RessursSuksess } from '../../../App/typer/ressurs';
-import { FagsystemVedtak } from '../../../App/typer/fagsystemVedtak';
-import { Fagsystem } from '../../../App/typer/fagsak';
-import { Klagebehandlingsresultat } from '../../../App/typer/klagebehandlingsresultat';
+import type { RessursFeilet, RessursSuksess } from '../../../App/typer/ressurs';
+import type { FagsystemVedtak } from '../../../App/typer/fagsystemVedtak';
+import type { Fagsystem } from '../../../App/typer/fagsak';
+import type { Klagebehandlingsresultat } from '../../../App/typer/klagebehandlingsresultat';
 
 export interface IProps {
     vurderinger: IFormkravVilkår;

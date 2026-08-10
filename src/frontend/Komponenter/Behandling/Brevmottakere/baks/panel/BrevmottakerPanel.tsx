@@ -3,7 +3,7 @@ import { useApp } from '../../../../../App/context/AppContext';
 import { useBehandling } from '../../../../../App/context/BehandlingContext';
 import { BodyShort, Box, Button, HStack, Label, Tooltip } from '@navikt/ds-react';
 import { utledOppsumertBrevmottakere } from '../oppsummertBrevmottaker';
-import { Brevmottakere } from '../../brevmottakere';
+import type { Brevmottakere } from '../../brevmottakere';
 import { useToggles } from '../../../../../App/context/TogglesContext';
 import { usePersonopplysningerContext } from '../../../../../App/context/PersonopplysningerContext';
 import { ToggleName } from '../../../../../App/context/toggles';

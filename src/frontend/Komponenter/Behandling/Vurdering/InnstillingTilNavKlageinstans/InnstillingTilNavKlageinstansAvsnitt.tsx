@@ -1,7 +1,7 @@
 import React from 'react';
 import { Accordion } from '@navikt/ds-react';
 import { EnsligTextArea } from '../../../../Felles/Input/EnsligTextArea';
-import { IVurdering } from '../vurderingValg';
+import type { IVurdering } from '../vurderingValg';
 
 interface Props {
     tittel: string;

@@ -1,7 +1,8 @@
-import { AppEnv } from '../../App/api/env';
-import { AxiosError } from 'axios';
-import { AxiosRequestCallback } from '../../App/typer/axiosRequest';
-import { Ressurs, RessursStatus } from '../../App/typer/ressurs';
+import type { AppEnv } from '../../App/api/env';
+import type { AxiosError } from 'axios';
+import type { AxiosRequestCallback } from '../../App/typer/axiosRequest';
+import type { Ressurs } from '../../App/typer/ressurs';
+import { RessursStatus } from '../../App/typer/ressurs';
 
 export const lagAInntektLink = async (
     axiosRequest: AxiosRequestCallback,

@@ -1,9 +1,10 @@
 import { Button, Fieldset, Modal } from '@navikt/ds-react';
 import React from 'react';
 import { useEndreBehandlendeEnhet } from './useEndreBehandlendeEnhet';
-import { Behandling } from '../../../App/typer/fagsak';
+import type { Behandling } from '../../../App/typer/fagsak';
 import { useBehandling } from '../../../App/context/BehandlingContext';
-import { FieldErrors, FormProvider, useForm } from 'react-hook-form';
+import type { FieldErrors } from 'react-hook-form';
+import { FormProvider, useForm } from 'react-hook-form';
 import { EndreBehandlendeEnhetFeltnavn } from './feltnavn';
 import { EnhetsnummerFelt } from './EnhetsnummerFelt';
 import { BegrunnelseFelt } from './BegrunnelseFelt';

@@ -1,4 +1,5 @@
-import { FormkravFristUnntak, IFormkravVilkår, Redigeringsmodus, VilkårStatus } from './typer';
+import type { IFormkravVilkår } from './typer';
+import { FormkravFristUnntak, Redigeringsmodus, VilkårStatus } from './typer';
 import { PåklagetVedtakstype } from '../../../App/typer/fagsak';
 import { harVerdi } from '../../../App/utils/utils';
 import { harManuellVedtaksdato, utledRadioKnapper } from './utils';

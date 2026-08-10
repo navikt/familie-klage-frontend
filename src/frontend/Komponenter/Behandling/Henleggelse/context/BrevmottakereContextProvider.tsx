@@ -1,14 +1,17 @@
-import React, { createContext, PropsWithChildren, useContext, useRef, useState } from 'react';
+import type { PropsWithChildren } from 'react';
+import React, { createContext, useContext, useRef, useState } from 'react';
 import { useOnMount } from '../../../../App/hooks/useOnMount';
-import {
-    erNyBrevmottakerPersonMedIdent,
-    lagNyeBrevmottakere,
+import type {
     NyBrevmottaker,
     NyBrevmottakerPersonMedIdent,
 } from '../../Brevmottakere/nyBrevmottaker';
+import {
+    erNyBrevmottakerPersonMedIdent,
+    lagNyeBrevmottakere,
+} from '../../Brevmottakere/nyBrevmottaker';
 import { MottakerRolle } from '../../Brevmottakere/mottakerRolle';
 import { useHentInitielleBrevmottakere } from '../hooks/useHentInitielleBrevmottakere';
-import { Behandling } from '../../../../App/typer/fagsak';
+import type { Behandling } from '../../../../App/typer/fagsak';
 
 interface ContextValue {
     brevmottakere: NyBrevmottaker[];

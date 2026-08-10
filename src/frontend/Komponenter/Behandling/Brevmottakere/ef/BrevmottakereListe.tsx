@@ -1,12 +1,10 @@
-import React, { Dispatch, FC, SetStateAction } from 'react';
+import type { Dispatch, FC, SetStateAction } from 'react';
+import React from 'react';
 import styles from './BrevmottakereListe.module.css';
 import { BodyShort, Button, VStack } from '@navikt/ds-react';
 import { KopierbartNullableFødselsnummer } from '../../../../Felles/Fødselsnummer/KopierbartNullableFødselsnummer';
-import {
-    BrevmottakerOrganisasjon,
-    BrevmottakerPerson,
-    erBrevmottakerPersonMedIdent,
-} from '../brevmottaker';
+import type { BrevmottakerOrganisasjon, BrevmottakerPerson } from '../brevmottaker';
+import { erBrevmottakerPersonMedIdent } from '../brevmottaker';
 import { TrashIcon } from '@navikt/aksel-icons';
 
 interface Props {
@@ -60,7 +58,10 @@ export const BrevmottakereListe: FC<Props> = ({
                 </div>
             ))}
             {valgteOrganisasjonMottakere.map((mottaker, index) => (
-                <div className={styles.container} key={mottaker.navnHosOrganisasjon + index}>
+                <div
+                    className={styles.container}
+                    key={(mottaker.navnHosOrganisasjon ?? '') + index}
+                >
                     <div>
                         <BodyShort>{`${mottaker.navnHosOrganisasjon}`}</BodyShort>
                         <BodyShort>

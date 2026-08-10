@@ -1,6 +1,7 @@
 import { useApp } from '../../../../App/context/AppContext';
-import { RessursFeilet, RessursStatus, RessursSuksess } from '../../../../App/typer/ressurs';
-import { Brevmottakere } from '../../Brevmottakere/brevmottakere';
+import type { RessursFeilet, RessursSuksess } from '../../../../App/typer/ressurs';
+import { RessursStatus } from '../../../../App/typer/ressurs';
+import type { Brevmottakere } from '../../Brevmottakere/brevmottakere';
 
 export function useHentInitielleBrevmottakere() {
     const { axiosRequest } = useApp();

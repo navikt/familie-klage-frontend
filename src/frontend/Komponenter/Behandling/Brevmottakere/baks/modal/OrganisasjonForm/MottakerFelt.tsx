@@ -1,10 +1,8 @@
 import React from 'react';
 import { Select } from '@navikt/ds-react';
 import { useController, useFormContext } from 'react-hook-form';
-import {
-    BrevmottakerOrganisasjonFeltnavn,
-    BrevmottakerOrganisasjonFormValues,
-} from './BrevmottakerOrganisasjonForm';
+import type { BrevmottakerOrganisasjonFormValues } from './BrevmottakerOrganisasjonForm';
+import { BrevmottakerOrganisasjonFeltnavn } from './BrevmottakerOrganisasjonForm';
 import { MottakerRolle, mottakerRolleVisningsnavn } from '../../../mottakerRolle';
 
 interface Props {

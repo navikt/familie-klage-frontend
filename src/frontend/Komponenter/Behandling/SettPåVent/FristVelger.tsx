@@ -1,8 +1,9 @@
-import React, { FC } from 'react';
+import type { FC } from 'react';
+import React from 'react';
 import { useDatepicker, DatePicker } from '@navikt/ds-react';
 import { nullableTilDato, tilLocaleDateString } from '../../../App/utils/dato';
 import { formaterNullableIsoDato } from '../../../App/utils/formatter';
-import { IOppgave } from '../Typer/IOppgave';
+import type { IOppgave } from '../Typer/IOppgave';
 
 export const FristVelger: FC<{
     oppgave: IOppgave;

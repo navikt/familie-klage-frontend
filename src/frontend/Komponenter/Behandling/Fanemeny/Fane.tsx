@@ -1,10 +1,10 @@
 import * as React from 'react';
 import styles from './Fane.module.css';
 import { NavLink } from 'react-router-dom';
-import { ISide } from './sider';
+import type { ISide } from './sider';
 import { useApp } from '../../../App/context/AppContext';
 import { BodyShort } from '@navikt/ds-react';
-import { Behandling } from '../../../App/typer/fagsak';
+import type { Behandling } from '../../../App/typer/fagsak';
 import { useBehandling } from '../../../App/context/BehandlingContext';
 import { utledFaneErLåst } from './utils';
 

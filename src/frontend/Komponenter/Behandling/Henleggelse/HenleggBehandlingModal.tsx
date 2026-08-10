@@ -7,7 +7,7 @@ import {
     useHenleggBehandlingModalContext,
 } from './context/HenleggBehandlingModalContextProvider';
 import { BrevmottakereContextProvider } from './context/BrevmottakereContextProvider';
-import { Behandling } from '../../../App/typer/fagsak';
+import type { Behandling } from '../../../App/typer/fagsak';
 
 interface Props {
     behandling: Behandling;

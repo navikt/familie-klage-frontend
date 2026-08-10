@@ -1,8 +1,9 @@
 import { useCallback, useState } from 'react';
-import { byggTomRessurs, Ressurs } from '../typer/ressurs';
-import { Behandling } from '../typer/fagsak';
+import type { Ressurs } from '../typer/ressurs';
+import { byggTomRessurs } from '../typer/ressurs';
+import type { Behandling } from '../typer/fagsak';
 import { useApp } from '../context/AppContext';
-import { Klagebehandlingsresultat } from '../typer/klagebehandlingsresultat';
+import type { Klagebehandlingsresultat } from '../typer/klagebehandlingsresultat';
 
 export const useHentKlagebehandlingsresultater = (): {
     hentKlagebehandlingsresultater: (behandling: Behandling) => void;

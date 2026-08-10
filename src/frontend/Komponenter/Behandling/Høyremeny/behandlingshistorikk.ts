@@ -1,4 +1,4 @@
-import { HistorikkHendelse, StegType } from '../../../App/typer/fagsak';
+import type { HistorikkHendelse, StegType } from '../../../App/typer/fagsak';
 
 export interface IBehandlingshistorikk {
     behandlingId: string;

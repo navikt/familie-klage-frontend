@@ -3,7 +3,7 @@ import * as React from 'react';
 import { Formkrav } from './Formkrav/Formkrav';
 import { Resultat } from './Resultat/Resultat';
 import { VurderingFane } from './Vurdering/VurderingFane';
-import { Behandling } from '../../App/typer/fagsak';
+import type { Behandling } from '../../App/typer/fagsak';
 import { BrevFane } from './Brev/BrevFane';
 import { utledRedirectUrl } from './utils';
 

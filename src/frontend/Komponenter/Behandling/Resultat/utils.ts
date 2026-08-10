@@ -1,7 +1,7 @@
-import { IBehandlingshistorikk } from '../Høyremeny/behandlingshistorikk';
+import type { IBehandlingshistorikk } from '../Høyremeny/behandlingshistorikk';
 import { ensure } from '../../../App/utils/utils';
+import type { Behandling } from '../../../App/typer/fagsak';
 import {
-    Behandling,
     behandlingResultatTilTekst,
     KlageinstansEventType,
     StegType,

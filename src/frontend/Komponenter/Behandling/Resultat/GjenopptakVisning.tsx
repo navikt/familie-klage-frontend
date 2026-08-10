@@ -1,6 +1,6 @@
 import * as React from 'react';
+import type { Behandling } from '../../../App/typer/fagsak';
 import {
-    Behandling,
     klagehendelseTypeTilTekst,
     KlageinstansEventType,
     utfallTilTekst,

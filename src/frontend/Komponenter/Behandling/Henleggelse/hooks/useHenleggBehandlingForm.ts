@@ -1,11 +1,11 @@
+import type { HenleggBehandlingFormValues } from '../HenleggBehandlingForm';
 import {
     HenleggBehandlingFeltnavn,
     HenleggBehandlingFormServerErrors,
-    HenleggBehandlingFormValues,
 } from '../HenleggBehandlingForm';
 import { lagHenleggBehandlingDto } from '../domain/henleggBehandlingDto';
 import { useHenleggBehandling } from './useHenleggBehandling';
-import { Behandling } from '../../../../App/typer/fagsak';
+import type { Behandling } from '../../../../App/typer/fagsak';
 import {
     HENLEGG_BEHANDLING_MODAL_WIDTHS,
     useHenleggBehandlingModalContext,

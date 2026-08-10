@@ -5,13 +5,14 @@ import { Alert, Button, Heading, HGrid, HStack, VStack } from '@navikt/ds-react'
 import CountryData from '@navikt/land-verktoy';
 import { EøsLandkode } from '../../../../../Felles/Landvelger/landkode';
 import { MottakerRolle, mottakerRolleVisningsnavn } from '../../mottakerRolle';
+import type { Brevmottaker } from '../../brevmottaker';
 import {
-    Brevmottaker,
     erBrevmottakerOrganisasjon,
     erBrevmottakerPersonMedIdent,
     erBrevmottakerPersonUtenIdent,
 } from '../../brevmottaker';
-import { lagSlettbarBrevmottaker, SlettbarBrevmottaker } from '../../slettbarBrevmottaker';
+import type { SlettbarBrevmottaker } from '../../slettbarBrevmottaker';
+import { lagSlettbarBrevmottaker } from '../../slettbarBrevmottaker';
 import { useBehandling } from '../../../../../App/context/BehandlingContext';
 import { formaterOrgNummer } from '../../../../../App/typer/institusjon';
 

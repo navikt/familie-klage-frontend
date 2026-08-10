@@ -2,10 +2,8 @@ import React from 'react';
 import styles from './TilegnetSaksbehandler.module.css';
 import { BodyShort, HStack, VStack } from '@navikt/ds-react';
 import { PersonHeadsetIcon } from '@navikt/aksel-icons';
-import {
-    AnsvarligSaksbehandler,
-    AnsvarligSaksbehandlerRolle,
-} from '../../../App/typer/saksbehandler';
+import type { AnsvarligSaksbehandler } from '../../../App/typer/saksbehandler';
+import { AnsvarligSaksbehandlerRolle } from '../../../App/typer/saksbehandler';
 
 interface Props {
     ansvarligSaksbehandler: AnsvarligSaksbehandler;

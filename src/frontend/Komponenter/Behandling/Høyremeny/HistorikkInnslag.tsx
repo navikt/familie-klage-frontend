@@ -2,15 +2,15 @@ import * as React from 'react';
 import { BodyShort, Box, Detail, HStack, Label } from '@navikt/ds-react';
 import styles from './HistorikkInnslag.module.css';
 import { formaterIsoDatoTid } from '../../../App/utils/formatter';
+import type { Behandling } from '../../../App/typer/fagsak';
 import {
-    Behandling,
     behandlingStegFullførtTilTekst,
     hendelseHistorikkTilTekst,
     StegType,
 } from '../../../App/typer/fagsak';
 import { PersonCircleIcon } from '@navikt/aksel-icons';
 import { utledStegutfallForFerdigstiltBehandling } from '../utils';
-import { IBehandlingshistorikk } from './behandlingshistorikk';
+import type { IBehandlingshistorikk } from './behandlingshistorikk';
 
 interface Props {
     behandling: Behandling;

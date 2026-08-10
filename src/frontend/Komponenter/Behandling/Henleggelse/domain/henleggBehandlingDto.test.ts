@@ -1,11 +1,12 @@
 import { describe, expect } from 'vitest';
 import { lagHenleggBehandlingDto } from './henleggBehandlingDto';
-import { HenleggBehandlingFeltnavn, HenleggBehandlingFormValues } from '../HenleggBehandlingForm';
-import {
+import type { HenleggBehandlingFormValues } from '../HenleggBehandlingForm';
+import { HenleggBehandlingFeltnavn } from '../HenleggBehandlingForm';
+import type {
     NyBrevmottakerPerson,
     NyBrevmottakerPersonMedIdent,
-    NyBrevmottakerType,
 } from '../../Brevmottakere/nyBrevmottaker';
+import { NyBrevmottakerType } from '../../Brevmottakere/nyBrevmottaker';
 import { HenlagtÅrsak } from './henlagtÅrsak';
 import { MottakerRolle } from '../../Brevmottakere/mottakerRolle';
 

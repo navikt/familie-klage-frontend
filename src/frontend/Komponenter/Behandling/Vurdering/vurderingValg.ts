@@ -1,4 +1,4 @@
-import { Hjemmel } from './hjemmel';
+import type { Hjemmel } from './hjemmel';
 import { Fagsystem } from '../../../App/typer/fagsak';
 
 export interface IVurdering {

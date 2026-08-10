@@ -1,13 +1,12 @@
 import * as React from 'react';
 import { useEffect, useState } from 'react';
-import {
-    KanIkkeOppretteRevurderingÅrsak,
-    KanOppretteRevurdering,
-} from '../../../App/typer/kanOppretteRevurdering';
+import type { KanOppretteRevurdering } from '../../../App/typer/kanOppretteRevurdering';
+import { KanIkkeOppretteRevurderingÅrsak } from '../../../App/typer/kanOppretteRevurdering';
 import { Alert, VStack } from '@navikt/ds-react';
 import { useApp } from '../../../App/context/AppContext';
 import { useBehandling } from '../../../App/context/BehandlingContext';
-import { byggTomRessurs, Ressurs } from '../../../App/typer/ressurs';
+import type { Ressurs } from '../../../App/typer/ressurs';
+import { byggTomRessurs } from '../../../App/typer/ressurs';
 import { DataViewer } from '../../../Felles/DataViewer/DataViewer';
 import { ModalWrapper } from '../../../Felles/Modal/ModalWrapper';
 import { useFerdigstillBehandling } from './useFerdigstillBehandling';

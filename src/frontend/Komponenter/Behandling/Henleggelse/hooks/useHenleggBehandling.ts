@@ -1,7 +1,8 @@
-import { RessursFeilet, RessursStatus, RessursSuksess } from '../../../../App/typer/ressurs';
+import type { RessursFeilet, RessursSuksess } from '../../../../App/typer/ressurs';
+import { RessursStatus } from '../../../../App/typer/ressurs';
 import { useApp } from '../../../../App/context/AppContext';
 import { useBehandling } from '../../../../App/context/BehandlingContext';
-import { HenleggBehandlingDto } from '../domain/henleggBehandlingDto';
+import type { HenleggBehandlingDto } from '../domain/henleggBehandlingDto';
 import { useNavigate } from 'react-router-dom';
 import { EToast } from '../../../../App/typer/toast';
 

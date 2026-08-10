@@ -7,14 +7,15 @@ import { useHentBehandling } from '../hooks/useHentBehandling';
 import { useHentBehandlingHistorikk } from '../hooks/useHentBehandlingHistorikk';
 import { RessursStatus } from '../typer/ressurs';
 import { BehandlingStatus } from '../typer/behandlingstatus';
-import { IVurdering } from '../../Komponenter/Behandling/Vurdering/vurderingValg';
+import type { IVurdering } from '../../Komponenter/Behandling/Vurdering/vurderingValg';
 import { useHentFormkravVilkår } from '../hooks/useHentFormkravVilkår';
 import {
     alleVilkårOppfylt,
     påklagetVedtakErValgt,
 } from '../../Komponenter/Behandling/Formkrav/validerFormkravUtils';
 import { useHentAnsvarligSaksbehandler } from '../hooks/useHentAnsvarligSaksbehandler';
-import { Behandling, StegType } from '../typer/fagsak';
+import type { Behandling } from '../typer/fagsak';
+import { StegType } from '../typer/fagsak';
 
 const [BehandlingProvider, useBehandling] = constate(() => {
     const behandlingId = useParams<{ behandlingId: string }>().behandlingId as string;

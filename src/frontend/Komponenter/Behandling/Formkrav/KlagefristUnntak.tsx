@@ -1,6 +1,8 @@
-import React, { Dispatch, SetStateAction } from 'react';
+import type { Dispatch, SetStateAction } from 'react';
+import React from 'react';
 import { Radio, RadioGroup } from '@navikt/ds-react';
-import { FormkravFristUnntak, formkravFristUnntakTilTekst, IFormkravVilkår } from './typer';
+import type { IFormkravVilkår } from './typer';
+import { FormkravFristUnntak, formkravFristUnntakTilTekst } from './typer';
 import { useApp } from '../../../App/context/AppContext';
 
 interface Props {

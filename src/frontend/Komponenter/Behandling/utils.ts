@@ -1,9 +1,5 @@
-import {
-    Behandling,
-    BehandlingResultat,
-    behandlingResultatTilTekst,
-    StegType,
-} from '../../App/typer/fagsak';
+import type { Behandling } from '../../App/typer/fagsak';
+import { BehandlingResultat, behandlingResultatTilTekst, StegType } from '../../App/typer/fagsak';
 import { utledTekstForEksternutfall } from './Resultat/utils';
 
 /**
