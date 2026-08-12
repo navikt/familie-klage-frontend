@@ -1,5 +1,6 @@
 import { Tag } from '@navikt/ds-react';
-import React, { FC } from 'react';
+import type { FC } from 'react';
+import React from 'react';
 
 const size = 'small';
 

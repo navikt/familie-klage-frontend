@@ -1,6 +1,7 @@
 import { MottakerRolle } from './mottakerRolle';
-import { IFullmakt, IVergemål } from '../../../App/typer/personopplysninger';
-import { BlankEøsLandkode, erEøsLandkode, EøsLandkode } from '../../../Felles/Landvelger/landkode';
+import type { IFullmakt, IVergemål } from '../../../App/typer/personopplysninger';
+import type { BlankEøsLandkode } from '../../../Felles/Landvelger/landkode';
+import { erEøsLandkode, EøsLandkode } from '../../../Felles/Landvelger/landkode';
 
 export interface Brevmottaker {
     mottakerRolle?: MottakerRolle;

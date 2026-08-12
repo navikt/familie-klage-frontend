@@ -1,5 +1,6 @@
-import { Behandling } from './fagsak';
-import { AnsvarligSaksbehandler, AnsvarligSaksbehandlerRolle } from './saksbehandler';
+import type { Behandling } from './fagsak';
+import type { AnsvarligSaksbehandler } from './saksbehandler';
+import { AnsvarligSaksbehandlerRolle } from './saksbehandler';
 
 export enum BehandlingStatus {
     OPPRETTET = 'OPPRETTET',

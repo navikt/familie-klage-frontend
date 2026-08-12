@@ -2,10 +2,8 @@ import { describe, expect } from 'vitest';
 import { lagNyBrevmottakerPersonUtenIdent, NyBrevmottakerType } from './nyBrevmottaker';
 import { MottakerRolle } from './mottakerRolle';
 import { EøsLandkode } from '../../../Felles/Landvelger/landkode';
-import {
-    BrevmottakerPersonUtenIdentFeltnavn,
-    BrevmottakerPersonUtenIdentFormValues,
-} from './baks/modal/form/BrevmottakerPersonUtenIdentForm';
+import type { BrevmottakerPersonUtenIdentFormValues } from './baks/modal/form/BrevmottakerPersonUtenIdentForm';
+import { BrevmottakerPersonUtenIdentFeltnavn } from './baks/modal/form/BrevmottakerPersonUtenIdentForm';
 
 describe('NyBrevmottakerTest', () => {
     describe('LagNyBrevmottakerPersonUtenIdentTest', () => {

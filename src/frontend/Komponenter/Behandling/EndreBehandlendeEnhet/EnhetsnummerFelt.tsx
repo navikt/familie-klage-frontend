@@ -2,7 +2,7 @@ import React from 'react';
 import { finnGyldigeArbeidsfordelingsenheterForFagsystem } from './arbeidsfordelingsenhet';
 import { Select } from '@navikt/ds-react';
 import { useController, useFormContext } from 'react-hook-form';
-import { Behandling } from '../../../App/typer/fagsak';
+import type { Behandling } from '../../../App/typer/fagsak';
 import { EndreBehandlendeEnhetFeltnavn } from './feltnavn';
 import { CustomFormErrors } from './EndreBehandlendeEnhetModal';
 

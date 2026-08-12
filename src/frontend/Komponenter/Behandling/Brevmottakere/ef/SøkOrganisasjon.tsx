@@ -1,9 +1,11 @@
-import React, { Dispatch, SetStateAction, useEffect, useState } from 'react';
+import type { Dispatch, SetStateAction } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useApp } from '../../../../App/context/AppContext';
-import { byggTomRessurs, Ressurs } from '../../../../App/typer/ressurs';
+import type { Ressurs } from '../../../../App/typer/ressurs';
+import { byggTomRessurs } from '../../../../App/typer/ressurs';
 import { DataViewer } from '../../../../Felles/DataViewer/DataViewer';
 import { BodyShort, Button, Radio, RadioGroup, Stack, TextField, VStack } from '@navikt/ds-react';
-import { BrevmottakerOrganisasjon } from '../brevmottaker';
+import type { BrevmottakerOrganisasjon } from '../brevmottaker';
 import styles from './SøkOrganisasjon.module.css';
 import { MottakerRolle } from '../mottakerRolle';
 

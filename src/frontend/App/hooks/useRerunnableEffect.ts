@@ -1,4 +1,5 @@
-import { DependencyList, EffectCallback, useEffect, useMemo, useState } from 'react';
+import type { DependencyList, EffectCallback } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 
 export const useRerunnableEffect = (
     effect: EffectCallback,

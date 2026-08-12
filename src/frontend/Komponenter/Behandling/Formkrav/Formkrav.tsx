@@ -1,18 +1,19 @@
 import React, { useEffect, useState } from 'react';
 import { KlageInfo } from './KlageInfo';
-import { RessursFeilet, RessursStatus, RessursSuksess } from '../../../App/typer/ressurs';
+import type { RessursFeilet, RessursSuksess } from '../../../App/typer/ressurs';
+import { RessursStatus } from '../../../App/typer/ressurs';
 import { useBehandling } from '../../../App/context/BehandlingContext';
-import { IFormkravVilkår } from './typer';
+import type { IFormkravVilkår } from './typer';
 import { ToKolonneLayout } from '../../../Felles/Visningskomponenter/ToKolonneLayout';
 import { FormkravVurderinger } from './FormkravVurderinger';
 import { DataViewer } from '../../../Felles/DataViewer/DataViewer';
-import { Behandling } from '../../../App/typer/fagsak';
+import type { Behandling } from '../../../App/typer/fagsak';
 import { useHentFormkravVilkår } from '../../../App/hooks/useHentFormkravVilkår';
 import { utledRedigeringsmodus } from './validerFormkravUtils';
 import { useHentFagsystemVedtak } from '../../../App/hooks/useHentFagsystemVedtak';
-import { FagsystemVedtak } from '../../../App/typer/fagsystemVedtak';
+import type { FagsystemVedtak } from '../../../App/typer/fagsystemVedtak';
 import { useHentKlagebehandlingsresultater } from '../../../App/hooks/useHentKlagebehandlingsresultater';
-import { Klagebehandlingsresultat } from '../../../App/typer/klagebehandlingsresultat';
+import type { Klagebehandlingsresultat } from '../../../App/typer/klagebehandlingsresultat';
 
 export const Formkrav: React.FC<{ behandling: Behandling }> = ({ behandling }) => {
     const { vilkårsvurderinger, hentVilkårsvurderinger, lagreVilkårsvurderinger, feilVedLagring } =

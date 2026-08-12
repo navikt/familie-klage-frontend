@@ -2,11 +2,10 @@ import React from 'react';
 
 import { describe, expect, test } from 'vitest';
 import { Adresselinje1Felt } from './Adresselinje1Felt';
-import { DefaultValues, FormProvider, useForm } from 'react-hook-form';
-import {
-    BrevmottakerPersonUtenIdentFeltnavn,
-    BrevmottakerPersonUtenIdentFormValues,
-} from '../BrevmottakerPersonUtenIdentForm';
+import type { DefaultValues } from 'react-hook-form';
+import { FormProvider, useForm } from 'react-hook-form';
+import type { BrevmottakerPersonUtenIdentFormValues } from '../BrevmottakerPersonUtenIdentForm';
+import { BrevmottakerPersonUtenIdentFeltnavn } from '../BrevmottakerPersonUtenIdentForm';
 import { render } from '../../../../../../../lib/testrender';
 import { Button } from '@navikt/ds-react';
 

@@ -1,10 +1,10 @@
 import React, { useMemo } from 'react';
-import { ISaksbehandler } from '../../App/typer/saksbehandler';
+import type { ISaksbehandler } from '../../App/typer/saksbehandler';
 import { useApp } from '../../App/context/AppContext';
 import styles from './HeaderMedSøk.module.css';
-import { AppEnv } from '../../App/api/env';
+import type { AppEnv } from '../../App/api/env';
 import { lagAInntektLink, lagGosysLink, lagModiaLink } from '../Lenker/lenker';
-import { AxiosRequestCallback } from '../../App/typer/axiosRequest';
+import type { AxiosRequestCallback } from '../../App/typer/axiosRequest';
 import { ActionMenu, InternalHeader } from '@navikt/ds-react';
 import { MenuGridIcon } from '@navikt/aksel-icons';
 

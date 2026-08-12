@@ -6,7 +6,7 @@ import { Dokumenter } from './Dokumenter';
 import styles from './Høyremeny.module.css';
 import { ChevronLeftIcon, ChevronRightIcon } from '@navikt/aksel-icons';
 import { useBehandling } from '../../../App/context/BehandlingContext';
-import { Behandling } from '../../../App/typer/fagsak';
+import type { Behandling } from '../../../App/typer/fagsak';
 import { BehandlingInfo } from './BehandlingInfo';
 
 interface Props {

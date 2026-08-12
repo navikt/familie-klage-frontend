@@ -1,8 +1,13 @@
 import React, { useState } from 'react';
 
-import { ComboboxProps, UNSAFE_Combobox } from '@navikt/ds-react';
+import type { ComboboxProps } from '@navikt/ds-react';
+import { UNSAFE_Combobox } from '@navikt/ds-react';
 
-import { ComboboxOption } from '@navikt/ds-react/cjs/form/combobox/types';
+// Aksel eksporterer ikke ComboboxOption, og deep import av cjs-stier støttes ikke av Vite
+type ComboboxOption = {
+    label: string;
+    value: string;
+};
 import { EøsLandkode } from './landkode';
 
 type Props = {

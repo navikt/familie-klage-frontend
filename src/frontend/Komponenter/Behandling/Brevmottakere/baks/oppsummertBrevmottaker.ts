@@ -1,5 +1,6 @@
 import CountryData from '@navikt/land-verktoy';
-import { Brevmottakere, hentAlleBrevmottakereSomListe } from '../brevmottakere';
+import type { Brevmottakere } from '../brevmottakere';
+import { hentAlleBrevmottakereSomListe } from '../brevmottakere';
 import { mottakerRolleVisningsnavn } from '../mottakerRolle';
 import {
     erBrevmottakerOrganisasjon,

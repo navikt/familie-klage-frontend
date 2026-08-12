@@ -1,9 +1,9 @@
 import * as React from 'react';
-import { FC } from 'react';
+import type { FC } from 'react';
 import { Box, Heading, Select } from '@navikt/ds-react';
 import { Controller, useFormContext } from 'react-hook-form';
 import { useApp } from '../../../../App/context/AppContext';
-import { VurderingNedtrekkslisteFelter } from './felttyper';
+import type { VurderingNedtrekkslisteFelter } from './felttyper';
 
 interface NedtrekkslisteProps {
     visningsnavn: string;

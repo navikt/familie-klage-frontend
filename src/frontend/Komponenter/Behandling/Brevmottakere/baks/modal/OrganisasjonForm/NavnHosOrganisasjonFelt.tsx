@@ -1,10 +1,8 @@
 import { useController, useFormContext } from 'react-hook-form';
 import React from 'react';
 import { TextField } from '@navikt/ds-react';
-import {
-    BrevmottakerOrganisasjonFeltnavn,
-    BrevmottakerOrganisasjonFormValues,
-} from './BrevmottakerOrganisasjonForm';
+import type { BrevmottakerOrganisasjonFormValues } from './BrevmottakerOrganisasjonForm';
+import { BrevmottakerOrganisasjonFeltnavn } from './BrevmottakerOrganisasjonForm';
 
 interface Props {
     erLesevisning?: boolean;

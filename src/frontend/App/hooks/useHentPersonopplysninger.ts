@@ -1,7 +1,8 @@
-import { byggHenterRessurs, byggTomRessurs, Ressurs } from '../typer/ressurs';
+import type { Ressurs } from '../typer/ressurs';
+import { byggHenterRessurs, byggTomRessurs } from '../typer/ressurs';
 import { useApp } from '../context/AppContext';
 import { useCallback, useState } from 'react';
-import { IPersonopplysningerFagsakeierOgSøker } from '../typer/personopplysninger';
+import type { IPersonopplysningerFagsakeierOgSøker } from '../typer/personopplysninger';
 
 export const useHentPersonopplysninger = (
     behandlingId: string

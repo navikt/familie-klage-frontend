@@ -1,4 +1,5 @@
-import React, { FC } from 'react';
+import type { FC } from 'react';
+import React from 'react';
 import { useDatepicker, DatePicker, BodyShort } from '@navikt/ds-react';
 import { formaterNullableIsoDato, tilLocaleDateString } from '../../App/utils/formatter';
 import { nullableTilDato } from '../../App/utils/dato';

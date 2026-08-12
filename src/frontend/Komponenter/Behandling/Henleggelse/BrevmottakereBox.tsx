@@ -8,7 +8,8 @@ import {
 import { BrevmottakerDetaljer } from './BrevmottakerDetaljer';
 import { useBrevmottakereContext } from './context/BrevmottakereContextProvider';
 import { useBrevmottakerFormActionsContext } from './context/BrevmottakerFormActionsContextProvider';
-import { Behandling, Fagsystem } from '../../../App/typer/fagsak';
+import type { Behandling } from '../../../App/typer/fagsak';
+import { Fagsystem } from '../../../App/typer/fagsak';
 import { useToggles } from '../../../App/context/TogglesContext';
 import { usePersonopplysningerContext } from '../../../App/context/PersonopplysningerContext';
 import { ToggleName } from '../../../App/context/toggles';

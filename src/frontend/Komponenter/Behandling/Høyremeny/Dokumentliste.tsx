@@ -2,7 +2,7 @@ import * as React from 'react';
 import styles from './Dokumentliste.module.css';
 import { BodyShort, Button, Tag } from '@navikt/ds-react';
 import { LogiskeVedlegg } from './LogiskeVedlegg';
-import { Journalposttype, LogiskVedlegg } from '../../../App/typer/dokument';
+import type { Journalposttype, LogiskVedlegg } from '../../../App/typer/dokument';
 
 export interface Dokument {
     tittel: string;

@@ -3,7 +3,7 @@ import { LinkIcon } from '@navikt/aksel-icons';
 import React, { useState } from 'react';
 import { base64toBlob, åpnePdfIEgenTab } from '../../../App/utils/utils';
 import { useLagHenleggelsesbrev } from './hooks/useLagHenleggelsesbrev';
-import { Behandling } from '../../../App/typer/fagsak';
+import type { Behandling } from '../../../App/typer/fagsak';
 import { useBrevmottakereContext } from './context/BrevmottakereContextProvider';
 
 const filnavn = 'Forhåndsvisning av trukket søknadsbrev';

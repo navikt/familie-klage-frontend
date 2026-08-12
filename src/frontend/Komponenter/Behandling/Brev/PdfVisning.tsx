@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Ressurs } from '../../../App/typer/ressurs';
+import type { Ressurs } from '../../../App/typer/ressurs';
 import styles from './PdfVisning.module.css';
 import { Document, Page, pdfjs } from 'react-pdf';
 import { DataViewer } from '../../../Felles/DataViewer/DataViewer';

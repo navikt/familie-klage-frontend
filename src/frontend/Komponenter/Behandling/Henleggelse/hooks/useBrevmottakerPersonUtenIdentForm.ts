@@ -1,9 +1,7 @@
 import { useForm } from 'react-hook-form';
 import { EøsLandkode } from '../../../../Felles/Landvelger/landkode';
-import {
-    BrevmottakerPersonUtenIdentFeltnavn,
-    BrevmottakerPersonUtenIdentFormValues,
-} from '../../Brevmottakere/baks/modal/form/BrevmottakerPersonUtenIdentForm';
+import type { BrevmottakerPersonUtenIdentFormValues } from '../../Brevmottakere/baks/modal/form/BrevmottakerPersonUtenIdentForm';
+import { BrevmottakerPersonUtenIdentFeltnavn } from '../../Brevmottakere/baks/modal/form/BrevmottakerPersonUtenIdentForm';
 import { lagNyBrevmottakerPersonUtenIdent } from '../../Brevmottakere/nyBrevmottaker';
 import { useBrevmottakereContext } from '../context/BrevmottakereContextProvider';
 

@@ -6,15 +6,18 @@ import { Alert, VStack } from '@navikt/ds-react';
 import { VedtakSelect } from './VedtakSelect';
 import { ÅrsakSelect } from './ÅrsakSelect';
 import { HjemmelSelect } from './HjemmelSelect';
-import { IVurdering, VedtakValg } from './vurderingValg';
+import type { IVurdering } from './vurderingValg';
+import { VedtakValg } from './vurderingValg';
 import { useBehandling } from '../../../App/context/BehandlingContext';
 import { EnsligTextArea } from '../../../Felles/Input/EnsligTextArea';
 import { harVerdi } from '../../../App/utils/utils';
 import { InterntNotat } from './InterntNotat';
 import { useHentVurderinger } from '../../../App/hooks/useHentVurderinger';
-import { Behandling, Fagsystem } from '../../../App/typer/fagsak';
+import type { Behandling } from '../../../App/typer/fagsak';
+import { Fagsystem } from '../../../App/typer/fagsak';
 import { InnstillingTilNavKlageinstans } from './InnstillingTilNavKlageinstans/InnstillingTilNavKlageinstans';
-import { Ressurs, RessursStatus } from '../../../App/typer/ressurs';
+import type { Ressurs } from '../../../App/typer/ressurs';
+import { RessursStatus } from '../../../App/typer/ressurs';
 import { Button } from '../../../Felles/Knapper/Button';
 
 const erAlleFelterUtfylt = (vurderingData: IVurdering, fagsystem: Fagsystem): boolean => {

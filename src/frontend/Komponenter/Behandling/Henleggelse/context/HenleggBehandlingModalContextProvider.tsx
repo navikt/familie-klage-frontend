@@ -1,4 +1,5 @@
-import React, { createContext, PropsWithChildren, useContext, useState } from 'react';
+import type { PropsWithChildren } from 'react';
+import React, { createContext, useContext, useState } from 'react';
 import { useBehandling } from '../../../../App/context/BehandlingContext';
 
 interface ContextValue {

@@ -1,5 +1,7 @@
-import React, { forwardRef, ReactNode, useEffect, useState } from 'react';
-import { Alert, AlertProps } from '@navikt/ds-react';
+import type { ReactNode } from 'react';
+import React, { forwardRef, useEffect, useState } from 'react';
+import type { AlertProps } from '@navikt/ds-react';
+import { Alert } from '@navikt/ds-react';
 
 export const AlertError = forwardRef<HTMLDivElement, Omit<AlertProps, 'variant'>>((props, ref) => {
     return <Alert variant={'error'} {...props} ref={ref} />;

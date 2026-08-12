@@ -1,8 +1,9 @@
 import { MottakerRolle } from './mottakerRolle';
 import { EøsLandkode } from '../../../Felles/Landvelger/landkode';
-import { Brevmottakere, hentAlleBrevmottakereSomListe } from './brevmottakere';
+import type { Brevmottakere } from './brevmottakere';
+import { hentAlleBrevmottakereSomListe } from './brevmottakere';
+import type { BrevmottakerPersonMedIdent } from './brevmottaker';
 import {
-    BrevmottakerPersonMedIdent,
     erBrevmottakerOrganisasjon,
     erBrevmottakerPersonMedIdent,
     erBrevmottakerPersonUtenIdent,

@@ -1,4 +1,4 @@
-import { FagsystemType } from '../../Komponenter/Behandling/Formkrav/typer';
+import type { FagsystemType } from '../../Komponenter/Behandling/Formkrav/typer';
 
 export interface FagsystemVedtak {
     behandlingstype: string;

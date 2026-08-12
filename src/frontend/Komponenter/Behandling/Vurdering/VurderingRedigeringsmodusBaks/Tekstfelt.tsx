@@ -1,8 +1,9 @@
 import { Textarea } from '@navikt/ds-react';
 import { Controller, useFormContext } from 'react-hook-form';
-import React, { FC } from 'react';
+import type { FC } from 'react';
+import React from 'react';
 import { useApp } from '../../../../App/context/AppContext';
-import { VurderingTekstfeltFelter } from './felttyper';
+import type { VurderingTekstfeltFelter } from './felttyper';
 
 interface TekstfeltProps {
     visningsnavn: string;

@@ -1,7 +1,9 @@
-import React, { FC, useEffect, useState } from 'react';
+import type { FC } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Select } from '@navikt/ds-react';
-import { byggTomRessurs, Ressurs } from '../../../App/typer/ressurs';
-import { IMappe } from '../Typer/IMappe';
+import type { Ressurs } from '../../../App/typer/ressurs';
+import { byggTomRessurs } from '../../../App/typer/ressurs';
+import type { IMappe } from '../Typer/IMappe';
 import { useApp } from '../../../App/context/AppContext';
 import { DataViewer } from '../../../Felles/DataViewer/DataViewer';
 import { Fagsystem } from '../../../App/typer/fagsak';

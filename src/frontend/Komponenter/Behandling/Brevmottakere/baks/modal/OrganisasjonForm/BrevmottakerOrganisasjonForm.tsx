@@ -1,7 +1,8 @@
 import React from 'react';
-import { FormProvider, SubmitHandler, UseFormReturn } from 'react-hook-form';
+import type { SubmitHandler, UseFormReturn } from 'react-hook-form';
+import { FormProvider } from 'react-hook-form';
 import { Alert, Button, Fieldset, FormSummary, HStack, VStack } from '@navikt/ds-react';
-import { BlankMottakerRolle, MottakerRolle } from '../../../mottakerRolle';
+import type { BlankMottakerRolle, MottakerRolle } from '../../../mottakerRolle';
 import { useBehandling } from '../../../../../../App/context/BehandlingContext';
 import { useOnUnmount } from '../../../../../../App/hooks/useOnUnmount';
 import { useOnFormSubmitSuccessful } from '../../../../../../App/hooks/useOnFormSubmitSuccessful';

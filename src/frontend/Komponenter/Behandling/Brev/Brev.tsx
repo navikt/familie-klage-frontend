@@ -1,16 +1,12 @@
 import * as React from 'react';
 import { useCallback, useEffect, useState } from 'react';
-import {
-    byggTomRessurs,
-    Ressurs,
-    RessursFeilet,
-    RessursStatus,
-    RessursSuksess,
-} from '../../../App/typer/ressurs';
+import type { Ressurs, RessursFeilet, RessursSuksess } from '../../../App/typer/ressurs';
+import { byggTomRessurs, RessursStatus } from '../../../App/typer/ressurs';
 import { useApp } from '../../../App/context/AppContext';
-import { IVurdering, VedtakValg } from '../Vurdering/vurderingValg';
+import type { IVurdering } from '../Vurdering/vurderingValg';
+import { VedtakValg } from '../Vurdering/vurderingValg';
 import { OmgjørVedtak } from './OmgjørVedtak';
-import { Fagsystem } from '../../../App/typer/fagsak';
+import type { Fagsystem } from '../../../App/typer/fagsak';
 import { DataViewer } from '../../../Felles/DataViewer/DataViewer';
 import { OpprettholdVedtak } from './OpprettholdVedtak';
 import { Alert } from '@navikt/ds-react';

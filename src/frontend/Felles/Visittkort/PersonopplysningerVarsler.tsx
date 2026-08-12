@@ -1,5 +1,5 @@
 import React from 'react';
-import { IPersonopplysninger } from '../../App/typer/personopplysninger';
+import type { IPersonopplysninger } from '../../App/typer/personopplysninger';
 import { PersonStatusVarsel } from '../Varsel/PersonStatusVarsel';
 import { AdressebeskyttelseVarsel } from '../Varsel/AdressebeskyttelseVarsel';
 import { EtikettFokus } from '../Varsel/Etikett';

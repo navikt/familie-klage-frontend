@@ -1,13 +1,14 @@
 import React, { useCallback, useEffect, useState } from 'react';
 import { useApp } from '../../../../App/context/AppContext';
 import { Alert, BodyShort, Button, HStack, Label, Tooltip, VStack } from '@navikt/ds-react';
-import { Brevmottakere } from '../brevmottakere';
+import type { Brevmottakere } from '../brevmottakere';
 import { DataViewer } from '../../../../Felles/DataViewer/DataViewer';
 import { useBehandling } from '../../../../App/context/BehandlingContext';
 import { BrevmottakereModal } from './BrevmottakereModal';
-import { byggTomRessurs, Ressurs } from '../../../../App/typer/ressurs';
+import type { Ressurs } from '../../../../App/typer/ressurs';
+import { byggTomRessurs } from '../../../../App/typer/ressurs';
 import { MottakerRolle } from '../mottakerRolle';
-import { AxiosRequestConfig } from 'axios';
+import type { AxiosRequestConfig } from 'axios';
 
 interface Props {
     behandlingId: string;

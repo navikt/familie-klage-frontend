@@ -1,4 +1,4 @@
-import { IBehandlingshistorikk } from './behandlingshistorikk';
+import type { IBehandlingshistorikk } from './behandlingshistorikk';
 import { utledSisteHistorikkInnslagPerKjede } from './utils';
 import { HistorikkHendelse, StegType } from '../../../App/typer/fagsak';
 

@@ -1,7 +1,7 @@
 import * as React from 'react';
-import { IBehandlingshistorikk } from '../Høyremeny/behandlingshistorikk';
+import type { IBehandlingshistorikk } from '../Høyremeny/behandlingshistorikk';
+import type { Behandling } from '../../../App/typer/fagsak';
 import {
-    Behandling,
     BehandlingResultat,
     behandlingStegTilTekst,
     revurderingIkkeOpprettetÅrsak,

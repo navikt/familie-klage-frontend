@@ -1,4 +1,5 @@
-import { BlankEøsLandkode, erEøsLandkode, EøsLandkode } from '../../../Felles/Landvelger/landkode';
+import type { BlankEøsLandkode } from '../../../Felles/Landvelger/landkode';
+import { erEøsLandkode, EøsLandkode } from '../../../Felles/Landvelger/landkode';
 import { utledPreutfyltBrevmottakerPersonUtenIdentNavn } from './brevmottaker';
 
 export type BlankMottakerRolle = '';

@@ -1,8 +1,9 @@
 import React from 'react';
 import styles from './KlageInfo.module.css';
 import { BodyLong, Heading } from '@navikt/ds-react';
-import { IFormkravVilkår, Redigeringsmodus } from './typer';
-import { Behandling } from '../../../App/typer/fagsak';
+import type { IFormkravVilkår } from './typer';
+import { Redigeringsmodus } from './typer';
+import type { Behandling } from '../../../App/typer/fagsak';
 import { FileTextIcon } from '@navikt/aksel-icons';
 import { formaterIsoDato } from '../../../App/utils/formatter';
 import { alleVilkårOppfylt, påklagetVedtakErValgt } from './validerFormkravUtils';

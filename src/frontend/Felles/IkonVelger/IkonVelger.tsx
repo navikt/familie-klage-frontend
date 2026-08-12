@@ -5,7 +5,7 @@ import { GuttIkon } from '../Ikoner/GuttIkon';
 import { MannIkon } from '../Ikoner/MannIkon';
 import { NøytralPersonIkon } from '../Ikoner/NøytralPersonIkon';
 import { Kjønn } from '../../App/typer/personopplysninger';
-import { Institusjon } from '../../App/typer/institusjon';
+import type { Institusjon } from '../../App/typer/institusjon';
 import { InstitusjonIkon } from '../Ikoner/InstitusjonIkon';
 
 export interface Props {

@@ -1,5 +1,5 @@
+import type { Behandling } from '../App/typer/fagsak';
 import {
-    Behandling,
     BehandlingResultat,
     Fagsystem,
     Klagebehandlingsårsak,

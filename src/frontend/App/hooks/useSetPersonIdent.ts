@@ -1,6 +1,6 @@
 import { useApp } from '../context/AppContext';
 import { useEffect } from 'react';
-import { IPersonopplysningerFagsakeierOgSøker } from '../typer/personopplysninger';
+import type { IPersonopplysningerFagsakeierOgSøker } from '../typer/personopplysninger';
 
 export const useSetPersonIdent = (personopplysninger: IPersonopplysningerFagsakeierOgSøker) => {
     const { settFagsakEierPersonIdent, settSøkerPersonIdent } = useApp();

@@ -1,12 +1,7 @@
-import React, { Dispatch, SetStateAction, useState } from 'react';
-import {
-    EFormalKravType,
-    FormkravFristUnntak,
-    IFormalkrav,
-    IFormkravVilkår,
-    Redigeringsmodus,
-    VilkårStatus,
-} from './typer';
+import type { Dispatch, SetStateAction } from 'react';
+import React, { useState } from 'react';
+import type { IFormalkrav, IFormkravVilkår } from './typer';
+import { EFormalKravType, FormkravFristUnntak, Redigeringsmodus, VilkårStatus } from './typer';
 import {
     Alert,
     BodyLong,
@@ -19,7 +14,8 @@ import {
 } from '@navikt/ds-react';
 import { useBehandling } from '../../../App/context/BehandlingContext';
 import { useApp } from '../../../App/context/AppContext';
-import { Ressurs, RessursFeilet, RessursStatus, RessursSuksess } from '../../../App/typer/ressurs';
+import type { Ressurs, RessursFeilet, RessursSuksess } from '../../../App/typer/ressurs';
+import { RessursStatus } from '../../../App/typer/ressurs';
 import styles from './EndreFormkravVurderinger.module.css';
 import { VedtakSelect } from './VedtakSelect';
 import {
@@ -34,9 +30,9 @@ import {
     utledRadioKnapper,
 } from './utils';
 import { KlagefristUnntak } from './KlagefristUnntak';
-import { FagsystemVedtak } from '../../../App/typer/fagsystemVedtak';
+import type { FagsystemVedtak } from '../../../App/typer/fagsystemVedtak';
 import { Fagsystem, PåklagetVedtakstype } from '../../../App/typer/fagsak';
-import { Klagebehandlingsresultat } from '../../../App/typer/klagebehandlingsresultat';
+import type { Klagebehandlingsresultat } from '../../../App/typer/klagebehandlingsresultat';
 import { Button } from '../../../Felles/Knapper/Button';
 
 interface Props {

@@ -1,5 +1,6 @@
 import * as React from 'react';
-import { Behandling, KlageinstansEventType } from '../../../App/typer/fagsak';
+import type { Behandling } from '../../../App/typer/fagsak';
+import { KlageinstansEventType } from '../../../App/typer/fagsak';
 import { Alert, BodyShort, Heading, Label } from '@navikt/ds-react';
 import { formaterIsoDatoTid } from '../../../App/utils/formatter';
 
