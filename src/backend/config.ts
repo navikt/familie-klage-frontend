@@ -1,6 +1,6 @@
 // Konfigurer appen før backend prøver å sette opp konfigurasjon
 
-import { IApi, ISessionKonfigurasjon } from '@navikt/familie-backend';
+import type { IApi, ISessionKonfigurasjon } from '@navikt/familie-backend';
 
 type Rolle = 'veileder' | 'saksbehandler' | 'beslutter' | 'kode6' | 'kode7' | 'egenAnsatt';
 type EksternlenkeKey =
@@ -21,7 +21,7 @@ type Eksternlenker = {
 };
 
 interface IEnvironment {
-    buildPath: string;
+    frontendPath: string;
     miljø: string;
     klageProxyUrl: string;
     roller: Roller;
@@ -79,7 +79,7 @@ const lenkerLocal: Eksternlenker = {
 const Environment = (): IEnvironment => {
     if (process.env.ENV === 'local') {
         return {
-            buildPath: 'frontend_development',
+            frontendPath: 'src/frontend',
             miljø: 'local',
             klageProxyUrl: 'http://localhost:8094',
             roller: rollerDev,
@@ -87,7 +87,7 @@ const Environment = (): IEnvironment => {
         };
     } else if (process.env.ENV === 'e2e') {
         return {
-            buildPath: 'frontend_production',
+            frontendPath: 'dist_frontend',
             miljø: 'e2e',
             klageProxyUrl: 'http://familie-klage:8093',
             roller: rollerDev,
@@ -96,7 +96,7 @@ const Environment = (): IEnvironment => {
         };
     } else if (process.env.ENV === 'preprod') {
         return {
-            buildPath: 'frontend_production',
+            frontendPath: 'dist_frontend',
             miljø: 'preprod',
             klageProxyUrl: 'http://familie-klage',
             roller: rollerDev,
@@ -104,7 +104,7 @@ const Environment = (): IEnvironment => {
         };
     } else if (process.env.ENV === 'lokalt-mot-preprod') {
         return {
-            buildPath: 'frontend_development',
+            frontendPath: 'src/frontend',
             miljø: 'local',
             klageProxyUrl: 'https://familie-klage-backend.intern.dev.nav.no',
             roller: rollerDev,
@@ -113,7 +113,7 @@ const Environment = (): IEnvironment => {
     }
 
     return {
-        buildPath: 'frontend_production',
+        frontendPath: 'dist_frontend',
         miljø: 'production',
         klageProxyUrl: 'http://familie-klage',
         roller: rollerProd,
@@ -149,7 +149,7 @@ export const oboConfig: IApi = {
     scopes: [process.env.FAMILIE_KLAGE_SCOPE],
 };
 
-export const buildPath = env.buildPath;
+export const frontendPath = env.frontendPath;
 export const klageProxyUrl = env.klageProxyUrl;
 export const miljø = env.miljø;
 export const roller = env.roller;

@@ -4,10 +4,9 @@ import { App } from './App';
 import '@navikt/ds-css';
 import { createRoot } from 'react-dom/client';
 
-// eslint-disable-next-line
-const packageConfig = require('../../package.json');
+import packageConfig from '../../package.json';
 
-if (process.env.NODE_ENV !== 'development') {
+if (!import.meta.env.DEV) {
     const environment = window.location.hostname;
 
     init({

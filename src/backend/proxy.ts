@@ -1,9 +1,10 @@
-import { Client, getOnBehalfOfAccessToken } from '@navikt/familie-backend';
-import { NextFunction, Request, RequestHandler, Response } from 'express';
-import { ClientRequest, IncomingMessage } from 'http';
+import type { Client } from '@navikt/familie-backend';
+import { getOnBehalfOfAccessToken } from '@navikt/familie-backend';
+import type { NextFunction, Request, RequestHandler, Response } from 'express';
+import type { ClientRequest, IncomingMessage } from 'http';
 import { createProxyMiddleware } from 'http-proxy-middleware';
 import { v4 as uuidv4 } from 'uuid';
-import { oboConfig } from './config';
+import { oboConfig } from './config.js';
 import { logError, logInfo, stdoutLogger } from '@navikt/familie-logging';
 
 const restream = (proxyReq: ClientRequest, req: IncomingMessage) => {
