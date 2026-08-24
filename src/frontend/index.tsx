@@ -1,19 +1,11 @@
-import { init } from '@sentry/browser';
 import React from 'react';
 import { App } from './App';
 import '@navikt/ds-css';
 import { createRoot } from 'react-dom/client';
-
-import packageConfig from '../../package.json';
+import { initApm } from './apm';
 
 if (!import.meta.env.DEV) {
-    const environment = window.location.hostname;
-
-    init({
-        dsn: 'https://9354098a42ad42ad883c9359f4c87e8d@sentry.gc.nav.no/21',
-        environment,
-        release: packageConfig.version,
-    });
+    initApm();
 }
 
 // Oppdater denne ved endringer som krever å nullstille localStorage

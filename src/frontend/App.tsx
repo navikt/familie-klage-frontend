@@ -15,14 +15,12 @@ import { TestSide } from './Komponenter/test/TestSide';
 import { BodyLong } from '@navikt/ds-react';
 import { ModalWrapper } from './Felles/Modal/ModalWrapper';
 import { UlagretDataModal } from './Felles/Modal/UlagretDataModal';
-import { initGrafanaFaro } from './App/utils/grafanaFaro';
 
 export const App: React.FC = () => {
     const [innloggetSaksbehandler, settInnloggetSaksbehandler] = useState<ISaksbehandler>();
     const [appEnv, settAppEnv] = useState<AppEnv>();
 
     React.useEffect(() => {
-        initGrafanaFaro();
         hentInnloggetBruker().then((innhentetInnloggetSaksbehandler: ISaksbehandler) => {
             settInnloggetSaksbehandler(innhentetInnloggetSaksbehandler);
         });
@@ -38,7 +36,7 @@ export const App: React.FC = () => {
         return null;
     }
     return (
-        <ErrorBoundary innloggetSaksbehandler={innloggetSaksbehandler}>
+        <ErrorBoundary>
             <AppProvider autentisertSaksbehandler={innloggetSaksbehandler} appEnv={appEnv}>
                 <TogglesProvider>
                     <AppRoutes innloggetSaksbehandler={innloggetSaksbehandler} />

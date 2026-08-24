@@ -33,7 +33,7 @@ import {
 } from './OrganisasjonForm/BrevmottakerOrganisasjonForm';
 import { useToggles } from '../../../../../App/context/TogglesContext';
 import { ToggleName } from '../../../../../App/context/toggles';
-import { uuid4 } from '@sentry/core';
+import { v4 as uuid4 } from 'uuid';
 
 type Props = {
     brevmottakere: Brevmottakere;

@@ -1,9 +1,6 @@
 import * as React from 'react';
-import { captureException, getCurrentScope, withScope } from '@sentry/core';
-import type { ISaksbehandler } from '../../App/typer/saksbehandler';
-
+import { captureException } from '@nais/apm';
 interface Props {
-    innloggetSaksbehandler: ISaksbehandler;
     children: React.ReactNode;
 }
 
@@ -16,15 +13,10 @@ export class ErrorBoundary extends React.Component<Props> {
     public componentDidCatch(error: any, info: any): void {
         console.log(error, info);
         if (!import.meta.env.DEV) {
-            getCurrentScope().setUser({
-                username: this.props.innloggetSaksbehandler.displayName,
-            });
-
-            withScope((scope) => {
-                Object.keys(info).forEach((key) => {
-                    scope.setExtra(key, info[key]);
-                    captureException(error);
-                });
+            captureException(error, {
+                context: {
+                    componentStack: info.componentStack,
+                },
             });
         }
     }

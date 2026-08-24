@@ -1,4 +1,4 @@
-import { captureException, getCurrentScope, withScope } from '@sentry/core';
+import { captureException } from '@nais/apm';
 import type { AxiosError, AxiosRequestHeaders, AxiosResponse } from 'axios';
 import axios from 'axios';
 import type { Ressurs, RessursFeilet, RessursSuksess } from '../typer/ressurs';
@@ -109,24 +109,22 @@ export const håndterRessurs = <T>(
 
 const loggFeil = (
     error?: AxiosError,
-    innloggetSaksbehandler?: ISaksbehandler,
+    _innloggetSaksbehandler?: ISaksbehandler,
     feilmelding?: string,
     headers?: Headers,
     isWarning = false
 ): void => {
     if (import.meta.env.PROD) {
-        getCurrentScope().setUser({
-            username: innloggetSaksbehandler ? innloggetSaksbehandler.displayName : 'Ukjent bruker',
-        });
-
         const response: AxiosResponse | undefined = error ? error.response : undefined;
         if (response) {
-            withScope((scope) => {
-                scope.setExtra('nav-call-id', response.headers['nav-call-id']);
-                scope.setExtra('status text', response.statusText);
-                scope.setExtra('status', response.status);
-
-                captureException(error);
+            captureException(error, {
+                context: {
+                    response: {
+                        callId: response.headers['nav-call-id'],
+                        status: response.status,
+                        statusText: response.statusText,
+                    },
+                },
             });
         }
 

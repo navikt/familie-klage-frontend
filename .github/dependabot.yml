@@ -37,10 +37,9 @@ updates:
       landvelger:
         patterns:
           - '@navikt/land-verktoy'
-      sentry:
+      nais-apm:
         patterns:
-          - '@sentry/browser'
-          - '@sentry/core'
+          - '@nais/apm'
       express:
         patterns:
           - 'express'
