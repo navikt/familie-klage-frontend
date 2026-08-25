@@ -27,7 +27,7 @@ spec:
       runtime: nodejs
   frontend:
     generatedConfig:
-      mountPath: /app/dist_backend/nais.js
+      mountPath: /app/dist_frontend/nais.js
   prometheus:
     enabled: true
     path: /metrics

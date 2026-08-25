@@ -2,10 +2,10 @@ import React from 'react';
 import { App } from './App';
 import '@navikt/ds-css';
 import { createRoot } from 'react-dom/client';
-import { initApm } from './apm';
+import { init } from '@nais/apm';
 
 if (!import.meta.env.DEV) {
-    initApm();
+    init();
 }
 
 // Oppdater denne ved endringer som krever å nullstille localStorage
