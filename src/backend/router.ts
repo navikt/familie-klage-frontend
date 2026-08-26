@@ -8,6 +8,7 @@ import { eksternlenker, frontendPath, miljø, roller } from './config.js';
 import { erLokal, erPreprod } from './env.js';
 import { prometheusTellere } from './metrikker.js';
 import { LOG_LEVEL } from '@navikt/familie-logging';
+import { renderNaisMetaTags } from '@nais/apm';
 
 const redirectHvisInternUrlIPreprod = () => {
     return async (req: Request, res: Response, next: NextFunction) => {
@@ -63,14 +64,21 @@ export const setupRouter = async (authClient: Client, router: Router): Promise<R
                 if (!viteDevServer) {
                     throw new Error('ViteDevServer er ikke initialisert.');
                 }
-                const htmlInnhold = await fs.promises.readFile(htmlPath, 'utf-8');
+                const htmlInnhold = await leggTilNaisMetaTags(htmlPath);
                 const transformed = await viteDevServer.transformIndexHtml(req.url, htmlInnhold);
                 res.status(200).type('html').send(transformed);
             } else {
-                res.sendFile(htmlPath);
+                res.status(200)
+                    .type('html')
+                    .send(await leggTilNaisMetaTags(htmlPath));
             }
         }
     );
 
     return router;
+};
+
+const leggTilNaisMetaTags = async (htmlPath: string): Promise<string> => {
+    const htmlInnhold = await fs.promises.readFile(htmlPath, 'utf-8');
+    return htmlInnhold.replace('</head>', `${renderNaisMetaTags()}</head>`);
 };

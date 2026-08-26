@@ -74,16 +74,16 @@ const [AppProvider, useApp] = constate(({ autentisertSaksbehandler, appEnv }: IP
                 .request<Ressurs<RES>>(config)
                 .then((response: AxiosResponse<Ressurs<RES>>) => {
                     const responsRessurs: Ressurs<RES> = response.data;
-                    return håndterRessurs(responsRessurs, innloggetSaksbehandler, response.headers);
+                    return håndterRessurs(responsRessurs, response.headers);
                 })
                 .catch((error: AxiosError<Ressurs<RES>>) => {
                     if (error.message.includes('401')) {
                         settAutentisert(false);
                     }
-                    return håndterFeil(error, innloggetSaksbehandler);
+                    return håndterFeil(error);
                 });
         },
-        [innloggetSaksbehandler]
+        []
     );
 
     return {
