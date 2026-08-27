@@ -1,16 +1,16 @@
-import React, { useCallback, useEffect, useState } from 'react';
 import { Alert, Box, HGrid, VStack } from '@navikt/ds-react';
+import React, { useCallback, useEffect, useState } from 'react';
+import { useApp } from '../../../App/context/AppContext';
+import { useBehandling } from '../../../App/context/BehandlingContext';
+import { Fagsystem } from '../../../App/typer/fagsak';
 import type { Ressurs } from '../../../App/typer/ressurs';
 import { byggTomRessurs, RessursStatus } from '../../../App/typer/ressurs';
-import { Fagsystem } from '../../../App/typer/fagsak';
+import { Button } from '../../../Felles/Knapper/Button';
+import { ModalWrapper } from '../../../Felles/Modal/ModalWrapper';
 import { BrevmottakerContainer as BrevmottakereBaks } from '../Brevmottakere/baks/BrevmottakerContainer';
 import { BrevMottakere as BrevmottakereEf } from '../Brevmottakere/ef/BrevMottakere';
 import { PdfVisning } from './PdfVisning';
-import { ModalWrapper } from '../../../Felles/Modal/ModalWrapper';
-import { useBehandling } from '../../../App/context/BehandlingContext';
-import { useApp } from '../../../App/context/AppContext';
 import { useFerdigstillBehandling } from './useFerdigstillBehandling';
-import { Button } from '../../../Felles/Knapper/Button';
 
 interface Props {
     behandlingId: string;
@@ -24,7 +24,7 @@ export const OpprettholdVedtak: React.FC<Props> = ({ behandlingId, fagsystem }) 
     const { ferdigstill, senderInn } = useFerdigstillBehandling(
         behandlingId,
         () => lukkModal(),
-        (feilmelding) => settFeilmelding(feilmelding)
+        feilmelding => settFeilmelding(feilmelding)
     );
 
     const [brevRessurs, settBrevRessurs] = useState<Ressurs<string>>(byggTomRessurs());

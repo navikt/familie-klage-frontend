@@ -1,8 +1,8 @@
-import React from 'react';
 import { Textarea } from '@navikt/ds-react';
+import React from 'react';
 import { useController, useFormContext } from 'react-hook-form';
-import { EndreBehandlendeEnhetFeltnavn } from './feltnavn';
 import { CustomFormErrors } from './EndreBehandlendeEnhetModal';
+import { EndreBehandlendeEnhetFeltnavn } from './feltnavn';
 
 interface Props {
     lesevisning?: boolean;
@@ -30,7 +30,7 @@ export function BegrunnelseFelt({ lesevisning = false, maksLengde = 4000 }: Prop
             name={field.name}
             value={field.value}
             onBlur={field.onBlur}
-            onChange={(event) => {
+            onChange={event => {
                 field.onChange(event.target.value);
                 clearErrors(CustomFormErrors.onSubmitError.id);
             }}

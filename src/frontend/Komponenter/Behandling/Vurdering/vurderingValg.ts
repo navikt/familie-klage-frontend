@@ -1,5 +1,5 @@
-import type { Hjemmel } from './hjemmel';
 import { Fagsystem } from '../../../App/typer/fagsak';
+import type { Hjemmel } from './hjemmel';
 
 export interface IVurdering {
     behandlingId: string;
@@ -46,7 +46,7 @@ export const årsakValgTilTekst: Record<ÅrsakOmgjøring, string> = {
     ANNET: 'Annet',
 };
 
-export const årsakAlternativer: (fagsystem: Fagsystem) => Record<string, string> = (fagsystem) =>
+export const årsakAlternativer: (fagsystem: Fagsystem) => Record<string, string> = fagsystem =>
     Object.fromEntries(
         Object.entries(årsakValgTilTekst).filter(
             ([årsak]) => !(fagsystem === Fagsystem.EF && årsak === ÅrsakOmgjøring.IKKE_UTREDET_NOK)

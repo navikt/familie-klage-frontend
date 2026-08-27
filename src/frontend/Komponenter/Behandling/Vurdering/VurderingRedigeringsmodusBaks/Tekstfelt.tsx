@@ -1,7 +1,7 @@
 import { Textarea } from '@navikt/ds-react';
-import { Controller, useFormContext } from 'react-hook-form';
 import type { FC } from 'react';
 import React from 'react';
+import { Controller, useFormContext } from 'react-hook-form';
 import { useApp } from '../../../../App/context/AppContext';
 import type { VurderingTekstfeltFelter } from './felttyper';
 

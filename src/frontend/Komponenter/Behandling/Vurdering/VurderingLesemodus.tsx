@@ -1,8 +1,8 @@
-import * as React from 'react';
 import { BodyLong, BodyShort, Heading, VStack } from '@navikt/ds-react';
+import * as React from 'react';
+import { alleHjemlerTilVisningstekst } from './hjemmel';
 import type { IVurdering } from './vurderingValg';
 import { VedtakValg, vedtakValgTilTekst, årsakValgTilTekst } from './vurderingValg';
-import { alleHjemlerTilVisningstekst } from './hjemmel';
 
 export const VurderingLesemodus: React.FC<{ vurdering: IVurdering }> = ({ vurdering }) => {
     switch (vurdering.vedtak) {

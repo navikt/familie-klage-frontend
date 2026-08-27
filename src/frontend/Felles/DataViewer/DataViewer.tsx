@@ -1,8 +1,8 @@
+import { Alert, Loader, VStack } from '@navikt/ds-react';
 import type { ReactElement, ReactNode } from 'react';
 import React from 'react';
 import type { Ressurs, RessursSuksess } from '../../App/typer/ressurs';
 import { harNoenRessursMedStatus, RessursStatus } from '../../App/typer/ressurs';
-import { Alert, Loader, VStack } from '@navikt/ds-react';
 import styles from './DataViewer.module.css';
 
 /**
@@ -17,7 +17,6 @@ interface DataViewerProps<T extends Record<string, unknown>> {
     children: ((data: T) => React.ReactElement) | ReactNode;
 }
 
-// eslint-disable-next-line
 const renderFeil = (responses: Ressurs<any>[]) => (
     <>
         {responses.map((feilet, index) => {
@@ -38,11 +37,9 @@ const renderFeil = (responses: Ressurs<any>[]) => (
     </>
 );
 
-// eslint-disable-next-line
 const renderChildren = (children: any, response: any): ReactElement => {
     if (typeof children === 'function') {
         const data = Object.keys(response).reduce((acc: Record<string, unknown>, key) => {
-            // eslint-disable-next-line
             acc[key] = (response[key] as RessursSuksess<any>).data;
             return acc;
         }, {});
@@ -73,7 +70,7 @@ export const DataViewer = <T extends Record<string, unknown>>(
         );
     } else if (harNoenRessursMedStatus(responses, RessursStatus.IKKE_HENTET)) {
         return null;
-    } else if (responses.every((response) => response.status === RessursStatus.SUKSESS)) {
+    } else if (responses.every(response => response.status === RessursStatus.SUKSESS)) {
         return renderChildren(children, response);
     } else {
         return null;

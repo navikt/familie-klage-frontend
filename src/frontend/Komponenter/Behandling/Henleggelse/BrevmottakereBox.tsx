@@ -1,6 +1,12 @@
-import { Alert, Box, Button, Heading, VStack } from '@navikt/ds-react';
 import { PlusCircleIcon } from '@navikt/aksel-icons';
+import { Alert, Box, Button, Heading, VStack } from '@navikt/ds-react';
 import React from 'react';
+import { useBehandling } from '../../../App/context/BehandlingContext';
+import { usePersonopplysningerContext } from '../../../App/context/PersonopplysningerContext';
+import { useToggles } from '../../../App/context/TogglesContext';
+import { ToggleName } from '../../../App/context/toggles';
+import type { Behandling } from '../../../App/typer/fagsak';
+import { Fagsystem } from '../../../App/typer/fagsak';
 import {
     harEnBrukerNyBrevmottaker,
     harEnDødsboNyBrevmottaker,
@@ -8,12 +14,6 @@ import {
 import { BrevmottakerDetaljer } from './BrevmottakerDetaljer';
 import { useBrevmottakereContext } from './context/BrevmottakereContextProvider';
 import { useBrevmottakerFormActionsContext } from './context/BrevmottakerFormActionsContextProvider';
-import type { Behandling } from '../../../App/typer/fagsak';
-import { Fagsystem } from '../../../App/typer/fagsak';
-import { useToggles } from '../../../App/context/TogglesContext';
-import { usePersonopplysningerContext } from '../../../App/context/PersonopplysningerContext';
-import { ToggleName } from '../../../App/context/toggles';
-import { useBehandling } from '../../../App/context/BehandlingContext';
 
 interface Props {
     behandling: Behandling;
@@ -47,7 +47,7 @@ export function BrevmottakereBox({ behandling }: Props) {
                 {brevmottakere.length === 0 && (
                     <Alert variant={'warning'}>Fant ingen brevmottakere...</Alert>
                 )}
-                {brevmottakere.map((brevmottaker) => (
+                {brevmottakere.map(brevmottaker => (
                     <BrevmottakerDetaljer
                         key={brevmottaker.mottakerRolle}
                         brevmottaker={brevmottaker}

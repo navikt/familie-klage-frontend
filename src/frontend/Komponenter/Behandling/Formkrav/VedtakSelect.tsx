@@ -1,25 +1,25 @@
+import { Label, Select } from '@navikt/ds-react';
 import type { Dispatch, SetStateAction } from 'react';
 import React from 'react';
-import styles from './VedtakSelect.module.css';
-import type { IFormkravVilkår } from './typer';
 import {
     Fagsystem,
     PåklagetVedtakstype,
     påklagetVedtakstypeTilTekst,
 } from '../../../App/typer/fagsak';
+import type { FagsystemVedtak } from '../../../App/typer/fagsystemVedtak';
+import type { Klagebehandlingsresultat } from '../../../App/typer/klagebehandlingsresultat';
+import { erGyldigDato } from '../../../App/utils/dato';
+import { Datovelger } from '../../../Felles/Datovelger/Datovelger';
+import type { IFormkravVilkår } from './typer';
 import {
     erVedtakFraFagsystemet,
     fagsystemVedtakTilVisningstekst,
-    klageresultatTilVisningstekst,
     harManuellVedtaksdato,
+    klageresultatTilVisningstekst,
     sorterVedtakstidspunktDesc,
     sorterVedtakstidspunktKlageResultatDesc,
 } from './utils';
-import type { FagsystemVedtak } from '../../../App/typer/fagsystemVedtak';
-import { Label, Select } from '@navikt/ds-react';
-import { erGyldigDato } from '../../../App/utils/dato';
-import { Datovelger } from '../../../Felles/Datovelger/Datovelger';
-import type { Klagebehandlingsresultat } from '../../../App/typer/klagebehandlingsresultat';
+import styles from './VedtakSelect.module.css';
 
 interface Props {
     settOppdaterteVurderinger: Dispatch<SetStateAction<IFormkravVilkår>>;
@@ -41,7 +41,7 @@ export const VedtakSelect: React.FC<Props> = ({
             const erInternKlagebehandlingId = valgtElement.startsWith('internId');
 
             if (erInternKlagebehandlingId) {
-                settOppdaterteVurderinger((prevState) => ({
+                settOppdaterteVurderinger(prevState => ({
                     ...prevState,
                     påklagetVedtak: {
                         internKlagebehandlingId: valgtElement.replace('internId', ''),
@@ -49,7 +49,7 @@ export const VedtakSelect: React.FC<Props> = ({
                     },
                 }));
             } else {
-                settOppdaterteVurderinger((prevState) => ({
+                settOppdaterteVurderinger(prevState => ({
                     ...prevState,
                     påklagetVedtak: {
                         eksternFagsystemBehandlingId: valgtElement,
@@ -58,7 +58,7 @@ export const VedtakSelect: React.FC<Props> = ({
                 }));
             }
         } else {
-            settOppdaterteVurderinger((prevState) => ({
+            settOppdaterteVurderinger(prevState => ({
                 ...prevState,
                 påklagetVedtak: {
                     påklagetVedtakstype: valgtElement as PåklagetVedtakstype,
@@ -92,7 +92,7 @@ export const VedtakSelect: React.FC<Props> = ({
         <div className={styles.container}>
             <Select
                 label={'Vedtak som er påklaget'}
-                onChange={(e) => {
+                onChange={e => {
                     handleChange(e.target.value);
                 }}
                 value={
@@ -116,7 +116,7 @@ export const VedtakSelect: React.FC<Props> = ({
                             {klageresultatTilVisningstekst(klager)}
                         </option>
                     ))}
-                {hentValgForFagsystem(fagsystem).map((valg) => (
+                {hentValgForFagsystem(fagsystem).map(valg => (
                     <option value={valg} key={valg}>
                         {påklagetVedtakstypeTilTekst[valg]}
                     </option>
@@ -128,8 +128,8 @@ export const VedtakSelect: React.FC<Props> = ({
                     <Datovelger
                         id={'vedtaksdato'}
                         verdi={manuellVedtaksdato}
-                        settVerdi={(dato) => {
-                            settOppdaterteVurderinger((prevState) => ({
+                        settVerdi={dato => {
+                            settOppdaterteVurderinger(prevState => ({
                                 ...prevState,
                                 påklagetVedtak: {
                                     ...prevState.påklagetVedtak,

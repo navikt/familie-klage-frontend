@@ -1,13 +1,13 @@
+import { Heading } from '@navikt/ds-react';
 import * as React from 'react';
 import { useEffect } from 'react';
-import styles from './Resultat.module.css';
-import { Tidslinje } from './Tidslinje';
-import { DataViewer } from '../../../Felles/DataViewer/DataViewer';
-import { Heading } from '@navikt/ds-react';
 import { useBehandling } from '../../../App/context/BehandlingContext';
+import { DataViewer } from '../../../Felles/DataViewer/DataViewer';
 import { AnkeVisning } from './AnkeVisning';
 import { FeilregistrertVisning } from './FeilregistrertVisning';
 import { GjenopptakVisning } from './GjenopptakVisning';
+import styles from './Resultat.module.css';
+import { Tidslinje } from './Tidslinje';
 
 export const Resultat: React.FC = () => {
     const { behandling, hentBehandling, behandlingHistorikk } = useBehandling();

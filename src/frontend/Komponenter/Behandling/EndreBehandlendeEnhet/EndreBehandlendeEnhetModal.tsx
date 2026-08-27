@@ -1,13 +1,13 @@
 import { Button, Fieldset, Modal } from '@navikt/ds-react';
 import React from 'react';
-import { useEndreBehandlendeEnhet } from './useEndreBehandlendeEnhet';
-import type { Behandling } from '../../../App/typer/fagsak';
-import { useBehandling } from '../../../App/context/BehandlingContext';
 import type { FieldErrors } from 'react-hook-form';
 import { FormProvider, useForm } from 'react-hook-form';
-import { EndreBehandlendeEnhetFeltnavn } from './feltnavn';
-import { EnhetsnummerFelt } from './EnhetsnummerFelt';
+import { useBehandling } from '../../../App/context/BehandlingContext';
+import type { Behandling } from '../../../App/typer/fagsak';
 import { BegrunnelseFelt } from './BegrunnelseFelt';
+import { EnhetsnummerFelt } from './EnhetsnummerFelt';
+import { EndreBehandlendeEnhetFeltnavn } from './feltnavn';
+import { useEndreBehandlendeEnhet } from './useEndreBehandlendeEnhet';
 
 export const CustomFormErrors: Record<
     'onSubmitError',
@@ -18,7 +18,7 @@ export const CustomFormErrors: Record<
 > = {
     onSubmitError: {
         id: 'root.onSubmitError',
-        lookup: (errors) => errors?.root?.onSubmitError.message,
+        lookup: errors => errors?.root?.onSubmitError.message,
     },
 };
 
@@ -57,7 +57,7 @@ export function EndreBehandlendeEnhetModal({ behandling }: Props) {
         const { enhetsnummer, begrunnelse } = formValues;
         return endreBehandlendeEnhet(behandling.id, enhetsnummer, begrunnelse)
             .then(() => settVisEndreBehandlendeEnhet(false))
-            .catch((error) =>
+            .catch(error =>
                 setError(CustomFormErrors.onSubmitError.id, { message: error.message })
             );
     }

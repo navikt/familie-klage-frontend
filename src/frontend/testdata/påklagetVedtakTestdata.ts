@@ -1,5 +1,5 @@
-import type { PåklagetVedtak } from '../Komponenter/Behandling/Formkrav/typer';
 import { PåklagetVedtakstype } from '../App/typer/fagsak';
+import type { PåklagetVedtak } from '../Komponenter/Behandling/Formkrav/typer';
 
 export function lagPåklagetVedtak(påklagetVedtak?: Partial<PåklagetVedtak>): PåklagetVedtak {
     return {

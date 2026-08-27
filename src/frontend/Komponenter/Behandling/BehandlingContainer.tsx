@@ -1,23 +1,25 @@
-import * as React from 'react';
-import type { FC } from 'react';
-import { useEffect } from 'react';
-import { Høyremeny } from './Høyremeny/Høyremeny';
-import styles from './BehandlingContainer.module.css';
-import { Fanemeny } from './Fanemeny/Fanemeny';
-import { BehandlingRoutes } from './BehandlingRoutes';
-import { BehandlingProvider, useBehandling } from '../../App/context/BehandlingContext';
-import { Visittkort } from '../../Felles/Visittkort/Visittkort';
-import type { Behandling } from '../../App/typer/fagsak';
-import { ScrollToTop } from '../../Felles/ScrollToTop/ScrollToTop';
-import { DataViewer } from '../../Felles/DataViewer/DataViewer';
-import { useSetValgtFagsakId } from '../../App/hooks/useSetValgtFagsakId';
-import { SettPåVent } from './SettPåVent/SettPåVent';
-import { EndreBehandlendeEnhetModal } from './EndreBehandlendeEnhet/EndreBehandlendeEnhetModal';
-import { HenleggBehandlingModal } from './Henleggelse/HenleggBehandlingModal';
-import { PersonopplysningerContextProvider } from '../../App/context/PersonopplysningerContext';
-import { useParams } from 'react-router-dom';
-import { usePersonopplysningerContext } from '../../App/context/PersonopplysningerContext';
 import { Alert } from '@navikt/ds-react';
+import type { FC } from 'react';
+import * as React from 'react';
+import { useEffect } from 'react';
+import { useParams } from 'react-router-dom';
+import { BehandlingProvider, useBehandling } from '../../App/context/BehandlingContext';
+import {
+    PersonopplysningerContextProvider,
+    usePersonopplysningerContext,
+} from '../../App/context/PersonopplysningerContext';
+import { useSetValgtFagsakId } from '../../App/hooks/useSetValgtFagsakId';
+import type { Behandling } from '../../App/typer/fagsak';
+import { DataViewer } from '../../Felles/DataViewer/DataViewer';
+import { ScrollToTop } from '../../Felles/ScrollToTop/ScrollToTop';
+import { Visittkort } from '../../Felles/Visittkort/Visittkort';
+import styles from './BehandlingContainer.module.css';
+import { BehandlingRoutes } from './BehandlingRoutes';
+import { EndreBehandlendeEnhetModal } from './EndreBehandlendeEnhet/EndreBehandlendeEnhetModal';
+import { Fanemeny } from './Fanemeny/Fanemeny';
+import { HenleggBehandlingModal } from './Henleggelse/HenleggBehandlingModal';
+import { Høyremeny } from './Høyremeny/Høyremeny';
+import { SettPåVent } from './SettPåVent/SettPåVent';
 
 interface Props {
     behandling: Behandling;

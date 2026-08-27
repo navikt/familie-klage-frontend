@@ -1,6 +1,6 @@
+import { useApp } from '../../../../App/context/AppContext';
 import type { RessursFeilet, RessursSuksess } from '../../../../App/typer/ressurs';
 import { RessursStatus } from '../../../../App/typer/ressurs';
-import { useApp } from '../../../../App/context/AppContext';
 import type { ForhåndsvisHenleggBehandlingBrevDto } from '../domain/forhåndsvisHenleggBehandlingBrevDto';
 
 export function useLagHenleggelsesbrev() {

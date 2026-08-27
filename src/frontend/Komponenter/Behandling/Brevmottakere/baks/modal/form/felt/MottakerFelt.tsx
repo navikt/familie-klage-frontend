@@ -1,7 +1,8 @@
+import { Select } from '@navikt/ds-react';
 import type { ChangeEvent } from 'react';
 import React from 'react';
-import { Select } from '@navikt/ds-react';
 import { useController, useFormContext } from 'react-hook-form';
+import { usePersonopplysningerContext } from '../../../../../../../App/context/PersonopplysningerContext';
 import type { MottakerRolle } from '../../../../mottakerRolle';
 import {
     erMottakerRolle,
@@ -12,7 +13,6 @@ import {
 } from '../../../../mottakerRolle';
 import type { BrevmottakerPersonUtenIdentFormValues } from '../BrevmottakerPersonUtenIdentForm';
 import { BrevmottakerPersonUtenIdentFeltnavn } from '../BrevmottakerPersonUtenIdentForm';
-import { usePersonopplysningerContext } from '../../../../../../../App/context/PersonopplysningerContext';
 
 interface Props {
     valgteMottakerRoller: MottakerRolle[];
@@ -76,7 +76,7 @@ export function MottakerFelt({ valgteMottakerRoller, erLesevisning = false }: Pr
             <option value={''} disabled={true}>
                 -- Velg mottaker --
             </option>
-            {gyldigeMottakerRoller.map((mottaker) => (
+            {gyldigeMottakerRoller.map(mottaker => (
                 <option key={mottaker} value={mottaker}>
                     {mottakerRolleVisningsnavn[mottaker]}
                 </option>

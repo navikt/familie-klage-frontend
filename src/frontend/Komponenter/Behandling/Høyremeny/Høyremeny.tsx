@@ -1,13 +1,13 @@
+import { ChevronLeftIcon, ChevronRightIcon } from '@navikt/aksel-icons';
 import * as React from 'react';
 import { useState } from 'react';
-import { Valgvisning } from './Valgvisning';
-import { Historikk } from './Historikk';
-import { Dokumenter } from './Dokumenter';
-import styles from './Høyremeny.module.css';
-import { ChevronLeftIcon, ChevronRightIcon } from '@navikt/aksel-icons';
 import { useBehandling } from '../../../App/context/BehandlingContext';
 import type { Behandling } from '../../../App/typer/fagsak';
 import { BehandlingInfo } from './BehandlingInfo';
+import { Dokumenter } from './Dokumenter';
+import { Historikk } from './Historikk';
+import styles from './Høyremeny.module.css';
+import { Valgvisning } from './Valgvisning';
 
 interface Props {
     behandling: Behandling;

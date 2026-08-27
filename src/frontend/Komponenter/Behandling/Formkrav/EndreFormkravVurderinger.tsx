@@ -1,7 +1,3 @@
-import type { Dispatch, SetStateAction } from 'react';
-import React, { useState } from 'react';
-import type { IFormalkrav, IFormkravVilkår } from './typer';
-import { EFormalKravType, FormkravFristUnntak, Redigeringsmodus, VilkårStatus } from './typer';
 import {
     Alert,
     BodyLong,
@@ -12,11 +8,25 @@ import {
     RadioGroup,
     Textarea,
 } from '@navikt/ds-react';
-import { useBehandling } from '../../../App/context/BehandlingContext';
+import type { Dispatch, SetStateAction } from 'react';
+import React, { useState } from 'react';
 import { useApp } from '../../../App/context/AppContext';
+import { useBehandling } from '../../../App/context/BehandlingContext';
+import { Fagsystem, PåklagetVedtakstype } from '../../../App/typer/fagsak';
+import type { FagsystemVedtak } from '../../../App/typer/fagsystemVedtak';
+import type { Klagebehandlingsresultat } from '../../../App/typer/klagebehandlingsresultat';
 import type { Ressurs, RessursFeilet, RessursSuksess } from '../../../App/typer/ressurs';
 import { RessursStatus } from '../../../App/typer/ressurs';
+import { Button } from '../../../Felles/Knapper/Button';
 import styles from './EndreFormkravVurderinger.module.css';
+import { KlagefristUnntak } from './KlagefristUnntak';
+import type { IFormalkrav, IFormkravVilkår } from './typer';
+import { EFormalKravType, FormkravFristUnntak, Redigeringsmodus, VilkårStatus } from './typer';
+import {
+    evaluerOmFelterSkalTilbakestilles,
+    skalViseKlagefristUnntak,
+    utledRadioKnapper,
+} from './utils';
 import { VedtakSelect } from './VedtakSelect';
 import {
     alleVilkårOppfylt,
@@ -24,16 +34,6 @@ import {
     klagefristUnntakErValgtOgOppfylt,
     påklagetVedtakErValgt,
 } from './validerFormkravUtils';
-import {
-    evaluerOmFelterSkalTilbakestilles,
-    skalViseKlagefristUnntak,
-    utledRadioKnapper,
-} from './utils';
-import { KlagefristUnntak } from './KlagefristUnntak';
-import type { FagsystemVedtak } from '../../../App/typer/fagsystemVedtak';
-import { Fagsystem, PåklagetVedtakstype } from '../../../App/typer/fagsak';
-import type { Klagebehandlingsresultat } from '../../../App/typer/klagebehandlingsresultat';
-import { Button } from '../../../Felles/Knapper/Button';
 
 interface Props {
     fagsystemVedtak: FagsystemVedtak[];
@@ -164,7 +164,7 @@ export const EndreFormkravVurderinger: React.FC<Props> = ({
 
     return (
         <form
-            onSubmit={(event) => {
+            onSubmit={event => {
                 event.preventDefault();
                 event.stopPropagation();
                 submitOppdaterteVurderinger();
@@ -220,7 +220,7 @@ export const EndreFormkravVurderinger: React.FC<Props> = ({
                             <Textarea
                                 label={'Begrunnelse (intern)'}
                                 value={vurderinger.saksbehandlerBegrunnelse}
-                                onChange={(e) => {
+                                onChange={e => {
                                     settIkkePersistertKomponent('formkrav-vilkår');
                                     settOppdaterteVurderinger((prevState: IFormkravVilkår) => {
                                         return {
@@ -240,7 +240,7 @@ export const EndreFormkravVurderinger: React.FC<Props> = ({
                                     </HStack>
                                 }
                                 value={vurderinger.brevtekst}
-                                onChange={(e) => {
+                                onChange={e => {
                                     settIkkePersistertKomponent('formkrav-vilkår');
                                     settOppdaterteVurderinger((prevState: IFormkravVilkår) => {
                                         return {

@@ -1,10 +1,10 @@
 import { PlusCircleIcon, TrashIcon } from '@navikt/aksel-icons';
-import { EnsligTextArea } from '../../../Felles/Input/EnsligTextArea';
 import * as React from 'react';
 import { useState } from 'react';
 import { harVerdi } from '../../../App/utils/utils';
-import type { IVurdering } from './vurderingValg';
+import { EnsligTextArea } from '../../../Felles/Input/EnsligTextArea';
 import { Button } from '../../../Felles/Knapper/Button';
+import type { IVurdering } from './vurderingValg';
 
 export const InterntNotat: React.FC<{
     behandlingErRedigerbar: boolean;
@@ -27,7 +27,7 @@ export const InterntNotat: React.FC<{
         if (!vurderingEndret) {
             settVurderingEndret(true);
         }
-        settOppdatertVurdering((prevState) => ({
+        settOppdatertVurdering(prevState => ({
             ...prevState,
             interntNotat: tekst,
         }));
@@ -38,7 +38,7 @@ export const InterntNotat: React.FC<{
         if (skalViseFritekstFelt) {
             oppdaterTekst(undefined);
         }
-        settSkalViseFritekstFelt((prevState) => !prevState);
+        settSkalViseFritekstFelt(prevState => !prevState);
     };
 
     const knappIkon = skalViseFritekstFelt ? (
@@ -58,7 +58,7 @@ export const InterntNotat: React.FC<{
                 <EnsligTextArea
                     label={'Internt notat'}
                     readOnly={!behandlingErRedigerbar}
-                    onChange={(e) => oppdaterTekst(e.target.value)}
+                    onChange={e => oppdaterTekst(e.target.value)}
                     value={tekst}
                 />
             )}

@@ -1,19 +1,19 @@
 import React, { useEffect, useState } from 'react';
-import { KlageInfo } from './KlageInfo';
+import { useBehandling } from '../../../App/context/BehandlingContext';
+import { useHentFagsystemVedtak } from '../../../App/hooks/useHentFagsystemVedtak';
+import { useHentFormkravVilkår } from '../../../App/hooks/useHentFormkravVilkår';
+import { useHentKlagebehandlingsresultater } from '../../../App/hooks/useHentKlagebehandlingsresultater';
+import type { Behandling } from '../../../App/typer/fagsak';
+import type { FagsystemVedtak } from '../../../App/typer/fagsystemVedtak';
+import type { Klagebehandlingsresultat } from '../../../App/typer/klagebehandlingsresultat';
 import type { RessursFeilet, RessursSuksess } from '../../../App/typer/ressurs';
 import { RessursStatus } from '../../../App/typer/ressurs';
-import { useBehandling } from '../../../App/context/BehandlingContext';
-import type { IFormkravVilkår } from './typer';
+import { DataViewer } from '../../../Felles/DataViewer/DataViewer';
 import { ToKolonneLayout } from '../../../Felles/Visningskomponenter/ToKolonneLayout';
 import { FormkravVurderinger } from './FormkravVurderinger';
-import { DataViewer } from '../../../Felles/DataViewer/DataViewer';
-import type { Behandling } from '../../../App/typer/fagsak';
-import { useHentFormkravVilkår } from '../../../App/hooks/useHentFormkravVilkår';
+import { KlageInfo } from './KlageInfo';
+import type { IFormkravVilkår } from './typer';
 import { utledRedigeringsmodus } from './validerFormkravUtils';
-import { useHentFagsystemVedtak } from '../../../App/hooks/useHentFagsystemVedtak';
-import type { FagsystemVedtak } from '../../../App/typer/fagsystemVedtak';
-import { useHentKlagebehandlingsresultater } from '../../../App/hooks/useHentKlagebehandlingsresultater';
-import type { Klagebehandlingsresultat } from '../../../App/typer/klagebehandlingsresultat';
 
 export const Formkrav: React.FC<{ behandling: Behandling }> = ({ behandling }) => {
     const { vilkårsvurderinger, hentVilkårsvurderinger, lagreVilkårsvurderinger, feilVedLagring } =

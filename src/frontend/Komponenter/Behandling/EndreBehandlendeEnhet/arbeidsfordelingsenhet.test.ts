@@ -1,6 +1,6 @@
-import { finnGyldigeArbeidsfordelingsenheterForFagsystem } from './arbeidsfordelingsenhet';
-import { Fagsystem } from '../../../App/typer/fagsak';
 import { expect } from 'vitest';
+import { Fagsystem } from '../../../App/typer/fagsak';
+import { finnGyldigeArbeidsfordelingsenheterForFagsystem } from './arbeidsfordelingsenhet';
 
 describe('finnGyldigeArbeidsfordelingsenheterForFagsystem', () => {
     test('skal finne gyldige arbeidsfordelingsenheter for BA', () => {
@@ -10,7 +10,7 @@ describe('finnGyldigeArbeidsfordelingsenheterForFagsystem', () => {
         );
 
         // Expect
-        expect(arbeidsfordelingsenheter.map((enhet) => enhet.enhetsnummer)).toEqual([
+        expect(arbeidsfordelingsenheter.map(enhet => enhet.enhetsnummer)).toEqual([
             '2103',
             '4806',
             '4820',
@@ -27,7 +27,7 @@ describe('finnGyldigeArbeidsfordelingsenheterForFagsystem', () => {
         );
 
         // Expect
-        expect(arbeidsfordelingsenheter.map((enhet) => enhet.enhetsnummer)).toEqual([
+        expect(arbeidsfordelingsenheter.map(enhet => enhet.enhetsnummer)).toEqual([
             '2103',
             '4806',
             '4820',
@@ -45,6 +45,6 @@ describe('finnGyldigeArbeidsfordelingsenheterForFagsystem', () => {
         );
 
         // Expect
-        expect(arbeidsfordelingsenheter.map((enhet) => enhet.enhetsnummer)).length(0);
+        expect(arbeidsfordelingsenheter.map(enhet => enhet.enhetsnummer)).length(0);
     });
 });

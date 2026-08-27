@@ -1,13 +1,13 @@
+import { BodyShort, Button, Radio, RadioGroup, Stack, TextField, VStack } from '@navikt/ds-react';
 import type { Dispatch, SetStateAction } from 'react';
 import React, { useEffect, useState } from 'react';
 import { useApp } from '../../../../App/context/AppContext';
 import type { Ressurs } from '../../../../App/typer/ressurs';
 import { byggTomRessurs } from '../../../../App/typer/ressurs';
 import { DataViewer } from '../../../../Felles/DataViewer/DataViewer';
-import { BodyShort, Button, Radio, RadioGroup, Stack, TextField, VStack } from '@navikt/ds-react';
 import type { BrevmottakerOrganisasjon } from '../brevmottaker';
-import styles from './SøkOrganisasjon.module.css';
 import { MottakerRolle } from '../mottakerRolle';
+import styles from './SøkOrganisasjon.module.css';
 
 export interface Organisasjon {
     navn: string;
@@ -45,7 +45,7 @@ export const SøkOrganisasjon: React.FC<Props> = ({ settValgteMottakere }) => {
             return;
         }
         settFeil('');
-        settValgteMottakere((prevState) => [
+        settValgteMottakere(prevState => [
             ...prevState,
             {
                 organisasjonsnummer: organisasjonsnummer,
@@ -64,7 +64,7 @@ export const SøkOrganisasjon: React.FC<Props> = ({ settValgteMottakere }) => {
                 htmlSize={26}
                 placeholder={'Søk'}
                 value={organisasjonsnummer}
-                onChange={(e) => settOrganisasjonsnummer(e.target.value)}
+                onChange={e => settOrganisasjonsnummer(e.target.value)}
             />
             <DataViewer response={{ organisasjonRessurs }}>
                 {({ organisasjonRessurs }) => {
@@ -99,9 +99,7 @@ export const SøkOrganisasjon: React.FC<Props> = ({ settValgteMottakere }) => {
                                     label={'Ved'}
                                     placeholder={'Personen brevet skal til'}
                                     value={kontaktpersonHosOrganisasjon}
-                                    onChange={(e) =>
-                                        settKontaktpersonHosOrganisasjon(e.target.value)
-                                    }
+                                    onChange={e => settKontaktpersonHosOrganisasjon(e.target.value)}
                                     error={feil}
                                 />
                             </div>

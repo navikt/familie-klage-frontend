@@ -1,5 +1,5 @@
 import type { BlankEøsLandkode } from '../../../Felles/Landvelger/landkode';
-import { erEøsLandkode, EøsLandkode } from '../../../Felles/Landvelger/landkode';
+import { EøsLandkode, erEøsLandkode } from '../../../Felles/Landvelger/landkode';
 import { utledPreutfyltBrevmottakerPersonUtenIdentNavn } from './brevmottaker';
 
 export type BlankMottakerRolle = '';
@@ -79,7 +79,7 @@ export function utledGyldigeMottakerRollerBasertPåAlleredeValgteMottakerRoller(
     }
 
     const relevanteValgteMottakerRoller = valgteMottakerRoller.filter(
-        (vmr) => vmr !== MottakerRolle.BRUKER
+        vmr => vmr !== MottakerRolle.BRUKER
     );
 
     if (relevanteValgteMottakerRoller.length === 2) {
@@ -102,8 +102,8 @@ export function utledGyldigeMottakerRollerBasertPåAlleredeValgteMottakerRoller(
     }
 
     return Object.values(MottakerRolle)
-        .filter((mottakerRolle) => mottakerRolle !== MottakerRolle.BRUKER)
-        .filter((mottakerRolle) => mottakerRolle !== MottakerRolle.INSTITUSJON)
-        .filter((mottakerRolle) => mottakerRolle !== MottakerRolle.MOTTAKER)
-        .filter((mottakerRolle) => !relevanteValgteMottakerRoller.includes(mottakerRolle));
+        .filter(mottakerRolle => mottakerRolle !== MottakerRolle.BRUKER)
+        .filter(mottakerRolle => mottakerRolle !== MottakerRolle.INSTITUSJON)
+        .filter(mottakerRolle => mottakerRolle !== MottakerRolle.MOTTAKER)
+        .filter(mottakerRolle => !relevanteValgteMottakerRoller.includes(mottakerRolle));
 }

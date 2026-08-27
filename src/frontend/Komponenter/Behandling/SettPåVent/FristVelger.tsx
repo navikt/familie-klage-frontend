@@ -1,6 +1,6 @@
+import { DatePicker, useDatepicker } from '@navikt/ds-react';
 import type { FC } from 'react';
 import React from 'react';
-import { useDatepicker, DatePicker } from '@navikt/ds-react';
 import { nullableTilDato, tilLocaleDateString } from '../../../App/utils/dato';
 import { formaterNullableIsoDato } from '../../../App/utils/formatter';
 import type { IOppgave } from '../Typer/IOppgave';
@@ -13,7 +13,7 @@ export const FristVelger: FC<{
 }> = ({ oppgave, frist, settFrist, erLesevisning }) => {
     const { datepickerProps, inputProps } = useDatepicker({
         defaultSelected: nullableTilDato(oppgave.fristFerdigstillelse),
-        onDateChange: (dato) => settFrist(dato && tilLocaleDateString(dato)),
+        onDateChange: dato => settFrist(dato && tilLocaleDateString(dato)),
     });
 
     const dagensDato = new Date();

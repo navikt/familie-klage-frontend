@@ -1,5 +1,5 @@
-import React from 'react';
 import { Button, HStack } from '@navikt/ds-react';
+import React from 'react';
 
 interface SettPåVentKnappValgProps {
     settVisSettPåVent: (value: boolean) => void;

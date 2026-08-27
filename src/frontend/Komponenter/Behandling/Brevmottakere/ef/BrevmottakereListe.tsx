@@ -1,11 +1,11 @@
+import { TrashIcon } from '@navikt/aksel-icons';
+import { BodyShort, Button, VStack } from '@navikt/ds-react';
 import type { Dispatch, FC, SetStateAction } from 'react';
 import React from 'react';
-import styles from './BrevmottakereListe.module.css';
-import { BodyShort, Button, VStack } from '@navikt/ds-react';
 import { KopierbartNullableFødselsnummer } from '../../../../Felles/Fødselsnummer/KopierbartNullableFødselsnummer';
 import type { BrevmottakerOrganisasjon, BrevmottakerPerson } from '../brevmottaker';
 import { erBrevmottakerPersonMedIdent } from '../brevmottaker';
-import { TrashIcon } from '@navikt/aksel-icons';
+import styles from './BrevmottakereListe.module.css';
 
 interface Props {
     valgtePersonMottakere: BrevmottakerPerson[];
@@ -21,8 +21,8 @@ export const BrevmottakereListe: FC<Props> = ({
     settValgteOrganisasjonMottakere,
 }) => {
     const fjernPersonMottaker = (personIdent: string) => {
-        settValgtePersonMottakere((prevState) => {
-            return prevState.filter((mottaker) => {
+        settValgtePersonMottakere(prevState => {
+            return prevState.filter(mottaker => {
                 if (erBrevmottakerPersonMedIdent(mottaker)) {
                     return mottaker.personIdent !== personIdent;
                 }
@@ -32,8 +32,8 @@ export const BrevmottakereListe: FC<Props> = ({
     };
 
     const fjernOrganisasjonMottaker = (organisasjonsnummer: string) => {
-        settValgteOrganisasjonMottakere((prevState) =>
-            prevState.filter((mottaker) => mottaker.organisasjonsnummer !== organisasjonsnummer)
+        settValgteOrganisasjonMottakere(prevState =>
+            prevState.filter(mottaker => mottaker.organisasjonsnummer !== organisasjonsnummer)
         );
     };
 

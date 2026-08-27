@@ -1,15 +1,14 @@
+import { Button } from '@navikt/ds-react';
 import React from 'react';
-
-import { describe, expect, test } from 'vitest';
-import { Adresselinje2Felt } from './Adresselinje2Felt';
 import type { DefaultValues } from 'react-hook-form';
 import { FormProvider, useForm } from 'react-hook-form';
+import { describe, expect, test } from 'vitest';
+import { render } from '../../../../../../../lib/testrender';
 import type { BrevmottakerPersonUtenIdentFormValues } from '../BrevmottakerPersonUtenIdentForm';
 import { BrevmottakerPersonUtenIdentFeltnavn } from '../BrevmottakerPersonUtenIdentForm';
-import { render } from '../../../../../../../lib/testrender';
-import { Button } from '@navikt/ds-react';
+import { Adresselinje2Felt } from './Adresselinje2Felt';
 
-const onSubmit = (delay: number) => new Promise((resolve) => setTimeout(resolve, delay));
+const onSubmit = (delay: number) => new Promise(resolve => setTimeout(resolve, delay));
 
 const DEFAULT_VALUES: DefaultValues<BrevmottakerPersonUtenIdentFormValues> = {
     [BrevmottakerPersonUtenIdentFeltnavn.ADRESSELINJE2]: '',
@@ -110,7 +109,7 @@ describe('AdresselinjeFelt', () => {
 
     test('skal vise komponent med utfylt verdi fra form state', async () => {
         const { screen } = render(<Adresselinje2Felt />, {
-            wrapper: (props) => (
+            wrapper: props => (
                 <FormWrapper
                     {...props}
                     defaultValues={{
@@ -127,7 +126,7 @@ describe('AdresselinjeFelt', () => {
 
     test('skal ikke kunne skrive hvis formet blir submitted', async () => {
         const { screen, user } = render(<Adresselinje2Felt />, {
-            wrapper: (props) => <FormWrapper {...props} onSubmitDelay={3_000} />,
+            wrapper: props => <FormWrapper {...props} onSubmitDelay={3_000} />,
         });
 
         const textbox = screen.getByRole('textbox', { name: label });

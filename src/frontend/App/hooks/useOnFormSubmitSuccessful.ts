@@ -1,6 +1,6 @@
+import { useEffect, useRef } from 'react';
 import type { Control, FieldValues } from 'react-hook-form';
 import { useFormState } from 'react-hook-form';
-import { useEffect, useRef } from 'react';
 
 export function useOnFormSubmitSuccessful<T extends FieldValues>(
     control: Control<T>,

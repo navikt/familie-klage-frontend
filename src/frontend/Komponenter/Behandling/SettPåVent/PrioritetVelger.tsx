@@ -1,8 +1,8 @@
+import { Select } from '@navikt/ds-react';
 import type { FC } from 'react';
 import React from 'react';
 import type { Prioritet } from '../Typer/IOppgave';
 import { prioritetTilTekst } from '../Typer/IOppgave';
-import { Select } from '@navikt/ds-react';
 
 export const PrioritetVelger: FC<{
     prioritet: Prioritet | undefined;
@@ -14,7 +14,7 @@ export const PrioritetVelger: FC<{
             label="Prioritet"
             size="small"
             value={prioritet}
-            onChange={(e) => settPrioritet(e.target.value as Prioritet)}
+            onChange={e => settPrioritet(e.target.value as Prioritet)}
             readOnly={erLesevisning}
         >
             {Object.entries(prioritetTilTekst).map(([prioritet, tekst]) => (

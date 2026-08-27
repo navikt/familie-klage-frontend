@@ -1,21 +1,21 @@
+import { Alert, Button, Fieldset, HStack, VStack } from '@navikt/ds-react';
 import React from 'react';
 import type { SubmitHandler, UseFormReturn } from 'react-hook-form';
 import { FormProvider } from 'react-hook-form';
-import { LandFelt } from './felt/LandFelt';
-import { MottakerFelt } from './felt/MottakerFelt';
-import { NavnFelt } from './felt/NavnFelt';
-import { Adresselinje1Felt } from './felt/Adresselinje1Felt';
-import { PostnummerFelt } from './felt/PostnummerFelt';
-import { PoststedFelt } from './felt/PoststedFelt';
-import { Alert, Button, Fieldset, HStack, VStack } from '@navikt/ds-react';
+import { useBehandling } from '../../../../../../App/context/BehandlingContext';
+import { useConfirmBrowserRefresh } from '../../../../../../App/hooks/useConfirmBrowserRefresh';
+import { useOnFormSubmitSuccessful } from '../../../../../../App/hooks/useOnFormSubmitSuccessful';
+import { useOnUnmount } from '../../../../../../App/hooks/useOnUnmount';
 import type { BlankEøsLandkode } from '../../../../../../Felles/Landvelger/landkode';
 import { EøsLandkode } from '../../../../../../Felles/Landvelger/landkode';
 import type { BlankMottakerRolle, MottakerRolle } from '../../../mottakerRolle';
+import { Adresselinje1Felt } from './felt/Adresselinje1Felt';
 import { Adresselinje2Felt } from './felt/Adresselinje2Felt';
-import { useBehandling } from '../../../../../../App/context/BehandlingContext';
-import { useOnUnmount } from '../../../../../../App/hooks/useOnUnmount';
-import { useOnFormSubmitSuccessful } from '../../../../../../App/hooks/useOnFormSubmitSuccessful';
-import { useConfirmBrowserRefresh } from '../../../../../../App/hooks/useConfirmBrowserRefresh';
+import { LandFelt } from './felt/LandFelt';
+import { MottakerFelt } from './felt/MottakerFelt';
+import { NavnFelt } from './felt/NavnFelt';
+import { PostnummerFelt } from './felt/PostnummerFelt';
+import { PoststedFelt } from './felt/PoststedFelt';
 
 export enum BrevmottakerPersonUtenIdentFeltnavn {
     MOTTAKERROLLE = 'mottakerRolle',

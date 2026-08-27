@@ -1,6 +1,6 @@
-import * as React from 'react';
-import type { FC } from 'react';
 import { Box, Heading, Select } from '@navikt/ds-react';
+import type { FC } from 'react';
+import * as React from 'react';
 import { Controller, useFormContext } from 'react-hook-form';
 import { useApp } from '../../../../App/context/AppContext';
 import type { VurderingNedtrekkslisteFelter } from './felttyper';

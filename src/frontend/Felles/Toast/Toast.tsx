@@ -1,9 +1,9 @@
 import React, { useEffect } from 'react';
-import styles from './Toast.module.css';
 import { useApp } from '../../App/context/AppContext';
 import type { EToast } from '../../App/typer/toast';
 import { toastTilTekst } from '../../App/typer/toast';
 import { AlertMedLukkeKnapp } from '../Visningskomponenter/Alerts';
+import styles from './Toast.module.css';
 
 export const Toast: React.FC = () => {
     const { toast, settToast } = useApp();

@@ -1,10 +1,10 @@
 import { Radio, RadioGroup } from '@navikt/ds-react';
-import { HenlagtÅrsak } from './domain/henlagtÅrsak';
 import React from 'react';
 import { useController, useFormContext } from 'react-hook-form';
+import { useBrevmottakerFormActionsContext } from './context/BrevmottakerFormActionsContextProvider';
+import { HenlagtÅrsak } from './domain/henlagtÅrsak';
 import type { HenleggBehandlingFormValues } from './HenleggBehandlingForm';
 import { HenleggBehandlingFeltnavn } from './HenleggBehandlingForm';
-import { useBrevmottakerFormActionsContext } from './context/BrevmottakerFormActionsContextProvider';
 
 export function HenlagtÅrsakFelt() {
     const { control } = useFormContext<HenleggBehandlingFormValues>();
@@ -14,7 +14,7 @@ export function HenlagtÅrsakFelt() {
         name: HenleggBehandlingFeltnavn.HENLAGT_ÅRSAK,
         control,
         rules: {
-            validate: (value) => (value === null ? 'Du må velge en henleggesesårsak.' : undefined),
+            validate: value => (value === null ? 'Du må velge en henleggesesårsak.' : undefined),
         },
     });
 
@@ -24,7 +24,7 @@ export function HenlagtÅrsakFelt() {
             name={field.name}
             value={field.value}
             ref={field.ref}
-            onChange={(value) => {
+            onChange={value => {
                 if (value !== HenlagtÅrsak.TRUKKET_TILBAKE) {
                     skjulForm();
                 }

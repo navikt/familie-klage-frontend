@@ -1,8 +1,8 @@
-import * as React from 'react';
-import styles from './Dokumentliste.module.css';
 import { BodyShort, Button, Tag } from '@navikt/ds-react';
-import { LogiskeVedlegg } from './LogiskeVedlegg';
+import * as React from 'react';
 import type { Journalposttype, LogiskVedlegg } from '../../../App/typer/dokument';
+import styles from './Dokumentliste.module.css';
+import { LogiskeVedlegg } from './LogiskeVedlegg';
 
 export interface Dokument {
     tittel: string;

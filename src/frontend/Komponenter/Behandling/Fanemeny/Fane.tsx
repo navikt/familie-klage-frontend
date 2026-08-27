@@ -1,11 +1,11 @@
-import * as React from 'react';
-import styles from './Fane.module.css';
-import { NavLink } from 'react-router-dom';
-import type { ISide } from './sider';
-import { useApp } from '../../../App/context/AppContext';
 import { BodyShort } from '@navikt/ds-react';
-import type { Behandling } from '../../../App/typer/fagsak';
+import * as React from 'react';
+import { NavLink } from 'react-router-dom';
+import { useApp } from '../../../App/context/AppContext';
 import { useBehandling } from '../../../App/context/BehandlingContext';
+import type { Behandling } from '../../../App/typer/fagsak';
+import styles from './Fane.module.css';
+import type { ISide } from './sider';
 import { utledFaneErLåst } from './utils';
 
 interface Props {
@@ -38,7 +38,7 @@ export const Fane: React.FC<Props> = ({ side, behandling, behandlingId, index })
             className={faneErValgt ? styles.valgtNavigasjonslenke : styles.navigasjonslenke}
             key={side.navn}
             to={`/behandling/${behandlingId}/${side.href}`}
-            onClick={(e) => {
+            onClick={e => {
                 e.preventDefault();
                 gåTilUrl(`/behandling/${behandlingId}/${side.href}`);
             }}

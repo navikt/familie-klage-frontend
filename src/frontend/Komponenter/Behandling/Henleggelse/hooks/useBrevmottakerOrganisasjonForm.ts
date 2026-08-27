@@ -1,8 +1,8 @@
 import { useForm } from 'react-hook-form';
-import { lagNyBrevmottakerOrganisasjon } from '../../Brevmottakere/nyBrevmottaker';
-import { useBrevmottakereContext } from '../context/BrevmottakereContextProvider';
 import type { BrevmottakerOrganisasjonFormValues } from '../../Brevmottakere/baks/modal/OrganisasjonForm/BrevmottakerOrganisasjonForm';
 import { BrevmottakerOrganisasjonFeltnavn } from '../../Brevmottakere/baks/modal/OrganisasjonForm/BrevmottakerOrganisasjonForm';
+import { lagNyBrevmottakerOrganisasjon } from '../../Brevmottakere/nyBrevmottaker';
+import { useBrevmottakereContext } from '../context/BrevmottakereContextProvider';
 
 export function useBrevmottakerOrganisasjonForm(onSubmitCallback?: () => void) {
     const { leggTilBrevmottaker } = useBrevmottakereContext();

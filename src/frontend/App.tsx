@@ -1,20 +1,20 @@
+import { BodyLong } from '@navikt/ds-react';
 import * as React from 'react';
 import { useEffect, useState } from 'react';
-import { AppProvider, useApp } from './App/context/AppContext';
-import { hentInnloggetBruker } from './App/api/saksbehandler';
-import type { ISaksbehandler } from './App/typer/saksbehandler';
-import { ErrorBoundary } from './Felles/ErrorBoundary/ErrorBoundary';
-import { TogglesProvider } from './App/context/TogglesContext';
 import { BrowserRouter, Navigate, Route, Routes, useNavigate } from 'react-router-dom';
-import { HeaderMedSøk } from './Felles/HeaderMedSøk/HeaderMedSøk';
-import { BehandlingContainer } from './Komponenter/Behandling/BehandlingContainer';
 import type { AppEnv } from './App/api/env';
 import { hentEnv } from './App/api/env';
-import { Toast } from './Felles/Toast/Toast';
-import { TestSide } from './Komponenter/test/TestSide';
-import { BodyLong } from '@navikt/ds-react';
+import { hentInnloggetBruker } from './App/api/saksbehandler';
+import { AppProvider, useApp } from './App/context/AppContext';
+import { TogglesProvider } from './App/context/TogglesContext';
+import type { ISaksbehandler } from './App/typer/saksbehandler';
+import { ErrorBoundary } from './Felles/ErrorBoundary/ErrorBoundary';
+import { HeaderMedSøk } from './Felles/HeaderMedSøk/HeaderMedSøk';
 import { ModalWrapper } from './Felles/Modal/ModalWrapper';
 import { UlagretDataModal } from './Felles/Modal/UlagretDataModal';
+import { Toast } from './Felles/Toast/Toast';
+import { BehandlingContainer } from './Komponenter/Behandling/BehandlingContainer';
+import { TestSide } from './Komponenter/test/TestSide';
 
 export const App: React.FC = () => {
     const [innloggetSaksbehandler, settInnloggetSaksbehandler] = useState<ISaksbehandler>();
@@ -80,7 +80,6 @@ const AppInnhold: React.FC<{ innloggetSaksbehandler: ISaksbehandler }> = ({
             settByttUrl(false);
             navigate(valgtSide);
         }
-        //eslint-disable-next-line
     }, [byttUrl, valgtSide]);
 
     return (

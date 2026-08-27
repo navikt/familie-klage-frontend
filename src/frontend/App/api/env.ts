@@ -1,6 +1,6 @@
-import { preferredAxios } from './axios';
-import type { Roller } from '../utils/roller';
 import type { Eksternlenker } from '../typer/eksternlenker';
+import type { Roller } from '../utils/roller';
+import { preferredAxios } from './axios';
 
 export interface AppEnv {
     roller: Roller;
@@ -9,7 +9,7 @@ export interface AppEnv {
 }
 
 export const hentEnv = (): Promise<AppEnv> => {
-    return preferredAxios.get(`/env`).then((response) => {
+    return preferredAxios.get(`/env`).then(response => {
         return response.data;
     });
 };

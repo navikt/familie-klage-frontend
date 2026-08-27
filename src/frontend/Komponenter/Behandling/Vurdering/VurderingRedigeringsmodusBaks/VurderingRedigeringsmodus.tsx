@@ -1,22 +1,22 @@
+import { FloppydiskIcon, PaperplaneIcon, PlusCircleIcon, TrashIcon } from '@navikt/aksel-icons';
+import { Alert, Box, Button, ErrorSummary, Heading, HStack, VStack } from '@navikt/ds-react';
 import * as React from 'react';
 import { useEffect, useRef, useState } from 'react';
-import { Alert, Box, Button, ErrorSummary, Heading, HStack, VStack } from '@navikt/ds-react';
-import type { IVurdering } from '../vurderingValg';
-import { VedtakValg, vedtakValgTilTekst, årsakAlternativer } from '../vurderingValg';
-import { useNavigate } from 'react-router-dom';
-import { useHentVurderinger } from '../../../../App/hooks/useHentVurderinger';
-import type { Behandling } from '../../../../App/typer/fagsak';
-import type { AccordionTilstand } from './InnstillingTilNavKlageinstans';
-import { InnstillingTilNavKlageinstans } from './InnstillingTilNavKlageinstans';
 import type { FieldErrors, SubmitHandler } from 'react-hook-form';
 import { FormProvider, useForm } from 'react-hook-form';
-import { Nedtrekksliste } from './Nedtrekksliste';
-import { hjemmelAlternativer } from '../hjemmel';
-import { Tekstfelt } from './Tekstfelt';
-import { FloppydiskIcon, PaperplaneIcon, PlusCircleIcon, TrashIcon } from '@navikt/aksel-icons';
+import { useNavigate } from 'react-router-dom';
 import { useApp } from '../../../../App/context/AppContext';
-import type { VurderingSkjemaverdier } from './felttyper';
 import { useBehandling } from '../../../../App/context/BehandlingContext';
+import { useHentVurderinger } from '../../../../App/hooks/useHentVurderinger';
+import type { Behandling } from '../../../../App/typer/fagsak';
+import { hjemmelAlternativer } from '../hjemmel';
+import type { IVurdering } from '../vurderingValg';
+import { VedtakValg, vedtakValgTilTekst, årsakAlternativer } from '../vurderingValg';
+import type { VurderingSkjemaverdier } from './felttyper';
+import type { AccordionTilstand } from './InnstillingTilNavKlageinstans';
+import { InnstillingTilNavKlageinstans } from './InnstillingTilNavKlageinstans';
+import { Nedtrekksliste } from './Nedtrekksliste';
+import { Tekstfelt } from './Tekstfelt';
 
 interface VurderingRedigeringsmodusProps {
     behandling: Behandling;
@@ -73,7 +73,6 @@ export const VurderingRedigeringsmodus = ({
 
     useEffect(() => {
         reset({ vedtak: vedtak });
-        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [vedtak]);
 
     const skjemaverdierTilVurdering = (
@@ -90,11 +89,11 @@ export const VurderingRedigeringsmodus = ({
     };
 
     const lagreVurderingUtenValidering = () => {
-        trigger('vedtak').then((vedtakErValgt) => {
+        trigger('vedtak').then(vedtakErValgt => {
             if (vedtakErValgt) {
                 settLagrer(true);
                 lagreVurdering(skjemaverdierTilVurdering(getValues()))
-                    .then((respons) => {
+                    .then(respons => {
                         if (respons.status === 'SUKSESS') {
                             nullstillIkkePersisterteKomponenter();
                             reset(respons.data);
@@ -105,10 +104,10 @@ export const VurderingRedigeringsmodus = ({
         });
     };
 
-    const lagreVurderingOgNavigerTilBrev: SubmitHandler<VurderingSkjemaverdier> = (vurdering) => {
+    const lagreVurderingOgNavigerTilBrev: SubmitHandler<VurderingSkjemaverdier> = vurdering => {
         settLagrerOgOppdatererSteg(true);
         lagreVurderingOgOppdaterSteg(skjemaverdierTilVurdering(vurdering))
-            .then((respons) => {
+            .then(respons => {
                 if (respons.status === 'SUKSESS') {
                     nullstillIkkePersisterteKomponenter();
                     navigate(`/behandling/${behandling.id}/brev`);
@@ -132,7 +131,7 @@ export const VurderingRedigeringsmodus = ({
     return (
         <FormProvider {...form}>
             <form
-                onSubmit={(event) => {
+                onSubmit={event => {
                     handleSubmit(
                         lagreVurderingOgNavigerTilBrev,
                         vedValideringsfeil

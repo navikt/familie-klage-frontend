@@ -1,4 +1,3 @@
-import React, { useState } from 'react';
 import {
     Alert,
     Box,
@@ -11,30 +10,31 @@ import {
     Skeleton,
     VStack,
 } from '@navikt/ds-react';
+import React, { useState } from 'react';
+import { useToggles } from '../../../App/context/TogglesContext';
+import { ToggleName } from '../../../App/context/toggles';
+import type { Behandling } from '../../../App/typer/fagsak';
+import { Fagsystem } from '../../../App/typer/fagsak';
+import { Divider } from '../../../Felles/Divider/Divider';
+import { BrevmottakerPersonUtenIdentForm } from '../Brevmottakere/baks/modal/form/BrevmottakerPersonUtenIdentForm';
+import { BrevmottakerOrganisasjonForm } from '../Brevmottakere/baks/modal/OrganisasjonForm/BrevmottakerOrganisasjonForm';
+import { mapTilMottakerRolle, NyBrevmottakerType } from '../Brevmottakere/nyBrevmottaker';
+import { BrevmottakereBox } from './BrevmottakereBox';
+import { useBrevmottakereContext } from './context/BrevmottakereContextProvider';
+import { BrevmottakerFormActionsContextProvider } from './context/BrevmottakerFormActionsContextProvider';
+import { useHenleggBehandlingModalContext } from './context/HenleggBehandlingModalContextProvider';
+import { HenlagtÅrsak } from './domain/henlagtÅrsak';
+import { ForhåndsvisBrevLenke } from './ForhåndsvisBrevLenke';
 import {
     HENLEGG_BEHANDLING_FORM_ID,
     HenleggBehandlingFeltnavn,
     HenleggBehandlingForm,
     HenleggBehandlingFormServerErrors,
 } from './HenleggBehandlingForm';
-import { BrevmottakerPersonUtenIdentForm } from '../Brevmottakere/baks/modal/form/BrevmottakerPersonUtenIdentForm';
-import { HenlagtÅrsak } from './domain/henlagtÅrsak';
-import { ForhåndsvisBrevLenke } from './ForhåndsvisBrevLenke';
-import { mapTilMottakerRolle, NyBrevmottakerType } from '../Brevmottakere/nyBrevmottaker';
-import { SendManueltBrevAdvarsel } from './SendManueltBrevAdvarsel';
-import { BrevmottakereBox } from './BrevmottakereBox';
-import { useHenleggBehandlingModalContext } from './context/HenleggBehandlingModalContextProvider';
-import { useBrevmottakereContext } from './context/BrevmottakereContextProvider';
-import type { Behandling } from '../../../App/typer/fagsak';
-import { Fagsystem } from '../../../App/typer/fagsak';
-import { useHenleggBehandlingForm } from './hooks/useHenleggBehandlingForm';
-import { useBrevmottakerPersonUtenIdentForm } from './hooks/useBrevmottakerPersonUtenIdentForm';
-import { BrevmottakerFormActionsContextProvider } from './context/BrevmottakerFormActionsContextProvider';
-import { Divider } from '../../../Felles/Divider/Divider';
-import { ToggleName } from '../../../App/context/toggles';
-import { useToggles } from '../../../App/context/TogglesContext';
-import { BrevmottakerOrganisasjonForm } from '../Brevmottakere/baks/modal/OrganisasjonForm/BrevmottakerOrganisasjonForm';
 import { useBrevmottakerOrganisasjonForm } from './hooks/useBrevmottakerOrganisasjonForm';
+import { useBrevmottakerPersonUtenIdentForm } from './hooks/useBrevmottakerPersonUtenIdentForm';
+import { useHenleggBehandlingForm } from './hooks/useHenleggBehandlingForm';
+import { SendManueltBrevAdvarsel } from './SendManueltBrevAdvarsel';
 
 interface Props {
     behandling: Behandling;

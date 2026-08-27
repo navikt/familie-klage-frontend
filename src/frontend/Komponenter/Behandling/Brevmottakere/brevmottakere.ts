@@ -18,7 +18,7 @@ export const hentAlleBrevmottakerPersonUtenIdent = (
 
 export const hentManueltOpprettedeBrevmottakere = (brevmottakere: Brevmottakere): Brevmottaker[] =>
     hentAlleBrevmottakereSomListe(brevmottakere).filter(
-        (brevmottaker) =>
+        brevmottaker =>
             !brevmottaker.mottakerRolle ||
             ![MottakerRolle.BRUKER, MottakerRolle.INSTITUSJON].includes(brevmottaker.mottakerRolle)
     );
@@ -30,5 +30,5 @@ export const hentAlleBrevmottakereSomListe = (brevmottakere: Brevmottakere): Bre
 
 export const erInstitusjonBrevmottaker = (brevmottakere: Brevmottakere): boolean =>
     brevmottakere.organisasjoner.some(
-        (brevmottaker) => brevmottaker.mottakerRolle === MottakerRolle.INSTITUSJON
+        brevmottaker => brevmottaker.mottakerRolle === MottakerRolle.INSTITUSJON
     );

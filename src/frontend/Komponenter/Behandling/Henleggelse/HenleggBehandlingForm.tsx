@@ -1,20 +1,20 @@
 import { Fieldset, VStack } from '@navikt/ds-react';
-import { HenlagtÅrsakFelt } from './HenlagtÅrsakFelt';
-import { SendTrukketKlageBrevFelt } from './SendTrukketKlageBrevFelt';
 import React from 'react';
-import type { HenlagtÅrsak } from './domain/henlagtÅrsak';
-import { erHenlagtÅrsakTrukketTilbake } from './domain/henlagtÅrsak';
 import type { FieldErrors, SubmitHandler, UseFormReturn } from 'react-hook-form';
 import { FormProvider } from 'react-hook-form';
-import { useOnUnmount } from '../../../App/hooks/useOnUnmount';
-import { useOnFormSubmitSuccessful } from '../../../App/hooks/useOnFormSubmitSuccessful';
+import { usePersonopplysningerContext } from '../../../App/context/PersonopplysningerContext';
 import { useConfirmBrowserRefresh } from '../../../App/hooks/useConfirmBrowserRefresh';
+import { useOnFormSubmitSuccessful } from '../../../App/hooks/useOnFormSubmitSuccessful';
+import { useOnUnmount } from '../../../App/hooks/useOnUnmount';
 import { Fagsystem } from '../../../App/typer/fagsak';
 import {
     erPersonopplysningerTilknyttetFullmakt,
     harPersonopplysningerVergemål,
 } from '../../../App/typer/personopplysninger';
-import { usePersonopplysningerContext } from '../../../App/context/PersonopplysningerContext';
+import type { HenlagtÅrsak } from './domain/henlagtÅrsak';
+import { erHenlagtÅrsakTrukketTilbake } from './domain/henlagtÅrsak';
+import { HenlagtÅrsakFelt } from './HenlagtÅrsakFelt';
+import { SendTrukketKlageBrevFelt } from './SendTrukketKlageBrevFelt';
 
 export const HENLEGG_BEHANDLING_FORM_ID = 'henlegg_behandling_form';
 
@@ -27,7 +27,7 @@ export const HenleggBehandlingFormServerErrors: Record<
 > = {
     onSubmitError: {
         id: 'root.onSubmitError',
-        lookup: (errors) => errors?.root?.onSubmitError?.message,
+        lookup: errors => errors?.root?.onSubmitError?.message,
     },
 };
 

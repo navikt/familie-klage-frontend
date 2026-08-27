@@ -2,16 +2,15 @@ import './konfigurerApp.js';
 
 import type { IApp } from '@navikt/familie-backend';
 import backend, { ensureAuthenticated } from '@navikt/familie-backend';
+import { logError, logInfo } from '@navikt/familie-logging';
 import express from 'express';
 import expressStaticGzip from 'express-static-gzip';
 import path from 'path';
-
 import { frontendPath, klageProxyUrl, sessionConfig } from './config.js';
 import { erLokal } from './env.js';
 import { prometheusTellere } from './metrikker.js';
 import { addCallId, attachToken, doProxy } from './proxy.js';
 import { setupRouter } from './router.js';
-import { logError, logInfo } from '@navikt/familie-logging';
 
 const port = 8020;
 

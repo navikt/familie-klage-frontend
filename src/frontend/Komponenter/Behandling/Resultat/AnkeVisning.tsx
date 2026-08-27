@@ -1,11 +1,11 @@
+import { Alert, BodyShort, Heading, Label } from '@navikt/ds-react';
 import * as React from 'react';
 import type { Behandling } from '../../../App/typer/fagsak';
 import {
-    klagehendelseTypeTilTekst,
     KlageinstansEventType,
+    klagehendelseTypeTilTekst,
     utfallTilTekst,
 } from '../../../App/typer/fagsak';
-import { Alert, BodyShort, Heading, Label } from '@navikt/ds-react';
 import { formaterIsoDatoTid } from '../../../App/utils/formatter';
 
 interface Props {
@@ -13,7 +13,7 @@ interface Props {
 }
 
 export const AnkeVisning: React.FC<Props> = ({ behandling }) => {
-    const ankeResultater = behandling.klageinstansResultat.filter((resultat) =>
+    const ankeResultater = behandling.klageinstansResultat.filter(resultat =>
         [
             KlageinstansEventType.ANKE_I_TRYGDERETTENBEHANDLING_OPPRETTET,
             KlageinstansEventType.ANKEBEHANDLING_OPPRETTET,
@@ -26,7 +26,7 @@ export const AnkeVisning: React.FC<Props> = ({ behandling }) => {
             <Heading spacing size="small" level="3">
                 Merk at det finnes informasjon om anke på denne klagen
             </Heading>
-            {ankeResultater.map((resultat) => (
+            {ankeResultater.map(resultat => (
                 <div key={resultat.mottattEllerAvsluttetTidspunkt}>
                     <Label size={'small'}>
                         {formaterIsoDatoTid(resultat.mottattEllerAvsluttetTidspunkt)}

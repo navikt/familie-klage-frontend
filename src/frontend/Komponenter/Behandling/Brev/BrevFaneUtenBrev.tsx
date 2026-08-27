@@ -1,9 +1,9 @@
-import React, { useState } from 'react';
 import { Alert, VStack } from '@navikt/ds-react';
-import { ModalWrapper } from '../../../Felles/Modal/ModalWrapper';
+import React, { useState } from 'react';
 import { useBehandling } from '../../../App/context/BehandlingContext';
-import { useFerdigstillBehandling } from './useFerdigstillBehandling';
 import { Button } from '../../../Felles/Knapper/Button';
+import { ModalWrapper } from '../../../Felles/Modal/ModalWrapper';
+import { useFerdigstillBehandling } from './useFerdigstillBehandling';
 
 interface Props {
     behandlingId: string;
@@ -14,7 +14,7 @@ export const BrevFaneUtenBrev: React.FC<Props> = ({ behandlingId }) => {
     const { ferdigstill, senderInn } = useFerdigstillBehandling(
         behandlingId,
         () => lukkModal(),
-        (feilmelding) => settFeilmelding(feilmelding)
+        feilmelding => settFeilmelding(feilmelding)
     );
 
     const [visModal, settVisModal] = useState<boolean>(false);

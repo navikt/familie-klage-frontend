@@ -1,20 +1,19 @@
-import React, { useState } from 'react';
-
 import { TrashIcon } from '@navikt/aksel-icons';
 import { Alert, Button, Heading, HGrid, HStack, VStack } from '@navikt/ds-react';
 import CountryData from '@navikt/land-verktoy';
+import React, { useState } from 'react';
+import { useBehandling } from '../../../../../App/context/BehandlingContext';
+import { formaterOrgNummer } from '../../../../../App/typer/institusjon';
 import { EøsLandkode } from '../../../../../Felles/Landvelger/landkode';
-import { MottakerRolle, mottakerRolleVisningsnavn } from '../../mottakerRolle';
 import type { Brevmottaker } from '../../brevmottaker';
 import {
     erBrevmottakerOrganisasjon,
     erBrevmottakerPersonMedIdent,
     erBrevmottakerPersonUtenIdent,
 } from '../../brevmottaker';
+import { MottakerRolle, mottakerRolleVisningsnavn } from '../../mottakerRolle';
 import type { SlettbarBrevmottaker } from '../../slettbarBrevmottaker';
 import { lagSlettbarBrevmottaker } from '../../slettbarBrevmottaker';
-import { useBehandling } from '../../../../../App/context/BehandlingContext';
-import { formaterOrgNummer } from '../../../../../App/typer/institusjon';
 
 type Props = {
     brevmottaker: Brevmottaker;

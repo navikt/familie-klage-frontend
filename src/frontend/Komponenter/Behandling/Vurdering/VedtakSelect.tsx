@@ -1,11 +1,11 @@
-import * as React from 'react';
-import type { Dispatch, SetStateAction } from 'react';
 import { Select } from '@navikt/ds-react';
+import type { Dispatch, SetStateAction } from 'react';
+import * as React from 'react';
+import { useApp } from '../../../App/context/AppContext';
+import { useBehandling } from '../../../App/context/BehandlingContext';
 import styles from './VedtakSelect.module.css';
 import type { IVurdering, VedtakValg } from './vurderingValg';
 import { vedtakValgTilTekst } from './vurderingValg';
-import { useBehandling } from '../../../App/context/BehandlingContext';
-import { useApp } from '../../../App/context/AppContext';
 
 interface Props {
     settVedtak: Dispatch<SetStateAction<IVurdering>>;
@@ -35,7 +35,7 @@ export const VedtakSelect: React.FC<Props> = ({ settVedtak, valgtVedtak }) => {
             value={valgtVedtak}
             label="Vedtak"
             size="medium"
-            onChange={(e) => oppdaterVedtak(e.target.value)}
+            onChange={e => oppdaterVedtak(e.target.value)}
             className={styles.select}
         >
             <option value={''} disabled>

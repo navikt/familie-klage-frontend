@@ -1,13 +1,13 @@
 import CountryData from '@navikt/land-verktoy';
-import type { Brevmottakere } from '../brevmottakere';
-import { hentAlleBrevmottakereSomListe } from '../brevmottakere';
-import { mottakerRolleVisningsnavn } from '../mottakerRolle';
+import { formaterOrgNummer } from '../../../../App/typer/institusjon';
 import {
     erBrevmottakerOrganisasjon,
     erBrevmottakerPersonMedIdent,
     erBrevmottakerPersonUtenIdent,
 } from '../brevmottaker';
-import { formaterOrgNummer } from '../../../../App/typer/institusjon';
+import type { Brevmottakere } from '../brevmottakere';
+import { hentAlleBrevmottakereSomListe } from '../brevmottakere';
+import { mottakerRolleVisningsnavn } from '../mottakerRolle';
 
 export type OppsummertBrevmottaker = {
     id: string;
@@ -21,7 +21,7 @@ export function utledOppsumertBrevmottakere(
     brevmottakere: Brevmottakere
 ): OppsummertBrevmottaker[] {
     const oppsummertBrevmottakere = hentAlleBrevmottakereSomListe(brevmottakere)
-        .map((brevmottaker) => {
+        .map(brevmottaker => {
             const mottakerRolle = brevmottaker.mottakerRolle
                 ? ` (${mottakerRolleVisningsnavn[brevmottaker.mottakerRolle].replace(/ /g, '\u00A0')})`
                 : '';

@@ -1,16 +1,16 @@
+import { Alert, Button, Fieldset, FormSummary, HStack, VStack } from '@navikt/ds-react';
 import React from 'react';
 import type { SubmitHandler, UseFormReturn } from 'react-hook-form';
 import { FormProvider } from 'react-hook-form';
-import { Alert, Button, Fieldset, FormSummary, HStack, VStack } from '@navikt/ds-react';
-import type { BlankMottakerRolle, MottakerRolle } from '../../../mottakerRolle';
 import { useBehandling } from '../../../../../../App/context/BehandlingContext';
-import { useOnUnmount } from '../../../../../../App/hooks/useOnUnmount';
-import { useOnFormSubmitSuccessful } from '../../../../../../App/hooks/useOnFormSubmitSuccessful';
 import { useConfirmBrowserRefresh } from '../../../../../../App/hooks/useConfirmBrowserRefresh';
-import { OrganisasjonSøk } from '../OrganisasjonSøk';
+import { useOnFormSubmitSuccessful } from '../../../../../../App/hooks/useOnFormSubmitSuccessful';
+import { useOnUnmount } from '../../../../../../App/hooks/useOnUnmount';
+import type { BlankMottakerRolle, MottakerRolle } from '../../../mottakerRolle';
 import { useHentOrganisasjon } from '../../hooks/useHentOrganisasjon';
-import { NavnHosOrganisasjonFelt } from './NavnHosOrganisasjonFelt';
+import { OrganisasjonSøk } from '../OrganisasjonSøk';
 import { MottakerFelt } from './MottakerFelt';
+import { NavnHosOrganisasjonFelt } from './NavnHosOrganisasjonFelt';
 
 export enum BrevmottakerOrganisasjonFeltnavn {
     MOTTAKERROLLE = 'mottakerRolle',
@@ -60,11 +60,11 @@ export function BrevmottakerOrganisasjonForm({
 
     const hentOgSettOrganisasjon = (organisasjonsnummer: string) => {
         hentOrganisasjon(organisasjonsnummer)
-            .then((organisasjon) => {
+            .then(organisasjon => {
                 setValue(BrevmottakerOrganisasjonFeltnavn.ORGANISASJONSNUMMER, organisasjonsnummer);
                 setValue(BrevmottakerOrganisasjonFeltnavn.ORGANISASJONSNAVN, organisasjon.navn);
             })
-            .catch((error) => {
+            .catch(error => {
                 setError('root', {
                     message: `Feil ved henting av organisasjon: ${error.message}`,
                 });

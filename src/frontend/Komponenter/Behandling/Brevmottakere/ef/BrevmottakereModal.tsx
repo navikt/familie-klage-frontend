@@ -1,18 +1,18 @@
+import { Alert, Button, HStack } from '@navikt/ds-react';
 import type { FC } from 'react';
 import React, { useCallback, useState } from 'react';
-import { VergerOgFullmektigeFraRegister } from './VergerOgFullmektigeFraRegister';
-import { SøkWrapper } from './SøkWrapper';
-import { SkalBrukerHaBrev } from './SkalBrukerHaBrev';
 import { useApp } from '../../../../App/context/AppContext';
 import type { RessursFeilet, RessursSuksess } from '../../../../App/typer/ressurs';
 import { RessursStatus } from '../../../../App/typer/ressurs';
-import { BrevmottakereListe } from './BrevmottakereListe';
-import type { Brevmottakere } from '../brevmottakere';
-import styles from './BrevmottakereModal.module.css';
-import { Alert, Button, HStack } from '@navikt/ds-react';
 import { EToast } from '../../../../App/typer/toast';
 import { ModalWrapper } from '../../../../Felles/Modal/ModalWrapper';
 import type { BrevmottakerOrganisasjon, BrevmottakerPerson } from '../brevmottaker';
+import type { Brevmottakere } from '../brevmottakere';
+import { BrevmottakereListe } from './BrevmottakereListe';
+import styles from './BrevmottakereModal.module.css';
+import { SkalBrukerHaBrev } from './SkalBrukerHaBrev';
+import { SøkWrapper } from './SøkWrapper';
+import { VergerOgFullmektigeFraRegister } from './VergerOgFullmektigeFraRegister';
 
 interface Props {
     behandlingId: string;

@@ -1,14 +1,14 @@
+import { ChevronDownIcon, ChevronUpIcon } from '@navikt/aksel-icons';
+import { BodyShort, Button, Label, VStack } from '@navikt/ds-react';
 import type { FC } from 'react';
 import React, { useCallback, useState } from 'react';
-import { BodyShort, Button, Label, VStack } from '@navikt/ds-react';
-import { ChevronDownIcon, ChevronUpIcon } from '@navikt/aksel-icons';
 import styles from './EksisterendeBeskrivelse.module.css';
 
 export const EksisterendeBeskrivelse: FC<{ beskrivelse?: string }> = ({ beskrivelse }) => {
     const [harOverflow, settHarOverflow] = useState(false);
     const [ekspandert, settEkspandert] = useState(false);
 
-    const refCallback: React.RefCallback<HTMLElement> = useCallback((ref) => {
+    const refCallback: React.RefCallback<HTMLElement> = useCallback(ref => {
         if (ref !== null) {
             settHarOverflow(ref.scrollHeight > ref.clientHeight);
         }
@@ -32,7 +32,7 @@ export const EksisterendeBeskrivelse: FC<{ beskrivelse?: string }> = ({ beskrive
                             icon={ekspandert ? <ChevronUpIcon /> : <ChevronDownIcon />}
                             iconPosition={'right'}
                             type={'button'}
-                            onClick={() => settEkspandert((ekspandert) => !ekspandert)}
+                            onClick={() => settEkspandert(ekspandert => !ekspandert)}
                         >
                             {ekspandert ? 'Skjul beskrivelsen' : 'Se hele beskrivelsen'}
                         </Button>

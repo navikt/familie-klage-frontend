@@ -1,12 +1,12 @@
-import React, { useMemo } from 'react';
-import type { ISaksbehandler } from '../../App/typer/saksbehandler';
-import { useApp } from '../../App/context/AppContext';
-import styles from './HeaderMedSøk.module.css';
-import type { AppEnv } from '../../App/api/env';
-import { lagAInntektLink, lagGosysLink, lagModiaLink } from '../Lenker/lenker';
-import type { AxiosRequestCallback } from '../../App/typer/axiosRequest';
-import { ActionMenu, InternalHeader } from '@navikt/ds-react';
 import { MenuGridIcon } from '@navikt/aksel-icons';
+import { ActionMenu, InternalHeader } from '@navikt/ds-react';
+import React, { useMemo } from 'react';
+import type { AppEnv } from '../../App/api/env';
+import { useApp } from '../../App/context/AppContext';
+import type { AxiosRequestCallback } from '../../App/typer/axiosRequest';
+import type { ISaksbehandler } from '../../App/typer/saksbehandler';
+import { lagAInntektLink, lagGosysLink, lagModiaLink } from '../Lenker/lenker';
+import styles from './HeaderMedSøk.module.css';
 
 export const HeaderMedSøk: React.FunctionComponent<{ innloggetSaksbehandler: ISaksbehandler }> = ({
     innloggetSaksbehandler,
@@ -175,7 +175,7 @@ const ActionMenuLenke: React.FC<{
     lenke: PopoverItem;
 }> = ({ lenke }) =>
     lenke.onSelect ? (
-        <ActionMenu.Item onSelect={(e) => lenke.onSelect(e)}>{lenke.name}</ActionMenu.Item>
+        <ActionMenu.Item onSelect={e => lenke.onSelect(e)}>{lenke.name}</ActionMenu.Item>
     ) : (
         <ActionMenu.Item
             as={'a'}

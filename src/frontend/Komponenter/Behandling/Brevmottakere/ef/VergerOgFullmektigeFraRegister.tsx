@@ -1,16 +1,16 @@
+import { BodyShort, HStack, VStack } from '@navikt/ds-react';
 import type { Dispatch, FC, SetStateAction } from 'react';
 import React from 'react';
-import styles from './SøkWrapper.module.css';
-import { BodyShort, HStack, VStack } from '@navikt/ds-react';
+import { usePersonopplysningerContext } from '../../../../App/context/PersonopplysningerContext';
 import { KopierbartNullableFødselsnummer } from '../../../../Felles/Fødselsnummer/KopierbartNullableFødselsnummer';
+import { Button } from '../../../../Felles/Knapper/Button';
 import type { BrevmottakerPerson, BrevmottakerPersonMedIdent } from '../brevmottaker';
 import {
     erBrevmottakerPersonMedIdent,
     mapFullmaktTilBrevmottakerPersonMedIdent,
     mapVergemålTilBrevmottakerPersonMedIdent,
 } from '../brevmottaker';
-import { Button } from '../../../../Felles/Knapper/Button';
-import { usePersonopplysningerContext } from '../../../../App/context/PersonopplysningerContext';
+import styles from './SøkWrapper.module.css';
 
 interface Props {
     valgteMottakere: BrevmottakerPerson[];
@@ -31,7 +31,7 @@ export const VergerOgFullmektigeFraRegister: FC<Props> = ({
     ];
 
     const settMottaker = (mottaker: BrevmottakerPersonMedIdent) => () => {
-        settValgteMottakere((prevState) => {
+        settValgteMottakere(prevState => {
             return [...prevState, mottaker];
         });
     };
@@ -43,7 +43,7 @@ export const VergerOgFullmektigeFraRegister: FC<Props> = ({
             </BodyShort>
             {muligeMottakere.length ? (
                 muligeMottakere.map((mottaker, index) => {
-                    const mottakerValgt = !!valgteMottakere.find((valgtMottaker) => {
+                    const mottakerValgt = !!valgteMottakere.find(valgtMottaker => {
                         if (erBrevmottakerPersonMedIdent(valgtMottaker)) {
                             return valgtMottaker.personIdent === mottaker.personIdent;
                         }

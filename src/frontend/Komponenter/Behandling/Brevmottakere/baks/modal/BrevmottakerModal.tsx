@@ -1,13 +1,13 @@
-import React from 'react';
 import { Modal } from '@navikt/ds-react';
+import React from 'react';
 import { useApp } from '../../../../../App/context/AppContext';
-import { BrevmottakerModalBody } from './BrevmottakerModalBody';
-import { BrevmottakerModalFooter } from './BrevmottakerModalFooter';
-import type { NyBrevmottaker } from '../../nyBrevmottaker';
-import type { SlettbarBrevmottaker } from '../../slettbarBrevmottaker';
 import { useBehandling } from '../../../../../App/context/BehandlingContext';
 import type { Brevmottakere } from '../../brevmottakere';
 import { hentManueltOpprettedeBrevmottakere } from '../../brevmottakere';
+import type { NyBrevmottaker } from '../../nyBrevmottaker';
+import type { SlettbarBrevmottaker } from '../../slettbarBrevmottaker';
+import { BrevmottakerModalBody } from './BrevmottakerModalBody';
+import { BrevmottakerModalFooter } from './BrevmottakerModalFooter';
 
 type Props = {
     brevmottakere: Brevmottakere;

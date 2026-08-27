@@ -1,14 +1,14 @@
-import React from 'react';
-import type { Behandling } from '../../App/typer/fagsak';
 import { Box, HGrid, HStack } from '@navikt/ds-react';
-import { IkonVelger } from '../IkonVelger/IkonVelger';
-import { formaterOrgNummer } from '../../App/typer/institusjon';
+import React from 'react';
 import { usePersonopplysningerContext } from '../../App/context/PersonopplysningerContext';
-import { LenkerOgKnapper } from './LenkerOgKnapper';
-import { PersonopplysningerVarsler } from './PersonopplysningerVarsler';
-import { NavnOgIdent } from './NavnOgIdent';
-import { formaterFødselsnummer } from '../../App/utils/formatter';
+import type { Behandling } from '../../App/typer/fagsak';
+import { formaterOrgNummer } from '../../App/typer/institusjon';
 import { nullableDatoTilAlder } from '../../App/utils/dato';
+import { formaterFødselsnummer } from '../../App/utils/formatter';
+import { IkonVelger } from '../IkonVelger/IkonVelger';
+import { LenkerOgKnapper } from './LenkerOgKnapper';
+import { NavnOgIdent } from './NavnOgIdent';
+import { PersonopplysningerVarsler } from './PersonopplysningerVarsler';
 
 interface Props {
     behandling: Behandling;

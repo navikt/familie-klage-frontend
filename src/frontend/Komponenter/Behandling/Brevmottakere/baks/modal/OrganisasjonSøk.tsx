@@ -1,5 +1,5 @@
-import React from 'react';
 import { Search } from '@navikt/ds-react';
+import React from 'react';
 import { useController, useFormContext } from 'react-hook-form';
 import { BrevmottakerOrganisasjonFeltnavn } from './OrganisasjonForm/BrevmottakerOrganisasjonForm';
 
@@ -49,7 +49,7 @@ export function OrganisasjonSøk({ hentOgSettOrganisasjon, erLesevisning }: Prop
                 type="button"
                 onClick={() => {
                     trigger(BrevmottakerOrganisasjonFeltnavn.ORGANISASJONSNUMMER).then(
-                        (isValid) => isValid && hentOgSettOrganisasjon(value)
+                        isValid => isValid && hentOgSettOrganisasjon(value)
                     );
                 }}
             />

@@ -1,8 +1,8 @@
+import { useState } from 'react';
+import { useApp } from '../../../App/context/AppContext';
+import { useBehandling } from '../../../App/context/BehandlingContext';
 import type { RessursFeilet, RessursSuksess } from '../../../App/typer/ressurs';
 import { RessursStatus } from '../../../App/typer/ressurs';
-import { useState } from 'react';
-import { useBehandling } from '../../../App/context/BehandlingContext';
-import { useApp } from '../../../App/context/AppContext';
 
 export const useFerdigstillBehandling = (
     behandlingId: string,

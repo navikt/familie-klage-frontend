@@ -1,5 +1,7 @@
+import { renderNaisMetaTags } from '@nais/apm';
 import type { Client } from '@navikt/familie-backend';
 import { ensureAuthenticated, logRequest } from '@navikt/familie-backend';
+import { LOG_LEVEL } from '@navikt/familie-logging';
 import type { NextFunction, Request, Response, Router } from 'express';
 import fs from 'fs';
 import path from 'path';
@@ -7,8 +9,6 @@ import type { ViteDevServer } from 'vite';
 import { eksternlenker, frontendPath, miljø, roller } from './config.js';
 import { erLokal, erPreprod } from './env.js';
 import { prometheusTellere } from './metrikker.js';
-import { LOG_LEVEL } from '@navikt/familie-logging';
-import { renderNaisMetaTags } from '@nais/apm';
 
 const redirectHvisInternUrlIPreprod = () => {
     return async (req: Request, res: Response, next: NextFunction) => {
@@ -39,7 +39,7 @@ export const setupRouter = async (authClient: Client, router: Router): Promise<R
         res.status(200).send();
     });
 
-    let viteDevServer: ViteDevServer | undefined = undefined;
+    let viteDevServer: ViteDevServer | undefined;
     if (erLokal()) {
         const { createServer } = await import('vite');
         viteDevServer = await createServer({

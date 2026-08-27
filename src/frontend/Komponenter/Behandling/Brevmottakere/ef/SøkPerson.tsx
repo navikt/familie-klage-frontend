@@ -1,9 +1,3 @@
-import type { Dispatch, SetStateAction } from 'react';
-import React, { useEffect, useState } from 'react';
-import { useApp } from '../../../../App/context/AppContext';
-import type { Ressurs } from '../../../../App/typer/ressurs';
-import { byggTomRessurs } from '../../../../App/typer/ressurs';
-import { DataViewer } from '../../../../Felles/DataViewer/DataViewer';
 import {
     BodyShort,
     Button,
@@ -14,8 +8,14 @@ import {
     TextField,
     VStack,
 } from '@navikt/ds-react';
-import { MottakerRolle } from '../mottakerRolle';
+import type { Dispatch, SetStateAction } from 'react';
+import React, { useEffect, useState } from 'react';
+import { useApp } from '../../../../App/context/AppContext';
+import type { Ressurs } from '../../../../App/typer/ressurs';
+import { byggTomRessurs } from '../../../../App/typer/ressurs';
+import { DataViewer } from '../../../../Felles/DataViewer/DataViewer';
 import type { BrevmottakerPerson } from '../brevmottaker';
+import { MottakerRolle } from '../mottakerRolle';
 import styles from './SøkOrganisasjon.module.css';
 
 interface Props {
@@ -51,7 +51,7 @@ export const SøkPerson: React.FC<Props> = ({ settValgteMottakere, behandlingId 
     }, [axiosRequest, søkIdent, behandlingId]);
 
     const leggTilBrevmottaker = (personIdent: string, navn: string) => () => {
-        settValgteMottakere((prevState) => [
+        settValgteMottakere(prevState => [
             ...prevState,
             { navn: navn, personIdent: personIdent, mottakerRolle: mottakerRolle },
         ]);
@@ -65,7 +65,7 @@ export const SøkPerson: React.FC<Props> = ({ settValgteMottakere, behandlingId 
                 htmlSize={26}
                 placeholder={'Personen som skal ha brevet'}
                 value={søkIdent}
-                onChange={(e) => settSøkIdent(e.target.value)}
+                onChange={e => settSøkIdent(e.target.value)}
             />
             <DataViewer response={{ søkRessurs }}>
                 {({ søkRessurs }) => {

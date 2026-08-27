@@ -1,21 +1,21 @@
 import constate from 'constate';
 import { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
-import { useRerunnableEffect } from '../hooks/useRerunnableEffect';
-import { useHentPersonopplysninger } from '../hooks/useHentPersonopplysninger';
-import { useHentBehandling } from '../hooks/useHentBehandling';
-import { useHentBehandlingHistorikk } from '../hooks/useHentBehandlingHistorikk';
-import { RessursStatus } from '../typer/ressurs';
-import { BehandlingStatus } from '../typer/behandlingstatus';
-import type { IVurdering } from '../../Komponenter/Behandling/Vurdering/vurderingValg';
-import { useHentFormkravVilkår } from '../hooks/useHentFormkravVilkår';
 import {
     alleVilkårOppfylt,
     påklagetVedtakErValgt,
 } from '../../Komponenter/Behandling/Formkrav/validerFormkravUtils';
+import type { IVurdering } from '../../Komponenter/Behandling/Vurdering/vurderingValg';
 import { useHentAnsvarligSaksbehandler } from '../hooks/useHentAnsvarligSaksbehandler';
+import { useHentBehandling } from '../hooks/useHentBehandling';
+import { useHentBehandlingHistorikk } from '../hooks/useHentBehandlingHistorikk';
+import { useHentFormkravVilkår } from '../hooks/useHentFormkravVilkår';
+import { useHentPersonopplysninger } from '../hooks/useHentPersonopplysninger';
+import { useRerunnableEffect } from '../hooks/useRerunnableEffect';
+import { BehandlingStatus } from '../typer/behandlingstatus';
 import type { Behandling } from '../typer/fagsak';
 import { StegType } from '../typer/fagsak';
+import { RessursStatus } from '../typer/ressurs';
 
 const [BehandlingProvider, useBehandling] = constate(() => {
     const behandlingId = useParams<{ behandlingId: string }>().behandlingId as string;

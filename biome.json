@@ -1,0 +1,67 @@
+{
+    "$schema": "./node_modules/@biomejs/biome/configuration_schema.json",
+    "vcs": {
+        "enabled": true,
+        "clientKind": "git",
+        "useIgnoreFile": true,
+        "defaultBranch": "main"
+    },
+    "files": {
+        "ignoreUnknown": true
+    },
+    "formatter": {
+        "indentStyle": "space",
+        "indentWidth": 4,
+        "lineWidth": 100
+    },
+    "linter": {
+        "enabled": true,
+        "rules": {
+            "preset": "recommended",
+            "a11y": {
+                "useSemanticElements": "warn",
+                "useButtonType": "warn"
+            },
+            "correctness": {
+                "useExhaustiveDependencies": "warn"
+            },
+            "suspicious": {
+                "noDoubleEquals": "warn",
+                "noArrayIndexKey": "warn",
+                "useIterableCallbackReturn": "warn"
+            }
+        }
+    },
+    "javascript": {
+        "jsxRuntime": "reactClassic",
+        "formatter": {
+            "trailingCommas": "es5",
+            "arrowParentheses": "asNeeded",
+            "quoteStyle": "single"
+        }
+    },
+    "html": {
+        "parser": {
+            "interpolation": true
+        }
+    },
+    "assist": {
+        "enabled": true,
+        "actions": {
+            "source": {
+                "organizeImports": "on"
+            }
+        }
+    },
+    "overrides": [
+        {
+            "includes": ["**/tsconfig*.json"],
+            "json": {
+                "parser": {
+                    "allowComments": true,
+                    "allowTrailingCommas": true
+                }
+            }
+        }
+    ]
+}

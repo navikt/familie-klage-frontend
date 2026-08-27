@@ -1,7 +1,7 @@
-import styles from './LogiskeVedlegg.module.css';
-import * as React from 'react';
 import { Detail } from '@navikt/ds-react';
+import * as React from 'react';
 import type { LogiskVedlegg } from '../../../App/typer/dokument';
+import styles from './LogiskeVedlegg.module.css';
 
 interface Props {
     logiskeVedlegg: LogiskVedlegg[] | undefined;

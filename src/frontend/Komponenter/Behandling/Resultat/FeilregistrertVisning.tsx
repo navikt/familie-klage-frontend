@@ -1,12 +1,12 @@
+import { Alert, BodyShort, Heading, Label } from '@navikt/ds-react';
 import * as React from 'react';
 import type { Behandling } from '../../../App/typer/fagsak';
 import { KlageinstansEventType } from '../../../App/typer/fagsak';
-import { Alert, BodyShort, Heading, Label } from '@navikt/ds-react';
 import { formaterIsoDatoTid } from '../../../App/utils/formatter';
 
 export const FeilregistrertVisning: React.FC<{ behandling: Behandling }> = ({ behandling }) => {
     const feilregistrertResultat = behandling.klageinstansResultat.find(
-        (resultat) => resultat.type === KlageinstansEventType.BEHANDLING_FEILREGISTRERT
+        resultat => resultat.type === KlageinstansEventType.BEHANDLING_FEILREGISTRERT
     );
 
     return feilregistrertResultat ? (

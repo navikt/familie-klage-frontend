@@ -1,7 +1,7 @@
+import { FagsystemType } from '../../Komponenter/Behandling/Formkrav/typer';
+import type { Eksternlenker } from '../typer/eksternlenker';
 import type { Behandling } from '../typer/fagsak';
 import { Fagsystem, PåklagetVedtakstype } from '../typer/fagsak';
-import type { Eksternlenker } from '../typer/eksternlenker';
-import { FagsystemType } from '../../Komponenter/Behandling/Formkrav/typer';
 
 export const base64toBlob = (b64Data: string, contentType = '', sliceSize = 512): Blob => {
     const byteCharacters = atob(b64Data);
@@ -94,7 +94,7 @@ export const harTallverdi = (verdi: number | undefined | null): boolean =>
 export const åpnePdfIEgenTab = (blob: Blob, filnavn: string): void => {
     const blobUrl = URL.createObjectURL(blob);
     const newWindow = window.open(blobUrl, '_blank');
-    setTimeout(function () {
+    setTimeout(() => {
         if (newWindow) {
             newWindow.document.title = filnavn;
         }
@@ -110,7 +110,7 @@ export const åpneFilIEgenTab = (
         `/dokument/vedlegg/${journalpostId}/dokument-pdf/${dokumentinfoId}`,
         '_blank'
     );
-    setTimeout(function () {
+    setTimeout(() => {
         if (newWindow) {
             newWindow.document.title = filnavn;
         }

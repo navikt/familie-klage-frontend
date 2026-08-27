@@ -1,7 +1,26 @@
+import { PencilIcon, TrashIcon } from '@navikt/aksel-icons';
+import { Alert, BodyShort, Heading, HStack, Label, VStack } from '@navikt/ds-react';
 import type { Dispatch, SetStateAction } from 'react';
 import React, { useState } from 'react';
-import styles from './VisFormkravVurderinger.module.css';
+import { useApp } from '../../../App/context/AppContext';
+import { useBehandling } from '../../../App/context/BehandlingContext';
+import {
+    behandlingResultatTilTekst,
+    Fagsystem,
+    PåklagetVedtakstype,
+    påklagetVedtakstypeTilTekst,
+} from '../../../App/typer/fagsak';
+import type { FagsystemVedtak } from '../../../App/typer/fagsystemVedtak';
+import type { Klagebehandlingsresultat } from '../../../App/typer/klagebehandlingsresultat';
+import type { Ressurs, RessursFeilet, RessursSuksess } from '../../../App/typer/ressurs';
+import { RessursStatus } from '../../../App/typer/ressurs';
+import {
+    formaterIsoDatoTid,
+    formaterNullableIsoDato,
+    formaterNullableIsoDatoTid,
+} from '../../../App/utils/formatter';
 import { BrukerMedBlyant } from '../../../Felles/Ikoner/BrukerMedBlyant';
+import { Button } from '../../../Felles/Knapper/Button';
 import type { IFormalkrav, IFormkravVilkår } from './typer';
 import {
     formkravFristUnntakTilTekst,
@@ -9,15 +28,6 @@ import {
     VilkårStatus,
     vilkårStatusTilTekst,
 } from './typer';
-import { useBehandling } from '../../../App/context/BehandlingContext';
-import { Alert, BodyShort, Heading, HStack, Label, VStack } from '@navikt/ds-react';
-import {
-    formaterIsoDatoTid,
-    formaterNullableIsoDato,
-    formaterNullableIsoDatoTid,
-} from '../../../App/utils/formatter';
-import type { Ressurs, RessursFeilet, RessursSuksess } from '../../../App/typer/ressurs';
-import { RessursStatus } from '../../../App/typer/ressurs';
 import {
     harManuellVedtaksdato,
     skalViseKlagefristUnntak,
@@ -26,13 +36,7 @@ import {
     utledRadioKnapper,
     vedtakstidspunktTilVisningstekst,
 } from './utils';
-import { PencilIcon, TrashIcon } from '@navikt/aksel-icons';
-import {
-    behandlingResultatTilTekst,
-    Fagsystem,
-    PåklagetVedtakstype,
-    påklagetVedtakstypeTilTekst,
-} from '../../../App/typer/fagsak';
+import styles from './VisFormkravVurderinger.module.css';
 import {
     alleVilkårOppfylt,
     begrunnelseUtfylt,
@@ -42,10 +46,6 @@ import {
     påklagetVedtakErValgt,
     utledIkkeUtfylteVilkår,
 } from './validerFormkravUtils';
-import type { FagsystemVedtak } from '../../../App/typer/fagsystemVedtak';
-import type { Klagebehandlingsresultat } from '../../../App/typer/klagebehandlingsresultat';
-import { Button } from '../../../Felles/Knapper/Button';
-import { useApp } from '../../../App/context/AppContext';
 
 interface Props {
     fagsystemVedtak: FagsystemVedtak[];

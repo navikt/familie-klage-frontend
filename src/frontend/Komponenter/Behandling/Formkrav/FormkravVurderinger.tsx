@@ -1,13 +1,13 @@
 import type { Dispatch, SetStateAction } from 'react';
 import React from 'react';
-import { VisFormkravVurderinger } from './VisFormkravVurderinger';
+import type { Fagsystem } from '../../../App/typer/fagsak';
+import type { FagsystemVedtak } from '../../../App/typer/fagsystemVedtak';
+import type { Klagebehandlingsresultat } from '../../../App/typer/klagebehandlingsresultat';
+import type { RessursFeilet, RessursSuksess } from '../../../App/typer/ressurs';
+import { EndreFormkravVurderinger } from './EndreFormkravVurderinger';
 import type { IFormkravVilkår } from './typer';
 import { Redigeringsmodus } from './typer';
-import { EndreFormkravVurderinger } from './EndreFormkravVurderinger';
-import type { RessursFeilet, RessursSuksess } from '../../../App/typer/ressurs';
-import type { FagsystemVedtak } from '../../../App/typer/fagsystemVedtak';
-import type { Fagsystem } from '../../../App/typer/fagsak';
-import type { Klagebehandlingsresultat } from '../../../App/typer/klagebehandlingsresultat';
+import { VisFormkravVurderinger } from './VisFormkravVurderinger';
 
 export interface IProps {
     vurderinger: IFormkravVilkår;
@@ -32,7 +32,7 @@ export const FormkravVurderinger: React.FC<IProps> = ({
     feilmelding,
     fagsystemVedtak,
     fagsystem,
-    klagebehandlingsresultater: klagebehandlingsresultater,
+    klagebehandlingsresultater,
 }) => {
     switch (redigeringsmodus) {
         case Redigeringsmodus.IKKE_PÅSTARTET:

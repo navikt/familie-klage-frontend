@@ -1,23 +1,23 @@
+import { Alert, Heading, HStack, Textarea, VStack } from '@navikt/ds-react';
 import type { FC } from 'react';
 import React, { useCallback, useEffect, useState } from 'react';
-import type { Behandling } from '../../../App/typer/fagsak';
-import styles from './SettPåVent.module.css';
-import { Alert, Heading, HStack, Textarea, VStack } from '@navikt/ds-react';
-import type { Ressurs, RessursFeilet, RessursSuksess } from '../../../App/typer/ressurs';
-import { byggTomRessurs, RessursStatus } from '../../../App/typer/ressurs';
-import type { IOppgave, Prioritet } from '../Typer/IOppgave';
 import { useApp } from '../../../App/context/AppContext';
-import { DataViewer } from '../../../Felles/DataViewer/DataViewer';
 import { useBehandling } from '../../../App/context/BehandlingContext';
 import { BehandlingStatus } from '../../../App/typer/behandlingstatus';
-import { SaksbehandlerVelger } from './SaksbehandlerVelger';
-import { PrioritetVelger } from './PrioritetVelger';
-import { FristVelger } from './FristVelger';
-import { EksisterendeBeskrivelse } from './EksisterendeBeskrivelse';
-import { SettPåVentKnappValg } from './SettPåVentKnappValg';
-import { MappeVelger } from './MappeVelger';
+import type { Behandling } from '../../../App/typer/fagsak';
+import type { Ressurs, RessursFeilet, RessursSuksess } from '../../../App/typer/ressurs';
+import { byggTomRessurs, RessursStatus } from '../../../App/typer/ressurs';
 import { EToast } from '../../../App/typer/toast';
+import { DataViewer } from '../../../Felles/DataViewer/DataViewer';
 import { ScrollToTop } from '../../../Felles/ScrollToTop/ScrollToTop';
+import type { IOppgave, Prioritet } from '../Typer/IOppgave';
+import { EksisterendeBeskrivelse } from './EksisterendeBeskrivelse';
+import { FristVelger } from './FristVelger';
+import { MappeVelger } from './MappeVelger';
+import { PrioritetVelger } from './PrioritetVelger';
+import { SaksbehandlerVelger } from './SaksbehandlerVelger';
+import styles from './SettPåVent.module.css';
+import { SettPåVentKnappValg } from './SettPåVentKnappValg';
 
 type SettPåVentRequest = {
     oppgaveId: number;
@@ -187,7 +187,7 @@ export const SettPåVent: FC<{ behandling: Behandling }> = ({ behandling }) => {
                                 label={'Beskrivelse'}
                                 size={'small'}
                                 value={beskrivelse}
-                                onChange={(e) => settBeskrivelse(e.target.value)}
+                                onChange={e => settBeskrivelse(e.target.value)}
                             />
                         )}
                         <SettPåVentKnappValg

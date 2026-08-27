@@ -24,7 +24,7 @@ export function erPersonopplysningerTilknyttetFullmakt(
     personopplysninger: IPersonopplysninger
 ): boolean {
     return personopplysninger.fullmakt.some(
-        (fullmakt) => fullmakt.gyldigTilOgMed === null || erEtterDagensDato(fullmakt.gyldigTilOgMed)
+        fullmakt => fullmakt.gyldigTilOgMed === null || erEtterDagensDato(fullmakt.gyldigTilOgMed)
     );
 }
 
