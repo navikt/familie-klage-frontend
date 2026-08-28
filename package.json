@@ -35,7 +35,7 @@
         "@navikt/ds-react": "8.16.1",
         "@navikt/familie-backend": "10.1.27",
         "@navikt/familie-logging": "7.0.8",
-        "@navikt/land-verktoy": "14.0.2",
+        "@navikt/land-verktoy": "15.1.7",
         "axios": "1.19.0",
         "constate": "4.0.0",
         "date-fns": "4.4.0",
