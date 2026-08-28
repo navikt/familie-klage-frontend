@@ -31,11 +31,14 @@ Appen krever en del miljøvariabler og legges til i .env fila i root på prosjek
     CLIENT_SECRET='<AZURE_APP_CLIENT_SECRET fra secret>'
 ```
 
-Secrets kan bli lagt inn automatisk dersom man kjører `sh hent-og-lagre-miljøvariabler.sh`. Scriptet krever at du har `jq`, er pålogget naisdevice og er logget inn på google `gcloud auth login`
+Secrets kan bli lagt inn automatisk dersom man kjører `sh hent-og-lagre-miljøvariabler.sh`. Scriptet bruker nais-cli og krever at du har `jq`, er pålogget naisdevice og har kjørt `nais login -y`.
 
-Secrets kan også hentes selv fra cluster med
-`kubectl -n teamfamilie get secret azuread-familie-klage-frontend-lokal -o json | jq '.data | map_values(@base64d)'`
-`kubectl -n teamfamilie get secret azuread-familie-klage-lokal -o json | jq '.data | map_values(@base64d)'`
+Secrets kan også hentes selv med [nais-cli](https://cli.nais.io) (samme pålogging som over). Uthenting av secret-verdier logges. `--reason` (minst 10 tegn) er valgfritt – utelater du flagget, blir du spurt om begrunnelse.
+Merk at `nais secret get` uten `--with-values` ikke finner plattform-secrets som disse.
+```
+nais secret get azuread-familie-klage-frontend-lokal -e dev-gcp -t teamfamilie --with-values --reason "Lokal utvikling av familie-klage-frontend"
+nais secret get azuread-familie-klage-lokal -e dev-gcp -t teamfamilie --with-values --reason "Lokal utvikling av familie-klage-frontend"
+```
 
 Dersom det skal kjøres mot backend lokalt må følgende være satt:
 ```
