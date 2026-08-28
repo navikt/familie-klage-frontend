@@ -1,9 +1,9 @@
+import { BodyShort, Radio, RadioGroup } from '@navikt/ds-react';
 import type { Dispatch, FC, SetStateAction } from 'react';
 import React from 'react';
-import { BodyShort, Radio, RadioGroup } from '@navikt/ds-react';
-import { MottakerRolle } from '../mottakerRolle';
-import type { BrevmottakerPerson } from '../brevmottaker';
 import { usePersonopplysningerContext } from '../../../../App/context/PersonopplysningerContext';
+import type { BrevmottakerPerson } from '../brevmottaker';
+import { MottakerRolle } from '../mottakerRolle';
 
 interface Props {
     valgteBrevmottakere: BrevmottakerPerson[];
@@ -15,18 +15,18 @@ export const SkalBrukerHaBrev: FC<Props> = ({ valgteBrevmottakere, settValgtBrev
         fagsakEier: { navn, personIdent },
     } = usePersonopplysningerContext();
     const brukerSkalHaBrev = valgteBrevmottakere.some(
-        (mottaker) => mottaker.mottakerRolle === MottakerRolle.BRUKER
+        mottaker => mottaker.mottakerRolle === MottakerRolle.BRUKER
     );
 
     const toggleBrukerSkalHaBrev = () => {
-        settValgtBrevMottakere((mottakere) => {
+        settValgtBrevMottakere(mottakere => {
             const brukerErIListe = mottakere.some(
-                (mottaker) => mottaker.mottakerRolle === MottakerRolle.BRUKER
+                mottaker => mottaker.mottakerRolle === MottakerRolle.BRUKER
             );
 
             // Returnerer mottakerliste ekskludert bruker eller mottakerliste inkludert bruker
             return brukerErIListe
-                ? mottakere.filter((mottaker) => mottaker.mottakerRolle !== MottakerRolle.BRUKER)
+                ? mottakere.filter(mottaker => mottaker.mottakerRolle !== MottakerRolle.BRUKER)
                 : [
                       {
                           mottakerRolle: MottakerRolle.BRUKER,

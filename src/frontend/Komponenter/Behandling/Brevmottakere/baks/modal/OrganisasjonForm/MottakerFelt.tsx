@@ -1,9 +1,9 @@
-import React from 'react';
 import { Select } from '@navikt/ds-react';
+import React from 'react';
 import { useController, useFormContext } from 'react-hook-form';
+import { MottakerRolle, mottakerRolleVisningsnavn } from '../../../mottakerRolle';
 import type { BrevmottakerOrganisasjonFormValues } from './BrevmottakerOrganisasjonForm';
 import { BrevmottakerOrganisasjonFeltnavn } from './BrevmottakerOrganisasjonForm';
-import { MottakerRolle, mottakerRolleVisningsnavn } from '../../../mottakerRolle';
 
 interface Props {
     erLesevisning?: boolean;
@@ -41,7 +41,7 @@ export function MottakerFelt({ erLesevisning = false }: Props) {
             <option value={''} disabled={true}>
                 -- Velg mottaker --
             </option>
-            {gyldigeMottakerRoller.map((mottaker) => (
+            {gyldigeMottakerRoller.map(mottaker => (
                 <option key={mottaker} value={mottaker}>
                     {mottakerRolleVisningsnavn[mottaker]}
                 </option>

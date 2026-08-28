@@ -1,13 +1,13 @@
-import { MottakerRolle } from './mottakerRolle';
 import { EøsLandkode } from '../../../Felles/Landvelger/landkode';
-import type { Brevmottakere } from './brevmottakere';
-import { hentAlleBrevmottakereSomListe } from './brevmottakere';
 import type { BrevmottakerPersonMedIdent } from './brevmottaker';
 import {
     erBrevmottakerOrganisasjon,
     erBrevmottakerPersonMedIdent,
     erBrevmottakerPersonUtenIdent,
 } from './brevmottaker';
+import type { Brevmottakere } from './brevmottakere';
+import { hentAlleBrevmottakereSomListe } from './brevmottakere';
+import { MottakerRolle } from './mottakerRolle';
 
 export interface NyBrevmottaker {
     type: NyBrevmottakerType;
@@ -42,20 +42,20 @@ export interface NyBrevmottakerOrganisasjon extends NyBrevmottaker {
 
 export function mapTilMottakerRolle(brevmottakere: NyBrevmottaker[]) {
     return brevmottakere
-        .map((brevmottaker) => brevmottaker.mottakerRolle)
-        .filter((mottakerRolle) => mottakerRolle !== undefined);
+        .map(brevmottaker => brevmottaker.mottakerRolle)
+        .filter(mottakerRolle => mottakerRolle !== undefined);
 }
 
 export function harEnDødsboNyBrevmottaker(nyeBrevmottakere: NyBrevmottaker[]) {
     return nyeBrevmottakere
         .filter(erNyBrevmottakerPerson)
-        .some((brevmottaker) => brevmottaker.mottakerRolle === MottakerRolle.DØDSBO);
+        .some(brevmottaker => brevmottaker.mottakerRolle === MottakerRolle.DØDSBO);
 }
 
 export function harEnBrukerNyBrevmottaker(nyeBrevmottakere: NyBrevmottaker[]) {
     return nyeBrevmottakere
         .filter(erNyBrevmottakerPerson)
-        .some((brevmottaker) => brevmottaker.mottakerRolle === MottakerRolle.BRUKER);
+        .some(brevmottaker => brevmottaker.mottakerRolle === MottakerRolle.BRUKER);
 }
 
 export function erNyBrevmottakerPerson(
@@ -86,7 +86,7 @@ export function erNyBrevmottakerOrganisasjon(
 }
 
 export function lagNyeBrevmottakere(brevmottakere: Brevmottakere): NyBrevmottaker[] {
-    return hentAlleBrevmottakereSomListe(brevmottakere).map((mottaker) => {
+    return hentAlleBrevmottakereSomListe(brevmottakere).map(mottaker => {
         if (erBrevmottakerPersonMedIdent(mottaker)) {
             return lagNyBrevmottakerPersonMedIdent(mottaker);
         } else if (erBrevmottakerPersonUtenIdent(mottaker)) {

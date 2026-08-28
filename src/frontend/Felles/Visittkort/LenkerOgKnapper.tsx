@@ -1,19 +1,19 @@
-import React from 'react';
 import { ExternalLinkIcon } from '@navikt/aksel-icons';
 import { HStack, Link } from '@navikt/ds-react';
+import React from 'react';
 import { useApp } from '../../App/context/AppContext';
 import type { Behandling } from '../../App/typer/fagsak';
 import { Klagebehandlingsårsak, klagebehandlingsårsakTilTekst } from '../../App/typer/fagsak';
+import { stønadstypeTilTekst } from '../../App/typer/stønadstype';
 import {
     utledBehandlingLenke,
     utledSaksoversiktLenke,
     utledTilbakekrevingLenke,
 } from '../../App/utils/utils';
 import { EtikettInfo, EtikettSuksess } from '../Varsel/Etikett';
-import { stønadstypeTilTekst } from '../../App/typer/stønadstype';
-import { SettPåVentKnapp } from './SettPåVentKnapp';
 import { EndreBehandlendeEnhetKnapp } from './EndreBehandlendeEnhetKnapp';
 import { HenleggKnapp } from './HenleggKnapp';
+import { SettPåVentKnapp } from './SettPåVentKnapp';
 
 interface Props {
     behandling: Behandling;

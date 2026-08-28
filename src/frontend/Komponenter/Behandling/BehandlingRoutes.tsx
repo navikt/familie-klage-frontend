@@ -1,11 +1,11 @@
-import { Navigate, Route, Routes } from 'react-router-dom';
 import * as React from 'react';
-import { Formkrav } from './Formkrav/Formkrav';
-import { Resultat } from './Resultat/Resultat';
-import { VurderingFane } from './Vurdering/VurderingFane';
+import { Navigate, Route, Routes } from 'react-router-dom';
 import type { Behandling } from '../../App/typer/fagsak';
 import { BrevFane } from './Brev/BrevFane';
+import { Formkrav } from './Formkrav/Formkrav';
+import { Resultat } from './Resultat/Resultat';
 import { utledRedirectUrl } from './utils';
+import { VurderingFane } from './Vurdering/VurderingFane';
 
 interface Props {
     behandling: Behandling;

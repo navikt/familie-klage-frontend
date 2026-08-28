@@ -1,5 +1,5 @@
-import React from 'react';
 import { BodyShort, CopyButton, HStack } from '@navikt/ds-react';
+import React from 'react';
 
 export const NavnOgIdent = ({
     navn,

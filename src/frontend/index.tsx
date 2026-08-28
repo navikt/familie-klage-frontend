@@ -1,15 +1,15 @@
 import React from 'react';
 import { App } from './App';
 import '@navikt/ds-css';
-import { createRoot } from 'react-dom/client';
 import { init } from '@nais/apm';
+import { createRoot } from 'react-dom/client';
 
 if (!import.meta.env.DEV) {
     init();
 }
 
 // Oppdater denne ved endringer som krever å nullstille localStorage
-(function () {
+(() => {
     try {
         if (window.localStorage.getItem('oppgaveRequestVersjon') !== 'v1') {
             localStorage.clear();

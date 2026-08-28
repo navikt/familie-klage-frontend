@@ -12,9 +12,7 @@
         "sistEndret": "2020-10-09T11:27:15Z",
         "opprettet": "2020-11-24T16:51:06.174",
         "endringerIRegistergrunnlag": {
-            "medlemskap": [
-                "statsborgerskap"
-            ]
+            "medlemskap": ["statsborgerskap"]
         }
     },
     "status": "SUKSESS"

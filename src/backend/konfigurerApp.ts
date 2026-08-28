@@ -1,4 +1,5 @@
 import * as dotenv from 'dotenv';
+
 dotenv.config();
 
 // felles-backend bruker andre variabler enn det som blir satt opp av azureAd

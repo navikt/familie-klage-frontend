@@ -1,9 +1,9 @@
+import type { AxiosRequestConfig } from 'axios';
+import { useCallback, useState } from 'react';
+import { useApp } from '../context/AppContext';
+import type { Behandling } from '../typer/fagsak';
 import type { Ressurs } from '../typer/ressurs';
 import { byggTomRessurs } from '../typer/ressurs';
-import { useApp } from '../context/AppContext';
-import { useCallback, useState } from 'react';
-import type { Behandling } from '../typer/fagsak';
-import type { AxiosRequestConfig } from 'axios';
 
 export const useHentBehandling = (
     behandlingId: string

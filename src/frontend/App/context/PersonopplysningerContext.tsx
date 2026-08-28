@@ -1,7 +1,7 @@
 import type { PropsWithChildren } from 'react';
 import React, { createContext, useContext } from 'react';
-import type { IPersonopplysningerFagsakeierOgSøker } from '../typer/personopplysninger';
 import { useSetPersonIdent } from '../hooks/useSetPersonIdent';
+import type { IPersonopplysningerFagsakeierOgSøker } from '../typer/personopplysninger';
 
 const PersonopplysningerContext = createContext<IPersonopplysningerFagsakeierOgSøker | undefined>(
     undefined

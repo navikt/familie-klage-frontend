@@ -1,6 +1,6 @@
-import { useBehandling } from '../../App/context/BehandlingContext';
 import { Button } from '@navikt/ds-react';
 import React from 'react';
+import { useBehandling } from '../../App/context/BehandlingContext';
 import { Fagsystem } from '../../App/typer/fagsak';
 
 const fagsystemerSomStøtterEndringAvBehandlendeEnhet = [Fagsystem.BA, Fagsystem.KS];

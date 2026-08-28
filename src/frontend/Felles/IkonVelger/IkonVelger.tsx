@@ -1,12 +1,12 @@
 import * as React from 'react';
+import type { Institusjon } from '../../App/typer/institusjon';
+import { Kjønn } from '../../App/typer/personopplysninger';
+import { GuttIkon } from '../Ikoner/GuttIkon';
+import { InstitusjonIkon } from '../Ikoner/InstitusjonIkon';
 import { JenteIkon } from '../Ikoner/JenteIkon';
 import { KvinneIkon } from '../Ikoner/KvinneIkon';
-import { GuttIkon } from '../Ikoner/GuttIkon';
 import { MannIkon } from '../Ikoner/MannIkon';
 import { NøytralPersonIkon } from '../Ikoner/NøytralPersonIkon';
-import { Kjønn } from '../../App/typer/personopplysninger';
-import type { Institusjon } from '../../App/typer/institusjon';
-import { InstitusjonIkon } from '../Ikoner/InstitusjonIkon';
 
 export interface Props {
     kjønn: Kjønn;
@@ -28,13 +28,13 @@ export const IkonVelger: React.FunctionComponent<Props> = ({
     }
     switch (kjønn) {
         case Kjønn.KVINNE:
-            if (!!alder && alder < 18) {
+            if (alder && alder < 18) {
                 return <JenteIkon heigth={height} width={width} />;
             } else {
                 return <KvinneIkon heigth={height} width={width} />;
             }
         case Kjønn.MANN:
-            if (!!alder && alder < 18) {
+            if (alder && alder < 18) {
                 return <GuttIkon heigth={height} width={width} />;
             } else {
                 return <MannIkon heigth={height} width={width} />;

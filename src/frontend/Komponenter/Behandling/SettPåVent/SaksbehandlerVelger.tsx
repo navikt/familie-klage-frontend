@@ -1,8 +1,8 @@
+import { Select } from '@navikt/ds-react';
 import type { FC } from 'react';
 import React from 'react';
-import type { IOppgave } from '../Typer/IOppgave';
 import { useApp } from '../../../App/context/AppContext';
-import { Select } from '@navikt/ds-react';
+import type { IOppgave } from '../Typer/IOppgave';
 
 export const SaksbehandlerVelger: FC<{
     oppgave: IOppgave;
@@ -17,7 +17,7 @@ export const SaksbehandlerVelger: FC<{
             label="Saksbehandler"
             size="small"
             value={saksbehandler}
-            onChange={(e) => settSaksbehandler(e.target.value)}
+            onChange={e => settSaksbehandler(e.target.value)}
             readOnly={erLesevisning}
         >
             {oppgave.tilordnetRessurs &&

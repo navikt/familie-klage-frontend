@@ -1,17 +1,17 @@
-import React from 'react';
-import styles from './KlageInfo.module.css';
+import { FileTextIcon } from '@navikt/aksel-icons';
 import { BodyLong, Heading } from '@navikt/ds-react';
+import React from 'react';
+import { useBehandling } from '../../../App/context/BehandlingContext';
+import type { Behandling } from '../../../App/typer/fagsak';
+import { formaterIsoDato } from '../../../App/utils/formatter';
+import { Advarsel } from '../../../Felles/Ikoner/Advarsel';
+import { IkkeOppfylt } from '../../../Felles/Ikoner/IkkeOppfylt';
+import { Info } from '../../../Felles/Ikoner/Info';
+import { Oppfylt } from '../../../Felles/Ikoner/Oppfylt';
+import styles from './KlageInfo.module.css';
 import type { IFormkravVilkår } from './typer';
 import { Redigeringsmodus } from './typer';
-import type { Behandling } from '../../../App/typer/fagsak';
-import { FileTextIcon } from '@navikt/aksel-icons';
-import { formaterIsoDato } from '../../../App/utils/formatter';
 import { alleVilkårOppfylt, påklagetVedtakErValgt } from './validerFormkravUtils';
-import { useBehandling } from '../../../App/context/BehandlingContext';
-import { Oppfylt } from '../../../Felles/Ikoner/Oppfylt';
-import { IkkeOppfylt } from '../../../Felles/Ikoner/IkkeOppfylt';
-import { Advarsel } from '../../../Felles/Ikoner/Advarsel';
-import { Info } from '../../../Felles/Ikoner/Info';
 
 const utledStatusIkon = (
     redigeringsmodus: Redigeringsmodus,

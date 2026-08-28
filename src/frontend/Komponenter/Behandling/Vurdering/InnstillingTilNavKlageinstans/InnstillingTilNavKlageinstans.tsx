@@ -1,8 +1,8 @@
-import { EnsligTextArea } from '../../../../Felles/Input/EnsligTextArea';
+import { Box } from '@navikt/ds-react';
 import * as React from 'react';
+import { EnsligTextArea } from '../../../../Felles/Input/EnsligTextArea';
 import type { IVurdering } from '../vurderingValg';
 import { LesMerOmInnstilling } from './LesMerOmInnstilling';
-import { Box } from '@navikt/ds-react';
 
 interface Props {
     oppdatertVurdering: IVurdering;
@@ -21,9 +21,9 @@ export const InnstillingTilNavKlageinstans: React.FC<Props> = ({
         <EnsligTextArea
             label="Innstilling til Nav Klageinstans (kommer med i brev til bruker)"
             value={oppdatertVurdering.innstillingKlageinstans}
-            onChange={(e) => {
+            onChange={e => {
                 settIkkePersistertKomponent(e.target.value);
-                settOppdatertVurdering((tidligereTilstand) => ({
+                settOppdatertVurdering(tidligereTilstand => ({
                     ...tidligereTilstand,
                     innstillingKlageinstans: e.target.value,
                 }));

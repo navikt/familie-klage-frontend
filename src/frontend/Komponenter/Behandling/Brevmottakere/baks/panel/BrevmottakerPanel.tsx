@@ -1,12 +1,12 @@
+import { BodyShort, Box, Button, HStack, Label, Tooltip } from '@navikt/ds-react';
 import React from 'react';
 import { useApp } from '../../../../../App/context/AppContext';
 import { useBehandling } from '../../../../../App/context/BehandlingContext';
-import { BodyShort, Box, Button, HStack, Label, Tooltip } from '@navikt/ds-react';
-import { utledOppsumertBrevmottakere } from '../oppsummertBrevmottaker';
-import type { Brevmottakere } from '../../brevmottakere';
-import { useToggles } from '../../../../../App/context/TogglesContext';
 import { usePersonopplysningerContext } from '../../../../../App/context/PersonopplysningerContext';
+import { useToggles } from '../../../../../App/context/TogglesContext';
 import { ToggleName } from '../../../../../App/context/toggles';
+import type { Brevmottakere } from '../../brevmottakere';
+import { utledOppsumertBrevmottakere } from '../oppsummertBrevmottaker';
 
 type Props = {
     brevmottakere: Brevmottakere;
@@ -44,7 +44,7 @@ export function BrevmottakerPanel({ brevmottakere }: Props) {
                     )}
                 </HStack>
                 <ul id={'brevmottakere_liste'}>
-                    {oppsumertBrevmottakere.map((oppsumertBrevmottaker) => (
+                    {oppsumertBrevmottakere.map(oppsumertBrevmottaker => (
                         <li key={oppsumertBrevmottaker.id}>
                             <BodyShort>{oppsumertBrevmottaker.visningstekst}</BodyShort>
                         </li>

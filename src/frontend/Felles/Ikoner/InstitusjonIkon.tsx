@@ -1,7 +1,6 @@
-import React from 'react';
-
-import Styles from './InstitusjonIkon.module.css';
 import { Buildings3Icon } from '@navikt/aksel-icons';
+import React from 'react';
+import Styles from './InstitusjonIkon.module.css';
 
 interface Props {
     height?: number;

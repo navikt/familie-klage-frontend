@@ -1,16 +1,16 @@
+import { Alert, VStack } from '@navikt/ds-react';
 import * as React from 'react';
 import { useEffect, useState } from 'react';
-import type { KanOppretteRevurdering } from '../../../App/typer/kanOppretteRevurdering';
-import { KanIkkeOppretteRevurderingÅrsak } from '../../../App/typer/kanOppretteRevurdering';
-import { Alert, VStack } from '@navikt/ds-react';
 import { useApp } from '../../../App/context/AppContext';
 import { useBehandling } from '../../../App/context/BehandlingContext';
+import type { KanOppretteRevurdering } from '../../../App/typer/kanOppretteRevurdering';
+import { KanIkkeOppretteRevurderingÅrsak } from '../../../App/typer/kanOppretteRevurdering';
 import type { Ressurs } from '../../../App/typer/ressurs';
 import { byggTomRessurs } from '../../../App/typer/ressurs';
 import { DataViewer } from '../../../Felles/DataViewer/DataViewer';
+import { Button } from '../../../Felles/Knapper/Button';
 import { ModalWrapper } from '../../../Felles/Modal/ModalWrapper';
 import { useFerdigstillBehandling } from './useFerdigstillBehandling';
-import { Button } from '../../../Felles/Knapper/Button';
 
 interface Props {
     behandlingId: string;
@@ -22,13 +22,14 @@ export const OmgjørVedtak: React.FC<Props> = ({ behandlingId }) => {
 
     const [visModal, settVisModal] = useState<boolean>(false);
     const [feilmelding, settFeilmelding] = useState('');
-    const [kanOppretteRevurdering, settKanOppretteRevurdering] =
-        useState<Ressurs<KanOppretteRevurdering>>(byggTomRessurs());
+    const [kanOppretteRevurdering, settKanOppretteRevurdering] = useState<
+        Ressurs<KanOppretteRevurdering>
+    >(byggTomRessurs());
 
     const { ferdigstill, senderInn } = useFerdigstillBehandling(
         behandlingId,
         () => lukkModal(),
-        (feilmelding) => settFeilmelding(feilmelding)
+        feilmelding => settFeilmelding(feilmelding)
     );
 
     const lukkModal = () => {

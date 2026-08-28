@@ -1,5 +1,5 @@
-import * as React from 'react';
 import { Box, ReadMore } from '@navikt/ds-react';
+import * as React from 'react';
 
 export const LesMerOmInnstilling = () => {
     return (

@@ -1,10 +1,10 @@
-import React from 'react';
-import { finnGyldigeArbeidsfordelingsenheterForFagsystem } from './arbeidsfordelingsenhet';
 import { Select } from '@navikt/ds-react';
+import React from 'react';
 import { useController, useFormContext } from 'react-hook-form';
 import type { Behandling } from '../../../App/typer/fagsak';
-import { EndreBehandlendeEnhetFeltnavn } from './feltnavn';
+import { finnGyldigeArbeidsfordelingsenheterForFagsystem } from './arbeidsfordelingsenhet';
 import { CustomFormErrors } from './EndreBehandlendeEnhetModal';
+import { EndreBehandlendeEnhetFeltnavn } from './feltnavn';
 
 interface Props {
     behandling: Behandling;
@@ -19,7 +19,7 @@ export function EnhetsnummerFelt({ behandling, lesevisning = false }: Props) {
         control,
         rules: {
             required: 'Enhet er påkrevd.',
-            validate: (enhetsnummer) => {
+            validate: enhetsnummer => {
                 if (enhetsnummer === behandling.behandlendeEnhet) {
                     return 'Enheten er allerede satt på behandlingen.';
                 }
@@ -35,14 +35,14 @@ export function EnhetsnummerFelt({ behandling, lesevisning = false }: Props) {
             value={field.value}
             onBlur={field.onBlur}
             ref={field.ref}
-            onChange={(event) => {
+            onChange={event => {
                 field.onChange(event.target.value);
                 clearErrors(CustomFormErrors.onSubmitError.id);
             }}
             readOnly={lesevisning || formState.isSubmitting}
             error={fieldState.error?.message}
         >
-            {finnGyldigeArbeidsfordelingsenheterForFagsystem(behandling.fagsystem).map((enhet) => (
+            {finnGyldigeArbeidsfordelingsenheterForFagsystem(behandling.fagsystem).map(enhet => (
                 <option key={enhet.enhetsnummer} value={enhet.enhetsnummer}>
                     {`${enhet.enhetsnummer} ${enhet.enhetsnavn}`}
                 </option>

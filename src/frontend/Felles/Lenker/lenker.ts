@@ -1,5 +1,5 @@
-import type { AppEnv } from '../../App/api/env';
 import type { AxiosError } from 'axios';
+import type { AppEnv } from '../../App/api/env';
 import type { AxiosRequestCallback } from '../../App/typer/axiosRequest';
 import type { Ressurs } from '../../App/typer/ressurs';
 import { RessursStatus } from '../../App/typer/ressurs';
@@ -18,7 +18,6 @@ export const lagAInntektLink = async (
                 ? response.data
                 : appEnv.eksternlenker.aInntekt;
         })
-        // eslint-disable-next-line @typescript-eslint/no-unused-vars
         .catch((_: AxiosError<string>) => {
             return appEnv.eksternlenker.aInntekt;
         });

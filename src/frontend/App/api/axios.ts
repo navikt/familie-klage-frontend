@@ -7,7 +7,6 @@ import { RessursStatus } from '../typer/ressurs';
 axios.defaults.baseURL = window.location.origin;
 export const preferredAxios = axios;
 
-// eslint-disable-next-line
 const errorMessage = (frontendFeilmelding: string, headers?: any) => {
     const callId = headers?.['nav-call-id'];
     return `${frontendFeilmelding} \n\nFeilkode: ${callId}`;

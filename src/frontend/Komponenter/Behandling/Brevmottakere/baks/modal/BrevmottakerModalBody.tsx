@@ -1,15 +1,18 @@
-import React, { useState } from 'react';
-
 import { PlusCircleIcon } from '@navikt/aksel-icons';
 import { Alert, Button, Heading, HStack, Modal, Radio, RadioGroup, VStack } from '@navikt/ds-react';
-
-import type { BrevmottakerPersonUtenIdentFormValues } from './form/BrevmottakerPersonUtenIdentForm';
-import {
-    BrevmottakerPersonUtenIdentFeltnavn,
-    BrevmottakerPersonUtenIdentForm,
-} from './form/BrevmottakerPersonUtenIdentForm';
-import { BrevmottakerDetaljer } from './BrevmottakerDetaljer';
+import React, { useState } from 'react';
+import { useForm } from 'react-hook-form';
+import { v4 as uuid4 } from 'uuid';
+import { useToggles } from '../../../../../App/context/TogglesContext';
+import { ToggleName } from '../../../../../App/context/toggles';
+import { EøsLandkode } from '../../../../../Felles/Landvelger/landkode';
 import { erEnBrevmottakerPersonUtenIdentDødsbo, mapTilMottakerRolle } from '../../brevmottaker';
+import type { Brevmottakere } from '../../brevmottakere';
+import {
+    erInstitusjonBrevmottaker,
+    hentAlleBrevmottakereSomListe,
+    hentManueltOpprettedeBrevmottakere,
+} from '../../brevmottakere';
 import type { NyBrevmottaker } from '../../nyBrevmottaker';
 import {
     lagNyBrevmottakerOrganisasjon,
@@ -17,23 +20,17 @@ import {
     NyBrevmottakerType,
 } from '../../nyBrevmottaker';
 import type { SlettbarBrevmottaker } from '../../slettbarBrevmottaker';
-import { useForm } from 'react-hook-form';
-import { EøsLandkode } from '../../../../../Felles/Landvelger/landkode';
-
-import type { Brevmottakere } from '../../brevmottakere';
+import { BrevmottakerDetaljer } from './BrevmottakerDetaljer';
+import type { BrevmottakerPersonUtenIdentFormValues } from './form/BrevmottakerPersonUtenIdentForm';
 import {
-    erInstitusjonBrevmottaker,
-    hentAlleBrevmottakereSomListe,
-    hentManueltOpprettedeBrevmottakere,
-} from '../../brevmottakere';
+    BrevmottakerPersonUtenIdentFeltnavn,
+    BrevmottakerPersonUtenIdentForm,
+} from './form/BrevmottakerPersonUtenIdentForm';
 import type { BrevmottakerOrganisasjonFormValues } from './OrganisasjonForm/BrevmottakerOrganisasjonForm';
 import {
     BrevmottakerOrganisasjonFeltnavn,
     BrevmottakerOrganisasjonForm,
 } from './OrganisasjonForm/BrevmottakerOrganisasjonForm';
-import { useToggles } from '../../../../../App/context/TogglesContext';
-import { ToggleName } from '../../../../../App/context/toggles';
-import { v4 as uuid4 } from 'uuid';
 
 type Props = {
     brevmottakere: Brevmottakere;
@@ -129,7 +126,7 @@ export function BrevmottakerModalBody({
                         fullmektig, verge eller dødsbo.
                     </Alert>
                 )}
-                {manueltOpprettedeBrevmottakere.map((brevmottaker) => (
+                {manueltOpprettedeBrevmottakere.map(brevmottaker => (
                     <BrevmottakerDetaljer
                         key={uuid4()}
                         brevmottaker={brevmottaker}

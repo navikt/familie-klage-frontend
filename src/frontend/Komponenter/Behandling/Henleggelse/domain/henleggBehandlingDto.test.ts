@@ -1,14 +1,14 @@
 import { describe, expect } from 'vitest';
-import { lagHenleggBehandlingDto } from './henleggBehandlingDto';
-import type { HenleggBehandlingFormValues } from '../HenleggBehandlingForm';
-import { HenleggBehandlingFeltnavn } from '../HenleggBehandlingForm';
+import { MottakerRolle } from '../../Brevmottakere/mottakerRolle';
 import type {
     NyBrevmottakerPerson,
     NyBrevmottakerPersonMedIdent,
 } from '../../Brevmottakere/nyBrevmottaker';
 import { NyBrevmottakerType } from '../../Brevmottakere/nyBrevmottaker';
+import type { HenleggBehandlingFormValues } from '../HenleggBehandlingForm';
+import { HenleggBehandlingFeltnavn } from '../HenleggBehandlingForm';
 import { HenlagtÅrsak } from './henlagtÅrsak';
-import { MottakerRolle } from '../../Brevmottakere/mottakerRolle';
+import { lagHenleggBehandlingDto } from './henleggBehandlingDto';
 
 describe('LagHenleggBehandlingDto', () => {
     const bruker = {

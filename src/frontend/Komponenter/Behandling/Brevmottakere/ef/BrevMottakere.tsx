@@ -1,14 +1,14 @@
+import { Alert, BodyShort, Button, HStack, Label, Tooltip, VStack } from '@navikt/ds-react';
+import type { AxiosRequestConfig } from 'axios';
 import React, { useCallback, useEffect, useState } from 'react';
 import { useApp } from '../../../../App/context/AppContext';
-import { Alert, BodyShort, Button, HStack, Label, Tooltip, VStack } from '@navikt/ds-react';
-import type { Brevmottakere } from '../brevmottakere';
-import { DataViewer } from '../../../../Felles/DataViewer/DataViewer';
 import { useBehandling } from '../../../../App/context/BehandlingContext';
-import { BrevmottakereModal } from './BrevmottakereModal';
 import type { Ressurs } from '../../../../App/typer/ressurs';
 import { byggTomRessurs } from '../../../../App/typer/ressurs';
+import { DataViewer } from '../../../../Felles/DataViewer/DataViewer';
+import type { Brevmottakere } from '../brevmottakere';
 import { MottakerRolle } from '../mottakerRolle';
-import type { AxiosRequestConfig } from 'axios';
+import { BrevmottakereModal } from './BrevmottakereModal';
 
 interface Props {
     behandlingId: string;
@@ -60,10 +60,10 @@ const BrevMottakerPanel: React.FC<{
     const utledNavnPåMottakere = (brevMottakere: Brevmottakere) => {
         return [
             ...brevMottakere.personer.map(
-                (person) => `${person.navn} (${person.mottakerRolle.toLowerCase()})`
+                person => `${person.navn} (${person.mottakerRolle.toLowerCase()})`
             ),
             ...brevMottakere.organisasjoner.map(
-                (org) => `${org.navnHosOrganisasjon} -(${org.organisasjonsnummer})`
+                org => `${org.navnHosOrganisasjon} -(${org.organisasjonsnummer})`
             ),
         ];
     };
@@ -71,7 +71,7 @@ const BrevMottakerPanel: React.FC<{
     const navn = utledNavnPåMottakere(mottakere);
     const flereBrevmottakereErValgt = navn.length > 1;
     const brukerErBrevmottaker = mottakere.personer.find(
-        (person) => person.mottakerRolle === MottakerRolle.BRUKER
+        person => person.mottakerRolle === MottakerRolle.BRUKER
     );
 
     return flereBrevmottakereErValgt || !brukerErBrevmottaker ? (
@@ -99,7 +99,7 @@ const BrevMottakerPanel: React.FC<{
     ) : (
         <HStack gap="space-16" align="center">
             <Label>Brevmottaker:</Label>
-            <BodyShort>{navn.map((navn) => navn)}</BodyShort>
+            <BodyShort>{navn.map(navn => navn)}</BodyShort>
             {behandlingErRedigerbar && (
                 <Tooltip content={'Legg til verge eller fullmektige brevmottakere'}>
                     <Button

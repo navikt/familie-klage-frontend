@@ -1,11 +1,11 @@
 import type { Client } from '@navikt/familie-backend';
 import { getOnBehalfOfAccessToken } from '@navikt/familie-backend';
+import { logError, logInfo, stdoutLogger } from '@navikt/familie-logging';
 import type { NextFunction, Request, RequestHandler, Response } from 'express';
 import type { ClientRequest, IncomingMessage } from 'http';
 import { createProxyMiddleware } from 'http-proxy-middleware';
 import { v4 as uuidv4 } from 'uuid';
 import { oboConfig } from './config.js';
-import { logError, logInfo, stdoutLogger } from '@navikt/familie-logging';
 
 const restream = (proxyReq: ClientRequest, req: IncomingMessage) => {
     const requestBody = (req as Request).body;
@@ -46,7 +46,7 @@ export const attachToken = (authClient: Client): RequestHandler => {
                 req.headers.Authorization = `Bearer ${accessToken}`;
                 return next();
             })
-            .catch((e) => {
+            .catch(e => {
                 if (e.error === 'invalid_grant') {
                     logInfo(`invalid_grant`);
                     _res.status(500).json({

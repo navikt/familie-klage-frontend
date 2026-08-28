@@ -1,6 +1,6 @@
-import styles from './ModalWrapper.module.css';
 import { Button, Modal } from '@navikt/ds-react';
 import React from 'react';
+import styles from './ModalWrapper.module.css';
 
 interface Props {
     tittel: string;

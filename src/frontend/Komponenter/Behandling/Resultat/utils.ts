@@ -1,5 +1,3 @@
-import type { IBehandlingshistorikk } from '../Høyremeny/behandlingshistorikk';
-import { ensure } from '../../../App/utils/utils';
 import type { Behandling } from '../../../App/typer/fagsak';
 import {
     behandlingResultatTilTekst,
@@ -7,12 +5,14 @@ import {
     StegType,
     utfallTilTekst,
 } from '../../../App/typer/fagsak';
+import { ensure } from '../../../App/utils/utils';
+import type { IBehandlingshistorikk } from '../Høyremeny/behandlingshistorikk';
 
 export const fjernDuplikatStegFraHistorikk = (steg: IBehandlingshistorikk[]) => {
     const visning = [
         ...new Set(
             steg.map((historikk, _, historikkListe) =>
-                ensure(historikkListe.find((steg) => historikk.steg == steg.steg))
+                ensure(historikkListe.find(steg => historikk.steg == steg.steg))
             )
         ),
     ].reverse();
@@ -30,7 +30,7 @@ export const fjernDuplikatStegFraHistorikk = (steg: IBehandlingshistorikk[]) => 
 
 export const utledTekstForEksternutfall = (behandling: Behandling) => {
     const klageResultatMedUtfall = behandling.klageinstansResultat.filter(
-        (resultat) =>
+        resultat =>
             resultat.utfall && resultat.type == KlageinstansEventType.KLAGEBEHANDLING_AVSLUTTET
     );
     if (klageResultatMedUtfall.length > 0) {
@@ -41,7 +41,7 @@ export const utledTekstForEksternutfall = (behandling: Behandling) => {
     }
 
     const erFeilregistrert = behandling.klageinstansResultat.some(
-        (resultat) => resultat.type === KlageinstansEventType.BEHANDLING_FEILREGISTRERT
+        resultat => resultat.type === KlageinstansEventType.BEHANDLING_FEILREGISTRERT
     );
 
     if (erFeilregistrert) {

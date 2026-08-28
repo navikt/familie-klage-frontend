@@ -1,5 +1,5 @@
-import type { ISaksbehandler } from '../typer/saksbehandler';
 import type { AppEnv } from '../api/env';
+import type { ISaksbehandler } from '../typer/saksbehandler';
 
 export type SaksbehadlerRolle = 'veileder' | 'saksbehandler' | 'beslutter';
 export type Rolle = SaksbehadlerRolle | 'kode6' | 'kode7';
@@ -38,5 +38,5 @@ export const harTilgangTilRolle = (
 export const harStrengtFortroligRolle = (env: AppEnv, saksbehandler: ISaksbehandler): boolean => {
     const saksbehandlerGrupper = saksbehandler.groups;
     if (!saksbehandlerGrupper) return false;
-    return saksbehandlerGrupper.some((gruppe) => gruppe === env.roller['kode6']);
+    return saksbehandlerGrupper.some(gruppe => gruppe === env.roller['kode6']);
 };

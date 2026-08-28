@@ -1,9 +1,9 @@
+import { PåklagetVedtakstype } from '../../../App/typer/fagsak';
+import { erGyldigDato } from '../../../App/utils/dato';
+import { harVerdi } from '../../../App/utils/utils';
 import type { IFormkravVilkår } from './typer';
 import { FormkravFristUnntak, Redigeringsmodus, VilkårStatus } from './typer';
-import { PåklagetVedtakstype } from '../../../App/typer/fagsak';
-import { harVerdi } from '../../../App/utils/utils';
 import { harManuellVedtaksdato, utledRadioKnapper } from './utils';
-import { erGyldigDato } from '../../../App/utils/dato';
 
 export const alleVurderingerErStatus = (
     formkravVurdering: IFormkravVilkår,
@@ -88,5 +88,5 @@ export const utledRedigeringsmodus = (
 };
 
 export const utledIkkeUtfylteVilkår = (vilkår: IFormkravVilkår) => {
-    return utledRadioKnapper(vilkår).filter((valg) => valg.svar === VilkårStatus.IKKE_SATT);
+    return utledRadioKnapper(vilkår).filter(valg => valg.svar === VilkårStatus.IKKE_SATT);
 };

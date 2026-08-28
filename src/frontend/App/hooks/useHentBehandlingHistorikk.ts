@@ -1,9 +1,9 @@
-import type { Ressurs } from '../typer/ressurs';
-import { byggTomRessurs } from '../typer/ressurs';
-import { useApp } from '../context/AppContext';
+import type { AxiosRequestConfig } from 'axios';
 import { useCallback, useState } from 'react';
 import type { IBehandlingshistorikk } from '../../Komponenter/Behandling/Høyremeny/behandlingshistorikk';
-import type { AxiosRequestConfig } from 'axios';
+import { useApp } from '../context/AppContext';
+import type { Ressurs } from '../typer/ressurs';
+import { byggTomRessurs } from '../typer/ressurs';
 
 export const useHentBehandlingHistorikk = (
     behandlingId: string
@@ -13,8 +13,9 @@ export const useHentBehandlingHistorikk = (
 } => {
     const { axiosRequest } = useApp();
 
-    const [behandlingHistorikk, settBehandlingHistorikk] =
-        useState<Ressurs<IBehandlingshistorikk[]>>(byggTomRessurs());
+    const [behandlingHistorikk, settBehandlingHistorikk] = useState<
+        Ressurs<IBehandlingshistorikk[]>
+    >(byggTomRessurs());
 
     const hentBehandlingshistorikkCallback = useCallback(() => {
         const behandlingConfig: AxiosRequestConfig = {
@@ -24,7 +25,6 @@ export const useHentBehandlingHistorikk = (
         axiosRequest<IBehandlingshistorikk[], null>(behandlingConfig).then(
             (res: Ressurs<IBehandlingshistorikk[]>) => settBehandlingHistorikk(res)
         );
-        // eslint-disable-next-line
     }, [behandlingId]);
 
     return {

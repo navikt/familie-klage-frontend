@@ -1,9 +1,9 @@
 import { Radio, RadioGroup, Stack } from '@navikt/ds-react';
 import React from 'react';
 import { useController, useFormContext } from 'react-hook-form';
+import { useBrevmottakerFormActionsContext } from './context/BrevmottakerFormActionsContextProvider';
 import type { HenleggBehandlingFormValues } from './HenleggBehandlingForm';
 import { HenleggBehandlingFeltnavn } from './HenleggBehandlingForm';
-import { useBrevmottakerFormActionsContext } from './context/BrevmottakerFormActionsContextProvider';
 
 export function SendTrukketKlageBrevFelt() {
     const { control } = useFormContext<HenleggBehandlingFormValues>();
@@ -13,7 +13,7 @@ export function SendTrukketKlageBrevFelt() {
         name: HenleggBehandlingFeltnavn.SEND_BREV_OM_TRUKKET_KLAGE,
         control,
         rules: {
-            validate: (value) =>
+            validate: value =>
                 value === null ? 'Velg hvorvidt brev om trukket klage skal sendes.' : undefined,
         },
     });
@@ -26,7 +26,7 @@ export function SendTrukketKlageBrevFelt() {
                 value={field.value}
                 ref={field.ref}
                 onBlur={field.onBlur}
-                onChange={(value) => {
+                onChange={value => {
                     if (value !== true) {
                         skjulForm();
                     }

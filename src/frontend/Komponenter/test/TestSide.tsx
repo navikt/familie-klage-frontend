@@ -1,4 +1,3 @@
-import React, { useState } from 'react';
 import {
     Alert,
     BodyShort,
@@ -9,11 +8,12 @@ import {
     TextField,
     VStack,
 } from '@navikt/ds-react';
-import { useApp } from '../../App/context/AppContext';
-import { Stønadstype } from '../../App/typer/stønadstype';
-import { RessursStatus } from '../../App/typer/ressurs';
+import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { useApp } from '../../App/context/AppContext';
 import { Fagsystem } from '../../App/typer/fagsak';
+import { RessursStatus } from '../../App/typer/ressurs';
+import { Stønadstype } from '../../App/typer/stønadstype';
 import { behandlendeEnheter } from '../Behandling/EndreBehandlendeEnhet/arbeidsfordelingsenhet';
 
 type DummyBehandling = {
@@ -37,7 +37,7 @@ export const TestSide: React.FC = () => {
             case Fagsystem.KS:
             case Fagsystem.BA:
                 return behandlendeEnheter.find(
-                    (enhet) =>
+                    enhet =>
                         enhet.gyldigForFagsystem.includes(fagsystem) &&
                         enhet.enhetsnummer !== '2103'
                 )!.enhetsnummer;
@@ -53,7 +53,7 @@ export const TestSide: React.FC = () => {
                 method: 'POST',
                 url: `/familie-klage/api/test/opprett`,
                 data: { ident, stønadstype, fagsystem, behandlendeEnhet },
-            }).then((resp) => {
+            }).then(resp => {
                 if (resp.status === RessursStatus.SUKSESS) {
                     navigate(`/behandling/${resp.data}/formkrav`);
                 } else {
@@ -79,15 +79,15 @@ export const TestSide: React.FC = () => {
                     label={'Ident'}
                     placeholder={'Ident'}
                     value={ident || ``}
-                    onChange={(e) => settIdent(e.target.value)}
+                    onChange={e => settIdent(e.target.value)}
                 />
                 <Select
                     label={'Stønadstype'}
                     value={stønadstype}
-                    onChange={(e) => settStønadstype(e.target.value as Stønadstype)}
+                    onChange={e => settStønadstype(e.target.value as Stønadstype)}
                 >
                     <option>Velg</option>
-                    {Object.values(Stønadstype).map((stønadstype) => (
+                    {Object.values(Stønadstype).map(stønadstype => (
                         <option key={stønadstype} value={stønadstype}>
                             {stønadstype}
                         </option>
@@ -96,10 +96,10 @@ export const TestSide: React.FC = () => {
                 <Select
                     label={'Fagsystem'}
                     value={fagsystem}
-                    onChange={(e) => settFagsystem(e.target.value as Fagsystem)}
+                    onChange={e => settFagsystem(e.target.value as Fagsystem)}
                 >
                     <option>Velg</option>
-                    {Object.values(Fagsystem).map((fs) => (
+                    {Object.values(Fagsystem).map(fs => (
                         <option key={fs} value={fs}>
                             {fs}
                         </option>

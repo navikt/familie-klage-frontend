@@ -1,13 +1,13 @@
-import React, { useState } from 'react';
-
 import type { ComboboxProps } from '@navikt/ds-react';
 import { UNSAFE_Combobox } from '@navikt/ds-react';
+import React, { useState } from 'react';
 
 // Aksel eksporterer ikke ComboboxOption, og deep import av cjs-stier støttes ikke av Vite
 type ComboboxOption = {
     label: string;
     value: string;
 };
+
 import { EøsLandkode } from './landkode';
 
 type Props = {
@@ -62,7 +62,7 @@ const eøsLand: ComboboxOption[] = [
 
 export function EøsLandvelger({ value, onSelect, ...rest }: Props) {
     const [selectedOption, setSelectedOption] = useState<ComboboxOption | undefined>(
-        eøsLand.find((opt) => opt.value === value)
+        eøsLand.find(opt => opt.value === value)
     );
     return (
         <UNSAFE_Combobox
@@ -71,8 +71,8 @@ export function EøsLandvelger({ value, onSelect, ...rest }: Props) {
             shouldAutocomplete={true}
             options={eøsLand}
             selectedOptions={selectedOption ? [selectedOption] : []}
-            onToggleSelected={(option) => {
-                const newOption = eøsLand.find((opt) => opt.value === option);
+            onToggleSelected={option => {
+                const newOption = eøsLand.find(opt => opt.value === option);
                 if (newOption == undefined) {
                     setSelectedOption(FALLBACK_COMBOBOX_OPTION);
                     return;

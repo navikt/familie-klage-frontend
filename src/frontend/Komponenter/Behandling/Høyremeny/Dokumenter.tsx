@@ -1,15 +1,15 @@
+import { compareDesc } from 'date-fns';
 import * as React from 'react';
 import { useCallback, useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
-import { DataViewer } from '../../../Felles/DataViewer/DataViewer';
-import { compareDesc } from 'date-fns';
-import { formaterNullableIsoDatoTid } from '../../../App/utils/formatter';
-import { åpneFilIEgenTab } from '../../../App/utils/utils';
-import type { Dokument } from './Dokumentliste';
-import { Dokumentliste } from './Dokumentliste';
+import { useApp } from '../../../App/context/AppContext';
 import type { Ressurs, RessursFeilet, RessursSuksess } from '../../../App/typer/ressurs';
 import { byggTomRessurs, RessursStatus } from '../../../App/typer/ressurs';
-import { useApp } from '../../../App/context/AppContext';
+import { formaterNullableIsoDatoTid } from '../../../App/utils/formatter';
+import { åpneFilIEgenTab } from '../../../App/utils/utils';
+import { DataViewer } from '../../../Felles/DataViewer/DataViewer';
+import type { Dokument } from './Dokumentliste';
+import { Dokumentliste } from './Dokumentliste';
 
 interface Props {
     hidden: boolean;
@@ -50,7 +50,7 @@ export const Dokumenter: React.FC<Props> = ({ hidden }) => {
                 }
                 return compareDesc(new Date(a.dato), new Date(b.dato));
             })
-            .map((dokument) => {
+            .map(dokument => {
                 return { ...dokument, dato: formaterNullableIsoDatoTid(dokument.dato) };
             });
     };

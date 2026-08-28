@@ -1,16 +1,16 @@
-import * as React from 'react';
+import { PersonCircleIcon } from '@navikt/aksel-icons';
 import { BodyShort, Box, Detail, HStack, Label } from '@navikt/ds-react';
-import styles from './HistorikkInnslag.module.css';
-import { formaterIsoDatoTid } from '../../../App/utils/formatter';
+import * as React from 'react';
 import type { Behandling } from '../../../App/typer/fagsak';
 import {
     behandlingStegFullførtTilTekst,
     hendelseHistorikkTilTekst,
     StegType,
 } from '../../../App/typer/fagsak';
-import { PersonCircleIcon } from '@navikt/aksel-icons';
+import { formaterIsoDatoTid } from '../../../App/utils/formatter';
 import { utledStegutfallForFerdigstiltBehandling } from '../utils';
 import type { IBehandlingshistorikk } from './behandlingshistorikk';
+import styles from './HistorikkInnslag.module.css';
 
 interface Props {
     behandling: Behandling;

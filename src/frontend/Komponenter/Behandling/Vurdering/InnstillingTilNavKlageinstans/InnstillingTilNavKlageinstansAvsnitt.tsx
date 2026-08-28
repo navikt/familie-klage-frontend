@@ -1,5 +1,5 @@
-import React from 'react';
 import { Accordion } from '@navikt/ds-react';
+import React from 'react';
 import { EnsligTextArea } from '../../../../Felles/Input/EnsligTextArea';
 import type { IVurdering } from '../vurderingValg';
 
@@ -29,9 +29,9 @@ export const InnstillingTilNavKlageinstansAvsnitt = ({
                 <EnsligTextArea
                     label="Skriv tekst"
                     value={verdi}
-                    onChange={(e) => {
+                    onChange={e => {
                         settIkkePersistertKomponent(e.target.value);
-                        settOppdatertVurdering((tidligereTilstand) => ({
+                        settOppdatertVurdering(tidligereTilstand => ({
                             ...tidligereTilstand,
                             [felt]: e.target.value,
                         }));

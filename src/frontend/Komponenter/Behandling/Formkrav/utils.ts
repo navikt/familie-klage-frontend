@@ -1,15 +1,15 @@
-import type { IFormalkrav, IFormkravVilkår, PåklagetVedtak } from './typer';
-import { EFormalKravType, FagsystemType, FormkravFristUnntak, VilkårStatus } from './typer';
-import { PåklagetVedtakstype } from '../../../App/typer/fagsak';
 import { compareDesc } from 'date-fns';
+import { PåklagetVedtakstype } from '../../../App/typer/fagsak';
+import type { FagsystemVedtak } from '../../../App/typer/fagsystemVedtak';
+import type { Klagebehandlingsresultat } from '../../../App/typer/klagebehandlingsresultat';
 import {
     formaterIsoDato,
     formaterIsoDatoTid,
     formaterNullableIsoDatoTid,
 } from '../../../App/utils/formatter';
-import type { FagsystemVedtak } from '../../../App/typer/fagsystemVedtak';
+import type { IFormalkrav, IFormkravVilkår, PåklagetVedtak } from './typer';
+import { EFormalKravType, FagsystemType, FormkravFristUnntak, VilkårStatus } from './typer';
 import { alleVilkårOppfylt, klagefristUnntakErValgtOgOppfylt } from './validerFormkravUtils';
-import type { Klagebehandlingsresultat } from '../../../App/typer/klagebehandlingsresultat';
 
 export const utledRadioKnapper = (vurderinger: IFormkravVilkår): IFormalkrav[] => {
     const { klagePart, klageKonkret, klagefristOverholdt, klageSignert } = vurderinger;
@@ -46,7 +46,7 @@ export const utledFagsystemVedtakFraPåklagetVedtak = (
     påklagetVedtak: PåklagetVedtak
 ) => {
     return fagsystemVedtak.find(
-        (vedtak) => vedtak.eksternBehandlingId === påklagetVedtak.eksternFagsystemBehandlingId
+        vedtak => vedtak.eksternBehandlingId === påklagetVedtak.eksternFagsystemBehandlingId
     );
 };
 
@@ -55,7 +55,7 @@ export const utledKlageresultatFraPåklagetVedtak = (
     påklagetVedtak: PåklagetVedtak
 ) => {
     return klagebehandlingsresultater.find(
-        (klagebehandlingsresultat) =>
+        klagebehandlingsresultat =>
             klagebehandlingsresultat.id === påklagetVedtak.internKlagebehandlingId
     );
 };

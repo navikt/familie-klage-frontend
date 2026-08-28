@@ -1,13 +1,13 @@
+import { BodyShort, HStack, Tooltip, VStack } from '@navikt/ds-react';
 import React from 'react';
+import { useBehandling } from '../../../App/context/BehandlingContext';
+import { behandlingStatusTilTekst } from '../../../App/typer/behandlingstatus';
 import type { Behandling } from '../../../App/typer/fagsak';
 import { behandlingResultatTilTekst } from '../../../App/typer/fagsak';
-import styles from './BehandlingInfo.module.css';
-import { BodyShort, HStack, Tooltip, VStack } from '@navikt/ds-react';
-import { behandlingStatusTilTekst } from '../../../App/typer/behandlingstatus';
 import { formaterIsoDato, formaterIsoDatoTid } from '../../../App/utils/formatter';
-import { TilegnetSaksbehandler } from './TilegnetSaksbehandler';
 import { DataViewer } from '../../../Felles/DataViewer/DataViewer';
-import { useBehandling } from '../../../App/context/BehandlingContext';
+import styles from './BehandlingInfo.module.css';
+import { TilegnetSaksbehandler } from './TilegnetSaksbehandler';
 
 interface Props {
     behandling: Behandling;

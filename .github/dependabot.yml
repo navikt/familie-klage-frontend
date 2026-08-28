@@ -97,17 +97,9 @@ updates:
           - 'vitest'
       tooling:
         patterns:
-          - 'eslint'
-          - 'eslint-config-prettier'
-          - 'eslint-plugin-jsx-a11y'
-          - 'eslint-plugin-prettier'
-          - 'eslint-plugin-react'
-          - 'eslint-plugin-react-hooks'
-          - 'eslint-webpack-plugin'
+          - '@biomejs/biome'
           - 'husky'
           - 'lint-staged'
-          - 'prettier'
-          - 'typescript-eslint'
   - package-ecosystem: github-actions
     directory: "/"
     schedule:

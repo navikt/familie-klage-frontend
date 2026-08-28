@@ -1,5 +1,5 @@
-import React from 'react';
 import { Button } from '@navikt/ds-react';
+import React from 'react';
 import { useBehandling } from '../../App/context/BehandlingContext';
 
 export const SettPåVentKnapp = () => {

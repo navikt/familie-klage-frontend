@@ -1,12 +1,12 @@
+import { Select } from '@navikt/ds-react';
 import type { FC } from 'react';
 import React, { useEffect, useState } from 'react';
-import { Select } from '@navikt/ds-react';
+import { useApp } from '../../../App/context/AppContext';
+import { Fagsystem } from '../../../App/typer/fagsak';
 import type { Ressurs } from '../../../App/typer/ressurs';
 import { byggTomRessurs } from '../../../App/typer/ressurs';
-import type { IMappe } from '../Typer/IMappe';
-import { useApp } from '../../../App/context/AppContext';
 import { DataViewer } from '../../../Felles/DataViewer/DataViewer';
-import { Fagsystem } from '../../../App/typer/fagsak';
+import type { IMappe } from '../Typer/IMappe';
 
 export const MappeVelger: FC<{
     oppgaveEnhet: string | undefined;
@@ -40,7 +40,7 @@ export const MappeVelger: FC<{
                     [key: string]: IMappe[];
                 };
 
-                const aktuelleMapper = mapper.filter((mappe) => mappe.enhetsnr === oppgaveEnhet);
+                const aktuelleMapper = mapper.filter(mappe => mappe.enhetsnr === oppgaveEnhet);
 
                 const grupperteMapper: GrupperteMapper = aktuelleMapper.reduce(
                     (acc: GrupperteMapper, mappe: IMappe) => {
@@ -60,15 +60,15 @@ export const MappeVelger: FC<{
                         label="Mappe"
                         size="small"
                         readOnly={erLesevisning}
-                        onChange={(e) => {
+                        onChange={e => {
                             const verdi = e.target.value;
                             settMappe(verdi === 'uplassert' ? undefined : parseInt(verdi));
                         }}
                     >
                         <option value="uplassert">Uplassert</option>
-                        {Object.keys(grupperteMapper).map((enhetsnr) => (
+                        {Object.keys(grupperteMapper).map(enhetsnr => (
                             <optgroup key={enhetsnr} label={`Enhetsnr: ${enhetsnr}`}>
-                                {grupperteMapper[enhetsnr].map((mappe) => (
+                                {grupperteMapper[enhetsnr].map(mappe => (
                                     <option key={mappe.id} value={mappe.id}>
                                         {mappe.navn}
                                     </option>

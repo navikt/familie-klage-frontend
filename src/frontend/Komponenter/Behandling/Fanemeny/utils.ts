@@ -1,7 +1,7 @@
-import type { ISide } from './sider';
-import { SideNavn } from './sider';
 import type { Behandling } from '../../../App/typer/fagsak';
 import { BehandlingResultat, behandlingStegTilRekkefølge } from '../../../App/typer/fagsak';
+import type { ISide } from './sider';
+import { SideNavn } from './sider';
 
 export const utledFaneErLåst = (
     side: ISide,

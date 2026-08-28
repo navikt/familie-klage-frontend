@@ -1,10 +1,10 @@
+import { BodyShort, Select } from '@navikt/ds-react';
 import type { Dispatch, FC, SetStateAction } from 'react';
 import React, { useState } from 'react';
-import { SøkPerson } from './SøkPerson';
-import { SøkOrganisasjon } from './SøkOrganisasjon';
-import styles from './SøkWrapper.module.css';
-import { BodyShort, Select } from '@navikt/ds-react';
 import type { BrevmottakerOrganisasjon, BrevmottakerPerson } from '../brevmottaker';
+import { SøkOrganisasjon } from './SøkOrganisasjon';
+import { SøkPerson } from './SøkPerson';
+import styles from './SøkWrapper.module.css';
 
 interface Props {
     settValgtePersonMottakere: Dispatch<SetStateAction<BrevmottakerPerson[]>>;
@@ -36,7 +36,7 @@ export const SøkWrapper: FC<Props> = ({
                 label={'Manuelt søk'}
                 hideLabel
                 value={søktype}
-                onChange={(e) => settSøktype(e.target.value as SøkType)}
+                onChange={e => settSøktype(e.target.value as SøkType)}
             >
                 <option>Velg</option>
                 <option value={SøkType.ORGANISASJON}>Organisasjon</option>

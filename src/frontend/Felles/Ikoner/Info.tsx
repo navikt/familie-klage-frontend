@@ -13,6 +13,7 @@ export const Info: React.FunctionComponent<Props> = ({ height, width }) => (
         width={width}
         viewBox="0 0 24 24"
     >
+        <title id={'info'}>Info</title>
         <g fill="none">
             <path
                 d="M12 0C5.382 0 0 5.382 0 12s5.382 12 12 12c6.617 0 12-5.382 12-12S18.617 0 12 0z"

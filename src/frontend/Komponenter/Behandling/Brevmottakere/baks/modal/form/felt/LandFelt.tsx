@@ -1,12 +1,12 @@
 import React from 'react';
 import { useController, useFormContext } from 'react-hook-form';
+import { usePersonopplysningerContext } from '../../../../../../../App/context/PersonopplysningerContext';
 import { EøsLandvelger } from '../../../../../../../Felles/Landvelger/EøsLandvelger';
-import { erGyldigMottakerRolleForLandkode, MottakerRolle } from '../../../../mottakerRolle';
+import { EøsLandkode } from '../../../../../../../Felles/Landvelger/landkode';
 import { utledBrevmottakerPersonUtenIdentNavnVedDødsbo } from '../../../../brevmottaker';
+import { erGyldigMottakerRolleForLandkode, MottakerRolle } from '../../../../mottakerRolle';
 import type { BrevmottakerPersonUtenIdentFormValues } from '../BrevmottakerPersonUtenIdentForm';
 import { BrevmottakerPersonUtenIdentFeltnavn } from '../BrevmottakerPersonUtenIdentForm';
-import { EøsLandkode } from '../../../../../../../Felles/Landvelger/landkode';
-import { usePersonopplysningerContext } from '../../../../../../../App/context/PersonopplysningerContext';
 
 interface Props {
     erLesevisning?: boolean;
@@ -26,7 +26,7 @@ export function LandFelt({ erLesevisning = false }: Props) {
         name: BrevmottakerPersonUtenIdentFeltnavn.LANDKODE,
         control,
         rules: {
-            validate: (landkode) => {
+            validate: landkode => {
                 if (landkode === '') {
                     return `${label} er påkrevd.`;
                 }

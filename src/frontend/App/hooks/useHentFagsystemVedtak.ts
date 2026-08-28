@@ -1,10 +1,10 @@
 import { useCallback, useState } from 'react';
-import type { Ressurs } from '../typer/ressurs';
-import { byggSuksessRessurs, byggTomRessurs } from '../typer/ressurs';
 import { useApp } from '../context/AppContext';
+import { useBehandling } from '../context/BehandlingContext';
 import type { Behandling } from '../typer/fagsak';
 import type { FagsystemVedtak } from '../typer/fagsystemVedtak';
-import { useBehandling } from '../context/BehandlingContext';
+import type { Ressurs } from '../typer/ressurs';
+import { byggSuksessRessurs, byggTomRessurs } from '../typer/ressurs';
 
 export const useHentFagsystemVedtak = (): {
     hentFagsystemVedtak: (behandling: Behandling) => void;

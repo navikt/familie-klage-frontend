@@ -1,24 +1,24 @@
+import { Alert, VStack } from '@navikt/ds-react';
 import * as React from 'react';
 import { useState } from 'react';
 import { useApp } from '../../../App/context/AppContext';
-import styles from './VurderingRedigeringsmodus.module.css';
-import { Alert, VStack } from '@navikt/ds-react';
-import { VedtakSelect } from './VedtakSelect';
-import { ÅrsakSelect } from './ÅrsakSelect';
-import { HjemmelSelect } from './HjemmelSelect';
-import type { IVurdering } from './vurderingValg';
-import { VedtakValg } from './vurderingValg';
 import { useBehandling } from '../../../App/context/BehandlingContext';
-import { EnsligTextArea } from '../../../Felles/Input/EnsligTextArea';
-import { harVerdi } from '../../../App/utils/utils';
-import { InterntNotat } from './InterntNotat';
 import { useHentVurderinger } from '../../../App/hooks/useHentVurderinger';
 import type { Behandling } from '../../../App/typer/fagsak';
 import { Fagsystem } from '../../../App/typer/fagsak';
-import { InnstillingTilNavKlageinstans } from './InnstillingTilNavKlageinstans/InnstillingTilNavKlageinstans';
 import type { Ressurs } from '../../../App/typer/ressurs';
 import { RessursStatus } from '../../../App/typer/ressurs';
+import { harVerdi } from '../../../App/utils/utils';
+import { EnsligTextArea } from '../../../Felles/Input/EnsligTextArea';
 import { Button } from '../../../Felles/Knapper/Button';
+import { HjemmelSelect } from './HjemmelSelect';
+import { InnstillingTilNavKlageinstans } from './InnstillingTilNavKlageinstans/InnstillingTilNavKlageinstans';
+import { InterntNotat } from './InterntNotat';
+import { VedtakSelect } from './VedtakSelect';
+import styles from './VurderingRedigeringsmodus.module.css';
+import type { IVurdering } from './vurderingValg';
+import { VedtakValg } from './vurderingValg';
+import { ÅrsakSelect } from './ÅrsakSelect';
 
 const erAlleFelterUtfylt = (vurderingData: IVurdering, fagsystem: Fagsystem): boolean => {
     const {
@@ -134,9 +134,9 @@ export const VurderingRedigeringsmodus: React.FC<Props> = ({ behandling, vurderi
                     <EnsligTextArea
                         label="Begrunnelse for omgjøring (internt notat)"
                         value={oppdatertVurdering.begrunnelseOmgjøring}
-                        onChange={(e) => {
+                        onChange={e => {
                             settIkkePersistertKomponent(e.target.value);
-                            settOppdatertVurdering((tidligereTilstand) => ({
+                            settOppdatertVurdering(tidligereTilstand => ({
                                 ...tidligereTilstand,
                                 begrunnelseOmgjøring: e.target.value,
                             }));

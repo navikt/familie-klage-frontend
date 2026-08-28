@@ -1,5 +1,5 @@
-import { useApp } from '../context/AppContext';
 import { useEffect } from 'react';
+import { useApp } from '../context/AppContext';
 
 export const useSetValgtFagsakId = (fagsakId: string) => {
     const { settValgtFagsakId } = useApp();

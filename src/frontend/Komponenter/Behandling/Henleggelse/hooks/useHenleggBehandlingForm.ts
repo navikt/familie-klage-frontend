@@ -1,18 +1,18 @@
+import { useState } from 'react';
+import { useForm } from 'react-hook-form';
+import type { Behandling } from '../../../../App/typer/fagsak';
+import { useBrevmottakereContext } from '../context/BrevmottakereContextProvider';
+import {
+    HENLEGG_BEHANDLING_MODAL_WIDTHS,
+    useHenleggBehandlingModalContext,
+} from '../context/HenleggBehandlingModalContextProvider';
+import { lagHenleggBehandlingDto } from '../domain/henleggBehandlingDto';
 import type { HenleggBehandlingFormValues } from '../HenleggBehandlingForm';
 import {
     HenleggBehandlingFeltnavn,
     HenleggBehandlingFormServerErrors,
 } from '../HenleggBehandlingForm';
-import { lagHenleggBehandlingDto } from '../domain/henleggBehandlingDto';
 import { useHenleggBehandling } from './useHenleggBehandling';
-import type { Behandling } from '../../../../App/typer/fagsak';
-import {
-    HENLEGG_BEHANDLING_MODAL_WIDTHS,
-    useHenleggBehandlingModalContext,
-} from '../context/HenleggBehandlingModalContextProvider';
-import { useForm } from 'react-hook-form';
-import { useBrevmottakereContext } from '../context/BrevmottakereContextProvider';
-import { useState } from 'react';
 
 export function useHenleggBehandlingForm(behandling: Behandling) {
     const { lukkModal } = useHenleggBehandlingModalContext();

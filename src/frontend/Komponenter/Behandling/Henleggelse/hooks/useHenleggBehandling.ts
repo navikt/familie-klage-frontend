@@ -1,10 +1,10 @@
-import type { RessursFeilet, RessursSuksess } from '../../../../App/typer/ressurs';
-import { RessursStatus } from '../../../../App/typer/ressurs';
+import { useNavigate } from 'react-router-dom';
 import { useApp } from '../../../../App/context/AppContext';
 import { useBehandling } from '../../../../App/context/BehandlingContext';
-import type { HenleggBehandlingDto } from '../domain/henleggBehandlingDto';
-import { useNavigate } from 'react-router-dom';
+import type { RessursFeilet, RessursSuksess } from '../../../../App/typer/ressurs';
+import { RessursStatus } from '../../../../App/typer/ressurs';
 import { EToast } from '../../../../App/typer/toast';
+import type { HenleggBehandlingDto } from '../domain/henleggBehandlingDto';
 
 export function useHenleggBehandling() {
     const navigate = useNavigate();

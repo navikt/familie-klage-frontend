@@ -1,16 +1,16 @@
+import { Alert } from '@navikt/ds-react';
 import * as React from 'react';
 import { useEffect } from 'react';
-import { Alert } from '@navikt/ds-react';
 import { useBehandling } from '../../../App/context/BehandlingContext';
-import { VurderingLesemodus } from './VurderingLesemodus';
-import { DataViewer } from '../../../Felles/DataViewer/DataViewer';
-import { alleVilkårOppfylt, påklagetVedtakErValgt } from '../Formkrav/validerFormkravUtils';
+import { useHentFormkravVilkår } from '../../../App/hooks/useHentFormkravVilkår';
 import { useHentVurderinger } from '../../../App/hooks/useHentVurderinger';
 import type { Behandling } from '../../../App/typer/fagsak';
 import { Fagsystem } from '../../../App/typer/fagsak';
-import { VurderingRedigeringsmodus as VurderingRedigeringsmodusBaks } from './VurderingRedigeringsmodusBaks/VurderingRedigeringsmodus';
+import { DataViewer } from '../../../Felles/DataViewer/DataViewer';
+import { alleVilkårOppfylt, påklagetVedtakErValgt } from '../Formkrav/validerFormkravUtils';
+import { VurderingLesemodus } from './VurderingLesemodus';
 import { VurderingRedigeringsmodus } from './VurderingRedigeringsmodus';
-import { useHentFormkravVilkår } from '../../../App/hooks/useHentFormkravVilkår';
+import { VurderingRedigeringsmodus as VurderingRedigeringsmodusBaks } from './VurderingRedigeringsmodusBaks/VurderingRedigeringsmodus';
 
 export const VurderingFane: React.FC<{ behandling: Behandling }> = ({ behandling }) => {
     const { behandlingErRedigerbar } = useBehandling();

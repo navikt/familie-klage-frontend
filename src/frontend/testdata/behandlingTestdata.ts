@@ -1,3 +1,4 @@
+import { BehandlingStatus } from '../App/typer/behandlingstatus';
 import type { Behandling } from '../App/typer/fagsak';
 import {
     BehandlingResultat,
@@ -5,7 +6,6 @@ import {
     Klagebehandlingsårsak,
     StegType,
 } from '../App/typer/fagsak';
-import { BehandlingStatus } from '../App/typer/behandlingstatus';
 import { Stønadstype } from '../App/typer/stønadstype';
 import { PåklagetVedtakTestdata } from './påklagetVedtakTestdata';
 

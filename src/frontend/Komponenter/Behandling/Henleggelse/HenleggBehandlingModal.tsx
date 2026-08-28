@@ -1,13 +1,12 @@
-import React from 'react';
-
-import { HenleggBehandlingModalInnhold } from './HenleggBehandlingModalInnhold';
 import { Modal } from '@navikt/ds-react';
+import React from 'react';
+import type { Behandling } from '../../../App/typer/fagsak';
+import { BrevmottakereContextProvider } from './context/BrevmottakereContextProvider';
 import {
     HenleggBehandlingModalContextProvider,
     useHenleggBehandlingModalContext,
 } from './context/HenleggBehandlingModalContextProvider';
-import { BrevmottakereContextProvider } from './context/BrevmottakereContextProvider';
-import type { Behandling } from '../../../App/typer/fagsak';
+import { HenleggBehandlingModalInnhold } from './HenleggBehandlingModalInnhold';
 
 interface Props {
     behandling: Behandling;

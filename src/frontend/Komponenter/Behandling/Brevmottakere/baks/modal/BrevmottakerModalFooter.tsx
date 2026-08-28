@@ -1,5 +1,5 @@
-import React from 'react';
 import { Button, Modal } from '@navikt/ds-react';
+import React from 'react';
 import { useApp } from '../../../../../App/context/AppContext';
 
 export function BrevmottakerModalFooter() {

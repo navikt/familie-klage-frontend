@@ -1,13 +1,12 @@
-import React from 'react';
-
-import { describe, expect, test } from 'vitest';
-import { FormProvider, useForm } from 'react-hook-form';
-import { EndreBehandlendeEnhetFeltnavn } from './feltnavn';
-import { BegrunnelseFelt } from './BegrunnelseFelt';
-import { render } from '../../../lib/testrender';
 import { Button } from '@navikt/ds-react';
+import React from 'react';
+import { FormProvider, useForm } from 'react-hook-form';
+import { describe, expect, test } from 'vitest';
+import { render } from '../../../lib/testrender';
+import { BegrunnelseFelt } from './BegrunnelseFelt';
+import { EndreBehandlendeEnhetFeltnavn } from './feltnavn';
 
-const onSubmit = (delay: number) => new Promise((resolve) => setTimeout(resolve, delay));
+const onSubmit = (delay: number) => new Promise(resolve => setTimeout(resolve, delay));
 
 function FormWrapper({
     children,
@@ -129,7 +128,7 @@ describe('BegrunnelseFelt', () => {
 
     test('skal vise komponent med preutfylt verdi fra values', async () => {
         const { screen } = render(<BegrunnelseFelt />, {
-            wrapper: (props) => (
+            wrapper: props => (
                 <FormWrapper
                     {...props}
                     values={{ [EndreBehandlendeEnhetFeltnavn.BEGRUNNELSE]: 'bla bla bla' }}
@@ -143,7 +142,7 @@ describe('BegrunnelseFelt', () => {
 
     test('skal ikke kunne skrive hvis formet blir submitted', async () => {
         const { screen, user } = render(<BegrunnelseFelt />, {
-            wrapper: (props) => <FormWrapper {...props} onSubmitDelay={3_000} />,
+            wrapper: props => <FormWrapper {...props} onSubmitDelay={3_000} />,
         });
 
         const textbox = screen.getByRole('textbox', { name });

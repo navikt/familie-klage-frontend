@@ -1,10 +1,10 @@
-import { Alert, Box, Link, Loader, VStack } from '@navikt/ds-react';
 import { LinkIcon } from '@navikt/aksel-icons';
+import { Alert, Box, Link, Loader, VStack } from '@navikt/ds-react';
 import React, { useState } from 'react';
-import { base64toBlob, åpnePdfIEgenTab } from '../../../App/utils/utils';
-import { useLagHenleggelsesbrev } from './hooks/useLagHenleggelsesbrev';
 import type { Behandling } from '../../../App/typer/fagsak';
+import { base64toBlob, åpnePdfIEgenTab } from '../../../App/utils/utils';
 import { useBrevmottakereContext } from './context/BrevmottakereContextProvider';
+import { useLagHenleggelsesbrev } from './hooks/useLagHenleggelsesbrev';
 
 const filnavn = 'Forhåndsvisning av trukket søknadsbrev';
 
@@ -22,8 +22,8 @@ export function ForhåndsvisBrevLenke({ behandling }: Props) {
     async function hentOgÅpneBrevINyFane(): Promise<Awaited<void>> {
         settLaster(true);
         return lagHenleggelsesbrev(behandling.id, { brevmottakere })
-            .then((brev) => base64toBlob(brev, 'application/pdf'))
-            .then((blob) => åpnePdfIEgenTab(blob, filnavn))
+            .then(brev => base64toBlob(brev, 'application/pdf'))
+            .then(blob => åpnePdfIEgenTab(blob, filnavn))
             .catch((error: Error) => settFeilmelding(error.message))
             .finally(() => settLaster(false));
     }

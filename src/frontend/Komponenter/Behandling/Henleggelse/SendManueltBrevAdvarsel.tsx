@@ -1,10 +1,10 @@
 import { Alert } from '@navikt/ds-react';
 import React from 'react';
+import { usePersonopplysningerContext } from '../../../App/context/PersonopplysningerContext';
 import {
     erPersonopplysningerTilknyttetFullmakt,
     harPersonopplysningerVergemål,
 } from '../../../App/typer/personopplysninger';
-import { usePersonopplysningerContext } from '../../../App/context/PersonopplysningerContext';
 
 export function SendManueltBrevAdvarsel() {
     const { fagsakEier } = usePersonopplysningerContext();

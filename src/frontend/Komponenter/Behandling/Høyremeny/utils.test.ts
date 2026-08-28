@@ -1,6 +1,6 @@
+import { HistorikkHendelse, StegType } from '../../../App/typer/fagsak';
 import type { IBehandlingshistorikk } from './behandlingshistorikk';
 import { utledSisteHistorikkInnslagPerKjede } from './utils';
-import { HistorikkHendelse, StegType } from '../../../App/typer/fagsak';
 
 describe('høyremeny utils tester', () => {
     test('utled nyeste innslag per unike historikkhendelse', () => {
@@ -8,7 +8,7 @@ describe('høyremeny utils tester', () => {
             utledSisteHistorikkInnslagPerKjede(behandlingshistorikk);
 
         expect(
-            sisteHistorikkInnslagPerKjede.map((historikkInnslag) => historikkInnslag.endretTid)
+            sisteHistorikkInnslagPerKjede.map(historikkInnslag => historikkInnslag.endretTid)
         ).toEqual([
             '2025-09-17T13:46:37.722436',
             '2025-09-17T12:35:36.08834',

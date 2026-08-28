@@ -1,15 +1,14 @@
-import React from 'react';
-
-import { describe, expect, test } from 'vitest';
-import { FormProvider, useForm } from 'react-hook-form';
-import { EndreBehandlendeEnhetFeltnavn } from './feltnavn';
-import { render } from '../../../lib/testrender';
-import { EnhetsnummerFelt } from './EnhetsnummerFelt';
-import { Fagsystem } from '../../../App/typer/fagsak';
-import { BehandlingTestdata } from '../../../testdata/behandlingTestdata';
 import { Button } from '@navikt/ds-react';
+import React from 'react';
+import { FormProvider, useForm } from 'react-hook-form';
+import { describe, expect, test } from 'vitest';
+import { Fagsystem } from '../../../App/typer/fagsak';
+import { render } from '../../../lib/testrender';
+import { BehandlingTestdata } from '../../../testdata/behandlingTestdata';
+import { EnhetsnummerFelt } from './EnhetsnummerFelt';
+import { EndreBehandlendeEnhetFeltnavn } from './feltnavn';
 
-const onSubmit = (delay: number) => new Promise((resolve) => setTimeout(resolve, delay));
+const onSubmit = (delay: number) => new Promise(resolve => setTimeout(resolve, delay));
 
 function FormWrapper({
     children,
@@ -114,7 +113,7 @@ describe('EnhetsnummerFelt', () => {
 
     test('skal vise lesevisning hvis formet blir submitted', async () => {
         const { user, screen } = render(<EnhetsnummerFelt behandling={behandling} />, {
-            wrapper: (props) => <FormWrapper {...props} onSubmitDelay={3_000} />,
+            wrapper: props => <FormWrapper {...props} onSubmitDelay={3_000} />,
         });
 
         const combobox = screen.getByRole('combobox', { name: comboboxName });

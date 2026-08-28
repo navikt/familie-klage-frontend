@@ -1,7 +1,10 @@
-import { Alert, Button, Heading, HGrid, HStack, VStack } from '@navikt/ds-react';
 import { ArrowUndoIcon, TrashIcon } from '@navikt/aksel-icons';
+import { Alert, Button, Heading, HGrid, HStack, VStack } from '@navikt/ds-react';
+import CountryData from '@navikt/land-verktoy';
 import type { ReactNode } from 'react';
 import React from 'react';
+import { formaterOrgNummer } from '../../../App/typer/institusjon';
+import { Divider } from '../../../Felles/Divider/Divider';
 import { MottakerRolle, mottakerRolleVisningsnavn } from '../Brevmottakere/mottakerRolle';
 import type { NyBrevmottaker } from '../Brevmottakere/nyBrevmottaker';
 import {
@@ -9,10 +12,7 @@ import {
     erNyBrevmottakerPersonMedIdent,
     erNyBrevmottakerPersonUtenIdent,
 } from '../Brevmottakere/nyBrevmottaker';
-import CountryData from '@navikt/land-verktoy';
 import { useBrevmottakereContext } from './context/BrevmottakereContextProvider';
-import { Divider } from '../../../Felles/Divider/Divider';
-import { formaterOrgNummer } from '../../../App/typer/institusjon';
 
 const countryInstance = CountryData.getCountryInstance('nb');
 

@@ -1,8 +1,8 @@
-import * as React from 'react';
-import styles from './Valgvisning.module.css';
-import { Høyremenyvalg } from './Høyremeny';
 import { ClockFillIcon, FolderIcon } from '@navikt/aksel-icons';
 import { BodyShort, HStack } from '@navikt/ds-react';
+import * as React from 'react';
+import { Høyremenyvalg } from './Høyremeny';
+import styles from './Valgvisning.module.css';
 
 interface Props {
     settAktiv: (aktivtValg: Høyremenyvalg) => void;
@@ -16,7 +16,7 @@ export const Valgvisning: React.FC<Props> = ({ aktiv, settAktiv }) => (
             className={aktiv === Høyremenyvalg.Historikk ? styles.valgtIkon : styles.ikon}
             role={'button'}
             onClick={() => settAktiv(Høyremenyvalg.Historikk)}
-            onKeyDown={(event) => {
+            onKeyDown={event => {
                 if (event.key === 'Enter') {
                     settAktiv(Høyremenyvalg.Historikk);
                 }
@@ -30,7 +30,7 @@ export const Valgvisning: React.FC<Props> = ({ aktiv, settAktiv }) => (
             className={aktiv === Høyremenyvalg.Dokumenter ? styles.valgtIkon : styles.ikon}
             role={'button'}
             onClick={() => settAktiv(Høyremenyvalg.Dokumenter)}
-            onKeyDown={(event) => {
+            onKeyDown={event => {
                 if (event.key === 'Enter') {
                     settAktiv(Høyremenyvalg.Dokumenter);
                 }

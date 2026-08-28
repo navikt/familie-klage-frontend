@@ -1,6 +1,6 @@
-import type { HenlagtÅrsak } from './henlagtÅrsak';
-import type { HenleggBehandlingFormValues } from '../HenleggBehandlingForm';
 import type { NyBrevmottaker } from '../../Brevmottakere/nyBrevmottaker';
+import type { HenleggBehandlingFormValues } from '../HenleggBehandlingForm';
+import type { HenlagtÅrsak } from './henlagtÅrsak';
 
 export interface HenleggBehandlingDto {
     årsak: HenlagtÅrsak;

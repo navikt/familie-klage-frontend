@@ -1,5 +1,7 @@
+import { ClockIcon } from '@navikt/aksel-icons';
+import { Button, Detail, Heading, Label, VStack } from '@navikt/ds-react';
 import * as React from 'react';
-import type { IBehandlingshistorikk } from '../Høyremeny/behandlingshistorikk';
+import { useApp } from '../../../App/context/AppContext';
 import type { Behandling } from '../../../App/typer/fagsak';
 import {
     BehandlingResultat,
@@ -7,17 +9,15 @@ import {
     revurderingIkkeOpprettetÅrsak,
     StegType,
 } from '../../../App/typer/fagsak';
-import styles from './Tidslinje.module.css';
-import { Button, Detail, Heading, Label, VStack } from '@navikt/ds-react';
 import { formaterIsoDato, formaterIsoKlokke } from '../../../App/utils/formatter';
-import { ClockIcon } from '@navikt/aksel-icons';
-import { utledStegutfallForFerdigstiltBehandling } from '../utils';
-import { fjernDuplikatStegFraHistorikk } from './utils';
-import { useApp } from '../../../App/context/AppContext';
 import { utledEksternBehandlingLenke, utledSaksoversiktLenke } from '../../../App/utils/utils';
-import { Oppfylt } from '../../../Felles/Ikoner/Oppfylt';
 import { Advarsel } from '../../../Felles/Ikoner/Advarsel';
 import { Info } from '../../../Felles/Ikoner/Info';
+import { Oppfylt } from '../../../Felles/Ikoner/Oppfylt';
+import type { IBehandlingshistorikk } from '../Høyremeny/behandlingshistorikk';
+import { utledStegutfallForFerdigstiltBehandling } from '../utils';
+import styles from './Tidslinje.module.css';
+import { fjernDuplikatStegFraHistorikk } from './utils';
 
 /**
  * Hvis resultat = HENLAGT, vis kun opprettet og ferdigstilt
@@ -30,12 +30,12 @@ const filtrerResutatSteg = (
     let historikk = fjernDuplikatStegFraHistorikk(behandlingHistorikk);
     if (behandling.resultat === BehandlingResultat.HENLAGT) {
         historikk = historikk.filter(
-            (steg) =>
+            steg =>
                 steg.steg === StegType.OPPRETTET || steg.steg === StegType.BEHANDLING_FERDIGSTILT
         );
     }
     if (behandling.resultat === BehandlingResultat.IKKE_MEDHOLD_FORMKRAV_AVVIST) {
-        historikk = historikk.filter((steg) => steg.steg !== StegType.VURDERING);
+        historikk = historikk.filter(steg => steg.steg !== StegType.VURDERING);
     }
     return historikk;
 };

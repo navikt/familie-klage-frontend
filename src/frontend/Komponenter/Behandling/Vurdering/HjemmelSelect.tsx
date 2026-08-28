@@ -1,12 +1,12 @@
-import * as React from 'react';
 import { Select } from '@navikt/ds-react';
-import styles from './HjemmelSelect.module.css';
 import type { Dispatch, SetStateAction } from 'react';
-import type { IVurdering } from './vurderingValg';
-import type { Hjemmel, FolketrygdHjemmel } from './hjemmel';
-import { folketrygdHjemmelTilVisningstekst } from './hjemmel';
-import { useBehandling } from '../../../App/context/BehandlingContext';
+import * as React from 'react';
 import { useApp } from '../../../App/context/AppContext';
+import { useBehandling } from '../../../App/context/BehandlingContext';
+import styles from './HjemmelSelect.module.css';
+import type { FolketrygdHjemmel, Hjemmel } from './hjemmel';
+import { folketrygdHjemmelTilVisningstekst } from './hjemmel';
+import type { IVurdering } from './vurderingValg';
 
 interface Props {
     settHjemmel: Dispatch<SetStateAction<IVurdering>>;
@@ -20,7 +20,7 @@ export const HjemmelSelect: React.FC<Props> = ({ settHjemmel, valgtHjemmel }) =>
     const oppdaterHjemmel = (hjemmel: string) => {
         settIkkePersistertKomponent('hjemmel-select');
         settHjemmel(
-            (prevState) =>
+            prevState =>
                 ({
                     ...prevState,
                     hjemmel: hjemmel,
@@ -34,7 +34,7 @@ export const HjemmelSelect: React.FC<Props> = ({ settHjemmel, valgtHjemmel }) =>
             value={valgtHjemmel}
             label="Hjemmel"
             size="medium"
-            onChange={(e) => oppdaterHjemmel(e.target.value)}
+            onChange={e => oppdaterHjemmel(e.target.value)}
             className={styles.select}
         >
             <option value={''} disabled>

@@ -1,7 +1,7 @@
-import { MottakerRolle } from './mottakerRolle';
 import type { IFullmakt, IVergemål } from '../../../App/typer/personopplysninger';
 import type { BlankEøsLandkode } from '../../../Felles/Landvelger/landkode';
-import { erEøsLandkode, EøsLandkode } from '../../../Felles/Landvelger/landkode';
+import { EøsLandkode, erEøsLandkode } from '../../../Felles/Landvelger/landkode';
+import { MottakerRolle } from './mottakerRolle';
 
 export interface Brevmottaker {
     mottakerRolle?: MottakerRolle;
@@ -30,8 +30,8 @@ export interface BrevmottakerPersonMedIdent extends BrevmottakerPerson {
 
 export function mapTilMottakerRolle(brevmottakere: Brevmottaker[]) {
     return brevmottakere
-        .map((brevmottaker) => brevmottaker.mottakerRolle)
-        .filter((mottakerRolle) => mottakerRolle !== undefined);
+        .map(brevmottaker => brevmottaker.mottakerRolle)
+        .filter(mottakerRolle => mottakerRolle !== undefined);
 }
 
 export function erBrevmottakerPersonMedIdent(
@@ -103,7 +103,5 @@ export function utledPreutfyltBrevmottakerPersonUtenIdentNavn(
 }
 
 export function erEnBrevmottakerPersonUtenIdentDødsbo(brevmottakere: Brevmottaker[]) {
-    return brevmottakere.some(
-        (brevmottaker) => brevmottaker.mottakerRolle === MottakerRolle.DØDSBO
-    );
+    return brevmottakere.some(brevmottaker => brevmottaker.mottakerRolle === MottakerRolle.DØDSBO);
 }

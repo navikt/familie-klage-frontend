@@ -1,8 +1,8 @@
+import { BodyShort, DatePicker, useDatepicker } from '@navikt/ds-react';
 import type { FC } from 'react';
 import React from 'react';
-import { useDatepicker, DatePicker, BodyShort } from '@navikt/ds-react';
-import { formaterNullableIsoDato, tilLocaleDateString } from '../../App/utils/formatter';
 import { nullableTilDato } from '../../App/utils/dato';
+import { formaterNullableIsoDato, tilLocaleDateString } from '../../App/utils/formatter';
 
 export const Datovelger: FC<{
     verdi: string | undefined;
@@ -16,7 +16,7 @@ export const Datovelger: FC<{
 }> = ({ settVerdi, erLesevisning, verdi, id, feil, minDato, maksDato, placeholder }) => {
     const { datepickerProps, inputProps } = useDatepicker({
         defaultSelected: nullableTilDato(verdi),
-        onDateChange: (dato) => settVerdi(dato && tilLocaleDateString(dato)),
+        onDateChange: dato => settVerdi(dato && tilLocaleDateString(dato)),
         toDate: maksDato,
         fromDate: minDato ?? new Date('1 Jan 1990'),
     });

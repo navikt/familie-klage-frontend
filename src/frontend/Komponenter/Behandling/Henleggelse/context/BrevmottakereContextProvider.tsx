@@ -1,6 +1,8 @@
 import type { PropsWithChildren } from 'react';
 import React, { createContext, useContext, useRef, useState } from 'react';
 import { useOnMount } from '../../../../App/hooks/useOnMount';
+import type { Behandling } from '../../../../App/typer/fagsak';
+import { MottakerRolle } from '../../Brevmottakere/mottakerRolle';
 import type {
     NyBrevmottaker,
     NyBrevmottakerPersonMedIdent,
@@ -9,9 +11,7 @@ import {
     erNyBrevmottakerPersonMedIdent,
     lagNyeBrevmottakere,
 } from '../../Brevmottakere/nyBrevmottaker';
-import { MottakerRolle } from '../../Brevmottakere/mottakerRolle';
 import { useHentInitielleBrevmottakere } from '../hooks/useHentInitielleBrevmottakere';
-import type { Behandling } from '../../../../App/typer/fagsak';
 
 interface ContextValue {
     brevmottakere: NyBrevmottaker[];
@@ -49,11 +49,11 @@ export function BrevmottakereContextProvider({ behandling, children }: Props) {
     useOnMount(() => {
         settLaster(true);
         hentInitielleBrevmottakere(behandling.id)
-            .then((brevmottakere) => {
+            .then(brevmottakere => {
                 const nyeBrevmottakere = lagNyeBrevmottakere(brevmottakere);
                 bruker.current = nyeBrevmottakere
                     .filter(erNyBrevmottakerPersonMedIdent)
-                    .find((brevmottaker) => brevmottaker.mottakerRolle === MottakerRolle.BRUKER);
+                    .find(brevmottaker => brevmottaker.mottakerRolle === MottakerRolle.BRUKER);
                 settBrevmottakere(nyeBrevmottakere);
                 settLaster(false);
             })
@@ -64,10 +64,10 @@ export function BrevmottakereContextProvider({ behandling, children }: Props) {
     });
 
     function leggTilBrevmottaker(nyBrevmottaker: NyBrevmottaker) {
-        settBrevmottakere((prev) => {
+        settBrevmottakere(prev => {
             if (nyBrevmottaker.mottakerRolle === MottakerRolle.BRUKER_MED_UTENLANDSK_ADRESSE) {
                 const newState = [...prev];
-                const index = newState.findIndex((p) => p.mottakerRolle === MottakerRolle.BRUKER);
+                const index = newState.findIndex(p => p.mottakerRolle === MottakerRolle.BRUKER);
                 newState[index] = nyBrevmottaker;
                 return newState;
             }
@@ -79,7 +79,7 @@ export function BrevmottakereContextProvider({ behandling, children }: Props) {
     }
 
     function slettBrevmottaker(brevmottaker: NyBrevmottaker) {
-        settBrevmottakere((prev) => {
+        settBrevmottakere(prev => {
             const erBrukerMedUtenlandskAdresse =
                 brevmottaker.mottakerRolle === MottakerRolle.BRUKER_MED_UTENLANDSK_ADRESSE;
             const erDødsbo = brevmottaker.mottakerRolle === MottakerRolle.DØDSBO;
@@ -89,12 +89,12 @@ export function BrevmottakereContextProvider({ behandling, children }: Props) {
                 }
                 const newState = [...prev];
                 const index = newState.findIndex(
-                    (p) => p.mottakerRolle === brevmottaker.mottakerRolle
+                    p => p.mottakerRolle === brevmottaker.mottakerRolle
                 );
                 newState[index] = bruker.current;
                 return newState;
             }
-            return prev.filter((p) => p.mottakerRolle !== brevmottaker.mottakerRolle);
+            return prev.filter(p => p.mottakerRolle !== brevmottaker.mottakerRolle);
         });
     }
 

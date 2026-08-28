@@ -1,5 +1,6 @@
-import * as React from 'react';
 import { captureException } from '@nais/apm';
+import * as React from 'react';
+
 interface Props {
     children: React.ReactNode;
 }
@@ -9,7 +10,6 @@ export class ErrorBoundary extends React.Component<Props> {
         super(props);
     }
 
-    // eslint-disable-next-line
     public componentDidCatch(error: any, info: any): void {
         console.log(error, info);
         if (!import.meta.env.DEV) {
