@@ -1,0 +1,60 @@
+# Full pipeline on push to main. Build, test, and deploy to dev + prod
+name: Main
+on:
+  workflow_dispatch:
+  push:
+    branches:
+      - 'main'
+    paths-ignore:
+      - '**.md'
+      - '**.MD'
+      - '.github/**.yaml'
+      - '.gitignore'
+      - 'CODEOWNERS'
+      - 'LICENSE'
+
+jobs:
+  build:
+    name: Build
+    if: github.ref == 'refs/heads/main' # Only deploy to prod from main branch
+    permissions:
+      contents: read
+      id-token: write
+    uses: navikt/familie-baks-gha-workflows/.github/workflows/build-pnpm-app.yaml@main # ratchet:exclude
+    with:
+      node-version: '24'
+      build-image: true
+      push-image: true
+    secrets: inherit
+  deploy-dev:
+    name: Deploy dev
+    permissions:
+      contents: read
+      id-token: write
+    needs: [build]
+    uses: navikt/familie-baks-gha-workflows/.github/workflows/deploy.yaml@main # ratchet:exclude
+    with:
+      image: ${{ needs.build.outputs.image }}
+      cluster: dev-gcp
+      resource: .nais/app-dev.yaml
+    secrets: inherit
+  deploy-prod:
+    name: Deploy prod
+    permissions:
+      contents: read
+      id-token: write
+    needs: [build, deploy-dev]
+    uses: navikt/familie-baks-gha-workflows/.github/workflows/deploy.yaml@main # ratchet:exclude
+    with:
+      image: ${{ needs.build.outputs.image }}
+      cluster: prod-gcp
+      resource: .nais/app-prod.yaml
+    secrets: inherit
+  varsle-slack:
+    name: Slack-melding ved feil
+    if: failure()
+    permissions: {}
+    needs: [ build, deploy-dev, deploy-prod ]
+    uses: navikt/familie-baks-gha-workflows/.github/workflows/notify-failed-workflow.yaml@main # ratchet:exclude
+    secrets:
+      BAKS_DEPLOYMENTS_SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK_URL }}
