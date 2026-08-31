@@ -152,12 +152,16 @@ export const folketrygdHjemmelTilVisningstekst: Record<FolketrygdHjemmel, string
 };
 
 export const baHjemlerTilVisningstekst: Record<
-    BarnetrygdlovenHjemmel | UtlandsavtalerHjemmel | ForvaltningslovenHjemmel.FV_TRETTIFEM,
+    | BarnetrygdlovenHjemmel
+    | UtlandsavtalerHjemmel
+    | ForvaltningslovenHjemmel.FV_TRETTIFEM
+    | ForvaltningslovenHjemmel.FV_TRETTIEN,
     string
 > = {
     ...barnetrygdlovenVisningstekster,
     ...utlandsavtalerHjemmelVisningstekster,
     FV_TRETTIFEM: forvaltningslovenVisningstekster.FV_TRETTIFEM,
+    FV_TRETTIEN: forvaltningslovenVisningstekster.FV_TRETTIEN,
 };
 
 export const ksHjemlerTilVisningstekst: Record<
