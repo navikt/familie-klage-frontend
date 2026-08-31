@@ -10,7 +10,9 @@
     "scripts": {
         "start": "NODE_ENV=production ENV=production node dist_backend/server.js",
         "start:dev": "pnpm build:backend && NODE_ENV=development node dist_backend/server.js",
-        "test": "vitest",
+        "test": "pnpm test:backend && pnpm test:frontend",
+        "test:backend": "vitest --config src/backend/vitest.config.ts --run",
+        "test:frontend": "vitest --config src/frontend/vitest.config.ts --run",
         "build": "pnpm build:prod",
         "build:prod": "NODE_ENV=production pnpm build:backend && pnpm build:frontend",
         "build:backend": "tsc -p src/backend/tsconfig.json && node scripts/prune-backend-node-modules.js",
