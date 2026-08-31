@@ -56,37 +56,6 @@ updates:
         patterns:
           - 'react-router-dom'
           - '@types/react-router-dom'
-      babel:
-        patterns:
-          - '@babel/core'
-          - '@babel/preset-env'
-          - '@babel/preset-react'
-          - '@babel/preset-typescript'
-      webpack:
-        patterns:
-          - '@pmmmwh/react-refresh-webpack-plugin'
-          - 'react-refresh'
-          - 'compression-webpack-plugin'
-          - 'copy-webpack-plugin'
-          - 'fork-ts-checker-webpack-plugin'
-          - 'html-webpack-plugin'
-          - 'mini-css-extract-plugin'
-          - 'postcss'
-          - 'postcss-loader'
-          - 'css-loader'
-          - 'style-loader'
-          - 'svg-inline-loader'
-          - 'babel-loader'
-          - 'file-loader'
-          - 'webpack'
-          - 'webpack-cli'
-          - 'webpack-dev-middleware'
-          - 'webpack-dev-server'
-          - 'webpack-hot-middleware'
-          - 'webpack-merge'
-          - '@types/webpack'
-          - '@types/webpack-env'
-          - '@types/webpack-hot-middleware'
       testing:
         patterns:
           - '@testing-library/dom'

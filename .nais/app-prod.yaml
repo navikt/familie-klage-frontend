@@ -64,7 +64,7 @@ spec:
     - secret: familie-klage-frontend        # Ulike secrets
   env:
     - name: APP_VERSION
-      value: "{{version}}"
+      value: "{{ VERSION }}"
     - name: ENV
       value: production
   valkey:

@@ -5,7 +5,7 @@ tsbuildinfo
 .DS_Store
 .idea
 VERSION
-yarn-error.log
+pnpm-debug.log
 .env
 ci-tests/reports
 secure.log

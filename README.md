@@ -4,8 +4,9 @@ Frontend app for behandling av klager (team familie)
 
 # Kom i gang med utvikling
 
-* Installere avhengigheter `yarn`
-* Starte dev-server `yarn start:dev`
+* Aktiver riktig pnpm-versjon med `corepack enable` (henter versjonen fra `packageManager` i package.json)
+* Installere avhengigheter `pnpm install`
+* Starte dev-server `pnpm start:dev`
 * Åpne `http://localhost:8020` i nettleseren din
 
 For å kunne installere avhengigheter fra navikt registry må man være logget inn i github packages. Kjør kommando:
@@ -48,7 +49,7 @@ ENV=lokalt-mot-preprod
 EF_SAK_SCOPE=api://dev-gcp.teamfamilie.familie-ef-sak/.default
 ```
 
-For å bygge prodversjon kjør `yarn build`. Prodversjonen vil ikke kjøre lokalt med mindre det gjøres en del endringer i forbindelse med uthenting av environment variabler og URLer for uthenting av informasjon.
+For å bygge prodversjon kjør `pnpm build`. Prodversjonen vil ikke kjøre lokalt med mindre det gjøres en del endringer i forbindelse med uthenting av environment variabler og URLer for uthenting av informasjon.
 
 ---------
 
