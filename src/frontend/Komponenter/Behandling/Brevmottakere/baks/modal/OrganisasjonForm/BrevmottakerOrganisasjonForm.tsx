@@ -26,6 +26,9 @@ export interface BrevmottakerOrganisasjonFormValues {
     [BrevmottakerOrganisasjonFeltnavn.NAVN_HOS_ORGANISASJON]: string;
 }
 
+export const organisasjonIkkeHentetFeilmelding =
+    'Organisasjonen må søkes opp før den kan legges til.';
+
 interface Props {
     form: UseFormReturn<BrevmottakerOrganisasjonFormValues>;
     onSubmit: SubmitHandler<BrevmottakerOrganisasjonFormValues>;
@@ -73,9 +76,23 @@ export function BrevmottakerOrganisasjonForm({
 
     const organisasjonsnavn = watch(BrevmottakerOrganisasjonFeltnavn.ORGANISASJONSNAVN);
 
+    const onSubmitHvisOrganisasjonErHentet: SubmitHandler<
+        BrevmottakerOrganisasjonFormValues
+    > = values => {
+        if (!values[BrevmottakerOrganisasjonFeltnavn.ORGANISASJONSNAVN]) {
+            setError(
+                BrevmottakerOrganisasjonFeltnavn.ORGANISASJONSNUMMER,
+                { type: 'manual', message: organisasjonIkkeHentetFeilmelding },
+                { shouldFocus: true }
+            );
+            return;
+        }
+        return onSubmit(values);
+    };
+
     return (
         <FormProvider {...form}>
-            <form onSubmit={handleSubmit(onSubmit)}>
+            <form onSubmit={handleSubmit(onSubmitHvisOrganisasjonErHentet)}>
                 <VStack gap={'space-16'}>
                     <Fieldset legend={'Ny brevmottaker'} hideLegend={true}>
                         <OrganisasjonSøk hentOgSettOrganisasjon={hentOgSettOrganisasjon} />

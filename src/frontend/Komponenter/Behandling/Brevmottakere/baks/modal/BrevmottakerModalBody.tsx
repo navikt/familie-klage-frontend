@@ -91,7 +91,7 @@ export function BrevmottakerModalBody({
         return opprettBrevmottaker(lagNyBrevmottakerOrganisasjon(brevmottakerFormValues))
             .then(() => settVisForm(false))
             .catch((error: Error) =>
-                brevmottakerPersonUtenIdentForm.setError('root', { message: error.message })
+                brevmottakerOrganisasjonForm.setError('root', { message: error.message })
             );
     }
 
