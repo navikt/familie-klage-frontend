@@ -73,9 +73,23 @@ export function BrevmottakerOrganisasjonForm({
 
     const organisasjonsnavn = watch(BrevmottakerOrganisasjonFeltnavn.ORGANISASJONSNAVN);
 
+    const onSubmitHvisOrganisasjonErSøktOpp: SubmitHandler<
+        BrevmottakerOrganisasjonFormValues
+    > = verdier => {
+        if (!verdier[BrevmottakerOrganisasjonFeltnavn.ORGANISASJONSNAVN]) {
+            setError(
+                BrevmottakerOrganisasjonFeltnavn.ORGANISASJONSNUMMER,
+                { message: 'Organisasjonen må søkes opp før den kan legges til.' },
+                { shouldFocus: true }
+            );
+            return;
+        }
+        return onSubmit(verdier);
+    };
+
     return (
         <FormProvider {...form}>
-            <form onSubmit={handleSubmit(onSubmit)}>
+            <form onSubmit={handleSubmit(onSubmitHvisOrganisasjonErSøktOpp)}>
                 <VStack gap={'space-16'}>
                     <Fieldset legend={'Ny brevmottaker'} hideLegend={true}>
                         <OrganisasjonSøk hentOgSettOrganisasjon={hentOgSettOrganisasjon} />
