@@ -1,5 +1,4 @@
 import { Fieldset, VStack } from '@navikt/ds-react';
-import React from 'react';
 import type { FieldErrors, SubmitHandler, UseFormReturn } from 'react-hook-form';
 import { FormProvider } from 'react-hook-form';
 import { usePersonopplysningerContext } from '../../../App/context/PersonopplysningerContext';
@@ -68,8 +67,7 @@ export function HenleggBehandlingForm({ form, onSubmit, fagsystem }: Props) {
     const harVergemål = harPersonopplysningerVergemål(fagsakEier);
 
     const erMuligÅSendeBrev =
-        (fagsystem !== Fagsystem.EF || (!harVergemål && !erTilknyttetFullmakt)) &&
-        erHenlagtÅrsakTrukketTilbakeValgt;
+        (fagsystem !== Fagsystem.EF || (!harVergemål && !erTilknyttetFullmakt)) && erHenlagtÅrsakTrukketTilbakeValgt;
 
     return (
         <FormProvider {...form}>

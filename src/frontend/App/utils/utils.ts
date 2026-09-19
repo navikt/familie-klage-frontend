@@ -23,13 +23,9 @@ export const base64toBlob = (b64Data: string, contentType = '', sliceSize = 512)
     return blob;
 };
 
-export const harVerdi = (str: string | undefined | null): boolean =>
-    str !== undefined && str !== '' && str !== null;
+export const harVerdi = (str: string | undefined | null): boolean => str !== undefined && str !== '' && str !== null;
 
-export const utledBehandlingLenke = (
-    behandling: Behandling,
-    eksternLenker: Eksternlenker
-): string | null => {
+export const utledBehandlingLenke = (behandling: Behandling, eksternLenker: Eksternlenker): string | null => {
     if (
         behandling.påklagetVedtak.påklagetVedtakstype === PåklagetVedtakstype.VEDTAK &&
         behandling.påklagetVedtak.fagsystemVedtak?.fagsystemType === FagsystemType.ORDNIÆR
@@ -53,10 +49,7 @@ export const utledEksternBehandlingLenke = (
     }/${eksternBehandlingId}`;
 };
 
-export const utledTilbakekrevingLenke = (
-    behandling: Behandling,
-    eksternLenker: Eksternlenker
-): string | null => {
+export const utledTilbakekrevingLenke = (behandling: Behandling, eksternLenker: Eksternlenker): string | null => {
     if (
         behandling.påklagetVedtak.påklagetVedtakstype === PåklagetVedtakstype.VEDTAK &&
         behandling.påklagetVedtak.fagsystemVedtak?.fagsystemType === FagsystemType.TILBAKEKREVING
@@ -68,10 +61,7 @@ export const utledTilbakekrevingLenke = (
     return null;
 };
 
-export const utledSaksoversiktLenke = (
-    behandling: Behandling,
-    eksternLenker: Eksternlenker
-): string => {
+export const utledSaksoversiktLenke = (behandling: Behandling, eksternLenker: Eksternlenker): string => {
     return `${utledFagsystemUrl(behandling.fagsystem, eksternLenker)}/fagsak/${
         behandling.eksternFagsystemFagsakId
     }/saksoversikt`;
@@ -88,8 +78,7 @@ export const utledFagsystemUrl = (fagsystem: Fagsystem, eksternLenker: Eksternle
     }
 };
 
-export const harTallverdi = (verdi: number | undefined | null): boolean =>
-    verdi !== undefined && verdi !== null;
+export const harTallverdi = (verdi: number | undefined | null): boolean => verdi !== undefined && verdi !== null;
 
 export const åpnePdfIEgenTab = (blob: Blob, filnavn: string): void => {
     const blobUrl = URL.createObjectURL(blob);
@@ -101,15 +90,8 @@ export const åpnePdfIEgenTab = (blob: Blob, filnavn: string): void => {
     }, 500);
 };
 
-export const åpneFilIEgenTab = (
-    journalpostId: string,
-    dokumentinfoId: string,
-    filnavn: string
-): void => {
-    const newWindow = window.open(
-        `/dokument/vedlegg/${journalpostId}/dokument-pdf/${dokumentinfoId}`,
-        '_blank'
-    );
+export const åpneFilIEgenTab = (journalpostId: string, dokumentinfoId: string, filnavn: string): void => {
+    const newWindow = window.open(`/dokument/vedlegg/${journalpostId}/dokument-pdf/${dokumentinfoId}`, '_blank');
     setTimeout(() => {
         if (newWindow) {
             newWindow.document.title = filnavn;
@@ -118,10 +100,7 @@ export const åpneFilIEgenTab = (
 };
 
 // Brukes for å fjerne undefined og null fra lister som blir generert av .find()-funksjoner
-export function ensure<T>(
-    argument: T | undefined | null,
-    message = 'Verdien kan ikke være null eller undefined'
-): T {
+export function ensure<T>(argument: T | undefined | null, message = 'Verdien kan ikke være null eller undefined'): T {
     if (argument === undefined || argument === null) {
         throw new TypeError(message);
     }

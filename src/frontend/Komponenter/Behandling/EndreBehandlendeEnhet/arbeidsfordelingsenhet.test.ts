@@ -5,9 +5,7 @@ import { finnGyldigeArbeidsfordelingsenheterForFagsystem } from './arbeidsfordel
 describe('finnGyldigeArbeidsfordelingsenheterForFagsystem', () => {
     test('skal finne gyldige arbeidsfordelingsenheter for BA', () => {
         // Act
-        const arbeidsfordelingsenheter = finnGyldigeArbeidsfordelingsenheterForFagsystem(
-            Fagsystem.BA
-        );
+        const arbeidsfordelingsenheter = finnGyldigeArbeidsfordelingsenheterForFagsystem(Fagsystem.BA);
 
         // Expect
         expect(arbeidsfordelingsenheter.map(enhet => enhet.enhetsnummer)).toEqual([
@@ -22,9 +20,7 @@ describe('finnGyldigeArbeidsfordelingsenheterForFagsystem', () => {
 
     test('skal finne gyldige arbeidsfordelingsenheter for KS', () => {
         // Act
-        const arbeidsfordelingsenheter = finnGyldigeArbeidsfordelingsenheterForFagsystem(
-            Fagsystem.KS
-        );
+        const arbeidsfordelingsenheter = finnGyldigeArbeidsfordelingsenheterForFagsystem(Fagsystem.KS);
 
         // Expect
         expect(arbeidsfordelingsenheter.map(enhet => enhet.enhetsnummer)).toEqual([
@@ -40,9 +36,7 @@ describe('finnGyldigeArbeidsfordelingsenheterForFagsystem', () => {
 
     test('skal finne gyldige arbeidsfordelingsenheter for EF', () => {
         // Act
-        const arbeidsfordelingsenheter = finnGyldigeArbeidsfordelingsenheterForFagsystem(
-            Fagsystem.EF
-        );
+        const arbeidsfordelingsenheter = finnGyldigeArbeidsfordelingsenheterForFagsystem(Fagsystem.EF);
 
         // Expect
         expect(arbeidsfordelingsenheter.map(enhet => enhet.enhetsnummer)).length(0);

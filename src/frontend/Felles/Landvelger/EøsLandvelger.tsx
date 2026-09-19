@@ -1,6 +1,7 @@
 import type { ComboboxProps } from '@navikt/ds-react';
 import { UNSAFE_Combobox } from '@navikt/ds-react';
-import React, { useState } from 'react';
+import type React from 'react';
+import { useState } from 'react';
 
 // Aksel eksporterer ikke ComboboxOption, og deep import av cjs-stier støttes ikke av Vite
 type ComboboxOption = {
@@ -16,12 +17,7 @@ type Props = {
     onSelect: (landkode: EøsLandkode) => void;
 } & Omit<
     ComboboxProps,
-    | 'isMultiSelect'
-    | 'shouldAutocomplete'
-    | 'options'
-    | 'selectedOptions'
-    | 'onToggleSelected'
-    | 'onSelect'
+    'isMultiSelect' | 'shouldAutocomplete' | 'options' | 'selectedOptions' | 'onToggleSelected' | 'onSelect'
 >;
 
 const FALLBACK_COMBOBOX_OPTION: ComboboxOption = { value: '', label: '-- Velg land --' };

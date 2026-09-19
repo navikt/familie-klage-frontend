@@ -5,17 +5,9 @@ import type { IFormkravVilkår } from './typer';
 import { FormkravFristUnntak, Redigeringsmodus, VilkårStatus } from './typer';
 import { harManuellVedtaksdato, utledRadioKnapper } from './utils';
 
-export const alleVurderingerErStatus = (
-    formkravVurdering: IFormkravVilkår,
-    status: VilkårStatus
-): boolean => {
+export const alleVurderingerErStatus = (formkravVurdering: IFormkravVilkår, status: VilkårStatus): boolean => {
     const { klagePart, klageKonkret, klagefristOverholdt, klageSignert } = formkravVurdering;
-    return (
-        klagePart === status &&
-        klageKonkret === status &&
-        klagefristOverholdt === status &&
-        klageSignert === status
-    );
+    return klagePart === status && klageKonkret === status && klagefristOverholdt === status && klageSignert === status;
 };
 
 export const påklagetVedtakErValgt = (vurderinger: IFormkravVilkår) => {
@@ -53,8 +45,7 @@ const klagefristUnntakOppfylt = (unntak: FormkravFristUnntak) =>
     unntak !== FormkravFristUnntak.IKKE_UNNTAK && unntak !== FormkravFristUnntak.IKKE_SATT;
 
 export const alleVilkårTattStillingTil = (vurderinger: IFormkravVilkår) =>
-    utledIkkeUtfylteVilkår(vurderinger).length === 0 &&
-    klagefristUnntakTattStillingTil(vurderinger);
+    utledIkkeUtfylteVilkår(vurderinger).length === 0 && klagefristUnntakTattStillingTil(vurderinger);
 
 export const klagefristUnntakTattStillingTil = (vurderinger: IFormkravVilkår) =>
     vurderinger.klagefristOverholdt === VilkårStatus.OPPFYLT ||

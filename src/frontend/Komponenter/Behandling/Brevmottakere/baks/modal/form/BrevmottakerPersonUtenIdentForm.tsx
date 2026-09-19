@@ -1,5 +1,4 @@
 import { Alert, Button, Fieldset, HStack, VStack } from '@navikt/ds-react';
-import React from 'react';
 import type { SubmitHandler, UseFormReturn } from 'react-hook-form';
 import { FormProvider } from 'react-hook-form';
 import { useBehandling } from '../../../../../../App/context/BehandlingContext';

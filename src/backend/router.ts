@@ -1,10 +1,10 @@
+import fs from 'node:fs';
+import path from 'node:path';
 import { renderNaisMetaTags } from '@nais/apm';
 import type { Client } from '@navikt/familie-backend';
 import { ensureAuthenticated, logRequest } from '@navikt/familie-backend';
 import { LOG_LEVEL } from '@navikt/familie-logging';
 import type { NextFunction, Request, Response, Router } from 'express';
-import fs from 'fs';
-import path from 'path';
 import type { ViteDevServer } from 'vite';
 import { eksternlenker, frontendPath, miljø, roller } from './config.js';
 import { erLokal, erPreprod } from './env.js';

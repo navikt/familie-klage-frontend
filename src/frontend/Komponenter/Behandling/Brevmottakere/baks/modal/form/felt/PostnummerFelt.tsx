@@ -1,5 +1,4 @@
 import { TextField } from '@navikt/ds-react';
-import React from 'react';
 import { useController, useFormContext } from 'react-hook-form';
 import { EøsLandkode } from '../../../../../../../Felles/Landvelger/landkode';
 import type { BrevmottakerPersonUtenIdentFormValues } from '../BrevmottakerPersonUtenIdentForm';

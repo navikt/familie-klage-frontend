@@ -1,4 +1,3 @@
-import React from 'react';
 import { App } from './App';
 import '@navikt/ds-css';
 import { init } from '@nais/apm';

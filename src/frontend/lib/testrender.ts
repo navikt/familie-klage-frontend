@@ -6,7 +6,7 @@ import type {
 import { render as rtlRender, screen as rtlScreen } from '@testing-library/react';
 import type { UserEvent } from '@testing-library/user-event';
 import userEvent from '@testing-library/user-event';
-import React from 'react';
+import type React from 'react';
 
 type RenderOptions = Omit<RtlRenderOptions, 'queries'>;
 

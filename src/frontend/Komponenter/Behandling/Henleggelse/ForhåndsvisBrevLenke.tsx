@@ -1,6 +1,6 @@
 import { LinkIcon } from '@navikt/aksel-icons';
 import { Alert, Box, Link, Loader, VStack } from '@navikt/ds-react';
-import React, { useState } from 'react';
+import { useState } from 'react';
 import type { Behandling } from '../../../App/typer/fagsak';
 import { base64toBlob, åpnePdfIEgenTab } from '../../../App/utils/utils';
 import { useBrevmottakereContext } from './context/BrevmottakereContextProvider';
@@ -32,12 +32,7 @@ export function ForhåndsvisBrevLenke({ behandling }: Props) {
         <Box paddingBlock={'space-12'}>
             <VStack gap={'space-8'}>
                 {feilmelding && (
-                    <Alert
-                        variant={'error'}
-                        size={'small'}
-                        closeButton={true}
-                        onClose={() => settFeilmelding('')}
-                    >
+                    <Alert variant={'error'} size={'small'} closeButton={true} onClose={() => settFeilmelding('')}>
                         {feilmelding}
                     </Alert>
                 )}

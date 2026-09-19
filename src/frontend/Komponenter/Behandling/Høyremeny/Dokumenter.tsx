@@ -1,5 +1,5 @@
 import { compareDesc } from 'date-fns';
-import * as React from 'react';
+import type * as React from 'react';
 import { useCallback, useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import { useApp } from '../../../App/context/AppContext';
@@ -56,24 +56,18 @@ export const Dokumenter: React.FC<Props> = ({ hidden }) => {
     };
 
     const lastNedDokument = (dokument: Dokument) => {
-        åpneFilIEgenTab(
-            dokument.journalpostId,
-            dokument.dokumentinfoId,
-            dokument.tittel || dokument.filnavn || ''
-        );
+        åpneFilIEgenTab(dokument.journalpostId, dokument.dokumentinfoId, dokument.tittel || dokument.filnavn || '');
     };
 
     if (hidden) {
-        return <></>;
+        return null;
     }
 
     return (
         <DataViewer response={{ dokumenter }}>
             {({ dokumenter }) => {
                 const sortertDokumentliste = sorterDokumentlisten(dokumenter);
-                return (
-                    <Dokumentliste dokumenter={sortertDokumentliste} onClick={lastNedDokument} />
-                );
+                return <Dokumentliste dokumenter={sortertDokumentliste} onClick={lastNedDokument} />;
             }}
         </DataViewer>
     );

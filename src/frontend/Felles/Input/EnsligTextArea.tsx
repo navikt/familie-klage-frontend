@@ -1,6 +1,6 @@
 import type { TextareaProps } from '@navikt/ds-react';
 import { ErrorMessage, Textarea } from '@navikt/ds-react';
-import React from 'react';
+import type React from 'react';
 import styles from './EnsligTextArea.module.css';
 
 type Props = TextareaProps & { feilmelding?: string };

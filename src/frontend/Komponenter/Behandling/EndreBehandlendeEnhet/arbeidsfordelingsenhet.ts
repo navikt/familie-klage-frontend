@@ -44,10 +44,6 @@ export const behandlendeEnheter: Arbeidsfordelingsenhet[] = [
     },
 ];
 
-export function finnGyldigeArbeidsfordelingsenheterForFagsystem(
-    fagsystem: Fagsystem
-): Arbeidsfordelingsenhet[] {
-    return behandlendeEnheter.filter(behandlendeEnhet =>
-        behandlendeEnhet.gyldigForFagsystem.includes(fagsystem)
-    );
+export function finnGyldigeArbeidsfordelingsenheterForFagsystem(fagsystem: Fagsystem): Arbeidsfordelingsenhet[] {
+    return behandlendeEnheter.filter(behandlendeEnhet => behandlendeEnhet.gyldigForFagsystem.includes(fagsystem));
 }

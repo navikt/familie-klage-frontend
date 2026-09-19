@@ -1,11 +1,7 @@
 import { Label, Select } from '@navikt/ds-react';
+import type React from 'react';
 import type { Dispatch, SetStateAction } from 'react';
-import React from 'react';
-import {
-    Fagsystem,
-    PåklagetVedtakstype,
-    påklagetVedtakstypeTilTekst,
-} from '../../../App/typer/fagsak';
+import { Fagsystem, PåklagetVedtakstype, påklagetVedtakstypeTilTekst } from '../../../App/typer/fagsak';
 import type { FagsystemVedtak } from '../../../App/typer/fagsystemVedtak';
 import type { Klagebehandlingsresultat } from '../../../App/typer/klagebehandlingsresultat';
 import { erGyldigDato } from '../../../App/utils/dato';
@@ -109,13 +105,11 @@ export const VedtakSelect: React.FC<Props> = ({
                         {fagsystemVedtakTilVisningstekst(valg)}
                     </option>
                 ))}
-                {klagebehandlingsresultater
-                    .sort(sorterVedtakstidspunktKlageResultatDesc)
-                    .map((klager, index) => (
-                        <option key={index} value={'internId' + klager.id}>
-                            {klageresultatTilVisningstekst(klager)}
-                        </option>
-                    ))}
+                {klagebehandlingsresultater.sort(sorterVedtakstidspunktKlageResultatDesc).map((klager, index) => (
+                    <option key={index} value={`internId${klager.id}`}>
+                        {klageresultatTilVisningstekst(klager)}
+                    </option>
+                ))}
                 {hentValgForFagsystem(fagsystem).map(valg => (
                     <option value={valg} key={valg}>
                         {påklagetVedtakstypeTilTekst[valg]}
@@ -137,11 +131,7 @@ export const VedtakSelect: React.FC<Props> = ({
                                 },
                             }));
                         }}
-                        feil={
-                            manuellVedtaksdato && !erGyldigDato(manuellVedtaksdato)
-                                ? 'Ugyldig dato'
-                                : undefined
-                        }
+                        feil={manuellVedtaksdato && !erGyldigDato(manuellVedtaksdato) ? 'Ugyldig dato' : undefined}
                         maksDato={new Date()}
                     />
                 </div>

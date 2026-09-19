@@ -58,9 +58,7 @@ export function harEnBrukerNyBrevmottaker(nyeBrevmottakere: NyBrevmottaker[]) {
         .some(brevmottaker => brevmottaker.mottakerRolle === MottakerRolle.BRUKER);
 }
 
-export function erNyBrevmottakerPerson(
-    nyBrevmottaker: NyBrevmottaker
-): nyBrevmottaker is NyBrevmottakerPerson {
+export function erNyBrevmottakerPerson(nyBrevmottaker: NyBrevmottaker): nyBrevmottaker is NyBrevmottakerPerson {
     return (
         nyBrevmottaker.type === NyBrevmottakerType.PERSON_MED_IDENT ||
         nyBrevmottaker.type === NyBrevmottakerType.PERSON_UTEN_IDENT

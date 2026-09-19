@@ -1,11 +1,11 @@
 import './konfigurerApp.js';
 
+import path from 'node:path';
 import type { IApp } from '@navikt/familie-backend';
 import backend, { ensureAuthenticated } from '@navikt/familie-backend';
 import { logError, logInfo } from '@navikt/familie-logging';
 import express from 'express';
 import expressStaticGzip from 'express-static-gzip';
-import path from 'path';
 import { frontendPath, klageProxyUrl, sessionConfig } from './config.js';
 import { erLokal } from './env.js';
 import { prometheusTellere } from './metrikker.js';
@@ -19,17 +19,12 @@ backend(sessionConfig, prometheusTellere).then(async ({ app, azureAuthClient, ro
     logInfo(`Starter opp med frontendPath: ${frontendPath}`);
 
     if (process.env.NODE_ENV === 'development' && !erLokal()) {
-        throw Error(
-            'Kan ikke starte utviklingsserver uten lokalt miljø (ENV=local|lokalt-mot-preprod)'
-        );
+        throw Error('Kan ikke starte utviklingsserver uten lokalt miljø (ENV=local|lokalt-mot-preprod)');
     }
 
     if (!erLokal()) {
         app.use('/assets', expressStaticGzip(path.join(process.cwd(), frontendPath, 'assets'), {}));
-        app.use(
-            '/favicon.ico',
-            express.static(path.join(process.cwd(), frontendPath, 'favicon.ico'))
-        );
+        app.use('/favicon.ico', express.static(path.join(process.cwd(), frontendPath, 'favicon.ico')));
     }
 
     app.use(

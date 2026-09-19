@@ -1,6 +1,5 @@
 import { BodyShort, DatePicker, useDatepicker } from '@navikt/ds-react';
 import type { FC } from 'react';
-import React from 'react';
 import { nullableTilDato } from '../../App/utils/dato';
 import { formaterNullableIsoDato, tilLocaleDateString } from '../../App/utils/formatter';
 
@@ -27,13 +26,7 @@ export const Datovelger: FC<{
 
     return (
         <DatePicker id={id} {...datepickerProps} dropdownCaption>
-            <DatePicker.Input
-                label=""
-                placeholder={placeholder}
-                {...inputProps}
-                error={feil}
-                size="medium"
-            />
+            <DatePicker.Input label="" placeholder={placeholder} {...inputProps} error={feil} size="medium" />
         </DatePicker>
     );
 };

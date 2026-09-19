@@ -1,16 +1,5 @@
-import {
-    Alert,
-    Box,
-    Button,
-    Heading,
-    HStack,
-    Modal,
-    Radio,
-    RadioGroup,
-    Skeleton,
-    VStack,
-} from '@navikt/ds-react';
-import React, { useState } from 'react';
+import { Alert, Box, Button, Heading, HStack, Modal, Radio, RadioGroup, Skeleton, VStack } from '@navikt/ds-react';
+import { useState } from 'react';
 import { useToggles } from '../../../App/context/TogglesContext';
 import { ToggleName } from '../../../App/context/toggles';
 import type { Behandling } from '../../../App/typer/fagsak';
@@ -48,11 +37,7 @@ export function HenleggBehandlingModalInnhold({ behandling }: Props) {
 
     const {
         form: henleggBehandlingForm,
-        actions: {
-            submitForm: submitHenleggBehandlingForm,
-            visBrevmottakerForm,
-            skjulBrevmottakerForm,
-        },
+        actions: { submitForm: submitHenleggBehandlingForm, visBrevmottakerForm, skjulBrevmottakerForm },
         metadata: { erBrevmottakerFormSynlig },
     } = useHenleggBehandlingForm(behandling);
 
@@ -67,12 +52,9 @@ export function HenleggBehandlingModalInnhold({ behandling }: Props) {
     } = useBrevmottakerOrganisasjonForm(skjulBrevmottakerForm);
 
     const henlagtÅrsak = henleggBehandlingForm.watch(HenleggBehandlingFeltnavn.HENLAGT_ÅRSAK);
-    const sendBrevOmTrukketKlage = henleggBehandlingForm.watch(
-        HenleggBehandlingFeltnavn.SEND_BREV_OM_TRUKKET_KLAGE
-    );
+    const sendBrevOmTrukketKlage = henleggBehandlingForm.watch(HenleggBehandlingFeltnavn.SEND_BREV_OM_TRUKKET_KLAGE);
 
-    const skalViseBrevmottakereBox =
-        henlagtÅrsak === HenlagtÅrsak.TRUKKET_TILBAKE && !!sendBrevOmTrukketKlage;
+    const skalViseBrevmottakereBox = henlagtÅrsak === HenlagtÅrsak.TRUKKET_TILBAKE && !!sendBrevOmTrukketKlage;
     const skalViseSendManueltBrevAdvarsel =
         behandling.fagsystem === Fagsystem.EF && henlagtÅrsak === HenlagtÅrsak.TRUKKET_TILBAKE;
 
@@ -80,20 +62,13 @@ export function HenleggBehandlingModalInnhold({ behandling }: Props) {
         henleggBehandlingForm.formState.errors
     );
 
-    const [brevmottakerType, settBrevmottakerType] = useState<NyBrevmottakerType>(
-        NyBrevmottakerType.PERSON_UTEN_IDENT
-    );
+    const [brevmottakerType, settBrevmottakerType] = useState<NyBrevmottakerType>(NyBrevmottakerType.PERSON_UTEN_IDENT);
 
     if (laster) {
         return (
             <>
                 <Modal.Body>
-                    <VStack
-                        gap={'space-20'}
-                        as={'div'}
-                        height={'10rem'}
-                        paddingBlock={'space-24 space-0'}
-                    >
+                    <VStack gap={'space-20'} as={'div'} height={'10rem'} paddingBlock={'space-24 space-0'}>
                         <Skeleton variant={'rectangle'} width={'50%'} height={'1.65rem'} />
                         <Skeleton variant={'rectangle'} width={'50%'} height={'1.65rem'} />
                         <Skeleton variant={'rectangle'} width={'50%'} height={'1.65rem'} />
@@ -139,12 +114,8 @@ export function HenleggBehandlingModalInnhold({ behandling }: Props) {
                                     onSubmit={submitHenleggBehandlingForm}
                                     fagsystem={behandling.fagsystem}
                                 />
-                                {skalViseBrevmottakereBox && (
-                                    <BrevmottakereBox behandling={behandling} />
-                                )}
-                                {sendBrevOmTrukketKlage && (
-                                    <ForhåndsvisBrevLenke behandling={behandling} />
-                                )}
+                                {skalViseBrevmottakereBox && <BrevmottakereBox behandling={behandling} />}
+                                {sendBrevOmTrukketKlage && <ForhåndsvisBrevLenke behandling={behandling} />}
                             </VStack>
                         </Box>
                         {erBrevmottakerFormSynlig && (
@@ -156,8 +127,7 @@ export function HenleggBehandlingModalInnhold({ behandling }: Props) {
                                             Ny brevmottaker
                                         </Heading>
                                         <Alert variant={'info'}>
-                                            Legg til en brevmottaker eller lukk skjemaet for å
-                                            henlegge behandlingen.
+                                            Legg til en brevmottaker eller lukk skjemaet for å henlegge behandlingen.
                                         </Alert>
                                         {toggles[ToggleName.MANUELL_BREVMOTTAKER_ORGANISASJON] && (
                                             <RadioGroup
@@ -166,14 +136,8 @@ export function HenleggBehandlingModalInnhold({ behandling }: Props) {
                                                 onChange={settBrevmottakerType}
                                             >
                                                 <HStack gap={'space-24'}>
-                                                    <Radio
-                                                        value={NyBrevmottakerType.PERSON_UTEN_IDENT}
-                                                    >
-                                                        Person
-                                                    </Radio>
-                                                    <Radio value={NyBrevmottakerType.ORGANISASJON}>
-                                                        Organisasjon
-                                                    </Radio>
+                                                    <Radio value={NyBrevmottakerType.PERSON_UTEN_IDENT}>Person</Radio>
+                                                    <Radio value={NyBrevmottakerType.ORGANISASJON}>Organisasjon</Radio>
                                                 </HStack>
                                             </RadioGroup>
                                         )}
@@ -183,21 +147,15 @@ export function HenleggBehandlingModalInnhold({ behandling }: Props) {
                                                 [NyBrevmottakerType.PERSON_UTEN_IDENT]: (
                                                     <BrevmottakerPersonUtenIdentForm
                                                         form={brevmottakerPersonUtenIdentForm}
-                                                        onSubmit={
-                                                            onSubmitBrevmottakerPersonUtenIdentForm
-                                                        }
+                                                        onSubmit={onSubmitBrevmottakerPersonUtenIdentForm}
                                                         onCancel={skjulBrevmottakerForm}
-                                                        valgteMottakerRoller={mapTilMottakerRolle(
-                                                            brevmottakere
-                                                        )}
+                                                        valgteMottakerRoller={mapTilMottakerRolle(brevmottakere)}
                                                     />
                                                 ),
                                                 [NyBrevmottakerType.ORGANISASJON]: (
                                                     <BrevmottakerOrganisasjonForm
                                                         form={brevmottakerOrganisasjonForm}
-                                                        onSubmit={
-                                                            onSubmitBrevmottakerOrganisasjonForm
-                                                        }
+                                                        onSubmit={onSubmitBrevmottakerOrganisasjonForm}
                                                         onCancel={skjulBrevmottakerForm}
                                                     />
                                                 ),
@@ -212,9 +170,7 @@ export function HenleggBehandlingModalInnhold({ behandling }: Props) {
                         <Alert
                             closeButton={true}
                             onClose={() =>
-                                henleggBehandlingForm.clearErrors(
-                                    HenleggBehandlingFormServerErrors.onSubmitError.id
-                                )
+                                henleggBehandlingForm.clearErrors(HenleggBehandlingFormServerErrors.onSubmitError.id)
                             }
                             variant={'error'}
                         >
@@ -228,9 +184,7 @@ export function HenleggBehandlingModalInnhold({ behandling }: Props) {
                     form={HENLEGG_BEHANDLING_FORM_ID}
                     variant={'primary'}
                     type={'submit'}
-                    disabled={
-                        henleggBehandlingForm.formState.isSubmitting || erBrevmottakerFormSynlig
-                    }
+                    disabled={henleggBehandlingForm.formState.isSubmitting || erBrevmottakerFormSynlig}
                     loading={henleggBehandlingForm.formState.isSubmitting}
                 >
                     Henlegg

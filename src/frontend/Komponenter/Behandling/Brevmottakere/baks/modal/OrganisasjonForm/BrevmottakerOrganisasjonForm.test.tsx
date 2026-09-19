@@ -1,14 +1,10 @@
-import React from 'react';
 import type { SubmitHandler } from 'react-hook-form';
 import { useForm } from 'react-hook-form';
 import { beforeEach, describe, expect, test, vi } from 'vitest';
 import { render } from '../../../../../../lib/testrender';
 import { MottakerRolle } from '../../../mottakerRolle';
 import type { BrevmottakerOrganisasjonFormValues } from './BrevmottakerOrganisasjonForm';
-import {
-    BrevmottakerOrganisasjonFeltnavn,
-    BrevmottakerOrganisasjonForm,
-} from './BrevmottakerOrganisasjonForm';
+import { BrevmottakerOrganisasjonFeltnavn, BrevmottakerOrganisasjonForm } from './BrevmottakerOrganisasjonForm';
 
 const { hentOrganisasjon } = vi.hoisted(() => ({ hentOrganisasjon: vi.fn() }));
 
@@ -60,10 +56,7 @@ describe('BrevmottakerOrganisasjonForm', () => {
     test('skal fjerne feilmeldingen når organisasjonen blir søkt opp', async () => {
         const { screen, user } = render(<TestForm onSubmit={vi.fn()} />);
 
-        await user.type(
-            screen.getByRole('searchbox', { name: 'Organisasjonsnummer' }),
-            GYLDIG_ORGANISASJONSNUMMER
-        );
+        await user.type(screen.getByRole('searchbox', { name: 'Organisasjonsnummer' }), GYLDIG_ORGANISASJONSNUMMER);
         await user.click(screen.getByRole('button', { name: 'Legg til brevmottaker' }));
         expect(screen.getByText(FEILMELDING)).toBeInTheDocument();
 
@@ -77,16 +70,10 @@ describe('BrevmottakerOrganisasjonForm', () => {
         const onSubmit = vi.fn();
         const { screen, user } = render(<TestForm onSubmit={onSubmit} />);
 
-        await user.type(
-            screen.getByRole('searchbox', { name: 'Organisasjonsnummer' }),
-            GYLDIG_ORGANISASJONSNUMMER
-        );
+        await user.type(screen.getByRole('searchbox', { name: 'Organisasjonsnummer' }), GYLDIG_ORGANISASJONSNUMMER);
         await user.click(screen.getByRole('button', { name: 'Søk' }));
         expect(await screen.findByText('Testorganisasjon AS')).toBeInTheDocument();
-        await user.selectOptions(
-            screen.getByRole('combobox', { name: 'Mottakerrolle' }),
-            MottakerRolle.FULLMAKT
-        );
+        await user.selectOptions(screen.getByRole('combobox', { name: 'Mottakerrolle' }), MottakerRolle.FULLMAKT);
         await user.type(
             screen.getByRole('textbox', { name: 'Navn på kontaktperson hos organisasjonen' }),
             'Kari Nordmann'

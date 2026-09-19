@@ -1,4 +1,3 @@
-import React from 'react';
 import { useController, useFormContext } from 'react-hook-form';
 import { usePersonopplysningerContext } from '../../../../../../../App/context/PersonopplysningerContext';
 import { EøsLandvelger } from '../../../../../../../Felles/Landvelger/EøsLandvelger';
@@ -15,8 +14,7 @@ interface Props {
 const label = 'Land';
 
 export function LandFelt({ erLesevisning = false }: Props) {
-    const { control, getValues, setValue, resetField } =
-        useFormContext<BrevmottakerPersonUtenIdentFormValues>();
+    const { control, getValues, setValue, resetField } = useFormContext<BrevmottakerPersonUtenIdentFormValues>();
 
     const {
         fagsakEier: { navn },

@@ -71,11 +71,7 @@ enum UtlandsavtalerHjemmel {
     UTLAND_TRYGDEAVTALER = 'UTLAND_TRYGDEAVTALER',
 }
 
-export type Hjemmel =
-    | FolketrygdHjemmel
-    | BarnetrygdlovenHjemmel
-    | KontantstøttelovenHjemmel
-    | UtlandsavtalerHjemmel;
+export type Hjemmel = FolketrygdHjemmel | BarnetrygdlovenHjemmel | KontantstøttelovenHjemmel | UtlandsavtalerHjemmel;
 
 const barnetrygdlovenVisningstekster: Record<BarnetrygdlovenHjemmel, string> = {
     BT_TO: 'BTRL - § 2 Hvem som har rett til barnetrygd',
@@ -97,8 +93,7 @@ const kontantstøttelovenVisningstekster: Record<KontantstøttelovenHjemmel, str
     KS_TO: 'KSL - § 2 Vilkår knyttet til barnet',
     KS_TRE: 'KSL - § 3 Vilkår knyttet til støttemottaker',
     KS_TRE_A: 'KSL - § 3a Arbeidstakere på kontinentalsokkelen',
-    KS_FIRE:
-        'KSL - § 4 Barn av tilsatt ved utenlandsk representasjon eller annen administrativ tjenestegren',
+    KS_FIRE: 'KSL - § 4 Barn av tilsatt ved utenlandsk representasjon eller annen administrativ tjenestegren',
     KS_SEKS: 'KSL - § 6 Barn i fosterhjem eller institusjon',
     KS_SYV: 'KSL - § 7 Kontantstøttens størrelse',
     KS_ÅTTE: 'KSL - § 8 Stønadsperiode',
@@ -144,10 +139,8 @@ export const folketrygdHjemmelTilVisningstekst: Record<FolketrygdHjemmel, string
     FT_FEMTEN_ELLEVE: 'FTRL - § 15-11 Stønad til skolepenger',
     FT_FEMTEN_TOLV: 'FTRL - § 15-12 Sanksjon',
     FT_FEMTEN_TRETTEN: 'FTRL - § 15-13 Forholdet til andre folketrygdytelser',
-    FT_TJUETO_TOLV:
-        'FTRL - § 22-12 Tidspunkt for utbetaling når rett til en ytelse oppstår eller opphører',
-    FT_TJUETO_TRETTEN:
-        'FTRL - § 22-13 Frister for framsetting av krav, virkningstidspunkt og etterbetaling',
+    FT_TJUETO_TOLV: 'FTRL - § 22-12 Tidspunkt for utbetaling når rett til en ytelse oppstår eller opphører',
+    FT_TJUETO_TRETTEN: 'FTRL - § 22-13 Frister for framsetting av krav, virkningstidspunkt og etterbetaling',
     FT_TJUETO_FEMTEN: 'FTRL - § 22-15 Tilbakekreving',
 };
 
@@ -165,10 +158,7 @@ export const baHjemlerTilVisningstekst: Record<
 };
 
 export const ksHjemlerTilVisningstekst: Record<
-    | KontantstøttelovenHjemmel
-    | UtlandsavtalerHjemmel
-    | ForvaltningslovenHjemmel
-    | FolketrygdHjemmel.FT_TJUETO_FEMTEN,
+    KontantstøttelovenHjemmel | UtlandsavtalerHjemmel | ForvaltningslovenHjemmel | FolketrygdHjemmel.FT_TJUETO_FEMTEN,
     string
 > = {
     ...kontantstøttelovenVisningstekster,

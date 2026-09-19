@@ -1,15 +1,6 @@
 import { BodyShort, CopyButton, HStack } from '@navikt/ds-react';
-import React from 'react';
 
-export const NavnOgIdent = ({
-    navn,
-    ident,
-    alder,
-}: {
-    navn: string;
-    ident: string;
-    alder?: number;
-}) => {
+export const NavnOgIdent = ({ navn, ident, alder }: { navn: string; ident: string; alder?: number }) => {
     return (
         <HStack align={'center'} gap={'space-8 space-12'} wrap={false}>
             <BodyShort as={'span'} weight={'semibold'} style={{ whiteSpace: 'nowrap' }}>

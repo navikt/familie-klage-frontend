@@ -2,11 +2,7 @@ import { compareDesc } from 'date-fns';
 import { PåklagetVedtakstype } from '../../../App/typer/fagsak';
 import type { FagsystemVedtak } from '../../../App/typer/fagsystemVedtak';
 import type { Klagebehandlingsresultat } from '../../../App/typer/klagebehandlingsresultat';
-import {
-    formaterIsoDato,
-    formaterIsoDatoTid,
-    formaterNullableIsoDatoTid,
-} from '../../../App/utils/formatter';
+import { formaterIsoDato, formaterIsoDatoTid, formaterNullableIsoDatoTid } from '../../../App/utils/formatter';
 import type { IFormalkrav, IFormkravVilkår, PåklagetVedtak } from './typer';
 import { EFormalKravType, FagsystemType, FormkravFristUnntak, VilkårStatus } from './typer';
 import { alleVilkårOppfylt, klagefristUnntakErValgtOgOppfylt } from './validerFormkravUtils';
@@ -45,9 +41,7 @@ export const utledFagsystemVedtakFraPåklagetVedtak = (
     fagsystemVedtak: FagsystemVedtak[],
     påklagetVedtak: PåklagetVedtak
 ) => {
-    return fagsystemVedtak.find(
-        vedtak => vedtak.eksternBehandlingId === påklagetVedtak.eksternFagsystemBehandlingId
-    );
+    return fagsystemVedtak.find(vedtak => vedtak.eksternBehandlingId === påklagetVedtak.eksternFagsystemBehandlingId);
 };
 
 export const utledKlageresultatFraPåklagetVedtak = (
@@ -55,8 +49,7 @@ export const utledKlageresultatFraPåklagetVedtak = (
     påklagetVedtak: PåklagetVedtak
 ) => {
     return klagebehandlingsresultater.find(
-        klagebehandlingsresultat =>
-            klagebehandlingsresultat.id === påklagetVedtak.internKlagebehandlingId
+        klagebehandlingsresultat => klagebehandlingsresultat.id === påklagetVedtak.internKlagebehandlingId
     );
 };
 
@@ -134,9 +127,7 @@ export const evaluerOmFelterSkalTilbakestilles = (vurderinger: IFormkravVilkår)
             : vurderinger;
 
     const alleVilkårErOppfylt = alleVilkårOppfylt(tilbakestillFormkrav);
-    const klagefristUnntakOppfylt = klagefristUnntakErValgtOgOppfylt(
-        vurderinger.klagefristOverholdtUnntak
-    );
+    const klagefristUnntakOppfylt = klagefristUnntakErValgtOgOppfylt(vurderinger.klagefristOverholdtUnntak);
 
     const tilbakestillFritekstfelter =
         alleVilkårErOppfylt && !klagefristUnntakOppfylt

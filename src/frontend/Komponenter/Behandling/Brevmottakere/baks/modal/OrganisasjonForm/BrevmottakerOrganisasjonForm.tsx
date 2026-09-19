@@ -1,5 +1,4 @@
 import { Alert, Button, Fieldset, FormSummary, HStack, VStack } from '@navikt/ds-react';
-import React from 'react';
 import type { SubmitHandler, UseFormReturn } from 'react-hook-form';
 import { FormProvider } from 'react-hook-form';
 import { useBehandling } from '../../../../../../App/context/BehandlingContext';
@@ -33,12 +32,7 @@ interface Props {
     isCancellable?: boolean;
 }
 
-export function BrevmottakerOrganisasjonForm({
-    form,
-    onSubmit,
-    onCancel,
-    isCancellable = true,
-}: Props) {
+export function BrevmottakerOrganisasjonForm({ form, onSubmit, onCancel, isCancellable = true }: Props) {
     const { behandlingErRedigerbar } = useBehandling();
 
     const {
@@ -73,9 +67,7 @@ export function BrevmottakerOrganisasjonForm({
 
     const organisasjonsnavn = watch(BrevmottakerOrganisasjonFeltnavn.ORGANISASJONSNAVN);
 
-    const onSubmitHvisOrganisasjonErSøktOpp: SubmitHandler<
-        BrevmottakerOrganisasjonFormValues
-    > = verdier => {
+    const onSubmitHvisOrganisasjonErSøktOpp: SubmitHandler<BrevmottakerOrganisasjonFormValues> = verdier => {
         if (!verdier[BrevmottakerOrganisasjonFeltnavn.ORGANISASJONSNAVN]) {
             setError(
                 BrevmottakerOrganisasjonFeltnavn.ORGANISASJONSNUMMER,
@@ -99,9 +91,7 @@ export function BrevmottakerOrganisasjonForm({
                                     <FormSummary.Answers>
                                         <FormSummary.Answer>
                                             <FormSummary.Label>Organisasjonsnavn</FormSummary.Label>
-                                            <FormSummary.Value>
-                                                {organisasjonsnavn}
-                                            </FormSummary.Value>
+                                            <FormSummary.Value>{organisasjonsnavn}</FormSummary.Value>
                                         </FormSummary.Answer>
                                     </FormSummary.Answers>
                                 </FormSummary>

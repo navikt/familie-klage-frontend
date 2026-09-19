@@ -1,5 +1,5 @@
 import { Button } from '@navikt/ds-react';
-import React from 'react';
+import type React from 'react';
 import { FormProvider, useForm } from 'react-hook-form';
 import { describe, expect, test } from 'vitest';
 import { render } from '../../../lib/testrender';
@@ -100,9 +100,7 @@ describe('BegrunnelseFelt', () => {
         await user.keyboard(langTekststreng);
         await user.tab();
 
-        const feilmelding = screen.getByText(
-            `Begrunnelse kan ikke overstige ${maksAntallTegn} tegn.`
-        );
+        const feilmelding = screen.getByText(`Begrunnelse kan ikke overstige ${maksAntallTegn} tegn.`);
         expect(feilmelding).toBeInTheDocument();
     });
 
@@ -120,19 +118,14 @@ describe('BegrunnelseFelt', () => {
         await user.keyboard(langTekststreng);
         await user.tab();
 
-        const feilmelding = screen.queryByText(
-            `Begrunnelse kan ikke overstige ${maksAntallTegn} tegn.`
-        );
+        const feilmelding = screen.queryByText(`Begrunnelse kan ikke overstige ${maksAntallTegn} tegn.`);
         expect(feilmelding).not.toBeInTheDocument();
     });
 
     test('skal vise komponent med preutfylt verdi fra values', async () => {
         const { screen } = render(<BegrunnelseFelt />, {
             wrapper: props => (
-                <FormWrapper
-                    {...props}
-                    values={{ [EndreBehandlendeEnhetFeltnavn.BEGRUNNELSE]: 'bla bla bla' }}
-                />
+                <FormWrapper {...props} values={{ [EndreBehandlendeEnhetFeltnavn.BEGRUNNELSE]: 'bla bla bla' }} />
             ),
         });
 

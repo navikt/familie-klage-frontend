@@ -1,5 +1,4 @@
 import { Select } from '@navikt/ds-react';
-import React from 'react';
 import { useController, useFormContext } from 'react-hook-form';
 import type { Behandling } from '../../../App/typer/fagsak';
 import { finnGyldigeArbeidsfordelingsenheterForFagsystem } from './arbeidsfordelingsenhet';

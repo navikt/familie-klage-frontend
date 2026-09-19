@@ -1,14 +1,6 @@
-import {
-    Alert,
-    BodyShort,
-    Box,
-    Button,
-    Heading,
-    Select,
-    TextField,
-    VStack,
-} from '@navikt/ds-react';
-import React, { useState } from 'react';
+import { Alert, BodyShort, Box, Button, Heading, Select, TextField, VStack } from '@navikt/ds-react';
+import type React from 'react';
+import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useApp } from '../../App/context/AppContext';
 import { Fagsystem } from '../../App/typer/fagsak';
@@ -37,9 +29,7 @@ export const TestSide: React.FC = () => {
             case Fagsystem.KS:
             case Fagsystem.BA:
                 return behandlendeEnheter.find(
-                    enhet =>
-                        enhet.gyldigForFagsystem.includes(fagsystem) &&
-                        enhet.enhetsnummer !== '2103'
+                    enhet => enhet.gyldigForFagsystem.includes(fagsystem) && enhet.enhetsnummer !== '2103'
                 )!.enhetsnummer;
             default:
                 return '4489';
@@ -64,11 +54,7 @@ export const TestSide: React.FC = () => {
     };
 
     if (appEnv.miljø !== 'local') {
-        return (
-            <BodyShort>
-                Du må velge en behandling fra fagsystemet for å se på en klagebehandling
-            </BodyShort>
-        );
+        return <BodyShort>Du må velge en behandling fra fagsystemet for å se på en klagebehandling</BodyShort>;
     }
 
     return (

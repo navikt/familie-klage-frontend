@@ -1,5 +1,5 @@
 import { BodyShort } from '@navikt/ds-react';
-import * as React from 'react';
+import type * as React from 'react';
 import { NavLink } from 'react-router-dom';
 import { useApp } from '../../../App/context/AppContext';
 import { useBehandling } from '../../../App/context/BehandlingContext';

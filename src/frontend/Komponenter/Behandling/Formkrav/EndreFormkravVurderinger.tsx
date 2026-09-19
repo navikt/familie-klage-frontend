@@ -1,15 +1,7 @@
-import {
-    Alert,
-    BodyLong,
-    HelpText,
-    HStack,
-    Label,
-    Radio,
-    RadioGroup,
-    Textarea,
-} from '@navikt/ds-react';
+import { Alert, BodyLong, HelpText, HStack, Label, Radio, RadioGroup, Textarea } from '@navikt/ds-react';
+import type React from 'react';
 import type { Dispatch, SetStateAction } from 'react';
-import React, { useState } from 'react';
+import { useState } from 'react';
 import { useApp } from '../../../App/context/AppContext';
 import { useBehandling } from '../../../App/context/BehandlingContext';
 import { Fagsystem, PåklagetVedtakstype } from '../../../App/typer/fagsak';
@@ -22,11 +14,7 @@ import styles from './EndreFormkravVurderinger.module.css';
 import { KlagefristUnntak } from './KlagefristUnntak';
 import type { IFormalkrav, IFormkravVilkår } from './typer';
 import { EFormalKravType, FormkravFristUnntak, Redigeringsmodus, VilkårStatus } from './typer';
-import {
-    evaluerOmFelterSkalTilbakestilles,
-    skalViseKlagefristUnntak,
-    utledRadioKnapper,
-} from './utils';
+import { evaluerOmFelterSkalTilbakestilles, skalViseKlagefristUnntak, utledRadioKnapper } from './utils';
 import { VedtakSelect } from './VedtakSelect';
 import {
     alleVilkårOppfylt,
@@ -38,9 +26,7 @@ import {
 interface Props {
     fagsystemVedtak: FagsystemVedtak[];
     feilmelding: string;
-    lagreVurderinger: (
-        vurderinger: IFormkravVilkår
-    ) => Promise<RessursSuksess<IFormkravVilkår> | RessursFeilet>;
+    lagreVurderinger: (vurderinger: IFormkravVilkår) => Promise<RessursSuksess<IFormkravVilkår> | RessursFeilet>;
     settRedigeringsmodus: (redigeringsmodus: Redigeringsmodus) => void;
     settOppdaterteVurderinger: Dispatch<SetStateAction<IFormkravVilkår>>;
     vurderinger: IFormkravVilkår;
@@ -64,16 +50,12 @@ export const EndreFormkravVurderinger: React.FC<Props> = ({
     const [oppdatererVurderinger, settOppdatererVurderinger] = useState<boolean>(false);
 
     const alleVilkårErOppfylt = alleVilkårOppfylt(vurderinger);
-    const klageFristUnntakErOppfylt = klagefristUnntakErValgtOgOppfylt(
-        vurderinger.klagefristOverholdtUnntak
-    );
+    const klageFristUnntakErOppfylt = klagefristUnntakErValgtOgOppfylt(vurderinger.klagefristOverholdtUnntak);
 
-    const skalViseKlagefristUnntakOppfyltBegrunnelseOgBrevtekst =
-        alleVilkårErOppfylt && klageFristUnntakErOppfylt;
+    const skalViseKlagefristUnntakOppfyltBegrunnelseOgBrevtekst = alleVilkårErOppfylt && klageFristUnntakErOppfylt;
 
     const alleVilkårUtfylt = alleVilkårTattStillingTil(vurderinger);
-    const ikkePåklagetVedtak =
-        vurderinger.påklagetVedtak.påklagetVedtakstype === PåklagetVedtakstype.UTEN_VEDTAK;
+    const ikkePåklagetVedtak = vurderinger.påklagetVedtak.påklagetVedtakstype === PåklagetVedtakstype.UTEN_VEDTAK;
 
     const submitOppdaterteVurderinger = () => {
         if (oppdatererVurderinger) {
@@ -127,22 +109,15 @@ export const EndreFormkravVurderinger: React.FC<Props> = ({
             case Fagsystem.BA:
             case Fagsystem.KS:
                 return (
-                    ((!alleVilkårErOppfylt ||
-                        skalViseKlagefristUnntakOppfyltBegrunnelseOgBrevtekst) &&
+                    ((!alleVilkårErOppfylt || skalViseKlagefristUnntakOppfyltBegrunnelseOgBrevtekst) &&
                         alleVilkårUtfylt) ||
                     ikkePåklagetVedtak
                 );
         }
     };
 
-    const skalNullstilleKlagefristOverholdtUnntak = (
-        formalkrav: IFormalkrav,
-        vilkårStatus: VilkårStatus
-    ): boolean => {
-        return (
-            formalkrav.type == EFormalKravType.KLAGEFRIST_OVERHOLDT &&
-            vilkårStatus == VilkårStatus.OPPFYLT
-        );
+    const skalNullstilleKlagefristOverholdtUnntak = (formalkrav: IFormalkrav, vilkårStatus: VilkårStatus): boolean => {
+        return formalkrav.type == EFormalKravType.KLAGEFRIST_OVERHOLDT && vilkårStatus == VilkårStatus.OPPFYLT;
     };
 
     const oppdaterVurderinger = (formalkrav: IFormalkrav, vilkårStatus: VilkårStatus) => {
@@ -180,41 +155,37 @@ export const EndreFormkravVurderinger: React.FC<Props> = ({
             />
             {påklagetVedtakErValgt(vurderinger) && (
                 <>
-                    {vurderinger.påklagetVedtak.påklagetVedtakstype !==
-                        PåklagetVedtakstype.UTEN_VEDTAK && (
-                        <>
-                            {radioKnapper.map((formalkrav: IFormalkrav, index: number) => (
-                                <>
-                                    <HStack key={index} gap="space-8">
-                                        <RadioGroup
-                                            legend={formalkrav.spørsmål}
-                                            size="medium"
-                                            onChange={(val: VilkårStatus) => {
-                                                oppdaterVurderinger(formalkrav, val);
-                                            }}
-                                            value={formalkrav.svar}
-                                            key={index}
-                                        >
-                                            <Radio value={VilkårStatus.OPPFYLT}>Ja</Radio>
-                                            <Radio value={VilkårStatus.IKKE_OPPFYLT}>Nei</Radio>
-                                        </RadioGroup>
+                    {vurderinger.påklagetVedtak.påklagetVedtakstype !== PåklagetVedtakstype.UTEN_VEDTAK &&
+                        radioKnapper.map((formalkrav: IFormalkrav, index: number) => (
+                            <>
+                                <HStack key={index} gap="space-8">
+                                    <RadioGroup
+                                        legend={formalkrav.spørsmål}
+                                        size="medium"
+                                        onChange={(val: VilkårStatus) => {
+                                            oppdaterVurderinger(formalkrav, val);
+                                        }}
+                                        value={formalkrav.svar}
+                                        key={index}
+                                    >
+                                        <Radio value={VilkårStatus.OPPFYLT}>Ja</Radio>
+                                        <Radio value={VilkårStatus.IKKE_OPPFYLT}>Nei</Radio>
+                                    </RadioGroup>
 
-                                        {skalViseHjelpetekst(formalkrav.type) && (
-                                            <HelpText className={styles.helpText}>
-                                                <HelpTextInnhold formkravType={formalkrav.type} />
-                                            </HelpText>
-                                        )}
-                                    </HStack>
-                                    {skalViseKlagefristUnntak(formalkrav) && (
-                                        <KlagefristUnntak
-                                            settOppdaterteVurderinger={settOppdaterteVurderinger}
-                                            unntakVurdering={vurderinger.klagefristOverholdtUnntak}
-                                        />
+                                    {skalViseHjelpetekst(formalkrav.type) && (
+                                        <HelpText className={styles.helpText}>
+                                            <HelpTextInnhold formkravType={formalkrav.type} />
+                                        </HelpText>
                                     )}
-                                </>
-                            ))}
-                        </>
-                    )}
+                                </HStack>
+                                {skalViseKlagefristUnntak(formalkrav) && (
+                                    <KlagefristUnntak
+                                        settOppdaterteVurderinger={settOppdaterteVurderinger}
+                                        unntakVurdering={vurderinger.klagefristOverholdtUnntak}
+                                    />
+                                )}
+                            </>
+                        ))}
                     {skalViseBegrunnelseOgBrevtekst() && (
                         <>
                             <Textarea
@@ -234,9 +205,7 @@ export const EndreFormkravVurderinger: React.FC<Props> = ({
                                 label={
                                     <HStack>
                                         <Label>Fritekst til brev</Label>
-                                        <HelpText className={styles.helpText}>
-                                            {fritekstHjelpetekst()}
-                                        </HelpText>
+                                        <HelpText className={styles.helpText}>{fritekstHjelpetekst()}</HelpText>
                                     </HStack>
                                 }
                                 value={vurderinger.brevtekst}
@@ -272,15 +241,14 @@ const HelpTextInnhold: React.FC<{ formkravType: EFormalKravType }> = ({ formkrav
             return (
                 <>
                     <BodyLong spacing>
-                        Klagen skal som hovedregel være skriftlig og underskrevet av klageren, eller
-                        av klagers fullmektig.
+                        Klagen skal som hovedregel være skriftlig og underskrevet av klageren, eller av klagers
+                        fullmektig.
                     </BodyLong>
                     <BodyLong>
-                        Klager som er sendt inn via tjenester som krever personlig innlogging, for
-                        eksempel gjennom digitalt klageskjema eller Ditt NAV, har godkjent digital
-                        signatur. Hvis klagen er sendt inn per post, må den være signert av klager
-                        eller dens fullmektig. Hvis klagen mangler signatur, må vi innhente dette
-                        før klagen kan behandles.
+                        Klager som er sendt inn via tjenester som krever personlig innlogging, for eksempel gjennom
+                        digitalt klageskjema eller Ditt NAV, har godkjent digital signatur. Hvis klagen er sendt inn per
+                        post, må den være signert av klager eller dens fullmektig. Hvis klagen mangler signatur, må vi
+                        innhente dette før klagen kan behandles.
                     </BodyLong>
                 </>
             );
@@ -288,36 +256,32 @@ const HelpTextInnhold: React.FC<{ formkravType: EFormalKravType }> = ({ formkrav
             return (
                 <>
                     <BodyLong spacing>
-                        Selv om fristen for innsendelse av klage har blitt overskredet, kan klagen
-                        tas til behandling dersom et av følgende kriterier er oppfylt:
+                        Selv om fristen for innsendelse av klage har blitt overskredet, kan klagen tas til behandling
+                        dersom et av følgende kriterier er oppfylt:
                     </BodyLong>
                     <BodyLong spacing>
-                        <strong>a)</strong> Parten eller hans fullmektig ikke kan lastes for å ha
-                        oversittet fristen eller for å ha drøyd med å klage etterpå
+                        <strong>a)</strong> Parten eller hans fullmektig ikke kan lastes for å ha oversittet fristen
+                        eller for å ha drøyd med å klage etterpå
                     </BodyLong>
                     <BodyLong spacing>
                         <strong>b)</strong> Det av særlige grunner er rimelig at klagen blir prøvd
                     </BodyLong>
                     <BodyLong>
-                        Dersom klagen tas til behandling som følge av et slikt unntak, vennligst
-                        beskriv dette i fritekstfeltet.
+                        Dersom klagen tas til behandling som følge av et slikt unntak, vennligst beskriv dette i
+                        fritekstfeltet.
                     </BodyLong>
                 </>
             );
         case EFormalKravType.KLAGER_ER_PART:
             return (
                 <>
+                    <BodyLong spacing>Parten er den som vedtaket retter seg mot, eller den som saken gjelder.</BodyLong>
                     <BodyLong spacing>
-                        Parten er den som vedtaket retter seg mot, eller den som saken gjelder.
-                    </BodyLong>
-                    <BodyLong spacing>
-                        Parten har rett til å få bistand fra en advokat, verge eller annen
-                        fullmektig. Fullmektig som ikke er advokat, må som hovedregel legge frem en
-                        skriftlig fullmakt.
+                        Parten har rett til å få bistand fra en advokat, verge eller annen fullmektig. Fullmektig som
+                        ikke er advokat, må som hovedregel legge frem en skriftlig fullmakt.
                     </BodyLong>
                     <BodyLong>
-                        Hvis det ikke foreligger fullmakt, må fullmakt innhentes før klagen kan
-                        behandles.
+                        Hvis det ikke foreligger fullmakt, må fullmakt innhentes før klagen kan behandles.
                     </BodyLong>
                 </>
             );
@@ -325,13 +289,12 @@ const HelpTextInnhold: React.FC<{ formkravType: EFormalKravType }> = ({ formkrav
             return (
                 <>
                     <BodyLong spacing>
-                        I klagen må det stå hvilket vedtak det klages på, og hvorfor klager er uenig
-                        i vedtaket.
+                        I klagen må det stå hvilket vedtak det klages på, og hvorfor klager er uenig i vedtaket.
                     </BodyLong>
                     <BodyLong>
-                        Hvis klagen ikke inneholder konkrete opplysninger, som for eksempel «Jeg er
-                        uenig i vedtaket» eller «Jeg klager på vedtaket», må vi gå i dialog med
-                        klager for å få vite hva klagen gjelder før saken kan behandles.
+                        Hvis klagen ikke inneholder konkrete opplysninger, som for eksempel «Jeg er uenig i vedtaket»
+                        eller «Jeg klager på vedtaket», må vi gå i dialog med klager for å få vite hva klagen gjelder
+                        før saken kan behandles.
                     </BodyLong>
                 </>
             );

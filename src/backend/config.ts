@@ -3,14 +3,7 @@
 import type { IApi, ISessionKonfigurasjon } from '@navikt/familie-backend';
 
 type Rolle = 'veileder' | 'saksbehandler' | 'beslutter' | 'kode6' | 'kode7' | 'egenAnsatt';
-type EksternlenkeKey =
-    | 'efSakUrl'
-    | 'baSakUrl'
-    | 'ksSakUrl'
-    | 'aInntekt'
-    | 'gosys'
-    | 'modia'
-    | 'tilbakekrevingUrl';
+type EksternlenkeKey = 'efSakUrl' | 'baSakUrl' | 'ksSakUrl' | 'aInntekt' | 'gosys' | 'modia' | 'tilbakekrevingUrl';
 
 type Roller = {
     [key in Rolle]: string;

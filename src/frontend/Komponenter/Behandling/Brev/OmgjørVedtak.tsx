@@ -1,5 +1,5 @@
 import { Alert, VStack } from '@navikt/ds-react';
-import * as React from 'react';
+import type * as React from 'react';
 import { useEffect, useState } from 'react';
 import { useApp } from '../../../App/context/AppContext';
 import { useBehandling } from '../../../App/context/BehandlingContext';
@@ -22,9 +22,9 @@ export const OmgjørVedtak: React.FC<Props> = ({ behandlingId }) => {
 
     const [visModal, settVisModal] = useState<boolean>(false);
     const [feilmelding, settFeilmelding] = useState('');
-    const [kanOppretteRevurdering, settKanOppretteRevurdering] = useState<
-        Ressurs<KanOppretteRevurdering>
-    >(byggTomRessurs());
+    const [kanOppretteRevurdering, settKanOppretteRevurdering] = useState<Ressurs<KanOppretteRevurdering>>(
+        byggTomRessurs()
+    );
 
     const { ferdigstill, senderInn } = useFerdigstillBehandling(
         behandlingId,
@@ -56,9 +56,7 @@ export const OmgjørVedtak: React.FC<Props> = ({ behandlingId }) => {
                 <VStack margin="space-32" gap="space-16" maxWidth="40rem">
                     {behandlingErRedigerbar && (
                         <>
-                            <KanOppretteRevurderingTekst
-                                kanOppretteRevurdering={kanOppretteRevurdering}
-                            />
+                            <KanOppretteRevurderingTekst kanOppretteRevurdering={kanOppretteRevurdering} />
                             <Button onClick={() => settVisModal(true)}>Ferdigstill</Button>
                         </>
                     )}
@@ -90,24 +88,22 @@ const KanOppretteRevurderingTekst: React.FC<{ kanOppretteRevurdering: KanOpprett
     if (kanOppretteRevurdering.kanOpprettes) {
         return (
             <Alert variant={'info'}>
-                Resultatet av klagebehandlingen er at påklaget vedtak skal omgjøres. Når du
-                ferdigstiller klagebehandlingen vil det automatisk bli opprettet en
-                revurderingsbehandling.
+                Resultatet av klagebehandlingen er at påklaget vedtak skal omgjøres. Når du ferdigstiller
+                klagebehandlingen vil det automatisk bli opprettet en revurderingsbehandling.
             </Alert>
         );
     } else if (kanOppretteRevurdering.årsak === KanIkkeOppretteRevurderingÅrsak.ÅPEN_BEHANDLING) {
         return (
             <Alert variant={'warning'}>
-                Resultatet av klagebehandlingen er at påklaget vedtak skal omgjøres. Det vil ikke
-                bli opprettet en revurderingsbehandling automatisk fordi det allerede finnes en åpen
-                behandling på bruker.
+                Resultatet av klagebehandlingen er at påklaget vedtak skal omgjøres. Det vil ikke bli opprettet en
+                revurderingsbehandling automatisk fordi det allerede finnes en åpen behandling på bruker.
             </Alert>
         );
     } else {
         return (
             <Alert variant={'warning'}>
-                Resultatet av klagebehandlingen er at påklaget vedtak skal omgjøres. En
-                revurderingsbehandling for å fatte nytt vedtak blir ikke automatisk opprettet.
+                Resultatet av klagebehandlingen er at påklaget vedtak skal omgjøres. En revurderingsbehandling for å
+                fatte nytt vedtak blir ikke automatisk opprettet.
             </Alert>
         );
     }

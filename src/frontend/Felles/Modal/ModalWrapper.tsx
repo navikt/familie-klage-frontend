@@ -1,5 +1,5 @@
 import { Button, Modal } from '@navikt/ds-react';
-import React from 'react';
+import type React from 'react';
 import styles from './ModalWrapper.module.css';
 
 interface Props {

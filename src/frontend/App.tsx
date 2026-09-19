@@ -46,9 +46,7 @@ export const App: React.FC = () => {
     );
 };
 
-const AppRoutes: React.FC<{ innloggetSaksbehandler: ISaksbehandler }> = ({
-    innloggetSaksbehandler,
-}) => {
+const AppRoutes: React.FC<{ innloggetSaksbehandler: ISaksbehandler }> = ({ innloggetSaksbehandler }) => {
     const { autentisert } = useApp();
 
     return (
@@ -69,9 +67,7 @@ const AppRoutes: React.FC<{ innloggetSaksbehandler: ISaksbehandler }> = ({
     );
 };
 
-const AppInnhold: React.FC<{ innloggetSaksbehandler: ISaksbehandler }> = ({
-    innloggetSaksbehandler,
-}) => {
+const AppInnhold: React.FC<{ innloggetSaksbehandler: ISaksbehandler }> = ({ innloggetSaksbehandler }) => {
     const navigate = useNavigate();
     const { valgtSide, byttUrl, settByttUrl } = useApp();
 

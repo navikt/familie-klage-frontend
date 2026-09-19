@@ -1,10 +1,7 @@
 import type { DependencyList, EffectCallback } from 'react';
 import { useEffect, useMemo, useState } from 'react';
 
-export const useRerunnableEffect = (
-    effect: EffectCallback,
-    deps?: DependencyList
-): { rerun: () => void } => {
+export const useRerunnableEffect = (effect: EffectCallback, deps?: DependencyList): { rerun: () => void } => {
     const [rerun, setRerun] = useState<number>(0);
     const allDeps = useMemo(() => [rerun, ...(deps ?? [])], [rerun, deps]);
     useEffect(effect, allDeps);

@@ -1,5 +1,4 @@
 import { Modal } from '@navikt/ds-react';
-import React from 'react';
 import { useApp } from '../../../../../App/context/AppContext';
 import { useBehandling } from '../../../../../App/context/BehandlingContext';
 import type { Brevmottakere } from '../../brevmottakere';
@@ -25,11 +24,7 @@ function utledHeading(antallMottakere: number, erLesevisning: boolean): string {
     return antallMottakere === 1 ? 'Legg til eller fjern brevmottaker' : 'Brevmottakere';
 }
 
-export function BrevmottakerModal({
-    brevmottakere,
-    opprettBrevmottaker,
-    slettBrevmottaker,
-}: Props) {
+export function BrevmottakerModal({ brevmottakere, opprettBrevmottaker, slettBrevmottaker }: Props) {
     const { visBrevmottakereModal, settVisBrevmottakereModal } = useApp();
     const { behandlingErRedigerbar } = useBehandling();
 
@@ -40,10 +35,7 @@ export function BrevmottakerModal({
             open={visBrevmottakereModal}
             onClose={() => settVisBrevmottakereModal(false)}
             header={{
-                heading: utledHeading(
-                    manueltOpprettedeBrevmottaker.length,
-                    !behandlingErRedigerbar
-                ),
+                heading: utledHeading(manueltOpprettedeBrevmottaker.length, !behandlingErRedigerbar),
                 size: 'medium',
             }}
             width={'40rem'}

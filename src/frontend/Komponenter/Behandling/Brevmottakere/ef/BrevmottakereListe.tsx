@@ -1,7 +1,6 @@
 import { TrashIcon } from '@navikt/aksel-icons';
 import { BodyShort, Button, VStack } from '@navikt/ds-react';
 import type { Dispatch, FC, SetStateAction } from 'react';
-import React from 'react';
 import { KopierbartNullableFødselsnummer } from '../../../../Felles/Fødselsnummer/KopierbartNullableFødselsnummer';
 import type { BrevmottakerOrganisasjon, BrevmottakerPerson } from '../brevmottaker';
 import { erBrevmottakerPersonMedIdent } from '../brevmottaker';
@@ -58,15 +57,10 @@ export const BrevmottakereListe: FC<Props> = ({
                 </div>
             ))}
             {valgteOrganisasjonMottakere.map((mottaker, index) => (
-                <div
-                    className={styles.container}
-                    key={(mottaker.navnHosOrganisasjon ?? '') + index}
-                >
+                <div className={styles.container} key={(mottaker.navnHosOrganisasjon ?? '') + index}>
                     <div>
                         <BodyShort>{`${mottaker.navnHosOrganisasjon}`}</BodyShort>
-                        <BodyShort>
-                            {`Organisasjonsnummer: ${mottaker.organisasjonsnummer}`}
-                        </BodyShort>
+                        <BodyShort>{`Organisasjonsnummer: ${mottaker.organisasjonsnummer}`}</BodyShort>
                     </div>
                     <Button
                         onClick={() => fjernOrganisasjonMottaker(mottaker.organisasjonsnummer)}

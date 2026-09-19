@@ -20,8 +20,7 @@ export const månedFormat = { month: 'short' } as const;
 
 export const tilLocaleDateString = (dato: Date) => formatISO(dato, { representation: 'date' });
 
-export const formaterNullableIsoDato = (dato?: string): string | undefined =>
-    dato && formaterIsoDato(dato);
+export const formaterNullableIsoDato = (dato?: string): string | undefined => dato && formaterIsoDato(dato);
 
 export const formaterIsoDato = (dato: string): string => {
     return parseISO(dato).toLocaleDateString('no-NO', datoFormat);
@@ -50,8 +49,7 @@ export const formaterIsoDatoTidMedSekunder = (dato: string): string => {
 export const formaterNullableIsoDatoTid = (dato?: string): string | undefined => {
     return dato && formaterIsoDatoTid(dato);
 };
-export const formaterNullableMånedÅr = (dato?: string): string | undefined =>
-    dato && format(parseISO(dato), 'MM.yyyy');
+export const formaterNullableMånedÅr = (dato?: string): string | undefined => dato && format(parseISO(dato), 'MM.yyyy');
 
 export const formaterIsoMånedÅr = (dato: string): string => {
     return parseISO(dato).toLocaleDateString('no-NO', datoMånedÅrFormat);
@@ -74,7 +72,7 @@ export const formaterIsoÅr = (dato: string): number => {
 };
 
 export const formaterFødselsnummer = (fødselsnummer: string): string =>
-    fødselsnummer.substring(0, 6) + ' ' + fødselsnummer.substring(6);
+    `${fødselsnummer.substring(0, 6)} ${fødselsnummer.substring(6)}`;
 
 export const formaterNullableFødsesnummer = (fødselsnummer?: string): string | undefined =>
     fødselsnummer && formaterFødselsnummer(fødselsnummer);
@@ -83,9 +81,7 @@ export const formaterTallMedTusenSkille = (verdi?: number): string =>
     harTallverdi(verdi) ? Number(verdi).toLocaleString('no-NO', { currency: 'NOK' }) : '';
 
 export const formaterTallMedTusenSkilleEllerStrek = (verdi?: number): string =>
-    harTallverdi(verdi) && verdi !== 0
-        ? Number(verdi).toLocaleString('no-NO', { currency: 'NOK' })
-        : '-';
+    harTallverdi(verdi) && verdi !== 0 ? Number(verdi).toLocaleString('no-NO', { currency: 'NOK' }) : '-';
 
 export const formaterStrengMedStorForbokstav = (verdi: string): string =>
     verdi[0].toUpperCase() + verdi.slice(1).toLowerCase();

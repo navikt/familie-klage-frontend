@@ -1,6 +1,5 @@
 import { Select } from '@navikt/ds-react';
 import type { FC } from 'react';
-import React from 'react';
 import { useApp } from '../../../App/context/AppContext';
 import type { IOppgave } from '../Typer/IOppgave';
 
@@ -20,13 +19,10 @@ export const SaksbehandlerVelger: FC<{
             onChange={e => settSaksbehandler(e.target.value)}
             readOnly={erLesevisning}
         >
-            {oppgave.tilordnetRessurs &&
-                innloggetSaksbehandler.navIdent !== oppgave.tilordnetRessurs && (
-                    <option value={oppgave.tilordnetRessurs}>{oppgave.tilordnetRessurs}</option>
-                )}
-            <option value={innloggetSaksbehandler.navIdent}>
-                {innloggetSaksbehandler.displayName}
-            </option>
+            {oppgave.tilordnetRessurs && innloggetSaksbehandler.navIdent !== oppgave.tilordnetRessurs && (
+                <option value={oppgave.tilordnetRessurs}>{oppgave.tilordnetRessurs}</option>
+            )}
+            <option value={innloggetSaksbehandler.navIdent}>{innloggetSaksbehandler.displayName}</option>
             <option value="">Ingen</option>
         </Select>
     );

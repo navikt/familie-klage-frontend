@@ -1,15 +1,10 @@
 import { ExternalLinkIcon } from '@navikt/aksel-icons';
 import { HStack, Link } from '@navikt/ds-react';
-import React from 'react';
 import { useApp } from '../../App/context/AppContext';
 import type { Behandling } from '../../App/typer/fagsak';
 import { Klagebehandlingsårsak, klagebehandlingsårsakTilTekst } from '../../App/typer/fagsak';
 import { stønadstypeTilTekst } from '../../App/typer/stønadstype';
-import {
-    utledBehandlingLenke,
-    utledSaksoversiktLenke,
-    utledTilbakekrevingLenke,
-} from '../../App/utils/utils';
+import { utledBehandlingLenke, utledSaksoversiktLenke, utledTilbakekrevingLenke } from '../../App/utils/utils';
 import { EtikettInfo, EtikettSuksess } from '../Varsel/Etikett';
 import { EndreBehandlendeEnhetKnapp } from './EndreBehandlendeEnhetKnapp';
 import { HenleggKnapp } from './HenleggKnapp';
@@ -27,12 +22,7 @@ export const LenkerOgKnapper = ({ behandling }: Props) => {
     const tilbakekrevingLenke = utledTilbakekrevingLenke(behandling, appEnv.eksternlenker);
 
     return (
-        <HStack
-            align={'center'}
-            justify={'end'}
-            gap={'space-8 space-12'}
-            style={{ whiteSpace: 'nowrap' }}
-        >
+        <HStack align={'center'} justify={'end'} gap={'space-8 space-12'} style={{ whiteSpace: 'nowrap' }}>
             <HStack align={'center'} gap={'space-8 space-12'} wrap={false}>
                 {behandlingLenke && (
                     <Link href={behandlingLenke} target="_blank" rel="noopener noreferrer">
@@ -43,10 +33,7 @@ export const LenkerOgKnapper = ({ behandling }: Props) => {
                 {tilbakekrevingLenke && (
                     <Link href={tilbakekrevingLenke} target="_blank" rel="noopener noreferrer">
                         Gå til tilbakekreving
-                        <ExternalLinkIcon
-                            aria-label="Gå til tilbakekreving"
-                            fontSize={'1.375rem'}
-                        />
+                        <ExternalLinkIcon aria-label="Gå til tilbakekreving" fontSize={'1.375rem'} />
                     </Link>
                 )}
                 <Link href={saksoversiktLenke} target="_blank" rel="noopener noreferrer">

@@ -1,5 +1,4 @@
 import { Accordion, Box, Heading } from '@navikt/ds-react';
-import * as React from 'react';
 import type { Behandling } from '../../../../App/typer/fagsak';
 import { Fagsystem } from '../../../../App/typer/fagsak';
 import { LesMerOmInnstilling } from '../InnstillingTilNavKlageinstans/LesMerOmInnstilling';
@@ -17,11 +16,7 @@ interface Props {
     toggleAccordionTilstand: (feltnavn: keyof VurderingAccordionFelter) => void;
 }
 
-export const InnstillingTilNavKlageinstans = ({
-    behandling,
-    accordionTilstand,
-    toggleAccordionTilstand,
-}: Props) => {
+export const InnstillingTilNavKlageinstans = ({ behandling, accordionTilstand, toggleAccordionTilstand }: Props) => {
     return (
         <Box maxWidth="40rem">
             <Heading spacing size="medium" level="2">
@@ -36,40 +31,38 @@ export const InnstillingTilNavKlageinstans = ({
                     <LesMerOmInnstilling />
                 </>
             ) : (
-                <>
-                    <Accordion size="small" headingSize="xsmall">
-                        <InnstillingTilNavKlageinstansAvsnitt
-                            visningsnavn="Dokumentasjon og utredning"
-                            feltnavn="dokumentasjonOgUtredning"
-                            åpen={accordionTilstand.dokumentasjonOgUtredning}
-                            toggleÅpen={toggleAccordionTilstand}
-                        />
-                        <InnstillingTilNavKlageinstansAvsnitt
-                            visningsnavn="Spørsmålet i saken"
-                            feltnavn="spørsmåletISaken"
-                            åpen={accordionTilstand.spørsmåletISaken}
-                            toggleÅpen={toggleAccordionTilstand}
-                        />
-                        <InnstillingTilNavKlageinstansAvsnitt
-                            visningsnavn="Aktuelle rettskilder"
-                            feltnavn="aktuelleRettskilder"
-                            åpen={accordionTilstand.aktuelleRettskilder}
-                            toggleÅpen={toggleAccordionTilstand}
-                        />
-                        <InnstillingTilNavKlageinstansAvsnitt
-                            visningsnavn="Klagers anførsler"
-                            feltnavn="klagersAnførsler"
-                            åpen={accordionTilstand.klagersAnførsler}
-                            toggleÅpen={toggleAccordionTilstand}
-                        />
-                        <InnstillingTilNavKlageinstansAvsnitt
-                            visningsnavn="Vurdering av klagen"
-                            feltnavn="vurderingAvKlagen"
-                            åpen={accordionTilstand.vurderingAvKlagen}
-                            toggleÅpen={toggleAccordionTilstand}
-                        />
-                    </Accordion>
-                </>
+                <Accordion size="small" headingSize="xsmall">
+                    <InnstillingTilNavKlageinstansAvsnitt
+                        visningsnavn="Dokumentasjon og utredning"
+                        feltnavn="dokumentasjonOgUtredning"
+                        åpen={accordionTilstand.dokumentasjonOgUtredning}
+                        toggleÅpen={toggleAccordionTilstand}
+                    />
+                    <InnstillingTilNavKlageinstansAvsnitt
+                        visningsnavn="Spørsmålet i saken"
+                        feltnavn="spørsmåletISaken"
+                        åpen={accordionTilstand.spørsmåletISaken}
+                        toggleÅpen={toggleAccordionTilstand}
+                    />
+                    <InnstillingTilNavKlageinstansAvsnitt
+                        visningsnavn="Aktuelle rettskilder"
+                        feltnavn="aktuelleRettskilder"
+                        åpen={accordionTilstand.aktuelleRettskilder}
+                        toggleÅpen={toggleAccordionTilstand}
+                    />
+                    <InnstillingTilNavKlageinstansAvsnitt
+                        visningsnavn="Klagers anførsler"
+                        feltnavn="klagersAnførsler"
+                        åpen={accordionTilstand.klagersAnførsler}
+                        toggleÅpen={toggleAccordionTilstand}
+                    />
+                    <InnstillingTilNavKlageinstansAvsnitt
+                        visningsnavn="Vurdering av klagen"
+                        feltnavn="vurderingAvKlagen"
+                        åpen={accordionTilstand.vurderingAvKlagen}
+                        toggleÅpen={toggleAccordionTilstand}
+                    />
+                </Accordion>
             )}
         </Box>
     );

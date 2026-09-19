@@ -18,7 +18,7 @@ const [TogglesProvider, useToggles] = createUseContext(() => {
         hentToggles()
             .then((resp: AxiosResponse<Toggles>) => settToggles(resp.data))
             .catch((err: Error) => {
-                console.log('Kunne ikke hente toggles, ' + err.message);
+                console.log(`Kunne ikke hente toggles, ${err.message}`);
             });
     }, []);
 

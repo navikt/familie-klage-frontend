@@ -1,6 +1,7 @@
 import { Alert, BodyShort, Button, HStack, Label, Tooltip, VStack } from '@navikt/ds-react';
 import type { AxiosRequestConfig } from 'axios';
-import React, { useCallback, useEffect, useState } from 'react';
+import type React from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import { useApp } from '../../../../App/context/AppContext';
 import { useBehandling } from '../../../../App/context/BehandlingContext';
 import type { Ressurs } from '../../../../App/typer/ressurs';
@@ -59,20 +60,14 @@ const BrevMottakerPanel: React.FC<{
 
     const utledNavnPåMottakere = (brevMottakere: Brevmottakere) => {
         return [
-            ...brevMottakere.personer.map(
-                person => `${person.navn} (${person.mottakerRolle.toLowerCase()})`
-            ),
-            ...brevMottakere.organisasjoner.map(
-                org => `${org.navnHosOrganisasjon} -(${org.organisasjonsnummer})`
-            ),
+            ...brevMottakere.personer.map(person => `${person.navn} (${person.mottakerRolle.toLowerCase()})`),
+            ...brevMottakere.organisasjoner.map(org => `${org.navnHosOrganisasjon} -(${org.organisasjonsnummer})`),
         ];
     };
 
     const navn = utledNavnPåMottakere(mottakere);
     const flereBrevmottakereErValgt = navn.length > 1;
-    const brukerErBrevmottaker = mottakere.personer.find(
-        person => person.mottakerRolle === MottakerRolle.BRUKER
-    );
+    const brukerErBrevmottaker = mottakere.personer.find(person => person.mottakerRolle === MottakerRolle.BRUKER);
 
     return flereBrevmottakereErValgt || !brukerErBrevmottaker ? (
         <Alert variant={'info'}>

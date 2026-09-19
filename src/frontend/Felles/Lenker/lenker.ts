@@ -14,9 +14,7 @@ export const lagAInntektLink = async (
         url: `/familie-klage/api/inntekt/fagsak/${fagsakId}/generer-url`,
     })
         .then((response: Ressurs<string>) => {
-            return response.status === RessursStatus.SUKSESS
-                ? response.data
-                : appEnv.eksternlenker.aInntekt;
+            return response.status === RessursStatus.SUKSESS ? response.data : appEnv.eksternlenker.aInntekt;
         })
         .catch((_: AxiosError<string>) => {
             return appEnv.eksternlenker.aInntekt;

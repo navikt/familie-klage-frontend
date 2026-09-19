@@ -1,12 +1,8 @@
 import { PersonCircleIcon } from '@navikt/aksel-icons';
 import { BodyShort, Box, Detail, HStack, Label } from '@navikt/ds-react';
-import * as React from 'react';
+import type * as React from 'react';
 import type { Behandling } from '../../../App/typer/fagsak';
-import {
-    behandlingStegFullførtTilTekst,
-    hendelseHistorikkTilTekst,
-    StegType,
-} from '../../../App/typer/fagsak';
+import { behandlingStegFullførtTilTekst, hendelseHistorikkTilTekst, StegType } from '../../../App/typer/fagsak';
 import { formaterIsoDatoTid } from '../../../App/utils/formatter';
 import { utledStegutfallForFerdigstiltBehandling } from '../utils';
 import type { IBehandlingshistorikk } from './behandlingshistorikk';
@@ -38,9 +34,7 @@ export const HistorikkInnslag: React.FC<Props> = ({ behandling, historikkInnslag
                     </BodyShort>
                 )}
                 {steg === StegType.BEHANDLING_FERDIGSTILT && (
-                    <BodyShort>
-                        {utledStegutfallForFerdigstiltBehandling(behandling, steg)}
-                    </BodyShort>
+                    <BodyShort>{utledStegutfallForFerdigstiltBehandling(behandling, steg)}</BodyShort>
                 )}
                 <Detail>
                     {formaterIsoDatoTid(endretTid)} | {opprettetAv}

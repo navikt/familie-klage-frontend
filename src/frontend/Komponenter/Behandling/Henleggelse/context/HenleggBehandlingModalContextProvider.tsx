@@ -1,5 +1,5 @@
 import type { PropsWithChildren } from 'react';
-import React, { createContext, useContext, useState } from 'react';
+import { createContext, useContext, useState } from 'react';
 import { useBehandling } from '../../../../App/context/BehandlingContext';
 
 interface ContextValue {
@@ -15,9 +15,7 @@ const HenleggBehandlingModalContext = createContext<ContextValue | undefined>(un
 export const useHenleggBehandlingModalContext = () => {
     const context = useContext(HenleggBehandlingModalContext);
     if (context === undefined) {
-        throw new Error(
-            'useHenleggBehandlingModalContext må brukes innenfor en HenleggModalModalContextProvider'
-        );
+        throw new Error('useHenleggBehandlingModalContext må brukes innenfor en HenleggModalModalContextProvider');
     }
     return context;
 };
@@ -30,9 +28,7 @@ export const HENLEGG_BEHANDLING_MODAL_WIDTHS: Record<string, `${number}${string}
 export function HenleggBehandlingModalContextProvider({ children }: PropsWithChildren) {
     const { visHenleggModal, settVisHenleggModal } = useBehandling();
 
-    const [modalWidth, settModalWidth] = useState<`${number}${string}`>(
-        HENLEGG_BEHANDLING_MODAL_WIDTHS.DEFAULT
-    );
+    const [modalWidth, settModalWidth] = useState<`${number}${string}`>(HENLEGG_BEHANDLING_MODAL_WIDTHS.DEFAULT);
 
     function åpneModal() {
         settVisHenleggModal(true);

@@ -1,5 +1,4 @@
 import { Alert } from '@navikt/ds-react';
-import React from 'react';
 import { usePersonopplysningerContext } from '../../../App/context/PersonopplysningerContext';
 import {
     erPersonopplysningerTilknyttetFullmakt,
@@ -14,9 +13,7 @@ export function SendManueltBrevAdvarsel() {
     return (
         <>
             {harVergemål && (
-                <Alert variant={'warning'}>
-                    Verge registrert på bruker. Brev om trukket klage må sendes manuelt.
-                </Alert>
+                <Alert variant={'warning'}>Verge registrert på bruker. Brev om trukket klage må sendes manuelt.</Alert>
             )}
             {erTilknyttetFullmakt && (
                 <Alert variant={'warning'}>

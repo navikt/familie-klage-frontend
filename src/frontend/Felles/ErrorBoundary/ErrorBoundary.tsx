@@ -6,10 +6,6 @@ interface Props {
 }
 
 export class ErrorBoundary extends React.Component<Props> {
-    public constructor(props: Props) {
-        super(props);
-    }
-
     public componentDidCatch(error: any, info: any): void {
         console.log(error, info);
         if (!import.meta.env.DEV) {

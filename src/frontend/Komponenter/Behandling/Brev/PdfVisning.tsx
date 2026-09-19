@@ -1,5 +1,6 @@
 import { Alert, Loader, Pagination, VStack } from '@navikt/ds-react';
-import React, { useState } from 'react';
+import type React from 'react';
+import { useState } from 'react';
 import { Document, Page, pdfjs } from 'react-pdf';
 import type { Ressurs } from '../../../App/typer/ressurs';
 import { DataViewer } from '../../../Felles/DataViewer/DataViewer';
@@ -7,10 +8,7 @@ import styles from './PdfVisning.module.css';
 import 'react-pdf/dist/Page/TextLayer.css';
 import 'react-pdf/dist/Page/AnnotationLayer.css';
 
-pdfjs.GlobalWorkerOptions.workerSrc = new URL(
-    'pdfjs-dist/build/pdf.worker.min.mjs',
-    import.meta.url
-).toString();
+pdfjs.GlobalWorkerOptions.workerSrc = new URL('pdfjs-dist/build/pdf.worker.min.mjs', import.meta.url).toString();
 
 interface Props {
     pdfFilInnhold: Ressurs<string>;
@@ -43,9 +41,7 @@ export const PdfVisning: React.FC<Props> = ({ pdfFilInnhold }) => {
                         className={styles.pdfDokument}
                         file={`data:application/pdf;base64,${pdfFilInnhold}`}
                         onLoadSuccess={onDocumentLoadSuccess}
-                        error={
-                            <Alert variant={'error'}>Ukjent feil ved henting av dokument.</Alert>
-                        }
+                        error={<Alert variant={'error'}>Ukjent feil ved henting av dokument.</Alert>}
                         noData={<Alert variant={'error'}>'Dokumentet er tomt.</Alert>}
                         loading={<Loader />}
                     >

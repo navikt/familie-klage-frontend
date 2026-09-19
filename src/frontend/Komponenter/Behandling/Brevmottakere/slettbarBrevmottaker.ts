@@ -42,27 +42,21 @@ export function lagSlettbarBrevmottaker(brevmottaker: Brevmottaker): SlettbarBre
     }
 }
 
-export function lagSlettbarBrevmottakerPersonUtenIdent(
-    id: string
-): SlettbarBrevmottakerPersonUtenIdent {
+export function lagSlettbarBrevmottakerPersonUtenIdent(id: string): SlettbarBrevmottakerPersonUtenIdent {
     return {
         type: SlettbarBrevmottakerType.PERSON_UTEN_IDENT,
         id: id,
     };
 }
 
-export function lagSlettbarBrevmottakerPersonMedIdent(
-    personIdent: string
-): SlettbarBrevmottakerPersonMedIdent {
+export function lagSlettbarBrevmottakerPersonMedIdent(personIdent: string): SlettbarBrevmottakerPersonMedIdent {
     return {
         type: SlettbarBrevmottakerType.PERSON_MED_IDENT,
         personIdent: personIdent,
     };
 }
 
-export function lagSlettbarBrevmottakerOrganisasjon(
-    organisasjonsnummer: string
-): SlettbarBrevmottakerOrganisasjon {
+export function lagSlettbarBrevmottakerOrganisasjon(organisasjonsnummer: string): SlettbarBrevmottakerOrganisasjon {
     return {
         type: SlettbarBrevmottakerType.ORGANISASJON,
         organisasjonsnummer: organisasjonsnummer,

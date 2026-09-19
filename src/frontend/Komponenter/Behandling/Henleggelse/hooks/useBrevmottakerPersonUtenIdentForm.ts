@@ -23,7 +23,7 @@ export function useBrevmottakerPersonUtenIdentForm(onSubmitCallback?: () => void
     function submitForm(values: BrevmottakerPersonUtenIdentFormValues) {
         const nyBrevmottaker = lagNyBrevmottakerPersonUtenIdent(values);
         leggTilBrevmottaker(nyBrevmottaker);
-        onSubmitCallback && onSubmitCallback();
+        onSubmitCallback?.();
     }
 
     return { form, actions: { submitForm } };

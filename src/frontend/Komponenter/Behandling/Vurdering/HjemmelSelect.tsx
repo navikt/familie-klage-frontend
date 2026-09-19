@@ -1,6 +1,6 @@
 import { Select } from '@navikt/ds-react';
+import type * as React from 'react';
 import type { Dispatch, SetStateAction } from 'react';
-import * as React from 'react';
 import { useApp } from '../../../App/context/AppContext';
 import { useBehandling } from '../../../App/context/BehandlingContext';
 import styles from './HjemmelSelect.module.css';

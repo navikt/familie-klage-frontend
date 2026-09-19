@@ -1,5 +1,4 @@
 import { Box, ReadMore } from '@navikt/ds-react';
-import * as React from 'react';
 
 export const LesMerOmInnstilling = () => {
     return (
@@ -10,9 +9,8 @@ export const LesMerOmInnstilling = () => {
                         Hva klagesaken gjelder
                         <ol type="a">
                             <li>
-                                Skriv kort om resultatet i vedtaket. Eksempel: Klagers søknad om
-                                overgangsstønad ble avslått fordi hun har fått nytt barn med samme
-                                partner.
+                                Skriv kort om resultatet i vedtaket. Eksempel: Klagers søknad om overgangsstønad ble
+                                avslått fordi hun har fått nytt barn med samme partner.
                             </li>
                         </ol>
                     </li>

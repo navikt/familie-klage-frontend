@@ -1,16 +1,12 @@
 import { PlusCircleIcon } from '@navikt/aksel-icons';
 import { Alert, Box, Button, Heading, VStack } from '@navikt/ds-react';
-import React from 'react';
 import { useBehandling } from '../../../App/context/BehandlingContext';
 import { usePersonopplysningerContext } from '../../../App/context/PersonopplysningerContext';
 import { useToggles } from '../../../App/context/TogglesContext';
 import { ToggleName } from '../../../App/context/toggles';
 import type { Behandling } from '../../../App/typer/fagsak';
 import { Fagsystem } from '../../../App/typer/fagsak';
-import {
-    harEnBrukerNyBrevmottaker,
-    harEnDødsboNyBrevmottaker,
-} from '../Brevmottakere/nyBrevmottaker';
+import { harEnBrukerNyBrevmottaker, harEnDødsboNyBrevmottaker } from '../Brevmottakere/nyBrevmottaker';
 import { BrevmottakerDetaljer } from './BrevmottakerDetaljer';
 import { useBrevmottakereContext } from './context/BrevmottakereContextProvider';
 import { useBrevmottakerFormActionsContext } from './context/BrevmottakerFormActionsContextProvider';
@@ -37,30 +33,19 @@ export function BrevmottakereBox({ behandling }: Props) {
         behandling.fagsystem !== Fagsystem.EF &&
         !harDødsboBrevmottaker &&
         (brevmottakere.length < 2 || harBruker) &&
-        (fagsakEierPersonIdent === søkerPersonIdent ||
-            toggles[ToggleName.BRUK_SØKER_PERSONOPPLYSNINGER] === false);
+        (fagsakEierPersonIdent === søkerPersonIdent || toggles[ToggleName.BRUK_SØKER_PERSONOPPLYSNINGER] === false);
 
     return (
         <Box as={'div'} background={'neutral-moderateA'} padding={'space-12'}>
             <VStack gap={'space-16'}>
                 <Heading size={'small'}>Brevmottakere</Heading>
-                {brevmottakere.length === 0 && (
-                    <Alert variant={'warning'}>Fant ingen brevmottakere...</Alert>
-                )}
+                {brevmottakere.length === 0 && <Alert variant={'warning'}>Fant ingen brevmottakere...</Alert>}
                 {brevmottakere.map(brevmottaker => (
-                    <BrevmottakerDetaljer
-                        key={brevmottaker.mottakerRolle}
-                        brevmottaker={brevmottaker}
-                    />
+                    <BrevmottakerDetaljer key={brevmottaker.mottakerRolle} brevmottaker={brevmottaker} />
                 ))}
                 {visLeggTilNyBrevmottakerKnapp && (
                     <div>
-                        <Button
-                            variant={'tertiary'}
-                            size={'small'}
-                            icon={<PlusCircleIcon />}
-                            onClick={visForm}
-                        >
+                        <Button variant={'tertiary'} size={'small'} icon={<PlusCircleIcon />} onClick={visForm}>
                             Legg til ny brevmottaker
                         </Button>
                     </div>

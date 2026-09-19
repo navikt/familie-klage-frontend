@@ -1,6 +1,6 @@
 import { PersonHeadsetIcon } from '@navikt/aksel-icons';
 import { BodyShort, HStack, VStack } from '@navikt/ds-react';
-import React from 'react';
+import type React from 'react';
 import type { AnsvarligSaksbehandler } from '../../../App/typer/saksbehandler';
 import { AnsvarligSaksbehandlerRolle } from '../../../App/typer/saksbehandler';
 import styles from './TilegnetSaksbehandler.module.css';
@@ -33,9 +33,7 @@ export const TilegnetSaksbehandler: React.FC<Props> = ({ ansvarligSaksbehandler 
     );
 };
 
-const utledClassNameStatusBar = (
-    ansvarligSaksbehandlerRolle: AnsvarligSaksbehandlerRolle
-): string => {
+const utledClassNameStatusBar = (ansvarligSaksbehandlerRolle: AnsvarligSaksbehandlerRolle): string => {
     switch (ansvarligSaksbehandlerRolle) {
         case AnsvarligSaksbehandlerRolle.IKKE_SATT:
         case AnsvarligSaksbehandlerRolle.UTVIKLER_MED_VEILEDERROLLE:

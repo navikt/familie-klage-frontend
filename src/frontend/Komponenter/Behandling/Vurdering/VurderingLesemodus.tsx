@@ -1,5 +1,5 @@
 import { BodyLong, BodyShort, Heading, VStack } from '@navikt/ds-react';
-import * as React from 'react';
+import type * as React from 'react';
 import { alleHjemlerTilVisningstekst } from './hjemmel';
 import type { IVurdering } from './vurderingValg';
 import { VedtakValg, vedtakValgTilTekst, årsakValgTilTekst } from './vurderingValg';
@@ -11,7 +11,7 @@ export const VurderingLesemodus: React.FC<{ vurdering: IVurdering }> = ({ vurder
         case VedtakValg.OPPRETTHOLD_VEDTAK:
             return <OpprettholdVedtak vurdering={vurdering} />;
         default:
-            return <></>;
+            return null;
     }
 };
 

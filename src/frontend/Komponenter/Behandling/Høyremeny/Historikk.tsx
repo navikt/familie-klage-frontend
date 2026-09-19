@@ -1,4 +1,4 @@
-import * as React from 'react';
+import type * as React from 'react';
 import { useBehandling } from '../../../App/context/BehandlingContext';
 import type { Behandling } from '../../../App/typer/fagsak';
 import { DataViewer } from '../../../Felles/DataViewer/DataViewer';
@@ -10,16 +10,13 @@ export const Historikk: React.FC<{ hidden: boolean }> = ({ hidden }) => {
     const { behandling, behandlingHistorikk } = useBehandling();
 
     if (hidden) {
-        return <></>;
+        return null;
     }
 
     return (
         <DataViewer response={{ behandling, behandlingHistorikk }}>
             {({ behandling, behandlingHistorikk }) => (
-                <HistorikkContainer
-                    behandling={behandling}
-                    behandlingHistorikk={behandlingHistorikk}
-                />
+                <HistorikkContainer behandling={behandling} behandlingHistorikk={behandlingHistorikk} />
             )}
         </DataViewer>
     );
@@ -34,11 +31,7 @@ const HistorikkContainer: React.FC<{
     return (
         <>
             {sisteHistorikkInnslagPerKjede.map((historikk, index) => (
-                <HistorikkInnslag
-                    behandling={behandling}
-                    historikkInnslag={historikk}
-                    key={index}
-                />
+                <HistorikkInnslag behandling={behandling} historikkInnslag={historikk} key={index} />
             ))}
         </>
     );

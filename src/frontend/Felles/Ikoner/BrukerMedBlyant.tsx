@@ -1,5 +1,5 @@
 import { BgDefault, MetaPurple900 } from '@navikt/ds-tokens/dist/tokens';
-import * as React from 'react';
+import type * as React from 'react';
 
 interface Props {
     className?: string;

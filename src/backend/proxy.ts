@@ -1,8 +1,8 @@
+import type { ClientRequest, IncomingMessage } from 'node:http';
 import type { Client } from '@navikt/familie-backend';
 import { getOnBehalfOfAccessToken } from '@navikt/familie-backend';
 import { logError, logInfo, stdoutLogger } from '@navikt/familie-logging';
 import type { NextFunction, Request, RequestHandler, Response } from 'express';
-import type { ClientRequest, IncomingMessage } from 'http';
 import { createProxyMiddleware } from 'http-proxy-middleware';
 import { v4 as uuidv4 } from 'uuid';
 import { oboConfig } from './config.js';
@@ -51,8 +51,7 @@ export const attachToken = (authClient: Client): RequestHandler => {
                     logInfo(`invalid_grant`);
                     _res.status(500).json({
                         status: 'IKKE_TILGANG',
-                        frontendFeilmelding:
-                            'Uventet feil. Det er mulig at du ikke har tilgang til applikasjonen.',
+                        frontendFeilmelding: 'Uventet feil. Det er mulig at du ikke har tilgang til applikasjonen.',
                     });
                 } else {
                     logError(`Uventet feil - getOnBehalfOfAccessToken  ${e}`);

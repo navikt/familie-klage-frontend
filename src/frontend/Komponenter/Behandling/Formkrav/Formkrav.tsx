@@ -1,4 +1,5 @@
-import React, { useEffect, useState } from 'react';
+import type React from 'react';
+import { useEffect, useState } from 'react';
 import { useBehandling } from '../../../App/context/BehandlingContext';
 import { useHentFagsystemVedtak } from '../../../App/hooks/useHentFagsystemVedtak';
 import { useHentFormkravVilkår } from '../../../App/hooks/useHentFormkravVilkår';
@@ -19,8 +20,7 @@ export const Formkrav: React.FC<{ behandling: Behandling }> = ({ behandling }) =
     const { vilkårsvurderinger, hentVilkårsvurderinger, lagreVilkårsvurderinger, feilVedLagring } =
         useHentFormkravVilkår();
     const { fagsystemVedtak, hentFagsystemVedtak } = useHentFagsystemVedtak();
-    const { klagebehandlingsresultater, hentKlagebehandlingsresultater } =
-        useHentKlagebehandlingsresultater();
+    const { klagebehandlingsresultater, hentKlagebehandlingsresultater } = useHentKlagebehandlingsresultater();
     const behandlingId = behandling.id;
 
     useEffect(() => {
@@ -60,9 +60,7 @@ export const Formkrav: React.FC<{ behandling: Behandling }> = ({ behandling }) =
 
 const FormkravKomponent: React.FC<{
     vilkårsvurderinger: IFormkravVilkår;
-    lagreVurderinger: (
-        vurderinger: IFormkravVilkår
-    ) => Promise<RessursSuksess<IFormkravVilkår> | RessursFeilet>;
+    lagreVurderinger: (vurderinger: IFormkravVilkår) => Promise<RessursSuksess<IFormkravVilkår> | RessursFeilet>;
     behandling: Behandling;
     feilmelding: string;
     fagsystemVedtak: FagsystemVedtak[];
@@ -76,8 +74,7 @@ const FormkravKomponent: React.FC<{
     klagebehandlingsresultater,
 }) => {
     const { behandlingErRedigerbar } = useBehandling();
-    const [oppdaterteVurderinger, settOppdaterteVurderinger] =
-        useState<IFormkravVilkår>(vilkårsvurderinger);
+    const [oppdaterteVurderinger, settOppdaterteVurderinger] = useState<IFormkravVilkår>(vilkårsvurderinger);
     const [redigeringsmodus, settRedigeringsmodus] = useState(
         utledRedigeringsmodus(behandlingErRedigerbar, vilkårsvurderinger)
     );

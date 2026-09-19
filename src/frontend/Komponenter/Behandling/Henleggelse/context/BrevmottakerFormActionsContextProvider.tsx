@@ -1,5 +1,5 @@
 import type { PropsWithChildren } from 'react';
-import React, { createContext, useContext } from 'react';
+import { createContext, useContext } from 'react';
 
 interface ContextValue {
     visForm: () => void;
@@ -26,9 +26,5 @@ interface Props extends PropsWithChildren {
 }
 
 export function BrevmottakerFormActionsContextProvider({ value, children }: Props) {
-    return (
-        <BrevmottakerFormActionsContext.Provider value={value}>
-            {children}
-        </BrevmottakerFormActionsContext.Provider>
-    );
+    return <BrevmottakerFormActionsContext.Provider value={value}>{children}</BrevmottakerFormActionsContext.Provider>;
 }

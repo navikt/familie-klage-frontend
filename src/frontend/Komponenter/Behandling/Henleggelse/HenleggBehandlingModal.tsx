@@ -1,5 +1,4 @@
 import { Modal } from '@navikt/ds-react';
-import React from 'react';
 import type { Behandling } from '../../../App/typer/fagsak';
 import { BrevmottakereContextProvider } from './context/BrevmottakereContextProvider';
 import {

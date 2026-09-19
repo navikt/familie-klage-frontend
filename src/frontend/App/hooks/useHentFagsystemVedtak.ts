@@ -13,8 +13,7 @@ export const useHentFagsystemVedtak = (): {
     const { axiosRequest } = useApp();
     const { behandlingErRedigerbar } = useBehandling();
 
-    const [fagsystemVedtak, settFagsystemVedtak] =
-        useState<Ressurs<FagsystemVedtak[]>>(byggTomRessurs);
+    const [fagsystemVedtak, settFagsystemVedtak] = useState<Ressurs<FagsystemVedtak[]>>(byggTomRessurs);
 
     const hentFagsystemVedtak = useCallback(
         (behandling: Behandling) => {

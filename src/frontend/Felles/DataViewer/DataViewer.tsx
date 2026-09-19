@@ -1,6 +1,6 @@
 import { Alert, Loader, VStack } from '@navikt/ds-react';
+import type React from 'react';
 import type { ReactElement, ReactNode } from 'react';
-import React from 'react';
 import type { Ressurs, RessursSuksess } from '../../App/typer/ressurs';
 import { harNoenRessursMedStatus, RessursStatus } from '../../App/typer/ressurs';
 import styles from './DataViewer.module.css';
@@ -48,9 +48,7 @@ const renderChildren = (children: any, response: any): ReactElement => {
     return children;
 };
 
-export const DataViewer = <T extends Record<string, unknown>>(
-    props: DataViewerProps<T>
-): ReactNode | null => {
+export const DataViewer = <T extends Record<string, unknown>>(props: DataViewerProps<T>): ReactNode | null => {
     const { response, children } = props;
     const responses = Object.values(response);
     if (

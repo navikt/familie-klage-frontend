@@ -1,5 +1,5 @@
 import { ChevronLeftIcon, ChevronRightIcon } from '@navikt/aksel-icons';
-import * as React from 'react';
+import type * as React from 'react';
 import { useState } from 'react';
 import { useBehandling } from '../../../App/context/BehandlingContext';
 import type { Behandling } from '../../../App/typer/fagsak';
@@ -28,6 +28,7 @@ export const Høyremeny: React.FC<Props> = ({ åpenHøyremeny, behandling }) => 
             {åpenHøyremeny ? (
                 <div className={styles.container}>
                     <button
+                        type="button"
                         className={styles.toggleOpen}
                         onClick={() => {
                             settÅpenHøyremeny(!åpenHøyremeny);
@@ -44,6 +45,7 @@ export const Høyremeny: React.FC<Props> = ({ åpenHøyremeny, behandling }) => 
                 </div>
             ) : (
                 <button
+                    type="button"
                     className={styles.toggleOpen}
                     onClick={() => {
                         settÅpenHøyremeny(!åpenHøyremeny);

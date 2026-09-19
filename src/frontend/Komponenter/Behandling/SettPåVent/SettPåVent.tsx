@@ -1,6 +1,6 @@
 import { Alert, Heading, HStack, Textarea, VStack } from '@navikt/ds-react';
 import type { FC } from 'react';
-import React, { useCallback, useEffect, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import { useApp } from '../../../App/context/AppContext';
 import { useBehandling } from '../../../App/context/BehandlingContext';
 import { BehandlingStatus } from '../../../App/typer/behandlingstatus';
@@ -44,8 +44,7 @@ export const SettPåVent: FC<{ behandling: Behandling }> = ({ behandling }) => {
 
     const erBehandlingPåVent = behandling.status === BehandlingStatus.SATT_PÅ_VENT;
 
-    const { visSettPåVent, settVisSettPåVent, hentBehandling, hentAnsvarligSaksbehandler } =
-        useBehandling();
+    const { visSettPåVent, settVisSettPåVent, hentBehandling, hentAnsvarligSaksbehandler } = useBehandling();
 
     const { axiosRequest, settToast } = useApp();
 
@@ -151,9 +150,7 @@ export const SettPåVent: FC<{ behandling: Behandling }> = ({ behandling }) => {
                     <VStack className={styles.container} gap="space-16" padding="space-32">
                         {feilmelding && <Alert variant="error">{feilmelding}</Alert>}
                         <Heading size={'medium'}>
-                            {erBehandlingPåVent
-                                ? 'Behandling er på vent'
-                                : 'Sett behandling på vent'}
+                            {erBehandlingPåVent ? 'Behandling er på vent' : 'Sett behandling på vent'}
                         </Heading>
                         <HStack gap="space-16">
                             <SaksbehandlerVelger

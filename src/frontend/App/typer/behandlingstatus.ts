@@ -20,9 +20,7 @@ export const behandlingStatusTilTekst: Record<BehandlingStatus, string> = {
     SATT_PÅ_VENT: 'Satt på vent',
 };
 
-export const innloggetSaksbehandlerKanRedigereBehandling = (
-    ansvarligSaksbehandler: AnsvarligSaksbehandler
-) => {
+export const innloggetSaksbehandlerKanRedigereBehandling = (ansvarligSaksbehandler: AnsvarligSaksbehandler) => {
     return (
         ansvarligSaksbehandler.rolle === AnsvarligSaksbehandlerRolle.INNLOGGET_SAKSBEHANDLER ||
         ansvarligSaksbehandler.rolle === AnsvarligSaksbehandlerRolle.OPPGAVE_FINNES_IKKE

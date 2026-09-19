@@ -1,4 +1,5 @@
-import React, { useEffect } from 'react';
+import type React from 'react';
+import { useEffect } from 'react';
 import { useApp } from '../../App/context/AppContext';
 import type { EToast } from '../../App/typer/toast';
 import { toastTilTekst } from '../../App/typer/toast';
