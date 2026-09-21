@@ -8,8 +8,14 @@
     "license": "MIT",
     "type": "module",
     "scripts": {
-        "start": "NODE_ENV=production ENV=production node dist_backend/server.js",
-        "start:dev": "pnpm build:backend && NODE_ENV=development node dist_backend/server.js",
+        "start": "pnpm start:backend:prod",
+        "start:dev": "pnpm start:lokalt-mot-preprod",
+        "start-env": "pnpm miljøvariabler && pnpm build:backend && ENV=\"$ENV\" pnpm start:backend:dev",
+        "start:lokal": "ENV=local pnpm start-env",
+        "start:lokalt-mot-preprod": "ENV=lokalt-mot-preprod pnpm start-env",
+        "start:backend:dev": "NODE_ENV=development node dist_backend/server.js",
+        "start:backend:prod": "NODE_ENV=production ENV=production node dist_backend/server.js",
+        "miljøvariabler": "./hent-og-lagre-miljøvariabler.sh",
         "test": "pnpm test:backend && pnpm test:frontend",
         "test:backend": "vitest --config src/backend/vitest.config.ts --run",
         "test:frontend": "vitest --config src/frontend/vitest.config.ts --run",
@@ -24,12 +30,12 @@
         "check": "biome check .",
         "check:fix": "biome check --write .",
         "typecheck": "tsc --noEmit -p src/backend/tsconfig.json && tsc --noEmit -p src/frontend/tsconfig.json",
-        "validate": "pnpm typecheck && biome check .",
+        "validate": "pnpm typecheck && pnpm check",
         "prepare": "husky"
     },
     "lint-staged": {
-        "src/**/*.{js,jsx,ts,tsx}": [
-            "biome check"
+        "src/**/*.{js,jsx,ts,tsx,css}": [
+            "biome check ."
         ]
     },
     "dependencies": {

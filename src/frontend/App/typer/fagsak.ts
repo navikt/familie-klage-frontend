@@ -1,13 +1,19 @@
 import type { PåklagetVedtak } from '../../Komponenter/Behandling/Formkrav/typer';
 import type { BehandlingStatus } from './behandlingstatus';
 import type { Institusjon } from './institusjon';
-import type { Stønadstype } from './stønadstype';
+import { Stønadstype } from './stønadstype';
 
 export enum Fagsystem {
     EF = 'EF',
     BA = 'BA',
     KS = 'KS',
 }
+
+export const stønadstyperForFagsystem: Record<Fagsystem, Stønadstype[]> = {
+    [Fagsystem.EF]: [Stønadstype.OVERGANGSSTØNAD, Stønadstype.BARNETILSYN, Stønadstype.SKOLEPENGER],
+    [Fagsystem.BA]: [Stønadstype.BARNETRYGD],
+    [Fagsystem.KS]: [Stønadstype.KONTANTSTØTTE],
+};
 
 export enum StegType {
     OPPRETTET = 'OPPRETTET',
