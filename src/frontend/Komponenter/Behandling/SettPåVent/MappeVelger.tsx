@@ -1,6 +1,6 @@
 import { Select } from '@navikt/ds-react';
 import type { FC } from 'react';
-import React, { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useApp } from '../../../App/context/AppContext';
 import { Fagsystem } from '../../../App/typer/fagsak';
 import type { Ressurs } from '../../../App/typer/ressurs';
@@ -62,7 +62,7 @@ export const MappeVelger: FC<{
                         readOnly={erLesevisning}
                         onChange={e => {
                             const verdi = e.target.value;
-                            settMappe(verdi === 'uplassert' ? undefined : parseInt(verdi));
+                            settMappe(verdi === 'uplassert' ? undefined : parseInt(verdi, 10));
                         }}
                     >
                         <option value="uplassert">Uplassert</option>

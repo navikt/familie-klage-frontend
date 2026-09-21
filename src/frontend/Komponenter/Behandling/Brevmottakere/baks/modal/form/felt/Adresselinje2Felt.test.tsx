@@ -1,5 +1,5 @@
 import { Button } from '@navikt/ds-react';
-import React from 'react';
+import type React from 'react';
 import type { DefaultValues } from 'react-hook-form';
 import { FormProvider, useForm } from 'react-hook-form';
 import { describe, expect, test } from 'vitest';
@@ -84,9 +84,7 @@ describe('AdresselinjeFelt', () => {
 
         const textbox = screen.getByRole('textbox', { name: label });
         await user.click(textbox);
-        await user.keyboard(
-            'Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligulade'
-        );
+        await user.keyboard('Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligulade');
         await user.tab();
 
         const feilmelding = screen.getByText(`${label} kan ikke inneholde mer enn 80 tegn.`);
@@ -98,9 +96,7 @@ describe('AdresselinjeFelt', () => {
 
         const textbox = screen.getByRole('textbox', { name: label });
         await user.click(textbox);
-        await user.keyboard(
-            'Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligulaa'
-        );
+        await user.keyboard('Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligulaa');
         await user.tab();
 
         const feilmelding = screen.queryByText(`${label} kan ikke inneholde mer enn 80 tegn.`);

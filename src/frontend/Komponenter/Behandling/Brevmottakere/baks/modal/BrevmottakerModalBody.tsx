@@ -1,6 +1,6 @@
 import { PlusCircleIcon } from '@navikt/aksel-icons';
 import { Alert, Button, Heading, HStack, Modal, Radio, RadioGroup, VStack } from '@navikt/ds-react';
-import React, { useState } from 'react';
+import { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { v4 as uuid4 } from 'uuid';
 import { useToggles } from '../../../../../App/context/TogglesContext';
@@ -38,11 +38,7 @@ type Props = {
     slettBrevmottaker: (slettbarBrevmottaker: SlettbarBrevmottaker) => Promise<Awaited<void>>;
 };
 
-export function BrevmottakerModalBody({
-    brevmottakere,
-    opprettBrevmottaker,
-    slettBrevmottaker,
-}: Props) {
+export function BrevmottakerModalBody({ brevmottakere, opprettBrevmottaker, slettBrevmottaker }: Props) {
     const { toggles } = useToggles();
 
     const brevmottakerPersonUtenIdentForm = useForm<BrevmottakerPersonUtenIdentFormValues>({
@@ -71,18 +67,14 @@ export function BrevmottakerModalBody({
     const institusjonErBrevmottaker = erInstitusjonBrevmottaker(brevmottakere);
 
     const [visForm, settVisForm] = useState(manueltOpprettedeBrevmottakere.length === 0);
-    const [brevmottakerType, settBrevmottakerType] = useState<NyBrevmottakerType>(
-        NyBrevmottakerType.PERSON_UTEN_IDENT
-    );
+    const [brevmottakerType, settBrevmottakerType] = useState<NyBrevmottakerType>(NyBrevmottakerType.PERSON_UTEN_IDENT);
 
     async function onSubmitBrevmottakerPersonUtenIdentForm(
         brevmottakerFormValues: BrevmottakerPersonUtenIdentFormValues
     ): Promise<Awaited<void>> {
         return opprettBrevmottaker(lagNyBrevmottakerPersonUtenIdent(brevmottakerFormValues))
             .then(() => settVisForm(false))
-            .catch((error: Error) =>
-                brevmottakerPersonUtenIdentForm.setError('root', { message: error.message })
-            );
+            .catch((error: Error) => brevmottakerPersonUtenIdentForm.setError('root', { message: error.message }));
     }
 
     async function onSubmitBrevmottakerOrganisasjonForm(
@@ -90,9 +82,7 @@ export function BrevmottakerModalBody({
     ): Promise<Awaited<void>> {
         return opprettBrevmottaker(lagNyBrevmottakerOrganisasjon(brevmottakerFormValues))
             .then(() => settVisForm(false))
-            .catch((error: Error) =>
-                brevmottakerPersonUtenIdentForm.setError('root', { message: error.message })
-            );
+            .catch((error: Error) => brevmottakerPersonUtenIdentForm.setError('root', { message: error.message }));
     }
 
     async function slettBrevmottakerOgVisFormHvisNødvendig(
@@ -116,14 +106,12 @@ export function BrevmottakerModalBody({
             <VStack gap={'space-16'}>
                 {institusjonErBrevmottaker ? (
                     <Alert variant={'info'}>
-                        Brev sendes til institusjon. Legg til mottaker dersom brev skal sendes til
-                        fullmektig.
+                        Brev sendes til institusjon. Legg til mottaker dersom brev skal sendes til fullmektig.
                     </Alert>
                 ) : (
                     <Alert variant={'info'}>
-                        Brev sendes til brukers folkeregistrerte adresse eller annen foretrukken
-                        kanal. Legg til mottaker dersom brev skal sendes til utenlandsk adresse,
-                        fullmektig, verge eller dødsbo.
+                        Brev sendes til brukers folkeregistrerte adresse eller annen foretrukken kanal. Legg til
+                        mottaker dersom brev skal sendes til utenlandsk adresse, fullmektig, verge eller dødsbo.
                     </Alert>
                 )}
                 {manueltOpprettedeBrevmottakere.map(brevmottaker => (
@@ -143,12 +131,8 @@ export function BrevmottakerModalBody({
                                 onChange={settBrevmottakerType}
                             >
                                 <HStack gap={'space-24'}>
-                                    <Radio value={NyBrevmottakerType.PERSON_UTEN_IDENT}>
-                                        Person
-                                    </Radio>
-                                    <Radio value={NyBrevmottakerType.ORGANISASJON}>
-                                        Organisasjon
-                                    </Radio>
+                                    <Radio value={NyBrevmottakerType.PERSON_UTEN_IDENT}>Person</Radio>
+                                    <Radio value={NyBrevmottakerType.ORGANISASJON}>Organisasjon</Radio>
                                 </HStack>
                             </RadioGroup>
                         )}

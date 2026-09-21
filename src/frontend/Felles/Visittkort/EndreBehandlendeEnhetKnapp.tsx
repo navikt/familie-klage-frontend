@@ -1,5 +1,4 @@
 import { Button } from '@navikt/ds-react';
-import React from 'react';
 import { useBehandling } from '../../App/context/BehandlingContext';
 import { Fagsystem } from '../../App/typer/fagsak';
 

@@ -1,6 +1,5 @@
 import { Box, Heading, Select } from '@navikt/ds-react';
 import type { FC } from 'react';
-import * as React from 'react';
 import { Controller, useFormContext } from 'react-hook-form';
 import { useApp } from '../../../../App/context/AppContext';
 import type { VurderingNedtrekkslisteFelter } from './felttyper';
@@ -11,11 +10,7 @@ interface NedtrekkslisteProps {
     alternativer: Record<string, string>;
 }
 
-export const Nedtrekksliste: FC<NedtrekkslisteProps> = ({
-    visningsnavn,
-    feltnavn,
-    alternativer,
-}) => {
+export const Nedtrekksliste: FC<NedtrekkslisteProps> = ({ visningsnavn, feltnavn, alternativer }) => {
     const { control, formState } = useFormContext();
     const { settIkkePersistertKomponent } = useApp();
     return (

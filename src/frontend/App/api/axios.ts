@@ -19,9 +19,7 @@ const lagUkjentFeilRessurs = (headers?: Headers): RessursFeilet => ({
     status: RessursStatus.FEILET,
 });
 
-export const håndterFeil = <T>(
-    error: AxiosError<Ressurs<T>>
-): RessursSuksess<T> | RessursFeilet => {
+export const håndterFeil = <T>(error: AxiosError<Ressurs<T>>): RessursSuksess<T> | RessursFeilet => {
     const headers = error.response?.headers;
     if (!error.response?.data?.status) {
         loggFeil(error, `Savner body/status i response - Url: ${window.location.href}`, headers);
@@ -32,10 +30,7 @@ export const håndterFeil = <T>(
     return håndterRessurs(responsRessurs, headers);
 };
 
-export const håndterRessurs = <T>(
-    ressurs: Ressurs<T>,
-    headers?: Headers
-): RessursSuksess<T> | RessursFeilet => {
+export const håndterRessurs = <T>(ressurs: Ressurs<T>, headers?: Headers): RessursSuksess<T> | RessursFeilet => {
     let typetRessurs: Ressurs<T>;
     const gjeldendeUrl = window.location.href;
 
@@ -47,12 +42,7 @@ export const håndterRessurs = <T>(
             };
             break;
         case RessursStatus.IKKE_TILGANG:
-            loggFeil(
-                undefined,
-                `Feilmelding: ${ressurs.melding} - Url: ${gjeldendeUrl}`,
-                headers,
-                true
-            );
+            loggFeil(undefined, `Feilmelding: ${ressurs.melding} - Url: ${gjeldendeUrl}`, headers, true);
             typetRessurs = {
                 melding: ressurs.melding,
                 frontendFeilmelding: ressurs.frontendFeilmelding,
@@ -83,11 +73,7 @@ export const håndterRessurs = <T>(
             };
             break;
         default:
-            loggFeil(
-                undefined,
-                `Ukjent feil status=${ressurs.status} - Url: ${gjeldendeUrl}`,
-                headers
-            );
+            loggFeil(undefined, `Ukjent feil status=${ressurs.status} - Url: ${gjeldendeUrl}`, headers);
             typetRessurs = lagUkjentFeilRessurs(headers);
             break;
     }
@@ -95,12 +81,7 @@ export const håndterRessurs = <T>(
     return typetRessurs;
 };
 
-const loggFeil = (
-    error?: AxiosError,
-    feilmelding?: string,
-    headers?: Headers,
-    isWarning = false
-): void => {
+const loggFeil = (error?: AxiosError, feilmelding?: string, headers?: Headers, isWarning = false): void => {
     if (import.meta.env.PROD) {
         const response: AxiosResponse | undefined = error ? error.response : undefined;
         if (response) {
@@ -114,9 +95,7 @@ const loggFeil = (
         }
 
         apiLoggFeil(
-            `${error ? `${error}${feilmelding ? ' - ' : ''}` : ''}${
-                feilmelding ? `Feilmelding: ${feilmelding}` : ''
-            }`,
+            `${error ? `${error}${feilmelding ? ' - ' : ''}` : ''}${feilmelding ? `Feilmelding: ${feilmelding}` : ''}`,
             headers,
             isWarning
         );

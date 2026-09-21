@@ -6,24 +6,18 @@
         "useIgnoreFile": true,
         "defaultBranch": "main"
     },
-    "files": {
-        "ignoreUnknown": true
-    },
     "formatter": {
         "indentStyle": "space",
         "indentWidth": 4,
-        "lineWidth": 100
+        "lineWidth": 120
     },
     "linter": {
         "enabled": true,
         "rules": {
             "preset": "recommended",
-            "a11y": {
-                "useSemanticElements": "warn",
-                "useButtonType": "warn"
-            },
             "correctness": {
-                "useExhaustiveDependencies": "warn"
+                "useExhaustiveDependencies": "warn",
+                "useJsxKeyInIterable": "warn"
             },
             "suspicious": {
                 "noDoubleEquals": "warn",
@@ -33,7 +27,6 @@
         }
     },
     "javascript": {
-        "jsxRuntime": "reactClassic",
         "formatter": {
             "trailingCommas": "es5",
             "arrowParentheses": "asNeeded",

@@ -1,5 +1,4 @@
 import { Button, Fieldset, Modal } from '@navikt/ds-react';
-import React from 'react';
 import type { FieldErrors } from 'react-hook-form';
 import { FormProvider, useForm } from 'react-hook-form';
 import { useBehandling } from '../../../App/context/BehandlingContext';
@@ -33,8 +32,7 @@ interface Props {
 
 export function EndreBehandlendeEnhetModal({ behandling }: Props) {
     const { endreBehandlendeEnhet } = useEndreBehandlendeEnhet();
-    const { behandlingErRedigerbar, visEndreBehandlendeEnhet, settVisEndreBehandlendeEnhet } =
-        useBehandling();
+    const { behandlingErRedigerbar, visEndreBehandlendeEnhet, settVisEndreBehandlendeEnhet } = useBehandling();
 
     const form = useForm<EndreBehandlendeEnhetFormValues>({
         mode: 'onChange',
@@ -57,9 +55,7 @@ export function EndreBehandlendeEnhetModal({ behandling }: Props) {
         const { enhetsnummer, begrunnelse } = formValues;
         return endreBehandlendeEnhet(behandling.id, enhetsnummer, begrunnelse)
             .then(() => settVisEndreBehandlendeEnhet(false))
-            .catch(error =>
-                setError(CustomFormErrors.onSubmitError.id, { message: error.message })
-            );
+            .catch(error => setError(CustomFormErrors.onSubmitError.id, { message: error.message }));
     }
 
     function lukkModal() {
@@ -83,10 +79,7 @@ export function EndreBehandlendeEnhetModal({ behandling }: Props) {
                             legend={'Endre enhet'}
                             hideLegend={true}
                         >
-                            <EnhetsnummerFelt
-                                behandling={behandling}
-                                lesevisning={!behandlingErRedigerbar}
-                            />
+                            <EnhetsnummerFelt behandling={behandling} lesevisning={!behandlingErRedigerbar} />
                             <BegrunnelseFelt lesevisning={!behandlingErRedigerbar} />
                         </Fieldset>
                     </Modal.Body>

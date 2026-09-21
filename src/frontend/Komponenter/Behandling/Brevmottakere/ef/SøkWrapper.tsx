@@ -1,6 +1,6 @@
 import { BodyShort, Select } from '@navikt/ds-react';
 import type { Dispatch, FC, SetStateAction } from 'react';
-import React, { useState } from 'react';
+import { useState } from 'react';
 import type { BrevmottakerOrganisasjon, BrevmottakerPerson } from '../brevmottaker';
 import { SøkOrganisasjon } from './SøkOrganisasjon';
 import { SøkPerson } from './SøkPerson';
@@ -49,10 +49,7 @@ export const SøkWrapper: FC<Props> = ({
                 />
             )}
             {søktype === SøkType.PERSON && (
-                <SøkPerson
-                    settValgteMottakere={settValgtePersonMottakere}
-                    behandlingId={behandlingId}
-                />
+                <SøkPerson settValgteMottakere={settValgtePersonMottakere} behandlingId={behandlingId} />
             )}
         </>
     );

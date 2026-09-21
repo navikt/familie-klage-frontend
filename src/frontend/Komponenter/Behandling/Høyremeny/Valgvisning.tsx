@@ -1,6 +1,6 @@
 import { ClockFillIcon, FolderIcon } from '@navikt/aksel-icons';
 import { BodyShort, HStack } from '@navikt/ds-react';
-import * as React from 'react';
+import type * as React from 'react';
 import { Høyremenyvalg } from './Høyremeny';
 import styles from './Valgvisning.module.css';
 
@@ -11,33 +11,25 @@ interface Props {
 
 export const Valgvisning: React.FC<Props> = ({ aktiv, settAktiv }) => (
     <HStack className={styles.container} justify="space-evenly" align="center">
-        <div
-            tabIndex={0}
+        <button
+            type="button"
             className={aktiv === Høyremenyvalg.Historikk ? styles.valgtIkon : styles.ikon}
-            role={'button'}
             onClick={() => settAktiv(Høyremenyvalg.Historikk)}
-            onKeyDown={event => {
-                if (event.key === 'Enter') {
-                    settAktiv(Høyremenyvalg.Historikk);
-                }
-            }}
         >
-            <ClockFillIcon aria-label="Historikk" fontSize="1.5em" />
-            <BodyShort size={'small'}>Historikk</BodyShort>
-        </div>
-        <div
-            tabIndex={0}
+            <ClockFillIcon aria-hidden fontSize="1.5em" />
+            <BodyShort as="span" size={'small'}>
+                Historikk
+            </BodyShort>
+        </button>
+        <button
+            type="button"
             className={aktiv === Høyremenyvalg.Dokumenter ? styles.valgtIkon : styles.ikon}
-            role={'button'}
             onClick={() => settAktiv(Høyremenyvalg.Dokumenter)}
-            onKeyDown={event => {
-                if (event.key === 'Enter') {
-                    settAktiv(Høyremenyvalg.Dokumenter);
-                }
-            }}
         >
-            <FolderIcon aria-label="Dokumentoversikt" fontSize="1.5em" />
-            <BodyShort size={'small'}>Dokumenter</BodyShort>
-        </div>
+            <FolderIcon aria-hidden fontSize="1.5em" />
+            <BodyShort as="span" size={'small'}>
+                Dokumenter
+            </BodyShort>
+        </button>
     </HStack>
 );

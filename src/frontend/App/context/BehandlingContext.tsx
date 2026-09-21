@@ -1,10 +1,7 @@
 import constate from 'constate';
 import { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
-import {
-    alleVilkårOppfylt,
-    påklagetVedtakErValgt,
-} from '../../Komponenter/Behandling/Formkrav/validerFormkravUtils';
+import { alleVilkårOppfylt, påklagetVedtakErValgt } from '../../Komponenter/Behandling/Formkrav/validerFormkravUtils';
 import type { IVurdering } from '../../Komponenter/Behandling/Vurdering/vurderingValg';
 import { useHentAnsvarligSaksbehandler } from '../hooks/useHentAnsvarligSaksbehandler';
 import { useHentBehandling } from '../hooks/useHentBehandling';
@@ -21,23 +18,16 @@ const [BehandlingProvider, useBehandling] = constate(() => {
     const behandlingId = useParams<{ behandlingId: string }>().behandlingId as string;
 
     const [behandlingErRedigerbar, settBehandlingErRedigerbar] = useState<boolean>(true);
-    const { hentPersonopplysninger, personopplysningerResponse } =
-        useHentPersonopplysninger(behandlingId);
+    const { hentPersonopplysninger, personopplysningerResponse } = useHentPersonopplysninger(behandlingId);
     const { hentBehandlingCallback, behandling } = useHentBehandling(behandlingId);
-    const { hentBehandlingshistorikkCallback, behandlingHistorikk } =
-        useHentBehandlingHistorikk(behandlingId);
+    const { hentBehandlingshistorikkCallback, behandlingHistorikk } = useHentBehandlingHistorikk(behandlingId);
     const { vilkårsvurderinger, hentVilkårsvurderinger } = useHentFormkravVilkår();
     const [formkravErOppfylt, settFormkravErOppfylt] = useState<boolean>(false);
-    const { hentAnsvarligSaksbehandlerCallback, ansvarligSaksbehandler } =
-        useHentAnsvarligSaksbehandler(behandlingId);
+    const { hentAnsvarligSaksbehandlerCallback, ansvarligSaksbehandler } = useHentAnsvarligSaksbehandler(behandlingId);
 
     const hentBehandling = useRerunnableEffect(hentBehandlingCallback, [behandlingId]);
-    const hentAnsvarligSaksbehandler = useRerunnableEffect(hentAnsvarligSaksbehandlerCallback, [
-        behandlingId,
-    ]);
-    const hentBehandlingshistorikk = useRerunnableEffect(hentBehandlingshistorikkCallback, [
-        behandlingId,
-    ]);
+    const hentAnsvarligSaksbehandler = useRerunnableEffect(hentAnsvarligSaksbehandlerCallback, [behandlingId]);
+    const hentBehandlingshistorikk = useRerunnableEffect(hentBehandlingshistorikkCallback, [behandlingId]);
 
     useEffect(() => hentPersonopplysninger(), [hentPersonopplysninger]);
 

@@ -1,5 +1,4 @@
 import { Accordion } from '@navikt/ds-react';
-import React from 'react';
 import type { VurderingAccordionFelter } from './felttyper';
 import { Tekstfelt } from './Tekstfelt';
 
@@ -10,12 +9,7 @@ interface Props {
     toggleÅpen: (feltnavn: keyof VurderingAccordionFelter) => void;
 }
 
-export const InnstillingTilNavKlageinstansAvsnitt = ({
-    visningsnavn,
-    feltnavn,
-    åpen,
-    toggleÅpen,
-}: Props) => {
+export const InnstillingTilNavKlageinstansAvsnitt = ({ visningsnavn, feltnavn, åpen, toggleÅpen }: Props) => {
     return (
         <Accordion.Item open={åpen}>
             <Accordion.Header onClick={() => toggleÅpen(feltnavn)}>{visningsnavn}</Accordion.Header>

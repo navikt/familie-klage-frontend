@@ -1,6 +1,5 @@
 import { Alert } from '@navikt/ds-react';
 import type { FC } from 'react';
-import * as React from 'react';
 import { useEffect } from 'react';
 import { useParams } from 'react-router-dom';
 import { BehandlingProvider, useBehandling } from '../../App/context/BehandlingContext';
@@ -62,9 +61,7 @@ const BehandlingContent: FC<Props> = ({ behandling }) => {
         ? styles.behandlingÅpenHøyremeny
         : styles.behandlingLukketHøyremeny;
 
-    const classNameHøyremenyContainer = åpenHøyremeny
-        ? styles.åpenHøyremeny
-        : styles.lukketHøyremeny;
+    const classNameHøyremenyContainer = åpenHøyremeny ? styles.åpenHøyremeny : styles.lukketHøyremeny;
 
     return (
         <>

@@ -1,5 +1,5 @@
 import { Heading } from '@navikt/ds-react';
-import * as React from 'react';
+import type * as React from 'react';
 import { useEffect } from 'react';
 import { useBehandling } from '../../../App/context/BehandlingContext';
 import { DataViewer } from '../../../Felles/DataViewer/DataViewer';
@@ -29,10 +29,7 @@ export const Resultat: React.FC = () => {
                         <GjenopptakVisning behandling={behandling} />
                     </div>
                     <div className={styles.tidslinjeContainer}>
-                        <Tidslinje
-                            behandling={behandling}
-                            behandlingHistorikk={behandlingHistorikk}
-                        />
+                        <Tidslinje behandling={behandling} behandlingHistorikk={behandlingHistorikk} />
                     </div>
                 </>
             )}

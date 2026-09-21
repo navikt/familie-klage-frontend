@@ -27,11 +27,7 @@ export type RessursFeilet =
     | (FeilMelding & { status: RessursStatus.FEILET })
     | (FeilMelding & { status: RessursStatus.FUNKSJONELL_FEIL });
 
-export type Ressurs<T> =
-    | { status: RessursStatus.IKKE_HENTET }
-    | RessursLaster
-    | RessursSuksess<T>
-    | RessursFeilet;
+export type Ressurs<T> = { status: RessursStatus.IKKE_HENTET } | RessursLaster | RessursSuksess<T> | RessursFeilet;
 
 export const byggTomRessurs = <T>(): Ressurs<T> => {
     return {
@@ -60,12 +56,8 @@ export const byggSuksessRessurs = <T>(data: T): Ressurs<T> => {
         status: RessursStatus.SUKSESS,
     };
 };
-export const harNoenRessursMedStatus = (
-    ressurser: Ressurs<any>[],
-    ...status: RessursStatus[]
-): boolean => ressurser.some(ressurs => status.includes(ressurs.status));
+export const harNoenRessursMedStatus = (ressurser: Ressurs<any>[], ...status: RessursStatus[]): boolean =>
+    ressurser.some(ressurs => status.includes(ressurs.status));
 
 export const erAvTypeFeil = <T>(data: Ressurs<T>): data is RessursFeilet =>
-    [RessursStatus.FEILET, RessursStatus.FUNKSJONELL_FEIL, RessursStatus.IKKE_TILGANG].includes(
-        data.status
-    );
+    [RessursStatus.FEILET, RessursStatus.FUNKSJONELL_FEIL, RessursStatus.IKKE_TILGANG].includes(data.status);

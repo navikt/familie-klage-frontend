@@ -2,7 +2,6 @@ import { ArrowUndoIcon, TrashIcon } from '@navikt/aksel-icons';
 import { Alert, Button, Heading, HGrid, HStack, VStack } from '@navikt/ds-react';
 import CountryData from '@navikt/land-verktoy';
 import type { ReactNode } from 'react';
-import React from 'react';
 import { formaterOrgNummer } from '../../../App/typer/institusjon';
 import { Divider } from '../../../Felles/Divider/Divider';
 import { MottakerRolle, mottakerRolleVisningsnavn } from '../Brevmottakere/mottakerRolle';
@@ -17,20 +16,14 @@ import { useBrevmottakereContext } from './context/BrevmottakereContextProvider'
 const countryInstance = CountryData.getCountryInstance('nb');
 
 function utledSlettKnappIkon(mottakerRolle?: MottakerRolle): ReactNode {
-    if (
-        mottakerRolle === MottakerRolle.DØDSBO ||
-        mottakerRolle === MottakerRolle.BRUKER_MED_UTENLANDSK_ADRESSE
-    ) {
+    if (mottakerRolle === MottakerRolle.DØDSBO || mottakerRolle === MottakerRolle.BRUKER_MED_UTENLANDSK_ADRESSE) {
         return <ArrowUndoIcon />;
     }
     return <TrashIcon />;
 }
 
 function utledSlettKnappTittel(mottakerRolle?: MottakerRolle): string {
-    if (
-        mottakerRolle === MottakerRolle.DØDSBO ||
-        mottakerRolle === MottakerRolle.BRUKER_MED_UTENLANDSK_ADRESSE
-    ) {
+    if (mottakerRolle === MottakerRolle.DØDSBO || mottakerRolle === MottakerRolle.BRUKER_MED_UTENLANDSK_ADRESSE) {
         return 'Tilbakestill til bruker';
     }
     return 'Fjern';
@@ -89,8 +82,7 @@ export function BrevmottakerDetaljer({ brevmottaker }: Props) {
                     </HGrid>
                     {brevmottaker.mottakerRolle === MottakerRolle.BRUKER_MED_UTENLANDSK_ADRESSE && (
                         <Alert variant={'info'} inline={true}>
-                            Ved utenlandsk adresse skal postnummer og poststed legges i
-                            adresselinjene.
+                            Ved utenlandsk adresse skal postnummer og poststed legges i adresselinjene.
                         </Alert>
                     )}
                     {brevmottaker.mottakerRolle === MottakerRolle.DØDSBO && (

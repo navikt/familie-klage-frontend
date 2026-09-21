@@ -1,4 +1,4 @@
-import React from 'react';
+import type React from 'react';
 import { Adressebeskyttelse } from '../../App/typer/personopplysninger';
 import { EtikettAdvarsel } from './Etikett';
 

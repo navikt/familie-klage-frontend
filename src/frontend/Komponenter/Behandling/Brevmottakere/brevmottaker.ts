@@ -13,9 +13,7 @@ export interface BrevmottakerOrganisasjon extends Brevmottaker {
     navnHosOrganisasjon?: string;
 }
 
-export function erBrevmottakerOrganisasjon(
-    brevmottaker: Brevmottaker
-): brevmottaker is BrevmottakerOrganisasjon {
+export function erBrevmottakerOrganisasjon(brevmottaker: Brevmottaker): brevmottaker is BrevmottakerOrganisasjon {
     return (brevmottaker as BrevmottakerOrganisasjon).organisasjonsnummer !== undefined;
 }
 
@@ -34,15 +32,11 @@ export function mapTilMottakerRolle(brevmottakere: Brevmottaker[]) {
         .filter(mottakerRolle => mottakerRolle !== undefined);
 }
 
-export function erBrevmottakerPersonMedIdent(
-    brevmottaker: Brevmottaker
-): brevmottaker is BrevmottakerPersonMedIdent {
+export function erBrevmottakerPersonMedIdent(brevmottaker: Brevmottaker): brevmottaker is BrevmottakerPersonMedIdent {
     return (brevmottaker as BrevmottakerPersonMedIdent).personIdent !== undefined;
 }
 
-export function mapVergemålTilBrevmottakerPersonMedIdent(
-    vergemål: IVergemål
-): BrevmottakerPersonMedIdent {
+export function mapVergemålTilBrevmottakerPersonMedIdent(vergemål: IVergemål): BrevmottakerPersonMedIdent {
     return {
         navn: vergemål.navn || '',
         personIdent: vergemål.motpartsPersonident || '',
@@ -50,9 +44,7 @@ export function mapVergemålTilBrevmottakerPersonMedIdent(
     };
 }
 
-export function mapFullmaktTilBrevmottakerPersonMedIdent(
-    fullmakt: IFullmakt
-): BrevmottakerPersonMedIdent {
+export function mapFullmaktTilBrevmottakerPersonMedIdent(fullmakt: IFullmakt): BrevmottakerPersonMedIdent {
     return {
         navn: fullmakt.navn || '',
         personIdent: fullmakt.motpartsPersonident,
@@ -69,9 +61,7 @@ export interface BrevmottakerPersonUtenIdent extends BrevmottakerPerson {
     landkode: string;
 }
 
-export function erBrevmottakerPersonUtenIdent(
-    brevmottaker: Brevmottaker
-): brevmottaker is BrevmottakerPersonUtenIdent {
+export function erBrevmottakerPersonUtenIdent(brevmottaker: Brevmottaker): brevmottaker is BrevmottakerPersonUtenIdent {
     return (brevmottaker as BrevmottakerPersonUtenIdent).id !== undefined;
 }
 
@@ -79,9 +69,7 @@ export function utledBrevmottakerPersonUtenIdentNavnVedDødsbo(
     navn: string,
     landkode: EøsLandkode | BlankEøsLandkode
 ): string {
-    return landkode === EøsLandkode.NO || !erEøsLandkode(landkode)
-        ? `${navn} v/dødsbo`
-        : `Estate of ${navn}`;
+    return landkode === EøsLandkode.NO || !erEøsLandkode(landkode) ? `${navn} v/dødsbo` : `Estate of ${navn}`;
 }
 
 export function utledPreutfyltBrevmottakerPersonUtenIdentNavn(
@@ -91,14 +79,11 @@ export function utledPreutfyltBrevmottakerPersonUtenIdentNavn(
 ): string {
     switch (mottakerRolle) {
         case MottakerRolle.DØDSBO:
-            return utledBrevmottakerPersonUtenIdentNavnVedDødsbo(
-                navnFraPersonopplysninger,
-                landkode
-            );
+            return utledBrevmottakerPersonUtenIdentNavnVedDødsbo(navnFraPersonopplysninger, landkode);
         case MottakerRolle.BRUKER_MED_UTENLANDSK_ADRESSE:
             return navnFraPersonopplysninger;
         default:
-            throw Error('Unsupported mottaker rolle ' + mottakerRolle);
+            throw Error(`Unsupported mottaker rolle ${mottakerRolle}`);
     }
 }
 

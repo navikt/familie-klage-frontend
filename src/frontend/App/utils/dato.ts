@@ -66,8 +66,7 @@ export const gjelderÅr = (dato: string, år: number): boolean => {
     return parseISO(dato).getFullYear() === år;
 };
 
-export const tilDato = (dato: string | Date): Date =>
-    typeof dato === 'string' ? parseISO(dato) : dato;
+export const tilDato = (dato: string | Date): Date => (typeof dato === 'string' ? parseISO(dato) : dato);
 
 export const tilLocaleDateString = (dato: Date) => formatISO(dato, { representation: 'date' });
 
@@ -95,10 +94,7 @@ export const overlapper = (periode1: Intervall, periode2: Intervall) =>
         { inclusive: true }
     );
 
-export const kalkulerAntallMåneder = (
-    årMånedFra?: string,
-    årMånedTil?: string
-): number | undefined => {
+export const kalkulerAntallMåneder = (årMånedFra?: string, årMånedTil?: string): number | undefined => {
     if (årMånedFra && årMånedTil) {
         return månederMellom(månedÅrTilDate(årMånedFra), månedÅrTilDate(årMånedTil));
     }

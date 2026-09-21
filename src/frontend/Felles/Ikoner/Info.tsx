@@ -1,4 +1,4 @@
-import * as React from 'react';
+import type * as React from 'react';
 
 interface Props {
     height: number;
@@ -6,13 +6,7 @@ interface Props {
 }
 
 export const Info: React.FunctionComponent<Props> = ({ height, width }) => (
-    <svg
-        aria-labelledby={'info'}
-        focusable="false"
-        height={height}
-        width={width}
-        viewBox="0 0 24 24"
-    >
+    <svg aria-labelledby={'info'} focusable="false" height={height} width={width} viewBox="0 0 24 24">
         <title id={'info'}>Info</title>
         <g fill="none">
             <path

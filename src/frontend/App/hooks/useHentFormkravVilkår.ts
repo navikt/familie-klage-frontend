@@ -7,17 +7,14 @@ import { byggTomRessurs, RessursStatus } from '../typer/ressurs';
 export const useHentFormkravVilkår = (): {
     vilkårsvurderinger: Ressurs<IFormkravVilkår>;
     hentVilkårsvurderinger: (behandlingId: string) => void;
-    lagreVilkårsvurderinger: (
-        vurderinger: IFormkravVilkår
-    ) => Promise<RessursSuksess<IFormkravVilkår> | RessursFeilet>;
+    lagreVilkårsvurderinger: (vurderinger: IFormkravVilkår) => Promise<RessursSuksess<IFormkravVilkår> | RessursFeilet>;
     feilVedLagring: string;
 } => {
     const { axiosRequest } = useApp();
 
     const [feilVedLagring, settFeilVedLagring] = useState<string>('');
 
-    const [vilkårsvurderinger, settVilkårsvurderinger] =
-        useState<Ressurs<IFormkravVilkår>>(byggTomRessurs);
+    const [vilkårsvurderinger, settVilkårsvurderinger] = useState<Ressurs<IFormkravVilkår>>(byggTomRessurs);
 
     const hentVilkårsvurderinger = useCallback(
         (behandlingId: string) => {

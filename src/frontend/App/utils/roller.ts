@@ -22,11 +22,11 @@ export const harTilgangTilRolle = (
     const saksbehandlerGrupper = saksbehandler.groups;
     if (!saksbehandlerGrupper) return false;
     let rollerForBruker: string[];
-    if (saksbehandlerGrupper.indexOf(env.roller['beslutter']) > -1) {
+    if (saksbehandlerGrupper.indexOf(env.roller.beslutter) > -1) {
         rollerForBruker = [env.roller.beslutter, env.roller.saksbehandler, env.roller.veileder];
-    } else if (saksbehandlerGrupper.indexOf(env.roller['saksbehandler']) > -1) {
+    } else if (saksbehandlerGrupper.indexOf(env.roller.saksbehandler) > -1) {
         rollerForBruker = [env.roller.saksbehandler, env.roller.veileder];
-    } else if (saksbehandlerGrupper.indexOf(env.roller['veileder']) > -1) {
+    } else if (saksbehandlerGrupper.indexOf(env.roller.veileder) > -1) {
         rollerForBruker = [env.roller.veileder];
     } else {
         rollerForBruker = [];
@@ -38,5 +38,5 @@ export const harTilgangTilRolle = (
 export const harStrengtFortroligRolle = (env: AppEnv, saksbehandler: ISaksbehandler): boolean => {
     const saksbehandlerGrupper = saksbehandler.groups;
     if (!saksbehandlerGrupper) return false;
-    return saksbehandlerGrupper.some(gruppe => gruppe === env.roller['kode6']);
+    return saksbehandlerGrupper.some(gruppe => gruppe === env.roller.kode6);
 };

@@ -1,5 +1,5 @@
 import { BodyShort, HStack, Tooltip, VStack } from '@navikt/ds-react';
-import React from 'react';
+import type React from 'react';
 import { useBehandling } from '../../../App/context/BehandlingContext';
 import { behandlingStatusTilTekst } from '../../../App/typer/behandlingstatus';
 import type { Behandling } from '../../../App/typer/fagsak';
@@ -27,39 +27,28 @@ export const BehandlingInfo: React.FC<Props> = ({ behandling }) => {
                                 <BodyShort size={'small'} textColor="subtle">
                                     Behandlingsstatus
                                 </BodyShort>
-                                <BodyShort size={'small'}>
-                                    {behandlingStatusTilTekst[behandling.status]}
-                                </BodyShort>
+                                <BodyShort size={'small'}>{behandlingStatusTilTekst[behandling.status]}</BodyShort>
                             </VStack>
                             <Tooltip content={formaterIsoDatoTid(behandling.opprettet)}>
                                 <VStack>
                                     <BodyShort size={'small'} textColor="subtle">
                                         Opprettet
                                     </BodyShort>
-                                    <BodyShort size={'small'}>
-                                        {formaterIsoDato(behandling.opprettet)}
-                                    </BodyShort>
+                                    <BodyShort size={'small'}>{formaterIsoDato(behandling.opprettet)}</BodyShort>
                                 </VStack>
                             </Tooltip>
                             <VStack>
                                 <BodyShort size={'small'} textColor="subtle">
                                     Behandlingsresultat
                                 </BodyShort>
-                                <BodyShort size={'small'}>
-                                    {behandlingResultatTilTekst[behandling.resultat]}
-                                </BodyShort>
+                                <BodyShort size={'small'}>{behandlingResultatTilTekst[behandling.resultat]}</BodyShort>
                             </VStack>
-                            <Tooltip
-                                content={formaterIsoDatoTid(behandling.sistEndret)}
-                                placement={'bottom'}
-                            >
+                            <Tooltip content={formaterIsoDatoTid(behandling.sistEndret)} placement={'bottom'}>
                                 <VStack>
                                     <BodyShort size={'small'} textColor="subtle">
                                         Sist endret
                                     </BodyShort>
-                                    <BodyShort size={'small'}>
-                                        {formaterIsoDato(behandling.sistEndret)}
-                                    </BodyShort>
+                                    <BodyShort size={'small'}>{formaterIsoDato(behandling.sistEndret)}</BodyShort>
                                 </VStack>
                             </Tooltip>
                             <VStack>

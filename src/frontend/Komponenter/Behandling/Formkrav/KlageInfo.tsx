@@ -1,6 +1,6 @@
 import { FileTextIcon } from '@navikt/aksel-icons';
 import { BodyLong, Heading } from '@navikt/ds-react';
-import React from 'react';
+import type React from 'react';
 import { useBehandling } from '../../../App/context/BehandlingContext';
 import type { Behandling } from '../../../App/typer/fagsak';
 import { formaterIsoDato } from '../../../App/utils/formatter';

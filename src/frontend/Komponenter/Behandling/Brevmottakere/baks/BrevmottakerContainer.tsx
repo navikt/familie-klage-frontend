@@ -1,14 +1,9 @@
 import { Box, Skeleton } from '@navikt/ds-react';
-import React, { useState } from 'react';
+import { useState } from 'react';
 import { useApp } from '../../../../App/context/AppContext';
 import { useOnMount } from '../../../../App/hooks/useOnMount';
 import type { Ressurs, RessursFeilet, RessursSuksess } from '../../../../App/typer/ressurs';
-import {
-    byggFeiletRessurs,
-    byggHenterRessurs,
-    byggTomRessurs,
-    RessursStatus,
-} from '../../../../App/typer/ressurs';
+import { byggFeiletRessurs, byggHenterRessurs, byggTomRessurs, RessursStatus } from '../../../../App/typer/ressurs';
 import { DataViewer } from '../../../../Felles/DataViewer/DataViewer';
 import type { Brevmottakere } from '../brevmottakere';
 import type { NyBrevmottaker } from '../nyBrevmottaker';
@@ -57,9 +52,7 @@ export function BrevmottakerContainer({ behandlingId }: Props) {
         });
     }
 
-    async function slettBrevmottaker(
-        slettbarBrevmottaker: SlettbarBrevmottaker
-    ): Promise<Awaited<void>> {
+    async function slettBrevmottaker(slettbarBrevmottaker: SlettbarBrevmottaker): Promise<Awaited<void>> {
         return axiosRequest<Brevmottakere, SlettbarBrevmottaker>({
             method: 'DELETE',
             url: `${API_BASE_URL}/${behandlingId}`,
@@ -83,12 +76,7 @@ export function BrevmottakerContainer({ behandlingId }: Props) {
     if (brevmottakere.status === RessursStatus.HENTER) {
         return (
             <Box background={'info-moderate'} width={'100%'}>
-                <Skeleton
-                    width={'100%'}
-                    height={150}
-                    variant={'rectangle'}
-                    title={'Laster brevmottakere'}
-                />
+                <Skeleton width={'100%'} height={150} variant={'rectangle'} title={'Laster brevmottakere'} />
             </Box>
         );
     }

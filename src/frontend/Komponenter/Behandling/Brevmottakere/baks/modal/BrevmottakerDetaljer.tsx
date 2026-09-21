@@ -1,7 +1,7 @@
 import { TrashIcon } from '@navikt/aksel-icons';
 import { Alert, Button, Heading, HGrid, HStack, VStack } from '@navikt/ds-react';
 import CountryData from '@navikt/land-verktoy';
-import React, { useState } from 'react';
+import { useState } from 'react';
 import { useBehandling } from '../../../../../App/context/BehandlingContext';
 import { formaterOrgNummer } from '../../../../../App/typer/institusjon';
 import { EøsLandkode } from '../../../../../Felles/Landvelger/landkode';
@@ -43,11 +43,7 @@ export function BrevmottakerDetaljer({ brevmottaker, slettBrevmottaker }: Props)
     return (
         <VStack marginBlock={'space-8 space-8'} gap={'space-8'}>
             {slettFeilmelding && (
-                <Alert
-                    variant={'error'}
-                    closeButton={true}
-                    onClose={() => settSlettFeilmelding('')}
-                >
+                <Alert variant={'error'} closeButton={true} onClose={() => settSlettFeilmelding('')}>
                     {slettFeilmelding}
                 </Alert>
             )}
@@ -95,8 +91,7 @@ export function BrevmottakerDetaljer({ brevmottaker, slettBrevmottaker }: Props)
                     </HGrid>
                     {brevmottaker.landkode !== EøsLandkode.NO && (
                         <Alert variant={'info'} inline={true}>
-                            Ved utenlandsk adresse skal postnummer og poststed legges i
-                            adresselinjene.
+                            Ved utenlandsk adresse skal postnummer og poststed legges i adresselinjene.
                         </Alert>
                     )}
                     {brevmottaker.mottakerRolle === MottakerRolle.DØDSBO && (

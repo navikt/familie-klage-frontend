@@ -1,4 +1,4 @@
-import * as React from 'react';
+import type * as React from 'react';
 import type { Institusjon } from '../../App/typer/institusjon';
 import { Kjønn } from '../../App/typer/personopplysninger';
 import { GuttIkon } from '../Ikoner/GuttIkon';
@@ -16,13 +16,7 @@ export interface Props {
     height?: number;
 }
 
-export const IkonVelger: React.FunctionComponent<Props> = ({
-    kjønn,
-    alder,
-    institusjon,
-    width = 24,
-    height = 24,
-}) => {
+export const IkonVelger: React.FunctionComponent<Props> = ({ kjønn, alder, institusjon, width = 24, height = 24 }) => {
     if (institusjon) {
         return <InstitusjonIkon height={height} width={width} />;
     }

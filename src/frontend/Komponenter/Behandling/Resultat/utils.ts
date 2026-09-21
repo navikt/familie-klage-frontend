@@ -1,19 +1,12 @@
 import type { Behandling } from '../../../App/typer/fagsak';
-import {
-    behandlingResultatTilTekst,
-    KlageinstansEventType,
-    StegType,
-    utfallTilTekst,
-} from '../../../App/typer/fagsak';
+import { behandlingResultatTilTekst, KlageinstansEventType, StegType, utfallTilTekst } from '../../../App/typer/fagsak';
 import { ensure } from '../../../App/utils/utils';
 import type { IBehandlingshistorikk } from '../Høyremeny/behandlingshistorikk';
 
 export const fjernDuplikatStegFraHistorikk = (steg: IBehandlingshistorikk[]) => {
     const visning = [
         ...new Set(
-            steg.map((historikk, _, historikkListe) =>
-                ensure(historikkListe.find(steg => historikk.steg == steg.steg))
-            )
+            steg.map((historikk, _, historikkListe) => ensure(historikkListe.find(steg => historikk.steg == steg.steg)))
         ),
     ].reverse();
 
@@ -30,8 +23,7 @@ export const fjernDuplikatStegFraHistorikk = (steg: IBehandlingshistorikk[]) => 
 
 export const utledTekstForEksternutfall = (behandling: Behandling) => {
     const klageResultatMedUtfall = behandling.klageinstansResultat.filter(
-        resultat =>
-            resultat.utfall && resultat.type == KlageinstansEventType.KLAGEBEHANDLING_AVSLUTTET
+        resultat => resultat.utfall && resultat.type == KlageinstansEventType.KLAGEBEHANDLING_AVSLUTTET
     );
     if (klageResultatMedUtfall.length > 0) {
         const utfall = klageResultatMedUtfall[0];
@@ -51,9 +43,7 @@ export const utledTekstForEksternutfall = (behandling: Behandling) => {
 
 export const utledTekstForBehandlingsresultat = (behandling: Behandling) => {
     const eksternUtfallTekst = utledTekstForEksternutfall(behandling);
-    return eksternUtfallTekst
-        ? eksternUtfallTekst
-        : behandlingResultatTilTekst[behandling.resultat];
+    return eksternUtfallTekst ? eksternUtfallTekst : behandlingResultatTilTekst[behandling.resultat];
 };
 
 const lagHistorikkInnslag = (steg: StegType): IBehandlingshistorikk => ({

@@ -28,25 +28,16 @@ export function erMottakerRolle(verdi: string): verdi is MottakerRolle {
     return Object.values(MottakerRolle).includes(verdi as MottakerRolle);
 }
 
-export function skalPreutfylleNavnForMottakerRolle(
-    mottakerRolle: MottakerRolle | BlankMottakerRolle
-) {
+export function skalPreutfylleNavnForMottakerRolle(mottakerRolle: MottakerRolle | BlankMottakerRolle) {
     if (!erMottakerRolle(mottakerRolle)) {
         return false;
     }
-    return (
-        mottakerRolle === MottakerRolle.BRUKER_MED_UTENLANDSK_ADRESSE ||
-        mottakerRolle === MottakerRolle.DØDSBO
-    );
+    return mottakerRolle === MottakerRolle.BRUKER_MED_UTENLANDSK_ADRESSE || mottakerRolle === MottakerRolle.DØDSBO;
 }
 
-export function erGyldigMottakerRolleForLandkode(
-    mottakerRolle: MottakerRolle,
-    landkode: EøsLandkode
-): boolean {
+export function erGyldigMottakerRolleForLandkode(mottakerRolle: MottakerRolle, landkode: EøsLandkode): boolean {
     const landkodeErNO = landkode === EøsLandkode.NO;
-    const erBrukerMedUtenlandskAdresse =
-        mottakerRolle === MottakerRolle.BRUKER_MED_UTENLANDSK_ADRESSE;
+    const erBrukerMedUtenlandskAdresse = mottakerRolle === MottakerRolle.BRUKER_MED_UTENLANDSK_ADRESSE;
     return !(landkodeErNO && erBrukerMedUtenlandskAdresse);
 }
 
@@ -78,9 +69,7 @@ export function utledGyldigeMottakerRollerBasertPåAlleredeValgteMottakerRoller(
         return [MottakerRolle.FULLMAKT];
     }
 
-    const relevanteValgteMottakerRoller = valgteMottakerRoller.filter(
-        vmr => vmr !== MottakerRolle.BRUKER
-    );
+    const relevanteValgteMottakerRoller = valgteMottakerRoller.filter(vmr => vmr !== MottakerRolle.BRUKER);
 
     if (relevanteValgteMottakerRoller.length === 2) {
         return [];

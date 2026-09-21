@@ -19,7 +19,7 @@ export function useBrevmottakerOrganisasjonForm(onSubmitCallback?: () => void) {
     function submitForm(brevmottakerFormValues: BrevmottakerOrganisasjonFormValues) {
         const nyBrevmottaker = lagNyBrevmottakerOrganisasjon(brevmottakerFormValues);
         leggTilBrevmottaker(nyBrevmottaker);
-        onSubmitCallback && onSubmitCallback();
+        onSubmitCallback?.();
     }
 
     return { form, actions: { submitForm } };

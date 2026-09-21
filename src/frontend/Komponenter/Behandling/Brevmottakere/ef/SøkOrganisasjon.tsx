@@ -1,6 +1,7 @@
 import { BodyShort, Button, Radio, RadioGroup, Stack, TextField, VStack } from '@navikt/ds-react';
+import type React from 'react';
 import type { Dispatch, SetStateAction } from 'react';
-import React, { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useApp } from '../../../../App/context/AppContext';
 import type { Ressurs } from '../../../../App/typer/ressurs';
 import { byggTomRessurs } from '../../../../App/typer/ressurs';

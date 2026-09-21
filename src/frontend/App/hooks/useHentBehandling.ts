@@ -19,9 +19,7 @@ export const useHentBehandling = (
             method: 'GET',
             url: `/familie-klage/api/behandling/${behandlingId}`,
         };
-        axiosRequest<Behandling, null>(behandlingConfig).then((res: Ressurs<Behandling>) =>
-            settBehandling(res)
-        );
+        axiosRequest<Behandling, null>(behandlingConfig).then((res: Ressurs<Behandling>) => settBehandling(res));
     }, [axiosRequest, behandlingId]);
 
     return {

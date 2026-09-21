@@ -8,10 +8,7 @@ import {
 } from '../context/HenleggBehandlingModalContextProvider';
 import { lagHenleggBehandlingDto } from '../domain/henleggBehandlingDto';
 import type { HenleggBehandlingFormValues } from '../HenleggBehandlingForm';
-import {
-    HenleggBehandlingFeltnavn,
-    HenleggBehandlingFormServerErrors,
-} from '../HenleggBehandlingForm';
+import { HenleggBehandlingFeltnavn, HenleggBehandlingFormServerErrors } from '../HenleggBehandlingForm';
 import { useHenleggBehandling } from './useHenleggBehandling';
 
 export function useHenleggBehandlingForm(behandling: Behandling) {

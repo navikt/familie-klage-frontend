@@ -1,5 +1,5 @@
 import { Alert, VStack } from '@navikt/ds-react';
-import * as React from 'react';
+import type * as React from 'react';
 import { useState } from 'react';
 import { useApp } from '../../../App/context/AppContext';
 import { useBehandling } from '../../../App/context/BehandlingContext';
@@ -38,10 +38,7 @@ const erAlleFelterUtfylt = (vurderingData: IVurdering, fagsystem: Fagsystem): bo
         return harVerdi(årsak) && harVerdi(begrunnelseOmgjøring);
     } else if (vedtak === VedtakValg.OPPRETTHOLD_VEDTAK && fagsystem == Fagsystem.EF) {
         return harVerdi(innstillingKlageinstans) && harVerdi(hjemmel);
-    } else if (
-        vedtak === VedtakValg.OPPRETTHOLD_VEDTAK &&
-        (fagsystem == Fagsystem.BA || fagsystem == Fagsystem.KS)
-    ) {
+    } else if (vedtak === VedtakValg.OPPRETTHOLD_VEDTAK && (fagsystem == Fagsystem.BA || fagsystem == Fagsystem.KS)) {
         return (
             harVerdi(dokumentasjonOgUtredning) &&
             harVerdi(spørsmåletISaken) &&
@@ -65,13 +62,8 @@ export const VurderingRedigeringsmodus: React.FC<Props> = ({ behandling, vurderi
 
     const [senderInn, settSenderInn] = useState<boolean>(false);
 
-    const {
-        vurderingEndret,
-        settVurderingEndret,
-        hentBehandlingshistorikk,
-        hentBehandling,
-        behandlingErRedigerbar,
-    } = useBehandling();
+    const { vurderingEndret, settVurderingEndret, hentBehandlingshistorikk, hentBehandling, behandlingErRedigerbar } =
+        useBehandling();
 
     const { lagreVurderingOgOppdaterSteg, melding, settMelding } = useHentVurderinger();
     const { nullstillIkkePersisterteKomponenter, settIkkePersistertKomponent } = useApp();
@@ -120,10 +112,7 @@ export const VurderingRedigeringsmodus: React.FC<Props> = ({ behandling, vurderi
 
     return (
         <VStack gap="space-32" margin="space-32">
-            <VedtakSelect
-                settVedtak={settOppdatertVurdering}
-                valgtVedtak={oppdatertVurdering.vedtak ?? ''}
-            />
+            <VedtakSelect settVedtak={settOppdatertVurdering} valgtVedtak={oppdatertVurdering.vedtak ?? ''} />
             {oppdatertVurdering.vedtak == VedtakValg.OMGJØR_VEDTAK && (
                 <>
                     <ÅrsakSelect
@@ -174,20 +163,14 @@ export const VurderingRedigeringsmodus: React.FC<Props> = ({ behandling, vurderi
                     variant="primary"
                     size="medium"
                     onClick={opprettVurdering}
-                    disabled={
-                        !erAlleFelterUtfylt(oppdatertVurdering, behandling.fagsystem) || senderInn
-                    }
+                    disabled={!erAlleFelterUtfylt(oppdatertVurdering, behandling.fagsystem) || senderInn}
                     loading={senderInn}
                 >
                     Lagre vurdering
                 </Button>
             )}
             {!vurderingEndret && melding?.type !== 'error' && (
-                <Button
-                    variant="primary"
-                    size="medium"
-                    onClick={() => gåTilUrl(`/behandling/${behandling.id}/brev`)}
-                >
+                <Button variant="primary" size="medium" onClick={() => gåTilUrl(`/behandling/${behandling.id}/brev`)}>
                     Fortsett
                 </Button>
             )}

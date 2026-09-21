@@ -3,7 +3,7 @@
     "compilerOptions": {
         /* Language and Environment */
         "lib": ["ES2022", "DOM", "DOM.Iterable", "ESNext"],
-        "jsx": "react", // TODO: Egen PR. Bruk react-jsx og fjern alle overflødige React-imports
+        "jsx": "react-jsx",
 
         /* Emit */
         "noEmit": true,

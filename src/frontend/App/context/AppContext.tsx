@@ -15,11 +15,8 @@ interface IProps {
 
 const [AppProvider, useApp] = constate(({ autentisertSaksbehandler, appEnv }: IProps) => {
     const [autentisert, settAutentisert] = React.useState(true);
-    const [innloggetSaksbehandler, settInnloggetSaksbehandler] =
-        React.useState(autentisertSaksbehandler);
-    const [ikkePersisterteKomponenter, settIkkePersisterteKomponenter] = useState<Set<string>>(
-        new Set()
-    );
+    const [innloggetSaksbehandler, settInnloggetSaksbehandler] = React.useState(autentisertSaksbehandler);
+    const [ikkePersisterteKomponenter, settIkkePersisterteKomponenter] = useState<Set<string>>(new Set());
     const [ulagretData, settUlagretData] = useState<boolean>(ikkePersisterteKomponenter.size > 0);
     const [valgtSide, settValgtSide] = useState<string | undefined>();
     const [visUlagretDataModal, settVisUlagretDataModal] = useState(false);
@@ -30,10 +27,7 @@ const [AppProvider, useApp] = constate(({ autentisertSaksbehandler, appEnv }: IP
     const [søkerPersonIdent, settSøkerPersonIdent] = useState<string>();
     const [visBrevmottakereModal, settVisBrevmottakereModal] = useState(false);
 
-    useEffect(
-        () => settUlagretData(ikkePersisterteKomponenter.size > 0),
-        [ikkePersisterteKomponenter]
-    );
+    useEffect(() => settUlagretData(ikkePersisterteKomponenter.size > 0), [ikkePersisterteKomponenter]);
 
     useEffect(() => {
         settInnloggetSaksbehandler(autentisertSaksbehandler);
@@ -66,9 +60,7 @@ const [AppProvider, useApp] = constate(({ autentisertSaksbehandler, appEnv }: IP
     };
 
     const axiosRequest: AxiosRequestCallback = useCallback(
-        <RES, REQ>(
-            config: AxiosRequestConfig<REQ>
-        ): Promise<RessursFeilet | RessursSuksess<RES>> => {
+        <RES, REQ>(config: AxiosRequestConfig<REQ>): Promise<RessursFeilet | RessursSuksess<RES>> => {
             return preferredAxios
                 .request<Ressurs<RES>>(config)
                 .then((response: AxiosResponse<Ressurs<RES>>) => {

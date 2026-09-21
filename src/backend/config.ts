@@ -3,14 +3,7 @@
 import type { IApi, ISessionKonfigurasjon } from '@navikt/familie-backend';
 
 type Rolle = 'veileder' | 'saksbehandler' | 'beslutter' | 'kode6' | 'kode7' | 'egenAnsatt';
-type EksternlenkeKey =
-    | 'efSakUrl'
-    | 'baSakUrl'
-    | 'ksSakUrl'
-    | 'aInntekt'
-    | 'gosys'
-    | 'modia'
-    | 'tilbakekrevingUrl';
+type EksternlenkeKey = 'efSakUrl' | 'baSakUrl' | 'ksSakUrl' | 'aInntekt' | 'gosys' | 'modia' | 'tilbakekrevingUrl';
 
 type Roller = {
     [key in Rolle]: string;
@@ -24,9 +17,14 @@ interface IEnvironment {
     frontendPath: string;
     miljø: string;
     klageProxyUrl: string;
+    klageScope: string;
     roller: Roller;
     eksternlenker: Eksternlenker;
 }
+
+// I preprod og prod injiseres FAMILIE_KLAGE_SCOPE av Nais. Lokalt utleder vi den fra ENV slik at
+// man kan bytte mellom `pnpm start:lokal` og `pnpm start:lokalt-mot-preprod` uten å redigere .env.
+const klageScopeForMiljø = (fallback: string): string => process.env.FAMILIE_KLAGE_SCOPE ?? fallback;
 
 const rollerDev: Roller = {
     veileder: '19dcbfde-4cdb-4c64-a1ea-ac9802b03339',
@@ -82,6 +80,7 @@ const Environment = (): IEnvironment => {
             frontendPath: 'src/frontend',
             miljø: 'local',
             klageProxyUrl: 'http://localhost:8094',
+            klageScope: klageScopeForMiljø('api://dev-gcp.teamfamilie.familie-klage-lokal/.default'),
             roller: rollerDev,
             eksternlenker: lenkerLocal,
         };
@@ -90,6 +89,7 @@ const Environment = (): IEnvironment => {
             frontendPath: 'dist_frontend',
             miljø: 'e2e',
             klageProxyUrl: 'http://familie-klage:8093',
+            klageScope: klageScopeForMiljø('api://dev-gcp.teamfamilie.familie-klage-lokal/.default'),
             roller: rollerDev,
             eksternlenker: lenkerLocal,
             //Har ikke satt opp redis
@@ -99,6 +99,7 @@ const Environment = (): IEnvironment => {
             frontendPath: 'dist_frontend',
             miljø: 'preprod',
             klageProxyUrl: 'http://familie-klage',
+            klageScope: klageScopeForMiljø(''),
             roller: rollerDev,
             eksternlenker: lenkerDev,
         };
@@ -107,6 +108,7 @@ const Environment = (): IEnvironment => {
             frontendPath: 'src/frontend',
             miljø: 'local',
             klageProxyUrl: 'https://familie-klage-backend.intern.dev.nav.no',
+            klageScope: klageScopeForMiljø('api://dev-gcp.teamfamilie.familie-klage/.default'),
             roller: rollerDev,
             eksternlenker: lenkerDev,
         };
@@ -116,6 +118,7 @@ const Environment = (): IEnvironment => {
         frontendPath: 'dist_frontend',
         miljø: 'production',
         klageProxyUrl: 'http://familie-klage',
+        klageScope: klageScopeForMiljø(''),
         roller: rollerProd,
         eksternlenker: lenkerProd,
     };
@@ -136,7 +139,7 @@ export const sessionConfig: ISessionKonfigurasjon = {
     sessionMaxAgeSekunder: 12 * 60 * 60,
 };
 
-if (!process.env.FAMILIE_KLAGE_SCOPE) {
+if (!env.klageScope) {
     throw new Error('Scope mot familie-klage er ikke konfigurert');
 }
 
@@ -146,7 +149,7 @@ if (!process.env.CLIENT_ID) {
 
 export const oboConfig: IApi = {
     clientId: process.env.CLIENT_ID,
-    scopes: [process.env.FAMILIE_KLAGE_SCOPE],
+    scopes: [env.klageScope],
 };
 
 export const frontendPath = env.frontendPath;

@@ -1,4 +1,4 @@
-import * as React from 'react';
+import type * as React from 'react';
 import { Navigate, Route, Routes } from 'react-router-dom';
 import type { Behandling } from '../../App/typer/fagsak';
 import { BrevFane } from './Brev/BrevFane';

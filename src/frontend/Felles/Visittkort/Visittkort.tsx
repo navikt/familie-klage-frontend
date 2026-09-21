@@ -1,5 +1,4 @@
 import { Box, HGrid, HStack } from '@navikt/ds-react';
-import React from 'react';
 import { usePersonopplysningerContext } from '../../App/context/PersonopplysningerContext';
 import type { Behandling } from '../../App/typer/fagsak';
 import { formaterOrgNummer } from '../../App/typer/institusjon';

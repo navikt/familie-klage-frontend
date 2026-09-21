@@ -1,23 +1,15 @@
 import type { FC } from 'react';
-import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useApp } from '../../App/context/AppContext';
 import { ModalWrapper } from './ModalWrapper';
 
 export const UlagretDataModal: FC = () => {
-    const {
-        nullstillIkkePersisterteKomponenter,
-        visUlagretDataModal,
-        valgtSide,
-        settVisUlagretDataModal,
-    } = useApp();
+    const { nullstillIkkePersisterteKomponenter, visUlagretDataModal, valgtSide, settVisUlagretDataModal } = useApp();
     const navigate = useNavigate();
 
     return (
         <ModalWrapper
-            tittel={
-                'Du har ikke lagret dine siste endringer og vil miste disse om du forlater siden'
-            }
+            tittel={'Du har ikke lagret dine siste endringer og vil miste disse om du forlater siden'}
             visModal={visUlagretDataModal}
             onClose={() => settVisUlagretDataModal(false)}
             aksjonsknapper={{

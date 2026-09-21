@@ -38,8 +38,6 @@ export function erEøsLandkode(eøsLandkode: EøsLandkode | string): eøsLandkod
     return Object.values(EøsLandkode).includes(eøsLandkode as EøsLandkode);
 }
 
-export function erUtenlandskEøsLandkode(
-    eøsLandkode: EøsLandkode | string
-): eøsLandkode is EøsLandkode {
+export function erUtenlandskEøsLandkode(eøsLandkode: EøsLandkode | string): eøsLandkode is EøsLandkode {
     return erEøsLandkode(eøsLandkode) && eøsLandkode !== EøsLandkode.NO;
 }

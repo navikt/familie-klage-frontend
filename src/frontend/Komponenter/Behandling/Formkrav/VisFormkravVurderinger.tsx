@@ -1,7 +1,8 @@
 import { PencilIcon, TrashIcon } from '@navikt/aksel-icons';
 import { Alert, BodyShort, Heading, HStack, Label, VStack } from '@navikt/ds-react';
+import type React from 'react';
 import type { Dispatch, SetStateAction } from 'react';
-import React, { useState } from 'react';
+import { useState } from 'react';
 import { useApp } from '../../../App/context/AppContext';
 import { useBehandling } from '../../../App/context/BehandlingContext';
 import {
@@ -14,20 +15,11 @@ import type { FagsystemVedtak } from '../../../App/typer/fagsystemVedtak';
 import type { Klagebehandlingsresultat } from '../../../App/typer/klagebehandlingsresultat';
 import type { Ressurs, RessursFeilet, RessursSuksess } from '../../../App/typer/ressurs';
 import { RessursStatus } from '../../../App/typer/ressurs';
-import {
-    formaterIsoDatoTid,
-    formaterNullableIsoDato,
-    formaterNullableIsoDatoTid,
-} from '../../../App/utils/formatter';
+import { formaterIsoDatoTid, formaterNullableIsoDato, formaterNullableIsoDatoTid } from '../../../App/utils/formatter';
 import { BrukerMedBlyant } from '../../../Felles/Ikoner/BrukerMedBlyant';
 import { Button } from '../../../Felles/Knapper/Button';
 import type { IFormalkrav, IFormkravVilkår } from './typer';
-import {
-    formkravFristUnntakTilTekst,
-    Redigeringsmodus,
-    VilkårStatus,
-    vilkårStatusTilTekst,
-} from './typer';
+import { formkravFristUnntakTilTekst, Redigeringsmodus, VilkårStatus, vilkårStatusTilTekst } from './typer';
 import {
     harManuellVedtaksdato,
     skalViseKlagefristUnntak,
@@ -49,9 +41,7 @@ import {
 
 interface Props {
     fagsystemVedtak: FagsystemVedtak[];
-    lagreVurderinger: (
-        vurderinger: IFormkravVilkår
-    ) => Promise<RessursSuksess<IFormkravVilkår> | RessursFeilet>;
+    lagreVurderinger: (vurderinger: IFormkravVilkår) => Promise<RessursSuksess<IFormkravVilkår> | RessursFeilet>;
     settRedigeringsmodus: (redigeringsmodus: Redigeringsmodus) => void;
     settOppdaterteVurderinger: Dispatch<SetStateAction<IFormkravVilkår>>;
     vurderinger: IFormkravVilkår;
@@ -111,11 +101,8 @@ export const VisFormkravVurderinger: React.FC<Props> = ({
     const manglerFritekster = !harBrevtekst || !harBegrunnelse;
     const ikkeUtfylteVilkår = utledIkkeUtfylteVilkår(vurderinger);
     const unntakFormalkravTattStillingTil = klagefristUnntakTattStillingTil(vurderinger);
-    const ikkePåklagetVedtak =
-        vurderinger.påklagetVedtak.påklagetVedtakstype === PåklagetVedtakstype.UTEN_VEDTAK;
-    const klagefristUnntakOppfylt = klagefristUnntakErValgtOgOppfylt(
-        vurderinger.klagefristOverholdtUnntak
-    );
+    const ikkePåklagetVedtak = vurderinger.påklagetVedtak.påklagetVedtakstype === PåklagetVedtakstype.UTEN_VEDTAK;
+    const klagefristUnntakOppfylt = klagefristUnntakErValgtOgOppfylt(vurderinger.klagefristOverholdtUnntak);
 
     const utledManglerUtfylling = () => {
         if (ikkePåklagetVedtak) {
@@ -126,8 +113,7 @@ export const VisFormkravVurderinger: React.FC<Props> = ({
             !unntakFormalkravTattStillingTil ||
             fagsystem === Fagsystem.EF
             ? !alleVilkårErOppfylt && manglerFritekster
-            : (!alleVilkårErOppfylt || (alleVilkårErOppfylt && klagefristUnntakOppfylt)) &&
-                  manglerFritekster;
+            : (!alleVilkårErOppfylt || (alleVilkårErOppfylt && klagefristUnntakOppfylt)) && manglerFritekster;
     };
 
     const manglerUtfylling = utledManglerUtfylling();
@@ -142,10 +128,7 @@ export const VisFormkravVurderinger: React.FC<Props> = ({
         return alleVilkårErOppfylt ? 'vurdering' : 'brev';
     };
 
-    const gjeldendeFagsystemVedtak = utledFagsystemVedtakFraPåklagetVedtak(
-        fagsystemVedtak,
-        vurderinger.påklagetVedtak
-    );
+    const gjeldendeFagsystemVedtak = utledFagsystemVedtakFraPåklagetVedtak(fagsystemVedtak, vurderinger.påklagetVedtak);
 
     const gjeldendeKlageresultat = utledKlageresultatFraPåklagetVedtak(
         klagebehandlingsresultater,
@@ -220,48 +203,35 @@ export const VisFormkravVurderinger: React.FC<Props> = ({
                         )}
                     </li>
                 </div>
-                {!ikkePåklagetVedtak && (
-                    <>
-                        {radioKnapper.map((knapp: IFormalkrav, index) => (
-                            <>
-                                <div className={styles.spørsmålSvar} key={index}>
-                                    <li className={styles.spørsmål}>{knapp.spørsmål}</li>
-                                    <li>{vilkårStatusTilTekst[knapp.svar]}</li>
+                {!ikkePåklagetVedtak &&
+                    radioKnapper.map((knapp: IFormalkrav, index) => (
+                        <>
+                            <div className={styles.spørsmålSvar} key={index}>
+                                <li className={styles.spørsmål}>{knapp.spørsmål}</li>
+                                <li>{vilkårStatusTilTekst[knapp.svar]}</li>
+                            </div>
+                            {skalViseKlagefristUnntak(knapp) && (
+                                <div className={styles.spørsmålSvar} key={'unntaksvilkår'}>
+                                    <li className={styles.spørsmål}>Er unntak for klagefristen oppfylt?</li>
+                                    <li className={styles.svar}>
+                                        {formkravFristUnntakTilTekst[vurderinger.klagefristOverholdtUnntak]}
+                                    </li>
                                 </div>
-                                {skalViseKlagefristUnntak(knapp) && (
-                                    <div className={styles.spørsmålSvar} key={'unntaksvilkår'}>
-                                        <li className={styles.spørsmål}>
-                                            Er unntak for klagefristen oppfylt?
-                                        </li>
-                                        <li className={styles.svar}>
-                                            {
-                                                formkravFristUnntakTilTekst[
-                                                    vurderinger.klagefristOverholdtUnntak
-                                                ]
-                                            }
-                                        </li>
-                                    </div>
-                                )}
-                            </>
-                        ))}
-                    </>
-                )}
+                            )}
+                        </>
+                    ))}
                 {skalViseBegrunnelseOgBrevtekst && (
                     <>
                         <div className={styles.spørsmålSvar}>
                             <li className={styles.spørsmål}>Begrunnelse (intern)</li>
                             <li className={styles.svar}>
-                                <div className={styles.fritekstContainer}>
-                                    {vurderinger.saksbehandlerBegrunnelse}
-                                </div>
+                                <div className={styles.fritekstContainer}>{vurderinger.saksbehandlerBegrunnelse}</div>
                             </li>
                         </div>
                         <div className={styles.spørsmålSvar}>
                             <li className={styles.spørsmål}>Fritekst til brev</li>
                             <li className={styles.svar}>
-                                <div className={styles.fritekstContainer}>
-                                    {vurderinger.brevtekst}
-                                </div>
+                                <div className={styles.fritekstContainer}>{vurderinger.brevtekst}</div>
                             </li>
                         </div>
                     </>
@@ -270,9 +240,7 @@ export const VisFormkravVurderinger: React.FC<Props> = ({
                     <Button
                         variant="primary"
                         size="medium"
-                        onClick={() =>
-                            gåTilUrl(`/behandling/${vurderinger.behandlingId}/${urlSuffiks}`)
-                        }
+                        onClick={() => gåTilUrl(`/behandling/${vurderinger.behandlingId}/${urlSuffiks}`)}
                     >
                         Fortsett
                     </Button>
@@ -288,9 +256,7 @@ export const VisFormkravVurderinger: React.FC<Props> = ({
                                 {ikkeUtfylteVilkår.map((vilkår, index) => {
                                     return (
                                         <li key={index}>
-                                            <BodyShort key={vilkår.navn}>
-                                                {vilkår.spørsmål}
-                                            </BodyShort>
+                                            <BodyShort key={vilkår.navn}>{vilkår.spørsmål}</BodyShort>
                                         </li>
                                     );
                                 })}

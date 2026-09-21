@@ -1,4 +1,4 @@
-import React from 'react';
+import type React from 'react';
 import type { Behandling } from '../../../App/typer/fagsak';
 import { Klagebehandlingsårsak } from '../../../App/typer/fagsak';
 import { Brev } from './Brev';

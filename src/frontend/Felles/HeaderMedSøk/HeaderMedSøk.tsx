@@ -1,6 +1,7 @@
 import { MenuGridIcon } from '@navikt/aksel-icons';
 import { ActionMenu, InternalHeader } from '@navikt/ds-react';
-import React, { useMemo } from 'react';
+import type React from 'react';
+import { useMemo } from 'react';
 import type { AppEnv } from '../../App/api/env';
 import { useApp } from '../../App/context/AppContext';
 import type { AxiosRequestCallback } from '../../App/typer/axiosRequest';
@@ -33,11 +34,7 @@ export const HeaderMedSøk: React.FunctionComponent<{ innloggetSaksbehandler: IS
     );
 };
 
-const lagAInntekt = (
-    axiosRequest: AxiosRequestCallback,
-    appEnv: AppEnv,
-    fagsakId: string | undefined
-): PopoverItem => {
+const lagAInntekt = (axiosRequest: AxiosRequestCallback, appEnv: AppEnv, fagsakId: string | undefined): PopoverItem => {
     if (!fagsakId) {
         return { name: 'A-inntekt', href: appEnv.eksternlenker.aInntekt, isExternal: true };
     }
@@ -123,11 +120,7 @@ export const Header: React.FC<Props> = ({
             </InternalHeader.Title>
             <div style={{ marginLeft: 'auto' }} />
             <LenkePopover lenker={eksterneLenker} />
-            <Bruker
-                navn={saksbehandlerNavn}
-                enhet={saksbehandlerEnhet}
-                popoverItems={brukerPopoverItems}
-            />
+            <Bruker navn={saksbehandlerNavn} enhet={saksbehandlerEnhet} popoverItems={brukerPopoverItems} />
         </InternalHeader>
     );
 };
@@ -139,10 +132,7 @@ const Bruker: React.FC<{
 }> = ({ navn, enhet, popoverItems }) => (
     <ActionMenu>
         <ActionMenu.Trigger>
-            <InternalHeader.UserButton
-                name={navn}
-                description={enhet ? `Enhet: ${enhet}` : 'Ukjent enhet'}
-            />
+            <InternalHeader.UserButton name={navn} description={enhet ? `Enhet: ${enhet}` : 'Ukjent enhet'} />
         </ActionMenu.Trigger>
         {popoverItems && (
             <ActionMenu.Content>

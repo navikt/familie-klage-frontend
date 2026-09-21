@@ -1,6 +1,6 @@
 import { Radio, RadioGroup } from '@navikt/ds-react';
+import type React from 'react';
 import type { Dispatch, SetStateAction } from 'react';
-import React from 'react';
 import { useApp } from '../../../App/context/AppContext';
 import type { IFormkravVilkår } from './typer';
 import { FormkravFristUnntak, formkravFristUnntakTilTekst } from './typer';
@@ -10,10 +10,7 @@ interface Props {
     unntakVurdering?: FormkravFristUnntak;
 }
 
-export const KlagefristUnntak: React.FC<Props> = ({
-    settOppdaterteVurderinger,
-    unntakVurdering,
-}) => {
+export const KlagefristUnntak: React.FC<Props> = ({ settOppdaterteVurderinger, unntakVurdering }) => {
     const { settIkkePersistertKomponent } = useApp();
 
     const håndterEndring = (val: FormkravFristUnntak) => {

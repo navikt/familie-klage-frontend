@@ -1,6 +1,6 @@
 import { ClockIcon } from '@navikt/aksel-icons';
 import { Button, Detail, Heading, Label, VStack } from '@navikt/ds-react';
-import * as React from 'react';
+import type * as React from 'react';
 import { useApp } from '../../../App/context/AppContext';
 import type { Behandling } from '../../../App/typer/fagsak';
 import {
@@ -23,15 +23,11 @@ import { fjernDuplikatStegFraHistorikk } from './utils';
  * Hvis resultat = HENLAGT, vis kun opprettet og ferdigstilt
  * Hvis Resultat = IKKE_MEDHOLD_FORMKRAV_AVVIST, ikke vis vurdering, for å unngå at man først oppfylt krav, lagt inn vurdering, ikke oppfylt krav, ferdigstilt
  */
-const filtrerResutatSteg = (
-    behandlingHistorikk: IBehandlingshistorikk[],
-    behandling: Behandling
-) => {
+const filtrerResutatSteg = (behandlingHistorikk: IBehandlingshistorikk[], behandling: Behandling) => {
     let historikk = fjernDuplikatStegFraHistorikk(behandlingHistorikk);
     if (behandling.resultat === BehandlingResultat.HENLAGT) {
         historikk = historikk.filter(
-            steg =>
-                steg.steg === StegType.OPPRETTET || steg.steg === StegType.BEHANDLING_FERDIGSTILT
+            steg => steg.steg === StegType.OPPRETTET || steg.steg === StegType.BEHANDLING_FERDIGSTILT
         );
     }
     if (behandling.resultat === BehandlingResultat.IKKE_MEDHOLD_FORMKRAV_AVVIST) {
@@ -52,16 +48,10 @@ export const Tidslinje: React.FC<{
             {historikk.map((steg, index) => {
                 return (
                     <div className={styles.historikkInnslag} key={index}>
-                        <div
-                            className={
-                                index > 0 ? styles.linjeSortSynlig : styles.linjeSortTransparent
-                            }
-                        />
+                        <div className={index > 0 ? styles.linjeSortSynlig : styles.linjeSortTransparent} />
                         <Node behandling={behandling} steg={steg} />
                         {index + 1 < historikk.length && <div className={styles.linjeSortSynlig} />}
-                        {harFåttMedhold && index + 1 === historikk.length && (
-                            <div className={styles.linjeStiplet} />
-                        )}
+                        {harFåttMedhold && index + 1 === historikk.length && <div className={styles.linjeStiplet} />}
                     </div>
                 );
             })}
@@ -84,16 +74,11 @@ const Node: React.FC<{
     behandling: Behandling;
     steg: IBehandlingshistorikk;
 }> = ({ behandling, steg }) => {
-    const tittelErToLinjer =
-        steg.steg === StegType.OVERFØRING_TIL_KABAL || steg.steg === StegType.KABAL_VENTER_SVAR;
+    const tittelErToLinjer = steg.steg === StegType.OVERFØRING_TIL_KABAL || steg.steg === StegType.KABAL_VENTER_SVAR;
 
     return (
         <VStack className={styles.nodeContainer}>
-            <Heading
-                className={tittelErToLinjer ? styles.headingSpacing : styles.heading}
-                level="1"
-                size="xsmall"
-            >
+            <Heading className={tittelErToLinjer ? styles.headingSpacing : styles.heading} level="1" size="xsmall">
                 {behandlingStegTilTekst[steg.steg]}
             </Heading>
             {steg.endretTid ? (
@@ -103,9 +88,7 @@ const Node: React.FC<{
             )}
             <Detail>{steg.endretTid && formaterIsoDato(steg.endretTid)}</Detail>
             <Detail>{steg.endretTid && formaterIsoKlokke(steg.endretTid)}</Detail>
-            <Label size="small">
-                {utledStegutfallForFerdigstiltBehandling(behandling, steg.steg)}
-            </Label>
+            <Label size="small">{utledStegutfallForFerdigstiltBehandling(behandling, steg.steg)}</Label>
         </VStack>
     );
 };
@@ -127,11 +110,7 @@ export const MedholdRevurdering: React.FC<{
                     as={'a'}
                     variant={'secondary'}
                     size={'small'}
-                    href={utledEksternBehandlingLenke(
-                        behandling,
-                        eksternBehandlingId,
-                        appEnv.eksternlenker
-                    )}
+                    href={utledEksternBehandlingLenke(behandling, eksternBehandlingId, appEnv.eksternlenker)}
                 >
                     Åpne revurdering
                 </Button>
@@ -144,8 +123,7 @@ export const MedholdRevurdering: React.FC<{
                 <Label size={'small'}>Må manuelt opprettes</Label>
                 {fagsystemRevurdering && (
                     <Detail size="small">
-                        Årsak:{' '}
-                        {revurderingIkkeOpprettetÅrsak[fagsystemRevurdering.ikkeOpprettet.årsak]}
+                        Årsak: {revurderingIkkeOpprettetÅrsak[fagsystemRevurdering.ikkeOpprettet.årsak]}
                     </Detail>
                 )}
                 <Button

@@ -1,20 +1,11 @@
-import {
-    Alert,
-    BodyShort,
-    Box,
-    Button,
-    Heading,
-    Select,
-    TextField,
-    VStack,
-} from '@navikt/ds-react';
-import React, { useState } from 'react';
+import { Alert, Box, Button, Heading, Select, TextField, VStack } from '@navikt/ds-react';
+import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useApp } from '../../App/context/AppContext';
-import { Fagsystem } from '../../App/typer/fagsak';
+import { Fagsystem, stønadstyperForFagsystem } from '../../App/typer/fagsak';
 import { RessursStatus } from '../../App/typer/ressurs';
-import { Stønadstype } from '../../App/typer/stønadstype';
-import { behandlendeEnheter } from '../Behandling/EndreBehandlendeEnhet/arbeidsfordelingsenhet';
+import { type Stønadstype, stønadstypeTilTekst } from '../../App/typer/stønadstype';
+import { finnGyldigeArbeidsfordelingsenheterForFagsystem } from '../Behandling/EndreBehandlendeEnhet/arbeidsfordelingsenhet';
 
 type DummyBehandling = {
     ident: string;
@@ -23,53 +14,60 @@ type DummyBehandling = {
     behandlendeEnhet: string;
 };
 
-export const TestSide: React.FC = () => {
-    const { axiosRequest, appEnv } = useApp();
+// Vikafossen er forbeholdt strengt fortrolige saker, og passer ikke for en dummy-behandling.
+const VIKAFOSSEN = '2103';
+// EF har ingen arbeidsfordelingsenheter i lista, og bruker fallback-enheten.
+const ENHET_UTEN_ARBEIDSFORDELING = '4489';
+
+const utledBehandlendeEnhetForFagsystem = (fagsystem: Fagsystem): string =>
+    finnGyldigeArbeidsfordelingsenheterForFagsystem(fagsystem).find(enhet => enhet.enhetsnummer !== VIKAFOSSEN)
+        ?.enhetsnummer ?? ENHET_UTEN_ARBEIDSFORDELING;
+
+export const TestSide = () => {
+    const { axiosRequest } = useApp();
     const navigate = useNavigate();
 
-    const [ident, settIdent] = useState<string>();
-    const [stønadstype, settStønadstype] = useState<Stønadstype>();
-    const [fagsystem, settFagsystem] = useState<Fagsystem>();
+    const [ident, settIdent] = useState('');
+    const [fagsystem, settFagsystem] = useState<Fagsystem | ''>('');
+    const [stønadstype, settStønadstype] = useState<Stønadstype | ''>('');
     const [feil, settFeil] = useState<string>();
+    const [senderInn, settSenderInn] = useState(false);
 
-    const utledBehandlendeEnhetForFagsystem = (fagsystem: Fagsystem) => {
-        switch (fagsystem) {
-            case Fagsystem.KS:
-            case Fagsystem.BA:
-                return behandlendeEnheter.find(
-                    enhet =>
-                        enhet.gyldigForFagsystem.includes(fagsystem) &&
-                        enhet.enhetsnummer !== '2103'
-                )!.enhetsnummer;
-            default:
-                return '4489';
-        }
+    // Stønadstypene henger sammen med fagsystemet, så vi nullstiller valget når fagsystemet endres.
+    const oppdaterFagsystem = (nyttFagsystem: Fagsystem | '') => {
+        settFagsystem(nyttFagsystem);
+        settStønadstype('');
     };
 
+    const kanOpprette = ident.trim() !== '' && fagsystem !== '' && stønadstype !== '' && !senderInn;
+
     const opprettDummyBehandling = () => {
-        if (ident && stønadstype && fagsystem) {
-            const behandlendeEnhet = utledBehandlendeEnhetForFagsystem(fagsystem);
-            axiosRequest<string, DummyBehandling>({
-                method: 'POST',
-                url: `/familie-klage/api/test/opprett`,
-                data: { ident, stønadstype, fagsystem, behandlendeEnhet },
-            }).then(resp => {
+        if (fagsystem === '' || stønadstype === '') {
+            return;
+        }
+
+        settFeil(undefined);
+        settSenderInn(true);
+
+        axiosRequest<string, DummyBehandling>({
+            method: 'POST',
+            url: `/familie-klage/api/test/opprett`,
+            data: {
+                ident: ident.trim(),
+                stønadstype,
+                fagsystem,
+                behandlendeEnhet: utledBehandlendeEnhetForFagsystem(fagsystem),
+            },
+        })
+            .then(resp => {
                 if (resp.status === RessursStatus.SUKSESS) {
                     navigate(`/behandling/${resp.data}/formkrav`);
                 } else {
-                    settFeil(resp.frontendFeilmelding);
+                    settFeil(resp.frontendFeilmelding ?? 'Klarte ikke å opprette dummy-behandling');
                 }
-            });
-        }
+            })
+            .finally(() => settSenderInn(false));
     };
-
-    if (appEnv.miljø !== 'local') {
-        return (
-            <BodyShort>
-                Du må velge en behandling fra fagsystemet for å se på en klagebehandling
-            </BodyShort>
-        );
-    }
 
     return (
         <Box padding={'space-40'}>
@@ -78,34 +76,38 @@ export const TestSide: React.FC = () => {
                 <TextField
                     label={'Ident'}
                     placeholder={'Ident'}
-                    value={ident || ``}
+                    value={ident}
                     onChange={e => settIdent(e.target.value)}
                 />
                 <Select
-                    label={'Stønadstype'}
-                    value={stønadstype}
-                    onChange={e => settStønadstype(e.target.value as Stønadstype)}
-                >
-                    <option>Velg</option>
-                    {Object.values(Stønadstype).map(stønadstype => (
-                        <option key={stønadstype} value={stønadstype}>
-                            {stønadstype}
-                        </option>
-                    ))}
-                </Select>
-                <Select
                     label={'Fagsystem'}
                     value={fagsystem}
-                    onChange={e => settFagsystem(e.target.value as Fagsystem)}
+                    onChange={e => oppdaterFagsystem(e.target.value as Fagsystem | '')}
                 >
-                    <option>Velg</option>
+                    <option value={''}>Velg</option>
                     {Object.values(Fagsystem).map(fs => (
                         <option key={fs} value={fs}>
                             {fs}
                         </option>
                     ))}
                 </Select>
-                <Button onClick={opprettDummyBehandling}>Lag behandling</Button>
+                <Select
+                    label={'Stønadstype'}
+                    value={stønadstype}
+                    disabled={fagsystem === ''}
+                    description={fagsystem === '' ? 'Velg fagsystem først' : undefined}
+                    onChange={e => settStønadstype(e.target.value as Stønadstype | '')}
+                >
+                    <option value={''}>Velg</option>
+                    {(fagsystem === '' ? [] : stønadstyperForFagsystem[fagsystem]).map(type => (
+                        <option key={type} value={type}>
+                            {stønadstypeTilTekst[type]}
+                        </option>
+                    ))}
+                </Select>
+                <Button onClick={opprettDummyBehandling} disabled={!kanOpprette} loading={senderInn}>
+                    Lag behandling
+                </Button>
             </VStack>
             {feil && <Alert variant={'error'}>{feil}</Alert>}
         </Box>

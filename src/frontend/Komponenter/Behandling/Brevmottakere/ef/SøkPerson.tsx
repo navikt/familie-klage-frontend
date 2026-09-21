@@ -1,15 +1,7 @@
-import {
-    BodyShort,
-    Button,
-    HStack,
-    Radio,
-    RadioGroup,
-    Stack,
-    TextField,
-    VStack,
-} from '@navikt/ds-react';
+import { BodyShort, Button, HStack, Radio, RadioGroup, Stack, TextField, VStack } from '@navikt/ds-react';
+import type React from 'react';
 import type { Dispatch, SetStateAction } from 'react';
-import React, { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useApp } from '../../../../App/context/AppContext';
 import type { Ressurs } from '../../../../App/typer/ressurs';
 import { byggTomRessurs } from '../../../../App/typer/ressurs';
@@ -90,10 +82,7 @@ export const SøkPerson: React.FC<Props> = ({ settValgteMottakere, behandlingId 
                                     <Button
                                         variant="secondary"
                                         size="small"
-                                        onClick={leggTilBrevmottaker(
-                                            søkRessurs.personIdent,
-                                            søkRessurs.navn
-                                        )}
+                                        onClick={leggTilBrevmottaker(søkRessurs.personIdent, søkRessurs.navn)}
                                     >
                                         Legg til
                                     </Button>

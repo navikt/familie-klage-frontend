@@ -1,7 +1,8 @@
 import { ChevronDownIcon, ChevronUpIcon } from '@navikt/aksel-icons';
 import { BodyShort, Button, Label, VStack } from '@navikt/ds-react';
+import type React from 'react';
 import type { FC } from 'react';
-import React, { useCallback, useState } from 'react';
+import { useCallback, useState } from 'react';
 import styles from './EksisterendeBeskrivelse.module.css';
 
 export const EksisterendeBeskrivelse: FC<{ beskrivelse?: string }> = ({ beskrivelse }) => {

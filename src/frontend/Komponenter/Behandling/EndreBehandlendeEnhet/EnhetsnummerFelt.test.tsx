@@ -1,5 +1,5 @@
 import { Button } from '@navikt/ds-react';
-import React from 'react';
+import type React from 'react';
 import { FormProvider, useForm } from 'react-hook-form';
 import { describe, expect, test } from 'vitest';
 import { Fagsystem } from '../../../App/typer/fagsak';
@@ -42,10 +42,9 @@ describe('EnhetsnummerFelt', () => {
     const comboboxName = 'Velg ny enhet';
 
     test('skal kunne endre enhet hvis komponenten ikke er i lesevisning', async () => {
-        const { screen, user } = render(
-            <EnhetsnummerFelt behandling={behandling} lesevisning={false} />,
-            { wrapper: FormWrapper }
-        );
+        const { screen, user } = render(<EnhetsnummerFelt behandling={behandling} lesevisning={false} />, {
+            wrapper: FormWrapper,
+        });
 
         const combobox = screen.getByRole('combobox', { name: comboboxName });
         const option = screen.getByRole('option', {
@@ -65,7 +64,7 @@ describe('EnhetsnummerFelt', () => {
         });
 
         const image = screen.getByRole('img', { name: 'Skrivebeskyttet' });
-        const combobox = screen.getByRole('combobox', { name: 'Skrivebeskyttet' + comboboxName });
+        const combobox = screen.getByRole('combobox', { name: `Skrivebeskyttet${comboboxName}` });
 
         expect(image).toBeInTheDocument();
         expect(combobox).toBeInTheDocument();
@@ -123,16 +122,14 @@ describe('EnhetsnummerFelt', () => {
         await user.selectOptions(combobox, option);
 
         expect(screen.queryByRole('img', { name: 'Skrivebeskyttet' })).not.toBeInTheDocument();
-        expect(
-            screen.queryByRole('combobox', { name: 'Skrivebeskyttet' + comboboxName })
-        ).not.toBeInTheDocument();
+        expect(screen.queryByRole('combobox', { name: `Skrivebeskyttet${comboboxName}` })).not.toBeInTheDocument();
 
         const submitButton = screen.getByRole('button', { name: 'Submit' });
         await user.click(submitButton);
 
         const skrivebeskyttetImage = await screen.findByRole('img', { name: 'Skrivebeskyttet' });
         const skrivebeskyttetCombobox = await screen.findByRole('combobox', {
-            name: 'Skrivebeskyttet' + comboboxName,
+            name: `Skrivebeskyttet${comboboxName}`,
         });
 
         expect(skrivebeskyttetImage).toBeInTheDocument();

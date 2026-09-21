@@ -1,5 +1,5 @@
+import type React from 'react';
 import type { Dispatch, SetStateAction } from 'react';
-import React from 'react';
 import type { Fagsystem } from '../../../App/typer/fagsak';
 import type { FagsystemVedtak } from '../../../App/typer/fagsystemVedtak';
 import type { Klagebehandlingsresultat } from '../../../App/typer/klagebehandlingsresultat';
@@ -11,9 +11,7 @@ import { VisFormkravVurderinger } from './VisFormkravVurderinger';
 
 export interface IProps {
     vurderinger: IFormkravVilkår;
-    lagreVurderinger: (
-        vurderinger: IFormkravVilkår
-    ) => Promise<RessursSuksess<IFormkravVilkår> | RessursFeilet>;
+    lagreVurderinger: (vurderinger: IFormkravVilkår) => Promise<RessursSuksess<IFormkravVilkår> | RessursFeilet>;
     settOppdaterteVurderinger: Dispatch<SetStateAction<IFormkravVilkår>>;
     redigeringsmodus: Redigeringsmodus;
     settRedigeringsmodus: (redigeringsmodus: Redigeringsmodus) => void;

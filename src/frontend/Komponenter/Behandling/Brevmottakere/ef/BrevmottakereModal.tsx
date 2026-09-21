@@ -1,6 +1,6 @@
 import { Alert, Button, HStack } from '@navikt/ds-react';
 import type { FC } from 'react';
-import React, { useCallback, useState } from 'react';
+import { useCallback, useState } from 'react';
 import { useApp } from '../../../../App/context/AppContext';
 import type { RessursFeilet, RessursSuksess } from '../../../../App/typer/ressurs';
 import { RessursStatus } from '../../../../App/typer/ressurs';
@@ -21,20 +21,13 @@ interface Props {
     genererBrev: () => void;
 }
 
-export const BrevmottakereModal: FC<Props> = ({
-    behandlingId,
-    mottakere,
-    hentBrevmottakere,
-    genererBrev,
-}) => {
+export const BrevmottakereModal: FC<Props> = ({ behandlingId, mottakere, hentBrevmottakere, genererBrev }) => {
     const { visBrevmottakereModal, settVisBrevmottakereModal, settToast, axiosRequest } = useApp();
 
-    const [valgtePersonMottakere, settValgtePersonMottakere] = useState<BrevmottakerPerson[]>(
-        mottakere.personer
+    const [valgtePersonMottakere, settValgtePersonMottakere] = useState<BrevmottakerPerson[]>(mottakere.personer);
+    const [valgteOrganisasjonMottakere, settValgteOrganisasjonMottakere] = useState<BrevmottakerOrganisasjon[]>(
+        mottakere.organisasjoner
     );
-    const [valgteOrganisasjonMottakere, settValgteOrganisasjonMottakere] = useState<
-        BrevmottakerOrganisasjon[]
-    >(mottakere.organisasjoner);
     const [feilmelding, settFeilmelding] = useState('');
     const [innsendingSuksess, settInnsendingSukksess] = useState(false);
 
@@ -66,8 +59,7 @@ export const BrevmottakereModal: FC<Props> = ({
         });
     };
 
-    const harValgtMottakere =
-        valgtePersonMottakere.length > 0 || valgteOrganisasjonMottakere.length > 0;
+    const harValgtMottakere = valgtePersonMottakere.length > 0 || valgteOrganisasjonMottakere.length > 0;
 
     return (
         <ModalWrapper

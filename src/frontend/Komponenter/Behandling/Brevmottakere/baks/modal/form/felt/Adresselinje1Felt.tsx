@@ -1,5 +1,4 @@
 import { Alert, TextField } from '@navikt/ds-react';
-import React from 'react';
 import { useController, useFormContext } from 'react-hook-form';
 import { erUtenlandskEøsLandkode } from '../../../../../../../Felles/Landvelger/landkode';
 import type { BrevmottakerPersonUtenIdentFormValues } from '../BrevmottakerPersonUtenIdentForm';
@@ -38,8 +37,7 @@ export function Adresselinje1Felt({ erLesevisning = false }: Props) {
             description={
                 erUtenlandskEøsLandkode(landkode) && (
                     <Alert size={'small'} inline={true} variant={'info'}>
-                        Ved utenlandsk adresse skal postnummer og poststed skrives direkte i
-                        adressefeltet.
+                        Ved utenlandsk adresse skal postnummer og poststed skrives direkte i adressefeltet.
                     </Alert>
                 )
             }

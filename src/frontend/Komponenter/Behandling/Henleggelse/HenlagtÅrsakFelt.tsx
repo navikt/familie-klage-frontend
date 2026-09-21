@@ -1,5 +1,4 @@
 import { Radio, RadioGroup } from '@navikt/ds-react';
-import React from 'react';
 import { useController, useFormContext } from 'react-hook-form';
 import { useBrevmottakerFormActionsContext } from './context/BrevmottakerFormActionsContextProvider';
 import { HenlagtÅrsak } from './domain/henlagtÅrsak';

@@ -1,6 +1,5 @@
 import { Select } from '@navikt/ds-react';
 import type { FC } from 'react';
-import React from 'react';
 import type { Prioritet } from '../Typer/IOppgave';
 import { prioritetTilTekst } from '../Typer/IOppgave';
 

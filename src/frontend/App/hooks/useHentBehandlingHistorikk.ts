@@ -13,17 +13,15 @@ export const useHentBehandlingHistorikk = (
 } => {
     const { axiosRequest } = useApp();
 
-    const [behandlingHistorikk, settBehandlingHistorikk] = useState<
-        Ressurs<IBehandlingshistorikk[]>
-    >(byggTomRessurs());
+    const [behandlingHistorikk, settBehandlingHistorikk] = useState<Ressurs<IBehandlingshistorikk[]>>(byggTomRessurs());
 
     const hentBehandlingshistorikkCallback = useCallback(() => {
         const behandlingConfig: AxiosRequestConfig = {
             method: 'GET',
             url: `/familie-klage/api/behandlingshistorikk/${behandlingId}`,
         };
-        axiosRequest<IBehandlingshistorikk[], null>(behandlingConfig).then(
-            (res: Ressurs<IBehandlingshistorikk[]>) => settBehandlingHistorikk(res)
+        axiosRequest<IBehandlingshistorikk[], null>(behandlingConfig).then((res: Ressurs<IBehandlingshistorikk[]>) =>
+            settBehandlingHistorikk(res)
         );
     }, [behandlingId]);
 

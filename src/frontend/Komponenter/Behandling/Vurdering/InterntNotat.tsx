@@ -1,5 +1,5 @@
 import { PlusCircleIcon, TrashIcon } from '@navikt/aksel-icons';
-import * as React from 'react';
+import type * as React from 'react';
 import { useState } from 'react';
 import { harVerdi } from '../../../App/utils/utils';
 import { EnsligTextArea } from '../../../Felles/Input/EnsligTextArea';
@@ -41,11 +41,7 @@ export const InterntNotat: React.FC<{
         settSkalViseFritekstFelt(prevState => !prevState);
     };
 
-    const knappIkon = skalViseFritekstFelt ? (
-        <TrashIcon fontSize="1.5rem" />
-    ) : (
-        <PlusCircleIcon fontSize="1.5rem" />
-    );
+    const knappIkon = skalViseFritekstFelt ? <TrashIcon fontSize="1.5rem" /> : <PlusCircleIcon fontSize="1.5rem" />;
 
     const knappTekst = skalViseFritekstFelt ? 'Fjern internt notat' : 'Skriv internt notat';
 

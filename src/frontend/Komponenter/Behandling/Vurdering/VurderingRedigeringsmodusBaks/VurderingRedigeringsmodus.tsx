@@ -1,6 +1,5 @@
 import { FloppydiskIcon, PaperplaneIcon, PlusCircleIcon, TrashIcon } from '@navikt/aksel-icons';
 import { Alert, Box, Button, ErrorSummary, Heading, HStack, VStack } from '@navikt/ds-react';
-import * as React from 'react';
 import { useEffect, useRef, useState } from 'react';
 import type { FieldErrors, SubmitHandler } from 'react-hook-form';
 import { FormProvider, useForm } from 'react-hook-form';
@@ -23,10 +22,7 @@ interface VurderingRedigeringsmodusProps {
     vurdering: IVurdering | null;
 }
 
-export const VurderingRedigeringsmodus = ({
-    behandling,
-    vurdering,
-}: VurderingRedigeringsmodusProps) => {
+export const VurderingRedigeringsmodus = ({ behandling, vurdering }: VurderingRedigeringsmodusProps) => {
     const fagsystem = behandling.fagsystem;
     const navigate = useNavigate();
     const errorSummaryRef = useRef<HTMLDivElement>(null);
@@ -75,9 +71,7 @@ export const VurderingRedigeringsmodus = ({
         reset({ vedtak: vedtak });
     }, [vedtak]);
 
-    const skjemaverdierTilVurdering = (
-        vurderingSkjemaverdier: VurderingSkjemaverdier
-    ): IVurdering => {
+    const skjemaverdierTilVurdering = (vurderingSkjemaverdier: VurderingSkjemaverdier): IVurdering => {
         return {
             behandlingId: behandling.id,
             ...Object.fromEntries(
@@ -141,11 +135,7 @@ export const VurderingRedigeringsmodus = ({
                 }}
             >
                 <VStack gap="space-16" marginInline="space-32" marginBlock="space-32">
-                    <Nedtrekksliste
-                        visningsnavn={'Vedtak'}
-                        feltnavn={'vedtak'}
-                        alternativer={vedtakValgTilTekst}
-                    />
+                    <Nedtrekksliste visningsnavn={'Vedtak'} feltnavn={'vedtak'} alternativer={vedtakValgTilTekst} />
                     {vedtak == VedtakValg.OMGJØR_VEDTAK && (
                         <>
                             <Nedtrekksliste
@@ -183,17 +173,11 @@ export const VurderingRedigeringsmodus = ({
                                     icon={visInterntNotat ? <TrashIcon /> : <PlusCircleIcon />}
                                     onClick={toggleInterntNotat}
                                 >
-                                    {visInterntNotat
-                                        ? 'Fjern internt notat'
-                                        : 'Skriv internt notat'}
+                                    {visInterntNotat ? 'Fjern internt notat' : 'Skriv internt notat'}
                                 </Button>
                             </HStack>
                             {visInterntNotat && (
-                                <Tekstfelt
-                                    visningsnavn="Internt notat"
-                                    feltnavn={'interntNotat'}
-                                    frivillig
-                                />
+                                <Tekstfelt visningsnavn="Internt notat" feltnavn={'interntNotat'} frivillig />
                             )}
                         </>
                     )}

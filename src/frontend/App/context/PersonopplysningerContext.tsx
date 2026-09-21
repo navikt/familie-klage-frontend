@@ -1,18 +1,14 @@
 import type { PropsWithChildren } from 'react';
-import React, { createContext, useContext } from 'react';
+import { createContext, useContext } from 'react';
 import { useSetPersonIdent } from '../hooks/useSetPersonIdent';
 import type { IPersonopplysningerFagsakeierOgSøker } from '../typer/personopplysninger';
 
-const PersonopplysningerContext = createContext<IPersonopplysningerFagsakeierOgSøker | undefined>(
-    undefined
-);
+const PersonopplysningerContext = createContext<IPersonopplysningerFagsakeierOgSøker | undefined>(undefined);
 
 export const usePersonopplysningerContext = (): IPersonopplysningerFagsakeierOgSøker => {
     const context = useContext(PersonopplysningerContext);
     if (context === undefined) {
-        throw new Error(
-            'usePersonopplysningerContext må brukes innenfor en PersonopplysningerContext'
-        );
+        throw new Error('usePersonopplysningerContext må brukes innenfor en PersonopplysningerContext');
     }
     return context;
 };
@@ -25,8 +21,6 @@ export function PersonopplysningerContextProvider({ personopplysninger, children
     useSetPersonIdent(personopplysninger);
 
     return (
-        <PersonopplysningerContext.Provider value={personopplysninger}>
-            {children}
-        </PersonopplysningerContext.Provider>
+        <PersonopplysningerContext.Provider value={personopplysninger}>{children}</PersonopplysningerContext.Provider>
     );
 }

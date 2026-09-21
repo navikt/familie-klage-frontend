@@ -12,12 +12,8 @@ export interface IMelding {
 export const useHentVurderinger = (): {
     vurdering: Ressurs<IVurdering | null>;
     hentVurdering: (behandlingId: string) => void;
-    lagreVurderingOgOppdaterSteg: (
-        vurderinger: IVurdering
-    ) => Promise<RessursSuksess<IVurdering> | RessursFeilet>;
-    lagreVurdering: (
-        vurderinger: IVurdering
-    ) => Promise<RessursSuksess<IVurdering> | RessursFeilet>;
+    lagreVurderingOgOppdaterSteg: (vurderinger: IVurdering) => Promise<RessursSuksess<IVurdering> | RessursFeilet>;
+    lagreVurdering: (vurderinger: IVurdering) => Promise<RessursSuksess<IVurdering> | RessursFeilet>;
     melding: IMelding | undefined;
     settMelding: (melding?: IMelding) => void;
 } => {
@@ -39,10 +35,7 @@ export const useHentVurderinger = (): {
         [axiosRequest]
     );
 
-    const lagre = (
-        vurdering: IVurdering,
-        url: string
-    ): Promise<RessursSuksess<IVurdering> | RessursFeilet> => {
+    const lagre = (vurdering: IVurdering, url: string): Promise<RessursSuksess<IVurdering> | RessursFeilet> => {
         settMelding(undefined);
         return axiosRequest<IVurdering, IVurdering>({
             method: 'POST',
@@ -65,14 +58,10 @@ export const useHentVurderinger = (): {
         });
     };
 
-    const lagreVurderingOgOppdaterSteg = (
-        vurdering: IVurdering
-    ): Promise<RessursSuksess<IVurdering> | RessursFeilet> =>
+    const lagreVurderingOgOppdaterSteg = (vurdering: IVurdering): Promise<RessursSuksess<IVurdering> | RessursFeilet> =>
         lagre(vurdering, '/familie-klage/api/vurdering/lagre-og-oppdater-steg');
 
-    const lagreVurdering = (
-        vurdering: IVurdering
-    ): Promise<RessursSuksess<IVurdering> | RessursFeilet> =>
+    const lagreVurdering = (vurdering: IVurdering): Promise<RessursSuksess<IVurdering> | RessursFeilet> =>
         lagre(vurdering, '/familie-klage/api/vurdering/lagre');
 
     return {

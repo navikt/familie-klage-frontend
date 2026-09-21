@@ -1,5 +1,6 @@
 import { Alert, VStack } from '@navikt/ds-react';
-import React, { useState } from 'react';
+import type React from 'react';
+import { useState } from 'react';
 import { useBehandling } from '../../../App/context/BehandlingContext';
 import { Button } from '../../../Felles/Knapper/Button';
 import { ModalWrapper } from '../../../Felles/Modal/ModalWrapper';

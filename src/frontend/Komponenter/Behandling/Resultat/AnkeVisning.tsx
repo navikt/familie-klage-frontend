@@ -1,11 +1,7 @@
 import { Alert, BodyShort, Heading, Label } from '@navikt/ds-react';
-import * as React from 'react';
+import type * as React from 'react';
 import type { Behandling } from '../../../App/typer/fagsak';
-import {
-    KlageinstansEventType,
-    klagehendelseTypeTilTekst,
-    utfallTilTekst,
-} from '../../../App/typer/fagsak';
+import { KlageinstansEventType, klagehendelseTypeTilTekst, utfallTilTekst } from '../../../App/typer/fagsak';
 import { formaterIsoDatoTid } from '../../../App/utils/formatter';
 
 interface Props {
@@ -28,13 +24,9 @@ export const AnkeVisning: React.FC<Props> = ({ behandling }) => {
             </Heading>
             {ankeResultater.map(resultat => (
                 <div key={resultat.mottattEllerAvsluttetTidspunkt}>
-                    <Label size={'small'}>
-                        {formaterIsoDatoTid(resultat.mottattEllerAvsluttetTidspunkt)}
-                    </Label>
+                    <Label size={'small'}>{formaterIsoDatoTid(resultat.mottattEllerAvsluttetTidspunkt)}</Label>
                     <BodyShort size={'small'}>{klagehendelseTypeTilTekst[resultat.type]}</BodyShort>
-                    {resultat.utfall && (
-                        <BodyShort size={'small'}>{utfallTilTekst[resultat.utfall]}</BodyShort>
-                    )}
+                    {resultat.utfall && <BodyShort size={'small'}>{utfallTilTekst[resultat.utfall]}</BodyShort>}
                 </div>
             ))}
         </Alert>

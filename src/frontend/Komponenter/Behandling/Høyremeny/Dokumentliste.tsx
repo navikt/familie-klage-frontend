@@ -1,5 +1,5 @@
 import { BodyShort, Button, Tag } from '@navikt/ds-react';
-import * as React from 'react';
+import type * as React from 'react';
 import type { Journalposttype, LogiskVedlegg } from '../../../App/typer/dokument';
 import styles from './Dokumentliste.module.css';
 import { LogiskeVedlegg } from './LogiskeVedlegg';

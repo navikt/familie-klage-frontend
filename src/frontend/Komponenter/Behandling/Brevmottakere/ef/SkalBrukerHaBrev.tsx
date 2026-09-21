@@ -1,6 +1,5 @@
 import { BodyShort, Radio, RadioGroup } from '@navikt/ds-react';
 import type { Dispatch, FC, SetStateAction } from 'react';
-import React from 'react';
 import { usePersonopplysningerContext } from '../../../../App/context/PersonopplysningerContext';
 import type { BrevmottakerPerson } from '../brevmottaker';
 import { MottakerRolle } from '../mottakerRolle';
@@ -14,15 +13,11 @@ export const SkalBrukerHaBrev: FC<Props> = ({ valgteBrevmottakere, settValgtBrev
     const {
         fagsakEier: { navn, personIdent },
     } = usePersonopplysningerContext();
-    const brukerSkalHaBrev = valgteBrevmottakere.some(
-        mottaker => mottaker.mottakerRolle === MottakerRolle.BRUKER
-    );
+    const brukerSkalHaBrev = valgteBrevmottakere.some(mottaker => mottaker.mottakerRolle === MottakerRolle.BRUKER);
 
     const toggleBrukerSkalHaBrev = () => {
         settValgtBrevMottakere(mottakere => {
-            const brukerErIListe = mottakere.some(
-                mottaker => mottaker.mottakerRolle === MottakerRolle.BRUKER
-            );
+            const brukerErIListe = mottakere.some(mottaker => mottaker.mottakerRolle === MottakerRolle.BRUKER);
 
             // Returnerer mottakerliste ekskludert bruker eller mottakerliste inkludert bruker
             return brukerErIListe
@@ -43,11 +38,7 @@ export const SkalBrukerHaBrev: FC<Props> = ({ valgteBrevmottakere, settValgtBrev
             <BodyShort size="large" spacing>
                 Skal bruker motta brevet?
             </BodyShort>
-            <RadioGroup
-                legend={'Skal bruker motta brevet?'}
-                hideLegend
-                value={brukerSkalHaBrev ? 'Ja' : 'Nei'}
-            >
+            <RadioGroup legend={'Skal bruker motta brevet?'} hideLegend value={brukerSkalHaBrev ? 'Ja' : 'Nei'}>
                 <Radio value={'Ja'} name={'brukerHaBrevRadio'} onChange={toggleBrukerSkalHaBrev}>
                     Ja
                 </Radio>

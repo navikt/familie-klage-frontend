@@ -27,12 +27,8 @@ describe('NyBrevmottakerTest', () => {
             expect(nyBrevmottakerPersonUtenIdent.mottakerRolle).toBe(
                 values[BrevmottakerPersonUtenIdentFeltnavn.MOTTAKERROLLE]
             );
-            expect(nyBrevmottakerPersonUtenIdent.landkode).toBe(
-                values[BrevmottakerPersonUtenIdentFeltnavn.LANDKODE]
-            );
-            expect(nyBrevmottakerPersonUtenIdent.navn).toBe(
-                values[BrevmottakerPersonUtenIdentFeltnavn.NAVN]
-            );
+            expect(nyBrevmottakerPersonUtenIdent.landkode).toBe(values[BrevmottakerPersonUtenIdentFeltnavn.LANDKODE]);
+            expect(nyBrevmottakerPersonUtenIdent.navn).toBe(values[BrevmottakerPersonUtenIdentFeltnavn.NAVN]);
             expect(nyBrevmottakerPersonUtenIdent.adresselinje1).toBe(
                 values[BrevmottakerPersonUtenIdentFeltnavn.ADRESSELINJE1]
             );
@@ -42,9 +38,7 @@ describe('NyBrevmottakerTest', () => {
             expect(nyBrevmottakerPersonUtenIdent.postnummer).toBe(
                 values[BrevmottakerPersonUtenIdentFeltnavn.POSTNUMMER]
             );
-            expect(nyBrevmottakerPersonUtenIdent.poststed).toBe(
-                values[BrevmottakerPersonUtenIdentFeltnavn.POSTSTED]
-            );
+            expect(nyBrevmottakerPersonUtenIdent.poststed).toBe(values[BrevmottakerPersonUtenIdentFeltnavn.POSTSTED]);
         });
 
         test('skal lage ny brevmottaker person uten ident som kommer fra norge uten alle feltene utfylt', () => {
@@ -67,12 +61,8 @@ describe('NyBrevmottakerTest', () => {
             expect(nyBrevmottakerPersonUtenIdent.mottakerRolle).toBe(
                 values[BrevmottakerPersonUtenIdentFeltnavn.MOTTAKERROLLE]
             );
-            expect(nyBrevmottakerPersonUtenIdent.landkode).toBe(
-                values[BrevmottakerPersonUtenIdentFeltnavn.LANDKODE]
-            );
-            expect(nyBrevmottakerPersonUtenIdent.navn).toBe(
-                values[BrevmottakerPersonUtenIdentFeltnavn.NAVN]
-            );
+            expect(nyBrevmottakerPersonUtenIdent.landkode).toBe(values[BrevmottakerPersonUtenIdentFeltnavn.LANDKODE]);
+            expect(nyBrevmottakerPersonUtenIdent.navn).toBe(values[BrevmottakerPersonUtenIdentFeltnavn.NAVN]);
             expect(nyBrevmottakerPersonUtenIdent.adresselinje1).toBe(
                 values[BrevmottakerPersonUtenIdentFeltnavn.ADRESSELINJE1]
             );
@@ -82,9 +72,7 @@ describe('NyBrevmottakerTest', () => {
             expect(nyBrevmottakerPersonUtenIdent.postnummer).toBe(
                 values[BrevmottakerPersonUtenIdentFeltnavn.POSTNUMMER]
             );
-            expect(nyBrevmottakerPersonUtenIdent.poststed).toBe(
-                values[BrevmottakerPersonUtenIdentFeltnavn.POSTSTED]
-            );
+            expect(nyBrevmottakerPersonUtenIdent.poststed).toBe(values[BrevmottakerPersonUtenIdentFeltnavn.POSTSTED]);
         });
 
         test('skal lage ny brevmottaker person uten ident som kommer fra utlandet', () => {
@@ -93,8 +81,7 @@ describe('NyBrevmottakerTest', () => {
                 [BrevmottakerPersonUtenIdentFeltnavn.MOTTAKERROLLE]: MottakerRolle.FULLMAKT,
                 [BrevmottakerPersonUtenIdentFeltnavn.LANDKODE]: EøsLandkode.DK,
                 [BrevmottakerPersonUtenIdentFeltnavn.NAVN]: 'Navn Navnensen',
-                [BrevmottakerPersonUtenIdentFeltnavn.ADRESSELINJE1]:
-                    'Adresselinje 1, København, 1234',
+                [BrevmottakerPersonUtenIdentFeltnavn.ADRESSELINJE1]: 'Adresselinje 1, København, 1234',
                 [BrevmottakerPersonUtenIdentFeltnavn.ADRESSELINJE2]: '',
                 [BrevmottakerPersonUtenIdentFeltnavn.POSTNUMMER]: '',
                 [BrevmottakerPersonUtenIdentFeltnavn.POSTSTED]: '',
@@ -108,12 +95,8 @@ describe('NyBrevmottakerTest', () => {
             expect(nyBrevmottakerPersonUtenIdent.mottakerRolle).toBe(
                 values[BrevmottakerPersonUtenIdentFeltnavn.MOTTAKERROLLE]
             );
-            expect(nyBrevmottakerPersonUtenIdent.landkode).toBe(
-                values[BrevmottakerPersonUtenIdentFeltnavn.LANDKODE]
-            );
-            expect(nyBrevmottakerPersonUtenIdent.navn).toBe(
-                values[BrevmottakerPersonUtenIdentFeltnavn.NAVN]
-            );
+            expect(nyBrevmottakerPersonUtenIdent.landkode).toBe(values[BrevmottakerPersonUtenIdentFeltnavn.LANDKODE]);
+            expect(nyBrevmottakerPersonUtenIdent.navn).toBe(values[BrevmottakerPersonUtenIdentFeltnavn.NAVN]);
             expect(nyBrevmottakerPersonUtenIdent.adresselinje1).toBe(
                 values[BrevmottakerPersonUtenIdentFeltnavn.ADRESSELINJE1]
             );
@@ -130,8 +113,7 @@ describe('NyBrevmottakerTest', () => {
                 [BrevmottakerPersonUtenIdentFeltnavn.MOTTAKERROLLE]: '',
                 [BrevmottakerPersonUtenIdentFeltnavn.LANDKODE]: EøsLandkode.DK,
                 [BrevmottakerPersonUtenIdentFeltnavn.NAVN]: 'Navn Navnensen',
-                [BrevmottakerPersonUtenIdentFeltnavn.ADRESSELINJE1]:
-                    'Adresselinje 1, København, 1234',
+                [BrevmottakerPersonUtenIdentFeltnavn.ADRESSELINJE1]: 'Adresselinje 1, København, 1234',
                 [BrevmottakerPersonUtenIdentFeltnavn.ADRESSELINJE2]: '',
                 [BrevmottakerPersonUtenIdentFeltnavn.POSTNUMMER]: '',
                 [BrevmottakerPersonUtenIdentFeltnavn.POSTSTED]: '',

@@ -1,5 +1,6 @@
 import { Alert, Box, HGrid, VStack } from '@navikt/ds-react';
-import React, { useCallback, useEffect, useState } from 'react';
+import type React from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import { useApp } from '../../../App/context/AppContext';
 import { useBehandling } from '../../../App/context/BehandlingContext';
 import { Fagsystem } from '../../../App/typer/fagsak';
@@ -66,19 +67,12 @@ export const OpprettholdVedtak: React.FC<Props> = ({ behandlingId, fagsystem }) 
                 <VStack gap={'space-24'}>
                     {brevRessurs.status === RessursStatus.SUKSESS &&
                         (fagsystem === Fagsystem.EF ? (
-                            <BrevmottakereEf
-                                behandlingId={behandlingId}
-                                genererBrev={genererBrev}
-                            />
+                            <BrevmottakereEf behandlingId={behandlingId} genererBrev={genererBrev} />
                         ) : (
                             <BrevmottakereBaks behandlingId={behandlingId} />
                         ))}
                     {behandlingErRedigerbar && brevRessurs.status === RessursStatus.SUKSESS && (
-                        <Button
-                            variant={'primary'}
-                            size={'medium'}
-                            onClick={() => settVisModal(true)}
-                        >
+                        <Button variant={'primary'} size={'medium'} onClick={() => settVisModal(true)}>
                             Ferdigstill behandling og send brev
                         </Button>
                     )}

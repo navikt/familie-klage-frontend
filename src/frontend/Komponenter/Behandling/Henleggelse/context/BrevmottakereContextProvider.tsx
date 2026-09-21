@@ -1,16 +1,10 @@
 import type { PropsWithChildren } from 'react';
-import React, { createContext, useContext, useRef, useState } from 'react';
+import { createContext, useContext, useRef, useState } from 'react';
 import { useOnMount } from '../../../../App/hooks/useOnMount';
 import type { Behandling } from '../../../../App/typer/fagsak';
 import { MottakerRolle } from '../../Brevmottakere/mottakerRolle';
-import type {
-    NyBrevmottaker,
-    NyBrevmottakerPersonMedIdent,
-} from '../../Brevmottakere/nyBrevmottaker';
-import {
-    erNyBrevmottakerPersonMedIdent,
-    lagNyeBrevmottakere,
-} from '../../Brevmottakere/nyBrevmottaker';
+import type { NyBrevmottaker, NyBrevmottakerPersonMedIdent } from '../../Brevmottakere/nyBrevmottaker';
+import { erNyBrevmottakerPersonMedIdent, lagNyeBrevmottakere } from '../../Brevmottakere/nyBrevmottaker';
 import { useHentInitielleBrevmottakere } from '../hooks/useHentInitielleBrevmottakere';
 
 interface ContextValue {
@@ -26,9 +20,7 @@ const BrevmottakereContext = createContext<ContextValue | undefined>(undefined);
 export const useBrevmottakereContext = () => {
     const context = useContext(BrevmottakereContext);
     if (context === undefined) {
-        throw new Error(
-            'useBrevmottakereContext må brukes innenfor en BrevmottakereContextProvider'
-        );
+        throw new Error('useBrevmottakereContext må brukes innenfor en BrevmottakereContextProvider');
     }
     return context;
 };
@@ -88,9 +80,7 @@ export function BrevmottakereContextProvider({ behandling, children }: Props) {
                     throw Error('Forventet en definert bruker.');
                 }
                 const newState = [...prev];
-                const index = newState.findIndex(
-                    p => p.mottakerRolle === brevmottaker.mottakerRolle
-                );
+                const index = newState.findIndex(p => p.mottakerRolle === brevmottaker.mottakerRolle);
                 newState[index] = bruker.current;
                 return newState;
             }

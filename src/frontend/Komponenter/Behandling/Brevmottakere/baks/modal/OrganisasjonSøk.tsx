@@ -1,5 +1,4 @@
 import { Search } from '@navikt/ds-react';
-import React from 'react';
 import { useController, useFormContext } from 'react-hook-form';
 import { BrevmottakerOrganisasjonFeltnavn } from './OrganisasjonForm/BrevmottakerOrganisasjonForm';
 
@@ -66,8 +65,7 @@ const validerOrganisasjonsnummer = (organisasjonsnummer: string): string | undef
     const vekter = [3, 2, 7, 6, 5, 4, 3, 2];
     const kontrollsiffer = sifre[8];
     const beregnetKontrollsiffer =
-        11 -
-        (sifre.slice(0, 8).reduce((acc, siffer, index) => acc + siffer * vekter[index], 0) % 11);
+        11 - (sifre.slice(0, 8).reduce((acc, siffer, index) => acc + siffer * vekter[index], 0) % 11);
 
     if (beregnetKontrollsiffer !== kontrollsiffer) {
         return 'Ugyldig organisasjonsnummer.';

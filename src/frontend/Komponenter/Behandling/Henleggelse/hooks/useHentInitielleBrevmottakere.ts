@@ -6,9 +6,7 @@ import type { Brevmottakere } from '../../Brevmottakere/brevmottakere';
 export function useHentInitielleBrevmottakere() {
     const { axiosRequest } = useApp();
 
-    async function hentInitielleBrevmottakere(
-        behandlingId: string
-    ): Promise<Awaited<Brevmottakere>> {
+    async function hentInitielleBrevmottakere(behandlingId: string): Promise<Awaited<Brevmottakere>> {
         return axiosRequest<Brevmottakere, void>({
             method: 'GET',
             url: `/familie-klage/api/brevmottaker/initielle/${behandlingId}`,

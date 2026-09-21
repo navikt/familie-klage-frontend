@@ -17,9 +17,7 @@ export type OppsummertBrevmottaker = {
 
 const countryInstance = CountryData.getCountryInstance('nb');
 
-export function utledOppsumertBrevmottakere(
-    brevmottakere: Brevmottakere
-): OppsummertBrevmottaker[] {
+export function utledOppsumertBrevmottakere(brevmottakere: Brevmottakere): OppsummertBrevmottaker[] {
     const oppsummertBrevmottakere = hentAlleBrevmottakereSomListe(brevmottakere)
         .map(brevmottaker => {
             const mottakerRolle = brevmottaker.mottakerRolle
@@ -48,7 +46,7 @@ export function utledOppsumertBrevmottakere(
                 const organisasjonsnavn = brevmottaker.organisasjonsnavn;
                 const organisasjonsnummer = formaterOrgNummer(brevmottaker.organisasjonsnummer);
                 const navnHosOrganisasjon = brevmottaker.navnHosOrganisasjon
-                    ? ' ' + `c/o ${brevmottaker.navnHosOrganisasjon}`.replace(/ /g, '\u00A0')
+                    ? ` ${`c/o ${brevmottaker.navnHosOrganisasjon}`.replace(/ /g, '\u00A0')}`
                     : '';
                 return {
                     id: brevmottaker.organisasjonsnummer,

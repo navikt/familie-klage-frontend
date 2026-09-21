@@ -1,5 +1,5 @@
 import { Box } from '@navikt/ds-react';
-import * as React from 'react';
+import type * as React from 'react';
 import { EnsligTextArea } from '../../../../Felles/Input/EnsligTextArea';
 import type { IVurdering } from '../vurderingValg';
 import { LesMerOmInnstilling } from './LesMerOmInnstilling';

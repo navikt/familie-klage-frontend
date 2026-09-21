@@ -4,12 +4,9 @@ import { utledSisteHistorikkInnslagPerKjede } from './utils';
 
 describe('høyremeny utils tester', () => {
     test('utled nyeste innslag per unike historikkhendelse', () => {
-        const sisteHistorikkInnslagPerKjede =
-            utledSisteHistorikkInnslagPerKjede(behandlingshistorikk);
+        const sisteHistorikkInnslagPerKjede = utledSisteHistorikkInnslagPerKjede(behandlingshistorikk);
 
-        expect(
-            sisteHistorikkInnslagPerKjede.map(historikkInnslag => historikkInnslag.endretTid)
-        ).toEqual([
+        expect(sisteHistorikkInnslagPerKjede.map(historikkInnslag => historikkInnslag.endretTid)).toEqual([
             '2025-09-17T13:46:37.722436',
             '2025-09-17T12:35:36.08834',
             '2025-09-17T12:35:33.767664',

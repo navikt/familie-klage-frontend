@@ -12,9 +12,8 @@ export interface Brevmottakere {
     organisasjoner: BrevmottakerOrganisasjon[];
 }
 
-export const hentAlleBrevmottakerPersonUtenIdent = (
-    brevmottakere: Brevmottakere
-): BrevmottakerPersonUtenIdent[] => brevmottakere.personer.filter(erBrevmottakerPersonUtenIdent);
+export const hentAlleBrevmottakerPersonUtenIdent = (brevmottakere: Brevmottakere): BrevmottakerPersonUtenIdent[] =>
+    brevmottakere.personer.filter(erBrevmottakerPersonUtenIdent);
 
 export const hentManueltOpprettedeBrevmottakere = (brevmottakere: Brevmottakere): Brevmottaker[] =>
     hentAlleBrevmottakereSomListe(brevmottakere).filter(
@@ -29,6 +28,4 @@ export const hentAlleBrevmottakereSomListe = (brevmottakere: Brevmottakere): Bre
 ];
 
 export const erInstitusjonBrevmottaker = (brevmottakere: Brevmottakere): boolean =>
-    brevmottakere.organisasjoner.some(
-        brevmottaker => brevmottaker.mottakerRolle === MottakerRolle.INSTITUSJON
-    );
+    brevmottakere.organisasjoner.some(brevmottaker => brevmottaker.mottakerRolle === MottakerRolle.INSTITUSJON);

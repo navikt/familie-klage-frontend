@@ -1,6 +1,5 @@
 import { Select } from '@navikt/ds-react';
 import type { ChangeEvent } from 'react';
-import React from 'react';
 import { useController, useFormContext } from 'react-hook-form';
 import { usePersonopplysningerContext } from '../../../../../../../App/context/PersonopplysningerContext';
 import type { MottakerRolle } from '../../../../mottakerRolle';
@@ -22,8 +21,7 @@ interface Props {
 const label = 'Mottaker';
 
 export function MottakerFelt({ valgteMottakerRoller, erLesevisning = false }: Props) {
-    const { control, setValue, getValues, resetField } =
-        useFormContext<BrevmottakerPersonUtenIdentFormValues>();
+    const { control, setValue, getValues, resetField } = useFormContext<BrevmottakerPersonUtenIdentFormValues>();
 
     const {
         fagsakEier: { navn },
@@ -61,8 +59,7 @@ export function MottakerFelt({ valgteMottakerRoller, erLesevisning = false }: Pr
         field.onChange(mottakerRolle);
     }
 
-    const gyldigeMottakerRoller =
-        utledGyldigeMottakerRollerBasertPåAlleredeValgteMottakerRoller(valgteMottakerRoller);
+    const gyldigeMottakerRoller = utledGyldigeMottakerRollerBasertPåAlleredeValgteMottakerRoller(valgteMottakerRoller);
 
     return (
         <Select

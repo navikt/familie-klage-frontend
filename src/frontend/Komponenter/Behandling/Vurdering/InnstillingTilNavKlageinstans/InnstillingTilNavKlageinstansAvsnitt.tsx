@@ -1,5 +1,5 @@
 import { Accordion } from '@navikt/ds-react';
-import React from 'react';
+import type React from 'react';
 import { EnsligTextArea } from '../../../../Felles/Input/EnsligTextArea';
 import type { IVurdering } from '../vurderingValg';
 

@@ -1,4 +1,3 @@
-import React from 'react';
 import { useFormContext } from 'react-hook-form';
 
 const style = {
@@ -12,9 +11,5 @@ const style = {
  */
 export function FormDebugger() {
     const { watch } = useFormContext();
-    return (
-        <>
-            <pre style={style}>{JSON.stringify(watch(), null, 2)}</pre>
-        </>
-    );
+    return <pre style={style}>{JSON.stringify(watch(), null, 2)}</pre>;
 }

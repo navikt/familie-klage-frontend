@@ -1,9 +1,6 @@
 import { describe, expect } from 'vitest';
 import { MottakerRolle } from '../../Brevmottakere/mottakerRolle';
-import type {
-    NyBrevmottakerPerson,
-    NyBrevmottakerPersonMedIdent,
-} from '../../Brevmottakere/nyBrevmottaker';
+import type { NyBrevmottakerPerson, NyBrevmottakerPersonMedIdent } from '../../Brevmottakere/nyBrevmottaker';
 import { NyBrevmottakerType } from '../../Brevmottakere/nyBrevmottaker';
 import type { HenleggBehandlingFormValues } from '../HenleggBehandlingForm';
 import { HenleggBehandlingFeltnavn } from '../HenleggBehandlingForm';
