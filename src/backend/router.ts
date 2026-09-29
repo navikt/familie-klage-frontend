@@ -1,7 +1,7 @@
 import fs from 'node:fs';
 import path from 'node:path';
 import { renderNaisMetaTags } from '@nais/apm';
-import type { Client } from '@navikt/familie-backend';
+import type { Configuration } from '@navikt/familie-backend';
 import { ensureAuthenticated, logRequest } from '@navikt/familie-backend';
 import { LOG_LEVEL } from '@navikt/familie-logging';
 import type { NextFunction, Request, Response, Router } from 'express';
@@ -20,7 +20,7 @@ const redirectHvisInternUrlIPreprod = () => {
     };
 };
 
-export const setupRouter = async (authClient: Client, router: Router): Promise<Router> => {
+export const setupRouter = async (authConfig: Configuration, router: Router): Promise<Router> => {
     router.get('/version', (_req: Request, res: Response) => {
         res.status(200).send({ version: process.env.APP_VERSION }).end();
     });
@@ -56,7 +56,7 @@ export const setupRouter = async (authClient: Client, router: Router): Promise<R
     router.get(
         '*global',
         redirectHvisInternUrlIPreprod(),
-        ensureAuthenticated(authClient, false),
+        ensureAuthenticated(authConfig, false),
         async (req: Request, res: Response) => {
             prometheusTellere.appLoad.inc();
 
