@@ -25,8 +25,8 @@ export const OpprettholdVedtak: React.FC<Props> = ({ behandlingId, fagsystem }) 
 
     const erSattPåVent =
         behandling.status === RessursStatus.SUKSESS && behandling.data.status === BehandlingStatus.SATT_PÅ_VENT;
-    // Pdf-en lagres først ved ferdigstilling, så i brev-steget finnes den ikke ennå
-    const erIBrevSteg = behandling.status === RessursStatus.SUKSESS && behandling.data.steg === StegType.BREV;
+    // Pdf-en lagres ved ferdigstilling, som skjer i brev-steget
+    const pdfErLagret = behandling.status === RessursStatus.SUKSESS && behandling.data.steg !== StegType.BREV;
 
     const { ferdigstill, senderInn } = useFerdigstillBehandling(
         behandlingId,
@@ -55,16 +55,12 @@ export const OpprettholdVedtak: React.FC<Props> = ({ behandlingId, fagsystem }) 
     }, [axiosRequest, behandlingId]);
 
     useEffect(() => {
-        if (erSattPåVent) {
-            settBrevRessurs(byggTomRessurs());
-            return;
-        }
         if (behandlingErRedigerbar) {
             genererBrev();
-        } else if (!erIBrevSteg) {
+        } else if (pdfErLagret) {
             hentBrev();
         }
-    }, [behandlingErRedigerbar, erSattPåVent, erIBrevSteg, genererBrev, hentBrev]);
+    }, [behandlingErRedigerbar, pdfErLagret, genererBrev, hentBrev]);
 
     const lukkModal = () => {
         settVisModal(false);
