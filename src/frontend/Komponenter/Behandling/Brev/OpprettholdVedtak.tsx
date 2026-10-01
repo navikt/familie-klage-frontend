@@ -4,8 +4,7 @@ import { useCallback, useEffect, useState } from 'react';
 import { useApp } from '../../../App/context/AppContext';
 import { useBehandling } from '../../../App/context/BehandlingContext';
 import { BehandlingStatus } from '../../../App/typer/behandlingstatus';
-import type { Behandling } from '../../../App/typer/fagsak';
-import { BehandlingResultat, behandlingStegTilRekkefølge, Fagsystem, StegType } from '../../../App/typer/fagsak';
+import { Fagsystem } from '../../../App/typer/fagsak';
 import type { Ressurs } from '../../../App/typer/ressurs';
 import { byggTomRessurs, RessursStatus } from '../../../App/typer/ressurs';
 import { Button } from '../../../Felles/Knapper/Button';
@@ -24,13 +23,9 @@ export const OpprettholdVedtak: React.FC<Props> = ({ behandlingId, fagsystem }) 
     const { behandling, behandlingErRedigerbar } = useBehandling();
     const { axiosRequest } = useApp();
 
-    const behandlingData = behandling.status === RessursStatus.SUKSESS ? behandling.data : undefined;
-    const erHenlagt = behandlingData?.resultat === BehandlingResultat.HENLAGT;
-    // Pdf-en lagres først ned ved ferdigstilling, så den finnes kun når behandlingen er forbi brev-steget
-    const brevPdfErLagret =
-        behandlingData !== undefined &&
-        !erHenlagt &&
-        behandlingStegTilRekkefølge[behandlingData.steg] > behandlingStegTilRekkefølge[StegType.BREV];
+    // Pdf-en lagres først ved ferdigstilling, og en behandling på vent er aldri ferdigstilt
+    const erSattPåVent =
+        behandling.status === RessursStatus.SUKSESS && behandling.data.status === BehandlingStatus.SATT_PÅ_VENT;
 
     const { ferdigstill, senderInn } = useFerdigstillBehandling(
         behandlingId,
@@ -59,17 +54,17 @@ export const OpprettholdVedtak: React.FC<Props> = ({ behandlingId, fagsystem }) 
     }, [axiosRequest, behandlingId]);
 
     useEffect(() => {
-        if (brevPdfErLagret) {
-            hentBrev();
-        } else if (behandlingErRedigerbar) {
+        if (behandlingErRedigerbar) {
             genererBrev();
+        } else if (!erSattPåVent) {
+            hentBrev();
         }
-    }, [brevPdfErLagret, behandlingErRedigerbar, genererBrev, hentBrev]);
+    }, [behandlingErRedigerbar, erSattPåVent, genererBrev, hentBrev]);
 
-    if (!brevPdfErLagret && !behandlingErRedigerbar) {
+    if (erSattPåVent) {
         return (
             <Box margin="space-32">
-                <Alert variant={'info'}>{utledMeldingNårBrevIkkeKanVises(behandlingData)}</Alert>
+                <Alert variant={'info'}>Brevet kan vises når behandlingen tas av vent.</Alert>
             </Box>
         );
     }
@@ -116,14 +111,4 @@ export const OpprettholdVedtak: React.FC<Props> = ({ behandlingId, fagsystem }) 
             </ModalWrapper>
         </Box>
     );
-};
-
-const utledMeldingNårBrevIkkeKanVises = (behandling: Behandling | undefined): string => {
-    if (behandling?.resultat === BehandlingResultat.HENLAGT) {
-        return 'Brev finnes ikke fordi behandlingen er henlagt.';
-    }
-    if (behandling?.status === BehandlingStatus.SATT_PÅ_VENT) {
-        return 'Brevet kan vises når behandlingen tas av vent.';
-    }
-    return 'Brevet kan ikke vises.';
 };

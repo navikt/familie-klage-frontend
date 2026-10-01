@@ -92,46 +92,20 @@ describe('OpprettholdVedtak', () => {
         expect(axiosRequest).not.toHaveBeenCalled();
     });
 
-    test('skal ikke kalle backend mens behandlingen er på vent, og hente lagret pdf etter ferdigstilling', () => {
+    test('skal vise melding og ikke hente pdf når behandlingen settes på vent i brev-steget', () => {
         // Arrange
         mockBehandling(lagBehandling({ steg: StegType.BREV, status: BehandlingStatus.UTREDES }), true);
-        const { rerender } = render(<OpprettholdVedtak behandlingId={BEHANDLING_ID} fagsystem={Fagsystem.BA} />);
+        const { screen, rerender } = render(
+            <OpprettholdVedtak behandlingId={BEHANDLING_ID} fagsystem={Fagsystem.BA} />
+        );
 
         // Act
         mockBehandling(lagBehandling({ steg: StegType.BREV, status: BehandlingStatus.SATT_PÅ_VENT }), false);
         rerender(<OpprettholdVedtak behandlingId={BEHANDLING_ID} fagsystem={Fagsystem.BA} />);
-        mockBehandling(
-            lagBehandling({
-                steg: StegType.KABAL_VENTER_SVAR,
-                status: BehandlingStatus.VENTER,
-                resultat: BehandlingResultat.IKKE_MEDHOLD,
-            }),
-            false
-        );
-        rerender(<OpprettholdVedtak behandlingId={BEHANDLING_ID} fagsystem={Fagsystem.BA} />);
 
         // Assert
-        expect(axiosRequest).toHaveBeenCalledTimes(2);
-        expect(axiosRequest).toHaveBeenNthCalledWith(1, { method: 'POST', url: GENERER_URL });
-        expect(axiosRequest).toHaveBeenNthCalledWith(2, { method: 'GET', url: PDF_URL });
-    });
-
-    test('skal vise melding og ikke kalle backend når behandlingen er henlagt', () => {
-        // Arrange
-        mockBehandling(
-            lagBehandling({
-                steg: StegType.BEHANDLING_FERDIGSTILT,
-                status: BehandlingStatus.FERDIGSTILT,
-                resultat: BehandlingResultat.HENLAGT,
-            }),
-            false
-        );
-
-        // Act
-        const { screen } = render(<OpprettholdVedtak behandlingId={BEHANDLING_ID} fagsystem={Fagsystem.BA} />);
-
-        // Assert
-        expect(screen.getByText('Brev finnes ikke fordi behandlingen er henlagt.')).toBeInTheDocument();
-        expect(axiosRequest).not.toHaveBeenCalled();
+        expect(screen.getByText('Brevet kan vises når behandlingen tas av vent.')).toBeInTheDocument();
+        expect(axiosRequest).toHaveBeenCalledTimes(1);
+        expect(axiosRequest).toHaveBeenCalledWith({ method: 'POST', url: GENERER_URL });
     });
 });
