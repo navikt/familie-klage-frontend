@@ -29,7 +29,7 @@ vi.mock('./PdfVisning', () => ({
 }));
 
 vi.mock('../Brevmottakere/baks/BrevmottakerContainer', () => ({
-    BrevmottakerContainer: () => null,
+    BrevmottakerContainer: () => <div>Brevmottakere</div>,
 }));
 
 const BEHANDLING_ID = 'behandling-id';
@@ -92,12 +92,14 @@ describe('OpprettholdVedtak', () => {
         expect(axiosRequest).not.toHaveBeenCalled();
     });
 
-    test('skal vise melding og ikke hente pdf når behandlingen settes på vent i brev-steget', () => {
+    test('skal vise melding og ikke hente pdf når behandlingen settes på vent i brev-steget', async () => {
         // Arrange
+        axiosRequest.mockResolvedValue({ status: RessursStatus.SUKSESS, data: 'pdf' });
         mockBehandling(lagBehandling({ steg: StegType.BREV, status: BehandlingStatus.UTREDES }), true);
         const { screen, rerender } = render(
             <OpprettholdVedtak behandlingId={BEHANDLING_ID} fagsystem={Fagsystem.BA} />
         );
+        expect(await screen.findByText('Brevmottakere')).toBeInTheDocument();
 
         // Act
         mockBehandling(lagBehandling({ steg: StegType.BREV, status: BehandlingStatus.SATT_PÅ_VENT }), false);
@@ -105,6 +107,7 @@ describe('OpprettholdVedtak', () => {
 
         // Assert
         expect(screen.getByText('Brevet kan vises når behandlingen tas av vent.')).toBeInTheDocument();
+        expect(screen.queryByText('Brevmottakere')).not.toBeInTheDocument();
         expect(axiosRequest).toHaveBeenCalledTimes(1);
         expect(axiosRequest).toHaveBeenCalledWith({ method: 'POST', url: GENERER_URL });
     });

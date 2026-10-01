@@ -54,20 +54,16 @@ export const OpprettholdVedtak: React.FC<Props> = ({ behandlingId, fagsystem }) 
     }, [axiosRequest, behandlingId]);
 
     useEffect(() => {
+        if (erSattPåVent) {
+            settBrevRessurs(byggTomRessurs());
+            return;
+        }
         if (behandlingErRedigerbar) {
             genererBrev();
-        } else if (!erSattPåVent) {
+        } else {
             hentBrev();
         }
     }, [behandlingErRedigerbar, erSattPåVent, genererBrev, hentBrev]);
-
-    if (erSattPåVent) {
-        return (
-            <Box margin="space-32">
-                <Alert variant={'info'}>Brevet kan vises når behandlingen tas av vent.</Alert>
-            </Box>
-        );
-    }
 
     const lukkModal = () => {
         settVisModal(false);
@@ -90,7 +86,11 @@ export const OpprettholdVedtak: React.FC<Props> = ({ behandlingId, fagsystem }) 
                         </Button>
                     )}
                 </VStack>
-                <PdfVisning pdfFilInnhold={brevRessurs} />
+                {erSattPåVent ? (
+                    <Alert variant={'info'}>Brevet kan vises når behandlingen tas av vent.</Alert>
+                ) : (
+                    <PdfVisning pdfFilInnhold={brevRessurs} />
+                )}
             </HGrid>
             <ModalWrapper
                 tittel={'Bekreft utsending av brev'}
