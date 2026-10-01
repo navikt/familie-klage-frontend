@@ -1,5 +1,5 @@
 import type { ClientRequest, IncomingMessage } from 'node:http';
-import type { Client } from '@navikt/familie-backend';
+import type { Configuration } from '@navikt/familie-backend';
 import { getOnBehalfOfAccessToken } from '@navikt/familie-backend';
 import { logError, logInfo, stdoutLogger } from '@navikt/familie-logging';
 import type { NextFunction, Request, RequestHandler, Response } from 'express';
@@ -39,9 +39,9 @@ export const addCallId = (): RequestHandler => {
     };
 };
 
-export const attachToken = (authClient: Client): RequestHandler => {
+export const attachToken = (authConfig: Configuration): RequestHandler => {
     return async (req: Request, _res: Response, next: NextFunction) => {
-        getOnBehalfOfAccessToken(authClient, req, oboConfig)
+        getOnBehalfOfAccessToken(authConfig, req, oboConfig)
             .then((accessToken: string) => {
                 req.headers.Authorization = `Bearer ${accessToken}`;
                 return next();
