@@ -3,7 +3,8 @@ import type React from 'react';
 import { useCallback, useEffect, useState } from 'react';
 import { useApp } from '../../../App/context/AppContext';
 import { useBehandling } from '../../../App/context/BehandlingContext';
-import { Fagsystem } from '../../../App/typer/fagsak';
+import { BehandlingStatus } from '../../../App/typer/behandlingstatus';
+import { behandlingStegTilRekkefølge, Fagsystem, StegType } from '../../../App/typer/fagsak';
 import type { Ressurs } from '../../../App/typer/ressurs';
 import { byggTomRessurs, RessursStatus } from '../../../App/typer/ressurs';
 import { Button } from '../../../Felles/Knapper/Button';
@@ -19,8 +20,15 @@ interface Props {
 }
 
 export const OpprettholdVedtak: React.FC<Props> = ({ behandlingId, fagsystem }) => {
-    const { behandlingErRedigerbar } = useBehandling();
+    const { behandling, behandlingErRedigerbar } = useBehandling();
     const { axiosRequest } = useApp();
+
+    const erSattPåVent =
+        behandling.status === RessursStatus.SUKSESS && behandling.data.status === BehandlingStatus.SATT_PÅ_VENT;
+    // Pdf-en lagres ved ferdigstilling, som skjer i brev-steget
+    const pdfErLagret =
+        behandling.status === RessursStatus.SUKSESS &&
+        behandlingStegTilRekkefølge[behandling.data.steg] > behandlingStegTilRekkefølge[StegType.BREV];
 
     const { ferdigstill, senderInn } = useFerdigstillBehandling(
         behandlingId,
@@ -51,15 +59,23 @@ export const OpprettholdVedtak: React.FC<Props> = ({ behandlingId, fagsystem }) 
     useEffect(() => {
         if (behandlingErRedigerbar) {
             genererBrev();
-        } else {
+        } else if (pdfErLagret) {
             hentBrev();
         }
-    }, [behandlingErRedigerbar, genererBrev, hentBrev]);
+    }, [behandlingErRedigerbar, pdfErLagret, genererBrev, hentBrev]);
 
     const lukkModal = () => {
         settVisModal(false);
         settFeilmelding('');
     };
+
+    if (erSattPåVent) {
+        return (
+            <Box margin="space-32">
+                <Alert variant={'info'}>Brevet kan vises når behandlingen tas av vent.</Alert>
+            </Box>
+        );
+    }
 
     return (
         <Box margin="space-32">
