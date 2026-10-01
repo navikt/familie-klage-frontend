@@ -4,7 +4,7 @@ import { useCallback, useEffect, useState } from 'react';
 import { useApp } from '../../../App/context/AppContext';
 import { useBehandling } from '../../../App/context/BehandlingContext';
 import { BehandlingStatus } from '../../../App/typer/behandlingstatus';
-import { Fagsystem } from '../../../App/typer/fagsak';
+import { Fagsystem, StegType } from '../../../App/typer/fagsak';
 import type { Ressurs } from '../../../App/typer/ressurs';
 import { byggTomRessurs, RessursStatus } from '../../../App/typer/ressurs';
 import { Button } from '../../../Felles/Knapper/Button';
@@ -23,9 +23,10 @@ export const OpprettholdVedtak: React.FC<Props> = ({ behandlingId, fagsystem }) 
     const { behandling, behandlingErRedigerbar } = useBehandling();
     const { axiosRequest } = useApp();
 
-    // Pdf-en lagres først ved ferdigstilling, og en behandling på vent er aldri ferdigstilt
     const erSattPåVent =
         behandling.status === RessursStatus.SUKSESS && behandling.data.status === BehandlingStatus.SATT_PÅ_VENT;
+    // Pdf-en lagres først ved ferdigstilling, så i brev-steget finnes den ikke ennå
+    const erIBrevSteg = behandling.status === RessursStatus.SUKSESS && behandling.data.steg === StegType.BREV;
 
     const { ferdigstill, senderInn } = useFerdigstillBehandling(
         behandlingId,
@@ -60,10 +61,10 @@ export const OpprettholdVedtak: React.FC<Props> = ({ behandlingId, fagsystem }) 
         }
         if (behandlingErRedigerbar) {
             genererBrev();
-        } else {
+        } else if (!erIBrevSteg) {
             hentBrev();
         }
-    }, [behandlingErRedigerbar, erSattPåVent, genererBrev, hentBrev]);
+    }, [behandlingErRedigerbar, erSattPåVent, erIBrevSteg, genererBrev, hentBrev]);
 
     const lukkModal = () => {
         settVisModal(false);

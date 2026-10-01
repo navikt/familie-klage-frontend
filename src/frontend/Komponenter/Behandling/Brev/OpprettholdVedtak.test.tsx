@@ -111,4 +111,20 @@ describe('OpprettholdVedtak', () => {
         expect(axiosRequest).toHaveBeenCalledTimes(1);
         expect(axiosRequest).toHaveBeenCalledWith({ method: 'POST', url: GENERER_URL });
     });
+
+    test('skal ikke hente lagret pdf når behandlingen tas av vent i brev-steget', () => {
+        // Arrange
+        mockBehandling(lagBehandling({ steg: StegType.BREV, status: BehandlingStatus.SATT_PÅ_VENT }), false);
+        const { rerender } = render(<OpprettholdVedtak behandlingId={BEHANDLING_ID} fagsystem={Fagsystem.BA} />);
+
+        // Act
+        mockBehandling(lagBehandling({ steg: StegType.BREV, status: BehandlingStatus.UTREDES }), false);
+        rerender(<OpprettholdVedtak behandlingId={BEHANDLING_ID} fagsystem={Fagsystem.BA} />);
+        mockBehandling(lagBehandling({ steg: StegType.BREV, status: BehandlingStatus.UTREDES }), true);
+        rerender(<OpprettholdVedtak behandlingId={BEHANDLING_ID} fagsystem={Fagsystem.BA} />);
+
+        // Assert
+        expect(axiosRequest).toHaveBeenCalledTimes(1);
+        expect(axiosRequest).toHaveBeenCalledWith({ method: 'POST', url: GENERER_URL });
+    });
 });

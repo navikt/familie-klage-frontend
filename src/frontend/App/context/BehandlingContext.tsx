@@ -17,6 +17,7 @@ import { RessursStatus } from '../typer/ressurs';
 const [BehandlingProvider, useBehandling] = constate(() => {
     const behandlingId = useParams<{ behandlingId: string }>().behandlingId as string;
 
+    const [behandlingErRedigerbar, settBehandlingErRedigerbar] = useState<boolean>(true);
     const { hentPersonopplysninger, personopplysningerResponse } = useHentPersonopplysninger(behandlingId);
     const { hentBehandlingCallback, behandling } = useHentBehandling(behandlingId);
     const { hentBehandlingshistorikkCallback, behandlingHistorikk } = useHentBehandlingHistorikk(behandlingId);
@@ -37,6 +38,9 @@ const [BehandlingProvider, useBehandling] = constate(() => {
     }, [behandling]);
 
     useEffect(() => {
+        settBehandlingErRedigerbar(
+            behandling.status === RessursStatus.SUKSESS && erBehandlingRedigerbar(behandling.data)
+        );
         hentVilkårsvurderinger(behandlingId);
     }, [ansvarligSaksbehandler, behandling, behandlingId, hentVilkårsvurderinger]);
 
@@ -51,9 +55,6 @@ const [BehandlingProvider, useBehandling] = constate(() => {
     const erBehandlingRedigerbar = (behandling: Behandling): boolean =>
         behandling.status !== BehandlingStatus.SATT_PÅ_VENT &&
         [StegType.FORMKRAV, StegType.VURDERING, StegType.BREV].includes(behandling.steg);
-
-    const behandlingErRedigerbar =
-        behandling.status === RessursStatus.SUKSESS && erBehandlingRedigerbar(behandling.data);
 
     const [visBrevmottakereModal, settVisBrevmottakereModal] = useState(false);
     const [visHenleggModal, settVisHenleggModal] = useState(false);
