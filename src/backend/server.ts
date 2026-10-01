@@ -14,7 +14,7 @@ import { setupRouter } from './router.js';
 
 const port = 8020;
 
-backend(sessionConfig, prometheusTellere).then(async ({ app, azureAuthClient, router }: IApp) => {
+backend(sessionConfig, prometheusTellere).then(async ({ app, azureAuthConfig, router }: IApp) => {
     logInfo(`Starter opp med miljø: ${process.env.ENV}`);
     logInfo(`Starter opp med frontendPath: ${frontendPath}`);
 
@@ -30,22 +30,22 @@ backend(sessionConfig, prometheusTellere).then(async ({ app, azureAuthClient, ro
     app.use(
         '/familie-klage/api',
         addCallId(),
-        ensureAuthenticated(azureAuthClient, true),
-        attachToken(azureAuthClient),
+        ensureAuthenticated(azureAuthConfig, true),
+        attachToken(azureAuthConfig),
         doProxy(klageProxyUrl)
     );
 
     app.use(
         '/dokument',
         addCallId(),
-        ensureAuthenticated(azureAuthClient, false),
-        attachToken(azureAuthClient),
+        ensureAuthenticated(azureAuthConfig, false),
+        attachToken(azureAuthConfig),
         doProxy(klageProxyUrl)
     );
 
     app.use(express.json({ limit: '200mb' }));
     app.use(express.urlencoded({ limit: '200mb', extended: true }));
-    app.use('/', await setupRouter(azureAuthClient, router));
+    app.use('/', await setupRouter(azureAuthConfig, router));
 
     app.listen(port, '0.0.0.0', () => {
         logInfo(`server startet på port ${port}. Build version: ${process.env.APP_VERSION}.`);
