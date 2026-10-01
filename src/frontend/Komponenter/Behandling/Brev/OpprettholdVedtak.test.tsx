@@ -92,6 +92,17 @@ describe('OpprettholdVedtak', () => {
         expect(axiosRequest).not.toHaveBeenCalled();
     });
 
+    test('skal ikke hente lagret pdf når behandlingen er satt på vent før brev-steget', () => {
+        // Arrange
+        mockBehandling(lagBehandling({ steg: StegType.VURDERING, status: BehandlingStatus.SATT_PÅ_VENT }), false);
+
+        // Act
+        render(<OpprettholdVedtak behandlingId={BEHANDLING_ID} fagsystem={Fagsystem.BA} />);
+
+        // Assert
+        expect(axiosRequest).not.toHaveBeenCalled();
+    });
+
     test('skal vise melding og ikke hente pdf når behandlingen settes på vent i brev-steget', () => {
         // Arrange
         mockBehandling(lagBehandling({ steg: StegType.BREV, status: BehandlingStatus.UTREDES }), true);

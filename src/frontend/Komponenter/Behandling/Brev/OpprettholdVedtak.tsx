@@ -4,7 +4,7 @@ import { useCallback, useEffect, useState } from 'react';
 import { useApp } from '../../../App/context/AppContext';
 import { useBehandling } from '../../../App/context/BehandlingContext';
 import { BehandlingStatus } from '../../../App/typer/behandlingstatus';
-import { Fagsystem, StegType } from '../../../App/typer/fagsak';
+import { behandlingStegTilRekkefølge, Fagsystem, StegType } from '../../../App/typer/fagsak';
 import type { Ressurs } from '../../../App/typer/ressurs';
 import { byggTomRessurs, RessursStatus } from '../../../App/typer/ressurs';
 import { Button } from '../../../Felles/Knapper/Button';
@@ -26,7 +26,9 @@ export const OpprettholdVedtak: React.FC<Props> = ({ behandlingId, fagsystem }) 
     const erSattPåVent =
         behandling.status === RessursStatus.SUKSESS && behandling.data.status === BehandlingStatus.SATT_PÅ_VENT;
     // Pdf-en lagres ved ferdigstilling, som skjer i brev-steget
-    const pdfErLagret = behandling.status === RessursStatus.SUKSESS && behandling.data.steg !== StegType.BREV;
+    const pdfErLagret =
+        behandling.status === RessursStatus.SUKSESS &&
+        behandlingStegTilRekkefølge[behandling.data.steg] > behandlingStegTilRekkefølge[StegType.BREV];
 
     const { ferdigstill, senderInn } = useFerdigstillBehandling(
         behandlingId,
@@ -67,6 +69,14 @@ export const OpprettholdVedtak: React.FC<Props> = ({ behandlingId, fagsystem }) 
         settFeilmelding('');
     };
 
+    if (erSattPåVent) {
+        return (
+            <Box margin="space-32">
+                <Alert variant={'info'}>Brevet kan vises når behandlingen tas av vent.</Alert>
+            </Box>
+        );
+    }
+
     return (
         <Box margin="space-32">
             <HGrid gap={'space-24'} columns={{ xl: 1, '2xl': '1fr 1.2fr' }}>
@@ -83,11 +93,7 @@ export const OpprettholdVedtak: React.FC<Props> = ({ behandlingId, fagsystem }) 
                         </Button>
                     )}
                 </VStack>
-                {erSattPåVent ? (
-                    <Alert variant={'info'}>Brevet kan vises når behandlingen tas av vent.</Alert>
-                ) : (
-                    <PdfVisning pdfFilInnhold={brevRessurs} />
-                )}
+                <PdfVisning pdfFilInnhold={brevRessurs} />
             </HGrid>
             <ModalWrapper
                 tittel={'Bekreft utsending av brev'}
