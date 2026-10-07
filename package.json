@@ -40,8 +40,8 @@
     },
     "dependencies": {
         "@nais/apm": "0.7.3",
-        "@navikt/ds-css": "8.17.2",
-        "@navikt/ds-react": "8.17.2",
+        "@navikt/ds-css": "8.18.0",
+        "@navikt/ds-react": "8.18.0",
         "@navikt/familie-backend": "11.0.1",
         "@navikt/familie-logging": "7.0.11",
         "@navikt/land-verktoy": "15.1.15",
