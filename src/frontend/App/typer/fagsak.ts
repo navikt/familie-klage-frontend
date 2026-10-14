@@ -161,6 +161,7 @@ export enum KlageinstansUtfall {
     MEDHOLD_ETTER_FVL_35 = 'MEDHOLD_ETTER_FVL_35',
     GJENOPPTATT_DELVIS_ELLER_FULLT_MEDHOLD = 'GJENOPPTATT_DELVIS_ELLER_FULLT_MEDHOLD',
     GJENOPPTATT_OPPHEVET = 'GJENOPPTATT_OPPHEVET',
+    INNSTILLING_GJENOPPTAS_IKKE = 'INNSTILLING_GJENOPPTAS_IKKE',
 }
 
 export const utfallTilTekst: Record<KlageinstansUtfall, string> = {
@@ -176,6 +177,7 @@ export const utfallTilTekst: Record<KlageinstansUtfall, string> = {
     MEDHOLD_ETTER_FVL_35: 'Medhold etter fvl. § 35 KA"',
     GJENOPPTATT_DELVIS_ELLER_FULLT_MEDHOLD: 'Gjenopptatt - Delvis eller fullt medhold',
     GJENOPPTATT_OPPHEVET: 'Gjenopptatt - Opphevet',
+    INNSTILLING_GJENOPPTAS_IKKE: 'Innstilling: Gjenopptas ikke',
 };
 
 export type FagsystemRevurdering =
