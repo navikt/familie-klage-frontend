@@ -1,83 +1,83 @@
 version: 2
 
 registries:
-  npm-github:
-    type: npm-registry
-    url: https://npm.pkg.github.com
-    token: ${{ secrets.READER_TOKEN }}
+    npm-github:
+        type: npm-registry
+        url: https://npm.pkg.github.com
+        token: ${{ secrets.READER_TOKEN }}
 updates:
-  - package-ecosystem: npm
-    directory: "/"
-    schedule:
-      interval: daily
-      time: "09:00"
-    ignore:
-      - dependency-name: "@types/node"
-        versions:
-          - "25"
-          - "26"
-    cooldown:
-      default-days: 4
-    open-pull-requests-limit: 30
-    registries: "*"
-    groups:
-      patch:
-        update-types:
-          - "patch"
-      minor:
-        update-types:
-          - "minor"
-      aksel:
-        patterns:
-          - '@navikt/ds-css'
-          - '@navikt/ds-react'
-      familie:
-        patterns:
-          - '@navikt/familie-backend'
-          - '@navikt/familie-logging'
-      landvelger:
-        patterns:
-          - '@navikt/land-verktoy'
-      nais-apm:
-        patterns:
-          - '@nais/apm'
-      express:
-        patterns:
-          - 'express'
-          - 'express-static-gzip'
-          - '@types/express'
-      react:
-        patterns:
-          - 'react'
-          - 'react-dom'
-          - '@types/react'
-          - '@types/react-dom'
-      router:
-        patterns:
-          - 'react-router-dom'
-          - '@types/react-router-dom'
-      testing:
-        patterns:
-          - '@testing-library/dom'
-          - '@testing-library/jest-dom'
-          - '@testing-library/react'
-          - '@testing-library/user-event'
-          - '@vitejs/plugin-react'
-          - 'jsdom'
-          - 'vitest'
-      tooling:
-        patterns:
-          - '@biomejs/biome'
-          - 'husky'
-          - 'lint-staged'
-  - package-ecosystem: github-actions
-    directory: "/"
-    schedule:
-      interval: daily
-      time: "09:00"
-    cooldown:
-      default-days: 4
-    groups:
-      workflows:
-        patterns:
-          - "*"
+    - package-ecosystem: npm
+      directory: "/"
+      schedule:
+          interval: daily
+          time: "09:00"
+      ignore:
+          - dependency-name: "@types/node"
+            versions:
+                - "25"
+                - "26"
+      cooldown:
+          default-days: 4
+      open-pull-requests-limit: 30
+      registries: "*"
+      groups:
+          patch:
+              update-types:
+                  - "patch"
+          minor:
+              update-types:
+                  - "minor"
+          aksel:
+              patterns:
+                  - "@navikt/ds-css"
+                  - "@navikt/ds-react"
+          familie:
+              patterns:
+                  - "@navikt/familie-backend"
+                  - "@navikt/familie-logging"
+          landvelger:
+              patterns:
+                  - "@navikt/land-verktoy"
+          nais-apm:
+              patterns:
+                  - "@nais/apm"
+          express:
+              patterns:
+                  - "express"
+                  - "express-static-gzip"
+                  - "@types/express"
+          react:
+              patterns:
+                  - "react"
+                  - "react-dom"
+                  - "@types/react"
+                  - "@types/react-dom"
+          router:
+              patterns:
+                  - "react-router-dom"
+                  - "@types/react-router-dom"
+          testing:
+              patterns:
+                  - "@testing-library/dom"
+                  - "@testing-library/jest-dom"
+                  - "@testing-library/react"
+                  - "@testing-library/user-event"
+                  - "@vitejs/plugin-react"
+                  - "jsdom"
+                  - "vitest"
+          tooling:
+              patterns:
+                  - "@biomejs/biome"
+                  - "husky"
+                  - "lint-staged"
+    - package-ecosystem: github-actions
+      directory: "/"
+      schedule:
+          interval: daily
+          time: "09:00"
+      cooldown:
+          default-days: 4
+      groups:
+          workflows:
+              patterns:
+                  - "*"
