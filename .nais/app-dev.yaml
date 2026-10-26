@@ -1,76 +1,76 @@
 apiVersion: "nais.io/v1alpha1"
 kind: "Application"
 metadata:
-  name: familie-klage-frontend
-  namespace: teamfamilie
-  labels:
-    team: teamfamilie
+    name: familie-klage-frontend
+    namespace: teamfamilie
+    labels:
+        team: teamfamilie
 spec:
-  image: {{ image }}
-  replicas:
-    min: 2
-    max: 2
-  port: 8020
-  liveness:
-    path: /isAlive
-    initialDelay: 5
-  readiness:
-    path: /isReady
-    initialDelay: 5
-  observability:
-    logging:
-      destinations:
-        - id: elastic
-        - id: loki
-    autoInstrumentation:
-      enabled: true
-      runtime: nodejs
-  frontend:
-    generatedConfig:
-      mountPath: /app/dist_frontend/nais.js
-  prometheus:
-    enabled: true
-    path: /metrics
-  ingresses:
-    - https://familie-klage.intern.dev.nav.no
-    - https://familie-klage.ansatt.dev.nav.no
-  azure:
-    application:
-      enabled: true
-      replyURLs:
-        - https://familie-klage.ansatt.dev.nav.no/auth/openid/callback
-      claims:
-        groups:
-          - id: d21e00a4-969d-4b28-8782-dc818abfae65 # 0000-GA-Barnetrygd
-          - id: 9449c153-5a1e-44a7-84c6-7cc7a8867233 # 0000-GA-Barnetrygd-Beslutter
-          - id: 93a26831-9866-4410-927b-74ff51a9107c # 0000-GA-Barnetrygd-Veileder
-          - id: ee5e0b5e-454c-4612-b931-1fe363df7c2c # 0000-GA-Enslig-Forsorger-Saksbehandler
-          - id: 01166863-22f1-4e16-9785-d7a05a22df74 # 0000-GA-Enslig-Forsorger-Beslutter
-          - id: 19dcbfde-4cdb-4c64-a1ea-ac9802b03339 # 0000-GA-Enslig-Forsorger-Veileder
-          - id: 71f503a2-c28f-4394-a05a-8da263ceca4a # 0000-GA-Kontantstotte-Veileder
-          - id: c7e0b108-7ae6-432c-9ab4-946174c240c0 # 0000-GA-Kontantstotte     (saksbehandler)
-          - id: 52fe1bef-224f-49df-a40a-29f92d4520f8 # 0000-GA-Kontantstotte-Beslutter
-          - id: 928636f4-fd0d-4149-978e-a6fb68bb19de # 0000-GA-STDAPPS - tilgang til prosessering
-  resources:
-    limits:
-      memory: 768Mi
-    requests:
-      memory: 256Mi
-      cpu: 20m
-  accessPolicy:
-    outbound:
-      rules:
-        - application: familie-klage
-  envFrom:
-    - secret: familie                       # Henter ut FAMILIE_KLAGE
-    - secret: familie-klage-frontend        # Ulike secrets
-  env:
-    - name: APP_VERSION
-      value: "{{ VERSION }}"
-    - name: ENV
-      value: preprod
-  valkey:
-    - instance: sessions
-      access: readwrite
-    - instance: lookup
-      access: read
+    image: { { image } }
+    replicas:
+        min: 2
+        max: 2
+    port: 8020
+    liveness:
+        path: /isAlive
+        initialDelay: 5
+    readiness:
+        path: /isReady
+        initialDelay: 5
+    observability:
+        logging:
+            destinations:
+                - id: elastic
+                - id: loki
+        autoInstrumentation:
+            enabled: true
+            runtime: nodejs
+    frontend:
+        generatedConfig:
+            mountPath: /app/dist_frontend/nais.js
+    prometheus:
+        enabled: true
+        path: /metrics
+    ingresses:
+        - https://familie-klage.intern.dev.nav.no
+        - https://familie-klage.ansatt.dev.nav.no
+    azure:
+        application:
+            enabled: true
+            replyURLs:
+                - https://familie-klage.ansatt.dev.nav.no/auth/openid/callback
+            claims:
+                groups:
+                    - id: d21e00a4-969d-4b28-8782-dc818abfae65 # 0000-GA-Barnetrygd
+                    - id: 9449c153-5a1e-44a7-84c6-7cc7a8867233 # 0000-GA-Barnetrygd-Beslutter
+                    - id: 93a26831-9866-4410-927b-74ff51a9107c # 0000-GA-Barnetrygd-Veileder
+                    - id: ee5e0b5e-454c-4612-b931-1fe363df7c2c # 0000-GA-Enslig-Forsorger-Saksbehandler
+                    - id: 01166863-22f1-4e16-9785-d7a05a22df74 # 0000-GA-Enslig-Forsorger-Beslutter
+                    - id: 19dcbfde-4cdb-4c64-a1ea-ac9802b03339 # 0000-GA-Enslig-Forsorger-Veileder
+                    - id: 71f503a2-c28f-4394-a05a-8da263ceca4a # 0000-GA-Kontantstotte-Veileder
+                    - id: c7e0b108-7ae6-432c-9ab4-946174c240c0 # 0000-GA-Kontantstotte     (saksbehandler)
+                    - id: 52fe1bef-224f-49df-a40a-29f92d4520f8 # 0000-GA-Kontantstotte-Beslutter
+                    - id: 928636f4-fd0d-4149-978e-a6fb68bb19de # 0000-GA-STDAPPS - tilgang til prosessering
+    resources:
+        limits:
+            memory: 768Mi
+        requests:
+            memory: 256Mi
+            cpu: 20m
+    accessPolicy:
+        outbound:
+            rules:
+                - application: familie-klage
+    envFrom:
+        - secret: familie # Henter ut FAMILIE_KLAGE
+        - secret: familie-klage-frontend # Ulike secrets
+    env:
+        - name: APP_VERSION
+          value: "{{ VERSION }}"
+        - name: ENV
+          value: preprod
+    valkey:
+        - instance: sessions
+          access: readwrite
+        - instance: lookup
+          access: read
