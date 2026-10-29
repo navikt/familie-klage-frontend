@@ -1,4 +1,4 @@
-import {Fagsystem} from '../../../App/typer/fagsak';
+import { Fagsystem } from '../../../App/typer/fagsak';
 
 export enum FolketrygdHjemmel {
     FT_FEMTEN_TO = 'FT_FEMTEN_TO',
