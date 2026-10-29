@@ -1,4 +1,4 @@
-import { Fagsystem } from '../../../App/typer/fagsak';
+import {Fagsystem} from '../../../App/typer/fagsak';
 
 export enum FolketrygdHjemmel {
     FT_FEMTEN_TO = 'FT_FEMTEN_TO',
@@ -9,12 +9,24 @@ export enum FolketrygdHjemmel {
     FT_FEMTEN_ÅTTE = 'FT_FEMTEN_ÅTTE',
     FT_FEMTEN_NI = 'FT_FEMTEN_NI',
     FT_FEMTEN_TI = 'FT_FEMTEN_TI',
-    FT_FEMTEN_ELLEVE = 'FT_FEMTEN_ELLEVE',
     FT_FEMTEN_TOLV = 'FT_FEMTEN_TOLV',
     FT_FEMTEN_TRETTEN = 'FT_FEMTEN_TRETTEN',
+    FT_TJUEEN_TOLV = 'FT_TJUEEN_TOLV',
     FT_TJUETO_TOLV = 'FT_TJUETO_TOLV',
     FT_TJUETO_TRETTEN = 'FT_TJUETO_TRETTEN',
     FT_TJUETO_FEMTEN = 'FT_TJUETO_FEMTEN',
+}
+
+export enum OvergangsforskriftenHjemmel {
+    OVERGANGSFORSKRIFTEN_1 = 'OVERGANGSFORSKRIFTEN_1',
+    OVERGANGSFORSKRIFTEN_3 = 'OVERGANGSFORSKRIFTEN_3',
+    OVERGANGSFORSKRIFTEN_4 = 'OVERGANGSFORSKRIFTEN_4',
+    OVERGANGSFORSKRIFTEN_7 = 'OVERGANGSFORSKRIFTEN_7',
+    OVERGANGSFORSKRIFTEN_8 = 'OVERGANGSFORSKRIFTEN_8',
+    OVERGANGSFORSKRIFTEN_10 = 'OVERGANGSFORSKRIFTEN_10',
+    OVERGANGSFORSKRIFTEN_11 = 'OVERGANGSFORSKRIFTEN_11',
+    OVERGANGSFORSKRIFTEN_12 = 'OVERGANGSFORSKRIFTEN_12',
+    OVERGANGSFORSKRIFTEN_13 = 'OVERGANGSFORSKRIFTEN_13',
 }
 
 enum BarnetrygdlovenHjemmel {
@@ -71,7 +83,12 @@ enum UtlandsavtalerHjemmel {
     UTLAND_TRYGDEAVTALER = 'UTLAND_TRYGDEAVTALER',
 }
 
-export type Hjemmel = FolketrygdHjemmel | BarnetrygdlovenHjemmel | KontantstøttelovenHjemmel | UtlandsavtalerHjemmel;
+export type Hjemmel =
+    | FolketrygdHjemmel
+    | OvergangsforskriftenHjemmel
+    | BarnetrygdlovenHjemmel
+    | KontantstøttelovenHjemmel
+    | UtlandsavtalerHjemmel;
 
 const barnetrygdlovenVisningstekster: Record<BarnetrygdlovenHjemmel, string> = {
     BT_TO: 'BTRL - § 2 Hvem som har rett til barnetrygd',
@@ -122,26 +139,44 @@ const forvaltningslovenVisningstekster: Record<ForvaltningslovenHjemmel, string>
 };
 
 const utlandsavtalerHjemmelVisningstekster: Record<UtlandsavtalerHjemmel, string> = {
-    UTLAND_EØS: 'EØS-regelverket',
+    UTLAND_EØS: 'EØS-avtalen',
     UTLAND_NORDISK: 'Nordisk konvensjon',
     UTLAND_TRYGDEAVTALER: 'Trygdeavtaler',
 };
 
 export const folketrygdHjemmelTilVisningstekst: Record<FolketrygdHjemmel, string> = {
     FT_FEMTEN_TO: 'FTRL - § 15-2 Forutgående medlemskap',
-    FT_FEMTEN_TRE: 'FTRL - § 15-3 Opphold i Norge',
+    FT_FEMTEN_TRE: 'FTRL - § 15-3 Oppholdskrav',
     FT_FEMTEN_FIRE: 'FTRL - § 15-4 Enslig mor eller far',
     FT_FEMTEN_FEM: 'FTRL - § 15-5 Overgangsstønad',
     FT_FEMTEN_SEKS: 'FTRL - § 15-6 Plikt til yrkesrettet aktivitet',
     FT_FEMTEN_ÅTTE: 'FTRL - § 15-8 Stønadsperiode',
     FT_FEMTEN_NI: 'FTRL - § 15-9 Avkorting mot inntekt',
-    FT_FEMTEN_TI: 'FTRL - § 15-10 Stønad til barnetilsyn',
-    FT_FEMTEN_ELLEVE: 'FTRL - § 15-11 Stønad til skolepenger',
-    FT_FEMTEN_TOLV: 'FTRL - § 15-12 Sanksjon',
+    FT_FEMTEN_TI: 'FTRL - § 15-10 Stønad til barnetilsyn til enslig mor eller far i arbeid',
+    FT_FEMTEN_TOLV: 'FTRL - § 15-12 Sanksjonsregler',
     FT_FEMTEN_TRETTEN: 'FTRL - § 15-13 Forholdet til andre folketrygdytelser',
+    FT_TJUEEN_TOLV: 'FTRL - § 21-12',
     FT_TJUETO_TOLV: 'FTRL - § 22-12 Tidspunkt for utbetaling når rett til en ytelse oppstår eller opphører',
-    FT_TJUETO_TRETTEN: 'FTRL - § 22-13 Frister for framsetting av krav, virkningstidspunkt og etterbetaling',
+    FT_TJUETO_TRETTEN: 'FTRL - § 22-13 Frister for fremsetting av krav, virkningstidspunkt og etterbetaling',
     FT_TJUETO_FEMTEN: 'FTRL - § 22-15 Tilbakekreving',
+};
+
+const overgangsforskriftenTilVisningstekst: Record<OvergangsforskriftenHjemmel, string> = {
+    OVERGANGSFORSKRIFTEN_1: 'Forskriften § 1 Hvem som omfattes',
+    OVERGANGSFORSKRIFTEN_3: 'Forskriften § 3 Overgangsstønad',
+    OVERGANGSFORSKRIFTEN_4: 'Forskriften § 4 Plikt til yrkesrettet aktivitet',
+    OVERGANGSFORSKRIFTEN_7: 'Forskriften § 7 Stønadsperiode',
+    OVERGANGSFORSKRIFTEN_8: 'Forskriften § 8 Adgang til utvidet eller forlenget stønadsperiode',
+    OVERGANGSFORSKRIFTEN_10: 'Forskriften § 10 Stønad til dekning av utgifter til skolepenger mv.',
+    OVERGANGSFORSKRIFTEN_11: 'Forskriften § 11 Stønad til barnetilsyn til enslig mor eller far i arbeid',
+    OVERGANGSFORSKRIFTEN_12: 'Forskriften § 12 Midlertidig bortfall av stønader',
+    OVERGANGSFORSKRIFTEN_13: 'Forskriften § 13 Maksimal overgangsperiode',
+};
+
+export const efHjemlerTilVisningstekst: Record<string, string> = {
+    ...folketrygdHjemmelTilVisningstekst,
+    ...overgangsforskriftenTilVisningstekst,
+    UTLAND_EØS: utlandsavtalerHjemmelVisningstekster.UTLAND_EØS,
 };
 
 export const baHjemlerTilVisningstekst: Record<
@@ -169,6 +204,7 @@ export const ksHjemlerTilVisningstekst: Record<
 
 export const alleHjemlerTilVisningstekst: Record<Hjemmel, string> = {
     ...folketrygdHjemmelTilVisningstekst,
+    ...overgangsforskriftenTilVisningstekst,
     ...barnetrygdlovenVisningstekster,
     ...kontantstøttelovenVisningstekster,
     ...utlandsavtalerHjemmelVisningstekster,
@@ -177,7 +213,7 @@ export const alleHjemlerTilVisningstekst: Record<Hjemmel, string> = {
 const hjemlerForFagsystemer: Record<Fagsystem, Record<string, string>> = {
     [Fagsystem.BA]: baHjemlerTilVisningstekst,
     [Fagsystem.KS]: ksHjemlerTilVisningstekst,
-    [Fagsystem.EF]: folketrygdHjemmelTilVisningstekst,
+    [Fagsystem.EF]: efHjemlerTilVisningstekst,
 };
 
 export const hjemmelAlternativer: (fagsystem: Fagsystem) => Record<string, string> = fagsystem =>

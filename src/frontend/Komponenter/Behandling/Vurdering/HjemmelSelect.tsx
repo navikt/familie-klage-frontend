@@ -4,8 +4,8 @@ import type { Dispatch, SetStateAction } from 'react';
 import { useApp } from '../../../App/context/AppContext';
 import { useBehandling } from '../../../App/context/BehandlingContext';
 import styles from './HjemmelSelect.module.css';
-import type { FolketrygdHjemmel, Hjemmel } from './hjemmel';
-import { folketrygdHjemmelTilVisningstekst } from './hjemmel';
+import type { Hjemmel } from './hjemmel';
+import { efHjemlerTilVisningstekst } from './hjemmel';
 import type { IVurdering } from './vurderingValg';
 
 interface Props {
@@ -40,9 +40,9 @@ export const HjemmelSelect: React.FC<Props> = ({ settHjemmel, valgtHjemmel }) =>
             <option value={''} disabled>
                 Velg
             </option>
-            {Object.keys(folketrygdHjemmelTilVisningstekst).map((nøkkel, index) => (
-                <option value={nøkkel} key={index}>
-                    {folketrygdHjemmelTilVisningstekst[nøkkel as FolketrygdHjemmel]}
+            {Object.entries(efHjemlerTilVisningstekst).map(([hjemmel, visningstekst]) => (
+                <option value={hjemmel} key={hjemmel}>
+                    {visningstekst}
                 </option>
             ))}
         </Select>
