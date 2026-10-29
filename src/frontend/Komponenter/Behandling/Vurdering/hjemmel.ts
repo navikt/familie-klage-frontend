@@ -161,7 +161,7 @@ export const folketrygdHjemmelTilVisningstekst: Record<FolketrygdHjemmel, string
     FT_TJUETO_FEMTEN: 'FTRL - § 22-15 Tilbakekreving',
 };
 
-const overgangsforskriftenTilVisningstekst: Record<OvergangsforskriftenHjemmel, string> = {
+export const overgangsforskriftenTilVisningstekst: Record<OvergangsforskriftenHjemmel, string> = {
     OVERGANGSFORSKRIFTEN_1: 'Forskriften § 1 Hvem som omfattes',
     OVERGANGSFORSKRIFTEN_3: 'Forskriften § 3 Overgangsstønad',
     OVERGANGSFORSKRIFTEN_4: 'Forskriften § 4 Plikt til yrkesrettet aktivitet',
