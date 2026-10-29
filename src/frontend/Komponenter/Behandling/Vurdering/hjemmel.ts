@@ -155,7 +155,7 @@ export const folketrygdHjemmelTilVisningstekst: Record<FolketrygdHjemmel, string
     FT_FEMTEN_TI: 'FTRL - § 15-10 Stønad til barnetilsyn til enslig mor eller far i arbeid',
     FT_FEMTEN_TOLV: 'FTRL - § 15-12 Sanksjonsregler',
     FT_FEMTEN_TRETTEN: 'FTRL - § 15-13 Forholdet til andre folketrygdytelser',
-    FT_TJUEEN_TOLV: 'FTRL - § 21-12',
+    FT_TJUEEN_TOLV: 'FTRL - § 21-12 Klage og anke i trydesaker',
     FT_TJUETO_TOLV: 'FTRL - § 22-12 Tidspunkt for utbetaling når rett til en ytelse oppstår eller opphører',
     FT_TJUETO_TRETTEN: 'FTRL - § 22-13 Frister for fremsetting av krav, virkningstidspunkt og etterbetaling',
     FT_TJUETO_FEMTEN: 'FTRL - § 22-15 Tilbakekreving',
