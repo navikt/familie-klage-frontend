@@ -50,7 +50,7 @@ export const HjemmelSelect: React.FC<Props> = ({ settHjemmel, valgtHjemmel }) =>
                 </option>
             ))}
             <option disabled value="separator">
-                ------
+                -------------
             </option>
             {Object.entries(overgangsforskriftenTilVisningstekst).map(([hjemmel, visningstekst]) => (
                 <option value={hjemmel} key={hjemmel}>
