@@ -4,8 +4,12 @@ import type { Dispatch, SetStateAction } from 'react';
 import { useApp } from '../../../App/context/AppContext';
 import { useBehandling } from '../../../App/context/BehandlingContext';
 import styles from './HjemmelSelect.module.css';
-import type { FolketrygdHjemmel, Hjemmel } from './hjemmel';
-import { folketrygdHjemmelTilVisningstekst } from './hjemmel';
+import type { Hjemmel } from './hjemmel';
+import {
+    efHjemlerTilVisningstekst,
+    folketrygdHjemmelTilVisningstekst,
+    overgangsforskriftenTilVisningstekst,
+} from './hjemmel';
 import type { IVurdering } from './vurderingValg';
 
 interface Props {
@@ -40,11 +44,20 @@ export const HjemmelSelect: React.FC<Props> = ({ settHjemmel, valgtHjemmel }) =>
             <option value={''} disabled>
                 Velg
             </option>
-            {Object.keys(folketrygdHjemmelTilVisningstekst).map((nøkkel, index) => (
-                <option value={nøkkel} key={index}>
-                    {folketrygdHjemmelTilVisningstekst[nøkkel as FolketrygdHjemmel]}
+            {Object.entries(folketrygdHjemmelTilVisningstekst).map(([hjemmel, visningstekst]) => (
+                <option value={hjemmel} key={hjemmel}>
+                    {visningstekst}
                 </option>
             ))}
+            <option disabled value="separator">
+                -------------
+            </option>
+            {Object.entries(overgangsforskriftenTilVisningstekst).map(([hjemmel, visningstekst]) => (
+                <option value={hjemmel} key={hjemmel}>
+                    {visningstekst}
+                </option>
+            ))}
+            <option value="UTLAND_EØS">{efHjemlerTilVisningstekst.UTLAND_EØS}</option>
         </Select>
     );
 };

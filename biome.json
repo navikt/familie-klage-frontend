@@ -1,7 +1,7 @@
 {
     "$schema": "./node_modules/@biomejs/biome/configuration_schema.json",
     "files": {
-        "includes": ["**", "!pnpm-lock.yaml"]
+        "includes": ["**", "!pnpm-lock.yaml", "!**/*.yaml"]
     },
     "vcs": {
         "enabled": true,
