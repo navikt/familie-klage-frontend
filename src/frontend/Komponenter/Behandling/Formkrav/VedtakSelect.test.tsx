@@ -65,6 +65,7 @@ describe('VedtakSelect', () => {
     const comboboxName = 'Vedtak som er påklaget';
     const fagsystemVedtakTekst = 'Førstegangsbehandling - Innvilget - 01.08.2026 kl.10:00';
     const avvistKlageTekst = 'Avvist klage - 23.09.2026 kl.10:00';
+    const utenVedtakTekst = 'Har ikke klaget på et vedtak';
 
     test('skal vise fagsystemvedtak som valgt når saksbehandler velger fagsystemvedtak', async () => {
         // Arrange
@@ -78,6 +79,20 @@ describe('VedtakSelect', () => {
 
         // Assert
         expect(combobox).toHaveDisplayValue(fagsystemVedtakTekst);
+    });
+
+    test('skal vise uten vedtak som valgt når saksbehandler velger uten vedtak', async () => {
+        // Arrange
+        const { screen, user } = render(
+            <VedtakSelectMedState påklagetVedtak={PåklagetVedtakTestdata.lagPåklagetVedtak()} />
+        );
+        const combobox = screen.getByRole('combobox', { name: comboboxName });
+
+        // Act
+        await user.selectOptions(combobox, screen.getByRole('option', { name: utenVedtakTekst }));
+
+        // Assert
+        expect(combobox).toHaveDisplayValue(utenVedtakTekst);
     });
 
     test('skal vise avvist klage som valgt når saksbehandler velger avvist klage', async () => {
