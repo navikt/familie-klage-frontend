@@ -42,7 +42,7 @@
         "@nais/apm": "0.7.3",
         "@navikt/ds-css": "8.19.2",
         "@navikt/ds-react": "8.19.2",
-        "@navikt/familie-backend": "11.0.2",
+        "@navikt/familie-backend": "11.0.3",
         "@navikt/familie-logging": "7.0.11",
         "@navikt/land-verktoy": "16.0.2",
         "axios": "1.20.0",

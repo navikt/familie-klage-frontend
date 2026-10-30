@@ -3,7 +3,8 @@ import './konfigurerApp.js';
 import path from 'node:path';
 import type { IApp } from '@navikt/familie-backend';
 import backend, { ensureAuthenticated } from '@navikt/familie-backend';
-import { logError, logInfo } from '@navikt/familie-logging';
+import { logError, logInfo, logWarn } from '@navikt/familie-logging';
+import type { NextFunction, Request, Response } from 'express';
 import express from 'express';
 import expressStaticGzip from 'express-static-gzip';
 import { frontendPath, klageProxyUrl, sessionConfig } from './config.js';
@@ -46,6 +47,20 @@ backend(sessionConfig, prometheusTellere).then(async ({ app, azureAuthConfig, ro
     app.use(express.json({ limit: '200mb' }));
     app.use(express.urlencoded({ limit: '200mb', extended: true }));
     app.use('/', await setupRouter(azureAuthConfig, router));
+
+    app.use((err: Error & { status?: number }, _req: Request, res: Response, _next: NextFunction) => {
+        if (res.headersSent) {
+            return _next(err);
+        }
+        if (err.message?.includes('did not find expected authorization request details in session')) {
+            logWarn(`OIDC-sesjon mangler ved callback - brukeren omdirigeres til login. Detaljer: ${err.message}`);
+            res.redirect('/login');
+        } else {
+            const status = err.status ?? 500;
+            logError(`Uhåndtert feil (${status}): ${err instanceof SyntaxError ? err.name : err.stack}`);
+            res.sendStatus(status);
+        }
+    });
 
     app.listen(port, '0.0.0.0', () => {
         logInfo(`server startet på port ${port}. Build version: ${process.env.APP_VERSION}.`);
