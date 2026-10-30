@@ -17,6 +17,8 @@ import {
 } from './utils';
 import styles from './VedtakSelect.module.css';
 
+const INTERN_KLAGEBEHANDLING_PREFIKS = 'internId';
+
 interface Props {
     settOppdaterteVurderinger: Dispatch<SetStateAction<IFormkravVilkår>>;
     vedtak: FagsystemVedtak[];
@@ -34,13 +36,13 @@ export const VedtakSelect: React.FC<Props> = ({
 }) => {
     const handleChange = (valgtElement: string) => {
         if (erVedtakFraFagsystemet(valgtElement)) {
-            const erInternKlagebehandlingId = valgtElement.startsWith('internId');
+            const erInternKlagebehandlingId = valgtElement.startsWith(INTERN_KLAGEBEHANDLING_PREFIKS);
 
             if (erInternKlagebehandlingId) {
                 settOppdaterteVurderinger(prevState => ({
                     ...prevState,
                     påklagetVedtak: {
-                        internKlagebehandlingId: valgtElement.replace('internId', ''),
+                        internKlagebehandlingId: valgtElement.replace(INTERN_KLAGEBEHANDLING_PREFIKS, ''),
                         påklagetVedtakstype: PåklagetVedtakstype.AVVIST_KLAGE,
                     },
                 }));
@@ -82,7 +84,20 @@ export const VedtakSelect: React.FC<Props> = ({
         }
     };
 
-    const manuellVedtaksdato = vurderinger.påklagetVedtak.manuellVedtaksdato;
+    const { eksternFagsystemBehandlingId, internKlagebehandlingId, påklagetVedtakstype, manuellVedtaksdato } =
+        vurderinger.påklagetVedtak;
+
+    const utledValgtVerdi = (): string => {
+        if (eksternFagsystemBehandlingId) {
+            return eksternFagsystemBehandlingId;
+        }
+        if (internKlagebehandlingId) {
+            return `${INTERN_KLAGEBEHANDLING_PREFIKS}${internKlagebehandlingId}`;
+        }
+        return påklagetVedtakstype;
+    };
+
+    const valgtVerdi = utledValgtVerdi();
 
     return (
         <div className={styles.container}>
@@ -91,11 +106,7 @@ export const VedtakSelect: React.FC<Props> = ({
                 onChange={e => {
                     handleChange(e.target.value);
                 }}
-                value={
-                    vurderinger.påklagetVedtak.eksternFagsystemBehandlingId ??
-                    vurderinger.påklagetVedtak.internKlagebehandlingId ??
-                    vurderinger.påklagetVedtak.påklagetVedtakstype
-                }
+                value={valgtVerdi}
             >
                 <option value={PåklagetVedtakstype.IKKE_VALGT} disabled>
                     {påklagetVedtakstypeTilTekst[PåklagetVedtakstype.IKKE_VALGT]}
@@ -106,7 +117,7 @@ export const VedtakSelect: React.FC<Props> = ({
                     </option>
                 ))}
                 {klagebehandlingsresultater.sort(sorterVedtakstidspunktKlageResultatDesc).map((klager, index) => (
-                    <option key={index} value={`internId${klager.id}`}>
+                    <option key={index} value={`${INTERN_KLAGEBEHANDLING_PREFIKS}${klager.id}`}>
                         {klageresultatTilVisningstekst(klager)}
                     </option>
                 ))}
@@ -116,7 +127,7 @@ export const VedtakSelect: React.FC<Props> = ({
                     </option>
                 ))}
             </Select>
-            {harManuellVedtaksdato(vurderinger.påklagetVedtak.påklagetVedtakstype) && (
+            {harManuellVedtaksdato(påklagetVedtakstype) && (
                 <div className={styles.datoVelgerContainer}>
                     <Label htmlFor={'vedtaksdato'}>Vedtaksdato</Label>
                     <Datovelger
