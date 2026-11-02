@@ -5,11 +5,7 @@ import { useApp } from '../../../App/context/AppContext';
 import { useBehandling } from '../../../App/context/BehandlingContext';
 import styles from './HjemmelSelect.module.css';
 import type { Hjemmel } from './hjemmel';
-import {
-    efHjemlerTilVisningstekst,
-    folketrygdHjemmelTilVisningstekst,
-    overgangsforskriftenTilVisningstekst,
-} from './hjemmel';
+import { efHjemlerTilVisningstekst } from './hjemmel';
 import type { IVurdering } from './vurderingValg';
 
 interface Props {
@@ -44,20 +40,11 @@ export const HjemmelSelect: React.FC<Props> = ({ settHjemmel, valgtHjemmel }) =>
             <option value={''} disabled>
                 Velg
             </option>
-            {Object.entries(folketrygdHjemmelTilVisningstekst).map(([hjemmel, visningstekst]) => (
+            {Object.entries(efHjemlerTilVisningstekst).map(([hjemmel, visningstekst]) => (
                 <option value={hjemmel} key={hjemmel}>
                     {visningstekst}
                 </option>
             ))}
-            <option disabled value="separator">
-                -------------
-            </option>
-            {Object.entries(overgangsforskriftenTilVisningstekst).map(([hjemmel, visningstekst]) => (
-                <option value={hjemmel} key={hjemmel}>
-                    {visningstekst}
-                </option>
-            ))}
-            <option value="UTLAND_EØS">{efHjemlerTilVisningstekst.UTLAND_EØS}</option>
         </Select>
     );
 };
