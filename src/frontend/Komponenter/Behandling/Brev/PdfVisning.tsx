@@ -17,6 +17,8 @@ interface Props {
 export const PdfVisning: React.FC<Props> = ({ pdfFilInnhold }) => {
     const [numPages, setNumPages] = useState<number>(0);
     const [pageNumber, setPageNumber] = useState(1);
+    // Aksel sin Pagination logger console.error og rendrer ingenting når count < 1
+    const harFlereSider = numPages > 1;
 
     function onDocumentLoadSuccess({ numPages }: { numPages: number }) {
         if (pageNumber > numPages) {
@@ -29,14 +31,15 @@ export const PdfVisning: React.FC<Props> = ({ pdfFilInnhold }) => {
         <DataViewer response={{ pdfFilInnhold }}>
             {({ pdfFilInnhold }) => (
                 <VStack align="start" className={styles.container}>
-                    <Pagination
-                        className={styles.paginering}
-                        page={pageNumber}
-                        count={numPages}
-                        onPageChange={setPageNumber}
-                        size={'xsmall'}
-                        hidden={numPages < 2}
-                    />
+                    {harFlereSider && (
+                        <Pagination
+                            className={styles.paginering}
+                            page={pageNumber}
+                            count={numPages}
+                            onPageChange={setPageNumber}
+                            size={'xsmall'}
+                        />
+                    )}
                     <Document
                         className={styles.pdfDokument}
                         file={`data:application/pdf;base64,${pdfFilInnhold}`}
@@ -47,14 +50,15 @@ export const PdfVisning: React.FC<Props> = ({ pdfFilInnhold }) => {
                     >
                         <Page pageNumber={pageNumber} renderTextLayer />
                     </Document>
-                    <Pagination
-                        className={styles.paginering}
-                        page={pageNumber}
-                        count={numPages}
-                        onPageChange={setPageNumber}
-                        size={'xsmall'}
-                        hidden={numPages < 2}
-                    />
+                    {harFlereSider && (
+                        <Pagination
+                            className={styles.paginering}
+                            page={pageNumber}
+                            count={numPages}
+                            onPageChange={setPageNumber}
+                            size={'xsmall'}
+                        />
+                    )}
                 </VStack>
             )}
         </DataViewer>
