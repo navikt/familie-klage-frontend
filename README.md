@@ -9,7 +9,7 @@ enslig forsørger (EF), barnetrygd (BA) og kontantstøtte (KS), og snakker med b
 - Logg deg på naisdevice og kjør `nais login -y`. Installer [nais-cli](https://cli.nais.io) og
   [jq](https://formulae.brew.sh/formula/jq).
 - Installer [NVM](https://github.com/nvm-sh/nvm) og kjør `nvm use`
-- Aktiver riktig pnpm-versjon med `corepack enable` (henter versjonen fra `packageManager` i package.json)
+- Installer Corepack med `npm install -g corepack` (følger ikke lenger med Node) og aktiver riktig pnpm-versjon med `corepack enable` (henter versjonen fra `packageManager` i package.json)
 - Installer avhengigheter med `pnpm install`
 - Start dev-server med `pnpm start:dev`
 - Åpne `http://localhost:8020` i nettleseren din
